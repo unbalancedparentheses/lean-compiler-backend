@@ -63,7 +63,7 @@ def negatives(work):
         'widen': ('function l $f(w %a) { @s ret %a }', 'w-to-l'),
         'float': ('function d $f() { @s ret 0 }', 'unsupported type'),
         'call': ('function w $f() { @s %r =w call $g() ret %r }', 'unsupported operation'),
-        'branch': ('function w $f() { @s jmp @done @done ret 0 }', 'prefixed name'),
+        'branch': ('function w $f() { @s jmp @missing }', 'unknown block'),
         'surplus': ('function w $f() { @s ret 0 } junk', "expected 'function'"),
         'malformed': ('function w $f() { @s %r =w add 1 2 ret %r }', "expected ','"),
         'symbol': ('function w $f.evil() { @s ret 0 }', 'unsupported name'),

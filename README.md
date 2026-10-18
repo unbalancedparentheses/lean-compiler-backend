@@ -46,15 +46,17 @@ The only implemented output target remains AArch64 macOS.
 
 ## Current scope
 
-- `w`/`l` integer functions, up to eight register arguments, one straight-line block.
+- `w`/`l` integer functions, up to eight register arguments and 64 basic blocks.
 - Integer arithmetic/bitwise operations, masked shifts, signed/unsigned
   division and remainder, negation, all integer comparisons and byte/half/word extensions.
 - Defined 32/64-bit modular arithmetic, including narrowing `l` operands to `w`.
 - SSA/type/name validation and explicit rejection of unsupported constructs.
+- Conditional/unconditional branches, fallthrough, loops, phi nodes and `hlt`.
+  Phi transfers use parallel copies; cross-block uses are checked for dominance.
 - A small Lean theorem for primitive arithmetic opcode selection.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
-The first port uses stack slots for every value. Branches, calls, heap memory,
+The first port uses stack slots for every value. Calls, heap memory,
 floating point, register allocation, object emission and Concrete integration
 are still planned. Concrete's checked-overflow operations must eventually lower
 to explicit checks; wrapping QBE arithmetic does not implement them by itself.
@@ -72,6 +74,8 @@ For a longer campaign, use `nix develop -c python3 scripts/fuzz.py --seeds 64
 Integer division by zero and signed minimum divided by -1 are outside the
 defined equivalence domain; the interpreter reports them explicitly. Native
 behavior for those inputs is not a portability or safety guarantee.
+The interpreter has a block-step budget; exhausting it reports an unevaluated
+result. General SSA construction from mutable temporary definitions is pending.
 
 **The backend is not verified end to end.** The current theorem does not prove
 parsing, stack layout, assembly rendering, the assembler or the linker correct.

@@ -1,0 +1,17 @@
+# Parallel loop-carried phi values; odd iteration counts swap a and b.
+export function l $swap_loop(l %a, l %b, l %n) {
+@entry
+    %limit =l and %n, 31
+    jmp @loop
+@loop
+    %x =l phi @entry %a, @body %y
+    %y =l phi @entry %b, @body %x
+    %i =l phi @entry 0, @body %next
+    %condition =w cultl %i, %limit
+    jnz %condition, @body, @end
+@body
+    %next =l add %i, 1
+    jmp @loop
+@end
+    ret %x
+}

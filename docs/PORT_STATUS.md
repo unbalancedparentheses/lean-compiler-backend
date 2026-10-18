@@ -110,14 +110,14 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | Area | Status |
 | --- | --- |
 | integer functions and parameters | partial: ASCII names, decimal literals, w/l, at most eight parameters |
-| basic blocks, jumps, phi | not implemented; one entry block only |
+| basic blocks, jumps, phi | partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers |
 | calls and variadic functions | not implemented |
 | floating point and conversions | not implemented |
 | memory and allocation | not implemented |
 | aggregate type and data definitions | not implemented |
 | linkage, sections, TLS and debug locations | partial: export only |
 | parsing and validation | partial: supported straight-line integer subset |
-| CFG, dominance and SSA construction | not implemented |
+| CFG, dominance and SSA construction | partial: CFG/dominance checks for SSA input; general SSA construction not implemented |
 | alias analysis and memory optimization | not implemented |
 | copy elimination, folding, GVN, GCM and CFG simplification | not implemented |
 | ABI lowering | partial: Apple AArch64 integer register arguments and returns |

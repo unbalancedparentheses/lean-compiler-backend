@@ -83,15 +83,14 @@ private def operand (locals : List (String × UInt64)) (width : Width)
     | some v => return normalize width v
     | none => throw s!"undefined temporary %{name}"
 
-def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 := do
-  validateFunction f
-  if arguments.size != f.parameters.size then
-    throw s!"function ${f.name} expects {f.parameters.size} arguments, got {arguments.size}"
-  let mut locals : List (String × UInt64) := []
-  for i in [:f.parameters.size] do
-    let p := f.parameters[i]!
-    locals := (p.name, normalize p.width arguments[i]!) :: locals
-  for inst in f.instructions do
+private def updateLocal (locals : List (String × UInt64)) (name : String) (value : UInt64)
+    : List (String × UInt64) :=
+  (name, value) :: locals.filter (fun pair => pair.1 != name)
+
+private def evaluateInstructions (instructions : Array Instruction)
+    (environment : List (String × UInt64)) : Except String (List (String × UInt64)) := do
+  let mut locals := environment
+  for inst in instructions do
     let value ← match inst.operation with
       | .copy v => operand locals inst.width v
       | .binary op a b => do
@@ -109,7 +108,41 @@ def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 :=
         let lhs ← operand locals width a
         let rhs ← operand locals width b
         pure (compare width op lhs rhs)
-    locals := (inst.destination, value) :: locals
-  operand locals f.resultWidth f.result
+    locals := updateLocal locals inst.destination value
+  pure locals
+
+private def execute (f : Function) : Nat → String → Option String →
+    List (String × UInt64) → Except String UInt64
+  | 0, _, _, _ => .error "interpreter block-step budget exhausted; result not evaluated"
+  | fuel + 1, label, predecessor, environment => do
+    let some block := f.blocks.find? (·.label == label) | throw s!"unknown block @{label}"
+    -- All incoming values are read from the same previous state before any phi
+    -- destinations change. This matters for loop-carried parallel-copy cycles.
+    let updates ← block.phis.mapM fun phi => do
+      let some pred := predecessor | throw "entry block cannot execute phi definitions"
+      let some (_, value) := phi.incoming.find? (·.1 == pred)
+        | throw s!"phi %{phi.destination} has no incoming edge from @{pred}"
+      let result ← operand environment phi.width value
+      pure (phi.destination, result)
+    let mut locals := environment
+    for (name, value) in updates do locals := updateLocal locals name value
+    locals ← evaluateInstructions block.instructions locals
+    match block.terminator with
+    | .ret value => operand locals f.resultWidth value
+    | .halt => throw "QBE hlt reached: target-dependent program termination"
+    | .jump target => execute f fuel target (some label) locals
+    | .branch condition yes no => do
+      let value ← operand locals .word condition
+      execute f fuel (if value != 0 then yes else no) (some label) locals
+
+def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 := do
+  validateFunction f
+  if arguments.size != f.parameters.size then
+    throw s!"function ${f.name} expects {f.parameters.size} arguments, got {arguments.size}"
+  let mut locals : List (String × UInt64) := []
+  for i in [:f.parameters.size] do
+    let p := f.parameters[i]!
+    locals := (p.name, normalize p.width arguments[i]!) :: locals
+  execute f 100000 f.blocks[0]!.label none locals
 
 end LeanCompilerBackend.Semantics

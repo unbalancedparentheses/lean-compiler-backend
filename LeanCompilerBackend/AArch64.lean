@@ -93,56 +93,104 @@ private def unaryInstruction (width : Width) (op : Unary) : List String :=
   | .signedWord => ["\tsxtw x9, w9"]
   | .unsignedWord => [] -- the w9 load has already cleared x9's high bits
 
+private def slotOffset (slots : List (String × Nat)) (name : String) : Except String Nat :=
+  match slots.lookup name with
+  | some offset => .ok offset
+  | none => .error s!"missing stack slot for %{name}"
+
+private def emitInstruction (slots : List (String × Nat)) (inst : Instruction)
+    : Except String (List String) := do
+  let mut lines : List String := []
+  match inst.operation with
+  | .copy value => lines := lines ++ (← load slots inst.width 9 value)
+  | .binary op a b =>
+    lines := lines ++ (← load slots inst.width 9 a)
+    lines := lines ++ (← load slots (op.rhsWidth inst.width) 10 b)
+    let r := register inst.width 9
+    lines := lines ++ [s!"\t{mnemonic (select op)} {r}, {r}, {register inst.width 10}"]
+  | .unary op value =>
+    lines := lines ++ (← load slots (op.inputWidth inst.width) 9 value)
+    lines := lines ++ unaryInstruction inst.width op
+  | .divide op a b =>
+    lines := lines ++ (← load slots inst.width 9 a)
+    lines := lines ++ (← load slots inst.width 10 b)
+    let instruction := if op == .signedDiv || op == .signedRem then "sdiv" else "udiv"
+    let r9 := register inst.width 9
+    let r10 := register inst.width 10
+    if op == .signedRem || op == .unsignedRem then
+      let r11 := register inst.width 11
+      lines := lines ++ [s!"\t{instruction} {r11}, {r9}, {r10}", s!"\tmsub {r9}, {r11}, {r10}, {r9}"]
+    else lines := lines ++ [s!"\t{instruction} {r9}, {r9}, {r10}"]
+  | .compare op width a b =>
+    lines := lines ++ (← load slots width 9 a)
+    lines := lines ++ (← load slots width 10 b)
+    lines := lines ++ [s!"\tcmp {register width 9}, {register width 10}", s!"\tcset w9, {condition op}"]
+  let offset ← slotOffset slots inst.destination
+  pure (lines ++ [s!"\tstr {register inst.width 9}, [sp, #{offset}]"])
+
+private def blockLabel (f : Function) (label : String) : String :=
+  s!"L_lcb_block_{f.name.length}_{f.name}_{label}"
+
+private def edgeLabel (f : Function) (label : String) : String :=
+  s!"L_lcb_edge_{f.name.length}_{f.name}_{label}"
+
+/-- Phi lowering stages every source before changing any destination slot. -/
+private def emitEdge (f : Function) (slots : List (String × Nat)) (stageBase : Nat)
+    (predecessor target : String) : Except String (List String) := do
+  let some block := f.blocks.find? (·.label == target) | throw s!"unknown block @{target}"
+  let mut lines := []
+  for i in [:block.phis.size] do
+    let phi := block.phis[i]!
+    let some (_, value) := phi.incoming.find? (·.1 == predecessor)
+      | throw s!"missing phi predecessor @{predecessor}"
+    lines := lines ++ (← load slots phi.width 9 value)
+    lines := lines ++ [s!"\tstr {register phi.width 9}, [sp, #{stageBase + i * 8}]"]
+  for i in [:block.phis.size] do
+    let phi := block.phis[i]!
+    let offset ← slotOffset slots phi.destination
+    let r := register phi.width 9
+    lines := lines ++ [s!"\tldr {r}, [sp, #{stageBase + i * 8}]", s!"\tstr {r}, [sp, #{offset}]"]
+  pure lines
+
 def emitFunction (f : Function) : Except String String := do
   validateFunction f
-  -- Leaf-only subset: x9/x10/x11 are caller-clobbered; no calls or callee-saved
-  -- registers are used. Frame remains 16-byte aligned, within immediate limits.
-  let slotsCount := f.parameters.size + f.instructions.size
-  let frame := ((slotsCount * 8 + 15) / 16) * 16
+  let localNames := f.locals
+  let slots := localNames.toList.zipIdx.map fun ((name, _), i) => (name, i * 8)
+  let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
+  let stageBase := localNames.size * 8
+  let frame := (((localNames.size + maxPhis) * 8 + 15) / 16) * 16
   if frame > 4080 then throw "stack frame exceeds initial AArch64 immediate limit"
   let symbol := "_" ++ f.name
-  let mut lines := [s!"; function ${f.name}; target aarch64-macos; QBE-compatible integer subset"]
+  let mut lines := [s!"; function {f.name}; target aarch64-macos; QBE integer SSA subset"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   lines := lines ++ [".p2align 2", s!"{symbol}:"]
   if frame != 0 then lines := lines ++ [s!"\tsub sp, sp, #{frame}"]
-  let mut slots : List (String × Nat) := []
   for i in [:f.parameters.size] do
-    let p := f.parameters[i]!
-    slots := (p.name, i * 8) :: slots
-    lines := lines ++ [s!"\tstr {register p.width i}, [sp, #{i * 8}]"]
-  for i in [:f.instructions.size] do
-    let inst := f.instructions[i]!
-    match inst.operation with
-    | .copy value => lines := lines ++ (← load slots inst.width 9 value)
-    | .binary op a b =>
-      lines := lines ++ (← load slots inst.width 9 a)
-      lines := lines ++ (← load slots (op.rhsWidth inst.width) 10 b)
-      let r := register inst.width 9
-      lines := lines ++ [s!"\t{mnemonic (select op)} {r}, {r}, {register inst.width 10}"]
-    | .unary op value =>
-      lines := lines ++ (← load slots (op.inputWidth inst.width) 9 value)
-      lines := lines ++ unaryInstruction inst.width op
-    | .divide op a b =>
-      lines := lines ++ (← load slots inst.width 9 a)
-      lines := lines ++ (← load slots inst.width 10 b)
-      let instruction := if op == .signedDiv || op == .signedRem then "sdiv" else "udiv"
-      let r9 := register inst.width 9
-      let r10 := register inst.width 10
-      if op == .signedRem || op == .unsignedRem then
-        let r11 := register inst.width 11
-        lines := lines ++ [s!"\t{instruction} {r11}, {r9}, {r10}", s!"\tmsub {r9}, {r11}, {r10}, {r9}"]
-      else lines := lines ++ [s!"\t{instruction} {r9}, {r9}, {r10}"]
-    | .compare op width a b =>
-      lines := lines ++ (← load slots width 9 a)
-      lines := lines ++ (← load slots width 10 b)
-      lines := lines ++ [s!"\tcmp {register width 9}, {register width 10}", s!"\tcset w9, {condition op}"]
-    let offset := (f.parameters.size + i) * 8
-    lines := lines ++ [s!"\tstr {register inst.width 9}, [sp, #{offset}]"]
-    slots := (inst.destination, offset) :: slots
-  lines := lines ++ (← load slots f.resultWidth 0 f.result)
-  if frame != 0 then lines := lines ++ [s!"\tadd sp, sp, #{frame}"]
-  lines := lines ++ ["\tret", ""]
-  return String.intercalate "\n" lines
+    let parameter := f.parameters[i]!
+    let offset ← slotOffset slots parameter.name
+    lines := lines ++ [s!"\tstr {register parameter.width i}, [sp, #{offset}]"]
+  for block in f.blocks do
+    lines := lines ++ [blockLabel f block.label ++ ":"]
+    for inst in block.instructions do
+      lines := lines ++ (← emitInstruction slots inst)
+    match block.terminator with
+    | .ret value =>
+      lines := lines ++ (← load slots f.resultWidth 0 value)
+      if frame != 0 then lines := lines ++ [s!"\tadd sp, sp, #{frame}"]
+      lines := lines ++ ["\tret"]
+    | .halt => lines := lines ++ ["\tbrk #0"]
+    | .jump target =>
+      lines := lines ++ (← emitEdge f slots stageBase block.label target)
+      lines := lines ++ [s!"\tb {blockLabel f target}"]
+    | .branch condition yes no =>
+      lines := lines ++ (← load slots .word 9 condition)
+      let otherwise := edgeLabel f block.label
+      lines := lines ++ [s!"\tcbz w9, {otherwise}"]
+      lines := lines ++ (← emitEdge f slots stageBase block.label yes)
+      lines := lines ++ [s!"\tb {blockLabel f yes}", otherwise ++ ":"]
+      lines := lines ++ (← emitEdge f slots stageBase block.label no)
+      lines := lines ++ [s!"\tb {blockLabel f no}"]
+  pure (String.intercalate "\n" (lines ++ [""]))
 
 def emit (program : Program) : Except String String := do
   validate program

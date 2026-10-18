@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Added integer SSA basic blocks, conditional/unconditional branches, fallthrough,
+  loops, phi nodes and halt. Dominance and phi predecessor checks reject invalid
+  inputs. Parallel phi transfers stage every source before writing destinations.
+- A 64-seed campaign on `4fcd83b` covered 1,024 generated straight-line functions
+  and 16,384 input cases across Python, Lean interpretation and both native backends.
+
 - Ported integer shifts, signed/unsigned division and remainder, negation,
   sign/zero extensions and all integer comparisons. Independent tests cover
   both result widths, signed boundaries, masked shift counts and undefined

@@ -10,11 +10,11 @@ See [UPSTREAM.md](UPSTREAM.md).
 ## Implemented pipeline
 
 1. `Parser.lean` parses the supported QBE-style integer syntax.
-2. `Validate.lean` checks names, SSA use/definition order, widths and resource limits.
+2. `Validate.lean` checks names, SSA dominance, phi predecessors, widths and limits.
 3. `Semantics.lean` executes the supported IR using fixed-width integer semantics,
    signed comparisons/extensions, masked shifts and truncating signed division.
 4. `AArch64.lean` selects integer instructions, assigns stack slots and renders
-   leaf-function assembly for Apple's AArch64 ABI.
+   leaf-function assembly with branches and parallel phi copies for Apple's AArch64 ABI.
 5. Nix-provided Clang assembles and links independent C test callers.
 
 The parser treats newlines as whitespace; upstream QBE also uses them as syntax
@@ -23,11 +23,16 @@ restricted compatible operation subset, not a claim of full QBE compatibility.
 Names allow ASCII letters, digits and underscores, with a letter/underscore
 first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
 
-Functions have at most eight integer arguments, 480 instructions and one block;
+Functions have at most eight integer arguments, 480 instructions/phi nodes and 64 blocks;
 programs have at most 64 functions and 1 MiB of input. Frames are 16-byte aligned,
 at most 4080 bytes. Every value gets an eight-byte slot; word values access only
 the low four bytes. Implicit word-to-long widening is rejected. No calls or
 callee-saved registers are used. Scratch registers x9/x10/x11 are caller-clobbered.
+Phi sources are staged in separate slots before destinations change, including
+loop-carried copy cycles. Temporary definitions must be in SSA form and dominate
+their uses; general QBE SSA construction remains unimplemented. The interpreter
+executes at most 100,000 block steps and reports exhaustion explicitly. `hlt`
+terminates native execution with a target-dependent error and has no return value.
 
 ## What is proved
 

@@ -118,12 +118,8 @@ private def comparisonName (name : String) : Option (Comparison × Width) := Id.
     if name == stem ++ "l" then return some (op, .long)
   return none
 
-private def parseInstruction : P Instruction := do
-  let destination ← parseName '%'
-  expect "="
-  let width ← parseWidth
-  let name ← take
-  let operation ← if name == "copy" then
+private def parseOperation (name : String) : P Operation := do
+  if name == "copy" then
     pure (.copy (← parseOperand))
   else if let some op := unaryName name then
     pure (.unary op (← parseOperand))
@@ -151,7 +147,26 @@ private def parseInstruction : P Instruction := do
     expect ","
     let rhs ← parseOperand
     pure (.binary op lhs rhs)
-  return { destination, width, operation }
+
+private def parseIncoming : Nat → P (Array (String × Operand))
+  | 0 => failAt "phi incoming-edge limit exceeded"
+  | fuel + 1 => do
+    let label ← parseName '@'
+    let value ← parseOperand
+    if (← peek) == some "," then
+      discard take
+      pure (#[ (label, value) ] ++ (← parseIncoming fuel))
+    else pure #[ (label, value) ]
+
+private def parseDefinition : P (Sum Phi Instruction) := do
+  let destination ← parseName '%'
+  expect "="
+  let width ← parseWidth
+  let name ← take
+  if name == "phi" then
+    pure (.inl { destination, width, incoming := ← parseIncoming 65 })
+  else
+    pure (.inr { destination, width, operation := ← parseOperation name })
 
 private def parseParameters : Nat → P (Array Parameter)
   | 0 => failAt "parameter parsing limit exceeded"
@@ -165,15 +180,50 @@ private def parseParameters : Nat → P (Array Parameter)
       return #[{ name, width }] ++ (← parseParameters fuel)
     return #[{ name, width }]
 
-private def parseBody : Nat → P (Array Instruction × Operand)
+private def parseBody : Nat → P (Array Phi × Array Instruction × Terminator)
   | 0 => failAt "instruction parsing limit exceeded"
   | fuel + 1 => do
     if (← peek) == some "ret" then
       discard take
-      return (#[], ← parseOperand)
-    let inst ← parseInstruction
-    let (rest, result) ← parseBody fuel
-    return (#[inst] ++ rest, result)
+      pure (#[], #[], .ret (← parseOperand))
+    else if (← peek) == some "jmp" then
+      discard take
+      pure (#[], #[], .jump (← parseName '@'))
+    else if (← peek) == some "jnz" then
+      discard take
+      let condition ← parseOperand
+      expect ","
+      let yes ← parseName '@'
+      expect ","
+      pure (#[], #[], .branch condition yes (← parseName '@'))
+    else if (← peek) == some "hlt" then
+      discard take
+      pure (#[], #[], .halt)
+    else if let some token := ← peek then
+      if token.startsWith "@" then
+        -- QBE permits fallthrough when the next label begins a new block.
+        pure (#[], #[], .jump (String.ofList token.toList.tail))
+      else
+        let definition ← parseDefinition
+        let (phis, instructions, terminator) ← parseBody fuel
+        match definition with
+        | .inl phi => pure (#[phi] ++ phis, instructions, terminator)
+        | .inr inst =>
+          if !phis.isEmpty then failAt "phi definitions must precede ordinary instructions"
+          pure (#[], #[inst] ++ instructions, terminator)
+    else failAt "expected block terminator"
+
+private def parseBlocks : Nat → P (Array Block)
+  | 0 => failAt "block parsing limit exceeded"
+  | fuel + 1 => do
+    let label ← parseName '@'
+    let (phis, instructions, terminator) ← parseBody 481
+    let block := { label, phis, instructions, terminator : Block }
+    match ← peek with
+    | some token =>
+      if token.startsWith "@" then pure (#[block] ++ (← parseBlocks fuel))
+      else pure #[block]
+    | none => pure #[block]
 
 private def parseFunction : P Function := do
   let exported := (← peek) == some "export"
@@ -185,10 +235,9 @@ private def parseFunction : P Function := do
   let parameters ← parseParameters 10
   expect ")"
   expect "{"
-  let entryLabel ← parseName '@'
-  let (instructions, result) ← parseBody 481
+  let blocks ← parseBlocks 65
   expect "}"
-  return { name, exported, resultWidth, parameters, entryLabel, instructions, result }
+  return { name, exported, resultWidth, parameters, blocks }
 
 private def parseProgram : Nat → P Program
   | 0 => failAt "function parsing limit exceeded"

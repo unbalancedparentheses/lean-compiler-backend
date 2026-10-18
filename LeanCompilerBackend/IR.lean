@@ -70,15 +70,44 @@ structure Parameter where
   width : Width
   deriving Repr, Inhabited
 
+structure Phi where
+  destination : String
+  width : Width
+  incoming : Array (String × Operand)
+  deriving Repr, Inhabited
+
+inductive Terminator where
+  | ret (value : Operand)
+  | jump (label : String)
+  | branch (condition : Operand) (ifTrue ifFalse : String)
+  | halt
+  deriving Repr, Inhabited
+
+def Terminator.successors : Terminator → List String
+  | .jump label => [label]
+  | .branch _ yes no => [yes, no]
+  | _ => []
+
+structure Block where
+  label : String
+  phis : Array Phi
+  instructions : Array Instruction
+  terminator : Terminator
+  deriving Repr, Inhabited
+
 structure Function where
   name : String
   exported : Bool
   resultWidth : Width
   parameters : Array Parameter
-  entryLabel : String
-  instructions : Array Instruction
-  result : Operand
+  blocks : Array Block
   deriving Repr, Inhabited
+
+def Function.locals (f : Function) : Array (String × Width) :=
+  f.blocks.foldl (fun result block => result
+    ++ block.phis.map (fun phi => (phi.destination, phi.width))
+    ++ block.instructions.map (fun inst => (inst.destination, inst.width)))
+    (f.parameters.map (fun p => (p.name, p.width)))
 
 abbrev Program := Array Function
 

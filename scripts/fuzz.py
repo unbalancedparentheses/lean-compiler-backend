@@ -72,10 +72,65 @@ class Function:
         return '\n'.join(lines + [f' ret %{self.instructions[-1][0]}', '}'])
 
 
-def generate(seed, count, steps):
+@dataclass
+class ControlFunction:
+    name: str
+    bits: int
+    bias: int
+    first_op: str
+    loop_op: str
+    trip_mask: int
+
+    def evaluate(self, a, b):
+        mask = (1 << self.bits) - 1
+        a, b = a & mask, b & mask
+        signed = lambda x: x if x < (1 << (self.bits - 1)) else x - (1 << self.bits)
+        initial = binary(self.first_op, a if signed(a) < signed(b) else b, self.bias, mask)
+        accumulator, other = initial, a
+        for _ in range(b & self.trip_mask):
+            accumulator, other = binary(self.loop_op, accumulator, other, mask), accumulator
+        return (accumulator ^ other) & mask
+
+    def source(self):
+        w = 'w' if self.bits == 32 else 'l'
+        return f'''export function {w} ${self.name}({w} %a, {w} %b) {{
+@entry
+ %limit ={w} and %b, {self.trip_mask}
+ %test =w cslt{w} %a, %b
+ jnz %test, @yes, @no
+@yes
+ %left ={w} {self.first_op} %a, {self.bias}
+ jmp @join
+@no
+ %right ={w} {self.first_op} %b, {self.bias}
+ jmp @join
+@join
+ %initial ={w} phi @yes %left, @no %right
+ jmp @loop
+@loop
+ %i ={w} phi @join 0, @body %next
+ %acc ={w} phi @join %initial, @body %updated
+ %other ={w} phi @join %a, @body %acc
+ %condition =w cult{w} %i, %limit
+ jnz %condition, @body, @end
+@body
+ %updated ={w} {self.loop_op} %acc, %other
+ %next ={w} add %i, 1
+ jmp @loop
+@end
+ %result ={w} xor %acc, %other
+ ret %result
+}}'''
+
+
+def generate(seed, count, steps, control_flow=True):
     rng, functions = random.Random(seed), []
     for index in range(count):
         bits = 32 if index % 2 == 0 else 64
+        if control_flow and index % 8 in (2, 7):
+            functions.append(ControlFunction(f'f{index}', bits, rng.getrandbits(bits),
+                                             rng.choice(OPS), rng.choice(OPS), rng.choice([3,7,15,31])))
+            continue
         names, instructions = ['a', 'b'], []
         for step in range(steps):
             lhs = names[-1] if step % 3 else rng.choice(names)
@@ -121,8 +176,8 @@ def compile_and_run(compiler, asm, cfile, executable):
     return [int(line) for line in run([executable]).splitlines()]
 
 
-def case(work, seed, functions_count, steps, samples, qbe, self_test):
-    functions = generate(seed, functions_count, steps)
+def case(work, seed, functions_count, steps, samples, qbe, self_test, control_flow):
+    functions = generate(seed, functions_count, steps, control_flow)
     arguments = inputs(seed, samples)
     source = work / 'input.ssa'
     source.write_text('\n'.join(f.source() for f in functions) + '\n')
@@ -135,6 +190,8 @@ def case(work, seed, functions_count, steps, samples, qbe, self_test):
         'compiler_sha256': hashlib.sha256(LCB.read_bytes()).hexdigest(),
         'flake_lock_sha256': hashlib.sha256((ROOT / 'flake.lock').read_bytes()).hexdigest(),
         'target': 'aarch64-macos',
+        'control_flow': control_flow,
+        'generator_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'cc_version': run([os.environ['LCB_CC'], '--version']) if os.environ.get('LCB_CC') else None,
     }, indent=2) + '\n')
     run([LCB, '--check', source])
@@ -174,6 +231,7 @@ def main():
     parser.add_argument('--functions', type=int, default=8)
     parser.add_argument('--steps', type=int, default=32)
     parser.add_argument('--samples', type=int, default=3)
+    parser.add_argument('--straight-line', action='store_true', help='exclude generated branches/loops')
     parser.add_argument('--require-native', action='store_true')
     parser.add_argument('--artifacts', type=Path, default=ROOT / '.build/fuzz-failures')
     options = parser.parse_args()
@@ -195,7 +253,8 @@ def main():
             work = root / str(seed)
             work.mkdir()
             try:
-                total += case(work, seed, options.functions, options.steps, options.samples, qbe, index == 0)
+                total += case(work, seed, options.functions, options.steps, options.samples, qbe,
+                              index == 0, not options.straight_line)
                 print(f'fuzz seed {seed}: passed', flush=True)
             except Exception:
                 target = options.artifacts / f'seed-{seed}'

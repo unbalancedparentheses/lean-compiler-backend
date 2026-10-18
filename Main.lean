@@ -9,7 +9,7 @@ private def usage : String :=
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
   "  lcb --version | --help\n" ++
-  "Initial subset: QBE w/l integer arithmetic, comparisons, extensions, one block.\n"
+  "Initial subset: QBE w/l integer SSA, comparisons, extensions, blocks and phi.\n"
 
 private def loadProgram (path : String) : IO Program := do
   let source ← IO.FS.readFile path
