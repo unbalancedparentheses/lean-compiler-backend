@@ -16,10 +16,11 @@ import random
 import shutil
 import subprocess
 import tempfile
+import traceback
 
 ROOT = Path(__file__).resolve().parents[1]
 LCB = ROOT / '.lake/build/bin/lcb'
-OPS = ('add', 'sub', 'mul', 'and', 'or', 'xor')
+OPS = ('add', 'sub', 'mul', 'and', 'or', 'xor', 'shl', 'shr', 'sar')
 
 
 def run(args, *, cwd=ROOT):
@@ -37,6 +38,12 @@ def binary(op, a, b, mask):
     elif op == 'and': value = a & b
     elif op == 'or': value = a | b
     elif op == 'xor': value = a ^ b
+    elif op == 'shl': value = a << (b % mask.bit_length())
+    elif op == 'shr': value = a >> (b % mask.bit_length())
+    elif op == 'sar':
+        bits = mask.bit_length()
+        signed = a if a < (1 << (bits - 1)) else a - (1 << bits)
+        value = signed >> (b % bits)
     else: raise AssertionError(op)
     return value & mask
 
@@ -125,6 +132,10 @@ def case(work, seed, functions_count, steps, samples, qbe, self_test):
         'arguments': arguments, 'expected': expected,
         'toolchain': run([LCB, '--version']).strip(), 'host': platform.platform(),
         'upstream_lock_sha256': hashlib.sha256((ROOT / 'upstream-lock.json').read_bytes()).hexdigest(),
+        'compiler_sha256': hashlib.sha256(LCB.read_bytes()).hexdigest(),
+        'flake_lock_sha256': hashlib.sha256((ROOT / 'flake.lock').read_bytes()).hexdigest(),
+        'target': 'aarch64-macos',
+        'cc_version': run([os.environ['LCB_CC'], '--version']) if os.environ.get('LCB_CC') else None,
     }, indent=2) + '\n')
     run([LCB, '--check', source])
     actual = [int(run([LCB, '--eval', source, f.name, a, b]))
@@ -158,6 +169,8 @@ def case(work, seed, functions_count, steps, samples, qbe, self_test):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--seed', type=int, action='append')
+    parser.add_argument('--seed-start', type=int, default=20261018)
+    parser.add_argument('--seeds', type=int, default=4)
     parser.add_argument('--functions', type=int, default=8)
     parser.add_argument('--steps', type=int, default=32)
     parser.add_argument('--samples', type=int, default=3)
@@ -167,7 +180,8 @@ def main():
     assert 1 <= options.functions <= 64 and 1 <= options.steps <= 480
     assert 0 <= options.samples <= 10000
     if options.require_native: assert native_host(), 'required native AArch64 macOS host unavailable'
-    seeds = options.seed or [20261018, 20261019, 20261020, 20261021]
+    assert 1 <= options.seeds <= 100000
+    seeds = options.seed or list(range(options.seed_start, options.seed_start + options.seeds))
     total = 0
     with tempfile.TemporaryDirectory(prefix='lcb-fuzz-') as directory:
         root, qbe = Path(directory), None
@@ -182,12 +196,14 @@ def main():
             work.mkdir()
             try:
                 total += case(work, seed, options.functions, options.steps, options.samples, qbe, index == 0)
+                print(f'fuzz seed {seed}: passed', flush=True)
             except Exception:
                 target = options.artifacts / f'seed-{seed}'
                 target.mkdir(parents=True, exist_ok=True)
                 for path in work.iterdir():
                     if path.suffix in ('.ssa', '.c', '.s', '.json', '.txt'):
                         shutil.copy2(path, target / path.name)
+                (target / 'failure.txt').write_text(traceback.format_exc())
                 print(f'FUZZ FAILURE seed={seed}; retained {target}', flush=True)
                 print((work / 'input.ssa').read_text(), flush=True)
                 raise

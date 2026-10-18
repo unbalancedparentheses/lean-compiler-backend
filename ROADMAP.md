@@ -9,8 +9,8 @@ proof effort. Current implementation: an initial integer/leaf-function subset.
 
 - [x] P01 — Restricted integer IR, parser and validation with explicit failures.
 - [x] P02 — Executable fixed-width semantics and AArch64 macOS leaf assembly.
-- [ ] P03 — Qualify pinned Nix builds, native comparisons and upstream QBE oracle; publish repository checkpoint.
-- [ ] P04 — Inventory every upstream opcode, syntax construct, pass, ABI and target; track implementation and test coverage without blanket completion claims.
+- [x] P03 — Qualify pinned Nix builds, native comparisons and upstream QBE oracle; publish repository checkpoint. Linux and ARM64 macOS CI passed at `17ff48a`.
+- [x] P04 — Inventory every upstream opcode, syntax construct, pass, ABI and target; track implementation and test coverage without blanket completion claims. See `docs/PORT_STATUS.md`.
 - [ ] P05 — Complete integer operations, conversions, comparisons and control flow, including phi nodes and loops.
 - [ ] P06 — Memory operations, data definitions, symbols, linkage and thread-local storage.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.

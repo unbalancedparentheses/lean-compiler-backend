@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Ported integer shifts, signed/unsigned division and remainder, negation,
+  sign/zero extensions and all integer comparisons. Independent tests cover
+  both result widths, signed boundaries, masked shift counts and undefined
+  division exclusions. Mixed-program fuzzing now includes shifts.
+
 - Added generated-program differential fuzzing with reproducible seeds, retained
   failures and an emitted-code corruption control. Its first seed exposed and
   reduced an interpreter bug: execution returned after the first binary operation.

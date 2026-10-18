@@ -91,6 +91,33 @@ private def parseOperand : P Operand := do
     | none => failAt "unsupported operand: expected temporary or decimal integer"
   | none => failAt "expected operand"
 
+private def unaryName : String → Option Unary
+  | "neg" => some .negate
+  | "extsb" => some .signedByte
+  | "extub" => some .unsignedByte
+  | "extsh" => some .signedHalf
+  | "extuh" => some .unsignedHalf
+  | "extsw" => some .signedWord
+  | "extuw" => some .unsignedWord
+  | _ => none
+
+private def divisionName : String → Option Division
+  | "div" => some .signedDiv
+  | "udiv" => some .unsignedDiv
+  | "rem" => some .signedRem
+  | "urem" => some .unsignedRem
+  | _ => none
+
+private def comparisonName (name : String) : Option (Comparison × Width) := Id.run do
+  let names : List (String × Comparison) := [
+    ("ceq", .eq), ("cne", .ne), ("csle", .signedLE), ("cslt", .signedLT),
+    ("csge", .signedGE), ("csgt", .signedGT), ("cule", .unsignedLE),
+    ("cult", .unsignedLT), ("cuge", .unsignedGE), ("cugt", .unsignedGT)]
+  for (stem, op) in names do
+    if name == stem ++ "w" then return some (op, .word)
+    if name == stem ++ "l" then return some (op, .long)
+  return none
+
 private def parseInstruction : P Instruction := do
   let destination ← parseName '%'
   expect "="
@@ -98,6 +125,16 @@ private def parseInstruction : P Instruction := do
   let name ← take
   let operation ← if name == "copy" then
     pure (.copy (← parseOperand))
+  else if let some op := unaryName name then
+    pure (.unary op (← parseOperand))
+  else if let some op := divisionName name then do
+    let lhs ← parseOperand
+    expect ","
+    pure (.divide op lhs (← parseOperand))
+  else if let some (op, operandWidth) := comparisonName name then do
+    let lhs ← parseOperand
+    expect ","
+    pure (.compare op operandWidth lhs (← parseOperand))
   else do
     let op ← match name with
       | "add" => pure Binary.add
@@ -106,6 +143,9 @@ private def parseInstruction : P Instruction := do
       | "and" => pure Binary.andBits
       | "or" => pure Binary.orBits
       | "xor" => pure Binary.xorBits
+      | "shl" => pure Binary.shiftLeft
+      | "shr" => pure Binary.logicalRight
+      | "sar" => pure Binary.arithmeticRight
       | _ => failAt s!"unsupported operation '{name}'"
     let lhs ← parseOperand
     expect ","

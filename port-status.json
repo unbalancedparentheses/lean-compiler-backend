@@ -2,7 +2,17 @@
   "baseline": "QBE 1.3",
   "operations": {
     "add": ["w", "l"], "sub": ["w", "l"], "mul": ["w", "l"],
-    "and": ["w", "l"], "or": ["w", "l"], "xor": ["w", "l"], "copy": ["w", "l"]
+    "and": ["w", "l"], "or": ["w", "l"], "xor": ["w", "l"], "copy": ["w", "l"],
+    "shl": ["w", "l"], "shr": ["w", "l"], "sar": ["w", "l"], "neg": ["w", "l"],
+    "div": ["w", "l"], "udiv": ["w", "l"], "rem": ["w", "l"], "urem": ["w", "l"],
+    "extsb": ["w", "l"], "extub": ["w", "l"], "extsh": ["w", "l"], "extuh": ["w", "l"],
+    "extsw": ["l"], "extuw": ["l"],
+    "ceqw": ["w", "l"], "cnew": ["w", "l"], "cslew": ["w", "l"], "csltw": ["w", "l"],
+    "csgew": ["w", "l"], "csgtw": ["w", "l"], "culew": ["w", "l"], "cultw": ["w", "l"],
+    "cugew": ["w", "l"], "cugtw": ["w", "l"],
+    "ceql": ["w", "l"], "cnel": ["w", "l"], "cslel": ["w", "l"], "csltl": ["w", "l"],
+    "csgel": ["w", "l"], "csgtl": ["w", "l"], "culel": ["w", "l"], "cultl": ["w", "l"],
+    "cugel": ["w", "l"], "cugtl": ["w", "l"]
   },
   "targets": {"arm64_apple": "partial: leaf integer subset only"},
   "syntax": {

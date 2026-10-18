@@ -11,6 +11,7 @@ namespace LeanCompilerBackend.AArch64
 
 inductive ALU where
   | add | sub | mul | and_ | orr | eor
+  | lsl | lsr | asr
   deriving DecidableEq, Repr
 
 def select (op : Binary) : ALU :=
@@ -21,6 +22,9 @@ def select (op : Binary) : ALU :=
   | .andBits => .and_
   | .orBits => .orr
   | .xorBits => .eor
+  | .shiftLeft => .lsl
+  | .logicalRight => .lsr
+  | .arithmeticRight => .asr
 
 def mnemonic : ALU → String
   | .add => "add"
@@ -29,6 +33,9 @@ def mnemonic : ALU → String
   | .and_ => "and"
   | .orr => "orr"
   | .eor => "eor"
+  | .lsl => "lsl"
+  | .lsr => "lsr"
+  | .asr => "asr"
 
 /-- An abstract target ALU specification; not a decoder for emitted bytes. -/
 def evaluateALU (width : Width) (op : ALU) (a b : UInt64) : UInt64 :=
@@ -39,6 +46,9 @@ def evaluateALU (width : Width) (op : ALU) (a b : UInt64) : UInt64 :=
   | .and_ => a &&& b
   | .orr => a ||| b
   | .eor => a ^^^ b
+  | .lsl => a <<< (b &&& (width.bits - 1).toUInt64)
+  | .lsr => a >>> (b &&& (width.bits - 1).toUInt64)
+  | .asr => Semantics.constant width (Semantics.signedBits width.bits a / (2 ^ (b.toNat % width.bits) : Int))
 
 /-- Only the primitive opcode-selection relation is proved here. Stack lowering,
     parsing, assembly rendering and assembler/linker behavior are separate gaps. -/
@@ -67,6 +77,22 @@ private def load (slots : List (String × Nat)) (width : Width) (destination : N
     | some offset => return [s!"\tldr {register width destination}, [sp, #{offset}]"]
     | none => throw s!"missing stack slot for %{name}"
 
+private def condition : Comparison → String
+  | .eq => "eq" | .ne => "ne"
+  | .signedLE => "le" | .signedLT => "lt" | .signedGE => "ge" | .signedGT => "gt"
+  | .unsignedLE => "ls" | .unsignedLT => "lo" | .unsignedGE => "hs" | .unsignedGT => "hi"
+
+private def unaryInstruction (width : Width) (op : Unary) : List String :=
+  let r := register width 9
+  match op with
+  | .negate => [s!"\tneg {r}, {r}"]
+  | .signedByte => [s!"\tsxtb {r}, w9"]
+  | .unsignedByte => ["\tuxtb w9, w9"]
+  | .signedHalf => [s!"\tsxth {r}, w9"]
+  | .unsignedHalf => ["\tuxth w9, w9"]
+  | .signedWord => ["\tsxtw x9, w9"]
+  | .unsignedWord => [] -- the w9 load has already cleared x9's high bits
+
 def emitFunction (f : Function) : Except String String := do
   validateFunction f
   -- Leaf-only subset: x9/x10/x11 are caller-clobbered; no calls or callee-saved
@@ -90,9 +116,26 @@ def emitFunction (f : Function) : Except String String := do
     | .copy value => lines := lines ++ (← load slots inst.width 9 value)
     | .binary op a b =>
       lines := lines ++ (← load slots inst.width 9 a)
-      lines := lines ++ (← load slots inst.width 10 b)
+      lines := lines ++ (← load slots (op.rhsWidth inst.width) 10 b)
       let r := register inst.width 9
       lines := lines ++ [s!"\t{mnemonic (select op)} {r}, {r}, {register inst.width 10}"]
+    | .unary op value =>
+      lines := lines ++ (← load slots (op.inputWidth inst.width) 9 value)
+      lines := lines ++ unaryInstruction inst.width op
+    | .divide op a b =>
+      lines := lines ++ (← load slots inst.width 9 a)
+      lines := lines ++ (← load slots inst.width 10 b)
+      let instruction := if op == .signedDiv || op == .signedRem then "sdiv" else "udiv"
+      let r9 := register inst.width 9
+      let r10 := register inst.width 10
+      if op == .signedRem || op == .unsignedRem then
+        let r11 := register inst.width 11
+        lines := lines ++ [s!"\t{instruction} {r11}, {r9}, {r10}", s!"\tmsub {r9}, {r11}, {r10}, {r9}"]
+      else lines := lines ++ [s!"\t{instruction} {r9}, {r9}, {r10}"]
+    | .compare op width a b =>
+      lines := lines ++ (← load slots width 9 a)
+      lines := lines ++ (← load slots width 10 b)
+      lines := lines ++ [s!"\tcmp {register width 9}, {register width 10}", s!"\tcset w9, {condition op}"]
     let offset := (f.parameters.size + i) * 8
     lines := lines ++ [s!"\tstr {register inst.width 9}, [sp, #{offset}]"]
     slots := (inst.destination, offset) :: slots

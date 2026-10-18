@@ -47,7 +47,8 @@ The only implemented output target remains AArch64 macOS.
 ## Current scope
 
 - `w`/`l` integer functions, up to eight register arguments, one straight-line block.
-- `copy`, `add`, `sub`, `mul`, `and`, `or`, `xor`, integer constants and returns.
+- Integer arithmetic/bitwise operations, masked shifts, signed/unsigned
+  division and remainder, negation, all integer comparisons and byte/half/word extensions.
 - Defined 32/64-bit modular arithmetic, including narrowing `l` operands to `w`.
 - SSA/type/name validation and explicit rejection of unsupported constructs.
 - A small Lean theorem for primitive arithmetic opcode selection.
@@ -65,6 +66,12 @@ interpreter, Lean native output and QBE native output. Failures retain the seed,
 input and outputs under `.build/fuzz-failures/`; use `nix develop -c python3
 scripts/fuzz.py --seed 20261018 --require-native` to replay a seed. Each native
 campaign also checks that a deliberately corrupted emitted return is detected.
+For a longer campaign, use `nix develop -c python3 scripts/fuzz.py --seeds 64
+--functions 16 --steps 96 --samples 11 --require-native`.
+
+Integer division by zero and signed minimum divided by -1 are outside the
+defined equivalence domain; the interpreter reports them explicitly. Native
+behavior for those inputs is not a portability or safety guarantee.
 
 **The backend is not verified end to end.** The current theorem does not prove
 parsing, stack layout, assembly rendering, the assembler or the linker correct.

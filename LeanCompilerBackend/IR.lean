@@ -27,11 +27,36 @@ inductive Operand where
 
 inductive Binary where
   | add | sub | mul | andBits | orBits | xorBits
+  | shiftLeft | logicalRight | arithmeticRight
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+def Binary.rhsWidth (width : Width) : Binary → Width
+  | .shiftLeft | .logicalRight | .arithmeticRight => .word
+  | _ => width
+
+inductive Unary where
+  | negate | signedByte | unsignedByte | signedHalf | unsignedHalf | signedWord | unsignedWord
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+def Unary.inputWidth (width : Width) : Unary → Width
+  | .negate => width
+  | _ => .word
+
+inductive Division where
+  | signedDiv | unsignedDiv | signedRem | unsignedRem
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+inductive Comparison where
+  | eq | ne | signedLE | signedLT | signedGE | signedGT
+  | unsignedLE | unsignedLT | unsignedGE | unsignedGT
   deriving BEq, DecidableEq, Repr, Inhabited
 
 inductive Operation where
   | copy (value : Operand)
   | binary (op : Binary) (lhs rhs : Operand)
+  | unary (op : Unary) (value : Operand)
+  | divide (op : Division) (lhs rhs : Operand)
+  | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
   deriving Repr, Inhabited
 
 structure Instruction where

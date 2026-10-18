@@ -11,7 +11,8 @@ See [UPSTREAM.md](UPSTREAM.md).
 
 1. `Parser.lean` parses the supported QBE-style integer syntax.
 2. `Validate.lean` checks names, SSA use/definition order, widths and resource limits.
-3. `Semantics.lean` executes the supported IR using fixed-width modular arithmetic.
+3. `Semantics.lean` executes the supported IR using fixed-width integer semantics,
+   signed comparisons/extensions, masked shifts and truncating signed division.
 4. `AArch64.lean` selects integer instructions, assigns stack slots and renders
    leaf-function assembly for Apple's AArch64 ABI.
 5. Nix-provided Clang assembles and links independent C test callers.
@@ -26,7 +27,7 @@ Functions have at most eight integer arguments, 480 instructions and one block;
 programs have at most 64 functions and 1 MiB of input. Frames are 16-byte aligned,
 at most 4080 bytes. Every value gets an eight-byte slot; word values access only
 the low four bytes. Implicit word-to-long widening is rejected. No calls or
-callee-saved registers are used. Scratch registers x9/x10 are caller-clobbered.
+callee-saved registers are used. Scratch registers x9/x10/x11 are caller-clobbered.
 
 ## What is proved
 

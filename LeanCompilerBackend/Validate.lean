@@ -39,9 +39,19 @@ def validateFunction (f : Function) : Except String Unit := do
       throw s!"duplicate SSA definition %{inst.destination}"
     match inst.operation with
     | .copy v => checkOperand locals inst.width v
-    | .binary _ a b =>
+    | .binary op a b =>
+      checkOperand locals inst.width a
+      checkOperand locals (op.rhsWidth inst.width) b
+    | .unary op value =>
+      if (op == .signedWord || op == .unsignedWord) && inst.width != .long then
+        throw "extsw/extuw require a long result"
+      checkOperand locals (op.inputWidth inst.width) value
+    | .divide _ a b =>
       checkOperand locals inst.width a
       checkOperand locals inst.width b
+    | .compare _ width a b =>
+      checkOperand locals width a
+      checkOperand locals width b
     locals := (inst.destination, inst.width) :: locals
   checkOperand locals f.resultWidth f.result
 
