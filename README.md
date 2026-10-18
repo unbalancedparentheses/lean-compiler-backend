@@ -99,3 +99,19 @@ which Zig/LLVM ideas we plan to adopt and why.
 
 Original project code is MIT licensed; upstream files and the Concrete-derived
 Nix configuration retain their respective licenses. See [LICENSE](LICENSE).
+
+## Research and proposed architecture
+
+[Backend architecture research](docs/research/backend-architecture.md) collects
+the QBE, CompCert, MLIR, Cranelift, Zig, MIR, Stogov IR, libFirm and LLVM
+comparison, reproducible per-function compilation design, verification
+strategy and proposed stages. It also records community discussion leads
+and their verification status. The current implementation priority remains
+the QBE 1.3 port; proposed roadmap changes have not been adopted.
+
+Correctness is the primary long-term goal. QBE is the current porting baseline
+and comparison implementation, not a permanent constraint on the backend's IR
+or semantics. The full-port milestone remains in place; future evolution may
+retain QBE support through an explicit import boundary. Performance improvements
+must preserve the applicable correctness contract, and tested support remains
+distinct from proved support.
