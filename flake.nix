@@ -42,6 +42,9 @@
             NM = "${pkgs.llvmPackages.llvm}/bin/llvm-nm";
             LCB_CC = "${pkgs.clang}/bin/clang";
             LCB_NM = "${pkgs.llvmPackages.llvm}/bin/llvm-nm";
+            # Lake honors this override. The bundled Linux linker otherwise
+            # produces ELF interpreters outside the Nix closure.
+            LEAN_CC = "${pkgs.clang}/bin/clang";
           } // pkgs.lib.optionalAttrs pkgs.stdenv.isDarwin { MACOSX_DEPLOYMENT_TARGET = "15.0"; };
         in { inherit pkgs lean tools settings; };
     in {

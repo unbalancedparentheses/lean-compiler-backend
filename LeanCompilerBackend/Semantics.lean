@@ -45,7 +45,9 @@ def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 :=
     let value ← match inst.operation with
       | .copy v => operand locals inst.width v
       | .binary op a b => do
-        return binary inst.width op (← operand locals inst.width a) (← operand locals inst.width b)
+        let lhs ← operand locals inst.width a
+        let rhs ← operand locals inst.width b
+        pure (binary inst.width op lhs rhs)
     locals := (inst.destination, value) :: locals
   operand locals f.resultWidth f.result
 

@@ -58,6 +58,14 @@ floating point, register allocation, object emission and Concrete integration
 are still planned. Concrete's checked-overflow operations must eventually lower
 to explicit checks; wrapping QBE arithmetic does not implement them by itself.
 
+[The port inventory](docs/PORT_STATUS.md) lists every upstream public/internal
+opcode, target/ABI and compiler source module, including unimplemented areas.
+Generated-program fuzzing compares independent Python arithmetic, the Lean
+interpreter, Lean native output and QBE native output. Failures retain the seed,
+input and outputs under `.build/fuzz-failures/`; use `nix develop -c python3
+scripts/fuzz.py --seed 20261018 --require-native` to replay a seed. Each native
+campaign also checks that a deliberately corrupted emitted return is detected.
+
 **The backend is not verified end to end.** The current theorem does not prove
 parsing, stack layout, assembly rendering, the assembler or the linker correct.
 See [the design and trust boundaries](docs/DESIGN.md) and [the roadmap](ROADMAP.md).

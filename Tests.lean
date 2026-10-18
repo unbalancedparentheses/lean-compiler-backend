@@ -23,6 +23,11 @@ def main : IO Unit := do
   require (valueEquals (validate program) ()) "sample should validate"
   require (valueEquals (Semantics.evaluate program[0]! #[4294967295, 2]) 1) "word addition must wrap"
   require (valueEquals (Semantics.evaluate program[0]! #[10, 20]) 30) "word addition result"
+  let chained ← match Parser.parse "function w $f(w %a) { @s %v0 =w and %a, %a %v1 =w add %v0, %v0 ret %v1 }" with
+    | .ok p => pure p
+    | .error e => throw (IO.userError e)
+  require (valueEquals (Semantics.evaluate chained[0]! #[4294967295]) 4294967294)
+    "interpreter must continue after each binary instruction"
   require (isFailure (Semantics.evaluate program[0]! #[])) "arity mismatch must reject"
   require (isFailure (Parser.parse "export function d $bad() { @s ret 0 }")) "float must reject"
   require (isFailure (Parser.parse "function w $bad() { @s ret 0 } trailing")) "surplus input must reject"

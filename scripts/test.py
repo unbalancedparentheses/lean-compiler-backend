@@ -20,7 +20,7 @@ LCB = ROOT / '.lake/build/bin/lcb'
 
 
 def run(args, *, cwd=ROOT, success=True):
-    result = subprocess.run([str(a) for a in args], cwd=cwd, text=True, capture_output=True)
+    result = subprocess.run([str(a) for a in args], cwd=cwd, text=True, capture_output=True, timeout=120)
     if success and result.returncode:
         raise AssertionError(f'{args}:\n{result.stdout}\n{result.stderr}')
     if not success and result.returncode == 0:

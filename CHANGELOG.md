@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased
+
+- Added generated-program differential fuzzing with reproducible seeds, retained
+  failures and an emitted-code corruption control. Its first seed exposed and
+  reduced an interpreter bug: execution returned after the first binary operation.
+  Fixed it and retained a two-instruction regression.
+- Added a source-derived operation/target/module inventory and explicit port status.
+- Use Nix's C compiler for Lake output as well as ABI tests, fixing Linux ELF
+  interpreter paths. Upstream snapshots remain byte-identical, including whitespace.
+
 ## 0.1.0 — initial port checkpoint
 
 - General-purpose Lean 4 backend with a restricted QBE 1.3 integer subset and

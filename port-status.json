@@ -1,0 +1,26 @@
+{
+  "baseline": "QBE 1.3",
+  "operations": {
+    "add": ["w", "l"], "sub": ["w", "l"], "mul": ["w", "l"],
+    "and": ["w", "l"], "or": ["w", "l"], "xor": ["w", "l"], "copy": ["w", "l"]
+  },
+  "targets": {"arm64_apple": "partial: leaf integer subset only"},
+  "syntax": {
+    "integer functions and parameters": "partial: ASCII names, decimal literals, w/l, at most eight parameters",
+    "basic blocks, jumps, phi": "not implemented; one entry block only",
+    "calls and variadic functions": "not implemented",
+    "floating point and conversions": "not implemented",
+    "memory and allocation": "not implemented",
+    "aggregate type and data definitions": "not implemented",
+    "linkage, sections, TLS and debug locations": "partial: export only"
+  },
+  "passes": {
+    "parsing and validation": "partial: supported straight-line integer subset",
+    "CFG, dominance and SSA construction": "not implemented",
+    "alias analysis and memory optimization": "not implemented",
+    "copy elimination, folding, GVN, GCM and CFG simplification": "not implemented",
+    "ABI lowering": "partial: Apple AArch64 integer register arguments and returns",
+    "instruction selection and assembly emission": "partial: Apple AArch64 integer leaf subset",
+    "liveness, spilling and register allocation": "not implemented; baseline gives every value a stack slot"
+  }
+}
