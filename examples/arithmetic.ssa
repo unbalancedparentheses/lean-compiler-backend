@@ -1,0 +1,15 @@
+# Lean Compiler Backend initial integer subset; QBE-compatible syntax.
+# See docs/UPSTREAM.md for QBE and Zig provenance.
+export function w $add32(w %a, w %b) {
+@start
+    %r =w add %a, %b
+    ret %r
+}
+
+export function l $mix64(l %a, l %b) {
+@start
+    %sum =l add %a, %b
+    %product =l mul %sum, 3
+    %result =l xor %product, -1
+    ret %result
+}

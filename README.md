@@ -1,0 +1,82 @@
+# Lean Compiler Backend
+
+A general-purpose native compiler backend written in Lean 4, starting with a
+full QBE 1.3 port. The current implementation covers an initial integer subset;
+full compatibility is the first release milestone. Ideas from Zig and LLVM come
+after that baseline. Concrete will be a consumer, not a dependency or the scope
+of the first release.
+
+The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
+language; output is assembly. This is a backend implemented in Lean, not yet a
+backend for compiling the Lean language itself.
+
+```text
+QBE-style SSA → checked IR → AArch64 assembly → assembler/linker → native program
+```
+
+Lean's reference-counted runtime belongs to the compiler executable. Emitted
+programs do not acquire the Lean runtime or a garbage collector. A generated
+program may still use whatever runtime its own source language requires.
+
+## Build and run with Nix
+
+Nix supplies Lean 4.34.1, the C compiler, LLVM inspection tools, Python and Make.
+Both Nixpkgs and the official Lean release archives are pinned. No elan,
+Homebrew compiler, Python installation or separately installed QBE is required.
+
+```sh
+nix build
+nix run . -- examples/arithmetic.ssa -o arithmetic.s
+nix run . -- --eval examples/arithmetic.ssa add32 4294967295 2
+nix flake check -L
+```
+
+For development:
+
+```sh
+nix develop
+lake build lcb lcb-tests
+bash scripts/check.sh
+```
+
+On an ARM64 Mac, `nix flake check` requires native execution and comparison with
+the retained QBE 1.3 source. Other hosts build the compiler, check proofs and run
+parser/interpreter tests; they report native execution as **not measured**.
+The only implemented output target remains AArch64 macOS.
+
+## Current scope
+
+- `w`/`l` integer functions, up to eight register arguments, one straight-line block.
+- `copy`, `add`, `sub`, `mul`, `and`, `or`, `xor`, integer constants and returns.
+- Defined 32/64-bit modular arithmetic, including narrowing `l` operands to `w`.
+- SSA/type/name validation and explicit rejection of unsupported constructs.
+- A small Lean theorem for primitive arithmetic opcode selection.
+- Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
+
+The first port uses stack slots for every value. Branches, calls, heap memory,
+floating point, register allocation, object emission and Concrete integration
+are still planned. Concrete's checked-overflow operations must eventually lower
+to explicit checks; wrapping QBE arithmetic does not implement them by itself.
+
+**The backend is not verified end to end.** The current theorem does not prove
+parsing, stack layout, assembly rendering, the assembler or the linker correct.
+See [the design and trust boundaries](docs/DESIGN.md) and [the roadmap](ROADMAP.md).
+
+## Sources and credit
+
+QBE 1.3 is the main porting baseline: its IL, AArch64 instruction selection and
+ABI organization. Zig 0.17.0 is a reference for analyzed/machine representations,
+explicit arithmetic modes and native target handling. LLVM provides design
+references for machine IR, isolated pass tests and verification between passes.
+This project is independent of those projects.
+
+The complete QBE release and selected Zig reference files are retained under
+`third_party/`, with their original licenses. Every retained file has a SHA-256
+entry in [upstream-lock.json](upstream-lock.json). Adapted modules name their
+sources in comments. [Upstream provenance](docs/UPSTREAM.md) records exact
+versions, archive hashes, licenses and the distinction between copied code,
+ported behavior and design inspiration. [Beyond QBE](docs/BEYOND_QBE.md) explains
+which Zig/LLVM ideas we plan to adopt and why.
+
+Original project code is MIT licensed; upstream files and the Concrete-derived
+Nix configuration retain their respective licenses. See [LICENSE](LICENSE).
