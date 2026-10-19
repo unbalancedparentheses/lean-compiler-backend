@@ -16,8 +16,8 @@ See [UPSTREAM.md](UPSTREAM.md).
    `Memory.lean` provides byte-addressed objects for integer loads and stores;
    stores are explicit statements without SSA result definitions.
 4. `AArch64.lean` selects integer instructions, assigns stack slots and renders
-   leaf-function assembly with branches, parallel phi copies and integer memory
-   accesses for Apple's AArch64 ABI.
+   assembly with branches, parallel phi copies, integer memory accesses and
+   direct calls for Apple's AArch64 ABI.
 5. Nix-provided Clang assembles and links independent C test callers.
 
 The parser treats newlines as whitespace; upstream QBE also uses them as syntax
@@ -29,12 +29,21 @@ first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
 Functions have at most eight integer arguments, 480 instructions/phi nodes and 64 blocks;
 programs have at most 64 functions and 1 MiB of input. Frames are 16-byte aligned,
 at most 4080 bytes. Every value gets an eight-byte slot; word values access only
-the low four bytes. Implicit word-to-long widening is rejected. No calls or
-callee-saved registers are used. Scratch registers x9/x10/x11 are caller-clobbered.
+the low four bytes. Implicit word-to-long widening is rejected. Scratch registers
+x9/x10/x11 are caller-clobbered; no callee-saved integer register is modified.
+Direct calls accept up to eight typed w/l arguments and a w/l result. Call
+arguments are loaded from stable slots into x0..x7/w0..w7, preserving permutations.
+Non-leaf functions reserve a separate slot for x30 and restore it before return.
+All values live across calls remain in the caller's frame, outside callee clobbers.
+Internal call argument/result signatures must match their definitions exactly.
+External signatures are an explicit linking assumption: QBE IL has no external
+declaration to check. Void/indirect calls, stack arguments, sub-word/aggregate
+ABI types, environment arguments and variadics remain unsupported.
 Phi sources are staged in separate slots before destinations change, including
 loop-carried copy cycles. Temporary definitions must be in SSA form and dominate
 their uses; general QBE SSA construction remains unimplemented. The interpreter
-executes at most 100,000 block steps and reports exhaustion explicitly. `hlt`
+executes at most 100,000 block steps across the entire call tree, with a 128-level
+call-depth limit, and reports exhaustion explicitly. `hlt`
 terminates native execution with a target-dependent error and has no return value.
 
 Stack allocations currently have positive constant sizes at most 4096 and must
@@ -49,6 +58,11 @@ initialization. Out-of-bounds, uninitialized and external-pointer accesses have 
 interpreted result. Native code has ordinary QBE loads/stores without those
 checks. Tests avoid undefined accesses; pointer integer values are not compared
 between interpreter addresses and real machine addresses.
+Interpreted callees share the caller's memory, so their stores persist on return.
+Each return invalidates the callee's stack objects while retaining caller-owned
+objects and their mutations. Abstract addresses are not reused. An external call
+has no interpreter model and reports an unevaluated result; native C interoperation
+is tested separately rather than fabricating an interpreted value.
 
 ## What is proved
 
@@ -74,6 +88,13 @@ Memory checks additionally compare native C byte-array references and C-owned
 buffers with neighboring guard bytes. A measured QBE 1.3 load-forwarding bug is
 handled through explicitly separate original and corrected comparisons; see
 [the discrepancy and its reduced controls](UPSTREAM_DISCREPANCIES.md).
+Call tests compare fixed and generated multi-function programs among Python,
+Lean interpretation, Lean native code, original QBE and independent native C.
+They exercise recursion, argument order, loop/branch calls, caller-owned memory,
+and mixed word/long results. An assembly C-ABI probe checks stack alignment,
+stack balance and callee-saved registers while an external callee clobbers
+caller-saved registers and flags. Deliberate live-value and callee-saved-register
+corruptions must fail their respective checks.
 
 The planned machine IR will make stack accesses, registers, immediates and
 prologue/epilogue operations explicit. Each lowering stage needs a verifier and

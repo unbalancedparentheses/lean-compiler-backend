@@ -9,7 +9,7 @@ private def usage : String :=
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
   "  lcb --version | --help\n" ++
-  "Initial subset: QBE w/l SSA, integer/control flow, loads/stores and entry-block constant stack allocations.\n"
+  "Initial subset: QBE w/l SSA, integer/control flow, direct integer calls, loads/stores and entry-block constant stack allocations.\n"
 
 private def loadProgram (path : String) : IO Program := do
   let source ← IO.FS.readFile path
@@ -43,11 +43,9 @@ private def run (args : List String) : IO UInt32 := do
     return 0
   | "--eval" :: path :: name :: values =>
     let program ← loadProgram path
-    let some f := program.find? (·.name == name)
-      | throw (IO.userError s!"unknown function '${name}'")
     let result := do
       let arguments ← values.toArray.mapM argument
-      Semantics.evaluate f arguments
+      Semantics.evaluateProgram program name arguments
     match result with
     | .ok value => IO.println value; return 0
     | .error message => throw (IO.userError message)

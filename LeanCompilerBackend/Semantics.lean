@@ -88,60 +88,77 @@ private def updateLocal (locals : List (String × UInt64)) (name : String) (valu
     : List (String × UInt64) :=
   (name, value) :: locals.filter (fun pair => pair.1 != name)
 
-private def evaluateOperation (inst : Instruction) (locals : List (String × UInt64))
-    (memory : Memory) : Except String (UInt64 × Memory) := do
+/-- A shared budget bounds blocks across the entire interpreted call tree. -/
+private structure ExecutionState where
+  memory : Memory := {}
+  remainingBlocks : Nat := 100000
+
+private abbrev CallHandler := String → Array UInt64 → ExecutionState →
+  Except String (UInt64 × ExecutionState)
+
+private def evaluateOperation (call : CallHandler) (inst : Instruction)
+    (locals : List (String × UInt64)) (state : ExecutionState)
+    : Except String (UInt64 × ExecutionState) := do
   match inst.operation with
-  | .copy v => pure (← operand locals inst.width v, memory)
+  | .copy v => pure (← operand locals inst.width v, state)
   | .binary op a b =>
     let lhs ← operand locals inst.width a
     let rhs ← operand locals (op.rhsWidth inst.width) b
-    pure (binary inst.width op lhs rhs, memory)
+    pure (binary inst.width op lhs rhs, state)
   | .unary op value =>
     let input ← operand locals (op.inputWidth inst.width) value
-    pure (unary inst.width op input, memory)
+    pure (unary inst.width op input, state)
   | .divide op a b =>
     let lhs ← operand locals inst.width a
     let rhs ← operand locals inst.width b
-    pure (← divide inst.width op lhs rhs, memory)
+    pure (← divide inst.width op lhs rhs, state)
   | .compare op width a b =>
     let lhs ← operand locals width a
     let rhs ← operand locals width b
-    pure (compare width op lhs rhs, memory)
+    pure (compare width op lhs rhs, state)
   | .allocate alignment size =>
     let size ← operand locals .long size
-    memory.allocate alignment size.toNat
+    let (address, memory) ← state.memory.allocate alignment size.toNat
+    pure (address, { state with memory })
   | .load kind address =>
     let address ← operand locals .long address
-    let value ← memory.read address (kind.bytes inst.width)
+    let value ← state.memory.read address (kind.bytes inst.width)
     let extended := match kind.signedBits with
       | some bits => constant inst.width (signedBits bits value)
       | none => normalize inst.width value
-    pure (extended, memory)
+    pure (extended, state)
+  | .call target arguments =>
+    let values ← arguments.mapM fun argument => operand locals argument.width argument.value
+    let (value, updated) ← call target values state
+    pure (normalize inst.width value, updated)
 
-private def evaluateInstructions (instructions : Array Statement)
-    (environment : List (String × UInt64)) (initialMemory : Memory)
-    : Except String (List (String × UInt64) × Memory) := do
+private def evaluateInstructions (call : CallHandler) (instructions : Array Statement)
+    (environment : List (String × UInt64)) (initialState : ExecutionState)
+    : Except String (List (String × UInt64) × ExecutionState) := do
   let mut locals := environment
-  let mut memory := initialMemory
+  let mut state := initialState
   for statement in instructions do
     match statement with
     | .assign inst =>
-      let (value, updatedMemory) ← evaluateOperation inst locals memory
+      let (value, updated) ← evaluateOperation call inst locals state
       locals := updateLocal locals inst.destination value
-      memory := updatedMemory
+      state := updated
     | .store width value address =>
       let value ← operand locals width.valueWidth value
       let address ← operand locals .long address
-      memory ← memory.write address width.bytes value
-  pure (locals, memory)
+      let memory ← state.memory.write address width.bytes value
+      state := { state with memory }
+  pure (locals, state)
 
-private def execute (f : Function) : Nat → String → Option String →
-    List (String × UInt64) → Memory → Except String UInt64
+private def execute (call : CallHandler) (f : Function) : Nat → String → Option String →
+    List (String × UInt64) → ExecutionState → Except String (UInt64 × ExecutionState)
   | 0, _, _, _, _ => .error "interpreter block-step budget exhausted; result not evaluated"
-  | fuel + 1, label, predecessor, environment, memory => do
+  | fuel + 1, label, predecessor, environment, state => do
+    if state.remainingBlocks == 0 then
+      throw "interpreter block-step budget exhausted; result not evaluated"
+    let state := { state with remainingBlocks := state.remainingBlocks - 1 }
     let some block := f.blocks.find? (·.label == label) | throw s!"unknown block @{label}"
-    -- All incoming values are read from the same previous state before any phi
-    -- destinations change. This matters for loop-carried parallel-copy cycles.
+    -- Read every incoming value before changing any phi destination.
     let updates ← block.phis.mapM fun phi => do
       let some pred := predecessor | throw "entry block cannot execute phi definitions"
       let some (_, value) := phi.incoming.find? (·.1 == pred)
@@ -150,23 +167,46 @@ private def execute (f : Function) : Nat → String → Option String →
       pure (phi.destination, result)
     let mut locals := environment
     for (name, value) in updates do locals := updateLocal locals name value
-    let (executed, memory) ← evaluateInstructions block.instructions locals memory
+    let (executed, state) ← evaluateInstructions call block.instructions locals state
     match block.terminator with
-    | .ret value => operand executed f.resultWidth value
+    | .ret value => pure (← operand executed f.resultWidth value, state)
     | .halt => throw "QBE hlt reached: target-dependent program termination"
-    | .jump target => execute f fuel target (some label) executed memory
+    | .jump target => execute call f fuel target (some label) executed state
     | .branch condition yes no => do
       let value ← operand executed .word condition
-      execute f fuel (if value != 0 then yes else no) (some label) executed memory
+      execute call f fuel (if value != 0 then yes else no) (some label) executed state
 
-def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 := do
-  validateFunction f
-  if arguments.size != f.parameters.size then
-    throw s!"function ${f.name} expects {f.parameters.size} arguments, got {arguments.size}"
-  let mut locals : List (String × UInt64) := []
-  for i in [:f.parameters.size] do
-    let p := f.parameters[i]!
-    locals := (p.name, normalize p.width arguments[i]!) :: locals
-  execute f 100000 f.blocks[0]!.label none locals {}
+private def invoke (program : Program) : Nat → Function → Array UInt64 → ExecutionState →
+    Except String (UInt64 × ExecutionState)
+  | 0, _, _, _ => .error "interpreter call-depth budget exhausted; result not evaluated"
+  | depth + 1, f, arguments, state => do
+    if arguments.size != f.parameters.size then
+      throw s!"function ${f.name} expects {f.parameters.size} arguments, got {arguments.size}"
+    let mut locals : List (String × UInt64) := []
+    for i in [:f.parameters.size] do
+      let p := f.parameters[i]!
+      locals := (p.name, normalize p.width arguments[i]!) :: locals
+    let call : CallHandler := fun target values current => do
+      let some callee := program.find? (·.name == target)
+        | throw s!"external call ${target} has no interpreter model; result not evaluated"
+      invoke program depth callee values current
+    let objectCount := state.memory.objects.size
+    let allocatedBytes := state.memory.allocatedBytes
+    let (value, updated) ← execute call f 100000 f.blocks[0]!.label none locals state
+    -- Preserve writes to caller-owned objects, but invalidate this activation's
+    -- stack objects. Addresses are never reused, so a dangling pointer stays invalid.
+    let memory := { updated.memory with
+      objects := updated.memory.objects.extract 0 objectCount, allocatedBytes }
+    pure (value, { updated with memory })
+
+def evaluateProgram (program : Program) (name : String) (arguments : Array UInt64)
+    : Except String UInt64 := do
+  validate program
+  let some f := program.find? (·.name == name) | throw s!"unknown function ${name}"
+  let (value, _) ← invoke program 128 f arguments {}
+  pure value
+
+def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 :=
+  evaluateProgram #[f] f.name arguments
 
 end LeanCompilerBackend.Semantics

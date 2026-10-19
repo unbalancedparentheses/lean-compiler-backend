@@ -118,9 +118,27 @@ private def comparisonName (name : String) : Option (Comparison × Width) := Id.
     if name == stem ++ "l" then return some (op, .long)
   return none
 
+private def parseArguments : Nat → P (Array CallArgument)
+  | 0 => failAt "call argument parsing limit exceeded"
+  | fuel + 1 => do
+    if (← peek) == some ")" then return #[]
+    let width ← parseWidth
+    let value ← parseOperand
+    if (← peek) == some "," then
+      discard take
+      if (← peek) == some ")" then failAt "trailing comma in call arguments"
+      return #[{ width, value }] ++ (← parseArguments fuel)
+    return #[{ width, value }]
+
 private def parseOperation (name : String) : P Operation := do
   if name == "copy" then
     pure (.copy (← parseOperand))
+  else if name == "call" then do
+    let target ← parseName '$'
+    expect "("
+    let arguments ← parseArguments 10
+    expect ")"
+    pure (.call target arguments)
   else if ["alloc1", "alloc2", "alloc4", "alloc8", "alloc16"].contains name then
     -- QBE parse.c maps alloc1/alloc2 aliases to alloc4 (stronger alignment).
     let alignment := if ["alloc1", "alloc2", "alloc4"].contains name then StackAlignment.four

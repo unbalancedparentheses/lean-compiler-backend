@@ -3,7 +3,8 @@
 The first release is a **general-purpose QBE 1.3 port in Lean 4**. Concrete will
 use it through a separate adapter. It is not a Concrete-specific backend.
 Full compatibility comes before LLVM/Zig/MLIR-inspired enhancements and the large
-proof effort. Current implementation: an initial integer/leaf-function subset.
+proof effort. Current implementation: a bounded integer, control-flow, memory
+and direct-call subset on Apple ARM64.
 
 ## Phase 1 — working full port
 
@@ -16,6 +17,9 @@ proof effort. Current implementation: an initial integer/leaf-function subset.
   Integer loads/stores and entry-block constant stack allocations are implemented
   as a bounded slice; data, symbols, dynamic allocation, blits and linkage remain.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
+  Direct calls with up to eight w/l register arguments and one w/l result,
+  recursion and native C interoperation are implemented as an initial slice.
+  Void/indirect calls, stack arguments and the other ABI forms remain open.
 - [ ] P08 — Port SSA construction, CFG/alias analyses and optimization passes.
 - [ ] P09 — Port liveness, spilling and register allocation, with native checks.
   Keep live values in registers and spill only when required. Check call clobbers,

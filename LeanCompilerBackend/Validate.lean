@@ -131,6 +131,11 @@ def validateFunction (f : Function) : Except String Unit := do
           check width a
           check width b
         | .load _ address => check .long address
+        | .call target arguments =>
+          if !validName target then throw "unsupported direct call target"
+          if arguments.size > 8 then
+            throw "initial AArch64 call ABI supports at most eight integer arguments"
+          for argument in arguments do check argument.width argument.value
         | .allocate _ size =>
           if inst.width != .long then throw "stack allocation requires a long result"
           if block.label != entry then
@@ -156,5 +161,20 @@ def validate (program : Program) : Except String Unit := do
     match validateFunction f with
     | .ok () => pure ()
     | .error message => throw s!"function ${f.name}: {message}"
+  -- External symbols have no declaration in QBE IL. Their ABI is an explicit
+  -- link-time assumption; check exact signatures when the definition is present.
+  for f in program do
+    for block in f.blocks do
+      for statement in block.instructions do
+        if let .assign inst := statement then
+          if let .call target arguments := inst.operation then
+            if let some callee := program.find? (·.name == target) then
+              if inst.width != callee.resultWidth then
+                throw s!"call ${target}: result type disagrees with its definition"
+              if arguments.size != callee.parameters.size then
+                throw s!"call ${target}: argument count disagrees with its definition"
+              for i in [:arguments.size] do
+                if arguments[i]!.width != callee.parameters[i]!.width then
+                  throw s!"call ${target}: argument type disagrees with its definition"
 
 end LeanCompilerBackend

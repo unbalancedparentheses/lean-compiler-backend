@@ -140,6 +140,14 @@ private def emitInstruction (slots allocations : List (String × Nat)) (inst : I
   | .load kind address =>
     lines := lines ++ (← load slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
+  | .call target arguments =>
+    -- Sources are stable stack slots: argument-register permutations cannot
+    -- overwrite an argument that has not yet been loaded. All other live values
+    -- also survive caller-saved clobbers in their own frame slots.
+    for i in [:arguments.size] do
+      let argument := arguments[i]!
+      lines := lines ++ (← load slots argument.width i argument.value)
+    lines := lines ++ [s!"\tbl _{target}", s!"\tmov {register inst.width 9}, {register inst.width 0}"]
   let offset ← slotOffset slots inst.destination
   pure (lines ++ [s!"\tstr {register inst.width 9}, [sp, #{offset}]"])
 
@@ -186,6 +194,12 @@ def emitFunction (f : Function) : Except String String := do
   let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
   let stageBase := localNames.size * 8
   let mut frameEnd := (localNames.size + maxPhis) * 8
+  let hasCalls := f.blocks.any fun block => block.instructions.any fun statement =>
+    match statement with
+    | .assign { operation := .call .., .. } => true
+    | _ => false
+  let returnAddress := frameEnd
+  if hasCalls then frameEnd := frameEnd + 8
   let mut allocations : List (String × Nat) := []
   for statement in f.blocks[0]!.instructions do
     if let .assign inst := statement then
@@ -200,6 +214,7 @@ def emitFunction (f : Function) : Except String String := do
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   lines := lines ++ [".p2align 2", s!"{symbol}:"]
   if frame != 0 then lines := lines ++ [s!"\tsub sp, sp, #{frame}"]
+  if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
   for i in [:f.parameters.size] do
     let parameter := f.parameters[i]!
     let offset ← slotOffset slots parameter.name
@@ -211,6 +226,7 @@ def emitFunction (f : Function) : Except String String := do
     match block.terminator with
     | .ret value =>
       lines := lines ++ (← load slots f.resultWidth 0 value)
+      if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]
       if frame != 0 then lines := lines ++ [s!"\tadd sp, sp, #{frame}"]
       lines := lines ++ ["\tret"]
     | .halt => lines := lines ++ ["\tbrk #0"]

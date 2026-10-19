@@ -1,0 +1,15 @@
+# Recursive factorial with explicit modular 64-bit multiplication.
+# lcb --eval examples/factorial.ssa factorial 20
+# Expected: 2432902008176640000
+export function l $factorial(l %n) {
+@entry
+ %small =w culel %n, 1
+ jnz %small, @base, @recur
+@base
+ ret 1
+@recur
+ %less =l sub %n, 1
+ %rest =l call $factorial(l %less)
+ %result =l mul %n, %rest
+ ret %result
+}

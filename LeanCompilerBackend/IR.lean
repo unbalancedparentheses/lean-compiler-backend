@@ -84,6 +84,11 @@ inductive StackAlignment where
 def StackAlignment.bytes : StackAlignment → Nat
   | .four => 4 | .eight => 8 | .sixteen => 16
 
+structure CallArgument where
+  width : Width
+  value : Operand
+  deriving Repr, Inhabited
+
 inductive Operation where
   | copy (value : Operand)
   | binary (op : Binary) (lhs rhs : Operand)
@@ -92,6 +97,7 @@ inductive Operation where
   | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
   | allocate (alignment : StackAlignment) (size : Operand)
   | load (kind : LoadKind) (address : Operand)
+  | call (target : String) (arguments : Array CallArgument)
   deriving Repr, Inhabited
 
 structure Instruction where
