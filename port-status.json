@@ -23,6 +23,7 @@
   "targets": {"arm64_apple": "partial: integer functions with control flow, memory and direct register/stack-argument calls"},
   "syntax": {
     "integer functions and parameters": "partial: ASCII names, decimal literals, w/l or void result, at most 64 w/l parameters",
+    "global symbol operands": "partial: ordinary ASCII $name operands in long contexts, including link-time definitions; Apple Mach-O PAGE/PAGEOFF addresses; no interpreter address model, GOT/TLS forms or relocation-addend syntax",
     "basic blocks, jumps, phi": "partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers",
     "calls and variadic functions": "partial: direct calls with up to 64 w/l register/stack arguments and a w/l or void result; recursion and external C symbols; indirect calls and variadics remain",
     "floating point and conversions": "not implemented",
@@ -31,12 +32,12 @@
     "linkage, sections, TLS and debug locations": "partial: export only"
   },
   "passes": {
-    "parsing and validation": "partial: integer/control-flow/memory/direct-call SSA subset; full QBE syntax remains",
+    "parsing and validation": "partial: integer/control-flow/memory/direct-call SSA subset with ordinary long symbol operands; full QBE syntax remains",
     "CFG, dominance and SSA construction": "partial: CFG/dominance checks for SSA input; general SSA construction not implemented",
     "alias analysis and memory optimization": "not implemented",
     "copy elimination, folding, GVN, GCM and CFG simplification": "not implemented",
     "ABI lowering": "partial: Apple AArch64 w/l register/stack arguments and integer/void results; direct calls, saved return addresses and caller live values",
-    "instruction selection and assembly emission": "partial: Apple AArch64 integer/control-flow/memory/direct-call subset",
+    "instruction selection and assembly emission": "partial: Apple AArch64 integer/control-flow/memory/direct-call subset and ordinary-symbol PAGE/PAGEOFF materialization",
     "liveness, spilling and register allocation": "not implemented; baseline gives every value a stack slot"
   }
 }

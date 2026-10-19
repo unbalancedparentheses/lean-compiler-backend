@@ -79,6 +79,8 @@ private def operand (locals : List (String × UInt64)) (width : Width)
     (value : Operand) : Except String UInt64 := do
   match value with
   | .constant n => return constant width n
+  | .symbol name =>
+    throw s!"symbol operand ${name} has no interpreter model; result not evaluated"
   | .temporary name =>
     match locals.lookup name with
     | some v => return normalize width v

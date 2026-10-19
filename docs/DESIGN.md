@@ -27,6 +27,24 @@ restricted compatible operation subset, not a claim of full QBE compatibility.
 Names allow ASCII letters, digits and underscores, with a letter/underscore
 first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
 
+Ordinary global-symbol operands `$name` are admitted in long contexts. Their
+names obey the same restricted identifier rules, checked both by the parser and
+by validation of directly constructed IR. Unresolved names are permitted because
+data and function definitions may be supplied at link time. On Apple ARM64,
+address materialization follows QBE 1.3 `arm64/emit.c`'s ordinary-symbol path:
+`adrp xN, _name@PAGE` followed by `add xN, xN, _name@PAGEOFF`. This names an
+address, rather than loading the object's contents. Linker resolution and the
+ordinary-symbol addressing contract remain assumptions; this is not an implicit
+GOT transformation. `extern`, TLS, top-level data, direct relocation-addend
+syntax and indirect calls remain unsupported. Supported integer arithmetic can
+compute an offset from a materialized ordinary address.
+
+The interpreter refuses an evaluated symbol operand with an explicit
+not-evaluated result, even when that name is a function in the input. It does not
+invent abstract addresses for symbols. Consequently, native tests of symbolic
+addresses use linked C/QBE references and relational or byte-content checks;
+they do not compare numeric host pointers against interpreter addresses.
+
 Functions have at most 64 integer arguments, 480 instructions/phi nodes and 64 blocks;
 programs have at most 64 functions and 1 MiB of input. Frames are 16-byte aligned,
 at most 4080 bytes. Every value gets an eight-byte slot; word values access only

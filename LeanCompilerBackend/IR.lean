@@ -28,6 +28,7 @@ def Width.spelling : Width → String
 inductive Operand where
   | temporary (name : String)
   | constant (value : Int)
+  | symbol (name : String)
   deriving Repr, Inhabited
 
 inductive Binary where

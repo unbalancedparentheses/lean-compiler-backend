@@ -72,6 +72,12 @@ private def load (slots : List (String × Nat)) (width : Width) (destination : N
     (value : Operand) : Except String (List String) := do
   match value with
   | .constant n => return immediate width destination n
+  | .symbol name =>
+    -- Ordinary symbols follow QBE 1.3 arm64/emit.c:loadaddr's SGlo path.
+    -- extern/GOT, TLS and relocation addends are separate unsupported forms.
+    if width != .long then throw "global symbol operands currently require a long context"
+    let r := register .long destination
+    return [s!"\tadrp {r}, _{name}@PAGE", s!"\tadd {r}, {r}, _{name}@PAGEOFF"]
   | .temporary name =>
     match slots.lookup name with
     | some offset => return [s!"\tldr {register width destination}, [sp, #{offset}]"]

@@ -17,7 +17,10 @@ and direct-call subset on Apple ARM64.
   Integer loads/stores, entry-block constant stack allocations and effect-only
   constant-size blits are implemented as bounded slices. Blits accept 0..4096
   bytes and require disjoint or identical spans; this does not add native memory
-  guards. Data, symbols, dynamic allocation, TLS and linkage remain.
+  guards. Ordinary `$symbol` operands in long contexts use Mach-O PAGE/PAGEOFF
+  address relocations and may refer to definitions supplied by the linker;
+  interpretation explicitly has no model for those addresses. Data declarations,
+  relocation addends, GOT forms, dynamic allocation, TLS and further linkage remain.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
   Direct calls with up to 64 w/l register/stack arguments and a w/l or void result,
   recursion and native C interoperation are implemented as an initial slice.

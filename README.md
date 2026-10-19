@@ -51,6 +51,9 @@ The only implemented output target remains AArch64 macOS.
   division and remainder, negation, all integer comparisons and byte/half/word extensions.
 - Defined 32/64-bit modular arithmetic, including narrowing `l` operands to `w`.
 - SSA/type/name validation and explicit rejection of unsupported constructs.
+- Ordinary `$symbol` address operands in long contexts, including references to
+  data or functions supplied at link time. Apple ARM64 emission uses the ordinary
+  symbol `PAGE`/`PAGEOFF` relocation pair; it does not implicitly select a GOT mode.
 - Conditional/unconditional branches, fallthrough, loops, phi nodes and `hlt`.
   Phi transfers use parallel copies; cross-block uses are checked for dominance.
 - Integer byte/half/word/long loads and stores, including signed loads and
@@ -94,6 +97,14 @@ defined equivalence domain; the interpreter reports them explicitly. Native
 behavior for those inputs is not a portability or safety guarantee.
 The interpreter has a block-step budget; exhausting it reports an unevaluated
 result. General SSA construction from mutable temporary definitions is pending.
+
+Symbol operands have no interpreter model yet, including addresses of functions
+defined in the input. Attempting to evaluate one reports an unevaluated result.
+Native linking resolves ordinary names and must satisfy their definitions and
+addressing contract. Symbol names use the same restricted ASCII identifiers as
+functions; direct `$symbol + offset` relocation syntax, `extern` GOT forms, TLS
+and top-level data declarations remain unsupported. Compute ordinary offsets
+using admitted long arithmetic instead.
 
 The memory interpreter uses abstract byte-addressed objects and rejects external,
 out-of-bounds and uninitialized accesses. This is a testing model, not native

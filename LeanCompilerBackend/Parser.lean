@@ -82,13 +82,14 @@ private def parseOperand : P Operand := do
   match token with
   | some s =>
     if s.startsWith "%" then return .temporary (← parseName '%')
+    if s.startsWith "$" then return .symbol (← parseName '$')
     match s.toInt? with
     | some n =>
       if n < -(2 ^ 63 : Int) || n > (2 ^ 64 : Int) - 1 then
         failAt "constant is outside the supported 64-bit QBE bit-pattern domain"
       discard take
       return .constant n
-    | none => failAt "unsupported operand: expected temporary or decimal integer"
+    | none => failAt "unsupported operand: expected temporary, decimal integer or ordinary global symbol"
   | none => failAt "expected operand"
 
 private def unaryName : String → Option Unary

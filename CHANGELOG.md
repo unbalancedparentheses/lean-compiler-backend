@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Added ordinary global-symbol address operands in long contexts, using Apple
+  ARM64 `adrp`/`add` PAGE/PAGEOFF relocations. References may resolve to data or
+  functions supplied at link time. Parser and validator enforce restricted ASCII
+  identifiers; interpretation explicitly reports that symbol operands have no
+  model. Data declarations, GOT/TLS forms, relocation addends and indirect calls
+  remain unsupported. No source-to-binary proof is claimed.
+
 - Added effect-only QBE `blit` with constant byte counts in 0..4096. The
   interpreter preserves unknown bytes, rejects partial overlap and accesses
   outside allocated objects, and performs no memory access for zero-byte copies.
