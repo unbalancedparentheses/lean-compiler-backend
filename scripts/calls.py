@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Qualify direct integer calls against Python, native C and pinned QBE.
 
-The supported ABI is Apple ARM64 with up to eight w/l arguments and one w/l
+The supported ABI is Apple ARM64 with up to 64 w/l arguments and a w/l or void
 result. External calls have native checks, but no invented interpreter result.
 """
 import argparse
@@ -285,7 +285,7 @@ def controls(work):
         '%r =w call $f(l 1)', '%r =l call $f()', '%r =l call $f(w 1)',
         '%r =l call $f(l %missing)', '%r =l call %a(l 1)',
         '%r =l call $f(l 1,)', '%r =l call $f(...)', '%r =l call $f(d 1)',
-        '%r =sb call $f(l 1)', '%r =l call $f(' + ','.join('l 1' for _ in range(9)) + ')',
+        '%r =sb call $f(l 1)', '%r =l call $too_many(' + ','.join('l 1' for _ in range(65)) + ')',
     ]
     source = work/'control.ssa'
     for operation in bad:

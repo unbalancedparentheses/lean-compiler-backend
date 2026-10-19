@@ -20,11 +20,11 @@
     "storew": ["w value; no result"], "storel": ["l value; no result"],
     "alloc4": ["l (entry constant)"], "alloc8": ["l (entry constant)"], "alloc16": ["l (entry constant)"]
   },
-  "targets": {"arm64_apple": "partial: integer functions with control flow, memory and direct register-argument calls"},
+  "targets": {"arm64_apple": "partial: integer functions with control flow, memory and direct register/stack-argument calls"},
   "syntax": {
-    "integer functions and parameters": "partial: ASCII names, decimal literals, w/l or void result, at most eight w/l parameters",
+    "integer functions and parameters": "partial: ASCII names, decimal literals, w/l or void result, at most 64 w/l parameters",
     "basic blocks, jumps, phi": "partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers",
-    "calls and variadic functions": "partial: direct calls with up to eight w/l arguments and a w/l or void result; recursion and external C symbols; indirect calls and variadics remain",
+    "calls and variadic functions": "partial: direct calls with up to 64 w/l register/stack arguments and a w/l or void result; recursion and external C symbols; indirect calls and variadics remain",
     "floating point and conversions": "not implemented",
     "memory and allocation": "partial: integer loads/stores, loadw/loadl aliases; entry-block positive constant alloc4/8/16 and alloc1/2 aliases; dynamic/non-entry allocation and blits remain",
     "aggregate type and data definitions": "not implemented",
@@ -35,7 +35,7 @@
     "CFG, dominance and SSA construction": "partial: CFG/dominance checks for SSA input; general SSA construction not implemented",
     "alias analysis and memory optimization": "not implemented",
     "copy elimination, folding, GVN, GCM and CFG simplification": "not implemented",
-    "ABI lowering": "partial: Apple AArch64 integer register arguments/results and direct calls; saved return addresses and caller live values",
+    "ABI lowering": "partial: Apple AArch64 w/l register/stack arguments and integer/void results; direct calls, saved return addresses and caller live values",
     "instruction selection and assembly emission": "partial: Apple AArch64 integer/control-flow/memory/direct-call subset",
     "liveness, spilling and register allocation": "not implemented; baseline gives every value a stack slot"
   }

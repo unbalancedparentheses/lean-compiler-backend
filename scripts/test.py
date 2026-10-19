@@ -125,9 +125,15 @@ def limits(work):
     run([LCB, '--check', source], success=False)
     source.write_text(maximal.replace(' ret %v479', ' %extra =l copy 0\n ret %v479'))
     run([LCB, '--check', source], success=False)
-    source.write_text('function l $f(' + parameters + ', l %ninth) { @s ret 0 }')
+    maximum_parameters = ', '.join(f'l %p{i}' for i in range(64))
+    parameter_function = 'function l $parameters(' + maximum_parameters + ') {\n@s\n ret %p63\n}\n'
+    source.write_text(prefix + parameter_function)
+    run([LCB, '--check', source])
+    run([LCB, source, '-o', work / 'parameters.s'])
+    assert int(run([LCB, '--eval', source, 'parameters', *map(str, range(64))]).stdout) == 63
+    source.write_text('function l $f(' + maximum_parameters + ', l %extra) { @s ret 0 }')
     run([LCB, '--check', source], success=False)
-    print('resource boundaries: 64 functions, 480 instructions, 8 parameters; over-limit rejection')
+    print('resource boundaries: 64 functions, 480 instructions, 64 parameters; over-limit rejection')
 
 
 def harness():

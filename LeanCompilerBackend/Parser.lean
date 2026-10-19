@@ -133,7 +133,7 @@ private def parseArguments : Nat → P (Array CallArgument)
 private def parseCall : P (String × Array CallArgument) := do
   let target ← parseName '$'
   expect "("
-  let arguments ← parseArguments 10
+  let arguments ← parseArguments (maxIntegerArguments + 2)
   expect ")"
   pure (target, arguments)
 
@@ -282,7 +282,7 @@ private def parseFunction : P Function := do
   let resultWidth ← if ((← peek).getD "").startsWith "$" then pure none else some <$> parseWidth
   let name ← parseName '$'
   expect "("
-  let parameters ← parseParameters 10
+  let parameters ← parseParameters (maxIntegerArguments + 2)
   expect ")"
   expect "{"
   let blocks ← parseBlocks resultWidth 65

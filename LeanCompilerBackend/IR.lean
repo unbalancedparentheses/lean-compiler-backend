@@ -16,6 +16,11 @@ def Width.bits : Width → Nat
   | .word => 32
   | .long => 64
 
+def Width.bytes (width : Width) : Nat := width.bits / 8
+
+/-- A compiler resource limit, not a limit imposed by the target ABI. -/
+def maxIntegerArguments : Nat := 64
+
 def Width.spelling : Width → String
   | .word => "w"
   | .long => "l"

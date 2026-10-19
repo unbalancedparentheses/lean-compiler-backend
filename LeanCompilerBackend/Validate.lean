@@ -71,14 +71,14 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
 private def checkCallArguments (check : Width → Operand → Except String Unit)
     (target : String) (arguments : Array CallArgument) : Except String Unit := do
   if !validName target then throw "unsupported direct call target"
-  if arguments.size > 8 then
-    throw "initial AArch64 call ABI supports at most eight integer arguments"
+  if arguments.size > maxIntegerArguments then
+    throw s!"call exceeds the {maxIntegerArguments}-integer-argument resource limit"
   for argument in arguments do check argument.width argument.value
 
 def validateFunction (f : Function) : Except String Unit := do
   if !validName f.name then throw "unsupported function name"
-  if f.parameters.size > 8 then
-    throw "initial AArch64 ABI subset supports at most eight integer parameters"
+  if f.parameters.size > maxIntegerArguments then
+    throw s!"function exceeds the {maxIntegerArguments}-integer-parameter resource limit"
   if f.blocks.isEmpty then throw "function has no entry block"
   if f.blocks.size > 64 then throw "function exceeds initial 64-block limit"
   let count := f.blocks.foldl (fun n block => n + block.instructions.size + block.phis.size) 0

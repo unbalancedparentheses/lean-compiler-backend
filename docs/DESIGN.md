@@ -26,18 +26,26 @@ restricted compatible operation subset, not a claim of full QBE compatibility.
 Names allow ASCII letters, digits and underscores, with a letter/underscore
 first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
 
-Functions have at most eight integer arguments, 480 instructions/phi nodes and 64 blocks;
+Functions have at most 64 integer arguments, 480 instructions/phi nodes and 64 blocks;
 programs have at most 64 functions and 1 MiB of input. Frames are 16-byte aligned,
 at most 4080 bytes. Every value gets an eight-byte slot; word values access only
 the low four bytes. Implicit word-to-long widening is rejected. Scratch registers
 x9/x10/x11 are caller-clobbered; no callee-saved integer register is modified.
-Direct calls accept up to eight typed w/l arguments and a w/l or void result. Call
-arguments are loaded from stable slots into x0..x7/w0..w7, preserving permutations.
+Direct calls accept up to 64 typed w/l arguments and a w/l or void result. The
+first eight arguments are loaded from stable slots into x0..x7/w0..w7, preserving
+permutations. Apple ARM64 places later word arguments in four-byte aligned slots
+and long arguments in eight-byte aligned slots. The outgoing area is rounded to
+16 bytes and reserved below locals, phi staging, saved LR and allocated objects.
+Its size covers the largest call in the function, so nested calls cannot clobber
+live caller values. Incoming stack arguments are read above the complete local
+frame, using offsets from the caller's SP. Caller and callee use the same explicit
+argument layout, checked against independent C in both directions. The 64-argument
+cap is a resource policy, not an ABI constraint; the frame limit remains separate.
 Non-leaf functions reserve a separate slot for x30 and restore it before return.
 All values live across calls remain in the caller's frame, outside callee clobbers.
 Internal call argument/result signatures must match their definitions exactly.
 External signatures are an explicit linking assumption: QBE IL has no external
-declaration to check. Indirect calls, stack arguments, sub-word/aggregate
+declaration to check. Indirect calls, sub-word/aggregate
 ABI types, environment arguments and variadics remain unsupported.
 Void results are represented by absence of a value in the IR and interpreter;
 they are not integer zero. A return with the wrong presence/type of value, an
@@ -100,6 +108,10 @@ An assembly C-ABI probe checks stack alignment,
 stack balance and callee-saved registers while an external callee clobbers
 caller-saved registers and flags. Deliberate live-value and callee-saved-register
 corruptions must fail their respective checks.
+Stack-argument qualification covers counts from eight through 64, word/long
+packing patterns, internal/external calls and non-leaf incoming parameters.
+Recursive cases retain each caller's local stack object. Deliberately widened
+outgoing word stores and displaced incoming loads must change native results.
 
 The planned machine IR will make stack accesses, registers, immediates and
 prologue/epilogue operations explicit. Each lowering stage needs a verifier and

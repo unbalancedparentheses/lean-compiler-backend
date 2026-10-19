@@ -17,9 +17,10 @@ and direct-call subset on Apple ARM64.
   Integer loads/stores and entry-block constant stack allocations are implemented
   as a bounded slice; data, symbols, dynamic allocation, blits and linkage remain.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
-  Direct calls with up to eight w/l register arguments and a w/l or void result,
+  Direct calls with up to 64 w/l register/stack arguments and a w/l or void result,
   recursion and native C interoperation are implemented as an initial slice.
-  Indirect calls, stack arguments and the other ABI forms remain open.
+  Indirect calls and the other ABI forms remain open. The Apple ARM64 integer
+  stack slice uses natural word/long packing and is checked against native C.
 - [ ] P08 — Port SSA construction, CFG/alias analyses and optimization passes.
 - [ ] P09 — Port liveness, spilling and register allocation, with native checks.
   Keep live values in registers and spill only when required. Check call clobbers,

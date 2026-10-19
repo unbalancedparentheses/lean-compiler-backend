@@ -109,9 +109,9 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 
 | Area | Status |
 | --- | --- |
-| integer functions and parameters | partial: ASCII names, decimal literals, w/l or void result, at most eight w/l parameters |
+| integer functions and parameters | partial: ASCII names, decimal literals, w/l or void result, at most 64 w/l parameters |
 | basic blocks, jumps, phi | partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers |
-| calls and variadic functions | partial: direct calls with up to eight w/l arguments and a w/l or void result; recursion and external C symbols; indirect calls and variadics remain |
+| calls and variadic functions | partial: direct calls with up to 64 w/l register/stack arguments and a w/l or void result; recursion and external C symbols; indirect calls and variadics remain |
 | floating point and conversions | not implemented |
 | memory and allocation | partial: integer loads/stores, loadw/loadl aliases; entry-block positive constant alloc4/8/16 and alloc1/2 aliases; dynamic/non-entry allocation and blits remain |
 | aggregate type and data definitions | not implemented |
@@ -120,7 +120,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | CFG, dominance and SSA construction | partial: CFG/dominance checks for SSA input; general SSA construction not implemented |
 | alias analysis and memory optimization | not implemented |
 | copy elimination, folding, GVN, GCM and CFG simplification | not implemented |
-| ABI lowering | partial: Apple AArch64 integer register arguments/results and direct calls; saved return addresses and caller live values |
+| ABI lowering | partial: Apple AArch64 w/l register/stack arguments and integer/void results; direct calls, saved return addresses and caller live values |
 | instruction selection and assembly emission | partial: Apple AArch64 integer/control-flow/memory/direct-call subset |
 | liveness, spilling and register allocation | not implemented; baseline gives every value a stack slot |
 
@@ -132,7 +132,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | `amd64_sysv` | not implemented |
 | `amd64_win` | not implemented |
 | `arm64` | not implemented |
-| `arm64_apple` | partial: integer functions with control flow, memory and direct register-argument calls |
+| `arm64_apple` | partial: integer functions with control flow, memory and direct register/stack-argument calls |
 | `rv64` | not implemented |
 
 ## Source modules

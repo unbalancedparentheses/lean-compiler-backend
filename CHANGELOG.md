@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Added Apple ARM64 integer stack arguments and raised the integer argument
+  resource limit to 64. One explicit layout handles caller/callee word/long
+  packing. Frames reserve outgoing space below locals, phi copies, saved LR and
+  allocations. Native C/QBE comparisons cover both ABI directions, internal
+  forwarding and recursion; offset/width corruption controls qualify the checks.
+  Register allocation, indirect calls and the remaining ABI classes stay open.
+
 - Added void functions, bare returns and effect-only direct calls, including
   recursion and C APIs. Missing results are represented explicitly rather than
   as fake SSA temporaries or zero. Signature checks reject integer/void result

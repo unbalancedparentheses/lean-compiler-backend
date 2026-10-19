@@ -107,12 +107,42 @@ private def memoryLoad (width : Width) : LoadKind → String
   | .unsignedWord => "ldr w9"
   | .plain => s!"ldr {register width 9}"
 
+/-- Apple ARM64 packs non-variadic stack scalars at their natural size/alignment.
+    In particular consecutive words occupy four bytes each, not eight. This
+    follows QBE 1.3 arm64/abi.c argsclass/selcall/selpar. -/
+inductive ArgumentLocation where
+  | register (index : Nat)
+  | stack (offset : Nat)
+  deriving Repr, Inhabited
+
+structure ArgumentLayout where
+  locations : Array ArgumentLocation
+  stackBytes : Nat
+
+def argumentLayout (widths : Array Width) : ArgumentLayout := Id.run do
+  let mut locations := #[]
+  let mut offset := 0
+  for i in [:widths.size] do
+    if i < 8 then
+      locations := locations.push (.register i)
+    else
+      let bytes := widths[i]!.bytes
+      offset := alignUp offset bytes
+      locations := locations.push (.stack offset)
+      offset := offset + bytes
+  return { locations, stackBytes := alignUp offset 16 }
+
 private def emitCall (slots : List (String × Nat)) (target : String)
     (arguments : Array CallArgument) : Except String (List String) := do
   let mut lines := []
+  let layout := argumentLayout (arguments.map (·.width))
   for i in [:arguments.size] do
     let argument := arguments[i]!
-    lines := lines ++ (← load slots argument.width i argument.value)
+    match layout.locations[i]! with
+    | .register index => lines := lines ++ (← load slots argument.width index argument.value)
+    | .stack offset =>
+      lines := lines ++ (← load slots argument.width 9 argument.value)
+      lines := lines ++ [s!"\tstr {register argument.width 9}, [sp, #{offset}]"]
   pure (lines ++ [s!"\tbl _{target}"])
 
 private def emitInstruction (slots allocations : List (String × Nat)) (inst : Instruction)
@@ -197,10 +227,17 @@ private def emitEdge (f : Function) (slots : List (String × Nat)) (stageBase : 
 def emitFunction (f : Function) : Except String String := do
   validateFunction f
   let localNames := f.locals
-  let slots := localNames.toList.zipIdx.map fun ((name, _), i) => (name, i * 8)
+  let mut outgoing := 0
+  for block in f.blocks do
+    for statement in block.instructions do
+      if let some (_, arguments, _) := statement.callSite then
+        outgoing := max outgoing (argumentLayout (arguments.map (·.width))).stackBytes
+  -- The outgoing argument area is below all locals, phi staging, saved LR and
+  -- allocation objects. Calls can overwrite it without destroying live values.
+  let slots := localNames.toList.zipIdx.map fun ((name, _), i) => (name, outgoing + i * 8)
   let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
-  let stageBase := localNames.size * 8
-  let mut frameEnd := (localNames.size + maxPhis) * 8
+  let stageBase := outgoing + localNames.size * 8
+  let mut frameEnd := outgoing + (localNames.size + maxPhis) * 8
   let hasCalls := f.blocks.any fun block => block.instructions.any (·.callSite.isSome)
   let returnAddress := frameEnd
   if hasCalls then frameEnd := frameEnd + 8
@@ -219,10 +256,16 @@ def emitFunction (f : Function) : Except String String := do
   lines := lines ++ [".p2align 2", s!"{symbol}:"]
   if frame != 0 then lines := lines ++ [s!"\tsub sp, sp, #{frame}"]
   if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
+  let incoming := argumentLayout (f.parameters.map (·.width))
   for i in [:f.parameters.size] do
     let parameter := f.parameters[i]!
     let offset ← slotOffset slots parameter.name
-    lines := lines ++ [s!"\tstr {register parameter.width i}, [sp, #{offset}]"]
+    match incoming.locations[i]! with
+    | .register index =>
+      lines := lines ++ [s!"\tstr {register parameter.width index}, [sp, #{offset}]"]
+    | .stack argumentOffset =>
+      lines := lines ++ [s!"\tldr {register parameter.width 9}, [sp, #{frame + argumentOffset}]",
+                         s!"\tstr {register parameter.width 9}, [sp, #{offset}]"]
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
     for statement in block.instructions do
