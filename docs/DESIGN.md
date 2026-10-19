@@ -13,10 +13,11 @@ See [UPSTREAM.md](UPSTREAM.md).
 2. `Validate.lean` checks names, SSA dominance, phi predecessors, widths and limits.
 3. `Semantics.lean` executes the supported IR using fixed-width integer semantics,
    signed comparisons/extensions, masked shifts and truncating signed division.
-   `Memory.lean` provides byte-addressed objects for integer loads and stores;
-   stores and void calls are explicit statements without SSA result definitions.
+   `Memory.lean` provides byte-addressed objects for integer loads, stores and
+   blits; stores, blits and void calls are explicit statements without SSA result
+   definitions.
 4. `AArch64.lean` selects integer instructions, assigns stack slots and renders
-   assembly with branches, parallel phi copies, integer memory accesses and
+   assembly with branches, parallel phi copies, integer memory accesses, blits and
    direct calls for Apple's AArch64 ABI.
 5. Nix-provided Clang assembles and links independent C test callers.
 
@@ -70,6 +71,18 @@ initialization. Out-of-bounds, uninitialized and external-pointer accesses have 
 interpreted result. Native code has ordinary QBE loads/stores without those
 checks. Tests avoid undefined accesses; pointer integer values are not compared
 between interpreter addresses and real machine addresses.
+
+Blits have two address operands and a constant byte count in 0..4096, with no
+result temporary. The count cap limits generated code size; QBE itself requires
+a nonnegative numeric constant and recommends keeping it small. Source and
+destination spans must be disjoint or have identical addresses, following the
+retained QBE 1.3 `doc/il.txt` contract. Interpretation rejects partial overlap
+and requires nonempty spans to lie in allocated objects. It copies each byte's
+initialization state, so an unknown source byte remains unknown at the
+destination and a subsequent read still fails. A zero-byte copy accesses no
+memory. Native output has no overlap or bounds guards; testing within the
+defined domain does not establish memory safety or source-to-binary correctness.
+
 Interpreted callees share the caller's memory, so their stores persist on return.
 Each return invalidates the callee's stack objects while retaining caller-owned
 objects and their mutations. Abstract addresses are not reused. An external call
@@ -100,6 +113,13 @@ Memory checks additionally compare native C byte-array references and C-owned
 buffers with neighboring guard bytes. A measured QBE 1.3 load-forwarding bug is
 handled through explicitly separate original and corrected comparisons; see
 [the discrepancy and its reduced controls](UPSTREAM_DISCREPANCIES.md).
+
+Blit tests compare fixed and generated copies with independent byte-array
+references and original QBE, check neighboring guard bytes and preserve the
+distinction between unknown-byte copies and initialized reads. Invalid counts,
+undefined spans and partial overlap have separate rejection controls. Deliberate
+copy corruption must be detected by native comparisons.
+
 Call tests compare fixed and generated multi-function programs among Python,
 Lean interpretation, Lean native code, original QBE and independent native C.
 They exercise integer/void recursion, argument order, loop/branch calls,

@@ -116,11 +116,12 @@ inductive Statement where
   | assign (instruction : Instruction)
   | store (width : MemoryWidth) (value address : Operand)
   | callVoid (target : String) (arguments : Array CallArgument)
+  | blit (source destination : Operand) (bytes : Nat)
   deriving Repr, Inhabited
 
 def Statement.definition : Statement → Option (String × Width)
   | .assign inst => some (inst.destination, inst.width)
-  | .store .. | .callVoid .. => none
+  | .store .. | .callVoid .. | .blit .. => none
 
 def Statement.callSite : Statement → Option (String × Array CallArgument × Option Width)
   | .assign { width, operation := .call target arguments, .. } => some (target, arguments, some width)

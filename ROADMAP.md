@@ -14,8 +14,10 @@ and direct-call subset on Apple ARM64.
 - [x] P04 — Inventory every upstream opcode, syntax construct, pass, ABI and target; track implementation and test coverage without blanket completion claims. See `docs/PORT_STATUS.md`.
 - [ ] P05 — Complete integer operations, conversions, comparisons and control flow, including phi nodes and loops.
 - [ ] P06 — Memory operations, data definitions, symbols, linkage and thread-local storage.
-  Integer loads/stores and entry-block constant stack allocations are implemented
-  as a bounded slice; data, symbols, dynamic allocation, blits and linkage remain.
+  Integer loads/stores, entry-block constant stack allocations and effect-only
+  constant-size blits are implemented as bounded slices. Blits accept 0..4096
+  bytes and require disjoint or identical spans; this does not add native memory
+  guards. Data, symbols, dynamic allocation, TLS and linkage remain.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
   Direct calls with up to 64 w/l register/stack arguments and a w/l or void result,
   recursion and native C interoperation are implemented as an initial slice.

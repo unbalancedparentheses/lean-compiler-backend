@@ -192,6 +192,22 @@ private def emitStatement (slots allocations : List (String × Nat))
   match statement with
   | .assign inst => emitInstruction slots allocations inst
   | .callVoid target arguments => emitCall slots target arguments
+  | .blit source destination bytes =>
+    if bytes == 0 then return []
+    let mut lines := (← load slots .long 9 source) ++ (← load slots .long 10 destination)
+    let mut offset := 0
+    -- Unaligned ordinary integer accesses are supported by the initial target.
+    -- Partial source/destination overlap is outside QBE's defined blit domain.
+    for size in [8, 4, 2, 1] do
+      for _ in [:((bytes - offset) / size)] do
+        let (read, write) := match size with
+          | 8 => ("ldr x11", "str x11")
+          | 4 => ("ldr w11", "str w11")
+          | 2 => ("ldrh w11", "strh w11")
+          | _ => ("ldrb w11", "strb w11")
+        lines := lines ++ [s!"\t{read}, [x9, #{offset}]", s!"\t{write}, [x10, #{offset}]"]
+        offset := offset + size
+    pure lines
   | .store width value address =>
     let addressLines ← load slots .long 9 address
     let valueLines ← load slots width.valueWidth 10 value

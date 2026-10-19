@@ -154,6 +154,11 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let (result, updated) ← call target values state
       if result.isSome then throw "non-void call requires a return temporary"
       state := updated
+    | .blit source destination bytes =>
+      let source ← operand locals .long source
+      let destination ← operand locals .long destination
+      let memory ← state.memory.blit source destination bytes
+      state := { state with memory }
   pure (locals, state)
 
 private def execute (call : CallHandler) (f : Function) : Nat → String → Option String →

@@ -56,6 +56,9 @@ The only implemented output target remains AArch64 macOS.
 - Integer byte/half/word/long loads and stores, including signed loads and
   unaligned accesses. Positive constant `alloc4`/`alloc8`/`alloc16` allocations
   in the entry block; QBE's `loadw`/`loadl` and `alloc1`/`alloc2` aliases.
+- Effect-only `blit source, destination, count` copies, with constant byte counts
+  in 0..4096. The source and destination spans must be disjoint or have identical
+  addresses, as required by QBE. The byte-count cap is a compiler resource limit.
 - Direct calls with up to 64 typed integer arguments and an integer or void result,
   including recursion and external C symbols. Internal signatures are checked;
   external definitions must honor the declared ABI. Non-leaf frames save the
@@ -76,6 +79,8 @@ to explicit checks; wrapping QBE arithmetic does not implement them by itself.
 
 [The port inventory](docs/PORT_STATUS.md) lists every upstream public/internal
 opcode, target/ABI and compiler source module, including unimplemented areas.
+Special syntax such as `blit` is tracked separately from the public opcode-name
+count, which does not measure overall port completion.
 Generated-program fuzzing compares independent Python arithmetic, the Lean
 interpreter, Lean native output and QBE native output. Failures retain the seed,
 input and outputs under `.build/fuzz-failures/`; use `nix develop -c python3
@@ -98,6 +103,14 @@ the overall 4080-byte frame limit still applies. Memory fuzzing found a
 [QBE 1.3 load-forwarding discrepancy](docs/UPSTREAM_DISCREPANCIES.md). Original
 QBE mismatches are retained and reported separately from a declared corrected
 test comparison; native C references corroborate generated overlap cases.
+
+Blit interpretation copies initialization state as well as bytes: copying an
+uninitialized byte leaves its destination uninitialized. Partial overlap or a
+span outside an allocated object reports an unevaluated result. A zero-byte blit
+accesses no memory. Native blits do not add bounds or overlap checks; their
+defined-domain requirement is a caller obligation, not a memory-safety guarantee.
+Blit checks compare interpretation and native output with independent byte-array
+references and pinned QBE, including unchanged neighboring bytes.
 
 Call tests compare generated programs against Python, native C and original QBE,
 including recursion, parallel argument moves, values live across calls and

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Added effect-only QBE `blit` with constant byte counts in 0..4096. The
+  interpreter preserves unknown bytes, rejects partial overlap and accesses
+  outside allocated objects, and performs no memory access for zero-byte copies.
+  Native output assumes QBE's disjoint-or-identical span contract without bounds
+  or overlap guards. The size cap is a compiler resource policy. Blit is tracked
+  as syntax support; it does not change the public opcode-name coverage count.
+
 - Added Apple ARM64 integer stack arguments and raised the integer argument
   resource limit to 64. One explicit layout handles caller/callee word/long
   packing. Frames reserve outgoing space below locals, phi copies, saved LR and

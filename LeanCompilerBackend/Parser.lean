@@ -211,6 +211,17 @@ private def parseStore (width : MemoryWidth) : P Statement := do
   expect ","
   pure (.store width value (← parseOperand))
 
+private def parseBlit : P Statement := do
+  expect "blit"
+  let source ← parseOperand
+  expect ","
+  let destination ← parseOperand
+  expect ","
+  let .constant bytes ← parseOperand
+    | failAt "blit byte count must be a nonnegative numeric constant"
+  if bytes < 0 then failAt "blit byte count must be nonnegative"
+  pure (.blit source destination bytes.toNat)
+
 private def parseParameters : Nat → P (Array Parameter)
   | 0 => failAt "parameter parsing limit exceeded"
   | fuel + 1 => do
@@ -250,6 +261,7 @@ private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Arr
       else
         let definition ← if let some width := storeWidth token then
           Sum.inr <$> parseStore width
+        else if token == "blit" then Sum.inr <$> parseBlit
         else if token == "call" then do
           discard take
           let (target, arguments) ← parseCall

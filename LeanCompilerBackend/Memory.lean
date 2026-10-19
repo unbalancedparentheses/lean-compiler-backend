@@ -61,4 +61,22 @@ def Memory.write (memory : Memory) (address : UInt64) (size : Nat) (value : UInt
     object := { object with bytes := object.bytes.set! (offset + i) (some byte) }
   pure { memory with objects := memory.objects.set! index object }
 
+/-- QBE blits permit disjoint spans or identical addresses. Preserve unknown
+    bytes without manufacturing a value; a later read still checks initialization.
+    Zero-byte copies do not access memory, even when addresses are external. -/
+def Memory.blit (memory : Memory) (source destination : UInt64) (size : Nat)
+    : Except String Memory := do
+  if size == 0 then return memory
+  let a := source.toNat
+  let b := destination.toNat
+  if a != b && a < b + size && b < a + size then
+    throw "undefined partially overlapping QBE blit"
+  let (sourceIndex, sourceOffset) ← memory.locate source size
+  let (destinationIndex, destinationOffset) ← memory.locate destination size
+  let bytes := memory.objects[sourceIndex]!.bytes.extract sourceOffset (sourceOffset + size)
+  let mut object := memory.objects[destinationIndex]!
+  for i in [:size] do
+    object := { object with bytes := object.bytes.set! (destinationOffset + i) bytes[i]! }
+  pure { memory with objects := memory.objects.set! destinationIndex object }
+
 end LeanCompilerBackend

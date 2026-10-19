@@ -122,6 +122,10 @@ def validateFunction (f : Function) : Except String Unit := do
         check width.valueWidth value
         check .long address
       | .callVoid target arguments => checkCallArguments check target arguments
+      | .blit source destination bytes =>
+        check .long source
+        check .long destination
+        if bytes > 4096 then throw "blit byte count exceeds the 4096-byte resource limit"
       | .assign inst =>
         match inst.operation with
         | .copy value => check inst.width value
