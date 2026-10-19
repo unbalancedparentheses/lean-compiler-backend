@@ -1,11 +1,14 @@
 # Design and assurance boundaries
 
-The first release is a general-purpose QBE 1.3 port in Lean 4, qualified against
-upstream before further design changes. The current code is an early subset.
-Concrete will consume this backend through a separate adapter; it does not
-define the backend's public IR or implementation requirements. Zig's explicit
-AIR/MIR split and LLVM's machine IR/pass testing inform later stages.
-See [UPSTREAM.md](UPSTREAM.md).
+The first complete compatibility milestone is a general-purpose QBE 1.3 port
+in Lean 4. The current code is a bounded subset, not an end-to-end verified backend.
+The [roadmap](../ROADMAP.md) starts semantic contracts, independent function jobs,
+typed lowering and proof composition during the port. These are planned foundations;
+the implemented pipeline and existing assurance scope are described below.
+Concrete consumes the backend through a separate adapter and does not define
+its public IR. QBE is the initial baseline, not a permanent semantic constraint.
+See [UPSTREAM.md](UPSTREAM.md) and the
+[architecture research](research/backend-architecture.md).
 
 ## Implemented pipeline
 

@@ -1,0 +1,750 @@
+{
+  "scope": "Pinned QBE1.3 whole-fixture admission, assembly emission and selected native original-harness qualification; not full QBE parity or proof.",
+  "qbe": {
+    "version": "1.3",
+    "commit": "c0818978acec60ebb6167fade60fb7012cbf20ca",
+    "archive": "https://c9x.me/compile/release/qbe-1.3.tar.xz",
+    "archive_sha256": "d587905d620dc5e1d2bfa7c2cc642b9b837aa89a3188c6e37b53d756cf66e320",
+    "license": "third_party/qbe/LICENSE",
+    "role": "source adaptation, syntax/semantics reference and optional compiled test oracle"
+  },
+  "tested_binary_sha256": "d5c17558fa362c9ca9e6c436f047f238ba4d9d437c98d5b4adb56f2c5f2f9524",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "clang_version": "clang version 21.1.8",
+  "compiler_store_path": "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+  "admission": {
+    "total": 76,
+    "accepted": 21,
+    "emitted": 21,
+    "rejection_stage_counts": {
+      "parsing": 43,
+      "admission": 12
+    },
+    "first_blockers": {
+      "QBE dot / numeric names": [
+        "third_party/qbe/test/_bf99.ssa",
+        "third_party/qbe/test/_bfmandel.ssa",
+        "third_party/qbe/test/_dragon.ssa",
+        "third_party/qbe/test/_gcm2.ssa",
+        "third_party/qbe/test/strcmp.ssa",
+        "third_party/qbe/test/strspn.ssa"
+      ],
+      "SSA construction / repeated definitions": [
+        "third_party/qbe/test/_chacha20.ssa",
+        "third_party/qbe/test/_fix1.ssa",
+        "third_party/qbe/test/_fix2.ssa",
+        "third_party/qbe/test/_fix3.ssa",
+        "third_party/qbe/test/_gcm1.ssa",
+        "third_party/qbe/test/cmp1.ssa",
+        "third_party/qbe/test/gvn1.ssa",
+        "third_party/qbe/test/gvn2.ssa",
+        "third_party/qbe/test/ldhoist.ssa",
+        "third_party/qbe/test/load2.ssa",
+        "third_party/qbe/test/spill1.ssa"
+      ],
+      "environment argument": [
+        "third_party/qbe/test/env.ssa"
+      ],
+      "floating-point type": [
+        "third_party/qbe/test/double.ssa",
+        "third_party/qbe/test/fpcnv.ssa",
+        "third_party/qbe/test/ifc.ssa",
+        "third_party/qbe/test/isel2.ssa",
+        "third_party/qbe/test/isel5.ssa",
+        "third_party/qbe/test/mandel.ssa",
+        "third_party/qbe/test/vararg1.ssa"
+      ],
+      "global symbol operand": [
+        "third_party/qbe/test/_fix4.ssa",
+        "third_party/qbe/test/_spill3.ssa",
+        "third_party/qbe/test/align.ssa",
+        "third_party/qbe/test/collatz.ssa",
+        "third_party/qbe/test/conaddr.ssa",
+        "third_party/qbe/test/copy.ssa",
+        "third_party/qbe/test/eucl.ssa",
+        "third_party/qbe/test/isel1.ssa",
+        "third_party/qbe/test/ldbits.ssa",
+        "third_party/qbe/test/loop.ssa",
+        "third_party/qbe/test/prime.ssa",
+        "third_party/qbe/test/queen.ssa"
+      ],
+      "nonentry stack allocation": [
+        "third_party/qbe/test/dynalloc.ssa"
+      ],
+      "top-level data": [
+        "third_party/qbe/test/abi6.ssa",
+        "third_party/qbe/test/max.ssa"
+      ],
+      "top-level thread": [
+        "third_party/qbe/test/tls.ssa"
+      ],
+      "top-level type": [
+        "third_party/qbe/test/abi1.ssa",
+        "third_party/qbe/test/abi2.ssa",
+        "third_party/qbe/test/abi3.ssa",
+        "third_party/qbe/test/abi4.ssa",
+        "third_party/qbe/test/abi5.ssa",
+        "third_party/qbe/test/abi7.ssa",
+        "third_party/qbe/test/abi8.ssa",
+        "third_party/qbe/test/abi9.ssa",
+        "third_party/qbe/test/dark.ssa",
+        "third_party/qbe/test/mem1.ssa",
+        "third_party/qbe/test/mem2.ssa",
+        "third_party/qbe/test/mem3.ssa"
+      ],
+      "variadic signature / call": [
+        "third_party/qbe/test/echo.ssa",
+        "third_party/qbe/test/vararg2.ssa"
+      ]
+    }
+  },
+  "native_summary": {
+    "qbe": {
+      "native_eligible": 15,
+      "upstream_harness_passed": 15,
+      "harness_failures": [],
+      "no_original_executable_harness": [
+        "third_party/qbe/test/_alt.ssa",
+        "third_party/qbe/test/_live.ssa",
+        "third_party/qbe/test/_load-elim.ssa",
+        "third_party/qbe/test/_rpo.ssa",
+        "third_party/qbe/test/_spill1.ssa",
+        "third_party/qbe/test/_spill2.ssa"
+      ],
+      "object_only_compiled": 6
+    },
+    "lcb": {
+      "native_eligible": 15,
+      "upstream_harness_passed": 15,
+      "harness_failures": [],
+      "no_original_executable_harness": [
+        "third_party/qbe/test/_alt.ssa",
+        "third_party/qbe/test/_live.ssa",
+        "third_party/qbe/test/_load-elim.ssa",
+        "third_party/qbe/test/_rpo.ssa",
+        "third_party/qbe/test/_spill1.ssa",
+        "third_party/qbe/test/_spill2.ssa"
+      ],
+      "object_only_compiled": 6
+    }
+  },
+  "native_fixtures": [
+    {
+      "path": "third_party/qbe/test/_alt.ssa",
+      "fixture_sha256": "5bd52cf1e30b1f0bc038c20ae80ffc605c520a635a693923fea47b817e6ab1af",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_live.ssa",
+      "fixture_sha256": "64ec49c87978cd05beeb2d7ff8bb071e19e9161a1dd3970c07542bb3ada59b40",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_load-elim.ssa",
+      "fixture_sha256": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_rpo.ssa",
+      "fixture_sha256": "63d5c64304f006b51f4e54f044cd30aeeaece8e521109ff5ab8d887b216c043a",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_spill1.ssa",
+      "fixture_sha256": "1bd406055470f450c7416419941b2d38c67c2674d525ac7ec9a0aff00ce2f2c7",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_spill2.ssa",
+      "fixture_sha256": "74ac81e0f6de3b2ffd9b110121e461da1e6e84003ca28938601353598b199b27",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile_exit": 0
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/alias1.ssa",
+      "fixture_sha256": "c58146da60a5e157fac5c5636ee1747851660b643aa1212d907f96cec37f4c1f",
+      "has_original_driver": false,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/cprime.ssa",
+      "fixture_sha256": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+      "has_original_driver": false,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/cup.ssa",
+      "fixture_sha256": "ecc28fe5adb5cb44918e5474f2d9a9a19f9324eadd3bf03fc68f5e802aeaf775",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/euclc.ssa",
+      "fixture_sha256": "29ad0153e8eb60a20e7d449bc43faede8d4323f2d66ffbb092297bd2e2fde72f",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/fixarg.ssa",
+      "fixture_sha256": "dd59861481ee51c7b43cd4f4014141aaa07062e4893170bd5e845bb79f934df1",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/fold1.ssa",
+      "fixture_sha256": "cf5c6213aa87b06b867abd393befdbaf6b1299ffda5613fbd241583e3f36534b",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/isel3.ssa",
+      "fixture_sha256": "a199aaecd4176b32eed30daaf6e92a293b50f17813168efc53a6a6632c9aee2a",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/isel4.ssa",
+      "fixture_sha256": "bf521030b22117e54daf66afc3c67877e2ad699f0fcd6743c5700629d105c111",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/isel6.ssa",
+      "fixture_sha256": "6316bf3bb1b0398f67b08101727e20bf1c6da4fea760385cea677c820e9a9058",
+      "has_original_driver": true,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "1\n2\n3\n4\n5\n6\n7\n8\n9223372036854775807\n",
+          "pass_criterion": "normalized stdout exactly matches original expected output; upstream harness ignores program exit for output fixtures",
+          "captured_output_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "1\n2\n3\n4\n5\n6\n7\n8\n9223372036854775807\n",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "1\n2\n3\n4\n5\n6\n7\n8\n9223372036854775807\n",
+          "pass_criterion": "normalized stdout exactly matches original expected output; upstream harness ignores program exit for output fixtures",
+          "captured_output_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "1\n2\n3\n4\n5\n6\n7\n8\n9223372036854775807\n",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/load1.ssa",
+      "fixture_sha256": "070cbd2ac1ab3d8565bec32225a84e3eb440283963ca733180a7eb64e73a3843",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/load3.ssa",
+      "fixture_sha256": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+      "has_original_driver": false,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/philv.ssa",
+      "fixture_sha256": "c952c8ee18c78c7b0372da1abbaf6237119828361d0adbe61b2341bd8792b12f",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/puts10.ssa",
+      "fixture_sha256": "7ec69098b239e124724d3e678ecb291800ff3e004c1b19022b9b1a4f5fc5b7a2",
+      "has_original_driver": false,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+          "pass_criterion": "normalized stdout exactly matches original expected output; upstream harness ignores program exit for output fixtures",
+          "captured_output_matches": true,
+          "native": {
+            "exit": 1,
+            "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+          "pass_criterion": "normalized stdout exactly matches original expected output; upstream harness ignores program exit for output fixtures",
+          "captured_output_matches": true,
+          "native": {
+            "exit": 10,
+            "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/rega1.ssa",
+      "fixture_sha256": "7f6222cec0042e10c6d1a6251ac6e75554370b2f8d0a8d6cad06b5ce8cebf224",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/sum.ssa",
+      "fixture_sha256": "b1580fe79ba46691fd9145fb89a3cbec105865c9e3053f34ff3b8ee2c17ad2f2",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "exit": 0,
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "pass_criterion": "program exits zero",
+          "captured_exit_matches": true,
+          "native": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Six admitted underscore fixtures have no original driver or exported main: object-only, not executed.",
+    "First blocker categories may hide other unsupported features.",
+    "puts10.ssa has void $main and its original harness checks output only; QBE process exit1 versus LCB process exit10 observed.",
+    "No repeated-definition fixture was rewritten to bypass missing SSA construction."
+  ],
+  "raw_artifacts": "/private/tmp/lcb-upstream-native-20261019T125845997251Z/report.json",
+  "previous_adapter_failure_artifacts": "/private/tmp/lcb-upstream-native-20261019T115703741467Z/report.json"
+}

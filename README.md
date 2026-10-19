@@ -1,10 +1,12 @@
 # Lean Compiler Backend
 
 A general-purpose native compiler backend written in Lean 4, starting with a
-full QBE 1.3 port. The current implementation covers an initial integer subset;
-full compatibility is the first release milestone. Ideas from Zig, LLVM and MLIR come
-after that baseline. Concrete will be a consumer, not a dependency or the scope
-of the first release.
+full QBE 1.3 port. Correctness comes first: semantic contracts, independent
+function jobs and typed lowering boundaries are the next foundations, with proof
+coverage growing alongside implementation. Full compatibility remains the first
+complete compatibility milestone; tested and certified coverage are reported
+separately. The current implementation is a bounded integer, control-flow, memory
+and direct-call subset. Concrete is a consumer, not a dependency.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
@@ -158,11 +160,13 @@ Nix configuration retain their respective licenses. See [LICENSE](LICENSE).
 [Backend architecture research](docs/research/backend-architecture.md) collects
 the QBE, CompCert, MLIR, Cranelift, Zig, MIR, Stogov IR, libFirm and LLVM
 comparison, reproducible per-function compilation design, verification
-strategy and proposed stages. It also records community discussion leads
-and their verification status. The current implementation priority remains
-the QBE 1.3 port; proposed roadmap changes have not been adopted.
+strategy and design proposals. The [roadmap](ROADMAP.md) adopts the correctness-first
+sequencing: foundations now, a first composed preservation result, then expanding
+compatibility and certification together. Detailed APIs remain proposals until
+implemented. The [community review](docs/research/community-discussions.md) records
+discussion evidence, primary-source checks and remaining coverage gaps.
 
-Correctness is the primary long-term goal. QBE is the current porting baseline
+Correctness is the primary goal from the current port onward. QBE is the current porting baseline
 and comparison implementation, not a permanent constraint on the backend's IR
 or semantics. The full-port milestone remains in place; future evolution may
 retain QBE support through an explicit import boundary. Performance improvements

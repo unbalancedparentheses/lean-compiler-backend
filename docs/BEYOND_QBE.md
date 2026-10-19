@@ -1,11 +1,17 @@
 # What to learn from LLVM, Zig and MLIR
 
-Decision dated 2026-10-18. These are candidates for after the full general-purpose
-QBE port and its qualification, not requirements for a Concrete-specific first
-release. Start with QBE as a working port; add features only
-when they have a clear semantic model and measurable value. The goals are useful
-code generation, small reviewable components and an increasingly checked chain
-from input to actual emitted code.
+Decision updated 2026-10-18. The [roadmap](../ROADMAP.md) separates foundations
+needed during the QBE port from later optional features. Correctness is first:
+semantic contracts, typed lowering, pass obligations and independent reproducible
+function jobs start now. Proof coverage grows alongside the port. Richer optimization,
+object emission and consumer integrations follow their own evidence gates.
+
+CompCert supplies the semantic-preservation and validation architecture; CakeML
+provides a reference for concrete machine-code coverage. The
+[architecture research](research/backend-architecture.md) and
+[community review](research/community-discussions.md) explain the broader comparison.
+The table below identifies selected LLVM/Zig/MLIR mechanisms, not requirements to
+import their frameworks or copy their entire architecture.
 
 | Source | Adopt | Benefit and first concrete step |
 | --- | --- | --- |
@@ -38,14 +44,18 @@ QBE before adding complex optimization pipelines.
 
 ## Order
 
-1. Complete and qualify the QBE 1.3 port: operations, control flow, memory,
-   calls/ABIs, passes, allocation and upstream targets. Fuzz throughout this work.
-2. Carry out the larger proof effort over the completed design, with explicit
-   source/machine semantics and assembler/linker boundaries.
-3. Evaluate typed machine IR, stronger pass verifiers, dumps and allocation
-   validation as improvements to the compatible baseline.
-4. Add arithmetic policies and a separate Concrete adapter only as consumer work.
-5. Add direct object emission, debugging and measured optimizations where useful.
+1. Establish semantic decisions, frozen function jobs, canonical serialization,
+   typed machine IR, legality checks and pass obligations during the current port.
+2. Prove one restricted stack-based integer/control-flow path, including loops,
+   phi transfers and frame accesses, with explicit remaining target/tool assumptions.
+3. Expand QBE operations, memory, calls/ABIs, analyses, allocation and targets
+   alongside semantics, proofs and qualification. Allocation needs value-flow
+   validation with proved soundness for the certified domain.
+4. Complete the QBE compatibility milestone with separate tested and certified
+   coverage. Extend the preservation chain through encoding and linking; composition
+   design begins with the first slice rather than waiting for the full port.
+5. Add measured optimizations, consumer adapters and richer debug support. Cache
+   and parallel execution can begin once the function/artifact contracts stabilize.
 
 This adopts specific ideas rather than LLVM's entire architecture. SIMD, aggressive
 loop optimization, exceptions, general-purpose JIT support and a custom linker
@@ -59,7 +69,7 @@ reuse target descriptions instead of duplicating the pipeline for each ISA.
 Register allocation, calls/ABIs, memory and useful scalar optimization are baseline
 features, not optional substitutes for a tiny demonstration.
 
-After that baseline, adopt improvements individually when they reduce a measured
+Beyond the foundational changes, adopt improvements individually when they reduce a measured
 failure mode, compilation cost, generated-code cost or maintenance burden. Record
 that evidence, code-size/build-dependency impact and semantic boundary with the
 change. MLIR informs explicit lowering and verification; importing its C++ framework

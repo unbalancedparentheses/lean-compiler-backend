@@ -1,0 +1,1306 @@
+{
+  "work": "/private/tmp/lcb-upstream-native-20261019T125845997251Z",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "binary_sha256": "d5c17558fa362c9ca9e6c436f047f238ba4d9d437c98d5b4adb56f2c5f2f9524",
+  "compiler": "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+  "original_harness_sha256": "74796a084e0ddb69e6679eb1dcc1fa3dc9f720fa2d4807c08be702e2f915f319",
+  "harness_modification": "only per-run temporary prefix",
+  "versions": {
+    "clang": {
+      "command": [
+        "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "clang version 21.1.8\nTarget: arm64-apple-darwin\nThread model: posix\nInstalledDir: /nix/store/rr64nnycczvx7s1b110qmvqrlfcb6lsm-clang-21.1.8/bin\n",
+      "stderr": ""
+    },
+    "qbe": {
+      "command": [
+        "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe-original/qbe",
+        "-h"
+      ],
+      "exit": 0,
+      "stdout": "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe-original/qbe [OPTIONS] {file.ssa, -}\n\t-h          prints this help\n\t-o file     output to file\n\t-t <target> generate for a target among:\n\t            amd64_sysv, amd64_apple, amd64_win, arm64, arm64_apple (default), rv64\n\t-d <flags>  dump debug information\n",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/private/tmp/lcb-integer-blits/.lake/build/bin/lcb",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "lean-compiler-backend 0.1.0 (experimental)\n",
+      "stderr": ""
+    },
+    "shell": {
+      "command": [
+        "sh",
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "GNU bash, version 5.3.9(1)-release (aarch64-apple-darwin25.2.0)\nCopyright (C) 2025 Free Software Foundation, Inc.\nLicense GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>\n\nThis is free software; you are free to change and redistribute it.\nThere is NO WARRANTY, to the extent permitted by law.\n",
+      "stderr": ""
+    }
+  },
+  "summary": {
+    "qbe": {
+      "native_eligible": 15,
+      "upstream_harness_passed": 15,
+      "harness_failures": [],
+      "no_original_executable_harness": [
+        "third_party/qbe/test/_alt.ssa",
+        "third_party/qbe/test/_live.ssa",
+        "third_party/qbe/test/_load-elim.ssa",
+        "third_party/qbe/test/_rpo.ssa",
+        "third_party/qbe/test/_spill1.ssa",
+        "third_party/qbe/test/_spill2.ssa"
+      ],
+      "object_only_compiled": 6
+    },
+    "lcb": {
+      "native_eligible": 15,
+      "upstream_harness_passed": 15,
+      "harness_failures": [],
+      "no_original_executable_harness": [
+        "third_party/qbe/test/_alt.ssa",
+        "third_party/qbe/test/_live.ssa",
+        "third_party/qbe/test/_load-elim.ssa",
+        "third_party/qbe/test/_rpo.ssa",
+        "third_party/qbe/test/_spill1.ssa",
+        "third_party/qbe/test/_spill2.ssa"
+      ],
+      "object_only_compiled": 6
+    }
+  },
+  "fixtures": [
+    {
+      "path": "third_party/qbe/test/_alt.ssa",
+      "fixture_sha256": "5bd52cf1e30b1f0bc038c20ae80ffc605c520a635a693923fea47b817e6ab1af",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_alt/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_alt.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_alt/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_alt/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_alt/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_alt.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_alt/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_alt/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_live.ssa",
+      "fixture_sha256": "64ec49c87978cd05beeb2d7ff8bb071e19e9161a1dd3970c07542bb3ada59b40",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_live/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_live.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_live/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_live/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_live/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_live.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_live/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_live/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_load-elim.ssa",
+      "fixture_sha256": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_load-elim/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_load-elim.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_load-elim/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_load-elim/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_load-elim/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_load-elim.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_load-elim/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_load-elim/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_rpo.ssa",
+      "fixture_sha256": "63d5c64304f006b51f4e54f044cd30aeeaece8e521109ff5ab8d887b216c043a",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_rpo/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_rpo.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_rpo/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_rpo/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_rpo/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_rpo.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_rpo/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_rpo/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_spill1.ssa",
+      "fixture_sha256": "1bd406055470f450c7416419941b2d38c67c2674d525ac7ec9a0aff00ce2f2c7",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_spill1/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_spill1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_spill1/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_spill1/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_spill1/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_spill1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_spill1/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_spill1/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/_spill2.ssa",
+      "fixture_sha256": "74ac81e0f6de3b2ffd9b110121e461da1e6e84003ca28938601353598b199b27",
+      "has_original_driver": false,
+      "has_exported_main": false,
+      "native_eligible": false,
+      "backends": {
+        "qbe": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_spill2/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_spill2.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_spill2/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/_spill2/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        },
+        "lcb": {
+          "command": [
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb-adapter",
+            "-o",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_spill2/fixture.s",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/_spill2.ssa"
+          ],
+          "exit": 0,
+          "stdout": "",
+          "stderr": "",
+          "qualification": "object only; original fixture has no driver or exported main",
+          "object_compile": {
+            "command": [
+              "/nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/bin/clang",
+              "-c",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_spill2/fixture.s",
+              "-o",
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/_spill2/fixture.o"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          }
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/alias1.ssa",
+      "fixture_sha256": "c58146da60a5e157fac5c5636ee1747851660b643aa1212d907f96cec37f4c1f",
+      "has_original_driver": false,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/alias1/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/alias1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "alias1.ssa...                                [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/alias1/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/alias1/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/alias1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "alias1.ssa...                                [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/alias1/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/cprime.ssa",
+      "fixture_sha256": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+      "has_original_driver": false,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/cprime/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/cprime.ssa"
+          ],
+          "exit": 0,
+          "stdout": "cprime.ssa...                                [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/cprime/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/cprime/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/cprime.ssa"
+          ],
+          "exit": 0,
+          "stdout": "cprime.ssa...                                [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/cprime/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/cup.ssa",
+      "fixture_sha256": "ecc28fe5adb5cb44918e5474f2d9a9a19f9324eadd3bf03fc68f5e802aeaf775",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/cup/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/cup.ssa"
+          ],
+          "exit": 0,
+          "stdout": "cup.ssa...                                   [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/cup/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/cup/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/cup.ssa"
+          ],
+          "exit": 0,
+          "stdout": "cup.ssa...                                   [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/cup/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/euclc.ssa",
+      "fixture_sha256": "29ad0153e8eb60a20e7d449bc43faede8d4323f2d66ffbb092297bd2e2fde72f",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/euclc/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/euclc.ssa"
+          ],
+          "exit": 0,
+          "stdout": "euclc.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/euclc/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/euclc/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/euclc.ssa"
+          ],
+          "exit": 0,
+          "stdout": "euclc.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/euclc/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/fixarg.ssa",
+      "fixture_sha256": "dd59861481ee51c7b43cd4f4014141aaa07062e4893170bd5e845bb79f934df1",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/fixarg/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/fixarg.ssa"
+          ],
+          "exit": 0,
+          "stdout": "fixarg.ssa...                                [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/fixarg/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/fixarg/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/fixarg.ssa"
+          ],
+          "exit": 0,
+          "stdout": "fixarg.ssa...                                [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/fixarg/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/fold1.ssa",
+      "fixture_sha256": "cf5c6213aa87b06b867abd393befdbaf6b1299ffda5613fbd241583e3f36534b",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/fold1/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/fold1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "fold1.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/fold1/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/fold1/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/fold1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "fold1.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/fold1/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/isel3.ssa",
+      "fixture_sha256": "a199aaecd4176b32eed30daaf6e92a293b50f17813168efc53a6a6632c9aee2a",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/isel3/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/isel3.ssa"
+          ],
+          "exit": 0,
+          "stdout": "isel3.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/isel3/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/isel3/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/isel3.ssa"
+          ],
+          "exit": 0,
+          "stdout": "isel3.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/isel3/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/isel4.ssa",
+      "fixture_sha256": "bf521030b22117e54daf66afc3c67877e2ad699f0fcd6743c5700629d105c111",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/isel4/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/isel4.ssa"
+          ],
+          "exit": 0,
+          "stdout": "isel4.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/isel4/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/isel4/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/isel4.ssa"
+          ],
+          "exit": 0,
+          "stdout": "isel4.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/isel4/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/isel6.ssa",
+      "fixture_sha256": "6316bf3bb1b0398f67b08101727e20bf1c6da4fea760385cea677c820e9a9058",
+      "has_original_driver": true,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/isel6/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/isel6.ssa"
+          ],
+          "exit": 0,
+          "stdout": "isel6.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "1\n2\n3\n4\n5\n6\n7\n8\n9223372036854775807\n",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/isel6/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "1\n2\n3\n4\n5\n6\n7\n8\n9223372036854775807\n",
+            "stderr": ""
+          },
+          "captured_output_matches": true,
+          "pass_criterion": "normalized stdout exactly matches original expected output; upstream harness ignores program exit for output fixtures"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/isel6/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/isel6.ssa"
+          ],
+          "exit": 0,
+          "stdout": "isel6.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "1\n2\n3\n4\n5\n6\n7\n8\n9223372036854775807\n",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/isel6/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "1\n2\n3\n4\n5\n6\n7\n8\n9223372036854775807\n",
+            "stderr": ""
+          },
+          "captured_output_matches": true,
+          "pass_criterion": "normalized stdout exactly matches original expected output; upstream harness ignores program exit for output fixtures"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/load1.ssa",
+      "fixture_sha256": "070cbd2ac1ab3d8565bec32225a84e3eb440283963ca733180a7eb64e73a3843",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/load1/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/load1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "load1.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/load1/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/load1/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/load1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "load1.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/load1/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/load3.ssa",
+      "fixture_sha256": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+      "has_original_driver": false,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/load3/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/load3.ssa"
+          ],
+          "exit": 0,
+          "stdout": "load3.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/load3/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/load3/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/load3.ssa"
+          ],
+          "exit": 0,
+          "stdout": "load3.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/load3/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/philv.ssa",
+      "fixture_sha256": "c952c8ee18c78c7b0372da1abbaf6237119828361d0adbe61b2341bd8792b12f",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/philv/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/philv.ssa"
+          ],
+          "exit": 0,
+          "stdout": "philv.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/philv/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/philv/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/philv.ssa"
+          ],
+          "exit": 0,
+          "stdout": "philv.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/philv/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/puts10.ssa",
+      "fixture_sha256": "7ec69098b239e124724d3e678ecb291800ff3e004c1b19022b9b1a4f5fc5b7a2",
+      "has_original_driver": false,
+      "has_exported_main": true,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/puts10/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/puts10.ssa"
+          ],
+          "exit": 0,
+          "stdout": "puts10.ssa...                                [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/puts10/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 1,
+            "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+            "stderr": ""
+          },
+          "captured_output_matches": true,
+          "pass_criterion": "normalized stdout exactly matches original expected output; upstream harness ignores program exit for output fixtures"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/puts10/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/puts10.ssa"
+          ],
+          "exit": 0,
+          "stdout": "puts10.ssa...                                [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/puts10/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 10,
+            "stdout": "0\n1\n2\n3\n4\n5\n6\n7\n8\n9\n",
+            "stderr": ""
+          },
+          "captured_output_matches": true,
+          "pass_criterion": "normalized stdout exactly matches original expected output; upstream harness ignores program exit for output fixtures"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/rega1.ssa",
+      "fixture_sha256": "7f6222cec0042e10c6d1a6251ac6e75554370b2f8d0a8d6cad06b5ce8cebf224",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/rega1/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/rega1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "rega1.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/rega1/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/rega1/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/rega1.ssa"
+          ],
+          "exit": 0,
+          "stdout": "rega1.ssa...                                 [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/rega1/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    },
+    {
+      "path": "third_party/qbe/test/sum.ssa",
+      "fixture_sha256": "b1580fe79ba46691fd9145fb89a3cbec105865c9e3053f34ff3b8ee2c17ad2f2",
+      "has_original_driver": true,
+      "has_exported_main": false,
+      "native_eligible": true,
+      "backends": {
+        "qbe": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/sum/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/sum.ssa"
+          ],
+          "exit": 0,
+          "stdout": "sum.ssa...                                   [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/qbe/sum/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        },
+        "lcb": {
+          "command": [
+            "sh",
+            "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/sum/upstream-test-isolated.sh",
+            "/private/tmp/lcb-integer-blits/third_party/qbe/test/sum.ssa"
+          ],
+          "exit": 0,
+          "stdout": "sum.ssa...                                   [ok]\n",
+          "stderr": "",
+          "qualification": "original upstream driver/output contract",
+          "expected_output": "",
+          "captured_execution": {
+            "command": [
+              "/private/tmp/lcb-upstream-native-20261019T125845997251Z/lcb/sum/qbe.exe",
+              "a",
+              "b",
+              "c"
+            ],
+            "exit": 0,
+            "stdout": "",
+            "stderr": ""
+          },
+          "captured_exit_matches": true,
+          "pass_criterion": "program exits zero"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,894 @@
+{
+  "binary": "/private/tmp/lcb-integer-blits/.lake/build/bin/lcb",
+  "binary_sha256": "d5c17558fa362c9ca9e6c436f047f238ba4d9d437c98d5b4adb56f2c5f2f9524",
+  "mode": "whole-fixture parsing/admission and assembly emission only; no assembly, linkage or execution",
+  "scope_note": "First blocker categories can hide additional unsupported features in the same fixture.",
+  "ssa_fixtures": 76,
+  "check_accepted": 21,
+  "emit_accepted": 21,
+  "rejection_stage_counts": {
+    "parsing": 43,
+    "admission": 12
+  },
+  "first_blockers": {
+    "QBE dot / numeric names": [
+      "third_party/qbe/test/_bf99.ssa",
+      "third_party/qbe/test/_bfmandel.ssa",
+      "third_party/qbe/test/_dragon.ssa",
+      "third_party/qbe/test/_gcm2.ssa",
+      "third_party/qbe/test/strcmp.ssa",
+      "third_party/qbe/test/strspn.ssa"
+    ],
+    "SSA construction / repeated definitions": [
+      "third_party/qbe/test/_chacha20.ssa",
+      "third_party/qbe/test/_fix1.ssa",
+      "third_party/qbe/test/_fix2.ssa",
+      "third_party/qbe/test/_fix3.ssa",
+      "third_party/qbe/test/_gcm1.ssa",
+      "third_party/qbe/test/cmp1.ssa",
+      "third_party/qbe/test/gvn1.ssa",
+      "third_party/qbe/test/gvn2.ssa",
+      "third_party/qbe/test/ldhoist.ssa",
+      "third_party/qbe/test/load2.ssa",
+      "third_party/qbe/test/spill1.ssa"
+    ],
+    "environment argument": [
+      "third_party/qbe/test/env.ssa"
+    ],
+    "floating-point type": [
+      "third_party/qbe/test/double.ssa",
+      "third_party/qbe/test/fpcnv.ssa",
+      "third_party/qbe/test/ifc.ssa",
+      "third_party/qbe/test/isel2.ssa",
+      "third_party/qbe/test/isel5.ssa",
+      "third_party/qbe/test/mandel.ssa",
+      "third_party/qbe/test/vararg1.ssa"
+    ],
+    "global symbol operand": [
+      "third_party/qbe/test/_fix4.ssa",
+      "third_party/qbe/test/_spill3.ssa",
+      "third_party/qbe/test/align.ssa",
+      "third_party/qbe/test/collatz.ssa",
+      "third_party/qbe/test/conaddr.ssa",
+      "third_party/qbe/test/copy.ssa",
+      "third_party/qbe/test/eucl.ssa",
+      "third_party/qbe/test/isel1.ssa",
+      "third_party/qbe/test/ldbits.ssa",
+      "third_party/qbe/test/loop.ssa",
+      "third_party/qbe/test/prime.ssa",
+      "third_party/qbe/test/queen.ssa"
+    ],
+    "nonentry stack allocation": [
+      "third_party/qbe/test/dynalloc.ssa"
+    ],
+    "top-level data": [
+      "third_party/qbe/test/abi6.ssa",
+      "third_party/qbe/test/max.ssa"
+    ],
+    "top-level thread": [
+      "third_party/qbe/test/tls.ssa"
+    ],
+    "top-level type": [
+      "third_party/qbe/test/abi1.ssa",
+      "third_party/qbe/test/abi2.ssa",
+      "third_party/qbe/test/abi3.ssa",
+      "third_party/qbe/test/abi4.ssa",
+      "third_party/qbe/test/abi5.ssa",
+      "third_party/qbe/test/abi7.ssa",
+      "third_party/qbe/test/abi8.ssa",
+      "third_party/qbe/test/abi9.ssa",
+      "third_party/qbe/test/dark.ssa",
+      "third_party/qbe/test/mem1.ssa",
+      "third_party/qbe/test/mem2.ssa",
+      "third_party/qbe/test/mem3.ssa"
+    ],
+    "variadic signature / call": [
+      "third_party/qbe/test/echo.ssa",
+      "third_party/qbe/test/vararg2.ssa"
+    ]
+  },
+  "fixtures": [
+    {
+      "path": "third_party/qbe/test/_alt.ssa",
+      "sha256": "5bd52cf1e30b1f0bc038c20ae80ffc605c520a635a693923fea47b817e6ab1af",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 84,
+      "emitted_sha256": "650222543a24409ee8a2ae1f9c60df48306c68b1fdbd26b0cf6fb602dfd99b49"
+    },
+    {
+      "path": "third_party/qbe/test/_bf99.ssa",
+      "sha256": "72ae5fb8887972c6887d9149395fe62cbbe621ed89f26e08149bb1998af14ef1",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_bf99.ssa: line 15 near '%v': unsupported name: use ASCII letters, digits and underscores",
+      "native_execution": "not run",
+      "first_blocker": "QBE dot / numeric names",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/_bfmandel.ssa",
+      "sha256": "440f49a38c02728f333fa846969623c14448dc9407984817da2322552aa13990",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_bfmandel.ssa: line 10 near '%v': unsupported name: use ASCII letters, digits and underscores",
+      "native_execution": "not run",
+      "first_blocker": "QBE dot / numeric names",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/_chacha20.ssa",
+      "sha256": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_chacha20.ssa: function $chacha20_rounds_qbe: duplicate SSA definition or duplicate parameter %in",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/_dragon.ssa",
+      "sha256": "153f712b8de8d0f57a617467c2cf68e844818cd383d7f59fb1210384d6ed3165",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_dragon.ssa: line 15 near '@b4.1': unsupported name: use ASCII letters, digits and underscores",
+      "native_execution": "not run",
+      "first_blocker": "QBE dot / numeric names",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/_fix1.ssa",
+      "sha256": "581dae6814d060cd7ec4eab55ac37fde0a0a00d343626a09800361afb2c03dae",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_fix1.ssa: function $test: duplicate SSA definition or duplicate parameter %x",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/_fix2.ssa",
+      "sha256": "86c5a15198cd32f26ef54b558de5f720dfea6865c809f22a1cc505935432a13a",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_fix2.ssa: function $test: duplicate SSA definition or duplicate parameter %x",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/_fix3.ssa",
+      "sha256": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_fix3.ssa: function $test: duplicate SSA definition or duplicate parameter %s",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/_fix4.ssa",
+      "sha256": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_fix4.ssa: line 25 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/_gcm1.ssa",
+      "sha256": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_gcm1.ssa: function $ifmv: duplicate SSA definition or duplicate parameter %r",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/_gcm2.ssa",
+      "sha256": "53ad71740fa485b3ebdec3bce0d1079b7ff2123e8e6d903104890d34be182302",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_gcm2.ssa: line 8 near '=': unsupported name: use ASCII letters, digits and underscores",
+      "native_execution": "not run",
+      "first_blocker": "QBE dot / numeric names",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/_live.ssa",
+      "sha256": "64ec49c87978cd05beeb2d7ff8bb071e19e9161a1dd3970c07542bb3ada59b40",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 33,
+      "emitted_sha256": "20ba0c91897e9d73e3a8bd6f1a3557b3e2aa5dce6d5f49a0cbc669f58ae5181f"
+    },
+    {
+      "path": "third_party/qbe/test/_load-elim.ssa",
+      "sha256": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 38,
+      "emitted_sha256": "455b28c1abc77d22987dad124acd0581aa5afe6ac3795bcb1ef7b4959cc7cad5"
+    },
+    {
+      "path": "third_party/qbe/test/_rpo.ssa",
+      "sha256": "63d5c64304f006b51f4e54f044cd30aeeaece8e521109ff5ab8d887b216c043a",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 24,
+      "emitted_sha256": "53a45d53c7a0e1d0e3281f2a269881eddc3af049181eff4959cd66d91f109454"
+    },
+    {
+      "path": "third_party/qbe/test/_spill1.ssa",
+      "sha256": "1bd406055470f450c7416419941b2d38c67c2674d525ac7ec9a0aff00ce2f2c7",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 26,
+      "emitted_sha256": "107c2943f38e8929024e0725db2e7300dd5b938b09ea57b079b6010c9f03dcda"
+    },
+    {
+      "path": "third_party/qbe/test/_spill2.ssa",
+      "sha256": "74ac81e0f6de3b2ffd9b110121e461da1e6e84003ca28938601353598b199b27",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 72,
+      "emitted_sha256": "b0f54b8fb10380491f6fcd54857326fb834e9b7ee656281ae36e129387cce94e"
+    },
+    {
+      "path": "third_party/qbe/test/_spill3.ssa",
+      "sha256": "fa68a2000e7a5940c33e45b5d2456367250959d66e15bfc425962cf0ee594836",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/_spill3.ssa: line 9 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi1.ssa",
+      "sha256": "8bfcc7af87a8cb45bde00461a73e1008e871f2a3879f778ab43b453bf1090159",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi1.ssa: line 5 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi2.ssa",
+      "sha256": "7164037f72c213a348f5ab580e63f3f6924f92f179d9b5f647691dda0e00dc30",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi2.ssa: line 1 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi3.ssa",
+      "sha256": "38f94339a421efb68258e6fa4f64e4fd7909617dbc848e338884db6b524e8f9f",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi3.ssa: line 1 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi4.ssa",
+      "sha256": "055db9a58500e1fc371c46f53a4d92ed369746a8f098411dbaffb2bc912af60b",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi4.ssa: line 3 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi5.ssa",
+      "sha256": "38fb92ec37f473dc2ea64d150004c18e45ec2f1b79e9a3c5c260750ba84055ff",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi5.ssa: line 3 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi6.ssa",
+      "sha256": "5f5584de651fbea79de0ccb3e71223825716acad41e16e4958396c0fbb93f947",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi6.ssa: line 3 near 'data': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level data",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi7.ssa",
+      "sha256": "db0978ea0dd926ea37d69ca26e76f3b96b163e574eab07388132b13cdd4ea1cb",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi7.ssa: line 4 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi8.ssa",
+      "sha256": "e471e0a30c39bc6105953d5ad2b501cf9bbb8113d0bd34cad4dbb7c23b6a2877",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi8.ssa: line 4 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/abi9.ssa",
+      "sha256": "e3e092f679adf015f7829940f29cf2cac7255ca64ffb94d9782c0a6f33476824",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/abi9.ssa: line 1 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/alias1.ssa",
+      "sha256": "c58146da60a5e157fac5c5636ee1747851660b643aa1212d907f96cec37f4c1f",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 48,
+      "emitted_sha256": "8095d75854dea2b230ce773581a731c62ef81c63ba25cef74044adc283e8a365"
+    },
+    {
+      "path": "third_party/qbe/test/align.ssa",
+      "sha256": "55fdab6dc709d040abc9eca6f2484f7b624e98057c865c60b1d13b3ebf31cb61",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/align.ssa: line 9 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/cmp1.ssa",
+      "sha256": "24e123980be560396e3323cfa7ca889585c3c9d44f5fc5021d67f4a52fead544",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/cmp1.ssa: function $test: duplicate SSA definition or duplicate parameter %cmp",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/collatz.ssa",
+      "sha256": "8b9b7aa9b409c8e5b63bc9b0d237baccbd992a81cfc2d93fb522589c1746b445",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/collatz.ssa: line 54 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/conaddr.ssa",
+      "sha256": "49941972ad1ca03a76ff6c4bf8e85f9c2e91517b1e3b4e414234d35cee8c43f1",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/conaddr.ssa: line 7 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/copy.ssa",
+      "sha256": "4e404dc9d755109de053dab761327167ddc817bb47c824140722b2d05bd8416c",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/copy.ssa: line 3 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/cprime.ssa",
+      "sha256": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 196,
+      "emitted_sha256": "13650e22988d06f944e0ae23eb9f700ef02764169d7e7e78e85d8fd3699f373d"
+    },
+    {
+      "path": "third_party/qbe/test/cup.ssa",
+      "sha256": "ecc28fe5adb5cb44918e5474f2d9a9a19f9324eadd3bf03fc68f5e802aeaf775",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 39,
+      "emitted_sha256": "bd3f87cd38d07bf22b825d648678f09c4c60713590cee4912000db6529f3d776"
+    },
+    {
+      "path": "third_party/qbe/test/dark.ssa",
+      "sha256": "6a03914f4ea621f16fd4d866507f34a78ebb33d7f93978a1c5b1912aca64bcb0",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/dark.ssa: line 6 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/double.ssa",
+      "sha256": "8658801b2a3dacd115582b05c4ed2ea69fe4b91e5fa4a2c91f56dd5bf461df18",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/double.ssa: line 4 near 'd': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "floating-point type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/dynalloc.ssa",
+      "sha256": "53578be74882aee600e6a00997be24712d2650b8debdda86b75f859ab4fca6c8",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/dynalloc.ssa: function $f: stack allocation outside the entry block is not yet supported",
+      "native_execution": "not run",
+      "first_blocker": "nonentry stack allocation",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/echo.ssa",
+      "sha256": "a2c7f1c4f967d5b61f9271e0e839371d161423b2ce122753ce8bc20a069735d7",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/echo.ssa: line 23 near '...': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "variadic signature / call",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/env.ssa",
+      "sha256": "ea28b83be22662df7f03c7aa339dd10647c97b0c9bf4a87cdf6fe8957d0df4df",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/env.ssa: line 3 near 'env': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "environment argument",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/eucl.ssa",
+      "sha256": "9ed32b05ba1e20f5a7aa589e754a8b8cc9fb51419a1a473f7c180f3975a88e3a",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/eucl.ssa: line 17 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/euclc.ssa",
+      "sha256": "29ad0153e8eb60a20e7d449bc43faede8d4323f2d66ffbb092297bd2e2fde72f",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 66,
+      "emitted_sha256": "4747c678dc2467123aef0d1c101cfc9b06d01d4c57811b6f200b51e976fe75a7"
+    },
+    {
+      "path": "third_party/qbe/test/fixarg.ssa",
+      "sha256": "dd59861481ee51c7b43cd4f4014141aaa07062e4893170bd5e845bb79f934df1",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 21,
+      "emitted_sha256": "bca9f84a760429ea5d611728b26271b16004b878a3780cee4fbac935e58e2125"
+    },
+    {
+      "path": "third_party/qbe/test/fold1.ssa",
+      "sha256": "cf5c6213aa87b06b867abd393befdbaf6b1299ffda5613fbd241583e3f36534b",
+      "check_exit": 0,
+      "check_stdout": "checked 6 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 91,
+      "emitted_sha256": "99a41fc79f6938e4a57ad3cfae5af86edba42d32aab515dbb750b87cab063275"
+    },
+    {
+      "path": "third_party/qbe/test/fpcnv.ssa",
+      "sha256": "c21291e8622c582f988326bb227c82664d3832b00d6a5b021ad2c07d8ed1dc9f",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/fpcnv.ssa: line 4 near 's': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "floating-point type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/gvn1.ssa",
+      "sha256": "b348d145f28297d843863cadfe6cbc4a2a9ab146f215fb3ca48be82eed4da7a1",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/gvn1.ssa: function $test: duplicate SSA definition or duplicate parameter %t2",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/gvn2.ssa",
+      "sha256": "7b9f291de76d3a2927cb2615608427985697aec86c3ad593748aaecda513d248",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/gvn2.ssa: function $test: duplicate SSA definition or duplicate parameter %rc",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/ifc.ssa",
+      "sha256": "71372a2da4188349ffc50922ede4a20a29c9f5d3be0adec6412797a7667c40d2",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/ifc.ssa: line 46 near 's': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "floating-point type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/isel1.ssa",
+      "sha256": "32a5f1c2ff32bf22d92bc0e543084a7e96b5172ad5f6a988e818c813e3687ef5",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/isel1.ssa: line 11 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/isel2.ssa",
+      "sha256": "ffdbdbfba74b85eee8f9c69539f72d329bab213d86f9fda7030135562593f186",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/isel2.ssa: line 4 near 'd': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "floating-point type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/isel3.ssa",
+      "sha256": "a199aaecd4176b32eed30daaf6e92a293b50f17813168efc53a6a6632c9aee2a",
+      "check_exit": 0,
+      "check_stdout": "checked 10 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 172,
+      "emitted_sha256": "15b8b6645030b77895faf5e73eb85a61248f495470d72c00a414aa749136185c"
+    },
+    {
+      "path": "third_party/qbe/test/isel4.ssa",
+      "sha256": "bf521030b22117e54daf66afc3c67877e2ad699f0fcd6743c5700629d105c111",
+      "check_exit": 0,
+      "check_stdout": "checked 5 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 149,
+      "emitted_sha256": "d95e747c822b9cbc9ef2974ac93ff2d40e8d749ff25544c8c767a837635ace81"
+    },
+    {
+      "path": "third_party/qbe/test/isel5.ssa",
+      "sha256": "6382c7d98a92c78717c585e90be6d62e13c762be4ec48e458ba50979ae693b11",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/isel5.ssa: line 7 near 'd': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "floating-point type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/isel6.ssa",
+      "sha256": "6316bf3bb1b0398f67b08101727e20bf1c6da4fea760385cea677c820e9a9058",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 30,
+      "emitted_sha256": "02230feceafd5c3367764f6e759a57f8a05a35210592f49c5799328ac477e359"
+    },
+    {
+      "path": "third_party/qbe/test/ldbits.ssa",
+      "sha256": "43756455d2e58a8b1e7b0d7b0c0030b2008c62a88d017a216ba655583e075ec1",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/ldbits.ssa: line 12 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/ldhoist.ssa",
+      "sha256": "69eb55e3af26a5caf3043cb4701a6788590a60e12dc2dfb738823f84c1a69376",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/ldhoist.ssa: function $f: duplicate SSA definition or duplicate parameter %n",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/load1.ssa",
+      "sha256": "070cbd2ac1ab3d8565bec32225a84e3eb440283963ca733180a7eb64e73a3843",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 44,
+      "emitted_sha256": "17a72642e2652d2d6a854d5d2f4a2b1f5dad9220ce906b2053993b7f847ff07c"
+    },
+    {
+      "path": "third_party/qbe/test/load2.ssa",
+      "sha256": "49215dded4b09d5f8d6c976c985068a1a97acab8125dfea373d784f4b5827b44",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/load2.ssa: function $f: duplicate SSA definition or duplicate parameter %n",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/load3.ssa",
+      "sha256": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+      "check_exit": 0,
+      "check_stdout": "checked 3 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 96,
+      "emitted_sha256": "b3cdb66c862f23c6ec2cdfb1c2889217891346fb1212d4d984dfb6a564659d64"
+    },
+    {
+      "path": "third_party/qbe/test/loop.ssa",
+      "sha256": "0c013790c40e20ade3ab5ede4fa450196e82a56811b32ffb19e06cd4c9ba8ff1",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/loop.ssa: line 16 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/mandel.ssa",
+      "sha256": "5f6ddb545e276d159570ea7ec3f91aa374acf449eb2759cfe77d373fc72e8c7b",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/mandel.ssa: line 4 near 'd': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "floating-point type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/max.ssa",
+      "sha256": "b2c524eea0cbe94594036e579ee41ce363d82ecf9a6c645200b2ef5c36167df3",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/max.ssa: line 7 near 'data': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level data",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/mem1.ssa",
+      "sha256": "b3b5545b9054d5f96f29ae692a7ad128b6559ff9c645bb94b114164c35f067e3",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/mem1.ssa: line 1 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/mem2.ssa",
+      "sha256": "95e7b786aa8205555700b7003a1c0e2cfcd9774cc2560df80ddb47e4abd5d3e4",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/mem2.ssa: line 4 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/mem3.ssa",
+      "sha256": "952465f9f3d79f78a1c2576fdb4134d2ab15c61f9128be0e6d398aaf150be27c",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/mem3.ssa: line 4 near 'type': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/philv.ssa",
+      "sha256": "c952c8ee18c78c7b0372da1abbaf6237119828361d0adbe61b2341bd8792b12f",
+      "check_exit": 0,
+      "check_stdout": "checked 2 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 78,
+      "emitted_sha256": "3cbadb4a5a556acb3a33704cf8ec50740b42c62d7e1c2dc5deda14ccb1844592"
+    },
+    {
+      "path": "third_party/qbe/test/prime.ssa",
+      "sha256": "bb8cbff468347a4cae7b8bb42a70c1a8642b1bb83bbd31af442f3071d54521cf",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/prime.ssa: line 25 near '$a': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/puts10.ssa",
+      "sha256": "7ec69098b239e124724d3e678ecb291800ff3e004c1b19022b9b1a4f5fc5b7a2",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 58,
+      "emitted_sha256": "443ac57f49619aaf86bb10a01c2a4ee131252c7c439b18911f6018b26fee6238"
+    },
+    {
+      "path": "third_party/qbe/test/queen.ssa",
+      "sha256": "414170ef76a28aa2a6e87841bba8a93f8959fe2ebaae3c01a8ab6a015155b90d",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/queen.ssa: line 16 near '$glo1': unsupported operand: expected temporary or decimal integer",
+      "native_execution": "not run",
+      "first_blocker": "global symbol operand",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/rega1.ssa",
+      "sha256": "7f6222cec0042e10c6d1a6251ac6e75554370b2f8d0a8d6cad06b5ce8cebf224",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 61,
+      "emitted_sha256": "c55d6b3e6483563576e33ae1a3c43b64b58b3f2d2bed9bb0aad885f35db872bd"
+    },
+    {
+      "path": "third_party/qbe/test/spill1.ssa",
+      "sha256": "7d3300e5a50b700bac4f583c0d9aad897b76340673c89c67a565e3444ea836e6",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/spill1.ssa: function $f: duplicate SSA definition or duplicate parameter %a",
+      "native_execution": "not run",
+      "first_blocker": "SSA construction / repeated definitions",
+      "rejection_stage": "admission"
+    },
+    {
+      "path": "third_party/qbe/test/strcmp.ssa",
+      "sha256": "971f58decd24599f4834d0bf808bf60f929998cec0988bcb18c4be9ad68d3a55",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/strcmp.ssa: line 3 near ',': unsupported name: use ASCII letters, digits and underscores",
+      "native_execution": "not run",
+      "first_blocker": "QBE dot / numeric names",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/strspn.ssa",
+      "sha256": "3657178e2a2bc77cdea75d659b440d05f533ee190679d002fc9e17d171d8aefc",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/strspn.ssa: line 3 near ',': unsupported name: use ASCII letters, digits and underscores",
+      "native_execution": "not run",
+      "first_blocker": "QBE dot / numeric names",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/sum.ssa",
+      "sha256": "b1580fe79ba46691fd9145fb89a3cbec105865c9e3053f34ff3b8ee2c17ad2f2",
+      "check_exit": 0,
+      "check_stdout": "checked 1 function(s); initial QBE subset",
+      "check_stderr": "",
+      "native_execution": "not run",
+      "emit_exit": 0,
+      "emit_stderr": "",
+      "emitted_lines": 67,
+      "emitted_sha256": "a7f1654d7ee24e004d7cad88f3412d04c2fff25fef088129a4118f540a0e7657"
+    },
+    {
+      "path": "third_party/qbe/test/tls.ssa",
+      "sha256": "b97fc2c8d39cfda18e1ae928584ae9b7c6debf3fbba62c9bb2a16841df2abea8",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/tls.ssa: line 2 near 'thread': expected 'function'",
+      "native_execution": "not run",
+      "first_blocker": "top-level thread",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/vararg1.ssa",
+      "sha256": "8e881b4105fc95deecf57c7d1b5339611225dfd9a8a39422288527617b342dd2",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/vararg1.ssa: line 2 near 'd': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "floating-point type",
+      "rejection_stage": "parsing"
+    },
+    {
+      "path": "third_party/qbe/test/vararg2.ssa",
+      "sha256": "02f27e1d3a5d1001def434d94d79bd5bd1d8cab7947b4298ae6b1c524269b5b4",
+      "check_exit": 1,
+      "check_stdout": "",
+      "check_stderr": "error: /private/tmp/lcb-integer-blits/third_party/qbe/test/vararg2.ssa: line 1 near '...': unsupported type: expected w (32-bit) or l (64-bit)",
+      "native_execution": "not run",
+      "first_blocker": "variadic signature / call",
+      "rejection_stage": "parsing"
+    }
+  ]
+}

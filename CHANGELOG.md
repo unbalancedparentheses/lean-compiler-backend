@@ -21,6 +21,13 @@
   as fake SSA temporaries or zero. Signature checks reject integer/void result
   mismatches; interpreter `--eval` prints `void` when there is no return value.
 
+- Adopt a correctness-first roadmap: semantic contracts, independent function jobs,
+  canonical serialization and typed lowering begin during the QBE port; a first
+  composed preservation milestone precedes broader certified coverage. Track
+  implemented, tested and proved support separately. QBE remains the compatibility
+  baseline without imposing permanent IR compatibility. Documentation only; no
+  new implementation or proof coverage is claimed by this roadmap change.
+
 - Added direct integer calls, checked internal signatures, recursion and a
   non-leaf ARM64 ABI slice with saved return addresses and live values retained
   across calls. Interpreter calls share a global block budget and memory, with

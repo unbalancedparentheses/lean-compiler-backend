@@ -1,10 +1,11 @@
 # A reproducible, independently checkable compiler backend in Lean 4
 
-Status: research proposal, 2026-10-18. This collects design research for this
-standalone backend. The current implementation priority remains the QBE 1.3
-port in Lean 4. Suggested sequencing changes below are proposals, not changes
-to the accepted roadmap or claims of implemented features. The backend is implemented in Lean 4 and
-accepts a general-purpose IR. It is not specifically a compiler for Lean programs.
+Status: research and design rationale, updated 2026-10-18. The roadmap now adopts
+correctness-first sequencing: foundations and proof design during the QBE port,
+followed by expanding compatibility and certification together. Detailed interfaces
+and algorithms below remain proposals until implemented and qualified. The backend
+is implemented in Lean 4 and accepts a general-purpose IR; it is not specifically
+a compiler for Lean programs.
 
 ## Relationship to the current QBE port
 
@@ -15,8 +16,8 @@ architecture decisions can be made deliberately while the port progresses.
 It is not an instruction to expand scope to MLIR integration, a JIT or a
 custom linker before completing the QBE baseline.
 
-Primary-source findings, proposed designs and unfinished community research
-are distinguished below. The requested independent Claude Code review is
+Primary-source findings, proposed designs and the limits of the community
+evidence review are distinguished below. The requested independent Claude Code review is
 pending: its attempted invocation failed because Claude Code was not logged in.
 
 ## Product priorities and long-term direction
@@ -118,6 +119,7 @@ They are not claims that upstream projects already provide our complete contract
 | Alive2 | Translation validation for LLVM transformations. [Repository](https://github.com/AliveToolkit/alive2) | Check transformations at precise boundaries. It cannot directly validate our custom IR or native output. |
 | lean-mlir | Lean infrastructure for SSA and verified rewrites. [Repository](https://github.com/opencompl/lean-mlir) | Run a bounded reuse experiment before choosing a dependency: one arithmetic rewrite, one conditional rewrite and a representative control-flow example. |
 | Sail | Executable ISA specifications, including RISC-V. [RISC-V model](https://github.com/riscv/sail-riscv) | Evaluate a target-semantics connection for RV64 later. It does not automatically establish the AArch64 implementation's correctness. |
+| TB/Cuik | A separate Tilde backend in an early compiler project. [Repository](https://github.com/RealNeGate/Cuik) | Study compact representations and phase costs; require local measurements before adopting performance claims. |
 
 The original size comparisons used different source scopes and excluded different
 dependencies. They should not decide architecture. Record pinned revisions and a
@@ -149,8 +151,10 @@ must not influence code generation. Local mutation inside a pure Lean interface
 is compatible with this design; uncontrolled ambient inputs are the problem.
 
 The acceptance criterion is stronger than rebuilding a whole program twice:
-changing an unrelated function must leave this function's canonically serialized
-artifact byte-for-byte unchanged, under the same declared compilation configuration.
+changing an unrelated function must leave this function's canonical code
+fragment byte-for-byte unchanged when its code dependencies are unchanged. The
+complete artifact also depends on debug/source metadata and evidence; their
+separate dependency contracts are specified below.
 
 Define a versioned canonical serialization with specified ordering and integer
 encoding. Do not hash `Repr` output. A digest indexes a cache; it is not a proof
@@ -301,24 +305,28 @@ useful testing but does not by itself prove instruction semantics.
 
 The current implementation already has a pure `AArch64.emitFunction`, a
 restricted integer/control-flow implementation, validation and an executable
-interpreter. It emits assembly strings and assigns stack slots to values. Its
-small selection theorem relates abstract arithmetic specifications; it does not
+interpreter. The current working tree also documents integer memory operations
+and bounded entry-block stack allocations; see [DESIGN.md](../DESIGN.md) for the
+authoritative scope. It emits assembly strings and assigns stack slots to
+values. Its small selection theorem relates abstract arithmetic specifications; it does not
 prove complete frame, control-flow, rendered-assembly or machine-byte behavior.
 
-The current roadmap puts precise semantics and most proof work in Phase 2, with
-machine-IR improvements and reproducible function artifacts in Phase 3. Move their
-foundations forward. This is a proposed sequencing change, not a claim that those
-roadmap items have been implemented or adopted in this repository.
+The roadmap now moves semantic contracts, function isolation, serialization and
+typed lowering into F01–F05, with the first composed preservation result in C01–C03.
+V01–V05 run alongside compatibility work rather than following the completed port.
+The table below is a finer-grained design decomposition; the accepted milestone
+identifiers and completion status are in [ROADMAP.md](../../ROADMAP.md). Adoption
+of the sequence is not a claim that the foundations or proofs are implemented.
 
 | Stage | Deliverable | Exit gate |
 |---|---|---|
-| 0 — Boundary and contracts | Frozen jobs, versioned canonical codecs, typed artifact skeleton, deterministic IDs, initial semantic contracts and lean-mlir reuse experiment. | The current subset compiles identically alone, reordered and under different worker schedules. No undeclared dependency reads. |
+| 0 — Boundary and contracts | Frozen jobs, versioned canonical codecs, typed artifact skeleton, deterministic IDs, initial semantic contracts and lean-mlir reuse experiment. | The current subset produces identical code fragments alone, reordered and under different worker schedules; debug dependencies are checked separately. No undeclared dependency reads. |
 | 1 — Typed baseline | Route existing integer/CFG stack lowering through typed machine IR and final assembly. | Regression parity; structural validators; a scoped preservation result covering edge copies, frame behavior and control flow in the chosen target model. |
 | 2 — Memory and interfaces | Memory/data, symbols, calls, floating point, variadics and ABI contracts, expanding target coverage incrementally. | Defined-behavior differential tests and ABI fixtures pass; semantics and certification gaps are recorded per feature. |
 | 3 — SSA and optimizations | QBE SSA construction, analyses and optimization behavior; effects and a small proved rewrite library. | Every enabled optimization has a documented contract, meaningful tests and explicit proof/validation status. |
 | 4 — Allocation | Liveness, spills, constraints and allocation proposals with value-flow validation. | Adversarial fixtures exercise joins, calls and spills; checker soundness covers the certified subset; failures are explicit. |
 | 5 — Complete compatible release | Finish inventoried QBE 1.3 syntax, passes, targets and ABI support. | Full upstream suite and coverage accounting, differential fuzzing, pinned performance measurements; tested and certified coverage are reported separately. |
-| 6 — Incremental execution | Parallel workers and content-addressed cache over the established job boundary. | Cold/warm and scheduling matrices yield identical artifacts; dependency changes invalidate exactly the required jobs; corrupt records are rejected. |
+| 6 — Incremental execution | Parallel workers and content-addressed cache over the established job boundary. | Cold/warm and scheduling matrices yield identical artifacts for identical complete inputs; code/debug dependencies invalidate separately; corrupt records are rejected. |
 | 7 — Concrete encoding | Direct encoding and relocation/object support, beginning with the baseline target. | Encoding checks and target-semantics connection cover the claimed subset; assembler/linker assumptions remain explicit where applicable. |
 | 8 — Composed certification | Open-function, lowering and artifact/linking results composed for a declared domain. | Exact supported-domain theorem and audited trust inventory; a standalone verification story for delivered artifacts. |
 | 9 — Measured extensions | Consumer adapters, selected optimizations, richer debug information and optional specialization. | Workload-specific benefits and preserved correctness/reproducibility contracts. |
@@ -329,10 +337,10 @@ target lowering stabilizes. Composition planning starts immediately, with its
 covered domain growing throughout. Full QBE compatibility remains the first
 complete product release; narrower verified milestones may precede it.
 
-In existing roadmap terms: pull V01 and the isolation/serialization part of E03
-forward; introduce the necessary typed-stage portion of E01 during P05; grow
-V02–V05 alongside P05–P12. Defer the broader optimization and consumer work rather
-than making it a prerequisite for compatibility.
+In the updated roadmap, F01–F05 contain V01's initial semantic contracts and the
+foundational portions of E01/E03. C01–C03 establish the first composed proof;
+V02–V05 then grow alongside P05–P12. Broader optimization and consumer work remains
+separate from the compatibility milestone.
 
 ## Qualification and measurement
 
@@ -369,30 +377,188 @@ time and the fraction of work reused after representative edits. Publish workloa
 hardware, flags, toolchain and uncertainty. Keep runtime helpers explicit: writing
 the compiler in Lean does not imply linking Lean's runtime into generated programs.
 
-## Community discussion research: evidence status
+## Community discussion research
 
-Reddit, Lobsters and Hacker News searches have located the discussions below.
-Their substantive comments have not all been read and verified. They are a reading
-list, not corroboration for architectural or performance claims. Dates, software
-versions, firsthand experience and benchmark methodology need checking before any
-conclusion is promoted into the design.
+The [community evidence review](community-discussions.md) records the Reddit,
+Lobsters and Hacker News material examined, primary-source checks, corrections,
+coverage limits and design consequences. It replaces the earlier unverified
+reading list. Some project/platform combinations yielded sparse results; those
+gaps are explicit rather than presented as completed coverage.
 
-| Project | Discussion leads | Questions to investigate |
+The most consequential findings are the need to distinguish code and debug
+dependencies, make specification and tool-boundary testing permanent, keep
+integration and inspection usable, and avoid deriving architectural decisions
+from incomparable performance anecdotes. The following decisions incorporate
+those findings while preserving correctness as the first priority.
+
+## Design decisions strengthened by the discussion review
+
+The [community evidence review](community-discussions.md) supports the following
+proposals. These are design choices for this backend, not claims that any one
+upstream project already implements the whole design.
+
+### A small verified core with replaceable search strategies
+
+Keep the trusted semantic definitions, pass interfaces and sound checkers small.
+Let instruction selection, allocation and optimization heuristics propose results
+within narrowly specified validation domains. This permits algorithm changes
+without weakening the acceptance rule. It does not make arbitrary transformations
+cheap to validate: select certificate formats for specific transformations first.
+
+All production modes should target the same source semantics. A fast baseline
+and a more optimizing pipeline may differ in cost and accepted feature coverage,
+but neither may silently change the meaning of an operation. Certification requests
+must fail explicitly if a required stage lacks evidence. A separate experimental
+mode must identify uncertified paths rather than masquerading as certified output.
+
+Distinguish conditional soundness from successful compilation. Measure rejection
+rates on the supported domain, checker resource usage and compilation termination.
+For bounded algorithms, prove termination where practical; resource exhaustion
+remains an explicit operational outcome, not evidence about the source program.
+
+### Freeze semantic decisions before adding optimization permissions
+
+Maintain a semantic decision ledger. Each entry has the chosen behavior, admitted
+domain, examples and counterexamples, target obligations, and transformations it
+permits. This makes disagreements reviewable before they become optimizer bugs.
+
+| Topic | Proposed initial policy | Required evidence or unresolved choice |
 |---|---|---|
-| QBE | [HN 1.3](https://news.ycombinator.com/item?id=48373442), [Lobsters](https://lobste.rs/s/j1sadh/qbe_compiler_backend), [Reddit](https://www.reddit.com/r/Compilers/comments/1vna7lp/anyone_using_qbe/) | Integration effort, ABI surprises, debug information, real workload code quality. |
-| MIR | [HN](https://news.ycombinator.com/item?id=22098399), [Lobsters](https://lobste.rs/s/zaevwg/mir_lightweight_jit_compiler_based_on_mir), [Reddit](https://www.reddit.com/r/Compilers/comments/p32k1c/) | Interpreter/JIT usefulness, portability, benchmark comparability. |
-| Stogov IR | [HN QBE discussion mentioning alternatives](https://news.ycombinator.com/item?id=48373442) | Dedicated discussions remain to be located; avoid treating passing comparisons as controlled measurements. |
-| libFirm | [HN](https://news.ycombinator.com/item?id=10921976), [Lobsters](https://lobste.rs/s/ijhl0w/libfirm_compiler_backend), [Reddit](https://www.reddit.com/r/ProgrammingLanguages/comments/1e8qwis/) | Graph representation costs, optimization settings, maintenance and embedding experience. |
-| CompCert | [HN testing discussion](https://news.ycombinator.com/item?id=36018300), [Lobsters](https://lobste.rs/s/qlrh1u/runtime_error_formally_verified), [Reddit](https://www.reddit.com/r/Compilers/comments/1h5tzv6/) | Which failures concern specifications, verified transformations or unverified tool boundaries? |
-| Cranelift | [HN](https://news.ycombinator.com/item?id=39742692), [Lobsters broader backend comparison](https://lobste.rs/s/ftk8xs/10_20x_faster_llvm_o0_back_end), [Reddit](https://www.reddit.com/r/rust/comments/10h4gd5/) | Compile-time versus code-quality tradeoffs, ISLE experience and integration costs. |
-| Zig | [HN incremental internals](https://news.ycombinator.com/item?id=49085666), [Lobsters rewrite experience](https://lobste.rs/s/axdfjx/how_our_rust_zig_rewrite_is_going), [Reddit incremental compilation](https://www.reddit.com/r/Compilers/comments/1v951kq/inside_zigs_incremental_compilation_mlugg/) | Dependency granularity, shared state, incremental linking and clean-build reproducibility. |
-| MLIR | [HN](https://news.ycombinator.com/item?id=37157451), [Reddit learning experience](https://www.reddit.com/r/Compilers/comments/1pwabrz/starting_with_mlir_seems_impossible/) | Framework costs, learning curve and which contracts remain valuable without the framework. Lobsters coverage remains incomplete. |
-| LLVM | [HN integration discussion](https://news.ycombinator.com/item?id=36538344), [Lobsters backend comparison](https://lobste.rs/s/ftk8xs/10_20x_faster_llvm_o0_back_end) | Build/API burden versus optimization and target coverage. Dedicated Reddit coverage remains incomplete. |
+| Integer arithmetic | Distinct wrapping, checked and explicitly preconditioned operations; QBE import preserves QBE's admitted behavior. | Prove width conversions, overflow conditions and lowering; never replace a checked operation with wrapping arithmetic silently. |
+| Division and shifts | State exceptional inputs and shift-count treatment in each operation's semantics. | Model QBE compatibility separately from any future total/trapping operations. |
+| Memory | Explicit lifetime, initialization, byte order, alignment and access-width rules; conservative alias reasoning. | Decide pointer provenance and pointer/integer round trips before enabling transformations depending on them. |
+| Floating point | Begin with an explicit strict profile; no default reassociation or contraction. | Specify NaNs, signed zero, subnormals, rounding and exception-state assumptions per target. Unsupported profiles are rejected. |
+| Calls | Conservative effects unless backed by a declared and justified contract. | Explain callbacks, reentrancy, retained pointers, clobbers, varargs and aggregate classification. |
+| Traps and divergence | Preserve the chosen observable behavior; do not infer speculation safety from absence of memory writes. | Separate a modeled trap from host signals and resource exhaustion. |
+| Concurrency | Initial certification explicitly sequential. | Atomic operations, fences, volatile/MMIO and concurrent contexts need distinct semantics and proofs; they cannot be treated as ordinary loads/stores. |
+| Runtime integration | Explicit imports and capability declarations. | Tail calls, stack maps, GC safepoints, unwinding and nonlocal exits require defined contracts before support is advertised. |
 
-Community coverage of CakeML, Alive2, Sail and lean-mlir also remains incomplete.
-No conclusion in this proposal depends on an unverified social comment. A future
-revision should distinguish maintainer explanations, firsthand reports and
-speculation, and cross-check design-relevant claims with primary sources.
+LLVM's [UB manual](https://llvm.org/docs/UndefinedBehavior.html) illustrates why
+optimizer permissions need precise definitions. Our proposed native IR should
+avoid adding poison/undef machinery until a concrete use case and preservation
+argument justify it. Defined trapping semantics and undefined source behavior
+must never be conflated. Likewise, semantic preservation alone does not establish
+constant-time execution, speculative-execution security or memory safety for an
+unsafe source program; those require additional properties.
+
+### Make ABI lowering its own checked boundary
+
+Introduce a target-specific `AbiPlan` before machine instruction selection. It
+records argument/result locations, extension rules, aggregate classification,
+hidden parameters, stack alignment, caller/callee ownership and saved registers.
+Instruction selection consumes that plan, and the resulting machine function is
+checked against it. Include a plan version and relevant symbol contracts in the job.
+
+This makes ABI bugs local and gives composition proofs a stable interface. Start
+with the existing leaf calling convention, then add calls and aggregates. Test
+against independently compiled callers and callees in both directions, including
+register/stack boundaries and reentrant callbacks when supported.
+
+### Use open-component correctness for function composition
+
+Write function contracts over interactions, not only final return values. A
+compatible callee may call back before returning, retain permitted memory, or
+interact with shared globals. Define the memory relation across each call/return
+and make environment assumptions explicit. Recursive components need a compositional
+argument; a dependency DAG used for caching is not that argument.
+
+[CompCertO](https://flint.cs.yale.edu/shao/papers/compcerto.html) specifically studies
+compiled components and their interactions, including calling conventions. Study
+it when designing our sequential call semantics. For later threaded contexts,
+[CompCertOC](https://flint.cs.yale.edu/shao/papers/compcertoc.html) addresses shared
+stack data and compositional compilation. These are research references, not
+proofs that can be transplanted to our Lean implementation without reconstruction.
+
+### Separate code, debug and evidence products
+
+Define three dependency sets:
+
+- Code dependencies: normalized semantic IR, target, ABI, pipeline and consumed
+  optimization facts.
+- Debug dependencies: source identities, normalized paths, line/column mappings
+  and requested debug policy, bound to stable instruction origins.
+- Evidence dependencies: semantic and theorem versions, checker identity and the
+  exact inputs/outputs being justified.
+
+An unrelated function edit must preserve the code fragment when code dependencies
+do not change. If that edit shifts another function's source lines, its debug
+artifact may change legitimately. The combined artifact is reproducible for the
+same complete dependency set, not necessarily invariant under all source edits.
+If a debug policy changes instruction selection, it becomes a code dependency.
+Code and metadata must be re-associated correctly; separate hashing alone is
+insufficient. This refines the stronger informal independence claim above.
+
+### Treat cache and planner correctness as explicit obligations
+
+Compilation may be pure while the driver supplies the wrong job. Validate that
+the dependency snapshot matches resolved declarations and the requested target.
+Content hashes accelerate lookup; they do not establish semantic validity. At the
+cache boundary, check artifact format, input binding and required evidence before
+use. Stale target/ABI schemas, substituted artifacts and truncated entries must
+fail explicitly. A provenance manifest is useful even before a persistent cache.
+
+Inlining and interprocedural analysis belong in an optional deterministic planner
+that materializes all consumed bodies and facts before per-function compilation.
+Facts such as “callee never writes memory” must invalidate when their justification
+changes. Aggressive global optimization increases dependency fan-out; expose that
+tradeoff rather than hiding it behind a function-level API. Compiler semantic
+dependencies and debug dependencies need separate invalidation tests.
+
+### Keep the target specification independent of heuristic code
+
+Target descriptions can centralize operand types, register aliases, immediates,
+clobbers and legality. A declarative selector chooses legal instructions; its
+preservation argument connects those instructions to independently justified
+target semantics. Rule coverage and overlap checks improve engineering confidence
+but do not establish semantic correctness on their own.
+
+For proof execution in Lean, distinguish kernel-replayed evidence from native
+execution of a checker whose source is proved correct. Record the compiler/runtime
+assumptions of the latter. Proof acceleration mechanisms must be audited rather
+than treated as equivalent merely because the output carries a Lean theorem name.
+Imported proofs from another prover require a justified translation or remain
+external evidence.
+
+### Make inspection and failure reduction part of the public product
+
+Provide typed builders, a readable IR syntax, canonical job/artifact codecs,
+stage-specific diagnostics, instruction-origin tracking and isolated pass fixtures.
+An “explain” facility should show a rule, its side conditions, relevant target
+constraints and evidence coverage. A reducer should retain well-formedness and
+the failing semantic condition, not merely shorten text into an invalid program.
+
+Collect client programs with different CFG, memory and calling patterns. Keep
+independent reference evaluators even where compiler passes share semantic helpers:
+agreement between two users of one faulty helper is weak evidence. Original and
+corrected upstream-oracle results must remain distinguishable, as already described
+in [the QBE discrepancy record](../UPSTREAM_DISCREPANCIES.md).
+
+### Choose the next milestone by proof coverage
+
+The strongest next research milestone is a narrow vertical slice: one fixed target
+and ABI, checked integer CFG input, stack lowering, control-flow/phi/frame semantics,
+typed assembly and a composed preservation statement with named remaining gaps.
+Use that slice to settle representations before scaling the feature set. It should
+include a nontrivial loop and parallel edge transfers, not only leaf arithmetic.
+
+Prepare four reviewable specifications before implementing broader infrastructure:
+
+1. Semantic decision ledger and supported-domain statement, including the target
+   state relation and external-environment assumptions.
+2. `FunctionJob`, `AbiPlan`, artifact and certificate schemas, with exact dependency
+   and versioning rules.
+3. Pass obligation table: direct proof, proved validation, or explicitly uncertified,
+   plus composition requirements and failure behavior.
+4. Qualification matrix covering semantics, ABI, artifact binding, reproducibility,
+   parser/importer behavior, adversarial certificates and independent machine tests.
+
+The roadmap adopts this sequencing while the detailed designs remain proposals.
+Architecture foundations and proof design start now; full compatibility work can
+continue alongside them. After the QBE baseline, grow the native IR according to
+the semantic ledger and evidence, rather than treating QBE behavior as a permanent
+ceiling. The intended competitive advantage is transparent, independently checkable
+compilation with predictable incremental behavior; performance is optimized within
+that contract.
 
 ## Immediate implementation slice
 
