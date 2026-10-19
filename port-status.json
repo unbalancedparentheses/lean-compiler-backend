@@ -22,9 +22,9 @@
   },
   "targets": {"arm64_apple": "partial: integer functions with control flow, memory and direct register-argument calls"},
   "syntax": {
-    "integer functions and parameters": "partial: ASCII names, decimal literals, w/l, at most eight parameters",
+    "integer functions and parameters": "partial: ASCII names, decimal literals, w/l or void result, at most eight w/l parameters",
     "basic blocks, jumps, phi": "partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers",
-    "calls and variadic functions": "partial: direct calls with up to eight w/l arguments and a w/l result; recursion and external C symbols; void/indirect calls and variadics remain",
+    "calls and variadic functions": "partial: direct calls with up to eight w/l arguments and a w/l or void result; recursion and external C symbols; indirect calls and variadics remain",
     "floating point and conversions": "not implemented",
     "memory and allocation": "partial: integer loads/stores, loadw/loadl aliases; entry-block positive constant alloc4/8/16 and alloc1/2 aliases; dynamic/non-entry allocation and blits remain",
     "aggregate type and data definitions": "not implemented",

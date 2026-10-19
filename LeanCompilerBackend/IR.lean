@@ -106,15 +106,21 @@ structure Instruction where
   operation : Operation
   deriving Repr, Inhabited
 
-/-- Stores have no SSA result; they are never disguised as temporary definitions. -/
+/-- Effect statements have no SSA result or artificial temporary definition. -/
 inductive Statement where
   | assign (instruction : Instruction)
   | store (width : MemoryWidth) (value address : Operand)
+  | callVoid (target : String) (arguments : Array CallArgument)
   deriving Repr, Inhabited
 
 def Statement.definition : Statement → Option (String × Width)
   | .assign inst => some (inst.destination, inst.width)
-  | .store .. => none
+  | .store .. | .callVoid .. => none
+
+def Statement.callSite : Statement → Option (String × Array CallArgument × Option Width)
+  | .assign { width, operation := .call target arguments, .. } => some (target, arguments, some width)
+  | .callVoid target arguments => some (target, arguments, none)
+  | _ => none
 
 structure Parameter where
   name : String
@@ -128,7 +134,7 @@ structure Phi where
   deriving Repr, Inhabited
 
 inductive Terminator where
-  | ret (value : Operand)
+  | ret (value : Option Operand)
   | jump (label : String)
   | branch (condition : Operand) (ifTrue ifFalse : String)
   | halt
@@ -149,7 +155,7 @@ structure Block where
 structure Function where
   name : String
   exported : Bool
-  resultWidth : Width
+  resultWidth : Option Width
   parameters : Array Parameter
   blocks : Array Block
   deriving Repr, Inhabited

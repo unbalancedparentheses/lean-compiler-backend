@@ -2,13 +2,18 @@
 
 ## Unreleased
 
+- Added void functions, bare returns and effect-only direct calls, including
+  recursion and C APIs. Missing results are represented explicitly rather than
+  as fake SSA temporaries or zero. Signature checks reject integer/void result
+  mismatches; interpreter `--eval` prints `void` when there is no return value.
+
 - Added direct integer calls, checked internal signatures, recursion and a
   non-leaf ARM64 ABI slice with saved return addresses and live values retained
   across calls. Interpreter calls share a global block budget and memory, with
   callee stack objects invalidated on return. Unknown external calls have no
   interpreted result. Native C interoperation and generated call graphs are
   compared with Python, original QBE and C; register-clobber corruption controls
-  qualify the ABI checks. Void/indirect calls and full ABI support remain open.
+  qualify the ABI checks. Indirect calls and full ABI support remain open.
 
 - Added integer loads/stores and bounded entry-block constant stack allocations,
   with explicit store statements, an executable byte-memory model and ARM64

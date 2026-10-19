@@ -130,14 +130,18 @@ private def parseArguments : Nat → P (Array CallArgument)
       return #[{ width, value }] ++ (← parseArguments fuel)
     return #[{ width, value }]
 
+private def parseCall : P (String × Array CallArgument) := do
+  let target ← parseName '$'
+  expect "("
+  let arguments ← parseArguments 10
+  expect ")"
+  pure (target, arguments)
+
 private def parseOperation (name : String) : P Operation := do
   if name == "copy" then
     pure (.copy (← parseOperand))
   else if name == "call" then do
-    let target ← parseName '$'
-    expect "("
-    let arguments ← parseArguments 10
-    expect ")"
+    let (target, arguments) ← parseCall
     pure (.call target arguments)
   else if ["alloc1", "alloc2", "alloc4", "alloc8", "alloc16"].contains name then
     -- QBE parse.c maps alloc1/alloc2 aliases to alloc4 (stronger alignment).
@@ -219,12 +223,13 @@ private def parseParameters : Nat → P (Array Parameter)
       return #[{ name, width }] ++ (← parseParameters fuel)
     return #[{ name, width }]
 
-private def parseBody : Nat → P (Array Phi × Array Statement × Terminator)
+private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Array Statement × Terminator)
   | 0 => failAt "instruction parsing limit exceeded"
   | fuel + 1 => do
     if (← peek) == some "ret" then
       discard take
-      pure (#[], #[], .ret (← parseOperand))
+      let value ← if resultWidth.isSome then some <$> parseOperand else pure none
+      pure (#[], #[], .ret value)
     else if (← peek) == some "jmp" then
       discard take
       pure (#[], #[], .jump (← parseName '@'))
@@ -245,8 +250,12 @@ private def parseBody : Nat → P (Array Phi × Array Statement × Terminator)
       else
         let definition ← if let some width := storeWidth token then
           Sum.inr <$> parseStore width
+        else if token == "call" then do
+          discard take
+          let (target, arguments) ← parseCall
+          pure (.inr (.callVoid target arguments))
         else parseDefinition
-        let (phis, instructions, terminator) ← parseBody fuel
+        let (phis, instructions, terminator) ← parseBody resultWidth fuel
         match definition with
         | .inl phi => pure (#[phi] ++ phis, instructions, terminator)
         | .inr inst =>
@@ -254,15 +263,15 @@ private def parseBody : Nat → P (Array Phi × Array Statement × Terminator)
           pure (#[], #[inst] ++ instructions, terminator)
     else failAt "expected block terminator"
 
-private def parseBlocks : Nat → P (Array Block)
+private def parseBlocks (resultWidth : Option Width) : Nat → P (Array Block)
   | 0 => failAt "block parsing limit exceeded"
   | fuel + 1 => do
     let label ← parseName '@'
-    let (phis, instructions, terminator) ← parseBody 481
+    let (phis, instructions, terminator) ← parseBody resultWidth 481
     let block := { label, phis, instructions, terminator : Block }
     match ← peek with
     | some token =>
-      if token.startsWith "@" then pure (#[block] ++ (← parseBlocks fuel))
+      if token.startsWith "@" then pure (#[block] ++ (← parseBlocks resultWidth fuel))
       else pure #[block]
     | none => pure #[block]
 
@@ -270,13 +279,13 @@ private def parseFunction : P Function := do
   let exported := (← peek) == some "export"
   if exported then discard take
   expect "function"
-  let resultWidth ← parseWidth
+  let resultWidth ← if ((← peek).getD "").startsWith "$" then pure none else some <$> parseWidth
   let name ← parseName '$'
   expect "("
   let parameters ← parseParameters 10
   expect ")"
   expect "{"
-  let blocks ← parseBlocks 65
+  let blocks ← parseBlocks resultWidth 65
   expect "}"
   return { name, exported, resultWidth, parameters, blocks }
 

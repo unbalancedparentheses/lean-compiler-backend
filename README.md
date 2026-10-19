@@ -46,7 +46,7 @@ The only implemented output target remains AArch64 macOS.
 
 ## Current scope
 
-- `w`/`l` integer functions, up to eight register arguments and 64 basic blocks.
+- `w`/`l` integer and void functions, up to eight register arguments and 64 basic blocks.
 - Integer arithmetic/bitwise operations, masked shifts, signed/unsigned
   division and remainder, negation, all integer comparisons and byte/half/word extensions.
 - Defined 32/64-bit modular arithmetic, including narrowing `l` operands to `w`.
@@ -56,14 +56,14 @@ The only implemented output target remains AArch64 macOS.
 - Integer byte/half/word/long loads and stores, including signed loads and
   unaligned accesses. Positive constant `alloc4`/`alloc8`/`alloc16` allocations
   in the entry block; QBE's `loadw`/`loadl` and `alloc1`/`alloc2` aliases.
-- Direct calls with up to eight typed integer arguments and one integer result,
+- Direct calls with up to eight typed integer arguments and an integer or void result,
   including recursion and external C symbols. Internal signatures are checked;
   external definitions must honor the declared ABI. Non-leaf frames save the
   return address and keep live values in stack slots across calls.
 - A small Lean theorem for primitive arithmetic opcode selection.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
-The first port uses stack slots for every value. Void/indirect calls, stack
+The first port uses stack slots for every value. Indirect calls, stack
 arguments, variadics, aggregate ABI support, data definitions,
 dynamic/non-entry allocations, floating point, register allocation and object
 emission remain. A separate restricted Concrete consumer is available in
@@ -103,6 +103,9 @@ caller-saved registers and check callee-saved registers and stack balance.
 The interpreter shares a 100,000-block budget across calls, limits call depth
 to 128 and invalidates each activation's stack objects at return. External
 calls have no interpreter model and report an unevaluated result.
+Void functions and effect-only calls have no invented result or SSA definition;
+`--eval` reports `void` when an interpreted function returns no value. Calls must
+agree with the defined function's integer or void result type.
 
 **The backend is not verified end to end.** The current theorem does not prove
 parsing, stack layout, assembly rendering, the assembler or the linker correct.

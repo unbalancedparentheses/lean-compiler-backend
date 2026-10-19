@@ -94,7 +94,7 @@ private structure ExecutionState where
   remainingBlocks : Nat := 100000
 
 private abbrev CallHandler := String → Array UInt64 → ExecutionState →
-  Except String (UInt64 × ExecutionState)
+  Except String (Option UInt64 × ExecutionState)
 
 private def evaluateOperation (call : CallHandler) (inst : Instruction)
     (locals : List (String × UInt64)) (state : ExecutionState)
@@ -129,7 +129,8 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
     pure (extended, state)
   | .call target arguments =>
     let values ← arguments.mapM fun argument => operand locals argument.width argument.value
-    let (value, updated) ← call target values state
+    let (result, updated) ← call target values state
+    let some value := result | throw "void call cannot define an integer result"
     pure (normalize inst.width value, updated)
 
 private def evaluateInstructions (call : CallHandler) (instructions : Array Statement)
@@ -148,10 +149,15 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let address ← operand locals .long address
       let memory ← state.memory.write address width.bytes value
       state := { state with memory }
+    | .callVoid target arguments =>
+      let values ← arguments.mapM fun argument => operand locals argument.width argument.value
+      let (result, updated) ← call target values state
+      if result.isSome then throw "non-void call requires a return temporary"
+      state := updated
   pure (locals, state)
 
 private def execute (call : CallHandler) (f : Function) : Nat → String → Option String →
-    List (String × UInt64) → ExecutionState → Except String (UInt64 × ExecutionState)
+    List (String × UInt64) → ExecutionState → Except String (Option UInt64 × ExecutionState)
   | 0, _, _, _, _ => .error "interpreter block-step budget exhausted; result not evaluated"
   | fuel + 1, label, predecessor, environment, state => do
     if state.remainingBlocks == 0 then
@@ -169,7 +175,11 @@ private def execute (call : CallHandler) (f : Function) : Nat → String → Opt
     for (name, value) in updates do locals := updateLocal locals name value
     let (executed, state) ← evaluateInstructions call block.instructions locals state
     match block.terminator with
-    | .ret value => pure (← operand executed f.resultWidth value, state)
+    | .ret value =>
+      let result ← value.mapM fun value => do
+        let some width := f.resultWidth | throw "void function cannot return an integer"
+        operand executed width value
+      pure (result, state)
     | .halt => throw "QBE hlt reached: target-dependent program termination"
     | .jump target => execute call f fuel target (some label) executed state
     | .branch condition yes no => do
@@ -177,7 +187,7 @@ private def execute (call : CallHandler) (f : Function) : Nat → String → Opt
       execute call f fuel (if value != 0 then yes else no) (some label) executed state
 
 private def invoke (program : Program) : Nat → Function → Array UInt64 → ExecutionState →
-    Except String (UInt64 × ExecutionState)
+    Except String (Option UInt64 × ExecutionState)
   | 0, _, _, _ => .error "interpreter call-depth budget exhausted; result not evaluated"
   | depth + 1, f, arguments, state => do
     if arguments.size != f.parameters.size then
@@ -200,13 +210,15 @@ private def invoke (program : Program) : Nat → Function → Array UInt64 → E
     pure (value, { updated with memory })
 
 def evaluateProgram (program : Program) (name : String) (arguments : Array UInt64)
-    : Except String UInt64 := do
+    : Except String (Option UInt64) := do
   validate program
   let some f := program.find? (·.name == name) | throw s!"unknown function ${name}"
   let (value, _) ← invoke program 128 f arguments {}
   pure value
 
-def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 :=
-  evaluateProgram #[f] f.name arguments
+def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 := do
+  let some value ← evaluateProgram #[f] f.name arguments
+    | throw "function returns void; no integer result"
+  pure value
 
 end LeanCompilerBackend.Semantics

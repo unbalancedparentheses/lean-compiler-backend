@@ -96,6 +96,36 @@ function l $poke(l %p,l %v) {
  %kept =l load %own
  ret %kept
 }
+function $noop() {
+@entry
+ ret
+}
+export function $void_root() {
+@entry
+ call $noop()
+ ret
+}
+function $void_acc(l %p,l %n) {
+@entry
+ %done =w ceql %n,0
+ jnz %done,@end,@recur
+@recur
+ %old =l load %p
+ %updated =l add %old,%n
+ storel %updated,%p
+ %less =l sub %n,1
+ call $void_acc(l %p,l %less)
+ ret
+@end
+ ret
+}
+function $void_word(l %p,w %v,l %bias) {
+@entry
+ %wide =l extuw %v
+ %result =l xor %wide,%bias
+ storel %result,%p
+ ret
+}
 '''
 
 
@@ -187,6 +217,21 @@ def fixed_cases():
  %r =l call $mix2(l %value,l %a)
  ret %r''', lambda a, b: mix(mix(a, b) if a & 1 else mix(b, a), a),
              'uint64_t v=(a&1)?((3*a)^b):((3*b)^a); return (3*v)^a;'),
+        Case('void_recursive', 64, '''@entry
+ %p =l alloc8 8
+ storel %a,%p
+ %n =l and %b,15
+ call $void_acc(l %p,l %n)
+ call $void_root()
+ %r =l load %p
+ ret %r''', lambda a,b: (a+(b&15)*((b&15)+1)//2)&MASK,
+             'uint64_t n=b&15; return a+n*(n+1)/2;'),
+        Case('void_word_arg', 64, '''@entry
+ %p =l alloc8 8
+ call $void_word(l %p,w %a,l %b)
+ %r =l load %p
+ ret %r''', lambda a,b: (a&0xffffffff)^b,
+             'return (uint64_t)(uint32_t)a^b;'),
     ]
 
 
@@ -225,8 +270,9 @@ def generated_case(seed, index):
 
 def caller(cases, arguments):
     lines = ['#include <stdint.h>', '#include <stdio.h>', '#include <inttypes.h>']
+    lines.append('extern void void_root(void);')
     for case in cases: lines.append(f'extern uint{case.bits}_t {case.name}(uint64_t,uint64_t);')
-    lines.append('int main(void) {')
+    lines.append('int main(void) { void_root();')
     for case in cases:
         for a, b in arguments:
             lines.append(f'printf("%" PRIu64 "\\n", (uint64_t){case.name}(UINT64_C({a}),UINT64_C({b})));')
@@ -246,6 +292,19 @@ def controls(work):
         source.write_text(base + 'function l $bad(l %a) { @s ' + operation + ' ret 0 }')
         result = subprocess.run([LCB, '--check', source], text=True, capture_output=True, timeout=30)
         assert result.returncode and 'error:' in result.stderr, operation
+    void_bad = [
+        'function $v() { @s ret } function l $f() { @s %r =l call $v() ret %r }',
+        base + 'function $v() { @s call $f(l 0) ret }',
+        'function $v() { @s ret 1 }', 'function l $f() { @s ret }',
+        'function $v(l %p) { @s ret } function $f() { @s call $v() ret }',
+        'function $v(l %p) { @s ret } function $f() { @s call $v(w 0) ret }',
+    ]
+    for text in void_bad:
+        source.write_text(text)
+        result = subprocess.run([LCB,'--check',source],text=True,capture_output=True,timeout=30)
+        assert result.returncode and 'error:' in result.stderr, text
+    source.write_text(COMMON)
+    assert run([LCB,'--eval',source,'void_root']).strip() == 'void'
     undefined = [
         ('function l $f() { @s %r =l call $f() ret %r }', 'f', 'call-depth budget exhausted'),
         ('function l $f() { @s %r =l call $external() ret %r }', 'f', 'no interpreter model'),
@@ -271,17 +330,22 @@ function l $f() { @s %x =l call $busy(l 30000) %y =l call $busy(l 30000) ret %y 
         source.write_text(text)
         result = subprocess.run([LCB, '--eval', source, name], text=True, capture_output=True, timeout=30)
         assert result.returncode and diagnostic in result.stderr, (diagnostic, result.stderr)
-    return len(bad) + len(undefined)
+    return len(bad) + len(void_bad) + len(undefined)
 
 
 EXTERNAL = '''export function l $external_entry(l %a,l %b) {
 @entry
+ %p =l alloc16 8
+ storel %a,%p
  %keep =l xor %a,1311768467463790320
  %x =l call $external_mix(l %b,l %a,l 3,l 5,l 7,l 11,l 13,l 17)
  %y =w call $external_word(w %a,w %b)
  %wide =l extuw %y
+ call $external_store(l %p,w %b)
+ %written =l load %p
  %z =l xor %x,%keep
- %r =l add %z,%wide
+ %sum =l add %z,%wide
+ %r =l xor %sum,%written
  ret %r
 }
 '''
@@ -312,10 +376,18 @@ def external_calls(work, qbe, arguments):
     helper += ['\tldp x19,x20,[sp],#112', '\tret']
     helper_asm = work/'external-helper.s'
     helper_asm.write_text('\n'.join(helper) + '\n')
-    cfile.write_text('''#include <stdint.h>
+    c_helpers = '''#include <stdint.h>
+#include <string.h>
+uint32_t external_word(uint32_t a,uint32_t b) { return 3*a+b; }
+void external_store(uint64_t p,uint32_t v) {
+ uint64_t value; memcpy(&value,(void*)(uintptr_t)p,8);
+ value=(value&UINT64_C(0xffffffff00000000))|v;
+ memcpy((void*)(uintptr_t)p,&value,8);
+}
+'''
+    cfile.write_text(c_helpers + '''
 #include <stdio.h>
 #include <inttypes.h>
-uint32_t external_word(uint32_t a,uint32_t b) { return 3*a+b; }
 extern uint64_t external_entry(uint64_t,uint64_t);
 extern uint64_t probe_saved(uint64_t,uint64_t);
 int main(void) {
@@ -324,7 +396,8 @@ int main(void) {
                  for a, b in arguments) + '\nreturn 0; }\n')
     expected = [((((a^b)+56)&MASK) ^ (a^0x123456789abcdef0)) + ((3*a+b)&0xffffffff)
                 for a,b in arguments]
-    expected = [value & MASK for value in expected]
+    expected = [(value & MASK) ^ ((a&0xffffffff00000000)|(b&0xffffffff))
+                for value,(a,b) in zip(expected,arguments)]
     for label, oracle in [('lean', None), ('qbe', qbe)]:
         asm = work/f'external-{label}.s'
         run([LCB, source, '-o', asm] if oracle is None else [oracle,'-t','arm64_apple','-o',asm,source])
@@ -348,8 +421,7 @@ int main(void) {
     assert changed != text
     corrupt.write_text(changed)
     guard = work/'saved-guard.c'
-    guard.write_text('#include <stdint.h>\n'
-        'uint32_t external_word(uint32_t a,uint32_t b) { return 3*a+b; }\n'
+    guard.write_text(c_helpers +
         'extern uint64_t probe_saved(uint64_t,uint64_t);\n'
         'int main(void) { return probe_saved(1,2) ? 4 : 0; }\n')
     run([os.environ['LCB_CC'],'-std=c11','-O2',guard,corrupt,helper_asm,'-o',executable])
@@ -401,7 +473,7 @@ def main():
                     (work/f'{label}-output.json').write_text(json.dumps(actual))
                     assert actual == expected, (label,next((i for i,pair in enumerate(zip(actual,expected)) if pair[0]!=pair[1]),None))
                 reference = work/'reference.c'
-                reference.write_text('#include <stdint.h>\n' + reference_helpers + '\n'
+                reference.write_text('#include <stdint.h>\nvoid void_root(void) {}\n' + reference_helpers + '\n'
                     + '\n'.join(f'uint{case.bits}_t {case.name}(uint64_t a,uint64_t b) {{ {case.reference} }}' for case in cases)
                     + '\n' + caller(cases,arguments))
                 run([os.environ['LCB_CC'],'-std=c11','-O2',reference,'-o',work/'reference'])

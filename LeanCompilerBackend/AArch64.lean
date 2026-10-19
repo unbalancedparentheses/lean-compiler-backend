@@ -107,6 +107,14 @@ private def memoryLoad (width : Width) : LoadKind → String
   | .unsignedWord => "ldr w9"
   | .plain => s!"ldr {register width 9}"
 
+private def emitCall (slots : List (String × Nat)) (target : String)
+    (arguments : Array CallArgument) : Except String (List String) := do
+  let mut lines := []
+  for i in [:arguments.size] do
+    let argument := arguments[i]!
+    lines := lines ++ (← load slots argument.width i argument.value)
+  pure (lines ++ [s!"\tbl _{target}"])
+
 private def emitInstruction (slots allocations : List (String × Nat)) (inst : Instruction)
     : Except String (List String) := do
   let mut lines : List String := []
@@ -144,10 +152,8 @@ private def emitInstruction (slots allocations : List (String × Nat)) (inst : I
     -- Sources are stable stack slots: argument-register permutations cannot
     -- overwrite an argument that has not yet been loaded. All other live values
     -- also survive caller-saved clobbers in their own frame slots.
-    for i in [:arguments.size] do
-      let argument := arguments[i]!
-      lines := lines ++ (← load slots argument.width i argument.value)
-    lines := lines ++ [s!"\tbl _{target}", s!"\tmov {register inst.width 9}, {register inst.width 0}"]
+    lines := lines ++ (← emitCall slots target arguments)
+    lines := lines ++ [s!"\tmov {register inst.width 9}, {register inst.width 0}"]
   let offset ← slotOffset slots inst.destination
   pure (lines ++ [s!"\tstr {register inst.width 9}, [sp, #{offset}]"])
 
@@ -155,6 +161,7 @@ private def emitStatement (slots allocations : List (String × Nat))
     (statement : Statement) : Except String (List String) := do
   match statement with
   | .assign inst => emitInstruction slots allocations inst
+  | .callVoid target arguments => emitCall slots target arguments
   | .store width value address =>
     let addressLines ← load slots .long 9 address
     let valueLines ← load slots width.valueWidth 10 value
@@ -194,10 +201,7 @@ def emitFunction (f : Function) : Except String String := do
   let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
   let stageBase := localNames.size * 8
   let mut frameEnd := (localNames.size + maxPhis) * 8
-  let hasCalls := f.blocks.any fun block => block.instructions.any fun statement =>
-    match statement with
-    | .assign { operation := .call .., .. } => true
-    | _ => false
+  let hasCalls := f.blocks.any fun block => block.instructions.any (·.callSite.isSome)
   let returnAddress := frameEnd
   if hasCalls then frameEnd := frameEnd + 8
   let mut allocations : List (String × Nat) := []
@@ -225,7 +229,9 @@ def emitFunction (f : Function) : Except String String := do
       lines := lines ++ (← emitStatement slots allocations statement)
     match block.terminator with
     | .ret value =>
-      lines := lines ++ (← load slots f.resultWidth 0 value)
+      if let some value := value then
+        let some width := f.resultWidth | throw "void function cannot return an integer"
+        lines := lines ++ (← load slots width 0 value)
       if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]
       if frame != 0 then lines := lines ++ [s!"\tadd sp, sp, #{frame}"]
       lines := lines ++ ["\tret"]

@@ -14,7 +14,7 @@ See [UPSTREAM.md](UPSTREAM.md).
 3. `Semantics.lean` executes the supported IR using fixed-width integer semantics,
    signed comparisons/extensions, masked shifts and truncating signed division.
    `Memory.lean` provides byte-addressed objects for integer loads and stores;
-   stores are explicit statements without SSA result definitions.
+   stores and void calls are explicit statements without SSA result definitions.
 4. `AArch64.lean` selects integer instructions, assigns stack slots and renders
    assembly with branches, parallel phi copies, integer memory accesses and
    direct calls for Apple's AArch64 ABI.
@@ -31,14 +31,18 @@ programs have at most 64 functions and 1 MiB of input. Frames are 16-byte aligne
 at most 4080 bytes. Every value gets an eight-byte slot; word values access only
 the low four bytes. Implicit word-to-long widening is rejected. Scratch registers
 x9/x10/x11 are caller-clobbered; no callee-saved integer register is modified.
-Direct calls accept up to eight typed w/l arguments and a w/l result. Call
+Direct calls accept up to eight typed w/l arguments and a w/l or void result. Call
 arguments are loaded from stable slots into x0..x7/w0..w7, preserving permutations.
 Non-leaf functions reserve a separate slot for x30 and restore it before return.
 All values live across calls remain in the caller's frame, outside callee clobbers.
 Internal call argument/result signatures must match their definitions exactly.
 External signatures are an explicit linking assumption: QBE IL has no external
-declaration to check. Void/indirect calls, stack arguments, sub-word/aggregate
+declaration to check. Indirect calls, stack arguments, sub-word/aggregate
 ABI types, environment arguments and variadics remain unsupported.
+Void results are represented by absence of a value in the IR and interpreter;
+they are not integer zero. A return with the wrong presence/type of value, an
+integer assignment from a void call, or an internal non-void call without a
+result temporary is rejected. `--eval` prints `void` for a void return.
 Phi sources are staged in separate slots before destinations change, including
 loop-carried copy cycles. Temporary definitions must be in SSA form and dominate
 their uses; general QBE SSA construction remains unimplemented. The interpreter
@@ -90,8 +94,9 @@ handled through explicitly separate original and corrected comparisons; see
 [the discrepancy and its reduced controls](UPSTREAM_DISCREPANCIES.md).
 Call tests compare fixed and generated multi-function programs among Python,
 Lean interpretation, Lean native code, original QBE and independent native C.
-They exercise recursion, argument order, loop/branch calls, caller-owned memory,
-and mixed word/long results. An assembly C-ABI probe checks stack alignment,
+They exercise integer/void recursion, argument order, loop/branch calls,
+caller-owned memory, effect-only C calls and mixed word/long results.
+An assembly C-ABI probe checks stack alignment,
 stack balance and callee-saved registers while an external callee clobbers
 caller-saved registers and flags. Deliberate live-value and callee-saved-register
 corruptions must fail their respective checks.

@@ -47,7 +47,8 @@ private def run (args : List String) : IO UInt32 := do
       let arguments ← values.toArray.mapM argument
       Semantics.evaluateProgram program name arguments
     match result with
-    | .ok value => IO.println value; return 0
+    | .ok (some value) => IO.println value; return 0
+    | .ok none => IO.println "void"; return 0
     | .error message => throw (IO.userError message)
   | path :: rest =>
     if path.startsWith "-" then throw (IO.userError s!"unknown or incomplete command '{path}'")
