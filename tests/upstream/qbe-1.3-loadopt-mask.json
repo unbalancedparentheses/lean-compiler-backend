@@ -1,0 +1,7 @@
+{
+  "upstream": "QBE 1.3",
+  "source": "load.c",
+  "description": "Test-oracle-only correction: mask a partially forwarded slice before combining it with other bytes. The original pinned source remains unchanged and is still compared.",
+  "before": "\t\t\tif ((msk1 & msk) != msk1 || off + sz < sl.sz)\n",
+  "after": "\t\t\tif ((msk1 & msk) != msks)\n"
+}

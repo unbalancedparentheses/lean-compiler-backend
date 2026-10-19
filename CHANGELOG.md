@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+- Added integer loads/stores and bounded entry-block constant stack allocations,
+  with explicit store statements, an executable byte-memory model and ARM64
+  emission. Dynamic/non-entry allocations and full data support remain open.
+- Memory fuzzing reduced a QBE 1.3 partial-store-forwarding discrepancy,
+  corroborated by native C. Retain the original snapshot and reproducer, run
+  original and explicitly corrected comparison copies separately, and never
+  count original mismatches as matching cases.
+- Keep register allocation in the full-port sequence and record a compact,
+  selective MLIR/LLVM/Zig inspiration policy for improvements after compatibility.
+
 - Added integer SSA basic blocks, conditional/unconditional branches, fallthrough,
   loops, phi nodes and halt. Dominance and phi predecessor checks reject invalid
   inputs. Parallel phi transfers stage every source before writing destinations.

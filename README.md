@@ -2,7 +2,7 @@
 
 A general-purpose native compiler backend written in Lean 4, starting with a
 full QBE 1.3 port. The current implementation covers an initial integer subset;
-full compatibility is the first release milestone. Ideas from Zig and LLVM come
+full compatibility is the first release milestone. Ideas from Zig, LLVM and MLIR come
 after that baseline. Concrete will be a consumer, not a dependency or the scope
 of the first release.
 
@@ -53,12 +53,17 @@ The only implemented output target remains AArch64 macOS.
 - SSA/type/name validation and explicit rejection of unsupported constructs.
 - Conditional/unconditional branches, fallthrough, loops, phi nodes and `hlt`.
   Phi transfers use parallel copies; cross-block uses are checked for dominance.
+- Integer byte/half/word/long loads and stores, including signed loads and
+  unaligned accesses. Positive constant `alloc4`/`alloc8`/`alloc16` allocations
+  in the entry block; QBE's `loadw`/`loadl` and `alloc1`/`alloc2` aliases.
 - A small Lean theorem for primitive arithmetic opcode selection.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
-The first port uses stack slots for every value. Calls, heap memory,
-floating point, register allocation, object emission and Concrete integration
-are still planned. Concrete's checked-overflow operations must eventually lower
+The first port uses stack slots for every value. Calls, data definitions,
+dynamic/non-entry allocations, floating point, register allocation and object
+emission remain. A separate restricted Concrete consumer is available in
+[Concrete draft PR #8](https://github.com/unbalancedparentheses/concrete2/pull/8);
+it does not close full compatibility. Concrete's checked-overflow operations must lower
 to explicit checks; wrapping QBE arithmetic does not implement them by itself.
 
 [The port inventory](docs/PORT_STATUS.md) lists every upstream public/internal
@@ -77,6 +82,15 @@ behavior for those inputs is not a portability or safety guarantee.
 The interpreter has a block-step budget; exhausting it reports an unevaluated
 result. General SSA construction from mutable temporary definitions is pending.
 
+The memory interpreter uses abstract byte-addressed objects and rejects external,
+out-of-bounds and uninitialized accesses. This is a testing model, not native
+runtime memory-safety enforcement. Native checks also exercise actual C-owned
+memory. Allocations currently require entry-block constants in 1..4096 bytes;
+the overall 4080-byte frame limit still applies. Memory fuzzing found a
+[QBE 1.3 load-forwarding discrepancy](docs/UPSTREAM_DISCREPANCIES.md). Original
+QBE mismatches are retained and reported separately from a declared corrected
+test comparison; native C references corroborate generated overlap cases.
+
 **The backend is not verified end to end.** The current theorem does not prove
 parsing, stack layout, assembly rendering, the assembler or the linker correct.
 See [the design and trust boundaries](docs/DESIGN.md) and [the roadmap](ROADMAP.md).
@@ -87,7 +101,10 @@ QBE 1.3 is the main porting baseline: its IL, AArch64 instruction selection and
 ABI organization. Zig 0.17.0 is a reference for analyzed/machine representations,
 explicit arithmetic modes and native target handling. LLVM provides design
 references for machine IR, isolated pass tests and verification between passes.
-This project is independent of those projects.
+MLIR supplies references for explicit conversion legality and operation
+verification. We plan a small set of Lean representations and pass interfaces,
+with additions justified by correctness or measured workloads. MLIR is not a
+build or runtime dependency. This project is independent of those projects.
 
 The complete QBE release and selected Zig reference files are retained under
 `third_party/`, with their original licenses. Every retained file has a SHA-256

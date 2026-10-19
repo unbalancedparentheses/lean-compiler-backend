@@ -121,6 +121,17 @@ private def comparisonName (name : String) : Option (Comparison × Width) := Id.
 private def parseOperation (name : String) : P Operation := do
   if name == "copy" then
     pure (.copy (← parseOperand))
+  else if ["alloc1", "alloc2", "alloc4", "alloc8", "alloc16"].contains name then
+    -- QBE parse.c maps alloc1/alloc2 aliases to alloc4 (stronger alignment).
+    let alignment := if ["alloc1", "alloc2", "alloc4"].contains name then StackAlignment.four
+      else if name == "alloc8" then .eight else .sixteen
+    pure (.allocate alignment (← parseOperand))
+  else if let some kind := match name with
+      | "loadsb" => some LoadKind.signedByte | "loadub" => some .unsignedByte
+      | "loadsh" => some .signedHalf | "loaduh" => some .unsignedHalf
+      | "loadsw" | "loadw" => some .signedWord | "loaduw" => some .unsignedWord
+      | "load" | "loadl" => some .plain | _ => none then
+    pure (.load kind (← parseOperand))
   else if let some op := unaryName name then
     pure (.unary op (← parseOperand))
   else if let some op := divisionName name then do
@@ -158,7 +169,7 @@ private def parseIncoming : Nat → P (Array (String × Operand))
       pure (#[ (label, value) ] ++ (← parseIncoming fuel))
     else pure #[ (label, value) ]
 
-private def parseDefinition : P (Sum Phi Instruction) := do
+private def parseDefinition : P (Sum Phi Statement) := do
   let destination ← parseName '%'
   expect "="
   let width ← parseWidth
@@ -166,7 +177,17 @@ private def parseDefinition : P (Sum Phi Instruction) := do
   if name == "phi" then
     pure (.inl { destination, width, incoming := ← parseIncoming 65 })
   else
-    pure (.inr { destination, width, operation := ← parseOperation name })
+    pure (.inr (.assign { destination, width, operation := ← parseOperation name }))
+
+private def storeWidth : String → Option MemoryWidth
+  | "storeb" => some .byte | "storeh" => some .half
+  | "storew" => some .word | "storel" => some .long | _ => none
+
+private def parseStore (width : MemoryWidth) : P Statement := do
+  discard take
+  let value ← parseOperand
+  expect ","
+  pure (.store width value (← parseOperand))
 
 private def parseParameters : Nat → P (Array Parameter)
   | 0 => failAt "parameter parsing limit exceeded"
@@ -180,7 +201,7 @@ private def parseParameters : Nat → P (Array Parameter)
       return #[{ name, width }] ++ (← parseParameters fuel)
     return #[{ name, width }]
 
-private def parseBody : Nat → P (Array Phi × Array Instruction × Terminator)
+private def parseBody : Nat → P (Array Phi × Array Statement × Terminator)
   | 0 => failAt "instruction parsing limit exceeded"
   | fuel + 1 => do
     if (← peek) == some "ret" then
@@ -204,7 +225,9 @@ private def parseBody : Nat → P (Array Phi × Array Instruction × Terminator)
         -- QBE permits fallthrough when the next label begins a new block.
         pure (#[], #[], .jump (String.ofList token.toList.tail))
       else
-        let definition ← parseDefinition
+        let definition ← if let some width := storeWidth token then
+          Sum.inr <$> parseStore width
+        else parseDefinition
         let (phis, instructions, terminator) ← parseBody fuel
         match definition with
         | .inl phi => pure (#[phi] ++ phis, instructions, terminator)

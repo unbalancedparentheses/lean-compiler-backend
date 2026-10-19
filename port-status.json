@@ -12,25 +12,31 @@
     "cugew": ["w", "l"], "cugtw": ["w", "l"],
     "ceql": ["w", "l"], "cnel": ["w", "l"], "cslel": ["w", "l"], "csltl": ["w", "l"],
     "csgel": ["w", "l"], "csgtl": ["w", "l"], "culel": ["w", "l"], "cultl": ["w", "l"],
-    "cugel": ["w", "l"], "cugtl": ["w", "l"]
+    "cugel": ["w", "l"], "cugtl": ["w", "l"],
+    "loadsb": ["w", "l"], "loadub": ["w", "l"],
+    "loadsh": ["w", "l"], "loaduh": ["w", "l"],
+    "loadsw": ["w", "l"], "loaduw": ["w", "l"], "load": ["w", "l"],
+    "storeb": ["w value; no result"], "storeh": ["w value; no result"],
+    "storew": ["w value; no result"], "storel": ["l value; no result"],
+    "alloc4": ["l (entry constant)"], "alloc8": ["l (entry constant)"], "alloc16": ["l (entry constant)"]
   },
-  "targets": {"arm64_apple": "partial: leaf integer subset only"},
+  "targets": {"arm64_apple": "partial: integer leaf functions with control flow and memory"},
   "syntax": {
     "integer functions and parameters": "partial: ASCII names, decimal literals, w/l, at most eight parameters",
     "basic blocks, jumps, phi": "partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers",
     "calls and variadic functions": "not implemented",
     "floating point and conversions": "not implemented",
-    "memory and allocation": "not implemented",
+    "memory and allocation": "partial: integer loads/stores, loadw/loadl aliases; entry-block positive constant alloc4/8/16 and alloc1/2 aliases; dynamic/non-entry allocation and blits remain",
     "aggregate type and data definitions": "not implemented",
     "linkage, sections, TLS and debug locations": "partial: export only"
   },
   "passes": {
-    "parsing and validation": "partial: supported straight-line integer subset",
+    "parsing and validation": "partial: integer/control-flow/memory SSA subset; full QBE syntax remains",
     "CFG, dominance and SSA construction": "partial: CFG/dominance checks for SSA input; general SSA construction not implemented",
     "alias analysis and memory optimization": "not implemented",
     "copy elimination, folding, GVN, GCM and CFG simplification": "not implemented",
     "ABI lowering": "partial: Apple AArch64 integer register arguments and returns",
-    "instruction selection and assembly emission": "partial: Apple AArch64 integer leaf subset",
+    "instruction selection and assembly emission": "partial: Apple AArch64 integer/control-flow/memory leaf subset",
     "liveness, spilling and register allocation": "not implemented; baseline gives every value a stack slot"
   }
 }

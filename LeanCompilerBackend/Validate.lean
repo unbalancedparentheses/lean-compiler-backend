@@ -93,9 +93,9 @@ def validateFunction (f : Function) : Except String Unit := do
       definitions ← addDefinition definitions
         { name := phi.destination, width := phi.width, block := some block.label, position := 0 }
     for i in [:block.instructions.size] do
-      let inst := block.instructions[i]!
-      definitions ← addDefinition definitions
-        { name := inst.destination, width := inst.width, block := some block.label, position := i + 1 }
+      if let some (name, width) := block.instructions[i]!.definition then
+        definitions ← addDefinition definitions
+          { name, width, block := some block.label, position := i + 1 }
   let doms ← dominators f
   for block in f.blocks do
     let preds := predecessors f block.label
@@ -109,23 +109,37 @@ def validateFunction (f : Function) : Except String Unit := do
           | throw s!"unknown phi predecessor @{label}"
         checkOperand definitions doms label (pred.instructions.size + 1) phi.width value
     for i in [:block.instructions.size] do
-      let inst := block.instructions[i]!
       let check := checkOperand definitions doms block.label (i + 1)
-      match inst.operation with
-      | .copy value => check inst.width value
-      | .binary op a b =>
-        check inst.width a
-        check (op.rhsWidth inst.width) b
-      | .unary op value =>
-        if (op == .signedWord || op == .unsignedWord) && inst.width != .long then
-          throw "extsw/extuw require a long result"
-        check (op.inputWidth inst.width) value
-      | .divide _ a b =>
-        check inst.width a
-        check inst.width b
-      | .compare _ width a b =>
-        check width a
-        check width b
+      match block.instructions[i]! with
+      | .store width value address =>
+        check width.valueWidth value
+        check .long address
+      | .assign inst =>
+        match inst.operation with
+        | .copy value => check inst.width value
+        | .binary op a b =>
+          check inst.width a
+          check (op.rhsWidth inst.width) b
+        | .unary op value =>
+          if (op == .signedWord || op == .unsignedWord) && inst.width != .long then
+            throw "extsw/extuw require a long result"
+          check (op.inputWidth inst.width) value
+        | .divide _ a b =>
+          check inst.width a
+          check inst.width b
+        | .compare _ width a b =>
+          check width a
+          check width b
+        | .load _ address => check .long address
+        | .allocate _ size =>
+          if inst.width != .long then throw "stack allocation requires a long result"
+          if block.label != entry then
+            throw "stack allocation outside the entry block is not yet supported"
+          match size with
+          | .constant bytes =>
+            if bytes <= 0 || bytes > 4096 then
+              throw "stack allocation currently requires a constant size in 1..4096"
+          | .temporary _ => throw "dynamic stack allocation is not yet supported"
     let check := checkOperand definitions doms block.label (block.instructions.size + 1)
     match block.terminator with
     | .ret value => check f.resultWidth value

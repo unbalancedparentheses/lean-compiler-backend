@@ -1,0 +1,12 @@
+# QBE 1.3 load forwarding leaks bits 32..39 of %a into this word result.
+# Defined result is (%a & 4294967295) >> 8, because byte 4 was initialized to zero.
+# This file is a regression for the port and an explicit upstream discrepancy.
+export function w $storew_overlap(l %a, l %b) {
+@entry
+ %p =l alloc8 8
+ storel 0, %p
+ storew %a, %p
+ %q =l add %p, 1
+ %r =w loaduw %q
+ ret %r
+}

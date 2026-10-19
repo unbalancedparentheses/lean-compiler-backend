@@ -13,8 +13,11 @@ See [UPSTREAM.md](UPSTREAM.md).
 2. `Validate.lean` checks names, SSA dominance, phi predecessors, widths and limits.
 3. `Semantics.lean` executes the supported IR using fixed-width integer semantics,
    signed comparisons/extensions, masked shifts and truncating signed division.
+   `Memory.lean` provides byte-addressed objects for integer loads and stores;
+   stores are explicit statements without SSA result definitions.
 4. `AArch64.lean` selects integer instructions, assigns stack slots and renders
-   leaf-function assembly with branches and parallel phi copies for Apple's AArch64 ABI.
+   leaf-function assembly with branches, parallel phi copies and integer memory
+   accesses for Apple's AArch64 ABI.
 5. Nix-provided Clang assembles and links independent C test callers.
 
 The parser treats newlines as whitespace; upstream QBE also uses them as syntax
@@ -33,6 +36,19 @@ loop-carried copy cycles. Temporary definitions must be in SSA form and dominate
 their uses; general QBE SSA construction remains unimplemented. The interpreter
 executes at most 100,000 block steps and reports exhaustion explicitly. `hlt`
 terminates native execution with a target-dependent error and has no return value.
+
+Stack allocations currently have positive constant sizes at most 4096 and must
+occur in the entry block, which cannot be revisited. This makes one frame object
+per allocation faithful for the admitted domain. Allocations in loops and dynamic
+sizes are explicitly refused until dynamic stack lifetime/restoration is ported.
+Objects are disjoint from value slots and phi staging and honor their required
+alignment; the overall frame limit still applies.
+
+Interpreter addresses are abstract, not host pointers. Each object tracks byte
+initialization. Out-of-bounds, uninitialized and external-pointer accesses have no
+interpreted result. Native code has ordinary QBE loads/stores without those
+checks. Tests avoid undefined accesses; pointer integer values are not compared
+between interpreter addresses and real machine addresses.
 
 ## What is proved
 
@@ -54,6 +70,10 @@ against independent unsigned C, C argument/return conventions and the absence
 of imported Lean runtime symbols. The same valid fixture is compiled by QBE 1.3
 and run with the same C caller. QBE is an independent comparison implementation,
 not a trusted proof oracle. Random testing is evidence for the exercised cases.
+Memory checks additionally compare native C byte-array references and C-owned
+buffers with neighboring guard bytes. A measured QBE 1.3 load-forwarding bug is
+handled through explicitly separate original and corrected comparisons; see
+[the discrepancy and its reduced controls](UPSTREAM_DISCREPANCIES.md).
 
 The planned machine IR will make stack accesses, registers, immediates and
 prologue/epilogue operations explicit. Each lowering stage needs a verifier and

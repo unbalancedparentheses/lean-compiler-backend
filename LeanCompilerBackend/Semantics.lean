@@ -4,6 +4,7 @@
   See docs/UPSTREAM.md and third_party/qbe/LICENSE.
 -/
 import LeanCompilerBackend.Validate
+import LeanCompilerBackend.Memory
 
 namespace LeanCompilerBackend.Semantics
 
@@ -87,34 +88,57 @@ private def updateLocal (locals : List (String × UInt64)) (name : String) (valu
     : List (String × UInt64) :=
   (name, value) :: locals.filter (fun pair => pair.1 != name)
 
-private def evaluateInstructions (instructions : Array Instruction)
-    (environment : List (String × UInt64)) : Except String (List (String × UInt64)) := do
+private def evaluateOperation (inst : Instruction) (locals : List (String × UInt64))
+    (memory : Memory) : Except String (UInt64 × Memory) := do
+  match inst.operation with
+  | .copy v => pure (← operand locals inst.width v, memory)
+  | .binary op a b =>
+    let lhs ← operand locals inst.width a
+    let rhs ← operand locals (op.rhsWidth inst.width) b
+    pure (binary inst.width op lhs rhs, memory)
+  | .unary op value =>
+    let input ← operand locals (op.inputWidth inst.width) value
+    pure (unary inst.width op input, memory)
+  | .divide op a b =>
+    let lhs ← operand locals inst.width a
+    let rhs ← operand locals inst.width b
+    pure (← divide inst.width op lhs rhs, memory)
+  | .compare op width a b =>
+    let lhs ← operand locals width a
+    let rhs ← operand locals width b
+    pure (compare width op lhs rhs, memory)
+  | .allocate alignment size =>
+    let size ← operand locals .long size
+    memory.allocate alignment size.toNat
+  | .load kind address =>
+    let address ← operand locals .long address
+    let value ← memory.read address (kind.bytes inst.width)
+    let extended := match kind.signedBits with
+      | some bits => constant inst.width (signedBits bits value)
+      | none => normalize inst.width value
+    pure (extended, memory)
+
+private def evaluateInstructions (instructions : Array Statement)
+    (environment : List (String × UInt64)) (initialMemory : Memory)
+    : Except String (List (String × UInt64) × Memory) := do
   let mut locals := environment
-  for inst in instructions do
-    let value ← match inst.operation with
-      | .copy v => operand locals inst.width v
-      | .binary op a b => do
-        let lhs ← operand locals inst.width a
-        let rhs ← operand locals (op.rhsWidth inst.width) b
-        pure (binary inst.width op lhs rhs)
-      | .unary op value => do
-        let input ← operand locals (op.inputWidth inst.width) value
-        pure (unary inst.width op input)
-      | .divide op a b => do
-        let lhs ← operand locals inst.width a
-        let rhs ← operand locals inst.width b
-        divide inst.width op lhs rhs
-      | .compare op width a b => do
-        let lhs ← operand locals width a
-        let rhs ← operand locals width b
-        pure (compare width op lhs rhs)
-    locals := updateLocal locals inst.destination value
-  pure locals
+  let mut memory := initialMemory
+  for statement in instructions do
+    match statement with
+    | .assign inst =>
+      let (value, updatedMemory) ← evaluateOperation inst locals memory
+      locals := updateLocal locals inst.destination value
+      memory := updatedMemory
+    | .store width value address =>
+      let value ← operand locals width.valueWidth value
+      let address ← operand locals .long address
+      memory ← memory.write address width.bytes value
+  pure (locals, memory)
 
 private def execute (f : Function) : Nat → String → Option String →
-    List (String × UInt64) → Except String UInt64
-  | 0, _, _, _ => .error "interpreter block-step budget exhausted; result not evaluated"
-  | fuel + 1, label, predecessor, environment => do
+    List (String × UInt64) → Memory → Except String UInt64
+  | 0, _, _, _, _ => .error "interpreter block-step budget exhausted; result not evaluated"
+  | fuel + 1, label, predecessor, environment, memory => do
     let some block := f.blocks.find? (·.label == label) | throw s!"unknown block @{label}"
     -- All incoming values are read from the same previous state before any phi
     -- destinations change. This matters for loop-carried parallel-copy cycles.
@@ -126,14 +150,14 @@ private def execute (f : Function) : Nat → String → Option String →
       pure (phi.destination, result)
     let mut locals := environment
     for (name, value) in updates do locals := updateLocal locals name value
-    locals ← evaluateInstructions block.instructions locals
+    let (executed, memory) ← evaluateInstructions block.instructions locals memory
     match block.terminator with
-    | .ret value => operand locals f.resultWidth value
+    | .ret value => operand executed f.resultWidth value
     | .halt => throw "QBE hlt reached: target-dependent program termination"
-    | .jump target => execute f fuel target (some label) locals
+    | .jump target => execute f fuel target (some label) executed memory
     | .branch condition yes no => do
-      let value ← operand locals .word condition
-      execute f fuel (if value != 0 then yes else no) (some label) locals
+      let value ← operand executed .word condition
+      execute f fuel (if value != 0 then yes else no) (some label) executed memory
 
 def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 := do
   validateFunction f
@@ -143,6 +167,6 @@ def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 :=
   for i in [:f.parameters.size] do
     let p := f.parameters[i]!
     locals := (p.name, normalize p.width arguments[i]!) :: locals
-  execute f 100000 f.blocks[0]!.label none locals
+  execute f 100000 f.blocks[0]!.label none locals {}
 
 end LeanCompilerBackend.Semantics

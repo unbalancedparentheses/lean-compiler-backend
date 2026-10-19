@@ -2,7 +2,7 @@
 
 The first release is a **general-purpose QBE 1.3 port in Lean 4**. Concrete will
 use it through a separate adapter. It is not a Concrete-specific backend.
-Full compatibility comes before LLVM/Zig-inspired enhancements and the large
+Full compatibility comes before LLVM/Zig/MLIR-inspired enhancements and the large
 proof effort. Current implementation: an initial integer/leaf-function subset.
 
 ## Phase 1 — working full port
@@ -13,9 +13,14 @@ proof effort. Current implementation: an initial integer/leaf-function subset.
 - [x] P04 — Inventory every upstream opcode, syntax construct, pass, ABI and target; track implementation and test coverage without blanket completion claims. See `docs/PORT_STATUS.md`.
 - [ ] P05 — Complete integer operations, conversions, comparisons and control flow, including phi nodes and loops.
 - [ ] P06 — Memory operations, data definitions, symbols, linkage and thread-local storage.
+  Integer loads/stores and entry-block constant stack allocations are implemented
+  as a bounded slice; data, symbols, dynamic allocation, blits and linkage remain.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
 - [ ] P08 — Port SSA construction, CFG/alias analyses and optimization passes.
 - [ ] P09 — Port liveness, spilling and register allocation, with native checks.
+  Keep live values in registers and spill only when required. Check call clobbers,
+  saved registers, parallel copies and spill/reload value preservation. Re-run
+  the Concrete factorial baseline after this port to measure the actual gain.
 - [ ] P10 — Complete upstream AArch64, AMD64 and RV64 targets and supported object/ABI conventions; native/emulated tests identified explicitly.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential fuzzing; reduce and retain every mismatch.
 - [ ] P12 — Measure compile time, generated-code performance, code size and memory against pinned QBE on the same workloads/toolchain.
@@ -35,6 +40,9 @@ does not qualify. The upstream C implementation stays a separate test comparison
 - Mismatch artifacts containing seed, input, target, toolchain identity and outputs,
   with shrinking and permanent regression cases.
 - Nix builds/checks in CI; preserve upstream licenses, hashes and source attribution.
+- Retain independently corroborated upstream discrepancies and their reduced
+  controls. Original-QBE mismatches remain explicit; any corrected test comparison
+  is separately named and pinned. See `docs/UPSTREAM_DISCREPANCIES.md`.
 
 ## Phase 2 — prove the completed design
 
@@ -49,7 +57,7 @@ experiment. Writing Lean code or passing fuzz tests does not prove the backend.
 
 ## Phase 3 — improvements and consumers
 
-[BEYOND_QBE.md](docs/BEYOND_QBE.md) records the LLVM/Zig ideas to revisit after
+[BEYOND_QBE.md](docs/BEYOND_QBE.md) records the LLVM/Zig/MLIR ideas to revisit after
 the full port: machine IR, pass verification, declarative target legality,
 explicit arithmetic policies, direct object emission and isolated pass tests.
 

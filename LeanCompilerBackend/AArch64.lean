@@ -98,7 +98,16 @@ private def slotOffset (slots : List (String × Nat)) (name : String) : Except S
   | some offset => .ok offset
   | none => .error s!"missing stack slot for %{name}"
 
-private def emitInstruction (slots : List (String × Nat)) (inst : Instruction)
+private def memoryLoad (width : Width) : LoadKind → String
+  | .signedByte => s!"ldrsb {register width 9}"
+  | .unsignedByte => "ldrb w9"
+  | .signedHalf => s!"ldrsh {register width 9}"
+  | .unsignedHalf => "ldrh w9"
+  | .signedWord => if width == .long then "ldrsw x9" else "ldr w9"
+  | .unsignedWord => "ldr w9"
+  | .plain => s!"ldr {register width 9}"
+
+private def emitInstruction (slots allocations : List (String × Nat)) (inst : Instruction)
     : Except String (List String) := do
   let mut lines : List String := []
   match inst.operation with
@@ -125,8 +134,26 @@ private def emitInstruction (slots : List (String × Nat)) (inst : Instruction)
     lines := lines ++ (← load slots width 9 a)
     lines := lines ++ (← load slots width 10 b)
     lines := lines ++ [s!"\tcmp {register width 9}, {register width 10}", s!"\tcset w9, {condition op}"]
+  | .allocate _ _ =>
+    let offset ← slotOffset allocations inst.destination
+    lines := lines ++ [s!"\tadd x9, sp, #{offset}"]
+  | .load kind address =>
+    lines := lines ++ (← load slots .long 9 address)
+    lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
   let offset ← slotOffset slots inst.destination
   pure (lines ++ [s!"\tstr {register inst.width 9}, [sp, #{offset}]"])
+
+private def emitStatement (slots allocations : List (String × Nat))
+    (statement : Statement) : Except String (List String) := do
+  match statement with
+  | .assign inst => emitInstruction slots allocations inst
+  | .store width value address =>
+    let addressLines ← load slots .long 9 address
+    let valueLines ← load slots width.valueWidth 10 value
+    let instruction := match width with
+      | .byte => "strb w10" | .half => "strh w10"
+      | .word => "str w10" | .long => "str x10"
+    pure (addressLines ++ valueLines ++ [s!"\t{instruction}, [x9]"])
 
 private def blockLabel (f : Function) (label : String) : String :=
   s!"L_lcb_block_{f.name.length}_{f.name}_{label}"
@@ -158,7 +185,15 @@ def emitFunction (f : Function) : Except String String := do
   let slots := localNames.toList.zipIdx.map fun ((name, _), i) => (name, i * 8)
   let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
   let stageBase := localNames.size * 8
-  let frame := (((localNames.size + maxPhis) * 8 + 15) / 16) * 16
+  let mut frameEnd := (localNames.size + maxPhis) * 8
+  let mut allocations : List (String × Nat) := []
+  for statement in f.blocks[0]!.instructions do
+    if let .assign inst := statement then
+      if let .allocate alignment (.constant size) := inst.operation then
+        let offset := alignUp frameEnd alignment.bytes
+        allocations := (inst.destination, offset) :: allocations
+        frameEnd := offset + size.toNat
+  let frame := alignUp frameEnd 16
   if frame > 4080 then throw "stack frame exceeds initial AArch64 immediate limit"
   let symbol := "_" ++ f.name
   let mut lines := [s!"; function {f.name}; target aarch64-macos; QBE integer SSA subset"]
@@ -171,8 +206,8 @@ def emitFunction (f : Function) : Except String String := do
     lines := lines ++ [s!"\tstr {register parameter.width i}, [sp, #{offset}]"]
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
-    for inst in block.instructions do
-      lines := lines ++ (← emitInstruction slots inst)
+    for statement in block.instructions do
+      lines := lines ++ (← emitStatement slots allocations statement)
     match block.terminator with
     | .ret value =>
       lines := lines ++ (← load slots f.resultWidth 0 value)

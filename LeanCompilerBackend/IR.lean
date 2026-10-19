@@ -51,12 +51,47 @@ inductive Comparison where
   | unsignedLE | unsignedLT | unsignedGE | unsignedGT
   deriving BEq, DecidableEq, Repr, Inhabited
 
+inductive MemoryWidth where
+  | byte | half | word | long
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+def MemoryWidth.bytes : MemoryWidth → Nat
+  | .byte => 1 | .half => 2 | .word => 4 | .long => 8
+
+def MemoryWidth.valueWidth : MemoryWidth → Width
+  | .long => .long
+  | _ => .word
+
+inductive LoadKind where
+  | signedByte | unsignedByte | signedHalf | unsignedHalf
+  | signedWord | unsignedWord | plain
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+def LoadKind.bytes (width : Width) : LoadKind → Nat
+  | .signedByte | .unsignedByte => 1
+  | .signedHalf | .unsignedHalf => 2
+  | .signedWord | .unsignedWord => 4
+  | .plain => width.bits / 8
+
+def LoadKind.signedBits : LoadKind → Option Nat
+  | .signedByte => some 8 | .signedHalf => some 16 | .signedWord => some 32
+  | _ => none
+
+inductive StackAlignment where
+  | four | eight | sixteen
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+def StackAlignment.bytes : StackAlignment → Nat
+  | .four => 4 | .eight => 8 | .sixteen => 16
+
 inductive Operation where
   | copy (value : Operand)
   | binary (op : Binary) (lhs rhs : Operand)
   | unary (op : Unary) (value : Operand)
   | divide (op : Division) (lhs rhs : Operand)
   | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
+  | allocate (alignment : StackAlignment) (size : Operand)
+  | load (kind : LoadKind) (address : Operand)
   deriving Repr, Inhabited
 
 structure Instruction where
@@ -64,6 +99,16 @@ structure Instruction where
   width : Width
   operation : Operation
   deriving Repr, Inhabited
+
+/-- Stores have no SSA result; they are never disguised as temporary definitions. -/
+inductive Statement where
+  | assign (instruction : Instruction)
+  | store (width : MemoryWidth) (value address : Operand)
+  deriving Repr, Inhabited
+
+def Statement.definition : Statement → Option (String × Width)
+  | .assign inst => some (inst.destination, inst.width)
+  | .store .. => none
 
 structure Parameter where
   name : String
@@ -91,7 +136,7 @@ def Terminator.successors : Terminator → List String
 structure Block where
   label : String
   phis : Array Phi
-  instructions : Array Instruction
+  instructions : Array Statement
   terminator : Terminator
   deriving Repr, Inhabited
 
@@ -106,7 +151,7 @@ structure Function where
 def Function.locals (f : Function) : Array (String × Width) :=
   f.blocks.foldl (fun result block => result
     ++ block.phis.map (fun phi => (phi.destination, phi.width))
-    ++ block.instructions.map (fun inst => (inst.destination, inst.width)))
+    ++ block.instructions.filterMap Statement.definition)
     (f.parameters.map (fun p => (p.name, p.width)))
 
 abbrev Program := Array Function

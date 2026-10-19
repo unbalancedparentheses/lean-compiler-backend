@@ -37,7 +37,7 @@ def report():
              f'- {len(tests)} upstream SSA fixtures retained; full-suite qualification is pending.', '',
              'A supported opcode name may have unimplemented types (especially floating point).',
              'Integer-parameter ABI tests and generated programs do not qualify the full upstream suite.', '',
-             '## Public operations', '', '| Opcode | Accepted result types |', '| --- | --- |']
+             '## Public operations', '', '| Opcode | Accepted result/value forms |', '| --- | --- |']
     for op in operations:
         supported = ', '.join(status['operations'].get(op, [])) or 'not implemented'
         lines.append(f'| `{op}` | {supported} |')
