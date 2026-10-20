@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Exposed phi staging/commit phases and proved straight-line MIR execution
+  corresponds to actual small steps. Proved the effect of the scratch-register
+  load/store pair used by transfers; full simultaneous-transfer correctness
+  remains open.
+
 - Proved successful model initialization establishes the entry-state contract,
   valid entry preconditions guarantee initialization succeeds, and the assembly
   entry adapter handles zero-byte frames. Argument register views are proved for

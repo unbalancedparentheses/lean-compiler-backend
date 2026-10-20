@@ -214,6 +214,12 @@ exact written bytes, outside-span preservation, address/store correspondence,
 same-width load-after-store reconstruction and preservation of disjoint loads.
 The remaining step here is to establish and preserve the source-value/slot relation.
 
+`TransferProofs.executeMIRList_steps` connects straight-line instruction execution
+to an unbounded `stepMIR` prefix, with exactly one step per instruction. The
+load/store pair used by phi copies has an explicit proved effect and preserves
+frame readiness. `stagePhis` and `commitPhis` now expose the actual lowering's
+two phases; the full transfer simulation is still open.
+
 For a phi edge, freeze the predecessor environment before staging. Prove that
 every staging store preserves all value slots, then that every commit reads its
 staged value while preserving the other staging slots. Only after all commits

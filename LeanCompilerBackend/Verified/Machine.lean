@@ -136,7 +136,7 @@ def alu (width : Width) (op : Source.Binary) (a b : UInt64) : UInt64 :=
     | .add => a + b | .sub => a - b | .mul => a * b
     | .andBits => a &&& b | .orBits => a ||| b | .xorBits => a ^^^ b)
 
-private def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Except String Data
+def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Except String Data
   | .enterFrame bytes => enter d bytes
   | .leaveFrame bytes => leave d bytes
   | .readArg width reg slot => do store d width (← StackMIR.offset f slot) (← readReg d width reg)
@@ -150,6 +150,13 @@ private def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction
     let b ← readReg d width rhs.index
     let yes := match op with | .eq => a == b | .unsignedLT => a < b
     writeReg d .word dst.index (if yes then 1 else 0)
+
+/-- Straight-line execution uses the same instruction semantics as stepMIR.
+    This helper does not execute the block terminator. -/
+def executeMIRList (f : StackMIR.Function) : List StackMIR.Instruction → Data → Except String Data
+  | [], d => .ok d
+  | inst :: rest, d => do
+    executeMIRList f rest (← executeMIR f d inst)
 
 def stepMIR (f : StackMIR.Function) (s : State) : Except String Transition := do
   let some block := f.blocks.find? (·.label == s.label) | throw "missing MIR block"

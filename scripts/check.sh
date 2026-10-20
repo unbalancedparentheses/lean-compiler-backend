@@ -54,6 +54,10 @@ grep -Fx "'LeanCompilerBackend.Verified.EntryExamples.loop_entry' depends on axi
 grep -Fx "'LeanCompilerBackend.Verified.EntryExamples.cyclic_entry' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.EntryExamples.maximum_entry' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.EntryExamples.maximum_frame_bytes' depends on axioms: [propext]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.copied_ready' depends on axioms: [propext]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.executeMIRList_append' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.execute_copy' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.executeMIRList_steps' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 python3 scripts/test.py "$@"
 python3 scripts/integer.py "$@"
 python3 scripts/control.py "$@"

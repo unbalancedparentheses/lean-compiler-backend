@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.TransferProofs
 import LeanCompilerBackend.Verified.EntryExamples
 import LeanCompilerBackend.Verified.EntryProofs
 import LeanCompilerBackend.Verified.FrameProofs
@@ -67,3 +68,8 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.EntryExamples.cyclic_entry
 #print axioms LeanCompilerBackend.Verified.EntryExamples.maximum_entry
 #print axioms LeanCompilerBackend.Verified.EntryExamples.maximum_frame_bytes
+
+#print axioms LeanCompilerBackend.Verified.Machine.copied_ready
+#print axioms LeanCompilerBackend.Verified.Machine.executeMIRList_append
+#print axioms LeanCompilerBackend.Verified.Machine.execute_copy
+#print axioms LeanCompilerBackend.Verified.Machine.executeMIRList_steps

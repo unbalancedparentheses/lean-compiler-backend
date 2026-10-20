@@ -53,7 +53,7 @@ structure Function where
   blocks : Array Block
   deriving DecidableEq, Repr
 
-private def loadOperand (width : Width) (reg : Register) : Source.Operand → Instruction
+def loadOperand (width : Width) (reg : Register) : Source.Operand → Instruction
   | .local id => .load width reg (.value id)
   | .literal value => .constant reg value
 
@@ -66,17 +66,26 @@ private def lowerInstruction (i : Source.Instruction) : Array Instruction := Id.
         .compare width op .r9 .r9 .r10]
   return code.push (.store i.width (.value i.destination) .r9)
 
-private def lowerEdge (f : Source.Function) (pred target : Nat) : Except String Block := do
-  let some block := f.blocks[target]? | throw "edge target is missing"
-  let mut instructions := #[]
-  for i in [:block.phis.size] do
-    let some phi := block.phis[i]? | throw "missing phi"
+/-- Read every incoming value into its own staging slot before committing any
+    destination. List recursion exposes the two phases for semantic proofs. -/
+def stagePhis (pred index : Nat) : List Source.Phi → Except String (List Instruction)
+  | [] => .ok []
+  | phi :: rest => do
     let some (_, operand) := phi.incoming.find? (·.1 == pred) | throw "missing phi predecessor"
-    instructions := instructions ++ #[loadOperand phi.width .r9 operand, .store phi.width (.stage i) .r9]
-  for i in [:block.phis.size] do
-    let some phi := block.phis[i]? | throw "missing phi"
-    instructions := instructions ++ #[.load phi.width .r9 (.stage i), .store phi.width (.value phi.destination) .r9]
-  pure { label := .edge pred target, instructions, terminator := .jump (.body target) }
+    let tail ← stagePhis pred (index+1) rest
+    pure (loadOperand phi.width .r9 operand :: .store phi.width (.stage index) .r9 :: tail)
+
+def commitPhis (index : Nat) : List Source.Phi → List Instruction
+  | [] => []
+  | phi :: rest => .load phi.width .r9 (.stage index) ::
+      .store phi.width (.value phi.destination) .r9 :: commitPhis (index+1) rest
+
+def lowerEdge (f : Source.Function) (pred target : Nat) : Except String Block := do
+  let some block := f.blocks[target]? | throw "edge target is missing"
+  let stages ← stagePhis pred 0 block.phis.toList
+  pure { label := .edge pred target,
+         instructions := (stages ++ commitPhis 0 block.phis.toList).toArray,
+         terminator := .jump (.body target) }
 
 /-- Layout is supplied explicitly, then checked against the source contract. -/
 def lower (source : Source.Function) (layout : FrameLayout) : Except String Function := do
