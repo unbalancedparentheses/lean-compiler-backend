@@ -221,7 +221,9 @@ actual MIR steps emitted by `lowerInstruction`, preserving the complete updated
 environment relation. The source/target instruction-position correspondence and
 typing/availability remain explicit premises. `ArithmeticProofs.binary_steps` extends this to all six arithmetic/bitwise
 operations and their four emitted MIR steps, using the source bitvector result.
-Comparison instruction simulation and whole-function preservation remain open.
+`ComparisonProofs.comparison_steps` proves the four-step equality/unsigned
+comparison expansion for word or long operands and a word result. Whole-function
+preservation and derivation of the instruction-position premises remain open.
 
 `TransferProofs.executeMIRList_steps` connects straight-line instruction execution
 to an unbounded `stepMIR` prefix, with exactly one step per instruction. The

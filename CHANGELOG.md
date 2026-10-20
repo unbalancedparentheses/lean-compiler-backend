@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Proved source equality and unsigned comparison through their actual four-step
+  MIR expansions, including word-sized results for long operands.
+
 - Proved all six arithmetic/bitwise source operations simulate through their
   actual four-instruction MIR expansion, preserving the updated environment
   relation under explicit availability, typing and instruction-position premises.

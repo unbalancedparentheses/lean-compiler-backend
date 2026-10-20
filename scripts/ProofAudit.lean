@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.ComparisonProofs
 import LeanCompilerBackend.Verified.ArithmeticProofs
 import LeanCompilerBackend.Verified.PhiContextProofs
 import LeanCompilerBackend.Verified.InstructionProofs
@@ -182,3 +183,13 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.binary_expansion
 #print axioms LeanCompilerBackend.Verified.binary_instruction
 #print axioms LeanCompilerBackend.Verified.binary_steps
+
+-- Word-result equality/unsigned comparisons at both operand widths.
+#print axioms LeanCompilerBackend.Verified.Machine.value_bits_toNat
+#print axioms LeanCompilerBackend.Verified.Machine.boolValue_width
+#print axioms LeanCompilerBackend.Verified.Machine.boolValue_bits
+#print axioms LeanCompilerBackend.Verified.Machine.comparison_source
+#print axioms LeanCompilerBackend.Verified.Machine.load_operands
+#print axioms LeanCompilerBackend.Verified.Machine.comparison_expansion
+#print axioms LeanCompilerBackend.Verified.comparison_instruction
+#print axioms LeanCompilerBackend.Verified.comparison_steps
