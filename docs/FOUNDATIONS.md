@@ -331,8 +331,8 @@ Failures from these Python campaigns retain replayable workspaces under
 `python3 scripts/first_path_fuzz.py --seed SEED --require-native`.
 
 **Pinned qualification:** `nix flake check --no-write-lock-file -L` passed on
-`aarch64-darwin` on 2026-10-20 at 13:27 UTC for commit
-`6da05bc492ea330d076fe8f46c333289d18082ae`. The tested compiler source/build identity is:
+`aarch64-darwin` on 2026-10-20 at 13:31 UTC for commit
+`4b0a382521d487adfc2d7cdd42d96a66c9eaddc0`. The tested compiler source/build identity is:
 
 ```text
 6caca21f0574d6453c95d85d445f08abdaf8c6348fc114da900816bbc09060e3
@@ -341,7 +341,9 @@ Failures from these Python campaigns retain replayable workspaces under
 The run built both executables, checked all 123 public theorem dependencies and
 ran `scripts/check.sh`, including the first-path replay/model/native checks and
 the existing integer, control-flow, memory, blit, call, stack-argument and fuzz
-suites. The existing 616 original-QBE memory overlap mismatches remain separately
+suites, including the five added malformed-transfer controls. Emitted assembly
+for all 25 first-path fixtures is byte-identical to the pre-proof-session output.
+The existing 616 original-QBE memory overlap mismatches remain separately
 reported known discrepancies, not matching cases. Linux and Intel Mac builds or
 native execution were not measured in this local run. Remote CI independently
 runs Linux and ARM64 macOS jobs; those build hosts do not imply implemented Linux
