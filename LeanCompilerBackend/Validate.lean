@@ -75,7 +75,11 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
   | .indirect address => check .long address
   if arguments.size > maxIntegerArguments then
     throw s!"call exceeds the {maxIntegerArguments}-integer-argument resource limit"
-  for argument in arguments do check argument.width argument.value
+  let mut seenVariadic := false
+  for argument in arguments do
+    if seenVariadic && !argument.variadic then throw "fixed argument follows variadic argument"
+    seenVariadic := seenVariadic || argument.variadic
+    check argument.width argument.value
 
 def validateFunction (f : Function) : Except String Unit := do
   if !validName f.name then throw "unsupported function name"
@@ -124,6 +128,9 @@ def validateFunction (f : Function) : Except String Unit := do
         check width.valueWidth value
         check .long address
       | .callVoid target arguments => checkCallArguments check target arguments
+      | .vaStart list =>
+        if !f.variadic then throw "vastart requires a variadic function"
+        check .long list
       | .blit source destination bytes =>
         check .long source
         check .long destination
@@ -145,6 +152,7 @@ def validateFunction (f : Function) : Except String Unit := do
           check width a
           check width b
         | .load _ address => check .long address
+        | .vaArg list => check .long list
         | .call target arguments =>
           checkCallArguments check target arguments
         | .allocate _ size =>
@@ -183,9 +191,10 @@ def validate (program : Program) : Except String Unit := do
           if let some callee := program.find? (·.name == target) then
             if resultWidth != callee.resultWidth then
               throw s!"call ${target}: result type disagrees with its definition"
-            if arguments.size != callee.parameters.size then
-              throw s!"call ${target}: argument count disagrees with its definition"
-            for i in [:arguments.size] do
+            let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
+            if fixed != callee.parameters.size || (!callee.variadic && arguments.size != fixed) then
+              throw s!"call ${target}: argument count/variadic boundary disagrees with its definition"
+            for i in [:callee.parameters.size] do
               if arguments[i]!.width != callee.parameters[i]!.width then
                 throw s!"call ${target}: argument type disagrees with its definition"
 

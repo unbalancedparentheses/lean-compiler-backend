@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Support integer variadic functions and calls on Apple ARM64: `...`, `vastart`
+  and w/l `vaarg`, with eight-byte variadic stack slots and correct boundaries
+  after named stack arguments. Interpreter state restores across nested variadic
+  invocations. Native C/QBE comparisons cover seven named-argument boundaries,
+  dynamic frames and direct/indirect calls in both ABI directions, up to 64 total
+  arguments. Floating/aggregate variadics and first-path certification remain open.
+
 - Support positive runtime-sized and non-entry stack allocations on Apple ARM64.
   Dynamic functions keep SSA/phi slots relative to a stable x29 frame base with
   a canonical FP/LR record, allocate outgoing stack arguments at each call, and

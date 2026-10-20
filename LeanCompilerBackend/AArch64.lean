@@ -123,24 +123,25 @@ inductive ArgumentLocation where
 structure ArgumentLayout where
   locations : Array ArgumentLocation
   stackBytes : Nat
+  stackUsedBytes : Nat
 
-def argumentLayout (widths : Array Width) : ArgumentLayout := Id.run do
+def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size) : ArgumentLayout := Id.run do
   let mut locations := #[]
   let mut offset := 0
   for i in [:widths.size] do
-    if i < 8 then
+    if i < 8 && i < variadicFrom then
       locations := locations.push (.register i)
     else
-      let bytes := widths[i]!.bytes
+      let bytes := if i >= variadicFrom then 8 else widths[i]!.bytes
       offset := alignUp offset bytes
       locations := locations.push (.stack offset)
       offset := offset + bytes
-  return { locations, stackBytes := alignUp offset 16 }
+  return { locations, stackBytes := alignUp offset 16, stackUsedBytes := offset }
 
 private def emitCall (base : String) (slots : List (String × Nat)) (target : CallTarget)
     (arguments : Array CallArgument) : Except String (List String) := do
   let mut lines := []
-  let layout := argumentLayout (arguments.map (·.width))
+  let layout := argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size)
   let dynamicOutgoing := base == "x29" && layout.stackBytes != 0
   if dynamicOutgoing then lines := lines ++ [s!"\tsub sp, sp, #{layout.stackBytes}"]
   for i in [:arguments.size] do
@@ -215,6 +216,10 @@ private def emitInstruction (base : String) (slots allocations : List (String ×
     else
       let offset ← slotOffset allocations inst.destination
       lines := lines ++ stackAddress base 9 offset
+  | .vaArg list =>
+    lines := lines ++ (← load base slots .long 9 list)
+    lines := lines ++ ["\tldr x10, [x9]", s!"\tldr {register inst.width 11}, [x10]",
+      "\tadd x10, x10, #8", "\tstr x10, [x9]", s!"\tmov {register inst.width 9}, {register inst.width 11}"]
   | .load kind address =>
     lines := lines ++ (← load base slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
@@ -228,10 +233,12 @@ private def emitInstruction (base : String) (slots allocations : List (String ×
   pure (lines ++ [s!"\tstr {register inst.width 9}, [{base}, #{offset}]"])
 
 private def emitStatement (base : String) (slots allocations : List (String × Nat))
-    (statement : Statement) : Except String (List String) := do
+    (varargsOffset : Nat) (statement : Statement) : Except String (List String) := do
   match statement with
   | .assign inst => emitInstruction base slots allocations inst
   | .callVoid target arguments => emitCall base slots target arguments
+  | .vaStart list =>
+    pure ((← load base slots .long 9 list) ++ stackAddress base 10 varargsOffset ++ ["\tstr x10, [x9]"])
   | .blit source destination bytes =>
     if bytes == 0 then return []
     let mut lines := (← load base slots .long 9 source) ++ (← load base slots .long 10 destination)
@@ -294,7 +301,7 @@ def emitFunction (f : Function) : Except String String := do
   for block in f.blocks do
     for statement in block.instructions do
       if let some (_, arguments, _) := statement.callSite then
-        outgoing := max outgoing (argumentLayout (arguments.map (·.width))).stackBytes
+        outgoing := max outgoing (argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size)).stackBytes
   -- Dynamic functions reserve a canonical FP/LR record here and place outgoing
   -- arguments at each call's current SP, below any dynamic objects.
   if dynamic then outgoing := 16
@@ -338,7 +345,7 @@ def emitFunction (f : Function) : Except String String := do
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
     for statement in block.instructions do
-      lines := lines ++ (← emitStatement base slots allocations statement)
+      lines := lines ++ (← emitStatement base slots allocations (frame + alignUp incoming.stackUsedBytes 8) statement)
     match block.terminator with
     | .ret value =>
       if let some value := value then

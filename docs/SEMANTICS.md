@@ -161,3 +161,17 @@ resource limit does not bound the native function's cumulative dynamic allocatio
 Calls in dynamic functions allocate their outgoing argument area below the live
 objects, and fixed SSA/phi slots are addressed relative to x29. The restricted
 first-path domain continues to exclude source allocations and calls.
+
+## Apple ARM64 integer variadics
+
+Function/call `...` markers separate named arguments from a typed w/l variadic
+tail. Named arguments retain ordinary register/natural-stack packing; unnamed
+arguments use eight-byte aligned stack slots. `vastart` writes the first unnamed
+argument address into a caller-supplied eight-byte va_list object. `vaarg` loads
+its declared width and advances the cursor by eight bytes. The interpreter keeps
+only caller-supplied bytes initialized, rejects reads beyond the supplied tail,
+and restores the parent invocation's variadic context across nested calls.
+CLI evaluation accepts the named parameters only; use typed IL wrappers to supply
+variadic arguments. Dynamic native targets and vaarg types must match the actual
+call ABI; native code does not add type or bounds guards. Floating/aggregate
+variadics and the restricted first-path profile remain unsupported.

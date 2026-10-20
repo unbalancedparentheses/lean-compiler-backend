@@ -142,30 +142,39 @@ private def comparisonName (name : String) : Option (Comparison × Width) := Id.
     if name == stem ++ "l" then return some (op, .long)
   return none
 
-private def parseArguments : Nat → P (Array CallArgument)
-  | 0 => failAt "call argument parsing limit exceeded"
-  | fuel + 1 => do
+private def parseArguments : Nat → Bool → P (Array CallArgument)
+  | 0, _ => failAt "call argument parsing limit exceeded"
+  | fuel + 1, variadic => do
     if (← peek) == some ")" then return #[]
+    if (← peek) == some "..." then
+      if variadic then failAt "duplicate variadic call marker"
+      discard take
+      if (← peek) == some ")" then return #[]
+      expect ","
+      if (← peek) == some ")" then failAt "trailing comma in call arguments"
+      return ← parseArguments fuel true
     let width ← parseWidth
     let value ← parseOperand
     if (← peek) == some "," then
       discard take
       if (← peek) == some ")" then failAt "trailing comma in call arguments"
-      return #[{ width, value }] ++ (← parseArguments fuel)
-    return #[{ width, value }]
+      return #[{ width, value, variadic }] ++ (← parseArguments fuel variadic)
+    return #[{ width, value, variadic }]
 
 private def parseCall : P (CallTarget × Array CallArgument) := do
   let target ← if ((← peek).getD "").startsWith "$" then
       CallTarget.direct <$> parseName '$'
     else CallTarget.indirect <$> parseOperand
   expect "("
-  let arguments ← parseArguments (maxIntegerArguments + 2)
+  let arguments ← parseArguments (maxIntegerArguments + 3) false
   expect ")"
   pure (target, arguments)
 
 private def parseOperation (name : String) : P Operation := do
   if name == "copy" then
     pure (.copy (← parseOperand))
+  else if name == "vaarg" then
+    pure (.vaArg (← parseOperand))
   else if name == "call" then do
     let (target, arguments) ← parseCall
     pure (.call target arguments)
@@ -248,17 +257,21 @@ private def parseBlit : P Statement := do
   if bytes < 0 then failAt "blit byte count must be nonnegative"
   pure (.blit source destination bytes.toNat)
 
-private def parseParameters : Nat → P (Array Parameter)
+private def parseParameters : Nat → P (Array Parameter × Bool)
   | 0 => failAt "parameter parsing limit exceeded"
   | fuel + 1 => do
-    if (← peek) == some ")" then return #[]
+    if (← peek) == some ")" then return (#[], false)
+    if (← peek) == some "..." then
+      discard take
+      return (#[], true)
     let width ← parseWidth
     let name ← parseName '%'
     if (← peek) == some "," then
       discard take
       if (← peek) == some ")" then failAt "trailing comma in parameters"
-      return #[{ name, width }] ++ (← parseParameters fuel)
-    return #[{ name, width }]
+      let (rest, variadic) ← parseParameters fuel
+      return (#[{ name, width }] ++ rest, variadic)
+    return (#[{ name, width }], false)
 
 private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Array Statement × Terminator)
   | 0 => failAt "instruction parsing limit exceeded"
@@ -287,6 +300,9 @@ private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Arr
       else
         let definition ← if let some width := storeWidth token then
           Sum.inr <$> parseStore width
+        else if token == "vastart" then do
+          discard take
+          pure (.inr (.vaStart (← parseOperand)))
         else if token == "blit" then Sum.inr <$> parseBlit
         else if token == "call" then do
           discard take
@@ -318,12 +334,12 @@ private def parseFunction (exported : Bool) : P Function := do
   let resultWidth ← if ((← peek).getD "").startsWith "$" then pure none else some <$> parseWidth
   let name ← parseName '$'
   expect "("
-  let parameters ← parseParameters (maxIntegerArguments + 2)
+  let (parameters, variadic) ← parseParameters (maxIntegerArguments + 3)
   expect ")"
   expect "{"
   let blocks ← parseBlocks resultWidth 65
   expect "}"
-  return { name, exported, resultWidth, parameters, blocks }
+  return { name, exported, resultWidth, parameters, variadic, blocks }
 
 private def parseDataInteger : P Int := do
   let token ← take

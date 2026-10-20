@@ -98,7 +98,9 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
       | throw "indirect call address has no interpreter model; result not evaluated"
     let some callee := functions.find? (·.name == name)
       | throw "indirect call target is not a defined function; result not evaluated"
-    if callee.resultWidth != resultWidth || callee.parameters.size != arguments.size ||
+    let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
+    if callee.resultWidth != resultWidth || callee.parameters.size != fixed ||
+        (!callee.variadic && arguments.size != fixed) ||
         (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width) then
       throw "indirect call signature disagrees with target definition; result not evaluated"
     pure name
@@ -112,9 +114,10 @@ private structure ExecutionState where
   memory : Memory := {}
   symbols : List (String × UInt64) := []
   functions : Program := #[]
+  variadicStart : Option UInt64 := none
   remainingBlocks : Nat := 100000
 
-private abbrev CallHandler := String → Array UInt64 → ExecutionState →
+private abbrev CallHandler := String → Array UInt64 → Array Width → ExecutionState →
   Except String (Option UInt64 × ExecutionState)
 
 private def evaluateOperation (call : CallHandler) (inst : Instruction)
@@ -142,6 +145,12 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
     if size == 0 then throw "zero-sized stack allocation is outside the interpreted domain"
     let (address, memory) ← state.memory.allocate alignment size.toNat
     pure (address, { state with memory })
+  | .vaArg list =>
+    let list ← operand state.symbols locals .long list
+    let cursor ← state.memory.read list 8
+    let value ← state.memory.read cursor inst.width.bytes
+    let memory ← state.memory.write list 8 (cursor + 8)
+    pure (normalize inst.width value, { state with memory })
   | .load kind address =>
     let address ← operand state.symbols locals .long address
     let value ← state.memory.read address (kind.bytes inst.width)
@@ -152,7 +161,7 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
   | .call target arguments =>
     let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width)
     let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
-    let (result, updated) ← call target values state
+    let (result, updated) ← call target values (arguments.map (·.width)) state
     let some value := result | throw "void call cannot define an integer result"
     pure (normalize inst.width value, updated)
 
@@ -175,9 +184,14 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
     | .callVoid target arguments =>
       let target ← resolveCallTarget state.functions state.symbols locals target arguments none
       let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
-      let (result, updated) ← call target values state
+      let (result, updated) ← call target values (arguments.map (·.width)) state
       if result.isSome then throw "non-void call requires a return temporary"
       state := updated
+    | .vaStart list =>
+      let list ← operand state.symbols locals .long list
+      let some cursor := state.variadicStart | throw "vastart outside a variadic invocation"
+      let memory ← state.memory.write list 8 cursor
+      state := { state with memory }
     | .blit source destination bytes =>
       let source ← operand state.symbols locals .long source
       let destination ← operand state.symbols locals .long destination
@@ -215,28 +229,38 @@ private def execute (call : CallHandler) (f : Function) : Nat → String → Opt
       let value ← operand state.symbols executed .word condition
       execute call f fuel (if value != 0 then yes else no) (some label) executed state
 
-private def invoke (program : Program) : Nat → Function → Array UInt64 → ExecutionState →
+private def invoke (program : Program) : Nat → Function → Array UInt64 → Array Width → ExecutionState →
     Except String (Option UInt64 × ExecutionState)
-  | 0, _, _, _ => .error "interpreter call-depth budget exhausted; result not evaluated"
-  | depth + 1, f, arguments, state => do
-    if arguments.size != f.parameters.size then
+  | 0, _, _, _, _ => .error "interpreter call-depth budget exhausted; result not evaluated"
+  | depth + 1, f, arguments, argumentWidths, state => do
+    if arguments.size < f.parameters.size || (!f.variadic && arguments.size != f.parameters.size) ||
+        argumentWidths.size != arguments.size then
       throw s!"function ${f.name} expects {f.parameters.size} arguments, got {arguments.size}"
     let mut locals : List (String × UInt64) := []
     for i in [:f.parameters.size] do
       let p := f.parameters[i]!
       locals := (p.name, normalize p.width arguments[i]!) :: locals
-    let call : CallHandler := fun target values current => do
+    let call : CallHandler := fun target values widths current => do
       let some callee := program.find? (·.name == target)
         | throw s!"external call ${target} has no interpreter model; result not evaluated"
-      invoke program depth callee values current
+      invoke program depth callee values widths current
     let objectCount := state.memory.objects.size
     let allocatedBytes := state.memory.allocatedBytes
-    let (value, updated) ← execute call f 100000 f.blocks[0]!.label none locals state
+    let mut initial := { state with variadicStart := none }
+    if f.variadic then
+      let count := arguments.size - f.parameters.size
+      let (base, memory) ← state.memory.allocate .eight (count * 8)
+      let mut memory := memory
+      for i in [:count] do
+        let index := f.parameters.size + i
+        memory ← memory.write (base + (i * 8).toUInt64) argumentWidths[index]!.bytes arguments[index]!
+      initial := { state with memory, variadicStart := some base }
+    let (value, updated) ← execute call f 100000 f.blocks[0]!.label none locals initial
     -- Preserve writes to caller-owned objects, but invalidate this activation's
     -- stack objects. Addresses are never reused, so a dangling pointer stays invalid.
     let memory := { updated.memory with
       objects := updated.memory.objects.extract 0 objectCount, allocatedBytes }
-    pure (value, { updated with memory })
+    pure (value, { updated with memory, variadicStart := state.variadicStart })
 
 /-- Allocate all objects before resolving initializers, allowing forward/self references. -/
 private def initializeModule (module : Module) : Except String ExecutionState := do
@@ -276,7 +300,9 @@ def evaluateModule (module : Module) (name : String) (arguments : Array UInt64)
   validateModule module
   let some f := module.functions.find? (·.name == name) | throw s!"unknown function ${name}"
   let initial ← initializeModule module
-  let (value, _) ← invoke module.functions 128 f arguments initial
+  -- CLI arguments describe the named parameters; variadic tails need typed IL calls.
+  if arguments.size != f.parameters.size then throw "CLI argument count must match named parameters"
+  let (value, _) ← invoke module.functions 128 f arguments (f.parameters.map (·.width)) initial
   pure value
 
 def evaluateProgram (program : Program) (name : String) (arguments : Array UInt64)

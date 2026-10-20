@@ -104,6 +104,7 @@ inductive CallTarget where
 structure CallArgument where
   width : Width
   value : Operand
+  variadic : Bool := false
   deriving Repr, Inhabited
 
 inductive Operation where
@@ -114,6 +115,7 @@ inductive Operation where
   | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
   | allocate (alignment : StackAlignment) (size : Operand)
   | load (kind : LoadKind) (address : Operand)
+  | vaArg (list : Operand)
   | call (target : CallTarget) (arguments : Array CallArgument)
   deriving Repr, Inhabited
 
@@ -128,12 +130,13 @@ inductive Statement where
   | assign (instruction : Instruction)
   | store (width : MemoryWidth) (value address : Operand)
   | callVoid (target : CallTarget) (arguments : Array CallArgument)
+  | vaStart (list : Operand)
   | blit (source destination : Operand) (bytes : Nat)
   deriving Repr, Inhabited
 
 def Statement.definition : Statement → Option (String × Width)
   | .assign inst => some (inst.destination, inst.width)
-  | .store .. | .callVoid .. | .blit .. => none
+  | .store .. | .callVoid .. | .blit .. | .vaStart .. => none
 
 def Statement.callSite : Statement → Option (CallTarget × Array CallArgument × Option Width)
   | .assign { width, operation := .call target arguments, .. } => some (target, arguments, some width)
@@ -175,6 +178,7 @@ structure Function where
   exported : Bool
   resultWidth : Option Width
   parameters : Array Parameter
+  variadic : Bool := false
   blocks : Array Block
   deriving Repr, Inhabited
 

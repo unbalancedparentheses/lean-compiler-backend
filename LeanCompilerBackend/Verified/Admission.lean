@@ -61,6 +61,7 @@ private def instruction (locals : Array (String × Width)) (inst : Instruction)
     | .divide .. => throw (.unsupported "division/remainder")
     | .allocate .. => throw (.unsupported "source stack allocations")
     | .load .. => throw (.unsupported "source memory loads")
+    | .vaArg .. => throw (.unsupported "variadic argument access")
     | .call .. => throw (.unsupported "calls")
   pure { destination, width := inst.width, operation := op }
 
@@ -79,6 +80,7 @@ private def reachable (f : Function) : Array String := Id.run do
 /-- Import only the v1 profile into raw locally numbered syntax. The result is
     not proof-carrying and must not satisfy a certification request. -/
 def admit (f : Function) : Except AdmissionError Source.Function := do
+  if f.variadic then throw (.unsupported "variadic functions")
   limit "parameters" f.parameters.size 8
   limit "blocks" f.blocks.size 64
   let definitions := f.blocks.foldl (fun n b => n + b.phis.size + b.instructions.size) 0
@@ -111,6 +113,7 @@ def admit (f : Function) : Except AdmissionError Source.Function := do
       | .assign inst => instructions := instructions.push (← instruction locals inst)
       | .store .. => throw (.unsupported "source memory stores")
       | .callVoid .. => throw (.unsupported "calls")
+      | .vaStart .. => throw (.unsupported "variadic argument access")
       | .blit .. => throw (.unsupported "source memory blits")
     let terminator ← match block.terminator with
       | .ret (some value) => Source.Terminator.ret <$> operand locals resultWidth value

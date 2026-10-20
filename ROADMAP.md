@@ -139,8 +139,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
   Direct and indirect calls with up to 64 w/l register/stack arguments and a w/l or void result,
   recursion and native C interoperation are implemented as an initial slice.
-  Function tables and native C callbacks are also tested. Variadics, aggregates
-  and floating-point ABI forms remain open. The Apple ARM64 integer
+  Function tables, native C callbacks and integer variadics (vastart/vaarg) are
+  also tested. Aggregates and floating-point ABI forms remain open. The Apple ARM64 integer
   stack slice uses natural word/long packing and is checked against native C.
   Add explicit checked ABI plans and call/environment contracts, including callback
   and shared-memory assumptions. Define floating-point profiles before optimizing them.
@@ -164,8 +164,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  37/76 inputs: 29 original executable fixtures pass natively, eight development
-  fixtures assemble only, and 39 remain unsupported. CI prevents emission
+  38/76 inputs: 30 original executable fixtures pass natively, eight development
+  fixtures assemble only, and 38 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines
