@@ -198,6 +198,11 @@ assembly adapter satisfies the corresponding predicate, including its zero-frame
 phase convention. Word arguments deliberately retain garbage in their upper
 register bits; the proof establishes their low-width view. These are model-entry
 facts, not a native loader/ABI implementation proof or a lowering certificate.
+`bounded_entry_exists` gives a witness for every supported signature/frame.
+`EntryExamples` instantiates it for a returning zero-frame function, a sum loop,
+a cyclic phi swap and a maximum 4080-byte frame. These witnesses are checked by
+Lean's kernel (including `decide +kernel`), not native evaluation. Unit tests
+separately admit and execute these exact fixtures through all three models.
 
 ## Next composed-proof checkpoint (C01)
 

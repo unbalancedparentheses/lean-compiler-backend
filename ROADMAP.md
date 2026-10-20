@@ -94,7 +94,8 @@ own dependency contracts. These foundations do not by themselves prove codegen.
 
 - [ ] C01 — Prove a restricted integer/control-flow path through stack lowering,
   including a nontrivial loop, simultaneous phi transfers, frame accesses and
-  return behavior. Source/target execution relations are defined. Target-helper
+  return behavior. Source/target execution relations are defined; initializer
+  soundness/completeness and concrete entry witnesses are proved. Target-helper
   lemmas, store-span preservation/initialization, same-width load-after-store and
   disjoint load preservation are proved. Checker soundness, parallel transfers
   and composed simulation remain open.

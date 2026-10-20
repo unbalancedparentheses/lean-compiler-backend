@@ -99,4 +99,20 @@ theorem assemblyEntry_sound (parameters : Array Width) (arguments : Array Source
     obtain ⟨width, value⟩ := args i w v hw hv
     exact ⟨width, value⟩
 
+/-- A concrete compatible caller exists for every supported signature/frame,
+    for both MIR and assembly. This rules out vacuous entry preconditions. -/
+theorem bounded_entry_exists (parameters : Array Width) (arguments : Array Source.Value)
+    (frameBytes : Nat) (signature : parameters = arguments.map Source.Value.width)
+    (arity : parameters.size ≤ 8) (bound : frameBytes ≤ 4080)
+    (aligned : frameBytes % 16 = 0) :
+    ∃ s, initial parameters arguments frameBytes = .ok s ∧
+      EntryState parameters arguments frameBytes false s ∧
+      EntryState parameters arguments frameBytes true (assemblyEntry s) := by
+  have entry := initialState_entry parameters arguments frameBytes 1048576 signature arity
+    (by decide) (by omega) (by decide) bound aligned
+  exact ⟨initialState arguments frameBytes 1048576,
+    initial_complete parameters arguments frameBytes 1048576 signature arity
+      (by decide) (by omega) (by decide) bound aligned,
+    entry, assemblyEntry_sound parameters arguments frameBytes _ entry⟩
+
 end LeanCompilerBackend.Verified.Machine

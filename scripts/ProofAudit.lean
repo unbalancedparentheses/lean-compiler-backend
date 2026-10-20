@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.EntryExamples
 import LeanCompilerBackend.Verified.EntryProofs
 import LeanCompilerBackend.Verified.FrameProofs
 import LeanCompilerBackend.AArch64
@@ -59,3 +60,10 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.initial_complete
 #print axioms LeanCompilerBackend.Verified.Machine.initial_sound
 #print axioms LeanCompilerBackend.Verified.Machine.assemblyEntry_sound
+
+#print axioms LeanCompilerBackend.Verified.Machine.bounded_entry_exists
+#print axioms LeanCompilerBackend.Verified.EntryExamples.empty_entry
+#print axioms LeanCompilerBackend.Verified.EntryExamples.loop_entry
+#print axioms LeanCompilerBackend.Verified.EntryExamples.cyclic_entry
+#print axioms LeanCompilerBackend.Verified.EntryExamples.maximum_entry
+#print axioms LeanCompilerBackend.Verified.EntryExamples.maximum_frame_bytes

@@ -8,3 +8,4 @@ import LeanCompilerBackend.Verified.BindingProofs
 import LeanCompilerBackend.Verified.LayoutProofs
 import LeanCompilerBackend.Verified.FrameProofs
 import LeanCompilerBackend.Verified.EntryProofs
+import LeanCompilerBackend.Verified.EntryExamples

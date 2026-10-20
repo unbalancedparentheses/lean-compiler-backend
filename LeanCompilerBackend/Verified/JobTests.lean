@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.EntryExamples
 import LeanCompilerBackend.Parser
 import LeanCompilerBackend.Verified.Job
 import LeanCompilerBackend.Verified.Machine
@@ -141,10 +142,41 @@ private def mutations : IO Unit := do
     let flags := Machine.subtractFlags width 1 1
     require (flags.carry && flags.zero) "equality flags"
 
+private def entryChecks : IO Unit := do
+  for (f, args, expected) in [
+      (EntryExamples.emptyFrame, #[], 7),
+      (EntryExamples.loop, #[Source.Value.word 10], 45),
+      (EntryExamples.cyclicPhi, #[Source.Value.word 5], 22),
+      (EntryExamples.maximumFrame, #[], 254)] do
+    let job ← success (prepareJob (reify f "entry_fixture" false) "entry-tests")
+    require (decide (job.code.body = f)) "entry fixture changed during canonical admission"
+    let artifact ← success (compileFunction job)
+    let source := Source.evaluateFunction f args 10000
+    match source with
+    | .returned v => require (v.toNat == expected) "entry fixture source result"
+    | _ => throw (IO.userError "entry fixture source did not return")
+    for result in [Machine.evaluateMIR artifact.code.stackMIR args 100000,
+                   Machine.evaluateAssembly artifact.code.assembly args 100000] do
+      match result with
+      | .returned v _ => require (v.toNat == expected) "entry fixture target result"
+      | _ => throw (IO.userError "entry fixture target did not return")
+  require (failed (Machine.initial #[.word] #[] 16)) "missing entry argument accepted"
+  require (failed (Machine.initial #[.word] #[.long 1] 16)) "entry width mismatch accepted"
+  require (failed (Machine.initial (Array.replicate 9 .word) (Array.replicate 9 (.word 0)) 16))
+    "nine register arguments accepted"
+  for (frame, sp) in [(16,0),(16,8),(16,2^64),(4096,1048576),(15,1048576)] do
+    require (failed (Machine.initial #[] #[] frame sp)) "invalid entry frame/SP accepted"
+  let zero ← success (Machine.initial #[] #[] 0)
+  require (!zero.data.active && (Machine.assemblyEntry zero).data.active)
+    "zero-frame entry phase adapter"
+  let nonzero ← success (Machine.initial #[] #[] 16)
+  require (!(Machine.assemblyEntry nonzero).data.active) "nonzero frame entered before prologue"
+
 -- All API artifacts remain explicitly uncertified.
 def run : IO Unit := do
   boundary
   mutations
+  entryChecks
   IO.println "function-job, typed-lowering, binding and mutation checks passed"
 
 end LeanCompilerBackend.Verified.JobTests
