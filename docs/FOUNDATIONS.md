@@ -238,7 +238,16 @@ phi lists, using the actual incoming-operand lookup and successful source reads
 in a frozen predecessor environment. It establishes all staged values, preserves
 the source-value relation and frame readiness, and preserves every load below
 the first staging slot. Predecessor uniqueness remains an admission obligation.
-The next step is to prove that every commit reads its
+`CommitProofs` proves destination stores preserve the updated local relation
+and leave all staging slots intact. The two actual phases compose for arbitrary
+phi lists. `lowerEdge_steps` includes the jump terminator and proves exactly
+`4 * phiCount + 1` MIR steps, ending with the relation for values resolved from
+the original environment. It assumes successful source reads, valid destination
+bounds/widths, canonical layout, and membership of the emitted edge in the
+function. Deriving these premises from admission, and equating the assignment
+fold with the source interpreter's transfer loop, remain open.
+
+The invariant is that every commit reads its
 staged value while preserving the other staging slots. Only after all commits
 should the relation expose the destination environment. This is the point where
 cycles must be handled simultaneously, rather than by sequential substitution.

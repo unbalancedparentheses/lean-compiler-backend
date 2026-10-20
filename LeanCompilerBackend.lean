@@ -15,3 +15,4 @@ import LeanCompilerBackend.Verified.PhiExamples
 import LeanCompilerBackend.Verified.DivergenceProofs
 import LeanCompilerBackend.Verified.OperandProofs
 import LeanCompilerBackend.Verified.StagingProofs
+import LeanCompilerBackend.Verified.CommitProofs

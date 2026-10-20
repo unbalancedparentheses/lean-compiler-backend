@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.CommitProofs
 import LeanCompilerBackend.Verified.StagingProofs
 import LeanCompilerBackend.Verified.OperandProofs
 import LeanCompilerBackend.Verified.PhiExamples
@@ -120,3 +121,13 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.localsMatch_stage
 
 #print axioms LeanCompilerBackend.Verified.Machine.stagePhis_correct
+
+-- Arbitrary phi commit and emitted-edge execution, including the jump.
+#print axioms LeanCompilerBackend.Verified.Machine.localsMatch_store
+#print axioms LeanCompilerBackend.Verified.Machine.staged_store
+#print axioms LeanCompilerBackend.Verified.Machine.commitPhis_correct
+#print axioms LeanCompilerBackend.Verified.Machine.phi_phases_correct
+#print axioms LeanCompilerBackend.Verified.Machine.commitPhis_length
+#print axioms LeanCompilerBackend.Verified.Machine.stagePhis_length
+#print axioms LeanCompilerBackend.Verified.Machine.mir_jump
+#print axioms LeanCompilerBackend.Verified.Machine.lowerEdge_steps

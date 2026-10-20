@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Proved arbitrary phi commit and composed emitted-edge execution in exactly
+  four MIR steps per phi plus the jump, preserving the relation to values
+  resolved simultaneously from the predecessor environment.
+
 - Proved the actual phi staging pass for arbitrary lists, with a frozen source
   environment, correct staged values, frame readiness and preserved locals.
 
