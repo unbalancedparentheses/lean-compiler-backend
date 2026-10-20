@@ -124,6 +124,7 @@ private def memoryLoad (width : Width) : LoadKind → String
     follows QBE 1.3 arm64/abi.c argsclass/selcall/selpar. -/
 inductive ArgumentLocation where
   | register (index : Nat)
+  | floatRegister (index : Nat)
   | stack (offset : Nat)
   deriving Repr, Inhabited
 
@@ -133,13 +134,19 @@ structure ArgumentLayout where
   stackUsedBytes : Nat
 
 def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size)
-    (environment : Bool := false) : ArgumentLayout := Id.run do
+    (environment : Bool := false) (floating : Array Bool := #[]) : ArgumentLayout := Id.run do
   let mut locations := #[]
   let mut offset := 0
+  let mut gp := 0
+  let mut fp := 0
   for i in [:widths.size] do
     if environment && i == 0 then locations := locations.push (.register 9)
-    else if i - (if environment then 1 else 0) < 8 && i < variadicFrom then
-      locations := locations.push (.register (i - (if environment then 1 else 0)))
+    else if (floating[i]?).getD false && fp < 8 && i < variadicFrom then
+      locations := locations.push (.floatRegister fp)
+      fp := fp + 1
+    else if !((floating[i]?).getD false) && gp < 8 && i < variadicFrom then
+      locations := locations.push (.register gp)
+      gp := gp + 1
     else
       let bytes := if i >= variadicFrom then 8 else widths[i]!.bytes
       offset := alignUp offset bytes
@@ -150,13 +157,16 @@ def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size)
 private def emitCall (base : String) (slots : List (String × Nat)) (target : CallTarget)
     (arguments : Array CallArgument) : Except String (List String) := do
   let mut lines := []
-  let layout := argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment))
+  let layout := argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment)) (arguments.map (·.floating))
   let dynamicOutgoing := base == "x29" && layout.stackBytes != 0
   if dynamicOutgoing then lines := lines ++ [s!"\tsub sp, sp, #{layout.stackBytes}"]
   for i in [:arguments.size] do
     let argument := arguments[i]!
     if argument.environment then continue
     match layout.locations[i]! with
+    | .floatRegister index =>
+      lines := lines ++ (← load base slots argument.width 9 argument.value)
+      lines := lines ++ [s!"\tfmov {floatRegister argument.width index}, {register argument.width 9}"]
     | .register index => lines := lines ++ (← load base slots argument.width index argument.value)
     | .stack offset =>
       lines := lines ++ (← load base slots argument.width 9 argument.value)
@@ -258,7 +268,8 @@ private def emitInstruction (base : String) (slots allocations : List (String ×
     -- overwrite an argument that has not yet been loaded. All other live values
     -- also survive caller-saved clobbers in their own frame slots.
     lines := lines ++ (← emitCall base slots target arguments)
-    lines := lines ++ [s!"\tmov {register inst.width 9}, {register inst.width 0}"]
+    lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width 9}, {floatRegister inst.width 0}"
+      else s!"\tmov {register inst.width 9}, {register inst.width 0}"]
   let offset ← slotOffset slots inst.destination
   pure (lines ++ [s!"\tstr {register inst.width 9}, [{base}, #{offset}]"])
 
@@ -334,7 +345,7 @@ def emitFunction (f : Function) : Except String String := do
   for block in f.blocks do
     for statement in block.instructions do
       if let some (_, arguments, _) := statement.callSite then
-        outgoing := max outgoing (argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment))).stackBytes
+        outgoing := max outgoing (argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment)) (arguments.map (·.floating))).stackBytes
   -- Dynamic functions reserve a canonical FP/LR record here and place outgoing
   -- arguments at each call's current SP, below any dynamic objects.
   if dynamic then outgoing := 16
@@ -366,7 +377,7 @@ def emitFunction (f : Function) : Except String String := do
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
   else if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
   let incoming := argumentLayout (f.parameters.map (·.width)) f.parameters.size
-    ((f.parameters[0]?).any (·.environment))
+    ((f.parameters[0]?).any (·.environment)) (f.parameters.map (·.floating))
   if let some parameter := f.parameters[0]? then
     if parameter.environment then
       let offset ← slotOffset slots parameter.name
@@ -376,6 +387,8 @@ def emitFunction (f : Function) : Except String String := do
     if parameter.environment then continue
     let offset ← slotOffset slots parameter.name
     match incoming.locations[i]! with
+    | .floatRegister index =>
+      lines := lines ++ [s!"\tstr {floatRegister parameter.width index}, [{base}, #{offset}]"]
     | .register index =>
       lines := lines ++ [s!"\tstr {register parameter.width index}, [{base}, #{offset}]"]
     | .stack argumentOffset =>
@@ -390,6 +403,7 @@ def emitFunction (f : Function) : Except String String := do
       if let some value := value then
         let some width := f.resultWidth | throw "void function cannot return an integer"
         lines := lines ++ (← load base slots width 0 value)
+        if f.resultFloating then lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width 0}"]
       if dynamic then lines := lines ++ ["\tmov sp, x29", "\tldp x29, x30, [sp]"]
       else if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]
       lines := lines ++ adjustStack "add" frame

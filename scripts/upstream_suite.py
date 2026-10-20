@@ -27,7 +27,9 @@ def extract(text, section):
             active = False
         elif active:
             assert line.startswith('#'), 'malformed upstream fixture section'
-            lines.append(line[2:] if line.startswith('# ') else line[1:])
+            content = line[2:] if line.startswith('# ') else line[1:]
+            # Match tools/test.sh: a final # protects significant trailing spaces.
+            lines.append(content[:-1] if content.endswith('#') else content)
     return '\n'.join(lines) + ('\n' if lines else '')
 
 
@@ -37,6 +39,7 @@ def command(args, cwd=ROOT, timeout=120):
 
 
 def main():
+    assert extract('# >>> output\n#  *  #\n# <<<\n', 'output') == ' *  \n'
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--require-native', action='store_true')
     parser.add_argument('--seed', type=int, default=0)

@@ -7,8 +7,8 @@ Executable semantics, existing proofs and regression tests remain required check
 tested and certified coverage are reported separately. The current implementation
 is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
 
-The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 32 native
-passes, eight assemble-only fixtures and 36 unsupported inputs out of 76.
+The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 36 native
+passes, eight assemble-only fixtures and 32 unsupported inputs out of 76.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
@@ -87,11 +87,12 @@ before rebuilding; the checks reject stale source/build identities.
   including recursion and external C symbols. Internal signatures are checked;
   external definitions must honor the declared ABI. Non-leaf frames save the
   return address and keep live values in stack slots across calls.
-- Single/double local arithmetic, comparisons, casts, memory and phi values.
+- Single/double arithmetic, comparisons, casts, memory, phi values and scalar calls/returns.
 - QBE `env` parameters/arguments in x9, including indirect and variadic calls.
-- Integer variadic functions/calls, `vastart` and w/l `vaarg` on Apple ARM64.
+- Integer/floating variadic functions/calls, `vastart` and w/l/s/d `vaarg` on Apple ARM64.
   Unnamed arguments use eight-byte stack slots, including indirect calls.
-- Apple ARM64 passes the first eight named integer arguments in registers, then uses
+- Apple ARM64 uses independent banks of eight named integer and floating argument
+  registers, then uses
   naturally aligned stack arguments: four bytes for words and eight for longs.
   The 64-argument cap is a compiler resource limit; the frame limit still applies.
 - A small Lean theorem for primitive arithmetic opcode selection. A separate

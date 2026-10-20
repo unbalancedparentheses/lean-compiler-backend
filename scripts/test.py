@@ -61,7 +61,7 @@ def negatives(work):
         'duplicate_parameter': ('function w $f(w %a, w %a) { @s ret %a }', 'duplicate parameter'),
         'duplicate_function': ('function w $f() { @s ret 0 } function w $f() { @s ret 1 }', 'duplicate function'),
         'widen': ('function l $f(w %a) { @s ret %a }', 'w-to-l'),
-        'float': ('function d $f() { @s ret 0 }', 'unsupported type'),
+        'aggregate': ('function :pair $f() { @s ret 0 }', 'unsupported type'),
         'narrow_call_target': ('function w $f(w %g) { @s %r =w call %g() ret %r }', 'w-to-l'),
         'branch': ('function w $f() { @s jmp @missing }', 'unknown block'),
         'surplus': ('function w $f() { @s ret 0 } junk', "expected 'function'"),

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Implement scalar single/double Apple ARM64 arguments, results and variadics,
+  including independent GP/FP banks, mixed stack layouts, dynamic frames, C
+  callbacks and direct/indirect calls. Fix upstream output-section extraction
+  to strip protective trailing `#` markers exactly as QBE's runner does.
+
 - Add explicitly typed single/double local SSA arithmetic, negation, all eight
   floating comparisons, bit casts, loads/stores and phi values. Native C and QBE
   comparisons cover exceptional values and an arithmetic corruption control.

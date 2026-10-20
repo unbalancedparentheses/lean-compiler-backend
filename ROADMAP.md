@@ -135,14 +135,15 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   strings and IEEE floating constant initializers. Runtime-sized and non-entry
   allocations now pass native call/frame tests. TLS and remaining linkage forms remain.
   Local single/double arithmetic, comparisons, casts, memory and phi values are
-  implemented; numeric conversions and floating ABI support remain.
+  implemented, including scalar floating calls/returns and variadics; numeric
+  conversions remain.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
-  Direct and indirect calls with up to 64 w/l register/stack arguments and a w/l or void result,
+  Direct and indirect calls with up to 64 w/l/s/d register/stack arguments and a scalar or void result,
   recursion and native C interoperation are implemented as an initial slice.
-  Function tables, native C callbacks, env arguments and integer variadics
-  (vastart/vaarg) are also tested. Aggregates and floating-point ABI forms remain open. The Apple ARM64 integer
+  Function tables, native C callbacks, env arguments and integer/floating variadics
+  (vastart/vaarg) are also tested. Aggregates and subword ABI forms remain open. The Apple ARM64 integer
   stack slice uses natural word/long packing and is checked against native C.
   Add explicit checked ABI plans and call/environment contracts, including callback
   and shared-memory assumptions. Define floating-point profiles before optimizing them.
@@ -166,8 +167,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  40/76 inputs: 32 original executable fixtures pass natively, eight development
-  fixtures assemble only, and 36 remain unsupported. CI prevents emission
+  44/76 inputs: 36 original executable fixtures pass natively, eight development
+  fixtures assemble only, and 32 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

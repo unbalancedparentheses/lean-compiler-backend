@@ -106,6 +106,7 @@ structure CallArgument where
   value : Operand
   variadic : Bool := false
   environment : Bool := false
+  floating : Bool := false
   deriving Repr, Inhabited
 
 /-- Floating values use Width for storage size; their SSA class is tracked separately. -/
@@ -159,10 +160,15 @@ def Statement.callSite : Statement → Option (CallTarget × Array CallArgument 
   | .callVoid target arguments => some (target, arguments, none)
   | _ => none
 
+def Statement.resultFloating : Statement → Bool
+  | .assign inst => inst.floating
+  | _ => false
+
 structure Parameter where
   name : String
   width : Width
   environment : Bool := false
+  floating : Bool := false
   deriving Repr, Inhabited
 
 structure Phi where
@@ -195,6 +201,7 @@ structure Function where
   name : String
   exported : Bool
   resultWidth : Option Width
+  resultFloating : Bool := false
   parameters : Array Parameter
   variadic : Bool := false
   blocks : Array Block

@@ -200,4 +200,9 @@ phi and negation preserve payload bits (negation flips only the sign). Compariso
 handle unordered operands explicitly: `ne` and `uo` are true for NaNs; ordered
 relations and `o` are false. The interpreter uses Lean's native Float32/Float
 primitives as an executable testing model, not a new formal correctness claim.
-Floating function signatures and numeric conversions remain outside this checkpoint.
+Floating function signatures use independently allocated GP and FP register banks
+on Apple ARM64. Named spilled scalars use natural 4/8-byte stack packing; variadic
+tails always occupy 8-byte slots. Frontends remain responsible for C default
+argument promotions: C float varargs are passed as double, while typed QBE s tails
+are also supported. Scalar return values use w0/x0 or s0/d0. The CLI interpreter
+accepts/returns raw IEEE bits for floating values. Numeric conversions remain open.

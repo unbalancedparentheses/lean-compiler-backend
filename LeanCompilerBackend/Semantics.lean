@@ -90,7 +90,7 @@ private def operand (symbols locals : List (String × UInt64)) (width : Width)
     | none => throw s!"undefined temporary %{name}"
 
 private def resolveCallTarget (functions : Program) (symbols locals : List (String × UInt64))
-    (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) : Except String String := do
+    (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) (resultFloating : Bool) : Except String String := do
   match target with
   | .direct name => pure name
   | .indirect value =>
@@ -101,9 +101,9 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
       | throw "indirect call target is not a defined function; result not evaluated"
     let arguments ← effectiveCallArguments callee arguments
     let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
-    if callee.resultWidth != resultWidth || callee.parameters.size != fixed ||
+    if callee.resultWidth != resultWidth || callee.resultFloating != resultFloating || callee.parameters.size != fixed ||
         (!callee.variadic && arguments.size != fixed) ||
-        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width) then
+        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating) then
       throw "indirect call signature disagrees with target definition; result not evaluated"
     pure name
 
@@ -173,7 +173,7 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
       | none => normalize inst.width value
     pure (extended, state)
   | .call target arguments =>
-    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width)
+    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width) inst.floating
     let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
     let (result, updated) ← call target values (arguments.map (·.width)) ((arguments[0]?).any (·.environment)) state
     let some value := result | throw "void call cannot define an integer result"
@@ -201,7 +201,7 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let memory ← state.memory.write address width.bytes value
       state := { state with memory }
     | .callVoid target arguments =>
-      let target ← resolveCallTarget state.functions state.symbols locals target arguments none
+      let target ← resolveCallTarget state.functions state.symbols locals target arguments none false
       let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
       let (result, updated) ← call target values (arguments.map (·.width)) ((arguments[0]?).any (·.environment)) state
       if result.isSome then throw "non-void call requires a return temporary"

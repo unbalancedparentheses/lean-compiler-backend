@@ -1,12 +1,12 @@
 # Upstream fixture coverage checkpoint
 
-Pinned QBE 1.3, Apple ARM64; measured after local floating-point support.
+Pinned QBE 1.3, Apple ARM64; measured after scalar floating ABI support.
 This is compatibility testing, not formal certification.
 
-- 40 of 76 fixtures emit assembly.
-- 32 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
+- 44 of 76 fixtures emit assembly.
+- 36 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
 - 8 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
-- 36 fixtures remain unsupported.
+- 32 fixtures remain unsupported.
 
 `scripts/upstream_suite.py` scans every fixture and runs every accepted executable
 fixture on native Apple ARM64. Other hosts check emission and report native execution
@@ -59,20 +59,20 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `double.ssa` | passed |
 | `dynalloc.ssa` | passed |
 | `echo.ssa` | passed |
-| `env.ssa` | Native execution passed (Lean and QBE) |
+| `env.ssa` | passed |
 | `eucl.ssa` | passed |
 | `euclc.ssa` | passed |
 | `fixarg.ssa` | passed |
 | `fold1.ssa` | passed |
-| `fpcnv.ssa` | Unsupported: line 4 near 's': unsupported type: expected w (32-bit) or l (64-bit) |
+| `fpcnv.ssa` | Unsupported: line 15 near '%f': unsupported operation 'dtosi' |
 | `gvn1.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %t2 |
 | `gvn2.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %rc |
-| `ifc.ssa` | Unsupported: line 46 near 's': unsupported type: expected w (32-bit) or l (64-bit) |
+| `ifc.ssa` | Unsupported: function $ifc1: duplicate SSA definition or duplicate parameter %v |
 | `isel1.ssa` | passed |
-| `isel2.ssa` | Unsupported: line 4 near 'd': unsupported type: expected w (32-bit) or l (64-bit) |
+| `isel2.ssa` | passed |
 | `isel3.ssa` | passed |
 | `isel4.ssa` | passed |
-| `isel5.ssa` | Unsupported: line 7 near 'd': unsupported type: expected w (32-bit) or l (64-bit) |
+| `isel5.ssa` | passed |
 | `isel6.ssa` | passed |
 | `ldbits.ssa` | passed |
 | `ldhoist.ssa` | Unsupported: function $f: duplicate SSA definition or duplicate parameter %n |
@@ -80,7 +80,7 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `load2.ssa` | Unsupported: function $f: duplicate SSA definition or duplicate parameter %n |
 | `load3.ssa` | passed |
 | `loop.ssa` | passed |
-| `mandel.ssa` | Unsupported: line 4 near 'd': unsupported type: expected w (32-bit) or l (64-bit) |
+| `mandel.ssa` | passed |
 | `max.ssa` | passed |
 | `mem1.ssa` | Unsupported: line 1 near 'type': expected 'function' |
 | `mem2.ssa` | Unsupported: line 4 near 'type': expected 'function' |
@@ -95,5 +95,5 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `strspn.ssa` | passed |
 | `sum.ssa` | passed |
 | `tls.ssa` | Unsupported: line 2 near 'thread': expected 'function' |
-| `vararg1.ssa` | Unsupported: line 2 near 'd': unsupported type: expected w (32-bit) or l (64-bit) |
-| `vararg2.ssa` | Unsupported: line 1 near '...': unsupported type: expected w (32-bit) or l (64-bit) |
+| `vararg1.ssa` | passed |
+| `vararg2.ssa` | Unsupported: function $qbeprint0: duplicate SSA definition or duplicate parameter %r |

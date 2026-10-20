@@ -82,6 +82,7 @@ private def reachable (f : Function) : Array String := Id.run do
 /-- Import only the v1 profile into raw locally numbered syntax. The result is
     not proof-carrying and must not satisfy a certification request. -/
 def admit (f : Function) : Except AdmissionError Source.Function := do
+  if f.resultFloating || f.parameters.any (·.floating) then throw (.unsupported "floating function signatures")
   if f.variadic then throw (.unsupported "variadic functions")
   if f.parameters.any (·.environment) then throw (.unsupported "environment parameters")
   limit "parameters" f.parameters.size 8

@@ -73,6 +73,7 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
         throw s!"%{name}: definition in @{block} does not dominate use in @{useBlock}"
 
 private def checkCallArguments (check : Width → Operand → Except String Unit)
+    (checkFloat : Width → Operand → Except String Unit)
     (target : CallTarget) (arguments : Array CallArgument) : Except String Unit := do
   match target with
   | .direct name => if !validName name then throw "unsupported direct call target"
@@ -82,18 +83,19 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
   let mut seenVariadic := false
   for i in [:arguments.size] do
     let argument := arguments[i]!
-    if argument.environment && (i != 0 || argument.variadic || argument.width != .long) then
+    if argument.environment && (i != 0 || argument.variadic || argument.width != .long || argument.floating) then
       throw "environment argument must be first, named and long"
     if seenVariadic && !argument.variadic then throw "fixed argument follows variadic argument"
     seenVariadic := seenVariadic || argument.variadic
-    check argument.width argument.value
+    (if argument.floating then checkFloat else check) argument.width argument.value
 
 def validateFunction (f : Function) : Except String Unit := do
+  if f.resultFloating && f.resultWidth.isNone then throw "void result cannot have floating type"
   if !validName f.name then throw "unsupported function name"
   if f.parameters.size > maxIntegerArguments then
     throw s!"function exceeds the {maxIntegerArguments}-integer-parameter resource limit"
   for i in [:f.parameters.size] do
-    if f.parameters[i]!.environment && (i != 0 || f.parameters[i]!.width != .long) then
+    if f.parameters[i]!.environment && (i != 0 || f.parameters[i]!.width != .long || f.parameters[i]!.floating) then
       throw "environment parameter must be first and long"
   if f.blocks.isEmpty then throw "function has no entry block"
   if f.blocks.size > 64 then throw "function exceeds initial 64-block limit"
@@ -110,7 +112,7 @@ def validateFunction (f : Function) : Except String Unit := do
   let mut definitions := []
   for parameter in f.parameters do
     definitions ← addDefinition definitions
-      { name := parameter.name, width := parameter.width, block := none, position := 0 }
+      { name := parameter.name, width := parameter.width, floating := parameter.floating, block := none, position := 0 }
   for block in f.blocks do
     for phi in block.phis do
       definitions ← addDefinition definitions
@@ -141,7 +143,7 @@ def validateFunction (f : Function) : Except String Unit := do
       | .store width value address =>
         check width.valueWidth value
         check .long address
-      | .callVoid target arguments => checkCallArguments check target arguments
+      | .callVoid target arguments => checkCallArguments check checkFloat target arguments
       | .vaStart list =>
         if !f.variadic then throw "vastart requires a variadic function"
         check .long list
@@ -151,7 +153,7 @@ def validateFunction (f : Function) : Except String Unit := do
         if bytes > 4096 then throw "blit byte count exceeds the 4096-byte resource limit"
       | .assign inst =>
         let floatingOperation := match inst.operation with
-          | .copy .. | .cast .. | .load .plain _ | .floatBinary .. | .floatNegate .. => true
+          | .copy .. | .cast .. | .load .plain _ | .floatBinary .. | .floatNegate .. | .call .. | .vaArg .. => true
           | _ => false
         if inst.floating && !floatingOperation then throw "operation does not support a floating result"
         match inst.operation with
@@ -183,7 +185,7 @@ def validateFunction (f : Function) : Except String Unit := do
         | .load _ address => check .long address
         | .vaArg list => check .long list
         | .call target arguments =>
-          checkCallArguments check target arguments
+          checkCallArguments check checkFloat target arguments
         | .allocate _ size =>
           if inst.width != .long then throw "stack allocation requires a long result"
           match size with
@@ -195,7 +197,7 @@ def validateFunction (f : Function) : Except String Unit := do
     match block.terminator with
     | .ret value =>
       match f.resultWidth, value with
-      | some width, some value => check width value
+      | some width, some value => checkOperand definitions doms block.label (block.instructions.size + 1) width value f.resultFloating
       | none, none => pure ()
       | _, _ => throw "return value disagrees with function result type"
     | .branch value _ _ => check .word value
@@ -228,13 +230,13 @@ def validate (program : Program) : Except String Unit := do
         if let some (.direct target, arguments, resultWidth) := statement.callSite then
           if let some callee := program.find? (·.name == target) then
             let arguments ← effectiveCallArguments callee arguments
-            if resultWidth != callee.resultWidth then
+            if resultWidth != callee.resultWidth || statement.resultFloating != callee.resultFloating then
               throw s!"call ${target}: result type disagrees with its definition"
             let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
             if fixed != callee.parameters.size || (!callee.variadic && arguments.size != fixed) then
               throw s!"call ${target}: argument count/variadic boundary disagrees with its definition"
             for i in [:callee.parameters.size] do
-              if arguments[i]!.width != callee.parameters[i]!.width then
+              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating then
                 throw s!"call ${target}: argument type disagrees with its definition"
 
 def validateModule (module : Module) : Except String Unit := do
