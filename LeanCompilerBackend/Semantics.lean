@@ -88,6 +88,21 @@ private def operand (symbols locals : List (String × UInt64)) (width : Width)
     | some v => return normalize width v
     | none => throw s!"undefined temporary %{name}"
 
+private def resolveCallTarget (functions : Program) (symbols locals : List (String × UInt64))
+    (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) : Except String String := do
+  match target with
+  | .direct name => pure name
+  | .indirect value =>
+    let address ← operand symbols locals .long value
+    let some (name, _) := symbols.find? (·.2 == address)
+      | throw "indirect call address has no interpreter model; result not evaluated"
+    let some callee := functions.find? (·.name == name)
+      | throw "indirect call target is not a defined function; result not evaluated"
+    if callee.resultWidth != resultWidth || callee.parameters.size != arguments.size ||
+        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width) then
+      throw "indirect call signature disagrees with target definition; result not evaluated"
+    pure name
+
 private def updateLocal (locals : List (String × UInt64)) (name : String) (value : UInt64)
     : List (String × UInt64) :=
   (name, value) :: locals.filter (fun pair => pair.1 != name)
@@ -96,6 +111,7 @@ private def updateLocal (locals : List (String × UInt64)) (name : String) (valu
 private structure ExecutionState where
   memory : Memory := {}
   symbols : List (String × UInt64) := []
+  functions : Program := #[]
   remainingBlocks : Nat := 100000
 
 private abbrev CallHandler := String → Array UInt64 → ExecutionState →
@@ -133,6 +149,7 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
       | none => normalize inst.width value
     pure (extended, state)
   | .call target arguments =>
+    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width)
     let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
     let (result, updated) ← call target values state
     let some value := result | throw "void call cannot define an integer result"
@@ -155,6 +172,7 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let memory ← state.memory.write address width.bytes value
       state := { state with memory }
     | .callVoid target arguments =>
+      let target ← resolveCallTarget state.functions state.symbols locals target arguments none
       let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
       let (result, updated) ← call target values state
       if result.isSome then throw "non-void call requires a return temporary"
@@ -250,7 +268,7 @@ private def initializeModule (module : Module) : Except String ExecutionState :=
           | throw s!"external symbol ${name} has no interpreter model; result not evaluated"
         memory ← memory.write (base + offset.toUInt64) 8 (address + constant .long addend)
       offset := offset + item.byteSize
-  return { memory, symbols }
+  return { memory, symbols, functions := module.functions }
 
 def evaluateModule (module : Module) (name : String) (arguments : Array UInt64)
     : Except String (Option UInt64) := do

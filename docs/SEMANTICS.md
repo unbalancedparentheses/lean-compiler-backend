@@ -121,3 +121,15 @@ resolution to the linker. Numeric pointer values are not compared across models.
 Data/function name collisions and direct calls to data definitions are rejected.
 The module has a 1 MiB initialized-data resource limit. These features are outside
 the restricted first-path proof domain and remain explicitly uncertified.
+
+## Compatibility indirect calls
+
+Indirect calls use a long address operand and the same bounded integer ABI as
+direct calls. The native backend uses x16 as call scratch after preparing argument
+registers and stack arguments. It preserves live SSA values and the return address
+in the caller frame. The interpreter resolves module-defined function identities,
+checks the dynamic argument/result signature, and rejects unknown or non-function
+addresses. External C callbacks are tested natively and have no interpreter model.
+Native code does not add dynamic target or signature guards: the caller must supply
+a valid callable address with the declared ABI. Calls remain outside the restricted
+first-path proof domain.

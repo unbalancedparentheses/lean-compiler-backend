@@ -146,8 +146,10 @@ private def parseArguments : Nat → P (Array CallArgument)
       return #[{ width, value }] ++ (← parseArguments fuel)
     return #[{ width, value }]
 
-private def parseCall : P (String × Array CallArgument) := do
-  let target ← parseName '$'
+private def parseCall : P (CallTarget × Array CallArgument) := do
+  let target ← if ((← peek).getD "").startsWith "$" then
+      CallTarget.direct <$> parseName '$'
+    else CallTarget.indirect <$> parseOperand
   expect "("
   let arguments ← parseArguments (maxIntegerArguments + 2)
   expect ")"

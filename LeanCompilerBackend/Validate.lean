@@ -69,8 +69,10 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
         throw s!"%{name}: definition in @{block} does not dominate use in @{useBlock}"
 
 private def checkCallArguments (check : Width → Operand → Except String Unit)
-    (target : String) (arguments : Array CallArgument) : Except String Unit := do
-  if !validName target then throw "unsupported direct call target"
+    (target : CallTarget) (arguments : Array CallArgument) : Except String Unit := do
+  match target with
+  | .direct name => if !validName name then throw "unsupported direct call target"
+  | .indirect address => check .long address
   if arguments.size > maxIntegerArguments then
     throw s!"call exceeds the {maxIntegerArguments}-integer-argument resource limit"
   for argument in arguments do check argument.width argument.value
@@ -179,7 +181,7 @@ def validate (program : Program) : Except String Unit := do
   for f in program do
     for block in f.blocks do
       for statement in block.instructions do
-        if let some (target, arguments, resultWidth) := statement.callSite then
+        if let some (.direct target, arguments, resultWidth) := statement.callSite then
           if let some callee := program.find? (·.name == target) then
             if resultWidth != callee.resultWidth then
               throw s!"call ${target}: result type disagrees with its definition"
@@ -210,7 +212,7 @@ def validateModule (module : Module) : Except String Unit := do
   for f in module.functions do
     for block in f.blocks do
       for statement in block.instructions do
-        if let some (target, _, _) := statement.callSite then
+        if let some (.direct target, _, _) := statement.callSite then
           if module.data.any (·.name == target) then
             throw s!"call ${target}: symbol is defined as data"
 

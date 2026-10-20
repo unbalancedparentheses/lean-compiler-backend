@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Support indirect integer/void calls through long operands on Apple ARM64,
+  sharing direct-call argument/frame handling through 64 mixed w/l arguments.
+  The interpreter resolves defined function identities and rejects unknown targets
+  or dynamic signature mismatches. Native qualification covers C callbacks,
+  function tables, phi-selected targets, recursion, void effects and a removed-call
+  corruption control. Native targets/signatures remain caller responsibilities.
+
 - Match QBE's unquoted identifier grammar, including dots and embedded dollar
   signs, across globals, functions, blocks, parameters and SSA values. Native
   comparisons cover these names through relocations, calls and phi transfers;

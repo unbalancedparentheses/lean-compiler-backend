@@ -96,6 +96,11 @@ inductive StackAlignment where
 def StackAlignment.bytes : StackAlignment → Nat
   | .four => 4 | .eight => 8 | .sixteen => 16
 
+inductive CallTarget where
+  | direct (name : String)
+  | indirect (address : Operand)
+  deriving Repr, Inhabited
+
 structure CallArgument where
   width : Width
   value : Operand
@@ -109,7 +114,7 @@ inductive Operation where
   | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
   | allocate (alignment : StackAlignment) (size : Operand)
   | load (kind : LoadKind) (address : Operand)
-  | call (target : String) (arguments : Array CallArgument)
+  | call (target : CallTarget) (arguments : Array CallArgument)
   deriving Repr, Inhabited
 
 structure Instruction where
@@ -122,7 +127,7 @@ structure Instruction where
 inductive Statement where
   | assign (instruction : Instruction)
   | store (width : MemoryWidth) (value address : Operand)
-  | callVoid (target : String) (arguments : Array CallArgument)
+  | callVoid (target : CallTarget) (arguments : Array CallArgument)
   | blit (source destination : Operand) (bytes : Nat)
   deriving Repr, Inhabited
 
@@ -130,7 +135,7 @@ def Statement.definition : Statement → Option (String × Width)
   | .assign inst => some (inst.destination, inst.width)
   | .store .. | .callVoid .. | .blit .. => none
 
-def Statement.callSite : Statement → Option (String × Array CallArgument × Option Width)
+def Statement.callSite : Statement → Option (CallTarget × Array CallArgument × Option Width)
   | .assign { width, operation := .call target arguments, .. } => some (target, arguments, some width)
   | .callVoid target arguments => some (target, arguments, none)
   | _ => none

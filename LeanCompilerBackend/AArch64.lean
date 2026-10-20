@@ -137,7 +137,7 @@ def argumentLayout (widths : Array Width) : ArgumentLayout := Id.run do
       offset := offset + bytes
   return { locations, stackBytes := alignUp offset 16 }
 
-private def emitCall (slots : List (String × Nat)) (target : String)
+private def emitCall (slots : List (String × Nat)) (target : CallTarget)
     (arguments : Array CallArgument) : Except String (List String) := do
   let mut lines := []
   let layout := argumentLayout (arguments.map (·.width))
@@ -148,7 +148,11 @@ private def emitCall (slots : List (String × Nat)) (target : String)
     | .stack offset =>
       lines := lines ++ (← load slots argument.width 9 argument.value)
       lines := lines ++ [s!"\tstr {register argument.width 9}, [sp, #{offset}]"]
-  pure (lines ++ [s!"\tbl _{target}"])
+  match target with
+  | .direct name => pure (lines ++ [s!"\tbl _{name}"])
+  | .indirect address =>
+    -- Load the target after argument setup; x16 is reserved as call scratch.
+    pure (lines ++ (← load slots .long 16 address) ++ ["\tblr x16"])
 
 private def emitInstruction (slots allocations : List (String × Nat)) (inst : Instruction)
     : Except String (List String) := do

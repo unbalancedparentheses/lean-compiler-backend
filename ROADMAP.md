@@ -9,7 +9,7 @@ and a fallible comparison implementation, not a permanent constraint on the IR.
 
 This is a general-purpose backend implemented in Lean 4. Concrete is a consumer
 through a separate adapter. The current implementation is a bounded integer,
-control-flow, memory and direct-call subset on Apple ARM64. The existing
+control-flow, memory and integer-call subset on Apple ARM64. The existing
 opcode-selection theorem is limited; the backend is not verified end to end.
 
 ## Active execution order
@@ -28,7 +28,8 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 
 The current compatibility slice adds integer data definitions and symbol references
 on Apple ARM64, including byte strings and seeded exact-byte qualification.
-Next expand symbol syntax/linkage and address the remaining language and ABI gaps.
+Unquoted QBE names and indirect integer calls are now implemented and tested.
+Next expand data/linkage coverage and address the remaining language and ABI gaps.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding
@@ -136,9 +137,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
-  Direct calls with up to 64 w/l register/stack arguments and a w/l or void result,
+  Direct and indirect calls with up to 64 w/l register/stack arguments and a w/l or void result,
   recursion and native C interoperation are implemented as an initial slice.
-  Indirect calls and the other ABI forms remain open. The Apple ARM64 integer
+  Function tables and native C callbacks are also tested. Variadics, aggregates
+  and floating-point ABI forms remain open. The Apple ARM64 integer
   stack slice uses natural word/long packing and is checked against native C.
   Add explicit checked ABI plans and call/environment contracts, including callback
   and shared-memory assumptions. Define floating-point profiles before optimizing them.
