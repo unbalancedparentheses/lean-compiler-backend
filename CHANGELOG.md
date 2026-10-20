@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Strengthened the general source/MIR phi-transfer theorem with caller-context
+  preservation: SP, frame metadata, flags, saved entry registers and all registers
+  other than the R9 scratch register remain unchanged.
+
 - Proved an actual source copy instruction is simulated by its two emitted MIR
   steps, preserving the complete updated source/frame relation under explicit
   instruction-position, availability and typing premises.

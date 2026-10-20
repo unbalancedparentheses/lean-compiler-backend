@@ -1,6 +1,7 @@
 /- Commit staged phi values while maintaining the source/frame relation. -/
 import LeanCompilerBackend.Verified.StagingProofs
 import LeanCompilerBackend.Verified.DivergenceProofs
+import LeanCompilerBackend.Verified.PhiContextProofs
 
 namespace LeanCompilerBackend.Verified.Machine
 
@@ -134,15 +135,17 @@ theorem phi_phases_correct (f : StackMIR.Function) (source : Source.Function)
       StackMIR.stagePhis pred 0 (inputs.map Prod.fst) = .ok staging ∧
       executeMIRList f (staging ++ StackMIR.commitPhis 0 (inputs.map Prod.fst)) d = .ok after ∧
       FrameReady after ∧ after.frameBytes = (planFrame source).frameBytes ∧
-      LocalsMatch f (assignPhis env inputs) after := by
+      LocalsMatch f (assignPhis env inputs) after ∧ CopyContext d after := by
   obtain ⟨staging, middle, lowered, stagedRun, middleReady, middleFrame, middleRelated, staged, _⟩ :=
     stagePhis_correct f source env d pred 0 inputs layout frame size (by simpa using capacity) ready related selected
   obtain ⟨after, committed, afterReady, afterFrame, afterRelated⟩ :=
     commitPhis_correct f source env middle 0 inputs layout middleFrame size (by simpa using capacity)
       middleReady middleRelated targets staged
-  refine ⟨staging, after, lowered, ?_, afterReady, afterFrame, afterRelated⟩
-  rw [executeMIRList_append, stagedRun]
-  exact committed
+  have executed : executeMIRList f (staging ++ StackMIR.commitPhis 0 (inputs.map Prod.fst)) d = .ok after := by
+    rw [executeMIRList_append, stagedRun]
+    exact committed
+  exact ⟨staging, after, lowered, executed, afterReady, afterFrame, afterRelated,
+    phi_context f pred (inputs.map Prod.fst) staging d after lowered executed⟩
 
 theorem commitPhis_length (index : Nat) (phis : List Source.Phi) :
     (StackMIR.commitPhis index phis).length = 2*phis.length := by
@@ -193,8 +196,8 @@ theorem lowerEdge_steps (f : StackMIR.Function) (source : Source.Function) (bloc
     ∃ after, Steps (stepMIR f) (4*inputs.length+1)
         { label := .edge pred target, data := d } { label := .body target, data := after } ∧
       FrameReady after ∧ after.frameBytes = (planFrame source).frameBytes ∧
-      LocalsMatch f (assignPhis env inputs) after := by
-  obtain ⟨staging, after, staged, executed, afterReady, afterFrame, afterRelated⟩ :=
+      LocalsMatch f (assignPhis env inputs) after ∧ CopyContext d after := by
+  obtain ⟨staging, after, staged, executed, afterReady, afterFrame, afterRelated, context⟩ :=
     phi_phases_correct f source env d pred inputs layout frame size capacity ready related selected targets
   let code := staging ++ StackMIR.commitPhis 0 (inputs.map Prod.fst)
   let edge : StackMIR.Block := {
@@ -217,7 +220,7 @@ theorem lowerEdge_steps (f : StackMIR.Function) (source : Source.Function) (bloc
       { label := .body target, data := after } :=
     .succ (by simpa only [edge, List.size_toArray] using
       mir_jump f edge (.edge pred target) (.body target) after member rfl) (.zero _)
-  refine ⟨after, ?_, afterReady, afterFrame, afterRelated⟩
+  refine ⟨after, ?_, afterReady, afterFrame, afterRelated, context⟩
   simpa only [length] using steps_append _ body jump
 
 end LeanCompilerBackend.Verified.Machine

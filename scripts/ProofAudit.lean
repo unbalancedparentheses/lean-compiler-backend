@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.PhiContextProofs
 import LeanCompilerBackend.Verified.InstructionProofs
 import LeanCompilerBackend.Verified.SourceTransferProofs
 import LeanCompilerBackend.Verified.CommitProofs
@@ -156,3 +157,14 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.source_instruction_step
 #print axioms LeanCompilerBackend.Verified.copy_instruction
 #print axioms LeanCompilerBackend.Verified.copy_steps
+
+-- Phi context non-clobbering, including the actual emitted edge.
+#print axioms LeanCompilerBackend.Verified.Machine.copyContext_refl
+#print axioms LeanCompilerBackend.Verified.Machine.copyContext_trans
+#print axioms LeanCompilerBackend.Verified.Machine.copyInstruction_context
+#print axioms LeanCompilerBackend.Verified.Machine.copyList_context
+#print axioms LeanCompilerBackend.Verified.Machine.loadOperand_copy
+#print axioms LeanCompilerBackend.Verified.Machine.commitPhis_copy
+#print axioms LeanCompilerBackend.Verified.Machine.stagePhis_copy
+#print axioms LeanCompilerBackend.Verified.Machine.phi_context
+#print axioms LeanCompilerBackend.Verified.Machine.lowerEdge_context

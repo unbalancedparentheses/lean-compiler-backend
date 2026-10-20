@@ -139,13 +139,13 @@ theorem transfer_correct (f : StackMIR.Function) (source : Function) (block : Bl
       Machine.Steps (Machine.stepMIR f) (4*inputs.length+1)
         { label := .edge pred target, data := d } { label := .body target, data := after } ∧
       Machine.FrameReady after ∧ after.frameBytes = (planFrame source).frameBytes ∧
-      Machine.LocalsMatch f updated after := by
-  obtain ⟨after, steps, afterReady, afterFrame, afterRelated⟩ :=
+      Machine.LocalsMatch f updated after ∧ Machine.CopyContext d after := by
+  obtain ⟨after, steps, afterReady, afterFrame, afterRelated, context⟩ :=
     Machine.lowerEdge_steps f source block env d pred target inputs found phis present layout frame size capacity
       ready related (transferInputs_selected pred env #[] inputs selected)
       (transferTargets_valid source pred env #[] inputs selected targets)
   exact ⟨after, Machine.assignPhis env inputs,
     transfer_assigns source pred target env block inputs found phis selected targets,
-    steps, afterReady, afterFrame, afterRelated⟩
+    steps, afterReady, afterFrame, afterRelated, context⟩
 
 end LeanCompilerBackend.Verified.Source

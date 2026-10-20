@@ -223,7 +223,7 @@ theorem swap_simulation (w : Width) (a b : Source.Value) (d : Machine.Data)
       Machine.Steps (Machine.stepMIR (cycleMIR w)) 9
         { label := .edge 1 1, data := d } { label := .body 1, data := after } ∧
       Machine.FrameReady after ∧ after.frameBytes = 32 ∧
-      Machine.LocalsMatch (cycleMIR w) updated after := by
+      Machine.LocalsMatch (cycleMIR w) updated after ∧ Machine.CopyContext d after := by
   let block : Source.Block := {
     phis := ((swapInputs w a b).map Prod.fst).toArray
     instructions := #[], terminator := .jump 1 }

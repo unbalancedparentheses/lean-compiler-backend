@@ -257,7 +257,10 @@ and establishing edge membership for arbitrary lowered functions remain open.
 `PhiExamples.swap_simulation` instantiates the full source/MIR transfer theorem
 on the admitted cyclic loop for arbitrary compatible source values and machine
 data. `loop_related` and `loop_ready` exhibit a concrete live frame satisfying
-the relation and readiness premises.
+the relation and readiness premises. `PhiContextProofs` proves that the actual
+emitted phi instructions preserve SP, entry SP, frame size/phase, flags, saved
+entry registers and every register except R9. This `CopyContext` guarantee is
+included in the general source/MIR transfer theorem and its loop instance.
 
 The invariant is that every commit reads its
 staged value while preserving the other staging slots. Only after all commits

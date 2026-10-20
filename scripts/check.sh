@@ -119,6 +119,15 @@ grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.loop_ready' depends on axiom
 grep -Fx "'LeanCompilerBackend.Verified.source_instruction_step' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.copy_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.copy_steps' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.copyContext_refl' does not depend on any axioms" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.copyContext_trans' does not depend on any axioms" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.copyInstruction_context' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.copyList_context' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.loadOperand_copy' does not depend on any axioms" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.commitPhis_copy' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.stagePhis_copy' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.phi_context' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.lowerEdge_context' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 python3 scripts/test.py "$@"
 python3 scripts/integer.py "$@"
 python3 scripts/control.py "$@"
