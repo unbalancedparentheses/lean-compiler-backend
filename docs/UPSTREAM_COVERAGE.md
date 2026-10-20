@@ -3,6 +3,12 @@
 Pinned QBE 1.3, Apple ARM64; measured after Apple ARM64 TLS support.
 This is compatibility testing, not formal certification.
 
+Compiler checkpoint [`50d22a0`](https://github.com/unbalancedparentheses/lean-compiler-backend/commit/50d22a09c0635bdf9afbda65529eb6d52a8136f5),
+2026-10-20: the full native Nix regression suite passed, and
+[Ubuntu/macOS CI passed](https://github.com/unbalancedparentheses/lean-compiler-backend/actions/runs/39454944919).
+Ubuntu qualification builds/tests the compiler and models; it does not imply a
+Linux assembly target. Additional concurrent TLS-phi tests passed at `d9cdc9a`.
+
 - 61 of 76 fixtures emit assembly.
 - 46 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
 - 15 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.

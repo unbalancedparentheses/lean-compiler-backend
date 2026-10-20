@@ -169,6 +169,13 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Mutable input now receives deterministic renaming and on-demand phi insertion;
   constructed output passes the existing type/dominance validator. Undefined
   incoming values and inconsistent mutable types are explicitly rejected.
+  Before raising resource caps, replace the bounded list-based dominance analysis
+  with a scalable CFG implementation and support large SSA slot offsets in emission.
+  The retained _bf99 fixture has 266 blocks and 2,001 assignments; _bfmandel has
+  2,060 blocks and 4,581 assignments. Both currently stop at the 64-block parser
+  cap. Larger renamed programs can also exceed direct AArch64 load/store offsets,
+  so increasing parsing limits alone is not sufficient. Keep first-path resource
+  limits independent of compatibility expansion.
   State transformation conditions and invalidate stale analyses. Record proof status
   per pass; certified pipelines enable only covered transformations. Keep a simple
   baseline path for comparison and independently justified fallback.
