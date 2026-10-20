@@ -185,8 +185,17 @@ private def floatComparisonName (name : String) : Option (FloatComparison × Wid
     if name == stem ++ "d" then return some (op, .long)
   return none
 
+private def conversionName : String → Option FloatConversion
+  | "exts" => some .extendSingle | "truncd" => some .truncateDouble
+  | "stosi" => some (.toInteger .word true) | "stoui" => some (.toInteger .word false)
+  | "dtosi" => some (.toInteger .long true) | "dtoui" => some (.toInteger .long false)
+  | "swtof" => some (.fromInteger .word true) | "uwtof" => some (.fromInteger .word false)
+  | "sltof" => some (.fromInteger .long true) | "ultof" => some (.fromInteger .long false)
+  | _ => none
+
 private def parseOperation (floating : Bool) (name : String) : P Operation := do
-  if name == "cast" then pure (.cast (← parseOperand))
+  if let some op := conversionName name then pure (.convert op (← parseOperand))
+  else if name == "cast" then pure (.cast (← parseOperand))
   else if floating && name == "neg" then pure (.floatNegate (← parseOperand))
   else if floating && ["add", "sub", "mul", "div"].contains name then do
     let op := if name == "add" then FloatBinary.add else if name == "sub" then .sub

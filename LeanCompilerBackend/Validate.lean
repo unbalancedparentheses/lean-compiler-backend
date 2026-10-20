@@ -153,10 +153,15 @@ def validateFunction (f : Function) : Except String Unit := do
         if bytes > 4096 then throw "blit byte count exceeds the 4096-byte resource limit"
       | .assign inst =>
         let floatingOperation := match inst.operation with
-          | .copy .. | .cast .. | .load .plain _ | .floatBinary .. | .floatNegate .. | .call .. | .vaArg .. => true
+          | .convert .. | .copy .. | .cast .. | .load .plain _ | .floatBinary .. | .floatNegate .. | .call .. | .vaArg .. => true
           | _ => false
         if inst.floating && !floatingOperation then throw "operation does not support a floating result"
         match inst.operation with
+        | .convert op value =>
+          if inst.floating != op.resultFloating then throw "conversion result has wrong integer/floating class"
+          if op == .extendSingle && inst.width != .long then throw "exts requires a double result"
+          if op == .truncateDouble && inst.width != .word then throw "truncd requires a single result"
+          checkOperand definitions doms block.label (i + 1) op.inputWidth value op.inputFloating
         | .floatBinary _ a b =>
           if !inst.floating then throw "floating arithmetic requires a floating result"
           checkFloat inst.width a

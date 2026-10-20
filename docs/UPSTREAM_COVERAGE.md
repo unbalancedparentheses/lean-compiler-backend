@@ -1,12 +1,12 @@
 # Upstream fixture coverage checkpoint
 
-Pinned QBE 1.3, Apple ARM64; measured after scalar floating ABI support.
+Pinned QBE 1.3, Apple ARM64; measured after numeric conversion support.
 This is compatibility testing, not formal certification.
 
-- 44 of 76 fixtures emit assembly.
-- 36 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
+- 45 of 76 fixtures emit assembly.
+- 37 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
 - 8 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
-- 32 fixtures remain unsupported.
+- 31 fixtures remain unsupported.
 
 `scripts/upstream_suite.py` scans every fixture and runs every accepted executable
 fixture on native Apple ARM64. Other hosts check emission and report native execution
@@ -64,7 +64,7 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `euclc.ssa` | passed |
 | `fixarg.ssa` | passed |
 | `fold1.ssa` | passed |
-| `fpcnv.ssa` | Unsupported: line 15 near '%f': unsupported operation 'dtosi' |
+| `fpcnv.ssa` | passed |
 | `gvn1.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %t2 |
 | `gvn2.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %rc |
 | `ifc.ssa` | Unsupported: function $ifc1: duplicate SSA definition or duplicate parameter %v |

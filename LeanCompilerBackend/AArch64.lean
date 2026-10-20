@@ -207,6 +207,21 @@ private def emitInstruction (base : String) (slots allocations : List (String ×
     : Except String (List String) := do
   let mut lines : List String := []
   match inst.operation with
+  | .convert op value =>
+    lines := lines ++ (← load base slots op.inputWidth 9 value)
+    let input := register op.inputWidth 9
+    let output := register inst.width 9
+    let source := floatRegister op.inputWidth 16
+    let destination := floatRegister inst.width 17
+    match op with
+    | .extendSingle | .truncateDouble =>
+      lines := lines ++ [s!"\tfmov {source}, {input}", s!"\tfcvt {destination}, {source}", s!"\tfmov {output}, {destination}"]
+    | .toInteger _ signed =>
+      let instruction := if signed then "fcvtzs" else "fcvtzu"
+      lines := lines ++ [s!"\tfmov {source}, {input}", s!"\t{instruction} {output}, {source}"]
+    | .fromInteger _ signed =>
+      let instruction := if signed then "scvtf" else "ucvtf"
+      lines := lines ++ [s!"\t{instruction} {destination}, {input}", s!"\tfmov {output}, {destination}"]
   | .floatBinary op a b =>
     lines := lines ++ (← load base slots inst.width 9 a) ++ (← load base slots inst.width 10 b)
     let f9 := floatRegister inst.width 16

@@ -7,8 +7,8 @@ Executable semantics, existing proofs and regression tests remain required check
 tested and certified coverage are reported separately. The current implementation
 is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
 
-The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 36 native
-passes, eight assemble-only fixtures and 32 unsupported inputs out of 76.
+The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 37 native
+passes, eight assemble-only fixtures and 31 unsupported inputs out of 76.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
@@ -87,7 +87,8 @@ before rebuilding; the checks reject stale source/build identities.
   including recursion and external C symbols. Internal signatures are checked;
   external definitions must honor the declared ABI. Non-leaf frames save the
   return address and keep live values in stack slots across calls.
-- Single/double arithmetic, comparisons, casts, memory, phi values and scalar calls/returns.
+- Single/double arithmetic, comparisons, casts, numeric conversions, memory, phi values
+  and scalar calls/returns.
 - QBE `env` parameters/arguments in x9, including indirect and variadic calls.
 - Integer/floating variadic functions/calls, `vastart` and w/l/s/d `vaarg` on Apple ARM64.
   Unnamed arguments use eight-byte stack slots, including indirect calls.
@@ -102,7 +103,7 @@ before rebuilding; the checks reject stale source/build identities.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
 The first port uses stack slots for every value. Aggregate ABI support,
-floating arithmetic/conversions/ABIs, TLS, remaining linkage forms, register
+subword ABI forms, general SSA construction, TLS, remaining linkage forms, register
 allocation and object emission remain. Packed data, strings, symbol relocations
 and IEEE constant bit patterns are implemented. A separate restricted Concrete consumer is available in
 [Concrete draft PR #8](https://github.com/unbalancedparentheses/concrete2/pull/8);

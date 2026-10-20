@@ -118,7 +118,24 @@ inductive FloatComparison where
   | eq | ne | le | lt | ge | gt | ordered | unordered
   deriving BEq, DecidableEq, Repr, Inhabited
 
+inductive FloatConversion where
+  | extendSingle | truncateDouble
+  | toInteger (input : Width) (signed : Bool)
+  | fromInteger (input : Width) (signed : Bool)
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+def FloatConversion.inputWidth : FloatConversion → Width
+  | .extendSingle => .word | .truncateDouble => .long
+  | .toInteger width _ | .fromInteger width _ => width
+
+def FloatConversion.inputFloating : FloatConversion → Bool
+  | .fromInteger .. => false | _ => true
+
+def FloatConversion.resultFloating : FloatConversion → Bool
+  | .toInteger .. => false | _ => true
+
 inductive Operation where
+  | convert (op : FloatConversion) (value : Operand)
   | floatBinary (op : FloatBinary) (lhs rhs : Operand)
   | floatNegate (value : Operand)
   | floatCompare (op : FloatComparison) (operandWidth : Width) (lhs rhs : Operand)

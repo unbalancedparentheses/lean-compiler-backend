@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add all scalar numeric conversion opcodes: single/double precision changes,
+  signed/unsigned word/long to float, and float to word/long. Exact integer
+  rounding avoids double rounding; the interpreter rejects invalid float-to-int
+  domains. C and native QBE comparisons exercise rounding and range boundaries.
+
 - Implement scalar single/double Apple ARM64 arguments, results and variadics,
   including independent GP/FP banks, mixed stack layouts, dynamic frames, C
   callbacks and direct/indirect calls. Fix upstream output-section extraction

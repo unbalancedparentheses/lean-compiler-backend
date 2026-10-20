@@ -58,7 +58,7 @@ private def instruction (locals : Array (String × Width)) (inst : Instruction)
     | .compare op width lhs rhs => do
       if inst.width != .word then throw (.unsupported "non-word comparison result")
       pure (.compare (← comparison op) width (← operand locals width lhs) (← operand locals width rhs))
-    | .floatBinary .. | .floatNegate .. | .floatCompare .. | .cast .. => throw (.unsupported "floating operations/casts")
+    | .convert .. | .floatBinary .. | .floatNegate .. | .floatCompare .. | .cast .. => throw (.unsupported "floating operations/casts")
     | .unary .. => throw (.unsupported "unary operations")
     | .divide .. => throw (.unsupported "division/remainder")
     | .allocate .. => throw (.unsupported "source stack allocations")

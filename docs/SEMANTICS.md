@@ -205,4 +205,11 @@ on Apple ARM64. Named spilled scalars use natural 4/8-byte stack packing; variad
 tails always occupy 8-byte slots. Frontends remain responsible for C default
 argument promotions: C float varargs are passed as double, while typed QBE s tails
 are also supported. Scalar return values use w0/x0 or s0/d0. The CLI interpreter
-accepts/returns raw IEEE bits for floating values. Numeric conversions remain open.
+accepts/returns raw IEEE bits for floating values. Numeric conversions use the same default IEEE execution profile. Integer-to-float
+interpretation rounds exact integer magnitudes once to the destination precision;
+it does not convert through double first. Float-to-integer interpretation decodes
+the bits, truncates toward zero, and rejects non-finite values or a truncated
+integer outside the destination range. Native code emits `fcvtzs`/`fcvtzu` and
+inherits target behavior outside that interpreted domain. Precision changes emit
+AArch64 `fcvt`, matching pinned QBE and C under default round-to-nearest; the
+name `truncd` does not change FPCR or request a separate rounding mode.

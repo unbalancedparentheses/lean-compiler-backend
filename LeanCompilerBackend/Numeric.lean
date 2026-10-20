@@ -81,4 +81,10 @@ def floatBits (token : String) : Except String Int := do
   let (numerator, denominator) := scaledRatio coefficient (if hexadecimal then 2 else 10) exponent
   return sign + encode fractionBits exponentBits numerator denominator
 
+/-- Exact integer-to-IEEE conversion under round-to-nearest, ties-to-even. -/
+def integerBits (width : Width) (value : Int) : UInt64 :=
+  let (fractionBits, exponentBits) := if width == .word then (23, 8) else (52, 11)
+  let sign := if value < 0 then 2 ^ (fractionBits + exponentBits) else 0
+  (sign + encode fractionBits exponentBits value.natAbs 1).toUInt64
+
 end LeanCompilerBackend.Numeric

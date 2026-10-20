@@ -192,3 +192,14 @@ explicit backend/ABI decision.
 Nix pins the build and testing tools. It does not prove those tools correct.
 The assembler, linker, host OS, hardware and Lean kernel remain trust boundaries.
 Concrete's own checked IR and runtime semantics are a future integration boundary.
+
+### Scalar floating compatibility path
+
+Compatibility values carry both a storage width and an integer/floating class;
+the restricted integer proof model retains its original Width type. Validation
+checks the class at every use, including phi edges, memory stores, call arguments
+and return values. Explicit conversion/cast operations are the only class changes.
+The baseline keeps raw bits in stack slots, using caller-saved FP scratch registers
+for arithmetic. ABI lowering allocates GP and FP argument banks independently.
+The executable floating model and differential tests are compatibility evidence;
+first-path admission rejects floating types and operations.

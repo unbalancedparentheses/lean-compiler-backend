@@ -26,10 +26,10 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 5. Resume C01–C03 and expand V01–V05 proof coverage against the established
    implementation. Full compatibility and full certification have separate gates.
 
-The current compatibility slice adds integer data definitions and symbol references
-on Apple ARM64, including byte strings and seeded exact-byte qualification.
-Unquoted QBE names and indirect integer calls are now implemented and tested.
-Next expand data/linkage coverage and address the remaining language and ABI gaps.
+The current compatibility slice includes scalar integer/floating arithmetic and
+conversions, global data, indirect calls, variadics, env arguments and dynamic
+allocation on Apple ARM64. Next address aggregate/subword ABI, general SSA
+construction, remaining linkage and the other target backends.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding
@@ -135,8 +135,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   strings and IEEE floating constant initializers. Runtime-sized and non-entry
   allocations now pass native call/frame tests. TLS and remaining linkage forms remain.
   Local single/double arithmetic, comparisons, casts, memory and phi values are
-  implemented, including scalar floating calls/returns and variadics; numeric
-  conversions remain.
+  implemented, including numeric conversions, scalar floating calls/returns and
+  variadics. Float-to-integer interpretation rejects non-finite/out-of-range inputs.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
@@ -167,8 +167,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  44/76 inputs: 36 original executable fixtures pass natively, eight development
-  fixtures assemble only, and 32 remain unsupported. CI prevents emission
+  45/76 inputs: 37 original executable fixtures pass natively, eight development
+  fixtures assemble only, and 31 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

@@ -126,6 +126,9 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
     (locals : List (String × UInt64)) (state : ExecutionState)
     : Except String (UInt64 × ExecutionState) := do
   match inst.operation with
+  | .convert op value =>
+    let input ← operand state.symbols locals op.inputWidth value
+    pure (← Floating.convert inst.width op input, state)
   | .floatBinary op a b =>
     let lhs ← operand state.symbols locals inst.width a
     let rhs ← operand state.symbols locals inst.width b
