@@ -218,7 +218,15 @@ The remaining step here is to establish and preserve the source-value/slot relat
 to an unbounded `stepMIR` prefix, with exactly one step per instruction. The
 load/store pair used by phi copies has an explicit proved effect and preserves
 frame readiness. `stagePhis` and `commitPhis` now expose the actual lowering's
-two phases; the full transfer simulation is still open.
+two phases. `PhiSwapProof` proves the cyclic two-phi case at either width for
+arbitrary loaded values: the emitted eight-instruction sequence exchanges both
+values, preserves frame readiness and leaves registers other than R9 unchanged.
+The theorem connects to `lowerEdge` and an actual eight-step MIR prefix. It does
+not yet cover arbitrary phi sets, the edge terminator, or composition with the
+source transfer relation. `PhiExamples` supplies a loop at each width and
+kernel-checks its admission, actual lowering, MIR legality, layout and backedge
+lookup. Its transfer theorem then applies universally to compatible data states,
+so the cyclic proof premises are instantiated by an admitted lowered function.
 
 For a phi edge, freeze the predecessor environment before staging. Prove that
 every staging store preserves all value slots, then that every commit reads its

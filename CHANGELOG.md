@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Proved the emitted two-phi cyclic swap executes correctly as eight MIR steps
+  for arbitrary word/long values, with frame readiness and non-scratch registers
+  preserved. Arbitrary phi-set/source-transfer composition remains open.
+
 - Exposed phi staging/commit phases and proved straight-line MIR execution
   corresponds to actual small steps. Proved the effect of the scratch-register
   load/store pair used by transfers; full simultaneous-transfer correctness

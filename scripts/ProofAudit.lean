@@ -1,3 +1,5 @@
+import LeanCompilerBackend.Verified.PhiExamples
+import LeanCompilerBackend.Verified.PhiSwapProof
 import LeanCompilerBackend.Verified.TransferProofs
 import LeanCompilerBackend.Verified.EntryExamples
 import LeanCompilerBackend.Verified.EntryProofs
@@ -73,3 +75,17 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.executeMIRList_append
 #print axioms LeanCompilerBackend.Verified.Machine.execute_copy
 #print axioms LeanCompilerBackend.Verified.Machine.executeMIRList_steps
+
+#print axioms LeanCompilerBackend.Verified.Machine.copied_load_same
+#print axioms LeanCompilerBackend.Verified.Machine.copied_load_disjoint
+#print axioms LeanCompilerBackend.Verified.Machine.copied_other_reg
+#print axioms LeanCompilerBackend.Verified.Machine.phi_swap_exec
+#print axioms LeanCompilerBackend.Verified.Machine.lowerEdge_swap
+#print axioms LeanCompilerBackend.Verified.Machine.phi_swap_steps
+
+#print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_admitted
+#print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_lowered
+#print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_legal
+#print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_layout
+#print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_edge
+#print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_transfer

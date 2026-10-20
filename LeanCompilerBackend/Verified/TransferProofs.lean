@@ -55,6 +55,38 @@ theorem execute_copy (f : StackMIR.Function) (d : Data) (w : Width)
   rw [stored]
   rfl
 
+theorem copied_load_same (d : Data) (w : Width) (offset : Nat) (value : UInt64)
+    (ready : FrameReady d) (access : offset + w.bytes ≤ d.frameBytes) :
+    load (copied d w offset value) w offset = .ok (normalize w value) := by
+  let written := { d with registers := d.registers.set! 9 (normalize w value) }
+  have stored := store_in_frame written w offset (normalize w value)
+    ready.active ready.space ready.sp ready.memory access ready.nowrap
+  have h := load_store_same written w offset (normalize w value)
+    ready.active ready.space ready.sp ready.memory access ready.nowrap
+  rw [stored] at h
+  simpa only [written, copied, bind, Except.bind, normalize_idempotent] using h
+
+theorem copied_load_disjoint (d : Data) (readWidth writeWidth : Width)
+    (readOffset writeOffset : Nat) (value : UInt64) (ready : FrameReady d)
+    (readAccess : readOffset + readWidth.bytes ≤ d.frameBytes)
+    (writeAccess : writeOffset + writeWidth.bytes ≤ d.frameBytes)
+    (disjoint : readOffset+readWidth.bytes ≤ writeOffset ∨
+      writeOffset+writeWidth.bytes ≤ readOffset) :
+    load (copied d writeWidth writeOffset value) readWidth readOffset = load d readWidth readOffset := by
+  let written := { d with registers := d.registers.set! 9 (normalize writeWidth value) }
+  have stored := store_in_frame written writeWidth writeOffset (normalize writeWidth value)
+    ready.active ready.space ready.sp ready.memory writeAccess ready.nowrap
+  have h := load_store_disjoint written readWidth writeWidth readOffset writeOffset
+    (normalize writeWidth value) ready.active ready.space ready.sp ready.memory
+    readAccess writeAccess ready.nowrap disjoint
+  rw [stored] at h
+  exact h
+
+theorem copied_other_reg (d : Data) (w : Width) (offset : Nat) (value : UInt64)
+    (reg : Nat) (other : reg ≠ 9) :
+    (copied d w offset value).registers[reg]? = d.registers[reg]? := by
+  simp [copied, Array.getElem?_setIfInBounds_ne (Ne.symm other)]
+
 /-- Successful straight-line execution is an actual small-step MIR prefix,
     with exactly one step per instruction and no appeal to evaluator fuel. -/
 theorem executeMIRList_steps (f : StackMIR.Function) (block : StackMIR.Block)
