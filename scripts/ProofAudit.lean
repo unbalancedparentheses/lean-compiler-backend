@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.OperandProofs
 import LeanCompilerBackend.Verified.PhiExamples
 import LeanCompilerBackend.Verified.PhiSwapProof
 import LeanCompilerBackend.Verified.TransferProofs
@@ -106,3 +107,13 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.PhiExamples.assembly_cycle_run
 #print axioms LeanCompilerBackend.Verified.PhiExamples.assembly_diverges
 #print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_behavior
+
+-- Source operand simulation under the frame-value relation.
+#print axioms LeanCompilerBackend.Verified.Source.read_ok
+#print axioms LeanCompilerBackend.Verified.Machine.loadOperand_correct
+#print axioms LeanCompilerBackend.Verified.Machine.localsMatch_registers
+#print axioms LeanCompilerBackend.Verified.Machine.value_normalized
+#print axioms LeanCompilerBackend.Verified.Machine.operand_copy
+#print axioms LeanCompilerBackend.Verified.Machine.planned_value
+#print axioms LeanCompilerBackend.Verified.Machine.planned_stage
+#print axioms LeanCompilerBackend.Verified.Machine.localsMatch_stage

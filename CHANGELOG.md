@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Proved actual local/literal operand lowering under an explicit source/frame
+  relation, including copy-store execution and preservation of every defined
+  source value by canonical phi staging writes.
+
 - Prove unbounded divergence of an admitted cyclic-phi loop through source,
   actual MIR lowering and typed AArch64 selection, including valid caller entry
   states and jump terminators. Add reusable positive-cycle divergence lemmas.

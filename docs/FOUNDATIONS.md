@@ -212,7 +212,12 @@ initializes four bytes of an eight-byte slot, so requiring the whole slot to be
 initialized would be stronger than the implementation. `FrameProofs` now supplies
 exact written bytes, outside-span preservation, address/store correspondence,
 same-width load-after-store reconstruction and preservation of disjoint loads.
-The remaining step here is to establish and preserve the source-value/slot relation.
+`OperandProofs.LocalsMatch` relates each defined source value to its actual frame
+slot. Successful source reads establish width and availability; lowering a local
+or literal operand performs the corresponding register write. The actual
+operand/store pair has a proved effect, and a canonical staging-slot write
+preserves every defined local, including mixed-width values. General instruction
+and whole-transfer preservation of this relation remain open.
 
 `TransferProofs.executeMIRList_steps` connects straight-line instruction execution
 to an unbounded `stepMIR` prefix, with exactly one step per instruction. The

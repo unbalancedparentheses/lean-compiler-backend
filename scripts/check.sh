@@ -85,6 +85,14 @@ grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.assembly_entry_run' depends 
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.assembly_cycle_run' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.assembly_diverges' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.cycle_behavior' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Source.read_ok' depends on axioms: [propext]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.loadOperand_correct' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.localsMatch_registers' depends on axioms: [propext]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.value_normalized' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.operand_copy' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.planned_value' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.planned_stage' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.localsMatch_stage' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 python3 scripts/test.py "$@"
 python3 scripts/integer.py "$@"
 python3 scripts/control.py "$@"

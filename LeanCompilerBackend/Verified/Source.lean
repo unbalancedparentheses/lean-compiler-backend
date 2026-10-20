@@ -96,7 +96,7 @@ inductive Fault where
   | invalidDestination (id : ValueId) | invalidPhi (block : BlockId)
   deriving DecidableEq, Repr
 
-private def read (env : Environment) (width : Width) (operand : Operand)
+def read (env : Environment) (width : Width) (operand : Operand)
     : Except Fault Value := do
   let value ← match operand with
     | .literal value => pure value

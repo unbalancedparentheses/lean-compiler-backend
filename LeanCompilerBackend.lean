@@ -13,3 +13,4 @@ import LeanCompilerBackend.Verified.TransferProofs
 import LeanCompilerBackend.Verified.PhiSwapProof
 import LeanCompilerBackend.Verified.PhiExamples
 import LeanCompilerBackend.Verified.DivergenceProofs
+import LeanCompilerBackend.Verified.OperandProofs
