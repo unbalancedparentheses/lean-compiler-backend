@@ -70,6 +70,21 @@ grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.cycle_legal' depends on axio
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.cycle_layout' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.cycle_edge' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.cycle_transfer' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.steps_append' does not depend on any axioms" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.steps_take' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.cycle_diverges' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.prefix_diverges' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.source_cycle' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.source_diverges' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.mir_entry_run' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.mir_cycle_run' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.mir_diverges' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.assembly_selected' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.assembly_legal' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.assembly_entry_run' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.assembly_cycle_run' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.assembly_diverges' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.cycle_behavior' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 python3 scripts/test.py "$@"
 python3 scripts/integer.py "$@"
 python3 scripts/control.py "$@"

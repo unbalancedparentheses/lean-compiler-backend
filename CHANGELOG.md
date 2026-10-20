@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Prove unbounded divergence of an admitted cyclic-phi loop through source,
+  actual MIR lowering and typed AArch64 selection, including valid caller entry
+  states and jump terminators. Add reusable positive-cycle divergence lemmas.
+
 - Proved the emitted two-phi cyclic swap executes correctly as eight MIR steps
   for arbitrary word/long values, with frame readiness and non-scratch registers
   preserved. Arbitrary phi-set/source-transfer composition remains open.

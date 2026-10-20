@@ -222,7 +222,7 @@ two phases. `PhiSwapProof` proves the cyclic two-phi case at either width for
 arbitrary loaded values: the emitted eight-instruction sequence exchanges both
 values, preserves frame readiness and leaves registers other than R9 unchanged.
 The theorem connects to `lowerEdge` and an actual eight-step MIR prefix. It does
-not yet cover arbitrary phi sets, the edge terminator, or composition with the
+not yet cover arbitrary phi sets or general composition with the
 source transfer relation. `PhiExamples` supplies a loop at each width and
 kernel-checks its admission, actual lowering, MIR legality, layout and backedge
 lookup. Its transfer theorem then applies universally to compatible data states,
@@ -247,6 +247,17 @@ After operand, phi and expansion simulation, compose against arbitrary
 bounded evaluators as tests; a fuel limit is not a termination or divergence
 proof. The first certificate must remain unavailable until checker soundness,
 progress and the full return/divergence statement apply to the actual pipeline.
+
+`DivergenceProofs` proves finite-step concatenation and prefix extraction, then
+proves that a positive-length closed cycle supplies arbitrarily long execution
+prefixes. `PhiExamples.cycle_behavior` instantiates this for an admitted cyclic
+swap loop at both widths, through the actual MIR lowering and typed AArch64
+selection. It proves the source loop diverges, the initialized target states
+satisfy `EntryState`, and both target models diverge. The target proof includes
+the entry path and jump terminators: 12 steps enter the loop, and two 10-step
+iterations return to the same complete state. Finite computations are checked
+by the Lean kernel and composed into an unbounded theorem. This is a concrete
+family of whole-program witnesses, not general C01 preservation or an ISA proof.
 
 ## Proof and qualification report
 

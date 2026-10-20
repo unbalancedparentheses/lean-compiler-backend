@@ -89,3 +89,20 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_layout
 #print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_edge
 #print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_transfer
+
+-- Nonempty cycles prove unbounded behavior, rather than inferring it from fuel.
+#print axioms LeanCompilerBackend.Verified.Machine.steps_append
+#print axioms LeanCompilerBackend.Verified.Machine.steps_take
+#print axioms LeanCompilerBackend.Verified.Machine.cycle_diverges
+#print axioms LeanCompilerBackend.Verified.Machine.prefix_diverges
+#print axioms LeanCompilerBackend.Verified.PhiExamples.source_cycle
+#print axioms LeanCompilerBackend.Verified.PhiExamples.source_diverges
+#print axioms LeanCompilerBackend.Verified.PhiExamples.mir_entry_run
+#print axioms LeanCompilerBackend.Verified.PhiExamples.mir_cycle_run
+#print axioms LeanCompilerBackend.Verified.PhiExamples.mir_diverges
+#print axioms LeanCompilerBackend.Verified.PhiExamples.assembly_selected
+#print axioms LeanCompilerBackend.Verified.PhiExamples.assembly_legal
+#print axioms LeanCompilerBackend.Verified.PhiExamples.assembly_entry_run
+#print axioms LeanCompilerBackend.Verified.PhiExamples.assembly_cycle_run
+#print axioms LeanCompilerBackend.Verified.PhiExamples.assembly_diverges
+#print axioms LeanCompilerBackend.Verified.PhiExamples.cycle_behavior
