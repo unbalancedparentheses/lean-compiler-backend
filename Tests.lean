@@ -1,4 +1,7 @@
 import LeanCompilerBackend
+import LeanCompilerBackend.Verified.Tests
+import LeanCompilerBackend.Verified.JobTests
+import LeanCompilerBackend.Verified.CodecTests
 
 open LeanCompilerBackend
 
@@ -17,6 +20,9 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
   | .error _ => false
 
 def main : IO Unit := do
+  Verified.Tests.run
+  Verified.JobTests.run
+  Verified.CodecTests.run
   let program ← match Parser.parse sample with
     | .ok p => pure p
     | .error e => throw (IO.userError e)

@@ -78,7 +78,7 @@
               runHook preInstall
               mkdir -p "$out/bin" "$out/share/lean-compiler-backend"
               cp .lake/build/bin/lcb "$out/bin/"
-              cp -R LICENSE LICENSES README.md ROADMAP.md CHANGELOG.md port-status.json docs upstream-lock.json third_party tests "$out/share/lean-compiler-backend/"
+              cp -R LICENSE LICENSES README.md ROADMAP.md CHANGELOG.md port-status.json compiler-build.json docs upstream-lock.json third_party tests "$out/share/lean-compiler-backend/"
               runHook postInstall
             '';
             # Lean's official macOS runtime must remain intact; Linux fixups keep

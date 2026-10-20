@@ -2,6 +2,38 @@
 
 ## Unreleased
 
+- Proved successful model initialization establishes the entry-state contract,
+  valid entry preconditions guarantee initialization succeeds, and the assembly
+  entry adapter handles zero-byte frames. Argument register views are proved for
+  arbitrary compatible values, including word arguments with dirty high bits.
+
+- Proved same-width frame load-after-store reconstruction and preservation of
+  disjoint loads, including uninitialized read failures. The executable loader
+  now reconstructs bytes recursively; independent byte fixtures cover byte order,
+  mixed widths and partial overlap. These close memory-helper obligations for
+  C01, not the composed compilation theorem.
+
+- Implemented F02–F05's first-path baseline: frozen function jobs, explicit ABI/
+  frame plans, typed stack MIR and AArch64 assembly, executable frame/register
+  models, canonical job/artifact replay and separate SHA-256 dependency identities.
+  Artifacts remain uncertified; unavailable evidence requests fail explicitly.
+  Added target-helper, layout, store-byte and binding proofs with axiom auditing,
+  native/model/mutation qualification and generated cyclic-phi campaigns. The default compatibility pipeline is unchanged.
+- Made Linux ARM64, x86-64 and RV64 assembly targets explicit in P10, with
+  per-target ABI/native/emulated qualification and separate certification scope.
+
+- Implemented F01's restricted source contract: numbered SSA, 32/64-bit values,
+  atomic phi transfers, small-step return/divergence semantics, bounded evaluation
+  and explicit profile admission. Added boundary/negative tests and kernel-checked
+  source determinism and bounded-return lemmas with axiom auditing. The existing
+  CLI remains on the compatibility pipeline; admission and compilation preservation
+  are not yet proved. See `docs/SEMANTICS.md`.
+
+- Completed roadmap F00 with the first verified-path specification: restricted
+  integer/control-flow semantics, versioned jobs and evidence, stack MIR and
+  typed AArch64 contracts, pass proofs and worked loop/phi/frame examples.
+  Documentation only; no new compiler feature or preservation theorem is claimed.
+
 - Added effect-only QBE `blit` with constant byte counts in 0..4096. The
   interpreter preserves unknown bytes, rejects partial overlap and accesses
   outside allocated objects, and performs no memory access for zero-byte copies.

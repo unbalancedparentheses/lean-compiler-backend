@@ -2,8 +2,8 @@
 
 A general-purpose native compiler backend written in Lean 4, starting with a
 full QBE 1.3 port. Correctness comes first: semantic contracts, independent
-function jobs and typed lowering boundaries are the next foundations, with proof
-coverage growing alongside implementation. Full compatibility remains the first
+function jobs and typed lowering boundaries now form the restricted first path,
+with proof coverage growing alongside implementation. Full compatibility remains the first
 complete compatibility milestone; tested and certified coverage are reported
 separately. The current implementation is a bounded integer, control-flow, memory
 and direct-call subset. Concrete is a consumer, not a dependency.
@@ -46,6 +46,24 @@ the retained QBE 1.3 source. Other hosts build the compiler, check proofs and ru
 parser/interpreter tests; they report native execution as **not measured**.
 The only implemented output target remains AArch64 macOS.
 
+## First-path foundations
+
+An opt-in integer/control-flow path now uses frozen per-function jobs, typed stack
+MIR, typed AArch64 assembly and versioned replay:
+
+```sh
+nix run . -- --first-path examples/arithmetic.ssa -o arithmetic.s
+nix run . -- --write-job examples/arithmetic.ssa add32 add32.job
+nix run . -- --replay-job add32.job -o replay.s
+```
+
+Its source and target models are tested together, with small helper and binding
+proofs. **Artifacts remain uncertified**; `--require-proof` explicitly fails.
+The default compiler retains its broader compatibility subset. See the
+[foundations, replay contract and proof obligations](docs/FOUNDATIONS.md).
+After changing compiler sources, run `python3 scripts/build_identity.py --write`
+before rebuilding; the checks reject stale source/build identities.
+
 ## Current scope
 
 - `w`/`l` integer and void functions, up to 64 integer arguments and 64 basic blocks.
@@ -68,7 +86,10 @@ The only implemented output target remains AArch64 macOS.
 - Apple ARM64 passes the first eight integer arguments in registers, then uses
   naturally aligned stack arguments: four bytes for words and eight for longs.
   The 64-argument cap is a compiler resource limit; the frame limit still applies.
-- A small Lean theorem for primitive arithmetic opcode selection.
+- A small Lean theorem for primitive arithmetic opcode selection. A separate
+  first-path model additionally proves source execution facts, target ALU,
+  register/flag/frame helper facts and artifact binding. Admission soundness
+  and composed compilation preservation are not proved.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
 The first port uses stack slots for every value. Indirect calls,
@@ -129,8 +150,8 @@ and recursion with local stack objects. Wrong incoming offsets and stores wider
 than their outgoing argument slots must fail the native comparisons. Passing
 arguments in registers is separate from the still-unimplemented register allocator.
 
-**The backend is not verified end to end.** The current theorem does not prove
-parsing, stack layout, assembly rendering, the assembler or the linker correct.
+**The backend is not verified end to end.** The current theorems do not prove
+parsing, admission, full stack lowering, assembly rendering, the assembler or the linker correct.
 See [the design and trust boundaries](docs/DESIGN.md) and [the roadmap](ROADMAP.md).
 
 ## Sources and credit
@@ -162,8 +183,13 @@ the QBE, CompCert, MLIR, Cranelift, Zig, MIR, Stogov IR, libFirm and LLVM
 comparison, reproducible per-function compilation design, verification
 strategy and design proposals. The [roadmap](ROADMAP.md) adopts the correctness-first
 sequencing: foundations now, a first composed preservation result, then expanding
-compatibility and certification together. Detailed APIs remain proposals until
-implemented. The [community review](docs/research/community-discussions.md) records
+compatibility and certification together. The [first verified path specification](docs/research/first-verified-path.md)
+defines the restricted integer/loop proof domain, job and artifact schemas,
+stack/typed-assembly representations and worked traces. F00 is complete as a
+design deliverable. [F01 source semantics](docs/SEMANTICS.md) now implement its
+restricted integer/control-flow model and admission profile, with two source-model
+lemmas. [F02–F05](docs/FOUNDATIONS.md) add independent jobs, typed target lowering,
+versioned artifacts/replay and pass obligations. Compilation preservation remains open. The [community review](docs/research/community-discussions.md) records
 discussion evidence, primary-source checks and remaining coverage gaps.
 
 Correctness is the primary goal from the current port onward. QBE is the current porting baseline

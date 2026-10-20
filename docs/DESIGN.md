@@ -3,12 +3,24 @@
 The first complete compatibility milestone is a general-purpose QBE 1.3 port
 in Lean 4. The current code is a bounded subset, not an end-to-end verified backend.
 The [roadmap](../ROADMAP.md) starts semantic contracts, independent function jobs,
-typed lowering and proof composition during the port. These are planned foundations;
+typed lowering and proof composition during the port. Foundations are in progress;
 the implemented pipeline and existing assurance scope are described below.
 Concrete consumes the backend through a separate adapter and does not define
 its public IR. QBE is the initial baseline, not a permanent semantic constraint.
 See [UPSTREAM.md](UPSTREAM.md) and the
 [architecture research](research/backend-architecture.md).
+
+The [F00 specification](research/first-verified-path.md) fixes the proposed first
+proof domain: leaf integer functions with loops, simultaneous phi transfers and
+compiler-owned frame accesses, ending at typed AArch64 assembly. It specifies
+job/artifact contracts and pass obligations. This is a completed design deliverable;
+the [F02–F05 implementation](FOUNDATIONS.md) now adds the typed target pipeline
+and replayable jobs. Checker soundness and the composed proof remain open.
+[F01](SEMANTICS.md) adds numbered raw source syntax, executable bit-vector
+semantics, profile admission and two source-model lemmas. The result of admission
+is not proof-carrying `CheckedSSA`. The CLI defaults to the compatibility path;
+`--first-path` opts into the narrower typed baseline with explicit uncertified output.
+Source memory, calls and native binary certification remain outside that domain.
 
 ## Implemented pipeline
 
@@ -105,6 +117,18 @@ the assembly text or machine bytes to the ARM architectural specification. It
 does not establish source-to-binary correctness, memory safety, compiler-runtime
 safety or correctness of the compiler's generated C.
 
+`Verified.Source.step_deterministic` proves uniqueness of source successor states.
+`Verified.Source.run_return_sound` connects a successful fuel-bounded source run
+to a return witness in the unbounded small-step relation. Both have the measured
+axioms `propext` and `Quot.sound`, enforced by the proof audit. Neither connects
+source semantics to machine code, proves admission soundness, or proves agreement
+with the compatibility interpreter. See the [semantic ledger](SEMANTICS.md).
+
+The [foundations report](FOUNDATIONS.md) lists new target-helper and binding proofs,
+their exact axioms and the remaining simulation obligations. Artifact binding
+proves equality with the recomputed baseline; it does not prove that the baseline
+preserves source behavior. No requested certification is silently downgraded.
+
 ## What is tested
 
 The checks exercise malformed inputs, interpreter arithmetic, native arithmetic
@@ -136,8 +160,9 @@ packing patterns, internal/external calls and non-leaf incoming parameters.
 Recursive cases retain each caller's local stack object. Deliberately widened
 outgoing word stores and displaced incoming loads must change native results.
 
-The planned machine IR will make stack accesses, registers, immediates and
-prologue/epilogue operations explicit. Each lowering stage needs a verifier and
+The first-path machine IR now makes stack accesses, registers, immediates and
+prologue/epilogue operations explicit; its typed assembly has legality checks and
+an owned-frame execution model. Each lowering stage needs a verifier and
 an executable semantics before optimization or register allocation grows. Actual
 emitted assembly and eventually object bytes need independent decoding and
 validation; checking only the pre-emission representation leaves an emitter gap.

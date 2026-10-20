@@ -2,3 +2,9 @@ import LeanCompilerBackend.Parser
 import LeanCompilerBackend.Validate
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.AArch64
+import LeanCompilerBackend.Verified.Job
+import LeanCompilerBackend.Verified.MachineProofs
+import LeanCompilerBackend.Verified.BindingProofs
+import LeanCompilerBackend.Verified.LayoutProofs
+import LeanCompilerBackend.Verified.FrameProofs
+import LeanCompilerBackend.Verified.EntryProofs

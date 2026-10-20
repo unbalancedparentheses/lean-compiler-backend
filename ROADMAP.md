@@ -32,14 +32,14 @@ and explicit deviations. See [UPSTREAM_DISCREPANCIES.md](docs/UPSTREAM_DISCREPAN
 ## Stage 0 — contracts and independent function jobs
 
 These foundations start during the current port, not after compatibility.
-This foundations workstream is currently documentation and research only. Its
-next deliverable is the specification below; its implementation milestones
-remain future work. Separately authorized compatibility porting continues.
+F00–F05 now establish the restricted source contract, independent jobs,
+versioned replay, typed stack baseline and pass obligations. These are
+implementation/design milestones, not a composed compilation proof. Compatibility porting can continue alongside this work.
 
-### Specification gate — current work
+### Specification gate — completed design
 
-- [ ] F00 — Write an implementation-ready specification for the first verified
-  compilation path, planned as `docs/research/first-verified-path.md`. Include:
+- [x] F00 — Write an implementation-ready specification for the first verified
+  compilation path: [first verified path](docs/research/first-verified-path.md). Includes:
   - The exact integer/control-flow subset, AArch64 target and calling convention,
     source/target states, observable behavior and a proposed preservation statement.
     Distinguish compiler-owned frame accesses from source-program memory operations;
@@ -62,21 +62,28 @@ or explicitly excluded from its domain. The specification identifies future code
 proof and test changes without making them. Completing F00 does not complete any
 implementation or proof milestone.
 
-### Implement the specified foundations — future work
+### Implement the specified foundations — first-path baseline complete
 
-- [ ] F01 — Semantic decision ledger and supported-domain specification. Define
-  arithmetic, memory, traps/divergence and external-call behavior before extending
-  transformations that depend on them; state target and environment assumptions.
-- [ ] F02 — Pure function compilation and verification boundaries. Freeze the
+- [x] F01 — [Semantic decision ledger](docs/SEMANTICS.md) and supported-domain
+  specification for `ssa-int-v1`, with executable source semantics and admission.
+  Arithmetic/control flow are modeled; memory, calls and traps are explicitly
+  excluded from this first domain. Target/environment assumptions are recorded.
+  Source step determinism and bounded-return soundness are proved; admission
+  soundness, interpreter correspondence and compilation preservation remain open.
+- [x] F02 — Pure function compilation and verification boundaries. Freeze the
   function's exact target, ABI, layout, imported contracts and consumed optimization
   facts. Workers cannot inspect undeclared module state.
-- [ ] F03 — Versioned canonical job/artifact serialization, stable symbol identities,
+- [x] F03 — Versioned canonical job/artifact serialization, stable symbol identities,
   local numbering and replay. Separate code, debug and evidence dependencies.
-- [ ] F04 — Minimal typed machine IR and typed assembly around the existing stack
+- [x] F04 — Minimal typed machine IR and typed assembly around the existing stack
   baseline. Make register aliases, clobbers, stack slots and frame operations explicit;
   validate legality at each boundary before rendering text.
-- [ ] F05 — Pass obligation table: invariant, semantic relation, direct proof or
+- [x] F05 — Pass obligation table: invariant, semantic relation, direct proof or
   proved checker, evidence format, failure behavior and composition requirements.
+
+The [implemented foundations and obligation table](docs/FOUNDATIONS.md) record
+exact schemas, validation, proof scope, tests and remaining assumptions. All
+first-path artifacts are explicitly uncertified; requested certification fails.
 
 Exit gate: the admitted subset has replayable jobs and documented semantics;
 identical code dependencies yield identical code fragments across module order,
@@ -87,7 +94,10 @@ own dependency contracts. These foundations do not by themselves prove codegen.
 
 - [ ] C01 — Prove a restricted integer/control-flow path through stack lowering,
   including a nontrivial loop, simultaneous phi transfers, frame accesses and
-  return behavior. Use explicit source and target semantics and state relations.
+  return behavior. Source/target execution relations are defined. Target-helper
+  lemmas, store-span preservation/initialization, same-width load-after-store and
+  disjoint load preservation are proved. Checker soundness, parallel transfers
+  and composed simulation remain open.
 - [ ] C02 — Connect the actual typed lowering implementation to that result;
   audit axioms and distinguish kernel-checked evidence from native checker execution.
 - [ ] C03 — Publish the exact certified domain and remaining rendering, ISA,
@@ -131,8 +141,13 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   domain; structural checks alone are insufficient. Re-run the Concrete factorial
   baseline and broader workloads after allocation to measure the actual gain.
 - [ ] P10 — Complete upstream AArch64, AMD64 and RV64 targets and supported
-  object/ABI conventions. Identify native/emulated tests and certification scope
-  separately for each target; coverage on one ISA does not certify another.
+  object/ABI conventions, explicitly including Linux AArch64 (ARM64 ELF),
+  Linux AMD64 (x86-64 ELF/System V) and Linux RV64 (64-bit RISC-V ELF), alongside
+  the Apple targets. Generate assembly for each target; object emission remains
+  a separate milestone. Track native and emulated Linux execution, ABI tests,
+  assembler/linker qualification and certification scope separately per target.
+  Coverage on one ISA or OS ABI does not certify another. 32-bit ARM/x86/RISC-V
+  are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. Run growing subsets throughout the port.
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
