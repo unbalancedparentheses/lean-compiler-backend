@@ -149,7 +149,7 @@ def main():
         reject([LCB, '--eval', source, 'external_0', 0, 0], 'no interpreter model')
         for i, (definition, arguments, result) in enumerate([
             ('function w $target(w %a) { @s ret %a }', 'l 1', 'w'),
-            ('function w $target(w %a) { @s ret %a }', 'w 1', 'l'),
+            ('function l $target(l %a) { @s ret %a }', 'l 1', 'w'),
             ('function w $target(w %a) { @s ret %a }', '', 'w'),
         ]):
             invalid = work/f'signature{i}.ssa'

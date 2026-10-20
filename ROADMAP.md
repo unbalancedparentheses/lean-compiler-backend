@@ -8,8 +8,8 @@ and is not a prerequisite for compatibility work. QBE is the starting baseline
 and a fallible comparison implementation, not a permanent constraint on the IR.
 
 This is a general-purpose backend implemented in Lean 4. Concrete is a consumer
-through a separate adapter. The current implementation is a bounded integer,
-control-flow, memory and integer-call subset on Apple ARM64. The existing
+through a separate adapter. The current implementation is a bounded scalar
+integer/floating, control-flow, memory, TLS and scalar-call subset on Apple ARM64. The existing
 opcode-selection theorem is limited; the backend is not verified end to end.
 
 ## Active execution order
@@ -132,7 +132,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   or overlap guards. Packed integer data, zero fill, alignment and global symbol references are now
   implemented and tested, including pointer initializers with addends and byte
   strings and IEEE floating constant initializers. Runtime-sized and non-entry
-  allocations now pass native call/frame tests. TLS and remaining linkage forms remain.
+  allocations now pass native call/frame tests. Apple ARM64 TLS data/address access
+  is tested with concurrent C threads; remaining linkage forms and other target
+  TLS conventions remain.
   Local single/double arithmetic, comparisons, casts, memory and phi values are
   implemented, including numeric conversions, scalar floating calls/returns and
   variadics. Float-to-integer interpretation rejects non-finite/out-of-range inputs.
@@ -170,8 +172,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  60/76 inputs: 45 original executable fixtures pass natively, 15 development
-  fixtures assemble only, and 16 remain unsupported. CI prevents emission
+  61/76 inputs: 46 original executable fixtures pass natively, 15 development
+  fixtures assemble only, and 15 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

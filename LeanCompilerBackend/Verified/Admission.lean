@@ -30,6 +30,7 @@ private def blockId (f : Function) (name : String) : Except AdmissionError Nat :
 private def operand (locals : Array (String × Width)) (width : Width)
     : Operand → Except AdmissionError Source.Operand
   | .constant n => .ok (.literal (Source.Value.constant width n))
+  | .threadSymbol _ => .error (.unsupported "thread-local symbol addresses")
   | .symbol _ => .error (.unsupported "global symbol addresses")
   | .temporary name => do
     let id ← valueId locals name

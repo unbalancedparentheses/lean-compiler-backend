@@ -241,3 +241,21 @@ and results. Portable QBE code must still explicitly extend subword values befor
 using their unspecified upper bits. C default variadic promotions remain a
 frontend responsibility. Known and indirect-call ABI signatures include subword
 annotations. The first-path profile rejects subword signatures.
+
+### Apple ARM64 TLS and word-result consumption
+
+`thread data` defines Darwin thread-local initializers and TLV descriptors;
+`thread $symbol` (including explicit `extern thread`) resolves the current thread's
+address through the platform runtime. The baseline preserves live GP/FP scalar
+arguments, scratch registers and LR across a resolver call, with a temporary
+aligned stack area. Repeated resolution is not optimized. Known TLS objects
+require the thread annotation; TLS addresses are not static pointer initializers.
+The interpreter initializes one execution thread's TLS objects per module run.
+It does not model pthreads, concurrent scheduling or externally defined TLS;
+concurrent isolation is qualified only by native C/QBE tests.
+
+Known internal word-returning functions may be consumed by a long-return call on
+Apple ARM64: writing w0 clears the upper half of x0. Both direct and interpreted
+indirect calls model that zero extension. Floating, subword and void result
+annotations still require exact matching. This rule records the current target's
+behavior and must be requalified when adding another target ABI.

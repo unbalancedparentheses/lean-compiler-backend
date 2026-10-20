@@ -75,10 +75,31 @@ private def immediate (width : Width) (destination : Nat) (value : Int) : List S
     if chunk != 0 then result := result ++ [s!"\tmovk {r}, #{chunk}, lsl #{shift}"]
   return result
 
+/-- Resolve a Darwin TLV descriptor while preserving live scalar argument/scratch
+    registers. The baseline does not yet hoist/cache repeated TLS lookups. -/
+private def threadAddress (width : Width) (destination : Nat) (name : String) : List String := Id.run do
+  let mut lines := ["\tsub sp, sp, #256"]
+  for i in [:9] do
+    lines := lines ++ [s!"\tstp x{2*i}, x{2*i+1}, [sp, #{16*i}]"]
+  lines := lines ++ ["\tstr x30, [sp, #144]"]
+  for i in [:4] do
+    lines := lines ++ [s!"\tstp d{2*i}, d{2*i+1}, [sp, #{160+16*i}]"]
+  lines := lines ++ [s!"\tadrp x0, _{name}@TLVPPAGE", s!"\tldr x0, [x0, _{name}@TLVPPAGEOFF]",
+    "\tldr x1, [x0]", "\tblr x1", "\tstr x0, [sp, #224]"]
+  for i in [:9] do
+    lines := lines ++ [s!"\tldp x{2*i}, x{2*i+1}, [sp, #{16*i}]"]
+  lines := lines ++ ["\tldr x30, [sp, #144]"]
+  for i in [:4] do
+    lines := lines ++ [s!"\tldp d{2*i}, d{2*i+1}, [sp, #{160+16*i}]"]
+  lines := lines ++ [s!"\tldr x{destination}, [sp, #224]", "\tadd sp, sp, #256"]
+  if width == .word then lines := lines ++ [s!"\tmov w{destination}, w{destination}"]
+  return lines
+
 private def load (base : String) (slots : List (String × Nat)) (width : Width) (destination : Nat)
     (value : Operand) : Except String (List String) := do
   match value with
   | .constant n => return immediate width destination n
+  | .threadSymbol name => pure (threadAddress width destination name)
   | .symbol name =>
     -- GOT references work for both module-local and externally linked symbols.
     let r := register .long destination
@@ -464,9 +485,13 @@ def emit (program : Program) : Except String String := do
     ++ ".subsections_via_symbols\n"
 
 private def emitData (data : DataDefinition) : String := Id.run do
-  let mut lines := [".data"]
+  let mut lines := if data.threadLocal then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"] else [".data"]
   if data.exported then lines := lines ++ [s!".globl _{data.name}"]
-  lines := lines ++ [s!".balign {data.alignment}", s!"_{data.name}:"]
+  let initialSymbol := if data.threadLocal then s!"_{data.name}$tlv$init" else s!"_{data.name}"
+  if data.threadLocal then
+    lines := lines ++ [s!"_{data.name}:", "\t.quad __tlv_bootstrap", "\t.quad 0", s!"\t.quad {initialSymbol}",
+      ".section __DATA,__thread_data,thread_local_regular"]
+  lines := lines ++ [s!".balign {data.alignment}", s!"{initialSymbol}:"]
   for item in data.items do
     match item with
     | .integer width value =>

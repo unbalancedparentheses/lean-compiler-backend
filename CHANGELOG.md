@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add Apple ARM64 thread-local data, TLV address resolution and external TLS,
+  with live scalar register preservation and concurrent C-thread isolation tests.
+  Permit known internal word results to be consumed as zero-extended long results
+  on this target. Retain and report QBE's two-inline-TLS-argument allocator crash
+  separately from its helper-form comparison.
+
 - Support signed/unsigned byte and short scalar ABI arguments/results on Apple
   ARM64, including packed stack slots, mixed floating signatures, callbacks and
   variadic boundaries. C/QBE tests cover eight signatures up to 64 arguments.

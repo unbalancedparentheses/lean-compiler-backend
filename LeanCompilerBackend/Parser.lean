@@ -114,6 +114,13 @@ private def parseName (sigil : Char) : P String := do
 private def parseOperand : P Operand := do
   let token ← peek
   match token with
+  | some "thread" => discard take; return .threadSymbol (← parseName '$')
+  | some "extern" => do
+    discard take
+    if (← peek) == some "thread" then
+      discard take
+      return .threadSymbol (← parseName '$')
+    return .symbol (← parseName '$')
   | some s =>
     if s.startsWith "%" then return .temporary (← parseName '%')
     if s.startsWith "$" then return .symbol (← parseName '$')
@@ -448,7 +455,7 @@ private def parseDataString : P (Array UInt8) := do
         result := result.push value
   failAt "string decoding limit exceeded"
 
-private def parseData (exported : Bool) : P DataDefinition := do
+private def parseData (exported threadLocal : Bool) : P DataDefinition := do
   expect "data"
   let name ← parseName '$'
   expect "="
@@ -463,7 +470,7 @@ private def parseData (exported : Bool) : P DataDefinition := do
   for _ in [:50000] do
     if (← peek) == some "}" then
       discard take
-      return { name, exported, alignment, items }
+      return { name, exported, alignment, threadLocal, items }
     let kind ← take
     if kind == "z" then
       let bytes ← parseDataInteger
@@ -500,13 +507,24 @@ private def parseDefinitions : Nat → P Module
   | 0 => failAt "module definition parsing limit exceeded"
   | fuel + 1 => do
     if (← peek).isNone then return {}
-    let exported := (← peek) == some "export"
-    if exported then discard take
+    let mut exported := false
+    let mut threadLocal := false
+    for _ in [:3] do
+      if (← peek) == some "export" then
+        if exported then failAt "duplicate export linkage"
+        discard take
+        exported := true
+      else if (← peek) == some "thread" then
+        if threadLocal then failAt "duplicate thread linkage"
+        discard take
+        threadLocal := true
+      else break
     if (← peek) == some "data" then
-      let data ← parseData exported
+      let data ← parseData exported threadLocal
       let rest ← parseDefinitions fuel
       return { rest with data := #[data] ++ rest.data }
     else
+      if threadLocal then failAt "thread linkage requires data"
       let f ← parseFunction exported
       let rest ← parseDefinitions fuel
       return { rest with functions := #[f] ++ rest.functions }

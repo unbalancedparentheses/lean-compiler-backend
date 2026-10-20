@@ -1,0 +1,6 @@
+thread data $v={l 7}
+export function l $f() {
+@entry
+ %r =l call $g(l thread $v,l thread $v)
+ ret %r
+}

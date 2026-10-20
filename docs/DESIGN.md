@@ -66,15 +66,17 @@ argument layout, checked against independent C in both directions. The 64-argume
 cap is a resource policy, not an ABI constraint; the frame limit remains separate.
 Non-leaf functions reserve a separate slot for x30 and restore it before return.
 All values live across calls remain in the caller's frame, outside callee clobbers.
-Internal call argument/result signatures must match their definitions exactly.
+Internal call ABI signatures are checked; Apple ARM64 word results may also be
+consumed as zero-extended long results.
 External signatures are an explicit linking assumption: QBE IL has no external
 declaration to check. The interpreter checks dynamically resolved internal call
-signatures; native indirect targets must honor the declared ABI. Sub-word/aggregate
+signatures; native indirect targets must honor the declared ABI. Subword arguments
+and results use explicit ABI annotations and packed 1/2-byte stack slots. Aggregate
 ABI types remain unsupported. A first `env` parameter/argument uses x9 without
 consuming an ordinary argument register. Callees save it before stack-argument
-loads; callers set it after ordinary argument preparation. Integer variadics use
+loads; callers set it after ordinary argument preparation. Integer/floating variadics use
 eight-byte stack slots for unnamed arguments and an eight-byte va_list cursor;
-floating/aggregate variadic arguments remain unsupported.
+aggregate variadic arguments remain unsupported.
 Void results are represented by absence of a value in the IR and interpreter;
 they are not integer zero. A return with the wrong presence/type of value, an
 integer assignment from a void call, or an internal non-void call without a

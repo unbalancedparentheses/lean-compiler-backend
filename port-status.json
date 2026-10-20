@@ -98,15 +98,15 @@
     "floating point and conversions": "partial: IEEE constants/data, s/d arithmetic, comparisons, casts, numeric conversions, memory, phi and scalar ABI; defined-range conversion model and default IEEE execution profile",
     "memory and allocation": "partial: integer loads/stores, loadw/loadl aliases; positive constant/runtime alloc4/8/16 in any block and alloc1/2 aliases; effect-only constant blit copies in 0..4096 bytes for disjoint or identical spans; zero-sized static allocation remains unsupported",
     "aggregate type and data definitions": "partial: packed b/h/w/l/s/d bit-pattern data, z zero fill, alignment 1..64, long symbol relocations with addends, byte strings (UTF-8/common and octal escapes) and data-only modules; aggregate types and remaining linkage forms remain",
-    "linkage, sections, TLS and debug locations": "partial: export for functions/data and global symbol operands; sections, TLS and debug locations remain"
+    "linkage, sections, TLS and debug locations": "partial: export, ordinary/explicit extern symbols and Apple ARM64 thread-local data/addresses; sections, other linkage forms and debug locations remain"
   },
   "passes": {
-    "parsing and validation": "partial: integer/control-flow/memory/integer-call SSA subset; full QBE syntax remains",
+    "parsing and validation": "partial: scalar integer/floating, control-flow, memory, TLS and scalar-call input with SSA construction; full QBE syntax remains",
     "CFG, dominance and SSA construction": "partial: CFG/dominance validation and mutable-temporary SSA construction with on-demand phis; stable types and defined incoming values required",
     "alias analysis and memory optimization": "not implemented",
     "copy elimination, folding, GVN, GCM and CFG simplification": "not implemented",
     "ABI lowering": "partial: Apple AArch64 scalar w/l/s/d register/stack arguments and results; independent GP/FP banks, direct/indirect calls, variadics, env and saved live values",
-    "instruction selection and assembly emission": "partial: Apple AArch64 integer/control-flow/memory/integer-call subset",
+    "instruction selection and assembly emission": "partial: Apple AArch64 scalar integer/floating, control flow, memory, TLS and scalar-call subset",
     "liveness, spilling and register allocation": "not implemented; baseline gives every value a stack slot"
   }
 }

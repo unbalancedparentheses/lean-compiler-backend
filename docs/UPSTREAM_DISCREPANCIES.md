@@ -57,3 +57,20 @@ revise the correction when changing the upstream baseline.
 The lesson for the full port is to preserve the documented memory semantics and
 retain this regression when porting QBE's load optimization. Passing comparison
 tests against a single existing compiler cannot establish correctness.
+
+## Two inline TLS call arguments assert during register allocation
+
+Pinned QBE 1.3 with `-t arm64_apple` aborts in `rega.c` (`!isreg(i->to)`) on the
+[reduced two-TLS-argument input](../tests/regressions/qbe-two-tls-call-arguments.ssa).
+The two operands refer to the same current-thread object. The retained
+[C driver](../tests/regressions/qbe-two-tls-call-arguments.c) checks pointer identity
+and the initialized value; Lean-generated native code passes it.
+
+`scripts/tls.py` explicitly reproduces and reports the original assertion, never
+counting it as a matching QBE result. Its larger native Lean/C test checks eight
+concurrent threads, external TLS, and TLS resolution among live GP/FP call
+arguments. For the QBE comparison only, that input resolves addresses through
+separate address-returning helper calls before passing ordinary temporaries.
+That source-level workaround passes the same C checks; it is reported separately
+and is not a claim that original QBE compiles the inline form. The vendored QBE
+source is unchanged. The original upstream `tls.ssa` fixture needs no workaround.

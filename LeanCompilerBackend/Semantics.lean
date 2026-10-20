@@ -80,7 +80,7 @@ private def operand (symbols locals : List (String × UInt64)) (width : Width)
     (value : Operand) : Except String UInt64 := do
   match value with
   | .constant n => return constant width n
-  | .symbol name =>
+  | .symbol name | .threadSymbol name =>
     match symbols.lookup name with
     | some address => pure (normalize width address)
     | none => throw s!"external symbol ${name} has no interpreter model; result not evaluated"
@@ -101,7 +101,7 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
       | throw "indirect call target is not a defined function; result not evaluated"
     let arguments ← effectiveCallArguments callee arguments
     let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
-    if callee.resultWidth != resultWidth || callee.resultFloating != resultFloating || callee.resultSubword != resultSubword || callee.parameters.size != fixed ||
+    if !callResultMatches callee resultWidth resultFloating resultSubword || callee.parameters.size != fixed ||
         (!callee.variadic && arguments.size != fixed) ||
         (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating || p.subword != a.subword) then
       throw "indirect call signature disagrees with target definition; result not evaluated"

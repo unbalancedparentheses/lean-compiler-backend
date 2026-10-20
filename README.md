@@ -7,8 +7,8 @@ Executable semantics, existing proofs and regression tests remain required check
 tested and certified coverage are reported separately. The current implementation
 is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
 
-The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 45 native
-passes, 15 assemble-only fixtures and 16 unsupported inputs out of 76.
+The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 46 native
+passes, 15 assemble-only fixtures and 15 unsupported inputs out of 76.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
@@ -84,12 +84,13 @@ before rebuilding; the checks reject stale source/build identities.
 - Effect-only `blit source, destination, count` copies, with constant byte counts
   in 0..4096. The source and destination spans must be disjoint or have identical
   addresses, as required by QBE. The byte-count cap is a compiler resource limit.
-- Direct and indirect calls with up to 64 typed integer arguments and an integer or void result,
+- Direct and indirect calls with up to 64 typed scalar arguments and a scalar or void result,
   including recursion and external C symbols. Internal signatures are checked;
   external definitions must honor the declared ABI. Non-leaf frames save the
   return address and keep live values in stack slots across calls.
 - Single/double arithmetic, comparisons, casts, numeric conversions, memory, phi values
   and scalar calls/returns.
+- Apple ARM64 thread-local data and addresses, including external TLS and C threads.
 - Signed/unsigned byte and short ABI arguments/results, including packed stack slots.
 - QBE `env` parameters/arguments in x9, including indirect and variadic calls.
 - Integer/floating variadic functions/calls, `vastart` and w/l/s/d `vaarg` on Apple ARM64.
@@ -105,7 +106,7 @@ before rebuilding; the checks reject stale source/build identities.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
 The first port uses stack slots for every value. Aggregate ABI support,
-TLS, remaining linkage forms, optimization passes, register
+remaining linkage/debug forms, optimization passes, register
 allocation and object emission remain. Packed data, strings, symbol relocations
 and IEEE constant bit patterns are implemented. A separate restricted Concrete consumer is available in
 [Concrete draft PR #8](https://github.com/unbalancedparentheses/concrete2/pull/8);

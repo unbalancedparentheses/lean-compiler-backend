@@ -54,7 +54,7 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
     : Except String Unit := do
   match operand with
   | .constant _ => pure ()
-  | .symbol name =>
+  | .symbol name | .threadSymbol name =>
     if floating then throw "symbol address cannot have floating type"
     if !validName name then throw "unsupported symbol name"
   | .temporary name =>
@@ -209,7 +209,7 @@ def validateFunction (f : Function) : Except String Unit := do
           | .constant bytes =>
             if bytes <= 0 || bytes > 4096 then
               throw "stack allocation currently requires a constant size in 1..4096"
-          | .temporary _ | .symbol _ => check .long size
+          | .temporary _ | .symbol _ | .threadSymbol _ => check .long size
     let check := fun width value => checkOperand definitions doms block.label (block.instructions.size + 1) width value false
     match block.terminator with
     | .ret value =>
@@ -229,6 +229,14 @@ def effectiveCallArguments (callee : Function) (arguments : Array CallArgument)
   if suppliedEnvironment && !expectsEnvironment then return arguments.extract 1 arguments.size
   return arguments
 
+/-- Internal Apple ARM64 w results clear the upper half of x0, allowing a caller
+    to consume the result as l. Floating/subword/void signatures remain exact. -/
+def callResultMatches (callee : Function) (width : Option Width) (floating : Bool)
+    (subword : Option Subword) : Bool :=
+  floating == callee.resultFloating && subword == callee.resultSubword &&
+    (width == callee.resultWidth ||
+      (!floating && subword.isNone && callee.resultWidth == some .word && width == some .long))
+
 def validate (program : Program) : Except String Unit := do
   if program.isEmpty then throw "program contains no functions"
   if program.size > 64 then throw "program exceeds initial 64-function limit"
@@ -247,7 +255,7 @@ def validate (program : Program) : Except String Unit := do
         if let some (.direct target, arguments, resultWidth) := statement.callSite then
           if let some callee := program.find? (·.name == target) then
             let arguments ← effectiveCallArguments callee arguments
-            if resultWidth != callee.resultWidth || statement.resultFloating != callee.resultFloating || statement.resultSubword != callee.resultSubword then
+            if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword then
               throw s!"call ${target}: result type disagrees with its definition"
             let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
             if fixed != callee.parameters.size || (!callee.variadic && arguments.size != fixed) then
@@ -274,9 +282,29 @@ def validateModule (module : Module) : Except String Unit := do
     for item in data.items do
       if let .address name _ := item then
         if !validName name then throw "unsupported data relocation symbol"
+        if module.data.any (fun d => d.name == name && d.threadLocal) then
+          throw "thread-local address cannot be a static data initializer"
+  for data in module.data do
+    if data.threadLocal && names.contains (data.name ++ "$tlv$init") then
+      throw "TLS initializer symbol conflicts with a module symbol"
+  let checkSymbol := fun operand => do
+    let tagged ← match operand with
+      | .symbol name => pure (some (name, false))
+      | .threadSymbol name => pure (some (name, true))
+      | _ => pure none
+    if let some (name, threadLocal) := tagged then
+      if threadLocal && module.functions.any (·.name == name) then throw "thread symbol names a function"
+      if let some data := module.data.find? (·.name == name) then
+        if data.threadLocal != threadLocal then throw s!"symbol ${name}: thread-local access annotation mismatch"
   for f in module.functions do
     for block in f.blocks do
+      for phi in block.phis do
+        for (_, value) in phi.incoming do checkSymbol value
+      let finalOperands := match block.terminator with
+        | .ret value => value.toList | .branch value _ _ => [value] | _ => []
+      for value in finalOperands do checkSymbol value
       for statement in block.instructions do
+        for value in statement.operands do checkSymbol value
         if let some (.direct target, _, _) := statement.callSite then
           if module.data.any (·.name == target) then
             throw s!"call ${target}: symbol is defined as data"

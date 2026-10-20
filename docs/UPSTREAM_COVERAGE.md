@@ -1,12 +1,12 @@
 # Upstream fixture coverage checkpoint
 
-Pinned QBE 1.3, Apple ARM64; measured after mutable-temporary SSA construction.
+Pinned QBE 1.3, Apple ARM64; measured after Apple ARM64 TLS support.
 This is compatibility testing, not formal certification.
 
-- 60 of 76 fixtures emit assembly.
-- 45 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
+- 61 of 76 fixtures emit assembly.
+- 46 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
 - 15 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
-- 16 fixtures remain unsupported.
+- 15 fixtures remain unsupported.
 
 `scripts/upstream_suite.py` scans every fixture and runs every accepted executable
 fixture on native Apple ARM64. Other hosts check emission and report native execution
@@ -94,6 +94,6 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `strcmp.ssa` | passed |
 | `strspn.ssa` | passed |
 | `sum.ssa` | passed |
-| `tls.ssa` | Unsupported: line 2 near 'thread': expected 'function' |
+| `tls.ssa` | passed |
 | `vararg1.ssa` | passed |
 | `vararg2.ssa` | passed |

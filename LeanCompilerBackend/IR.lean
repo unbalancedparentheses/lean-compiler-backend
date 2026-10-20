@@ -35,6 +35,7 @@ inductive Operand where
   | temporary (name : String)
   | constant (value : Int)
   | symbol (name : String)
+  | threadSymbol (name : String)
   deriving Repr, Inhabited
 
 inductive Binary where
@@ -164,6 +165,16 @@ inductive Operation where
   | call (target : CallTarget) (arguments : Array CallArgument)
   deriving Repr, Inhabited
 
+def CallTarget.operands : CallTarget → List Operand
+  | .direct _ => [] | .indirect value => [value]
+
+def Operation.operands : Operation → List Operand
+  | .copy x | .cast x | .convert _ x | .unary _ x | .floatNegate x
+  | .allocate _ x | .load _ x | .vaArg x => [x]
+  | .binary _ x y | .floatBinary _ x y | .divide _ x y
+  | .compare _ _ x y | .floatCompare _ _ x y => [x, y]
+  | .call target args => target.operands ++ args.toList.map (·.value)
+
 structure Instruction where
   destination : String
   width : Width
@@ -198,6 +209,13 @@ def Statement.resultFloating : Statement → Bool
 def Statement.resultSubword : Statement → Option Subword
   | .assign inst => inst.callSubword
   | _ => none
+
+def Statement.operands : Statement → List Operand
+  | .assign inst => inst.operation.operands
+  | .store _ value address | .storeFloat _ value address => [value, address]
+  | .callVoid target args => target.operands ++ args.toList.map (·.value)
+  | .vaStart value => [value]
+  | .blit source destination _ => [source, destination]
 
 structure Parameter where
   name : String
@@ -270,6 +288,7 @@ structure DataDefinition where
   name : String
   exported : Bool := false
   alignment : Nat := 8
+  threadLocal : Bool := false
   items : Array DataItem
   deriving Repr, Inhabited
 
