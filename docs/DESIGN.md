@@ -70,7 +70,9 @@ Internal call argument/result signatures must match their definitions exactly.
 External signatures are an explicit linking assumption: QBE IL has no external
 declaration to check. The interpreter checks dynamically resolved internal call
 signatures; native indirect targets must honor the declared ABI. Sub-word/aggregate
-ABI types and environment arguments remain unsupported. Integer variadics use
+ABI types remain unsupported. A first `env` parameter/argument uses x9 without
+consuming an ordinary argument register. Callees save it before stack-argument
+loads; callers set it after ordinary argument preparation. Integer variadics use
 eight-byte stack slots for unnamed arguments and an eight-byte va_list cursor;
 floating/aggregate variadic arguments remain unsupported.
 Void results are represented by absence of a value in the IR and interpreter;

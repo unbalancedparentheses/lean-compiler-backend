@@ -175,3 +175,13 @@ CLI evaluation accepts the named parameters only; use typed IL wrappers to suppl
 variadic arguments. Dynamic native targets and vaarg types must match the actual
 call ABI; native code does not add type or bounds guards. Floating/aggregate
 variadics and the restricted first-path profile remain unsupported.
+
+## Environment arguments
+
+A first `env` parameter/argument is a long value passed in x9, independently of
+the ordinary x0..x7 argument sequence. It must precede named/variadic arguments.
+Callees that declare an environment require it; QBE permits a caller to supply an
+environment when the callee ignores it, so signature checking and interpretation
+discard that extra value for such callees. The native caller loads x9 after stack
+argument preparation, and an environment callee spills x9 before loading incoming
+stack arguments. Environment parameters remain outside the first proof profile.

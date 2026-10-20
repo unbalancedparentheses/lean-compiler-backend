@@ -98,6 +98,7 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
       | throw "indirect call address has no interpreter model; result not evaluated"
     let some callee := functions.find? (·.name == name)
       | throw "indirect call target is not a defined function; result not evaluated"
+    let arguments ← effectiveCallArguments callee arguments
     let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
     if callee.resultWidth != resultWidth || callee.parameters.size != fixed ||
         (!callee.variadic && arguments.size != fixed) ||
@@ -117,7 +118,7 @@ private structure ExecutionState where
   variadicStart : Option UInt64 := none
   remainingBlocks : Nat := 100000
 
-private abbrev CallHandler := String → Array UInt64 → Array Width → ExecutionState →
+private abbrev CallHandler := String → Array UInt64 → Array Width → Bool → ExecutionState →
   Except String (Option UInt64 × ExecutionState)
 
 private def evaluateOperation (call : CallHandler) (inst : Instruction)
@@ -161,7 +162,7 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
   | .call target arguments =>
     let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width)
     let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
-    let (result, updated) ← call target values (arguments.map (·.width)) state
+    let (result, updated) ← call target values (arguments.map (·.width)) ((arguments[0]?).any (·.environment)) state
     let some value := result | throw "void call cannot define an integer result"
     pure (normalize inst.width value, updated)
 
@@ -184,7 +185,7 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
     | .callVoid target arguments =>
       let target ← resolveCallTarget state.functions state.symbols locals target arguments none
       let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
-      let (result, updated) ← call target values (arguments.map (·.width)) state
+      let (result, updated) ← call target values (arguments.map (·.width)) ((arguments[0]?).any (·.environment)) state
       if result.isSome then throw "non-void call requires a return temporary"
       state := updated
     | .vaStart list =>
@@ -240,10 +241,12 @@ private def invoke (program : Program) : Nat → Function → Array UInt64 → A
     for i in [:f.parameters.size] do
       let p := f.parameters[i]!
       locals := (p.name, normalize p.width arguments[i]!) :: locals
-    let call : CallHandler := fun target values widths current => do
+    let call : CallHandler := fun target values widths environment current => do
       let some callee := program.find? (·.name == target)
         | throw s!"external call ${target} has no interpreter model; result not evaluated"
-      invoke program depth callee values widths current
+      if environment && !((callee.parameters[0]?).any (·.environment)) then
+        invoke program depth callee (values.extract 1 values.size) (widths.extract 1 widths.size) current
+      else invoke program depth callee values widths current
     let objectCount := state.memory.objects.size
     let allocatedBytes := state.memory.allocatedBytes
     let mut initial := { state with variadicStart := none }

@@ -81,6 +81,7 @@ private def reachable (f : Function) : Array String := Id.run do
     not proof-carrying and must not satisfy a certification request. -/
 def admit (f : Function) : Except AdmissionError Source.Function := do
   if f.variadic then throw (.unsupported "variadic functions")
+  if f.parameters.any (·.environment) then throw (.unsupported "environment parameters")
   limit "parameters" f.parameters.size 8
   limit "blocks" f.blocks.size 64
   let definitions := f.blocks.foldl (fun n b => n + b.phis.size + b.instructions.size) 0

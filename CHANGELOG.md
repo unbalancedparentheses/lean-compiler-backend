@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Support QBE environment parameters/arguments through Apple ARM64 x9, including
+  direct/indirect calls, named stack arguments, variadic tails and dynamic frames.
+  Environment values do not consume ordinary argument registers; callers may
+  supply an environment to functions that ignore it. Independent assembly probes
+  and native QBE comparisons qualify x9 in both directions. First-path admission
+  explicitly rejects environment parameters.
+
 - Support integer variadic functions and calls on Apple ARM64: `...`, `vastart`
   and w/l `vaarg`, with eight-byte variadic stack slots and correct boundaries
   after named stack arguments. Interpreter state restores across nested variadic

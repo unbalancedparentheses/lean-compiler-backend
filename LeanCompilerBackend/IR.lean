@@ -105,6 +105,7 @@ structure CallArgument where
   width : Width
   value : Operand
   variadic : Bool := false
+  environment : Bool := false
   deriving Repr, Inhabited
 
 inductive Operation where
@@ -146,6 +147,7 @@ def Statement.callSite : Statement → Option (CallTarget × Array CallArgument 
 structure Parameter where
   name : String
   width : Width
+  environment : Bool := false
   deriving Repr, Inhabited
 
 structure Phi where

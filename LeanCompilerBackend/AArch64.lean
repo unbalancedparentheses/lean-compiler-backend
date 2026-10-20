@@ -125,12 +125,14 @@ structure ArgumentLayout where
   stackBytes : Nat
   stackUsedBytes : Nat
 
-def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size) : ArgumentLayout := Id.run do
+def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size)
+    (environment : Bool := false) : ArgumentLayout := Id.run do
   let mut locations := #[]
   let mut offset := 0
   for i in [:widths.size] do
-    if i < 8 && i < variadicFrom then
-      locations := locations.push (.register i)
+    if environment && i == 0 then locations := locations.push (.register 9)
+    else if i - (if environment then 1 else 0) < 8 && i < variadicFrom then
+      locations := locations.push (.register (i - (if environment then 1 else 0)))
     else
       let bytes := if i >= variadicFrom then 8 else widths[i]!.bytes
       offset := alignUp offset bytes
@@ -141,16 +143,19 @@ def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size) : 
 private def emitCall (base : String) (slots : List (String × Nat)) (target : CallTarget)
     (arguments : Array CallArgument) : Except String (List String) := do
   let mut lines := []
-  let layout := argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size)
+  let layout := argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment))
   let dynamicOutgoing := base == "x29" && layout.stackBytes != 0
   if dynamicOutgoing then lines := lines ++ [s!"\tsub sp, sp, #{layout.stackBytes}"]
   for i in [:arguments.size] do
     let argument := arguments[i]!
+    if argument.environment then continue
     match layout.locations[i]! with
     | .register index => lines := lines ++ (← load base slots argument.width index argument.value)
     | .stack offset =>
       lines := lines ++ (← load base slots argument.width 9 argument.value)
       lines := lines ++ [s!"\tstr {register argument.width 9}, [sp, #{offset}]"]
+  if let some argument := arguments[0]? then
+    if argument.environment then lines := lines ++ (← load base slots .long 9 argument.value)
   let branch ← match target with
     | .direct name => pure [s!"\tbl _{name}"]
     | .indirect address =>
@@ -301,7 +306,7 @@ def emitFunction (f : Function) : Except String String := do
   for block in f.blocks do
     for statement in block.instructions do
       if let some (_, arguments, _) := statement.callSite then
-        outgoing := max outgoing (argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size)).stackBytes
+        outgoing := max outgoing (argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment))).stackBytes
   -- Dynamic functions reserve a canonical FP/LR record here and place outgoing
   -- arguments at each call's current SP, below any dynamic objects.
   if dynamic then outgoing := 16
@@ -332,9 +337,15 @@ def emitFunction (f : Function) : Except String String := do
   if dynamic then
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
   else if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
-  let incoming := argumentLayout (f.parameters.map (·.width))
+  let incoming := argumentLayout (f.parameters.map (·.width)) f.parameters.size
+    ((f.parameters[0]?).any (·.environment))
+  if let some parameter := f.parameters[0]? then
+    if parameter.environment then
+      let offset ← slotOffset slots parameter.name
+      lines := lines ++ [s!"\tstr x9, [{base}, #{offset}]"]
   for i in [:f.parameters.size] do
     let parameter := f.parameters[i]!
+    if parameter.environment then continue
     let offset ← slotOffset slots parameter.name
     match incoming.locations[i]! with
     | .register index =>

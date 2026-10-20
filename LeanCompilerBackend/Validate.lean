@@ -76,7 +76,10 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
   if arguments.size > maxIntegerArguments then
     throw s!"call exceeds the {maxIntegerArguments}-integer-argument resource limit"
   let mut seenVariadic := false
-  for argument in arguments do
+  for i in [:arguments.size] do
+    let argument := arguments[i]!
+    if argument.environment && (i != 0 || argument.variadic || argument.width != .long) then
+      throw "environment argument must be first, named and long"
     if seenVariadic && !argument.variadic then throw "fixed argument follows variadic argument"
     seenVariadic := seenVariadic || argument.variadic
     check argument.width argument.value
@@ -85,6 +88,9 @@ def validateFunction (f : Function) : Except String Unit := do
   if !validName f.name then throw "unsupported function name"
   if f.parameters.size > maxIntegerArguments then
     throw s!"function exceeds the {maxIntegerArguments}-integer-parameter resource limit"
+  for i in [:f.parameters.size] do
+    if f.parameters[i]!.environment && (i != 0 || f.parameters[i]!.width != .long) then
+      throw "environment parameter must be first and long"
   if f.blocks.isEmpty then throw "function has no entry block"
   if f.blocks.size > 64 then throw "function exceeds initial 64-block limit"
   let count := f.blocks.foldl (fun n block => n + block.instructions.size + block.phis.size) 0
@@ -172,6 +178,15 @@ def validateFunction (f : Function) : Except String Unit := do
     | .branch value _ _ => check .word value
     | .jump _ | .halt => pure ()
 
+/-- QBE permits an extra environment argument when the callee ignores it. -/
+def effectiveCallArguments (callee : Function) (arguments : Array CallArgument)
+    : Except String (Array CallArgument) := do
+  let expectsEnvironment := (callee.parameters[0]?).any (·.environment)
+  let suppliedEnvironment := (arguments[0]?).any (·.environment)
+  if expectsEnvironment && !suppliedEnvironment then throw "missing environment argument"
+  if suppliedEnvironment && !expectsEnvironment then return arguments.extract 1 arguments.size
+  return arguments
+
 def validate (program : Program) : Except String Unit := do
   if program.isEmpty then throw "program contains no functions"
   if program.size > 64 then throw "program exceeds initial 64-function limit"
@@ -189,6 +204,7 @@ def validate (program : Program) : Except String Unit := do
       for statement in block.instructions do
         if let some (.direct target, arguments, resultWidth) := statement.callSite then
           if let some callee := program.find? (·.name == target) then
+            let arguments ← effectiveCallArguments callee arguments
             if resultWidth != callee.resultWidth then
               throw s!"call ${target}: result type disagrees with its definition"
             let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size

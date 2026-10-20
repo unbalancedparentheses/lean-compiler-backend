@@ -153,13 +153,14 @@ private def parseArguments : Nat → Bool → P (Array CallArgument)
       expect ","
       if (← peek) == some ")" then failAt "trailing comma in call arguments"
       return ← parseArguments fuel true
-    let width ← parseWidth
+    let environment := (← peek) == some "env"
+    let width ← if environment then do discard take; pure Width.long else parseWidth
     let value ← parseOperand
     if (← peek) == some "," then
       discard take
       if (← peek) == some ")" then failAt "trailing comma in call arguments"
-      return #[{ width, value, variadic }] ++ (← parseArguments fuel variadic)
-    return #[{ width, value, variadic }]
+      return #[{ width, value, variadic, environment }] ++ (← parseArguments fuel variadic)
+    return #[{ width, value, variadic, environment }]
 
 private def parseCall : P (CallTarget × Array CallArgument) := do
   let target ← if ((← peek).getD "").startsWith "$" then
@@ -264,14 +265,15 @@ private def parseParameters : Nat → P (Array Parameter × Bool)
     if (← peek) == some "..." then
       discard take
       return (#[], true)
-    let width ← parseWidth
+    let environment := (← peek) == some "env"
+    let width ← if environment then do discard take; pure Width.long else parseWidth
     let name ← parseName '%'
     if (← peek) == some "," then
       discard take
       if (← peek) == some ")" then failAt "trailing comma in parameters"
       let (rest, variadic) ← parseParameters fuel
-      return (#[{ name, width }] ++ rest, variadic)
-    return (#[{ name, width }], false)
+      return (#[{ name, width, environment }] ++ rest, variadic)
+    return (#[{ name, width, environment }], false)
 
 private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Array Statement × Terminator)
   | 0 => failAt "instruction parsing limit exceeded"
