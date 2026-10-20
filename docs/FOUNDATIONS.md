@@ -216,8 +216,11 @@ same-width load-after-store reconstruction and preservation of disjoint loads.
 slot. Successful source reads establish width and availability; lowering a local
 or literal operand performs the corresponding register write. The actual
 operand/store pair has a proved effect, and a canonical staging-slot write
-preserves every defined local, including mixed-width values. General instruction
-and whole-transfer preservation of this relation remain open.
+preserves every defined local, including mixed-width values. `InstructionProofs.copy_steps` connects an actual source copy step to the two
+actual MIR steps emitted by `lowerInstruction`, preserving the complete updated
+environment relation. The source/target instruction-position correspondence and
+typing/availability remain explicit premises. General arithmetic/comparison
+instruction simulation and whole-function preservation remain open.
 
 `TransferProofs.executeMIRList_steps` connects straight-line instruction execution
 to an unbounded `stepMIR` prefix, with exactly one step per instruction. The
@@ -344,6 +347,9 @@ Local run metadata and the full log are retained under
 listed facts; adequacy of the source/target models; caller-supplied source and
 metadata identity correctness; toolchain/runtime trust for executed tests; and
 the native environment/stack assumptions from F00. The immediate proof work is
-C01: checker/availability soundness, integration of frame lemmas into the
-source-value/slot relation and simultaneous parallel-transfer lemmas,
-then composed simulation with matching return/divergence and no target stuckness.
+C01: checker/availability soundness; deriving instruction-position and edge
+membership from the actual whole-function lowering; arithmetic/comparison and
+control instruction simulation; caller-state preservation; typed-assembly
+expansion; then whole-pipeline return/divergence preservation and no target
+stuckness. The source/frame relation, arbitrary checked source-to-MIR phi
+transfer and copy-step simulation are now proved under their stated premises.

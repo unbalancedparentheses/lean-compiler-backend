@@ -116,6 +116,9 @@ grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.swap_targets' depends on axi
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.swap_simulation' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.loop_related' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.PhiExamples.loop_ready' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.source_instruction_step' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.copy_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.copy_steps' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 python3 scripts/test.py "$@"
 python3 scripts/integer.py "$@"
 python3 scripts/control.py "$@"

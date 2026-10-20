@@ -97,8 +97,13 @@ own dependency contracts. These foundations do not by themselves prove codegen.
   return behavior. Source/target execution relations are defined; initializer
   soundness/completeness and concrete entry witnesses are proved. Target-helper
   lemmas, store-span preservation/initialization, same-width load-after-store and
-  disjoint load preservation are proved. Checker soundness, parallel transfers
-  and composed simulation remain open.
+  disjoint load preservation are proved. Arbitrary phi staging/commit now connects
+  the source interpreter's checked transfer to actual MIR edges, including jumps,
+  under explicit availability, destination and edge-membership premises. Source
+  copies simulate as two MIR steps. An admitted cyclic loop has unbounded
+  divergence witnesses through source, MIR and typed assembly. Checker soundness,
+  general arithmetic/control instruction simulation, caller-state preservation,
+  typed-assembly expansion and whole-pipeline return/divergence remain open.
 - [ ] C02 — Connect the actual typed lowering implementation to that result;
   audit axioms and distinguish kernel-checked evidence from native checker execution.
 - [ ] C03 — Publish the exact certified domain and remaining rendering, ISA,

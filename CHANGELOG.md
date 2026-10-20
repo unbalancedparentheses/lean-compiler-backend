@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Proved an actual source copy instruction is simulated by its two emitted MIR
+  steps, preserving the complete updated source/frame relation under explicit
+  instruction-position, availability and typing premises.
+
 - Instantiated the general source/MIR phi-transfer theorem on an admitted cyclic
   loop with arbitrary compatible values, plus concrete live-frame witnesses.
 

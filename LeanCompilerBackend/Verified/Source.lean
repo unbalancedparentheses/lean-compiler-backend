@@ -130,7 +130,7 @@ def evaluateComparison (op : Comparison) (a b : Value) : Except Fault Value := d
     | .unsignedLT => a.toNat < b.toNat
   pure (.word (if result then 1 else 0))
 
-private def evaluate (env : Environment) (i : Instruction) : Except Fault Value := do
+def evaluate (env : Environment) (i : Instruction) : Except Fault Value := do
   match i.operation with
   | .copy operand => read env i.width operand
   | .binary op lhs rhs =>

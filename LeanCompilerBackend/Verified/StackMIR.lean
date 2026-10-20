@@ -57,7 +57,7 @@ def loadOperand (width : Width) (reg : Register) : Source.Operand → Instructio
   | .local id => .load width reg (.value id)
   | .literal value => .constant reg value
 
-private def lowerInstruction (i : Source.Instruction) : Array Instruction := Id.run do
+def lowerInstruction (i : Source.Instruction) : Array Instruction := Id.run do
   let code := match i.operation with
     | .copy value => #[loadOperand i.width .r9 value]
     | .binary op lhs rhs => #[loadOperand i.width .r9 lhs, loadOperand i.width .r10 rhs,

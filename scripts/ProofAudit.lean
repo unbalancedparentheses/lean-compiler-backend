@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.InstructionProofs
 import LeanCompilerBackend.Verified.SourceTransferProofs
 import LeanCompilerBackend.Verified.CommitProofs
 import LeanCompilerBackend.Verified.StagingProofs
@@ -150,3 +151,8 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.PhiExamples.swap_simulation
 #print axioms LeanCompilerBackend.Verified.PhiExamples.loop_related
 #print axioms LeanCompilerBackend.Verified.PhiExamples.loop_ready
+
+-- Source instruction step and actual copy expansion.
+#print axioms LeanCompilerBackend.Verified.source_instruction_step
+#print axioms LeanCompilerBackend.Verified.copy_instruction
+#print axioms LeanCompilerBackend.Verified.copy_steps

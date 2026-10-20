@@ -17,3 +17,4 @@ import LeanCompilerBackend.Verified.OperandProofs
 import LeanCompilerBackend.Verified.StagingProofs
 import LeanCompilerBackend.Verified.CommitProofs
 import LeanCompilerBackend.Verified.SourceTransferProofs
+import LeanCompilerBackend.Verified.InstructionProofs
