@@ -5,7 +5,7 @@ full QBE 1.3 port. Full compatibility is the immediate priority: complete langua
 ABI, optimization and target support before expanding formal proof coverage.
 Executable semantics, existing proofs and regression tests remain required checks;
 tested and certified coverage are reported separately. The current implementation
-is a bounded integer, control-flow, memory and direct-call subset. Concrete is a consumer, not a dependency.
+is a bounded integer, control-flow, memory, integer-data and direct-call subset. Concrete is a consumer, not a dependency.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a

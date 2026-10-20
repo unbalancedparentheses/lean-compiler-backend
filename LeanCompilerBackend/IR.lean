@@ -175,4 +175,32 @@ def Function.locals (f : Function) : Array (String × Width) :=
 
 abbrev Program := Array Function
 
+/-- Packed initializers; addresses use the target's 64-bit pointer representation. -/
+inductive DataItem where
+  | integer (width : MemoryWidth) (value : Int)
+  | zeroes (bytes : Nat)
+  | address (name : String) (offset : Int)
+  deriving Repr, Inhabited
+
+def DataItem.byteSize : DataItem → Nat
+  | .integer width _ => width.bytes
+  | .zeroes bytes => bytes
+  | .address .. => 8
+
+structure DataDefinition where
+  name : String
+  exported : Bool := false
+  alignment : Nat := 8
+  items : Array DataItem
+  deriving Repr, Inhabited
+
+def DataDefinition.byteSize (data : DataDefinition) : Nat :=
+  data.items.foldl (fun size item => size + item.byteSize) 0
+
+/-- Module-level data is kept separate from the function-only compilation API. -/
+structure Module where
+  functions : Program := #[]
+  data : Array DataDefinition := #[]
+  deriving Repr, Inhabited
+
 end LeanCompilerBackend

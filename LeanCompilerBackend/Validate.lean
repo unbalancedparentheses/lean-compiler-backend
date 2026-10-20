@@ -191,4 +191,29 @@ def validate (program : Program) : Except String Unit := do
               if arguments[i]!.width != callee.parameters[i]!.width then
                 throw s!"call ${target}: argument type disagrees with its definition"
 
+def validateModule (module : Module) : Except String Unit := do
+  if module.functions.isEmpty && module.data.isEmpty then throw "module contains no definitions"
+  if !module.functions.isEmpty then validate module.functions
+  if module.data.size > 1024 then throw "module exceeds the 1024-data-definition resource limit"
+  let mut names := module.functions.toList.map (·.name)
+  let mut total := 0
+  for data in module.data do
+    if !validName data.name then throw "unsupported data symbol name"
+    if names.contains data.name then throw s!"duplicate module symbol ${data.name}"
+    names := data.name :: names
+    if data.alignment == 0 || data.alignment > 64 ||
+        (data.alignment &&& (data.alignment - 1)) != 0 then
+      throw "data alignment must be a power of two in 1..64"
+    total := total + data.byteSize
+    if total > 1024 * 1024 then throw "module data exceeds the 1 MiB resource limit"
+    for item in data.items do
+      if let .address name _ := item then
+        if !validName name then throw "unsupported data relocation symbol"
+  for f in module.functions do
+    for block in f.blocks do
+      for statement in block.instructions do
+        if let some (target, _, _) := statement.callSite then
+          if module.data.any (·.name == target) then
+            throw s!"call ${target}: symbol is defined as data"
+
 end LeanCompilerBackend

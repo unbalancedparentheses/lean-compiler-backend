@@ -27,8 +27,8 @@
     "calls and variadic functions": "partial: direct calls with up to 64 w/l register/stack arguments and a w/l or void result; recursion and external C symbols; indirect calls and variadics remain",
     "floating point and conversions": "not implemented",
     "memory and allocation": "partial: integer loads/stores, loadw/loadl aliases; entry-block positive constant alloc4/8/16 and alloc1/2 aliases; effect-only constant blit copies in 0..4096 bytes for disjoint or identical spans; dynamic/non-entry allocation remains",
-    "aggregate type and data definitions": "not implemented",
-    "linkage, sections, TLS and debug locations": "partial: export only"
+    "aggregate type and data definitions": "partial: packed b/h/w/l integer data, z zero fill, alignment 1..64, long symbol relocations with addends and data-only modules; strings, floating initializers and aggregate types remain",
+    "linkage, sections, TLS and debug locations": "partial: export for functions/data and global symbol operands; sections, TLS and debug locations remain"
   },
   "passes": {
     "parsing and validation": "partial: integer/control-flow/memory/direct-call SSA subset; full QBE syntax remains",

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add module-level packed integer data, zero fill, alignment and 64-bit symbol
+  relocations with addends on Apple ARM64. The interpreter initializes globals in
+  two phases for forward/self references and preserves them across calls. Support
+  data-only modules; reject data/function collisions and calls to data symbols.
+  The legacy function-only parser and first-path CLI explicitly reject module data.
+
 - Accept global symbol operands in the compatibility parser and emit Apple ARM64
   GOT address loads, including external data, function addresses and phi inputs.
   Native C/QBE comparisons cover reads, writes, address identity and truncation;

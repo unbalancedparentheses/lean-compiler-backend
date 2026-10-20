@@ -17,13 +17,19 @@ private def usage : String :=
   "  lcb --job-info INPUT.job\n" ++
   "  lcb --eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
   "  lcb --version | --build-identity | --help\n" ++
-  "Initial subset: QBE w/l SSA, integer/control flow, direct integer calls, loads/stores and entry-block constant stack allocations.\n"
+  "Initial subset: QBE w/l SSA, integer/control flow, direct integer calls, loads/stores, integer data/symbols and entry-block constant stack allocations.\n"
+
+private def loadModule (path : String) : IO LeanCompilerBackend.Module := do
+  let source ← IO.FS.readFile path
+  match Parser.parseModule source >>= fun m => validateModule m *> pure m with
+  | .ok module => return module
+  | .error message => throw (IO.userError s!"{path}: {message}")
 
 private def loadProgram (path : String) : IO Program := do
-  let source ← IO.FS.readFile path
-  match Parser.parse source >>= fun p => validate p *> pure p with
-  | .ok program => return program
-  | .error message => throw (IO.userError s!"{path}: {message}")
+  let module ← loadModule path
+  if !module.data.isEmpty then
+    throw (IO.userError "module data is outside the first-path profile")
+  return module.functions
 
 private def options : List String → Except String (Option String)
   | [] => .ok none
@@ -81,8 +87,8 @@ private def run (args : List String) : IO UInt32 := do
   | ["--build-identity"] => IO.println Verified.compilerBuildIdentity; return 0
   | [] | ["--help"] => IO.print usage; return 0
   | ["--check", path] =>
-    let program ← loadProgram path
-    IO.println s!"checked {program.size} function(s); initial QBE subset"
+    let module ← loadModule path
+    IO.println s!"checked {module.functions.size} function(s), {module.data.size} data definition(s); initial QBE subset"
     return 0
   | "--first-path-eval" :: path :: name :: values =>
     let program ← loadProgram path
@@ -158,10 +164,10 @@ private def run (args : List String) : IO UInt32 := do
     | none => IO.print assembly
     return 0
   | "--eval" :: path :: name :: values =>
-    let program ← loadProgram path
+    let module ← loadModule path
     let result := do
       let arguments ← values.toArray.mapM argument
-      Semantics.evaluateProgram program name arguments
+      Semantics.evaluateModule module name arguments
     match result with
     | .ok (some value) => IO.println value; return 0
     | .ok none => IO.println "void"; return 0
@@ -171,8 +177,8 @@ private def run (args : List String) : IO UInt32 := do
     let output ← match options rest with
       | .ok value => pure value
       | .error message => throw (IO.userError message)
-    let program ← loadProgram path
-    let assembly ← match AArch64.emit program with
+    let module ← loadModule path
+    let assembly ← match AArch64.emitModule module with
       | .ok text => pure text
       | .error message => throw (IO.userError message)
     match output with

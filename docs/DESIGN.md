@@ -2,6 +2,8 @@
 
 The first complete compatibility milestone is a general-purpose QBE 1.3 port
 in Lean 4. The current code is a bounded subset, not an end-to-end verified backend.
+The compatibility module API includes packed integer data, global addresses and
+64-bit pointer initializers; the function-only first proof profile excludes these.
 The [roadmap](../ROADMAP.md) prioritizes full QBE compatibility before further
 formal proof expansion. Existing semantic contracts, independent function jobs,
 typed lowering and proofs remain maintained; C01 composition is deferred.

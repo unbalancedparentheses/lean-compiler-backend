@@ -75,11 +75,14 @@ def compare (width : Width) (op : Comparison) (a b : UInt64) : UInt64 :=
     | .unsignedGT => a > b
   if result then 1 else 0
 
-private def operand (locals : List (String × UInt64)) (width : Width)
+private def operand (symbols locals : List (String × UInt64)) (width : Width)
     (value : Operand) : Except String UInt64 := do
   match value with
   | .constant n => return constant width n
-  | .symbol name => throw s!"external symbol ${name} has no interpreter model; result not evaluated"
+  | .symbol name =>
+    match symbols.lookup name with
+    | some address => pure (normalize width address)
+    | none => throw s!"external symbol ${name} has no interpreter model; result not evaluated"
   | .temporary name =>
     match locals.lookup name with
     | some v => return normalize width v
@@ -92,6 +95,7 @@ private def updateLocal (locals : List (String × UInt64)) (name : String) (valu
 /-- A shared budget bounds blocks across the entire interpreted call tree. -/
 private structure ExecutionState where
   memory : Memory := {}
+  symbols : List (String × UInt64) := []
   remainingBlocks : Nat := 100000
 
 private abbrev CallHandler := String → Array UInt64 → ExecutionState →
@@ -101,35 +105,35 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
     (locals : List (String × UInt64)) (state : ExecutionState)
     : Except String (UInt64 × ExecutionState) := do
   match inst.operation with
-  | .copy v => pure (← operand locals inst.width v, state)
+  | .copy v => pure (← operand state.symbols locals inst.width v, state)
   | .binary op a b =>
-    let lhs ← operand locals inst.width a
-    let rhs ← operand locals (op.rhsWidth inst.width) b
+    let lhs ← operand state.symbols locals inst.width a
+    let rhs ← operand state.symbols locals (op.rhsWidth inst.width) b
     pure (binary inst.width op lhs rhs, state)
   | .unary op value =>
-    let input ← operand locals (op.inputWidth inst.width) value
+    let input ← operand state.symbols locals (op.inputWidth inst.width) value
     pure (unary inst.width op input, state)
   | .divide op a b =>
-    let lhs ← operand locals inst.width a
-    let rhs ← operand locals inst.width b
+    let lhs ← operand state.symbols locals inst.width a
+    let rhs ← operand state.symbols locals inst.width b
     pure (← divide inst.width op lhs rhs, state)
   | .compare op width a b =>
-    let lhs ← operand locals width a
-    let rhs ← operand locals width b
+    let lhs ← operand state.symbols locals width a
+    let rhs ← operand state.symbols locals width b
     pure (compare width op lhs rhs, state)
   | .allocate alignment size =>
-    let size ← operand locals .long size
+    let size ← operand state.symbols locals .long size
     let (address, memory) ← state.memory.allocate alignment size.toNat
     pure (address, { state with memory })
   | .load kind address =>
-    let address ← operand locals .long address
+    let address ← operand state.symbols locals .long address
     let value ← state.memory.read address (kind.bytes inst.width)
     let extended := match kind.signedBits with
       | some bits => constant inst.width (signedBits bits value)
       | none => normalize inst.width value
     pure (extended, state)
   | .call target arguments =>
-    let values ← arguments.mapM fun argument => operand locals argument.width argument.value
+    let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
     let (result, updated) ← call target values state
     let some value := result | throw "void call cannot define an integer result"
     pure (normalize inst.width value, updated)
@@ -146,18 +150,18 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       locals := updateLocal locals inst.destination value
       state := updated
     | .store width value address =>
-      let value ← operand locals width.valueWidth value
-      let address ← operand locals .long address
+      let value ← operand state.symbols locals width.valueWidth value
+      let address ← operand state.symbols locals .long address
       let memory ← state.memory.write address width.bytes value
       state := { state with memory }
     | .callVoid target arguments =>
-      let values ← arguments.mapM fun argument => operand locals argument.width argument.value
+      let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
       let (result, updated) ← call target values state
       if result.isSome then throw "non-void call requires a return temporary"
       state := updated
     | .blit source destination bytes =>
-      let source ← operand locals .long source
-      let destination ← operand locals .long destination
+      let source ← operand state.symbols locals .long source
+      let destination ← operand state.symbols locals .long destination
       let memory ← state.memory.blit source destination bytes
       state := { state with memory }
   pure (locals, state)
@@ -175,7 +179,7 @@ private def execute (call : CallHandler) (f : Function) : Nat → String → Opt
       let some pred := predecessor | throw "entry block cannot execute phi definitions"
       let some (_, value) := phi.incoming.find? (·.1 == pred)
         | throw s!"phi %{phi.destination} has no incoming edge from @{pred}"
-      let result ← operand environment phi.width value
+      let result ← operand state.symbols environment phi.width value
       pure (phi.destination, result)
     let mut locals := environment
     for (name, value) in updates do locals := updateLocal locals name value
@@ -184,12 +188,12 @@ private def execute (call : CallHandler) (f : Function) : Nat → String → Opt
     | .ret value =>
       let result ← value.mapM fun value => do
         let some width := f.resultWidth | throw "void function cannot return an integer"
-        operand executed width value
+        operand state.symbols executed width value
       pure (result, state)
     | .halt => throw "QBE hlt reached: target-dependent program termination"
     | .jump target => execute call f fuel target (some label) executed state
     | .branch condition yes no => do
-      let value ← operand executed .word condition
+      let value ← operand state.symbols executed .word condition
       execute call f fuel (if value != 0 then yes else no) (some label) executed state
 
 private def invoke (program : Program) : Nat → Function → Array UInt64 → ExecutionState →
@@ -215,12 +219,47 @@ private def invoke (program : Program) : Nat → Function → Array UInt64 → E
       objects := updated.memory.objects.extract 0 objectCount, allocatedBytes }
     pure (value, { updated with memory })
 
-def evaluateProgram (program : Program) (name : String) (arguments : Array UInt64)
+/-- Allocate all objects before resolving initializers, allowing forward/self references. -/
+private def initializeModule (module : Module) : Except String ExecutionState := do
+  let mut memory : Memory := {}
+  let mut symbols : List (String × UInt64) := []
+  -- Function identities are opaque non-memory addresses in this interpreter.
+  for i in [:module.functions.size] do
+    symbols := (module.functions[i]!.name, (4096 + 16 * i).toUInt64) :: symbols
+  for data in module.data do
+    let base := alignUp memory.nextAddress data.alignment
+    let object := { base, bytes := Array.replicate data.byteSize (some 0) : MemoryObject }
+    memory := { memory with
+      objects := memory.objects.push object
+      nextAddress := base + data.byteSize + 16
+      allocatedBytes := memory.allocatedBytes + data.byteSize }
+    symbols := (data.name, base.toUInt64) :: symbols
+  for data in module.data do
+    let some base := symbols.lookup data.name | throw "missing initialized data symbol"
+    let mut offset := 0
+    for item in data.items do
+      match item with
+      | .integer width value =>
+        memory ← memory.write (base + offset.toUInt64) width.bytes (constant .long value)
+      | .zeroes _ => pure ()
+      | .address name addend =>
+        let some address := symbols.lookup name
+          | throw s!"external symbol ${name} has no interpreter model; result not evaluated"
+        memory ← memory.write (base + offset.toUInt64) 8 (address + constant .long addend)
+      offset := offset + item.byteSize
+  return { memory, symbols }
+
+def evaluateModule (module : Module) (name : String) (arguments : Array UInt64)
     : Except String (Option UInt64) := do
-  validate program
-  let some f := program.find? (·.name == name) | throw s!"unknown function ${name}"
-  let (value, _) ← invoke program 128 f arguments {}
+  validateModule module
+  let some f := module.functions.find? (·.name == name) | throw s!"unknown function ${name}"
+  let initial ← initializeModule module
+  let (value, _) ← invoke module.functions 128 f arguments initial
   pure value
+
+def evaluateProgram (program : Program) (name : String) (arguments : Array UInt64)
+    : Except String (Option UInt64) :=
+  evaluateModule { functions := program } name arguments
 
 def evaluate (f : Function) (arguments : Array UInt64) : Except String UInt64 := do
   let some value ← evaluateProgram #[f] f.name arguments

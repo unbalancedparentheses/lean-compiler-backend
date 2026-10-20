@@ -103,3 +103,18 @@ mismatches were retained and reported separately, not counted as agreement.
 After adding the final mixed-width phi fixture, `lcb-tests` was rebuilt and
 passed again. No target-emission code changed. This was a development-shell
 regression run, not a fresh sandboxed `nix flake check` or a new certified target.
+
+## Compatibility module data
+
+Module data has packed little-endian integer fields, zero fill and explicit
+power-of-two alignment in 1..64 (default 8, matching the pinned QBE parser).
+Integer initializers truncate to their field width. Long pointer initializers
+resolve symbols plus signed addends; all objects are allocated before resolving
+references, so forward and self references work. Each evaluation starts with
+fresh initialized globals, whose contents persist through calls within that run.
+Function addresses are opaque, non-memory interpreter identities. Unresolved
+external symbols have no interpreter result; native assembly delegates their
+resolution to the linker. Numeric pointer values are not compared across models.
+Data/function name collisions and direct calls to data definitions are rejected.
+The module has a 1 MiB initialized-data resource limit. These features are outside
+the restricted first-path proof domain and remain explicitly uncertified.

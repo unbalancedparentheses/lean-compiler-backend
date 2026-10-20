@@ -13,7 +13,7 @@ structure Token where
   deriving Repr
 
 private def separator (c : Char) : Bool :=
-  c == '(' || c == ')' || c == '{' || c == '}' || c == '=' || c == ','
+  c == '(' || c == ')' || c == '{' || c == '}' || c == '=' || c == ',' || c == '+'
 
 def tokenize (source : String) : Array Token := Id.run do
   let mut tokens := #[]
@@ -288,9 +288,7 @@ private def parseBlocks (resultWidth : Option Width) : Nat → P (Array Block)
       else pure #[block]
     | none => pure #[block]
 
-private def parseFunction : P Function := do
-  let exported := (← peek) == some "export"
-  if exported then discard take
+private def parseFunction (exported : Bool) : P Function := do
   expect "function"
   let resultWidth ← if ((← peek).getD "").startsWith "$" then pure none else some <$> parseWidth
   let name ← parseName '$'
@@ -302,19 +300,85 @@ private def parseFunction : P Function := do
   expect "}"
   return { name, exported, resultWidth, parameters, blocks }
 
-private def parseProgram : Nat → P Program
-  | 0 => failAt "function parsing limit exceeded"
-  | fuel + 1 => do
-    if (← peek).isNone then return #[]
-    let f ← parseFunction
-    return #[f] ++ (← parseProgram fuel)
+private def parseDataInteger : P Int := do
+  let token ← take
+  let some value := token.toInt? | failAt "expected decimal integer data initializer"
+  if value < -(2 ^ 63 : Int) || value > (2 ^ 64 : Int) - 1 then
+    failAt "data constant is outside the supported 64-bit domain"
+  pure value
 
-def parse (source : String) : Except String Program := do
+private def parseData (exported : Bool) : P DataDefinition := do
+  expect "data"
+  let name ← parseName '$'
+  expect "="
+  let alignment ← if (← peek) == some "align" then do
+      discard take
+      let n ← parseDataInteger
+      if n <= 0 || n > 64 then failAt "data alignment must be a power of two in 1..64"
+      pure n.toNat
+    else pure 8
+  expect "{"
+  let mut items := #[]
+  for _ in [:50000] do
+    if (← peek) == some "}" then
+      discard take
+      return { name, exported, alignment, items }
+    let kind ← take
+    if kind == "z" then
+      let bytes ← parseDataInteger
+      if bytes < 0 || bytes > 1024 * 1024 then failAt "zero fill size must be in 0..1048576"
+      items := items.push (.zeroes bytes.toNat)
+    else
+      let width ← match kind with
+        | "b" => pure MemoryWidth.byte | "h" => pure .half
+        | "w" => pure .word | "l" => pure .long
+        | _ => failAt "unsupported data type: expected b, h, w, l or z"
+      let mut count := 0
+      for _ in [:50000] do
+        if (← peek) == some "," || (← peek) == some "}" then break
+        let item ← if ((← peek).getD "").startsWith "$" then do
+            if width != .long then failAt "symbol data initializer currently requires l"
+            let symbol ← parseName '$'
+            let offset ← if (← peek) == some "+" then do
+                discard take
+                parseDataInteger
+              else pure 0
+            pure (DataItem.address symbol offset)
+          else pure (.integer width (← parseDataInteger))
+        items := items.push item
+        count := count + 1
+      if count == 0 then failAt "data field requires at least one initializer"
+    if (← peek) == some "," then discard take
+    else if (← peek) != some "}" then failAt "expected ',' or '}' after data field"
+  failAt "data initializer parsing limit exceeded"
+
+private def parseDefinitions : Nat → P Module
+  | 0 => failAt "module definition parsing limit exceeded"
+  | fuel + 1 => do
+    if (← peek).isNone then return {}
+    let exported := (← peek) == some "export"
+    if exported then discard take
+    if (← peek) == some "data" then
+      let data ← parseData exported
+      let rest ← parseDefinitions fuel
+      return { rest with data := #[data] ++ rest.data }
+    else
+      let f ← parseFunction exported
+      let rest ← parseDefinitions fuel
+      return { rest with functions := #[f] ++ rest.functions }
+
+def parseModule (source : String) : Except String Module := do
   if source.utf8ByteSize > 1024 * 1024 then throw "input exceeds 1 MiB initial resource limit"
   let tokens := tokenize source
-  if tokens.isEmpty then throw "input contains no functions"
+  if tokens.isEmpty then throw "input contains no functions or data"
   if tokens.size > 50000 then throw "input exceeds initial token limit"
-  let (program, _) ← (parseProgram (min (tokens.size + 1) 65)).run { tokens }
+  let (program, _) ← (parseDefinitions (min (tokens.size + 1) 1025)).run { tokens }
   return program
+
+/-- Legacy function-only API rejects data rather than silently discarding it. -/
+def parse (source : String) : Except String Program := do
+  let module ← parseModule source
+  if !module.data.isEmpty then throw "module contains data; use Parser.parseModule"
+  return module.functions
 
 end LeanCompilerBackend.Parser

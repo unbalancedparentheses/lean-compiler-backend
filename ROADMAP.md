@@ -26,8 +26,9 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 5. Resume C01–C03 and expand V01–V05 proof coverage against the established
    implementation. Full compatibility and full certification have separate gates.
 
-The next implementation checkpoint is QBE data definitions and symbol references
-on Apple ARM64, with parser/validation, assembly and native regression coverage.
+The current compatibility slice adds integer data definitions and symbol references
+on Apple ARM64. Next complete string initializers and expand data qualification,
+then address the remaining language and ABI gaps.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding
@@ -128,7 +129,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   storage. Integer loads/stores, entry-block constant stack allocations and
   effect-only constant-size blits are implemented as bounded slices. Blits accept
   0..4096 bytes and require disjoint or identical spans; native code adds no bounds
-  or overlap guards. Data, symbols, dynamic allocation, TLS and linkage remain.
+  or overlap guards. Packed integer data, zero fill, alignment and global symbol references are now
+  implemented and tested, including pointer initializers with addends. Strings,
+  floating initializers, dynamic allocation, TLS and remaining linkage forms remain.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
