@@ -8,6 +8,12 @@ import Std
 
 namespace LeanCompilerBackend
 
+/-- Unquoted QBE identifier grammar; quoted global names are a separate feature. -/
+def validIdentifier (name : String) : Bool :=
+  !name.isEmpty && name.toList.all (fun c =>
+    c.toNat < 128 && (c.isAlphanum || c == '_' || c == '.' || c == '$')) &&
+    (name.toList.head!.isAlpha || name.toList.head! == '_' || name.toList.head! == '.')
+
 inductive Width where
   | word | long
   deriving BEq, DecidableEq, Repr, Inhabited

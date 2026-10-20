@@ -8,9 +8,7 @@ import LeanCompilerBackend.IR
 
 namespace LeanCompilerBackend
 
-private def validName (name : String) : Bool :=
-  !name.isEmpty && name.toList.all (fun c => c.toNat < 128 && (c.isAlphanum || c == '_'))
-    && (name.toList.head!.isAlpha || name.toList.head! == '_')
+private def validName := validIdentifier
 
 private def predecessors (f : Function) (label : String) : List String :=
   f.blocks.toList.filterMap fun block =>

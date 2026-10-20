@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Match QBE's unquoted identifier grammar, including dots and embedded dollar
+  signs, across globals, functions, blocks, parameters and SSA values. Native
+  comparisons cover these names through relocations, calls and phi transfers;
+  malformed or assembly-significant characters remain rejected.
+
 - Add byte string data initializers with UTF-8, escaped quotes/backslashes, common
   control escapes and octal bytes. Tokenization preserves comments and punctuation
   inside strings; emitted byte directives avoid assembler escape ambiguity.

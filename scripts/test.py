@@ -66,7 +66,7 @@ def negatives(work):
         'branch': ('function w $f() { @s jmp @missing }', 'unknown block'),
         'surplus': ('function w $f() { @s ret 0 } junk', "expected 'function'"),
         'malformed': ('function w $f() { @s %r =w add 1 2 ret %r }', "expected ','"),
-        'symbol': ('function w $f.evil() { @s ret 0 }', 'unsupported name'),
+        'symbol': ('function w $f;evil() { @s ret 0 }', 'unsupported name'),
         'too_large': ('function l $f() { @s ret 18446744073709551616 }', '64-bit'),
         'trailing_comma': ('function w $f(w %a,) { @s ret %a }', 'trailing comma'),
         'missing_return': ('function w $f() { @s }', 'prefixed name'),

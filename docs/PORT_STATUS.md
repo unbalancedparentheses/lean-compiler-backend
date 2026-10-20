@@ -109,7 +109,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 
 | Area | Status |
 | --- | --- |
-| integer functions and parameters | partial: ASCII names, decimal literals, w/l or void result, at most 64 w/l parameters |
+| integer functions and parameters | partial: unquoted ASCII QBE names (including dots/dollar signs), decimal literals, w/l or void result, at most 64 w/l parameters |
 | basic blocks, jumps, phi | partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers |
 | calls and variadic functions | partial: direct calls with up to 64 w/l register/stack arguments and a w/l or void result; recursion and external C symbols; indirect calls and variadics remain |
 | floating point and conversions | not implemented |

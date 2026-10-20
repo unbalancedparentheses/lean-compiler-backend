@@ -87,10 +87,8 @@ private def parseName (sigil : Char) : P String := do
   match chars with
   | first :: rest =>
     if first != sigil || rest.isEmpty then failAt s!"expected a {sigil}-prefixed name"
-    if !rest.all (fun c => c.toNat < 128 && (c.isAlphanum || c == '_')) then
-      failAt "unsupported name: use ASCII letters, digits and underscores"
-    if !(rest.head!.isAlpha || rest.head! == '_') then
-      failAt "name must start with a letter or underscore"
+    if !validIdentifier (String.ofList rest) then
+      failAt "unsupported name: expected an unquoted ASCII QBE identifier"
     return String.ofList rest
   | [] => failAt "empty name"
 
