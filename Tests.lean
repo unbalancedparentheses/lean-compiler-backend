@@ -35,6 +35,7 @@ def main : IO Unit := do
   require (valueEquals (Semantics.evaluate chained[0]! #[4294967295]) 4294967294)
     "interpreter must continue after each binary instruction"
   require (isFailure (Semantics.evaluate program[0]! #[])) "arity mismatch must reject"
-  require (isFailure (Parser.parse "export function d $bad() { @s ret 0 }")) "float must reject"
+  require (!(isFailure (Parser.parse "export function d $float() { @s ret d_0 }"))) "floating signature should parse"
+  require (isFailure (Parser.parse "export function :pair $bad() { @s ret 0 }")) "aggregate signature must reject"
   require (isFailure (Parser.parse "function w $bad() { @s ret 0 } trailing")) "surplus input must reject"
   IO.println "unit checks passed"
