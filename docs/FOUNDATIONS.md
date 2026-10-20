@@ -244,8 +244,13 @@ phi lists. `lowerEdge_steps` includes the jump terminator and proves exactly
 `4 * phiCount + 1` MIR steps, ending with the relation for values resolved from
 the original environment. It assumes successful source reads, valid destination
 bounds/widths, canonical layout, and membership of the emitted edge in the
-function. Deriving these premises from admission, and equating the assignment
-fold with the source interpreter's transfer loop, remain open.
+function. `SourceTransferProofs.transfer_correct` now connects the assignment fold to the
+source interpreter's actual array loops and composes it with this edge theorem.
+Its source-side premises exactly express unique predecessor selection, fresh
+destinations, successful operand reads, destination bounds and declared widths.
+The source loop bodies are definitionally equal to those used in the proof;
+the interpreter algorithm was not replaced. Deriving the premises from admission
+and establishing edge membership for arbitrary lowered functions remain open.
 
 The invariant is that every commit reads its
 staged value while preserving the other staging slots. Only after all commits

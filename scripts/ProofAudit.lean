@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.SourceTransferProofs
 import LeanCompilerBackend.Verified.CommitProofs
 import LeanCompilerBackend.Verified.StagingProofs
 import LeanCompilerBackend.Verified.OperandProofs
@@ -131,3 +132,14 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.stagePhis_length
 #print axioms LeanCompilerBackend.Verified.Machine.mir_jump
 #print axioms LeanCompilerBackend.Verified.Machine.lowerEdge_steps
+
+-- Actual source transfer loops compose with the actual emitted MIR edge.
+#print axioms LeanCompilerBackend.Verified.Source.transfer_loops
+#print axioms LeanCompilerBackend.Verified.Source.transferInputs_selected
+#print axioms LeanCompilerBackend.Verified.Source.collectPhi_ok
+#print axioms LeanCompilerBackend.Verified.Source.collectPhis_ok
+#print axioms LeanCompilerBackend.Verified.Source.write_ok
+#print axioms LeanCompilerBackend.Verified.Source.transferTargets_valid
+#print axioms LeanCompilerBackend.Verified.Source.commitPhis_ok
+#print axioms LeanCompilerBackend.Verified.Source.transfer_assigns
+#print axioms LeanCompilerBackend.Verified.Source.transfer_correct

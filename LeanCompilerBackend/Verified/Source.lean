@@ -106,7 +106,7 @@ def read (env : Environment) (width : Width) (operand : Operand)
   if value.width != width then throw .widthMismatch
   pure value
 
-private def write (f : Function) (env : Environment) (id : ValueId) (value : Value)
+def write (f : Function) (env : Environment) (id : ValueId) (value : Value)
     : Except Fault Environment := do
   let some width := f.valueWidths[id]? | throw (.invalidDestination id)
   if id >= env.size then throw (.invalidDestination id)

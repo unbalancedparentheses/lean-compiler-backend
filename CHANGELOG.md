@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Connected the general MIR phi-edge theorem to the source interpreter's actual
+  checked transfer loops, including predecessor uniqueness, duplicate-destination
+  checks, source reads and typed environment updates.
+
 - Proved arbitrary phi commit and composed emitted-edge execution in exactly
   four MIR steps per phi plus the jump, preserving the relation to values
   resolved simultaneously from the predecessor environment.
