@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Unified copy, arithmetic and comparison simulation: every successful source
+  body step has a matching MIR expansion. Operand availability and destination
+  typing are derived from the source step rather than supplied separately.
+
 - Proved source equality and unsigned comparison through their actual four-step
   MIR expansions, including word-sized results for long operands.
 

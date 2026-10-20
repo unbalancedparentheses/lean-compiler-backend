@@ -147,6 +147,11 @@ grep -Fx "'LeanCompilerBackend.Verified.Machine.load_operands' depends on axioms
 grep -Fx "'LeanCompilerBackend.Verified.Machine.comparison_expansion' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.comparison_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.comparison_steps' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.source_write_sound' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.instruction_correct' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.instruction_length' depends on axioms: [propext]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.source_instruction_invert' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.simulate_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 python3 scripts/test.py "$@"
 python3 scripts/integer.py "$@"
 python3 scripts/control.py "$@"

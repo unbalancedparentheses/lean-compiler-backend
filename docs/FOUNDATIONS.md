@@ -224,6 +224,11 @@ operations and their four emitted MIR steps, using the source bitvector result.
 `ComparisonProofs.comparison_steps` proves the four-step equality/unsigned
 comparison expansion for word or long operands and a word result. Whole-function
 preservation and derivation of the instruction-position premises remain open.
+`SimulationProofs.simulate_instruction` unifies all body operations: successful
+source execution supplies operand availability and destination typing through
+an inversion proof of the actual source step and environment write. It still
+requires the source/target instruction-position correspondence, canonical layout
+and the live-frame/value relation.
 
 `TransferProofs.executeMIRList_steps` connects straight-line instruction execution
 to an unbounded `stepMIR` prefix, with exactly one step per instruction. The

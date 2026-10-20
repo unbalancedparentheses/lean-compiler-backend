@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.SimulationProofs
 import LeanCompilerBackend.Verified.ComparisonProofs
 import LeanCompilerBackend.Verified.ArithmeticProofs
 import LeanCompilerBackend.Verified.PhiContextProofs
@@ -193,3 +194,10 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.comparison_expansion
 #print axioms LeanCompilerBackend.Verified.comparison_instruction
 #print axioms LeanCompilerBackend.Verified.comparison_steps
+
+-- Uniform simulation derives typing and availability from successful source steps.
+#print axioms LeanCompilerBackend.Verified.source_write_sound
+#print axioms LeanCompilerBackend.Verified.instruction_correct
+#print axioms LeanCompilerBackend.Verified.instruction_length
+#print axioms LeanCompilerBackend.Verified.source_instruction_invert
+#print axioms LeanCompilerBackend.Verified.simulate_instruction

@@ -21,3 +21,4 @@ import LeanCompilerBackend.Verified.InstructionProofs
 import LeanCompilerBackend.Verified.PhiContextProofs
 import LeanCompilerBackend.Verified.ArithmeticProofs
 import LeanCompilerBackend.Verified.ComparisonProofs
+import LeanCompilerBackend.Verified.SimulationProofs
