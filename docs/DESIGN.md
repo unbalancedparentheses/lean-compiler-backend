@@ -2,9 +2,10 @@
 
 The first complete compatibility milestone is a general-purpose QBE 1.3 port
 in Lean 4. The current code is a bounded subset, not an end-to-end verified backend.
-The [roadmap](../ROADMAP.md) starts semantic contracts, independent function jobs,
-typed lowering and proof composition during the port. Foundations are in progress;
-the implemented pipeline and existing assurance scope are described below.
+The [roadmap](../ROADMAP.md) prioritizes full QBE compatibility before further
+formal proof expansion. Existing semantic contracts, independent function jobs,
+typed lowering and proofs remain maintained; C01 composition is deferred.
+The implemented pipeline and existing assurance scope are described below.
 Concrete consumes the backend through a separate adapter and does not define
 its public IR. QBE is the initial baseline, not a permanent semantic constraint.
 See [UPSTREAM.md](UPSTREAM.md) and the

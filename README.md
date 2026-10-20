@@ -1,12 +1,11 @@
 # Lean Compiler Backend
 
 A general-purpose native compiler backend written in Lean 4, starting with a
-full QBE 1.3 port. Correctness comes first: semantic contracts, independent
-function jobs and typed lowering boundaries now form the restricted first path,
-with proof coverage growing alongside implementation. Full compatibility remains the first
-complete compatibility milestone; tested and certified coverage are reported
-separately. The current implementation is a bounded integer, control-flow, memory
-and direct-call subset. Concrete is a consumer, not a dependency.
+full QBE 1.3 port. Full compatibility is the immediate priority: complete language,
+ABI, optimization and target support before expanding formal proof coverage.
+Executable semantics, existing proofs and regression tests remain required checks;
+tested and certified coverage are reported separately. The current implementation
+is a bounded integer, control-flow, memory and direct-call subset. Concrete is a consumer, not a dependency.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
@@ -183,9 +182,10 @@ Nix configuration retain their respective licenses. See [LICENSE](LICENSE).
 [Backend architecture research](docs/research/backend-architecture.md) collects
 the QBE, CompCert, MLIR, Cranelift, Zig, MIR, Stogov IR, libFirm and LLVM
 comparison, reproducible per-function compilation design, verification
-strategy and design proposals. The [roadmap](ROADMAP.md) adopts the correctness-first
-sequencing: foundations now, a first composed preservation result, then expanding
-compatibility and certification together. The [first verified path specification](docs/research/first-verified-path.md)
+strategy and design proposals. The [roadmap](ROADMAP.md) prioritizes full QBE compatibility:
+complete Apple ARM64 language/ABI coverage, optimization and register allocation,
+then the remaining targets and qualification. Formal proof expansion follows;
+the first composed preservation result is no longer a prerequisite. The [first verified path specification](docs/research/first-verified-path.md)
 defines the restricted integer/loop proof domain, job and artifact schemas,
 stack/typed-assembly representations and worked traces. F00 is complete as a
 design deliverable. [F01 source semantics](docs/SEMANTICS.md) now implement its

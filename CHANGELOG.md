@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Prioritize full QBE compatibility before further formal proof expansion:
+  complete Apple ARM64 language/ABI support, optimizations and register allocation,
+  then remaining targets and qualification. Defer C01–C03 and proof expansion;
+  retain existing proof checks, executable semantics and regression requirements.
+  The next implementation checkpoint is data definitions and symbol references.
+
 - Unified copy, arithmetic and comparison simulation: every successful source
   body step has a matching MIR expansion. Operand availability and destination
   typing are derived from the source step rather than supplied separately.

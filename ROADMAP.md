@@ -1,15 +1,39 @@
 # Roadmap
 
-Correctness is the first priority. Establish semantic contracts, reproducible
-function boundaries and proof structure now; expand implementation and proof
-coverage together. Full QBE 1.3 coverage remains the first complete compatibility
-milestone, with certification reported separately. QBE is the starting baseline
+Full QBE 1.3 compatibility is the immediate development priority. Complete the
+language, ABIs, optimization pipeline and targets before expanding formal proof
+coverage. Preserve executable semantics, reproducible function boundaries, existing
+proofs and strong testing throughout. Certification is a separate later milestone
+and is not a prerequisite for compatibility work. QBE is the starting baseline
 and a fallible comparison implementation, not a permanent constraint on the IR.
 
 This is a general-purpose backend implemented in Lean 4. Concrete is a consumer
 through a separate adapter. The current implementation is a bounded integer,
 control-flow, memory and direct-call subset on Apple ARM64. The existing
 opcode-selection theorem is limited; the backend is not verified end to end.
+
+## Active execution order
+
+1. Complete QBE language and ABI coverage on Apple ARM64 (P05–P07): full syntax,
+   data and symbols, allocation, floating point and conversions, aggregates,
+   indirect calls and variadics. Grow upstream and native ABI tests with each slice.
+2. Implement SSA construction, analyses, optimization, liveness, spilling and
+   register allocation (P08–P09), measuring against the existing stack baseline.
+3. Complete the remaining QBE targets and ABI configurations (P10), including
+   Linux ARM64, Linux x86-64 and Linux RV64 assembly and execution qualification.
+4. Close full-suite and performance qualification (P11–P12). These checks start
+   now and grow throughout the port; they are not deferred until feature completion.
+5. Resume C01–C03 and expand V01–V05 proof coverage against the established
+   implementation. Full compatibility and full certification have separate gates.
+
+The next implementation checkpoint is QBE data definitions and symbol references
+on Apple ARM64, with parser/validation, assembly and native regression coverage.
+Use the compatibility inventory to choose subsequent bounded feature slices.
+C01 is paused as an active workstream; its existing results remain checked.
+New preservation proofs and proved validators are not prerequisites for adding
+features to the explicitly uncertified compatibility pipeline. Keep semantics and
+invariants documented so later verification remains feasible. Commit and push
+validated, coherent checkpoints frequently.
 
 ## Acceptance and reporting rules
 
@@ -90,30 +114,7 @@ identical code dependencies yield identical code fragments across module order,
 unrelated code edits and worker schedules. Debug metadata and evidence obey their
 own dependency contracts. These foundations do not by themselves prove codegen.
 
-## Stage 1 — first composed preservation result
-
-- [ ] C01 — Prove a restricted integer/control-flow path through stack lowering,
-  including a nontrivial loop, simultaneous phi transfers, frame accesses and
-  return behavior. Source/target execution relations are defined; initializer
-  soundness/completeness and concrete entry witnesses are proved. Target-helper
-  lemmas, store-span preservation/initialization, same-width load-after-store and
-  disjoint load preservation are proved. Arbitrary phi staging/commit now connects
-  the source interpreter's checked transfer to actual MIR edges, including jumps,
-  under explicit availability, destination and edge-membership premises. Source
-  copies simulate as two MIR steps. An admitted cyclic loop has unbounded
-  divergence witnesses through source, MIR and typed assembly. Checker soundness,
-  general arithmetic/control instruction simulation, caller-state preservation,
-  typed-assembly expansion and whole-pipeline return/divergence remain open.
-- [ ] C02 — Connect the actual typed lowering implementation to that result;
-  audit axioms and distinguish kernel-checked evidence from native checker execution.
-- [ ] C03 — Publish the exact certified domain and remaining rendering, ISA,
-  assembler and linker assumptions. Test those boundaries independently.
-
-Exit gate: one useful restricted pipeline has a composed preservation statement,
-not only arithmetic opcode lemmas. Memory and calls already implemented outside
-that domain remain explicitly tested but uncertified until covered.
-
-## Stage 2 — expand the QBE baseline and its assurance together
+## Stage 1 — complete QBE compatibility (active priority)
 
 Existing P identifiers and completed checkpoints are retained for traceability.
 
@@ -122,7 +123,7 @@ Existing P identifiers and completed checkpoints are retained for traceability.
 - [x] P03 — Qualify pinned Nix builds, native comparisons and upstream QBE oracle; publish repository checkpoint. Linux and ARM64 macOS CI passed at `17ff48a`.
 - [x] P04 — Inventory every upstream opcode, syntax construct, pass, ABI and target; track implementation and test coverage without blanket completion claims.
 - [ ] P05 — Complete integer operations, conversions, comparisons and control flow,
-  including phi nodes and loops; extend semantic and preservation coverage with them.
+  including phi nodes and loops; extend executable semantics and regression coverage.
 - [ ] P06 — Memory operations, data definitions, symbols, linkage and thread-local
   storage. Integer loads/stores, entry-block constant stack allocations and
   effect-only constant-size blits are implemented as bounded slices. Blits accept
@@ -143,8 +144,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   baseline path for comparison and independently justified fallback.
 - [ ] P09 — Port liveness, spilling and register allocation together with value-flow
   checking. Cover register aliases, call clobbers, saved registers, parallel copies,
-  spills/reloads and frame constraints. Prove checker soundness for the certified
-  domain; structural checks alone are insufficient. Re-run the Concrete factorial
+  spills/reloads and frame constraints. Test value-flow checking now; defer its
+  soundness proof to certification. Structural checks alone do not establish
+  certified correctness. Re-run the Concrete factorial
   baseline and broader workloads after allocation to measure the actual gain.
 - [ ] P10 — Complete upstream AArch64, AMD64 and RV64 targets and supported
   object/ABI conventions, explicitly including Linux AArch64 (ARM64 ELF),
@@ -165,16 +167,45 @@ targets, ABIs and passes, with known discrepancies explicit. A working subset or
 wrapper around C QBE is not the full port. Publish separate compatibility and
 certification matrices; full compatibility does not imply full certification.
 
-## Verification workstream — runs through all stages
+## Stage 2 — resume formal certification after QBE compatibility
 
-These V items are no longer deferred to a post-port phase.
+- [ ] C01 — Prove a restricted integer/control-flow path through stack lowering,
+  including a nontrivial loop, simultaneous phi transfers, frame accesses and
+  return behavior. Source/target execution relations are defined; initializer
+  soundness/completeness and concrete entry witnesses are proved. Target-helper
+  lemmas, store-span preservation/initialization, same-width load-after-store and
+  disjoint load preservation are proved. Arbitrary phi staging/commit now connects
+  the source interpreter's checked transfer to actual MIR edges, including jumps,
+  under explicit availability, destination and edge-membership premises. Source
+  copies simulate as two MIR steps; arithmetic and comparison expansions are
+  proved, with a uniform simulation theorem for successful source body steps.
+  An admitted cyclic loop has unbounded
+  divergence witnesses through source, MIR and typed assembly. Checker soundness,
+  instruction-position and block-membership derivation, general control-flow
+  simulation, caller-state preservation,
+  typed-assembly expansion and whole-pipeline return/divergence remain open.
+- [ ] C02 — Connect the actual typed lowering implementation to that result;
+  audit axioms and distinguish kernel-checked evidence from native checker execution.
+- [ ] C03 — Publish the exact certified domain and remaining rendering, ISA,
+  assembler and linker assumptions. Test those boundaries independently.
+
+Exit gate: one useful restricted pipeline has a composed preservation statement,
+not only arithmetic opcode lemmas. Memory and calls already implemented outside
+that domain remain explicitly tested but uncertified until covered.
+
+## Verification workstream — proof expansion deferred until after compatibility
+
+Maintain existing proofs and executable semantics during the port. The following
+proof expansion and composition obligations resume after full QBE compatibility;
+they do not block implementation milestones in the uncertified pipeline.
 
 - [ ] V01 — Precise source IR and target-machine semantics, including UB/traps,
   memory and external interactions. Begin in F01 and extend with each feature.
 - [ ] V02 — Prove checker invariants and semantic preservation of lowering/passes,
   beginning with C01. Keep theorem scope aligned with the actual implementation.
 - [ ] V03 — Prove allocation/spill correctness directly or prove the soundness of
-  a validator checking proposed results. Develop alongside P09.
+  a validator checking proposed results. Reuse the invariants and validation
+  infrastructure established in P09.
 - [ ] V04 — Cover rendered assembly, then actual encoding and relocations. Separate
   model validity, encoder correctness and assembler/linker assumptions explicitly.
 - [ ] V05 — Compose supported-domain results and audit trusted boundaries. Plan
@@ -206,11 +237,11 @@ assembly theorem or successful decoding alone does not close the machine-code ga
   and corruption. Maintain deterministic release layout independently of any
   history-dependent incremental-linking mode.
 
-These stages describe acceptance gates, not a strictly serial implementation
-schedule. Compatibility work can continue while foundations and proofs develop;
+These stages describe acceptance gates. The active execution order above takes
+priority: complete compatibility before resuming formal proof expansion;
 E03 can begin once job/artifact contracts stabilize, and encoding work can begin
-once typed target lowering is stable. Additional optimizations and consumers must
-not displace the first composed correctness result. No universal performance or
+once typed target lowering is stable. Beyond-QBE optimizations and consumers must
+not displace full QBE compatibility. No universal performance or
 end-to-end correctness claim precedes its measurements or proof.
 
 ## Qualification throughout development
