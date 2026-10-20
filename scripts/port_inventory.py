@@ -34,7 +34,7 @@ def report():
              f'- {len(private)} internal opcode names; no complete internal-operation port yet.',
              f'- {len(targets)} upstream target/ABI configurations; one partial initial target.',
              f'- {len(modules)} compiler C/header modules; no complete module-for-module port yet.',
-             f'- {len(tests)} upstream SSA fixtures retained; full-suite qualification is pending.', '',
+             f'- {len(tests)} upstream SSA fixtures retained; partial qualification is tracked in [UPSTREAM_COVERAGE.md](UPSTREAM_COVERAGE.md).', '',
              'A supported opcode name may have unimplemented types (especially floating point).',
              'Integer-parameter ABI tests and generated programs do not qualify the full upstream suite.', '',
              '## Public operations', '', '| Opcode | Accepted result/value forms |', '| --- | --- |']

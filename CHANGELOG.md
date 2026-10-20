@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Scan all 76 retained upstream SSA fixtures and prevent emission regressions in
+  CI. The first native compatibility checkpoint emits 35: 27 runnable fixtures
+  pass original drivers/output expectations with both Lean and QBE output, and
+  eight development fixtures assemble only. The other 41 remain unsupported and
+  are reported separately. Preserve artifacts for native failures.
+
 - Support indirect integer/void calls through long operands on Apple ARM64,
   sharing direct-call argument/frame handling through 64 mixed w/l arguments.
   The interpreter resolves defined function identities and rejects unknown targets

@@ -8,7 +8,7 @@ Counts describe inventory, not correctness or complete compatibility.
 - 70 internal opcode names; no complete internal-operation port yet.
 - 6 upstream target/ABI configurations; one partial initial target.
 - 37 compiler C/header modules; no complete module-for-module port yet.
-- 76 upstream SSA fixtures retained; full-suite qualification is pending.
+- 76 upstream SSA fixtures retained; partial qualification is tracked in [UPSTREAM_COVERAGE.md](UPSTREAM_COVERAGE.md).
 
 A supported opcode name may have unimplemented types (especially floating point).
 Integer-parameter ABI tests and generated programs do not qualify the full upstream suite.

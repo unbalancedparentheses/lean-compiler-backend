@@ -7,6 +7,9 @@ Executable semantics, existing proofs and regression tests remain required check
 tested and certified coverage are reported separately. The current implementation
 is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
 
+The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 27 native
+passes, eight assemble-only fixtures and 41 unsupported inputs out of 76.
+
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
 backend for compiling the Lean language itself.
