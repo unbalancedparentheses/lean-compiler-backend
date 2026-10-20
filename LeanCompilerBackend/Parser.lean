@@ -15,13 +15,30 @@ structure Token where
 private def separator (c : Char) : Bool :=
   c == '(' || c == ')' || c == '{' || c == '}' || c == '=' || c == ',' || c == '+'
 
+/-- Preserve quoted strings before recognizing comments and punctuation. -/
 def tokenize (source : String) : Array Token := Id.run do
   let mut tokens := #[]
   for (lineIndex, line) in source.splitOn "\n" |>.zipIdx |>.map (fun (s, i) => (i, s)) do
-    let line := (line.splitOn "#").head!
     let mut current := ""
+    let mut quoted := false
+    let mut escaped := false
+    let mut comment := false
     for c in line.toList do
-      if c.isWhitespace || separator c then
+      if comment then continue
+      if quoted then
+        current := current.push c
+        if escaped then escaped := false
+        else if c == '\\' then escaped := true
+        else if c == '"' then
+          quoted := false
+          tokens := tokens.push ⟨current, lineIndex + 1⟩
+          current := ""
+      else if c == '"' then
+        quoted := true
+        current := current.push c
+      else if c == '#' then
+        comment := true
+      else if c.isWhitespace || separator c then
         if !current.isEmpty then
           tokens := tokens.push ⟨current, lineIndex + 1⟩
           current := ""
@@ -307,6 +324,41 @@ private def parseDataInteger : P Int := do
     failAt "data constant is outside the supported 64-bit domain"
   pure value
 
+private def parseDataString : P (Array UInt8) := do
+  let token ← take
+  let chars := token.toList.toArray
+  if chars.size < 2 || chars[0]! != '"' || chars[chars.size - 1]! != '"' then
+    failAt "unterminated data string (multiline strings are not yet supported)"
+  let mut result := #[]
+  let mut index := 1
+  for _ in [:chars.size] do
+    if index >= chars.size - 1 then return result
+    let c := chars[index]!
+    index := index + 1
+    if c != '\\' then
+      result := result ++ (String.singleton c).toUTF8.data
+    else
+      if index >= chars.size - 1 then failAt "unterminated string escape"
+      let escape := chars[index]!
+      index := index + 1
+      if '0' <= escape && escape <= '7' then
+        let mut value := escape.toNat - '0'.toNat
+        for _ in [:2] do
+          if index < chars.size - 1 && '0' <= chars[index]! && chars[index]! <= '7' then
+            value := value * 8 + chars[index]!.toNat - '0'.toNat
+            index := index + 1
+          else break
+        if value > 255 then failAt "octal string escape exceeds one byte"
+        result := result.push value.toUInt8
+      else
+        let value ← match escape with
+          | 'n' => pure 10 | 'r' => pure 13 | 't' => pure 9
+          | 'b' => pure 8 | 'f' => pure 12 | 'v' => pure 11 | 'a' => pure 7
+          | '\\' => pure 92 | '"' => pure 34
+          | _ => failAt "unsupported string escape; use an octal byte escape"
+        result := result.push value
+  failAt "string decoding limit exceeded"
+
 private def parseData (exported : Bool) : P DataDefinition := do
   expect "data"
   let name ← parseName '$'
@@ -336,7 +388,10 @@ private def parseData (exported : Bool) : P DataDefinition := do
       let mut count := 0
       for _ in [:50000] do
         if (← peek) == some "," || (← peek) == some "}" then break
-        let item ← if ((← peek).getD "").startsWith "$" then do
+        let item ← if ((← peek).getD "").startsWith "\"" then do
+            if width != .byte then failAt "string initializer requires b"
+            pure (DataItem.byteString (← parseDataString))
+          else if ((← peek).getD "").startsWith "$" then do
             if width != .long then failAt "symbol data initializer currently requires l"
             let symbol ← parseName '$'
             let offset ← if (← peek) == some "+" then do

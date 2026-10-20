@@ -332,6 +332,11 @@ private def emitData (data : DataDefinition) : String := Id.run do
       let bits := (BitVec.ofInt (width.bytes * 8) value).toNat
       lines := lines ++ [s!"\t{directive} {bits}"]
     | .zeroes bytes => lines := lines ++ [s!"\t.zero {bytes}"]
+    | .byteString values =>
+      -- Emit decoded bytes, avoiding assembler-specific string escape semantics.
+      for start in [0:values.size:16] do
+        let chunk := (values.extract start (start + 16)).toList.map (fun v => toString v.toNat)
+        lines := lines ++ ["\t.byte " ++ String.intercalate ", " chunk]
     | .address name offset =>
       let suffix := if offset < 0 then toString offset else "+" ++ toString offset
       lines := lines ++ [s!"\t.quad _{name}{suffix}"]

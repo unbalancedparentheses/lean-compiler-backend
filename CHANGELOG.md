@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add byte string data initializers with UTF-8, escaped quotes/backslashes, common
+  control escapes and octal bytes. Tokenization preserves comments and punctuation
+  inside strings; emitted byte directives avoid assembler escape ambiguity.
+  Seeded packed-data tests compare exact object bytes, alignment and checksums
+  across Python, interpretation, native Lean output and pinned QBE.
+
 - Add module-level packed integer data, zero fill, alignment and 64-bit symbol
   relocations with addends on Apple ARM64. The interpreter initializes globals in
   two phases for forward/self references and preserves them across calls. Support

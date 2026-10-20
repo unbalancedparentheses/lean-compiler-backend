@@ -108,7 +108,10 @@ regression run, not a fresh sandboxed `nix flake check` or a new certified targe
 
 Module data has packed little-endian integer fields, zero fill and explicit
 power-of-two alignment in 1..64 (default 8, matching the pinned QBE parser).
-Integer initializers truncate to their field width. Long pointer initializers
+Integer initializers truncate to their field width. Byte strings preserve UTF-8,
+common control escapes, escaped quotes/backslashes and one-to-three-digit octal
+byte escapes; they add no implicit terminator. Multiline strings and other escape
+forms currently reject explicitly. Long pointer initializers
 resolve symbols plus signed addends; all objects are allocated before resolving
 references, so forward and self references work. Each evaluation starts with
 fresh initialized globals, whose contents persist through calls within that run.

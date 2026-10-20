@@ -179,12 +179,14 @@ abbrev Program := Array Function
 inductive DataItem where
   | integer (width : MemoryWidth) (value : Int)
   | zeroes (bytes : Nat)
+  | byteString (values : Array UInt8)
   | address (name : String) (offset : Int)
   deriving Repr, Inhabited
 
 def DataItem.byteSize : DataItem → Nat
   | .integer width _ => width.bytes
   | .zeroes bytes => bytes
+  | .byteString values => values.size
   | .address .. => 8
 
 structure DataDefinition where
