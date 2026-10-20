@@ -127,13 +127,13 @@ Existing P identifiers and completed checkpoints are retained for traceability.
 - [ ] P05 — Complete integer operations, conversions, comparisons and control flow,
   including phi nodes and loops; extend executable semantics and regression coverage.
 - [ ] P06 — Memory operations, data definitions, symbols, linkage and thread-local
-  storage. Integer loads/stores, entry-block constant stack allocations and
+  storage. Integer loads/stores, constant and runtime stack allocations and
   effect-only constant-size blits are implemented as bounded slices. Blits accept
   0..4096 bytes and require disjoint or identical spans; native code adds no bounds
   or overlap guards. Packed integer data, zero fill, alignment and global symbol references are now
   implemented and tested, including pointer initializers with addends and byte
-  strings and IEEE floating constant initializers. Dynamic allocation, TLS and
-  remaining linkage forms remain.
+  strings and IEEE floating constant initializers. Runtime-sized and non-entry
+  allocations now pass native call/frame tests. TLS and remaining linkage forms remain.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
@@ -164,8 +164,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  36/76 inputs: 28 original executable fixtures pass natively, eight development
-  fixtures assemble only, and 40 remain unsupported. CI prevents emission
+  37/76 inputs: 29 original executable fixtures pass natively, eight development
+  fixtures assemble only, and 39 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

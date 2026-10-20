@@ -68,7 +68,7 @@ private def immediate (width : Width) (destination : Nat) (value : Int) : List S
     if chunk != 0 then result := result ++ [s!"\tmovk {r}, #{chunk}, lsl #{shift}"]
   return result
 
-private def load (slots : List (String × Nat)) (width : Width) (destination : Nat)
+private def load (base : String) (slots : List (String × Nat)) (width : Width) (destination : Nat)
     (value : Operand) : Except String (List String) := do
   match value with
   | .constant n => return immediate width destination n
@@ -79,7 +79,7 @@ private def load (slots : List (String × Nat)) (width : Width) (destination : N
       ++ (if width == .word then [s!"\tmov {register .word destination}, {register .word destination}"] else [])
   | .temporary name =>
     match slots.lookup name with
-    | some offset => return [s!"\tldr {register width destination}, [sp, #{offset}]"]
+    | some offset => return [s!"\tldr {register width destination}, [{base}, #{offset}]"]
     | none => throw s!"missing stack slot for %{name}"
 
 private def condition : Comparison → String
@@ -137,22 +137,26 @@ def argumentLayout (widths : Array Width) : ArgumentLayout := Id.run do
       offset := offset + bytes
   return { locations, stackBytes := alignUp offset 16 }
 
-private def emitCall (slots : List (String × Nat)) (target : CallTarget)
+private def emitCall (base : String) (slots : List (String × Nat)) (target : CallTarget)
     (arguments : Array CallArgument) : Except String (List String) := do
   let mut lines := []
   let layout := argumentLayout (arguments.map (·.width))
+  let dynamicOutgoing := base == "x29" && layout.stackBytes != 0
+  if dynamicOutgoing then lines := lines ++ [s!"\tsub sp, sp, #{layout.stackBytes}"]
   for i in [:arguments.size] do
     let argument := arguments[i]!
     match layout.locations[i]! with
-    | .register index => lines := lines ++ (← load slots argument.width index argument.value)
+    | .register index => lines := lines ++ (← load base slots argument.width index argument.value)
     | .stack offset =>
-      lines := lines ++ (← load slots argument.width 9 argument.value)
+      lines := lines ++ (← load base slots argument.width 9 argument.value)
       lines := lines ++ [s!"\tstr {register argument.width 9}, [sp, #{offset}]"]
-  match target with
-  | .direct name => pure (lines ++ [s!"\tbl _{name}"])
-  | .indirect address =>
-    -- Load the target after argument setup; x16 is reserved as call scratch.
-    pure (lines ++ (← load slots .long 16 address) ++ ["\tblr x16"])
+  let branch ← match target with
+    | .direct name => pure [s!"\tbl _{name}"]
+    | .indirect address =>
+      -- Load the target after argument setup; x16 is reserved as call scratch.
+      pure ((← load base slots .long 16 address) ++ ["\tblr x16"])
+  let restore := if dynamicOutgoing then [s!"\tadd sp, sp, #{layout.stackBytes}"] else []
+  pure (lines ++ branch ++ restore)
 
 /-- Split frame adjustments into the two legal AArch64 immediate scales. -/
 private def adjustStack (op : String) (bytes : Nat) : List String := Id.run do
@@ -163,10 +167,10 @@ private def adjustStack (op : String) (bytes : Nat) : List String := Id.run do
     lines := lines ++ [s!"\t{op} sp, sp, #{bytes % 4096}"]
   return lines
 
-private def stackAddress (destination offset : Nat) : List String := Id.run do
+private def stackAddress (base : String) (destination offset : Nat) : List String := Id.run do
   let r := register .long destination
-  if offset < 4096 then return [s!"\tadd {r}, sp, #{offset}"]
-  let mut lines := [s!"\tadd {r}, sp, #{offset / 4096}, lsl #12"]
+  if offset < 4096 then return [s!"\tadd {r}, {base}, #{offset}"]
+  let mut lines := [s!"\tadd {r}, {base}, #{offset / 4096}, lsl #12"]
   if offset % 4096 != 0 then
     lines := lines ++ [s!"\tadd {r}, {r}, #{offset % 4096}"]
   return lines
@@ -174,24 +178,24 @@ private def stackAddress (destination offset : Nat) : List String := Id.run do
 private def loadIncoming (width : Width) (offset : Nat) : List String :=
   if offset % width.bytes == 0 && offset / width.bytes < 4096 then
     [s!"\tldr {register width 9}, [sp, #{offset}]"]
-  else stackAddress 10 offset ++ [s!"\tldr {register width 9}, [x10]"]
+  else stackAddress "sp" 10 offset ++ [s!"\tldr {register width 9}, [x10]"]
 
-private def emitInstruction (slots allocations : List (String × Nat)) (inst : Instruction)
+private def emitInstruction (base : String) (slots allocations : List (String × Nat)) (inst : Instruction)
     : Except String (List String) := do
   let mut lines : List String := []
   match inst.operation with
-  | .copy value => lines := lines ++ (← load slots inst.width 9 value)
+  | .copy value => lines := lines ++ (← load base slots inst.width 9 value)
   | .binary op a b =>
-    lines := lines ++ (← load slots inst.width 9 a)
-    lines := lines ++ (← load slots (op.rhsWidth inst.width) 10 b)
+    lines := lines ++ (← load base slots inst.width 9 a)
+    lines := lines ++ (← load base slots (op.rhsWidth inst.width) 10 b)
     let r := register inst.width 9
     lines := lines ++ [s!"\t{mnemonic (select op)} {r}, {r}, {register inst.width 10}"]
   | .unary op value =>
-    lines := lines ++ (← load slots (op.inputWidth inst.width) 9 value)
+    lines := lines ++ (← load base slots (op.inputWidth inst.width) 9 value)
     lines := lines ++ unaryInstruction inst.width op
   | .divide op a b =>
-    lines := lines ++ (← load slots inst.width 9 a)
-    lines := lines ++ (← load slots inst.width 10 b)
+    lines := lines ++ (← load base slots inst.width 9 a)
+    lines := lines ++ (← load base slots inst.width 10 b)
     let instruction := if op == .signedDiv || op == .signedRem then "sdiv" else "udiv"
     let r9 := register inst.width 9
     let r10 := register inst.width 10
@@ -200,32 +204,37 @@ private def emitInstruction (slots allocations : List (String × Nat)) (inst : I
       lines := lines ++ [s!"\t{instruction} {r11}, {r9}, {r10}", s!"\tmsub {r9}, {r11}, {r10}, {r9}"]
     else lines := lines ++ [s!"\t{instruction} {r9}, {r9}, {r10}"]
   | .compare op width a b =>
-    lines := lines ++ (← load slots width 9 a)
-    lines := lines ++ (← load slots width 10 b)
+    lines := lines ++ (← load base slots width 9 a)
+    lines := lines ++ (← load base slots width 10 b)
     lines := lines ++ [s!"\tcmp {register width 9}, {register width 10}", s!"\tcset w9, {condition op}"]
-  | .allocate _ _ =>
-    let offset ← slotOffset allocations inst.destination
-    lines := lines ++ stackAddress 9 offset
+  | .allocate _ size =>
+    if base == "x29" then
+      lines := lines ++ (← load base slots .long 9 size)
+      lines := lines ++ ["\tadd x9, x9, #15", "\tand x9, x9, #-16",
+        "\tsub sp, sp, x9", "\tmov x9, sp"]
+    else
+      let offset ← slotOffset allocations inst.destination
+      lines := lines ++ stackAddress base 9 offset
   | .load kind address =>
-    lines := lines ++ (← load slots .long 9 address)
+    lines := lines ++ (← load base slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
   | .call target arguments =>
     -- Sources are stable stack slots: argument-register permutations cannot
     -- overwrite an argument that has not yet been loaded. All other live values
     -- also survive caller-saved clobbers in their own frame slots.
-    lines := lines ++ (← emitCall slots target arguments)
+    lines := lines ++ (← emitCall base slots target arguments)
     lines := lines ++ [s!"\tmov {register inst.width 9}, {register inst.width 0}"]
   let offset ← slotOffset slots inst.destination
-  pure (lines ++ [s!"\tstr {register inst.width 9}, [sp, #{offset}]"])
+  pure (lines ++ [s!"\tstr {register inst.width 9}, [{base}, #{offset}]"])
 
-private def emitStatement (slots allocations : List (String × Nat))
+private def emitStatement (base : String) (slots allocations : List (String × Nat))
     (statement : Statement) : Except String (List String) := do
   match statement with
-  | .assign inst => emitInstruction slots allocations inst
-  | .callVoid target arguments => emitCall slots target arguments
+  | .assign inst => emitInstruction base slots allocations inst
+  | .callVoid target arguments => emitCall base slots target arguments
   | .blit source destination bytes =>
     if bytes == 0 then return []
-    let mut lines := (← load slots .long 9 source) ++ (← load slots .long 10 destination)
+    let mut lines := (← load base slots .long 9 source) ++ (← load base slots .long 10 destination)
     let mut offset := 0
     -- Unaligned ordinary integer accesses are supported by the initial target.
     -- Partial source/destination overlap is outside QBE's defined blit domain.
@@ -240,8 +249,8 @@ private def emitStatement (slots allocations : List (String × Nat))
         offset := offset + size
     pure lines
   | .store width value address =>
-    let addressLines ← load slots .long 9 address
-    let valueLines ← load slots width.valueWidth 10 value
+    let addressLines ← load base slots .long 9 address
+    let valueLines ← load base slots width.valueWidth 10 value
     let instruction := match width with
       | .byte => "strb w10" | .half => "strh w10"
       | .word => "str w10" | .long => "str x10"
@@ -254,7 +263,7 @@ private def edgeLabel (f : Function) (label : String) : String :=
   s!"L_lcb_edge_{f.name.length}_{f.name}_{label}"
 
 /-- Phi lowering stages every source before changing any destination slot. -/
-private def emitEdge (f : Function) (slots : List (String × Nat)) (stageBase : Nat)
+private def emitEdge (base : String) (f : Function) (slots : List (String × Nat)) (stageBase : Nat)
     (predecessor target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw s!"unknown block @{target}"
   let mut lines := []
@@ -262,23 +271,33 @@ private def emitEdge (f : Function) (slots : List (String × Nat)) (stageBase : 
     let phi := block.phis[i]!
     let some (_, value) := phi.incoming.find? (·.1 == predecessor)
       | throw s!"missing phi predecessor @{predecessor}"
-    lines := lines ++ (← load slots phi.width 9 value)
-    lines := lines ++ [s!"\tstr {register phi.width 9}, [sp, #{stageBase + i * 8}]"]
+    lines := lines ++ (← load base slots phi.width 9 value)
+    lines := lines ++ [s!"\tstr {register phi.width 9}, [{base}, #{stageBase + i * 8}]"]
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
     let offset ← slotOffset slots phi.destination
     let r := register phi.width 9
-    lines := lines ++ [s!"\tldr {r}, [sp, #{stageBase + i * 8}]", s!"\tstr {r}, [sp, #{offset}]"]
+    lines := lines ++ [s!"\tldr {r}, [{base}, #{stageBase + i * 8}]", s!"\tstr {r}, [{base}, #{offset}]"]
   pure lines
 
 def emitFunction (f : Function) : Except String String := do
   validateFunction f
   let localNames := f.locals
+  let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
+    match statement with
+    | .assign { operation := .allocate _ size, .. } =>
+      block.label != f.blocks[0]!.label || match size with
+        | .constant _ => false | _ => true
+    | _ => false
+  let base := if dynamic then "x29" else "sp"
   let mut outgoing := 0
   for block in f.blocks do
     for statement in block.instructions do
       if let some (_, arguments, _) := statement.callSite then
         outgoing := max outgoing (argumentLayout (arguments.map (·.width))).stackBytes
+  -- Dynamic functions reserve a canonical FP/LR record here and place outgoing
+  -- arguments at each call's current SP, below any dynamic objects.
+  if dynamic then outgoing := 16
   -- The outgoing argument area is below all locals, phi staging, saved LR and
   -- allocation objects. Calls can overwrite it without destroying live values.
   let slots := localNames.toList.zipIdx.map fun ((name, _), i) => (name, outgoing + i * 8)
@@ -287,14 +306,15 @@ def emitFunction (f : Function) : Except String String := do
   let mut frameEnd := outgoing + (localNames.size + maxPhis) * 8
   let hasCalls := f.blocks.any fun block => block.instructions.any (·.callSite.isSome)
   let returnAddress := frameEnd
-  if hasCalls then frameEnd := frameEnd + 8
+  if hasCalls && !dynamic then frameEnd := frameEnd + 8
   let mut allocations : List (String × Nat) := []
-  for statement in f.blocks[0]!.instructions do
-    if let .assign inst := statement then
-      if let .allocate alignment (.constant size) := inst.operation then
-        let offset := alignUp frameEnd alignment.bytes
-        allocations := (inst.destination, offset) :: allocations
-        frameEnd := offset + size.toNat
+  if !dynamic then
+    for statement in f.blocks[0]!.instructions do
+      if let .assign inst := statement then
+        if let .allocate alignment (.constant size) := inst.operation then
+          let offset := alignUp frameEnd alignment.bytes
+          allocations := (inst.destination, offset) :: allocations
+          frameEnd := offset + size.toNat
   let frame := alignUp frameEnd 16
   if frame > 1024 * 1024 then throw "stack frame exceeds the 1 MiB resource limit"
   let symbol := "_" ++ f.name
@@ -302,40 +322,43 @@ def emitFunction (f : Function) : Except String String := do
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   lines := lines ++ [".p2align 2", s!"{symbol}:"]
   lines := lines ++ adjustStack "sub" frame
-  if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
+  if dynamic then
+    lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
+  else if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
   let incoming := argumentLayout (f.parameters.map (·.width))
   for i in [:f.parameters.size] do
     let parameter := f.parameters[i]!
     let offset ← slotOffset slots parameter.name
     match incoming.locations[i]! with
     | .register index =>
-      lines := lines ++ [s!"\tstr {register parameter.width index}, [sp, #{offset}]"]
+      lines := lines ++ [s!"\tstr {register parameter.width index}, [{base}, #{offset}]"]
     | .stack argumentOffset =>
       lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
-        ++ [s!"\tstr {register parameter.width 9}, [sp, #{offset}]"]
+        ++ [s!"\tstr {register parameter.width 9}, [{base}, #{offset}]"]
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
     for statement in block.instructions do
-      lines := lines ++ (← emitStatement slots allocations statement)
+      lines := lines ++ (← emitStatement base slots allocations statement)
     match block.terminator with
     | .ret value =>
       if let some value := value then
         let some width := f.resultWidth | throw "void function cannot return an integer"
-        lines := lines ++ (← load slots width 0 value)
-      if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]
+        lines := lines ++ (← load base slots width 0 value)
+      if dynamic then lines := lines ++ ["\tmov sp, x29", "\tldp x29, x30, [sp]"]
+      else if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]
       lines := lines ++ adjustStack "add" frame
       lines := lines ++ ["\tret"]
     | .halt => lines := lines ++ ["\tbrk #0"]
     | .jump target =>
-      lines := lines ++ (← emitEdge f slots stageBase block.label target)
+      lines := lines ++ (← emitEdge base f slots stageBase block.label target)
       lines := lines ++ [s!"\tb {blockLabel f target}"]
     | .branch condition yes no =>
-      lines := lines ++ (← load slots .word 9 condition)
+      lines := lines ++ (← load base slots .word 9 condition)
       let otherwise := edgeLabel f block.label
       lines := lines ++ [s!"\tcbz w9, {otherwise}"]
-      lines := lines ++ (← emitEdge f slots stageBase block.label yes)
+      lines := lines ++ (← emitEdge base f slots stageBase block.label yes)
       lines := lines ++ [s!"\tb {blockLabel f yes}", otherwise ++ ":"]
-      lines := lines ++ (← emitEdge f slots stageBase block.label no)
+      lines := lines ++ (← emitEdge base f slots stageBase block.label no)
       lines := lines ++ [s!"\tb {blockLabel f no}"]
   pure (String.intercalate "\n" (lines ++ [""]))
 

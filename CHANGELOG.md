@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Support positive runtime-sized and non-entry stack allocations on Apple ARM64.
+  Dynamic functions keep SSA/phi slots relative to a stable x29 frame base with
+  a canonical FP/LR record, allocate outgoing stack arguments at each call, and
+  restore SP/FP on return. Repeated loop allocations remain distinct through calls.
+  Native tests cover indirect callbacks, stack arguments and explicit frame probes;
+  interpreter zero-size/budget refusals do not imply native runtime guards.
+
 - Parse decimal/hexadecimal `s_` and `d_` constants into IEEE bit patterns with
   exact integer arithmetic and one ties-to-even rounding step. Support floating
   data field aliases, signed zero, infinities, canonical NaNs and subnormals.

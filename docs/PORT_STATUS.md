@@ -97,9 +97,9 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | `sltof` | not implemented |
 | `ultof` | not implemented |
 | `cast` | not implemented |
-| `alloc4` | l (entry constant) |
-| `alloc8` | l (entry constant) |
-| `alloc16` | l (entry constant) |
+| `alloc4` | l (constant or runtime size) |
+| `alloc8` | l (constant or runtime size) |
+| `alloc16` | l (constant or runtime size) |
 | `vaarg` | not implemented |
 | `vastart` | not implemented |
 | `copy` | w, l |
@@ -113,7 +113,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | basic blocks, jumps, phi | partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers |
 | calls and variadic functions | partial: direct/indirect calls with up to 64 w/l register/stack arguments and a w/l or void result; recursion, function tables and native C callbacks; variadics and aggregate/float ABIs remain |
 | floating point and conversions | partial: exact IEEE s_/d_ bit-pattern constants and floating data initializers; floating arithmetic, conversions and ABI remain |
-| memory and allocation | partial: integer loads/stores, loadw/loadl aliases; entry-block positive constant alloc4/8/16 and alloc1/2 aliases; effect-only constant blit copies in 0..4096 bytes for disjoint or identical spans; dynamic/non-entry allocation remains |
+| memory and allocation | partial: integer loads/stores, loadw/loadl aliases; positive constant/runtime alloc4/8/16 in any block and alloc1/2 aliases; effect-only constant blit copies in 0..4096 bytes for disjoint or identical spans; zero-sized static allocation remains unsupported |
 | aggregate type and data definitions | partial: packed b/h/w/l/s/d bit-pattern data, z zero fill, alignment 1..64, long symbol relocations with addends, byte strings (UTF-8/common and octal escapes) and data-only modules; aggregate types and remaining linkage forms remain |
 | linkage, sections, TLS and debug locations | partial: export for functions/data and global symbol operands; sections, TLS and debug locations remain |
 | parsing and validation | partial: integer/control-flow/memory/integer-call SSA subset; full QBE syntax remains |

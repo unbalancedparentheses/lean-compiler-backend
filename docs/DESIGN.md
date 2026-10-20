@@ -36,14 +36,14 @@ Source memory, calls and native binary certification remain outside that domain.
    definitions.
 4. `AArch64.lean` selects integer instructions, assigns stack slots and renders
    assembly with branches, parallel phi copies, integer memory accesses, blits and
-   direct calls for Apple's AArch64 ABI.
+   direct/indirect calls for Apple's AArch64 ABI.
 5. Nix-provided Clang assembles and links independent C test callers.
 
 The parser treats newlines as whitespace; upstream QBE also uses them as syntax
 separators. Tests shared with QBE use its canonical multiline format. This is a
 restricted compatible operation subset, not a claim of full QBE compatibility.
-Names allow ASCII letters, digits and underscores, with a letter/underscore
-first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
+Unquoted names follow QBE's ASCII grammar, including dots and embedded dollar
+signs, with a letter, underscore or dot first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
 
 Functions have at most 64 integer arguments, 480 instructions/phi nodes and 64 blocks;
 programs have at most 64 functions and 1 MiB of input. Frames are 16-byte aligned,
@@ -52,14 +52,15 @@ proof profile). Large frame adjustments and allocation addresses use split
 AArch64 immediate scales; large incoming stack offsets use a scratch address
 register. Every value gets an eight-byte slot; word values access only
 the low four bytes. Implicit word-to-long widening is rejected. Scratch registers
-x9/x10/x11 are caller-clobbered; no callee-saved integer register is modified.
-Direct calls accept up to 64 typed w/l arguments and a w/l or void result. The
+x9/x10/x11 and the x16 indirect-call target are caller-clobbered. Dynamic
+allocation functions save/restore x29 and use it as a stable frame base.
+Direct/indirect calls accept up to 64 typed w/l arguments and a w/l or void result. The
 first eight arguments are loaded from stable slots into x0..x7/w0..w7, preserving
 permutations. Apple ARM64 places later word arguments in four-byte aligned slots
 and long arguments in eight-byte aligned slots. The outgoing area is rounded to
-16 bytes and reserved below locals, phi staging, saved LR and allocated objects.
-Its size covers the largest call in the function, so nested calls cannot clobber
-live caller values. Incoming stack arguments are read above the complete local
+16 bytes. Static-frame functions reserve it below locals, phi staging, saved LR
+and allocated objects; its size covers the largest call. Dynamic-frame functions
+reserve and release it at each call below the current SP, protecting live objects. Incoming stack arguments are read above the complete local
 frame, using offsets from the caller's SP. Caller and callee use the same explicit
 argument layout, checked against independent C in both directions. The 64-argument
 cap is a resource policy, not an ABI constraint; the frame limit remains separate.
@@ -67,7 +68,8 @@ Non-leaf functions reserve a separate slot for x30 and restore it before return.
 All values live across calls remain in the caller's frame, outside callee clobbers.
 Internal call argument/result signatures must match their definitions exactly.
 External signatures are an explicit linking assumption: QBE IL has no external
-declaration to check. Indirect calls, sub-word/aggregate
+declaration to check. The interpreter checks dynamically resolved internal call
+signatures; native indirect targets must honor the declared ABI. Sub-word/aggregate
 ABI types, environment arguments and variadics remain unsupported.
 Void results are represented by absence of a value in the IR and interpreter;
 they are not integer zero. A return with the wrong presence/type of value, an
@@ -80,12 +82,14 @@ executes at most 100,000 block steps across the entire call tree, with a 128-lev
 call-depth limit, and reports exhaustion explicitly. `hlt`
 terminates native execution with a target-dependent error and has no return value.
 
-Stack allocations currently have positive constant sizes at most 4096 and must
-occur in the entry block, which cannot be revisited. This makes one frame object
-per allocation faithful for the admitted domain. Allocations in loops and dynamic
-sizes are explicitly refused until dynamic stack lifetime/restoration is ported.
-Objects are disjoint from value slots and phi staging and honor their required
-alignment; the overall frame limit still applies.
+Stack allocations accept positive constant sizes up to 4096 or long runtime size
+operands, in any block. Entry-only constant allocations retain the static-frame
+layout. Other functions allocate at the point of execution, including repeated
+loop allocations, using a stable x29 base and canonical saved FP/LR record.
+Returning restores the fixed-frame SP and caller FP/LR. Objects remain distinct
+from SSA/phi slots and outgoing argument areas. Native dynamic allocation assumes
+valid sizes and sufficient stack capacity; it adds no size/capacity guard. The
+interpreter bounds total live memory and refuses zero-sized runtime allocations.
 
 Interpreter addresses are abstract, not host pointers. Each object tracks byte
 initialization. Out-of-bounds, uninitialized and external-pointer accesses have no

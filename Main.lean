@@ -17,7 +17,7 @@ private def usage : String :=
   "  lcb --job-info INPUT.job\n" ++
   "  lcb --eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
   "  lcb --version | --build-identity | --help\n" ++
-  "Initial subset: QBE w/l SSA, integer/control flow, direct/indirect integer calls, loads/stores, integer data/symbols and entry-block constant stack allocations.\n"
+  "Initial subset: QBE w/l SSA, integer/control flow, direct/indirect integer calls, loads/stores, integer data/symbols and constant/runtime-sized stack allocations.\n"
 
 private def loadModule (path : String) : IO LeanCompilerBackend.Module := do
   let source ← IO.FS.readFile path

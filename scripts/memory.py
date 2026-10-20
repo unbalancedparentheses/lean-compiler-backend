@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Defined-memory tests: independent byte arrays, Lean evaluation and two native backends.
 
-The current allocation domain is positive constant sizes in the entry block.
+This matrix exercises positive constant sizes in the entry block; dynamic_alloc.py
+qualifies runtime sizes, loops and call/frame interactions separately.
 External-pointer cases run natively against independent byte expectations; the
 interpreter refuses external, out-of-bounds and uninitialized memory accesses.
 """
@@ -247,10 +248,10 @@ def caller(cases, arguments):
 def controls(work):
     invalid = [
         ('function w $f() { @s %p =w alloc4 8 ret 0 }', 'long result'),
-        ('function l $f(l %n) { @s %p =l alloc4 %n ret 0 }', 'dynamic stack'),
+        ('function l $f(w %n) { @s %p =l alloc4 %n ret 0 }', 'w-to-l'),
         *[(f'function l $f() {{ @s %p =l alloc4 {size} ret 0 }}', 'constant size')
           for size in (0, -1, 4097)],
-        ('function l $f() { @s jmp @b @b %p =l alloc4 8 ret 0 }', 'outside the entry'),
+        ('function l $f() { @s jmp @b @b %p =l alloc4 %missing ret 0 }', 'undefined temporary'),
         ('function w $f(w %p) { @s %v =w load %p ret %v }', 'w-to-l'),
         ('function w $f() { @s storew 0, %missing ret 0 }', 'undefined temporary'),
     ]

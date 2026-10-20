@@ -149,13 +149,11 @@ def validateFunction (f : Function) : Except String Unit := do
           checkCallArguments check target arguments
         | .allocate _ size =>
           if inst.width != .long then throw "stack allocation requires a long result"
-          if block.label != entry then
-            throw "stack allocation outside the entry block is not yet supported"
           match size with
           | .constant bytes =>
             if bytes <= 0 || bytes > 4096 then
               throw "stack allocation currently requires a constant size in 1..4096"
-          | .temporary _ | .symbol _ => throw "dynamic stack allocation is not yet supported"
+          | .temporary _ | .symbol _ => check .long size
     let check := checkOperand definitions doms block.label (block.instructions.size + 1)
     match block.terminator with
     | .ret value =>

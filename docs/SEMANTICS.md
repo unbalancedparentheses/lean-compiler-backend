@@ -146,3 +146,18 @@ NaNs. It is independent of host floating-point arithmetic or rounding mode.
 Explicit resource limits are 4096 significand digits and exponent magnitude 10000.
 NaN payload syntax is not supported. This does not add floating instructions,
 conversions, argument registers or ABI support.
+
+## Runtime stack allocation
+
+Compatibility allocation accepts long size operands in any block. Constant sizes
+retain the 1..4096 per-object admission bound; runtime sizes are positive and
+limited by the interpreter's total 1 MiB live-memory budget. Zero-sized runtime
+allocations have no interpreter result. Native code rounds allocation size to
+16-byte stack alignment, keeps each allocation until function return, and restores
+the entry stack/frame pointers. It does not insert size, overflow or stack-capacity
+guards; callers must provide valid sizes and sufficient stack space. Escaped stack
+objects remain invalid after return in the interpreter. The 1 MiB fixed-frame
+resource limit does not bound the native function's cumulative dynamic allocation.
+Calls in dynamic functions allocate their outgoing argument area below the live
+objects, and fixed SSA/phi slots are addressed relative to x29. The restricted
+first-path domain continues to exclude source allocations and calls.
