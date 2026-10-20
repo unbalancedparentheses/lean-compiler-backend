@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add explicitly typed single/double local SSA arithmetic, negation, all eight
+  floating comparisons, bit casts, loads/stores and phi values. Native C and QBE
+  comparisons cover exceptional values and an arithmetic corruption control.
+  Floating values remain excluded from first-path certification admission.
+
 - Support QBE environment parameters/arguments through Apple ARM64 x9, including
   direct/indirect calls, named stack arguments, variadic tails and dynamic frames.
   Environment values do not consume ordinary argument registers; callers may

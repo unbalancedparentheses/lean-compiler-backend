@@ -49,6 +49,7 @@ private def comparison : Comparison → Except AdmissionError Source.Comparison
 
 private def instruction (locals : Array (String × Width)) (inst : Instruction)
     : Except AdmissionError Source.Instruction := do
+  if inst.floating then throw (.unsupported "floating values")
   let destination ← valueId locals inst.destination
   let op ← match inst.operation with
     | .copy value => Source.Operation.copy <$> operand locals inst.width value
@@ -57,6 +58,7 @@ private def instruction (locals : Array (String × Width)) (inst : Instruction)
     | .compare op width lhs rhs => do
       if inst.width != .word then throw (.unsupported "non-word comparison result")
       pure (.compare (← comparison op) width (← operand locals width lhs) (← operand locals width rhs))
+    | .floatBinary .. | .floatNegate .. | .floatCompare .. | .cast .. => throw (.unsupported "floating operations/casts")
     | .unary .. => throw (.unsupported "unary operations")
     | .divide .. => throw (.unsupported "division/remainder")
     | .allocate .. => throw (.unsupported "source stack allocations")
@@ -101,6 +103,7 @@ def admit (f : Function) : Except AdmissionError Source.Function := do
   for block in f.blocks do
     let mut phis := #[]
     for phi in block.phis do
+      if phi.floating then throw (.unsupported "floating phi values")
       -- Resolve in block order, independent of textual incoming-list order.
       let mut incoming := #[]
       for pred in f.blocks do
@@ -112,6 +115,7 @@ def admit (f : Function) : Except AdmissionError Source.Function := do
     for statement in block.instructions do
       match statement with
       | .assign inst => instructions := instructions.push (← instruction locals inst)
+      | .storeFloat .. => throw (.unsupported "floating stores")
       | .store .. => throw (.unsupported "source memory stores")
       | .callVoid .. => throw (.unsupported "calls")
       | .vaStart .. => throw (.unsupported "variadic argument access")

@@ -185,3 +185,19 @@ environment when the callee ignores it, so signature checking and interpretation
 discard that extra value for such callees. The native caller loads x9 after stack
 argument preparation, and an environment callee spills x9 before loading incoming
 stack arguments. Environment parameters remain outside the first proof profile.
+
+### Floating SSA execution profile
+
+Compatibility SSA distinguishes integer and floating values even when they share
+32-bit or 64-bit storage. Implicit integer/float mixing and float precision changes
+are rejected; `cast` transfers bits between matching-size integer and float classes.
+Single/double arithmetic uses IEEE binary32/binary64 primitives, with each operation
+rounded separately. The tested profile is round-to-nearest, ties-to-even, gradual
+underflow, and nontrapping exceptions. Native code inherits FPCR; it does not reset
+rounding, flush-to-zero, or exception controls. No fast-math reassociation is applied.
+Arithmetic NaNs are compared by classification, not payload; copy, cast, memory,
+phi and negation preserve payload bits (negation flips only the sign). Comparisons
+handle unordered operands explicitly: `ne` and `uo` are true for NaNs; ordered
+relations and `o` are false. The interpreter uses Lean's native Float32/Float
+primitives as an executable testing model, not a new formal correctness claim.
+Floating function signatures and numeric conversions remain outside this checkpoint.

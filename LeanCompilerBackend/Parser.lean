@@ -84,6 +84,12 @@ private def parseWidth : P Width := do
   | some "l" => discard take; return .long
   | _ => failAt "unsupported type: expected w (32-bit) or l (64-bit)"
 
+private def parseValueType : P (Width × Bool) := do
+  match ← peek with
+  | some "s" => discard take; return (.word, true)
+  | some "d" => discard take; return (.long, true)
+  | _ => return (← parseWidth, false)
+
 private def parseName (sigil : Char) : P String := do
   let name ← take
   let chars := name.toList
@@ -171,8 +177,28 @@ private def parseCall : P (CallTarget × Array CallArgument) := do
   expect ")"
   pure (target, arguments)
 
-private def parseOperation (name : String) : P Operation := do
-  if name == "copy" then
+private def floatComparisonName (name : String) : Option (FloatComparison × Width) := Id.run do
+  let names : List (String × FloatComparison) := [("ceq", .eq), ("cne", .ne),
+    ("cle", .le), ("clt", .lt), ("cge", .ge), ("cgt", .gt), ("co", .ordered), ("cuo", .unordered)]
+  for (stem, op) in names do
+    if name == stem ++ "s" then return some (op, .word)
+    if name == stem ++ "d" then return some (op, .long)
+  return none
+
+private def parseOperation (floating : Bool) (name : String) : P Operation := do
+  if name == "cast" then pure (.cast (← parseOperand))
+  else if floating && name == "neg" then pure (.floatNegate (← parseOperand))
+  else if floating && ["add", "sub", "mul", "div"].contains name then do
+    let op := if name == "add" then FloatBinary.add else if name == "sub" then .sub
+      else if name == "mul" then .mul else .div
+    let lhs ← parseOperand
+    expect ","
+    pure (.floatBinary op lhs (← parseOperand))
+  else if let some (op, width) := floatComparisonName name then do
+    let lhs ← parseOperand
+    expect ","
+    pure (.floatCompare op width lhs (← parseOperand))
+  else if name == "copy" then
     pure (.copy (← parseOperand))
   else if name == "vaarg" then
     pure (.vaArg (← parseOperand))
@@ -188,7 +214,7 @@ private def parseOperation (name : String) : P Operation := do
       | "loadsb" => some LoadKind.signedByte | "loadub" => some .unsignedByte
       | "loadsh" => some .signedHalf | "loaduh" => some .unsignedHalf
       | "loadsw" | "loadw" => some .signedWord | "loaduw" => some .unsignedWord
-      | "load" | "loadl" => some .plain | _ => none then
+      | "load" | "loadl" | "loads" | "loadd" => some .plain | _ => none then
     pure (.load kind (← parseOperand))
   else if let some op := unaryName name then
     pure (.unary op (← parseOperand))
@@ -230,12 +256,12 @@ private def parseIncoming : Nat → P (Array (String × Operand))
 private def parseDefinition : P (Sum Phi Statement) := do
   let destination ← parseName '%'
   expect "="
-  let width ← parseWidth
+  let (width, floating) ← parseValueType
   let name ← take
   if name == "phi" then
-    pure (.inl { destination, width, incoming := ← parseIncoming 65 })
+    pure (.inl { destination, width, floating, incoming := ← parseIncoming 65 })
   else
-    pure (.inr (.assign { destination, width, operation := ← parseOperation name }))
+    pure (.inr (.assign { destination, width, floating, operation := ← parseOperation floating name }))
 
 private def storeWidth : String → Option MemoryWidth
   | "storeb" => some .byte | "storeh" => some .half
@@ -302,6 +328,11 @@ private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Arr
       else
         let definition ← if let some width := storeWidth token then
           Sum.inr <$> parseStore width
+        else if token == "stores" || token == "stored" then do
+          discard take
+          let value ← parseOperand
+          expect ","
+          pure (.inr (.storeFloat (if token == "stores" then .word else .long) value (← parseOperand)))
         else if token == "vastart" then do
           discard take
           pure (.inr (.vaStart (← parseOperand)))

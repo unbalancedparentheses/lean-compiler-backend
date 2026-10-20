@@ -5,6 +5,7 @@
 -/
 import LeanCompilerBackend.Validate
 import LeanCompilerBackend.Memory
+import LeanCompilerBackend.Floating
 
 namespace LeanCompilerBackend.Semantics
 
@@ -125,6 +126,18 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
     (locals : List (String × UInt64)) (state : ExecutionState)
     : Except String (UInt64 × ExecutionState) := do
   match inst.operation with
+  | .floatBinary op a b =>
+    let lhs ← operand state.symbols locals inst.width a
+    let rhs ← operand state.symbols locals inst.width b
+    pure (Floating.binary inst.width op lhs rhs, state)
+  | .floatNegate value =>
+    let input ← operand state.symbols locals inst.width value
+    pure (input ^^^ (1 <<< (inst.width.bits - 1).toUInt64), state)
+  | .floatCompare op width a b =>
+    let lhs ← operand state.symbols locals width a
+    let rhs ← operand state.symbols locals width b
+    pure (Floating.compare width op lhs rhs, state)
+  | .cast v => pure (← operand state.symbols locals inst.width v, state)
   | .copy v => pure (← operand state.symbols locals inst.width v, state)
   | .binary op a b =>
     let lhs ← operand state.symbols locals inst.width a
@@ -177,6 +190,11 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let (value, updated) ← evaluateOperation call inst locals state
       locals := updateLocal locals inst.destination value
       state := updated
+    | .storeFloat width value address =>
+      let value ← operand state.symbols locals width value
+      let address ← operand state.symbols locals .long address
+      let memory ← state.memory.write address width.bytes value
+      state := { state with memory }
     | .store width value address =>
       let value ← operand state.symbols locals width.valueWidth value
       let address ← operand state.symbols locals .long address

@@ -40,6 +40,7 @@ private structure Definition where
   width : Width
   block : Option String
   position : Nat
+  floating : Bool := false
 
 private def addDefinition (definitions : List Definition) (definition : Definition)
     : Except String (List Definition) := do
@@ -49,15 +50,18 @@ private def addDefinition (definitions : List Definition) (definition : Definiti
   pure (definition :: definitions)
 
 private def checkOperand (definitions : List Definition) (doms : Dominators)
-    (useBlock : String) (position : Nat) (width : Width) (operand : Operand)
+    (useBlock : String) (position : Nat) (width : Width) (operand : Operand) (floating : Bool := false)
     : Except String Unit := do
   match operand with
   | .constant _ => pure ()
   | .symbol name =>
+    if floating then throw "symbol address cannot have floating type"
     if !validName name then throw "unsupported symbol name"
   | .temporary name =>
     let some definition := definitions.find? (·.name == name)
       | throw s!"undefined temporary %{name}"
+    if definition.floating != floating then throw s!"%{name}: integer/floating type mismatch; use cast"
+    if floating && definition.width != width then throw s!"%{name}: floating precision mismatch"
     if definition.width == .word && width == .long then
       throw s!"%{name}: implicit w-to-l extension is unsupported; use an explicit conversion"
     match definition.block with
@@ -110,11 +114,11 @@ def validateFunction (f : Function) : Except String Unit := do
   for block in f.blocks do
     for phi in block.phis do
       definitions ← addDefinition definitions
-        { name := phi.destination, width := phi.width, block := some block.label, position := 0 }
+        { name := phi.destination, width := phi.width, floating := phi.floating, block := some block.label, position := 0 }
     for i in [:block.instructions.size] do
       if let some (name, width) := block.instructions[i]!.definition then
         definitions ← addDefinition definitions
-          { name, width, block := some block.label, position := i + 1 }
+          { name, width, floating := match block.instructions[i]! with | .assign inst => inst.floating | _ => false, block := some block.label, position := i + 1 }
   let doms ← dominators f
   for block in f.blocks do
     let preds := predecessors f block.label
@@ -126,10 +130,14 @@ def validateFunction (f : Function) : Except String Unit := do
       for (label, value) in phi.incoming do
         let some pred := f.blocks.find? (·.label == label)
           | throw s!"unknown phi predecessor @{label}"
-        checkOperand definitions doms label (pred.instructions.size + 1) phi.width value
+        checkOperand definitions doms label (pred.instructions.size + 1) phi.width value phi.floating
     for i in [:block.instructions.size] do
-      let check := checkOperand definitions doms block.label (i + 1)
+      let check := fun width value => checkOperand definitions doms block.label (i + 1) width value false
+      let checkFloat := fun width value => checkOperand definitions doms block.label (i + 1) width value true
       match block.instructions[i]! with
+      | .storeFloat width value address =>
+        checkFloat width value
+        check .long address
       | .store width value address =>
         check width.valueWidth value
         check .long address
@@ -142,8 +150,23 @@ def validateFunction (f : Function) : Except String Unit := do
         check .long destination
         if bytes > 4096 then throw "blit byte count exceeds the 4096-byte resource limit"
       | .assign inst =>
+        let floatingOperation := match inst.operation with
+          | .copy .. | .cast .. | .load .plain _ | .floatBinary .. | .floatNegate .. => true
+          | _ => false
+        if inst.floating && !floatingOperation then throw "operation does not support a floating result"
         match inst.operation with
-        | .copy value => check inst.width value
+        | .floatBinary _ a b =>
+          if !inst.floating then throw "floating arithmetic requires a floating result"
+          checkFloat inst.width a
+          checkFloat inst.width b
+        | .floatNegate value =>
+          if !inst.floating then throw "floating negation requires a floating result"
+          checkFloat inst.width value
+        | .floatCompare _ width a b =>
+          checkFloat width a
+          checkFloat width b
+        | .cast value => checkOperand definitions doms block.label (i + 1) inst.width value (!inst.floating)
+        | .copy value => checkOperand definitions doms block.label (i + 1) inst.width value inst.floating
         | .binary op a b =>
           check inst.width a
           check (op.rhsWidth inst.width) b
@@ -168,7 +191,7 @@ def validateFunction (f : Function) : Except String Unit := do
             if bytes <= 0 || bytes > 4096 then
               throw "stack allocation currently requires a constant size in 1..4096"
           | .temporary _ | .symbol _ => check .long size
-    let check := checkOperand definitions doms block.label (block.instructions.size + 1)
+    let check := fun width value => checkOperand definitions doms block.label (block.instructions.size + 1) width value false
     match block.terminator with
     | .ret value =>
       match f.resultWidth, value with

@@ -108,7 +108,20 @@ structure CallArgument where
   environment : Bool := false
   deriving Repr, Inhabited
 
+/-- Floating values use Width for storage size; their SSA class is tracked separately. -/
+inductive FloatBinary where
+  | add | sub | mul | div
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+inductive FloatComparison where
+  | eq | ne | le | lt | ge | gt | ordered | unordered
+  deriving BEq, DecidableEq, Repr, Inhabited
+
 inductive Operation where
+  | floatBinary (op : FloatBinary) (lhs rhs : Operand)
+  | floatNegate (value : Operand)
+  | floatCompare (op : FloatComparison) (operandWidth : Width) (lhs rhs : Operand)
+  | cast (value : Operand)
   | copy (value : Operand)
   | binary (op : Binary) (lhs rhs : Operand)
   | unary (op : Unary) (value : Operand)
@@ -124,11 +137,13 @@ structure Instruction where
   destination : String
   width : Width
   operation : Operation
+  floating : Bool := false
   deriving Repr, Inhabited
 
 /-- Effect statements have no SSA result or artificial temporary definition. -/
 inductive Statement where
   | assign (instruction : Instruction)
+  | storeFloat (width : Width) (value address : Operand)
   | store (width : MemoryWidth) (value address : Operand)
   | callVoid (target : CallTarget) (arguments : Array CallArgument)
   | vaStart (list : Operand)
@@ -137,7 +152,7 @@ inductive Statement where
 
 def Statement.definition : Statement → Option (String × Width)
   | .assign inst => some (inst.destination, inst.width)
-  | .store .. | .callVoid .. | .blit .. | .vaStart .. => none
+  | .storeFloat .. | .store .. | .callVoid .. | .blit .. | .vaStart .. => none
 
 def Statement.callSite : Statement → Option (CallTarget × Array CallArgument × Option Width)
   | .assign { width, operation := .call target arguments, .. } => some (target, arguments, some width)
@@ -153,6 +168,7 @@ structure Parameter where
 structure Phi where
   destination : String
   width : Width
+  floating : Bool := false
   incoming : Array (String × Operand)
   deriving Repr, Inhabited
 

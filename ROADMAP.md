@@ -134,6 +134,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   implemented and tested, including pointer initializers with addends and byte
   strings and IEEE floating constant initializers. Runtime-sized and non-entry
   allocations now pass native call/frame tests. TLS and remaining linkage forms remain.
+  Local single/double arithmetic, comparisons, casts, memory and phi values are
+  implemented; numeric conversions and floating ABI support remain.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
@@ -164,8 +166,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  39/76 inputs: 31 original executable fixtures pass natively, eight development
-  fixtures assemble only, and 37 remain unsupported. CI prevents emission
+  40/76 inputs: 32 original executable fixtures pass natively, eight development
+  fixtures assemble only, and 36 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

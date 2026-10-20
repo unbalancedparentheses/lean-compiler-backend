@@ -59,6 +59,13 @@ theorem select_preserves (width : Width) (op : Binary) (a b : UInt64) :
 private def register (width : Width) (n : Nat) : String :=
   (if width == .word then "w" else "x") ++ toString n
 
+private def floatRegister (width : Width) (n : Nat) : String :=
+  (if width == .word then "s" else "d") ++ toString n
+
+private def floatCondition : FloatComparison → String
+  | .eq => "eq" | .ne => "ne" | .le => "ls" | .lt => "mi"
+  | .ge => "ge" | .gt => "gt" | .ordered => "vc" | .unordered => "vs"
+
 private def immediate (width : Width) (destination : Nat) (value : Int) : List String := Id.run do
   let bits := Semantics.constant width value
   let r := register width destination
@@ -190,6 +197,24 @@ private def emitInstruction (base : String) (slots allocations : List (String ×
     : Except String (List String) := do
   let mut lines : List String := []
   match inst.operation with
+  | .floatBinary op a b =>
+    lines := lines ++ (← load base slots inst.width 9 a) ++ (← load base slots inst.width 10 b)
+    let f9 := floatRegister inst.width 16
+    let f10 := floatRegister inst.width 17
+    let instruction := match op with | .add => "fadd" | .sub => "fsub" | .mul => "fmul" | .div => "fdiv"
+    lines := lines ++ [s!"\tfmov {f9}, {register inst.width 9}", s!"\tfmov {f10}, {register inst.width 10}",
+      s!"\t{instruction} {f9}, {f9}, {f10}", s!"\tfmov {register inst.width 9}, {f9}"]
+  | .floatNegate value =>
+    lines := lines ++ (← load base slots inst.width 9 value)
+    let r := register inst.width 9
+    lines := lines ++ [s!"\teor {r}, {r}, #{2 ^ (inst.width.bits - 1)}"]
+  | .floatCompare op width a b =>
+    lines := lines ++ (← load base slots width 9 a) ++ (← load base slots width 10 b)
+    let f9 := floatRegister width 16
+    let f10 := floatRegister width 17
+    lines := lines ++ [s!"\tfmov {f9}, {register width 9}", s!"\tfmov {f10}, {register width 10}",
+      s!"\tfcmp {f9}, {f10}", s!"\tcset w9, {floatCondition op}"]
+  | .cast value => lines := lines ++ (← load base slots inst.width 9 value)
   | .copy value => lines := lines ++ (← load base slots inst.width 9 value)
   | .binary op a b =>
     lines := lines ++ (← load base slots inst.width 9 a)
@@ -260,6 +285,9 @@ private def emitStatement (base : String) (slots allocations : List (String × N
         lines := lines ++ [s!"\t{read}, [x9, #{offset}]", s!"\t{write}, [x10, #{offset}]"]
         offset := offset + size
     pure lines
+  | .storeFloat width value address =>
+    pure ((← load base slots .long 9 address) ++ (← load base slots width 10 value) ++
+      [s!"\tstr {register width 10}, [x9]"])
   | .store width value address =>
     let addressLines ← load base slots .long 9 address
     let valueLines ← load base slots width.valueWidth 10 value

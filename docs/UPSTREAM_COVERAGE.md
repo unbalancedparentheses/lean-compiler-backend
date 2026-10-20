@@ -1,12 +1,12 @@
 # Upstream fixture coverage checkpoint
 
-Pinned QBE 1.3, Apple ARM64; measured after environment-argument support.
+Pinned QBE 1.3, Apple ARM64; measured after local floating-point support.
 This is compatibility testing, not formal certification.
 
-- 39 of 76 fixtures emit assembly.
-- 31 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
+- 40 of 76 fixtures emit assembly.
+- 32 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
 - 8 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
-- 37 fixtures remain unsupported.
+- 36 fixtures remain unsupported.
 
 `scripts/upstream_suite.py` scans every fixture and runs every accepted executable
 fixture on native Apple ARM64. Other hosts check emission and report native execution
@@ -56,7 +56,7 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `cprime.ssa` | passed |
 | `cup.ssa` | passed |
 | `dark.ssa` | Unsupported: line 6 near 'type': expected 'function' |
-| `double.ssa` | Unsupported: line 4 near 'd': unsupported type: expected w (32-bit) or l (64-bit) |
+| `double.ssa` | passed |
 | `dynalloc.ssa` | passed |
 | `echo.ssa` | passed |
 | `env.ssa` | Native execution passed (Lean and QBE) |
