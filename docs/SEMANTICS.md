@@ -133,3 +133,16 @@ addresses. External C callbacks are tested natively and have no interpreter mode
 Native code does not add dynamic target or signature guards: the caller must supply
 a valid callable address with the declared ABI. Calls remain outside the restricted
 first-path proof domain.
+
+## IEEE constant bit patterns
+
+The compatibility parser accepts decimal and hexadecimal `s_`/`d_` constants in
+operand and data contexts. Constants are untyped bits: single precision occupies
+the low 32 bits of the 64-bit blob, and the context truncates as needed. `s`/`d`
+data field tags select four/eight bytes without introducing floating operations.
+Conversion uses exact integer ratios and a single round-to-nearest, ties-to-even
+step, including subnormals, signed zero, overflow to infinity and canonical quiet
+NaNs. It is independent of host floating-point arithmetic or rounding mode.
+Explicit resource limits are 4096 significand digits and exponent magnitude 10000.
+NaN payload syntax is not supported. This does not add floating instructions,
+conversions, argument registers or ABI support.

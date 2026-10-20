@@ -3,7 +3,7 @@
   and doc/il.txt. See docs/UPSTREAM.md and third_party/qbe/LICENSE.
   Unsupported constructs are errors; no partial successful compilation.
 -/
-import LeanCompilerBackend.IR
+import LeanCompilerBackend.Numeric
 
 namespace LeanCompilerBackend.Parser
 
@@ -38,6 +38,9 @@ def tokenize (source : String) : Array Token := Id.run do
         current := current.push c
       else if c == '#' then
         comment := true
+      else if c == '+' && ((current.startsWith "s_") || (current.startsWith "d_")) &&
+          (current.endsWith "e" || current.endsWith "E" || current.endsWith "p" || current.endsWith "P" || current.endsWith "_") then
+        current := current.push c
       else if c.isWhitespace || separator c then
         if !current.isEmpty then
           tokens := tokens.push ⟨current, lineIndex + 1⟩
@@ -98,6 +101,11 @@ private def parseOperand : P Operand := do
   | some s =>
     if s.startsWith "%" then return .temporary (← parseName '%')
     if s.startsWith "$" then return .symbol (← parseName '$')
+    if s.startsWith "s_" || s.startsWith "d_" then
+      discard take
+      match Numeric.floatBits s with
+      | .ok bits => return .constant bits
+      | .error reason => failAt reason
     match s.toInt? with
     | some n =>
       if n < -(2 ^ 63 : Int) || n > (2 ^ 64 : Int) - 1 then
@@ -324,6 +332,15 @@ private def parseDataInteger : P Int := do
     failAt "data constant is outside the supported 64-bit domain"
   pure value
 
+private def parseDataBits : P Int := do
+  let token := (← peek).getD ""
+  if token.startsWith "s_" || token.startsWith "d_" then
+    discard take
+    match Numeric.floatBits token with
+    | .ok bits => pure bits
+    | .error reason => failAt reason
+  else parseDataInteger
+
 private def parseDataString : P (Array UInt8) := do
   let token ← take
   let chars := token.toList.toArray
@@ -383,8 +400,8 @@ private def parseData (exported : Bool) : P DataDefinition := do
     else
       let width ← match kind with
         | "b" => pure MemoryWidth.byte | "h" => pure .half
-        | "w" => pure .word | "l" => pure .long
-        | _ => failAt "unsupported data type: expected b, h, w, l or z"
+        | "w" | "s" => pure .word | "l" | "d" => pure .long
+        | _ => failAt "unsupported data type: expected b, h, w, l, s, d or z"
       let mut count := 0
       for _ in [:50000] do
         if (← peek) == some "," || (← peek) == some "}" then break
@@ -399,7 +416,7 @@ private def parseData (exported : Bool) : P DataDefinition := do
                 parseDataInteger
               else pure 0
             pure (DataItem.address symbol offset)
-          else pure (.integer width (← parseDataInteger))
+          else pure (.integer width (← parseDataBits))
         items := items.push item
         count := count + 1
       if count == 0 then failAt "data field requires at least one initializer"

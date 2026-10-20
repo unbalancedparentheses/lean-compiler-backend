@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Parse decimal/hexadecimal `s_` and `d_` constants into IEEE bit patterns with
+  exact integer arithmetic and one ties-to-even rounding step. Support floating
+  data field aliases, signed zero, infinities, canonical NaNs and subnormals.
+  Native/interpreter checks compare against libc strtof/strtod and QBE, including
+  double-rounding-sensitive boundaries. Floating arithmetic and ABIs remain open.
+
 - Raise compatibility stack frames from the 4080-byte immediate restriction to a
   1 MiB resource limit. Split stack adjustments and allocation address calculations
   into legal AArch64 immediate scales; materialize large incoming argument offsets.

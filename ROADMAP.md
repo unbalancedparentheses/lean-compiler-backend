@@ -132,8 +132,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   0..4096 bytes and require disjoint or identical spans; native code adds no bounds
   or overlap guards. Packed integer data, zero fill, alignment and global symbol references are now
   implemented and tested, including pointer initializers with addends and byte
-  strings. Floating initializers, dynamic allocation, TLS and remaining linkage
-  forms remain.
+  strings and IEEE floating constant initializers. Dynamic allocation, TLS and
+  remaining linkage forms remain.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
 - [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
