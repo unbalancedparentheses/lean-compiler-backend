@@ -57,8 +57,10 @@ nix run . -- --write-job examples/arithmetic.ssa add32 add32.job
 nix run . -- --replay-job add32.job -o replay.s
 ```
 
-Its source and target models are tested together, with small helper and binding
-proofs. **Artifacts remain uncertified**; `--require-proof` explicitly fails.
+Its source and target models are tested together. Proofs now cover entry and frame
+helpers, conditional copy/phi-transfer simulation, and an admitted loop's unbounded
+divergence through all three models. Whole-pipeline preservation remains open.
+**Artifacts remain uncertified**; `--require-proof` explicitly fails.
 The default compiler retains its broader compatibility subset. See the
 [foundations, replay contract and proof obligations](docs/FOUNDATIONS.md).
 After changing compiler sources, run `python3 scripts/build_identity.py --write`

@@ -178,7 +178,7 @@ execution remain explicit boundaries.
 | --- | --- | --- | --- |
 | Text/import → numbered SSA | Types, dominance/availability, exact phi predecessors; name/constant normalization preserves input meaning. | Executable admission and canonical revalidation; invalid/unsupported/resource errors. | Prove checker soundness, source progress and importer/interpreter correspondence. |
 | Job → ABI/frame plans | Signature locations, disjoint typed value/staging slots, frame bound and fixed entry environment. | Exact recomputation/equality checks plus layout alignment/coverage/disjointness/encoding proofs; mismatch rejects. | Prove checker soundness and byte-access/lifetime simulation. |
-| Source → stack MIR | Available values equal initialized slot bytes; staged sources refer to old environment; matching PCs. | Structural validator, model comparisons, mutation tests; failure rejects. | Operand/assignment/branch simulation, simultaneous transfer theorem and source-to-MIR composition. |
+| Source → stack MIR | Available values equal initialized slot bytes; staged sources refer to old environment; matching PCs. | Conditional operand/copy and checked source-to-MIR phi-transfer proofs, with context non-clobbering; model comparisons and mutation tests; validation failure rejects. | Derive premises and PC/edge membership from admission/lowering; simulate arithmetic, comparisons, branches and returns; compose whole functions. |
 | MIR → typed assembly | Register aliases, byte memory, frame state and expansion PCs correspond; flags are scratch except in compare expansions. | Structural validator; W/X, ALU, compare-flag and frame helper proofs; failure rejects. | Constant materialization, integration of byte load/store lemmas into expansion simulation, and non-stuttering composition. |
 | Typed assembly → text/binary | Text/encoding/branches/linking reflect modeled instructions and ABI. | Native C/QBE tests, maximum frame and register probes; invalid forms reject. | Renderer/ISA/assembler/linker refinement or explicit assumptions; no binary certificate. |
 | Artifact acceptance | Exact requested job and baseline output, including metadata/evidence dependencies. | `verifyArtifact_binds`; full recomputation and exact equality; corruption rejects. | Baseline preservation, codec correctness and external planning correctness remain separate. |
@@ -204,10 +204,10 @@ a cyclic phi swap and a maximum 4080-byte frame. These witnesses are checked by
 Lean's kernel (including `decide +kernel`), not native evaluation. Unit tests
 separately admit and execute these exact fixtures through all three models.
 
-## Next composed-proof checkpoint (C01)
+## Current composed-proof boundary (C01)
 
-The next relation should connect each available source value to initialized bytes
-in its assigned value slot. Keep the other frame bytes existential: a word store
+The relation connects each available source value to initialized bytes
+in its assigned value slot. Other frame bytes remain unconstrained: a word store
 initializes four bytes of an eight-byte slot, so requiring the whole slot to be
 initialized would be stronger than the implementation. `FrameProofs` now supplies
 exact written bytes, outside-span preservation, address/store correspondence,
@@ -299,24 +299,25 @@ models, versioned replay, separated identities and uncertified evidence handling
 Persistent caches, actual parallel worker scheduling, native debug information,
 object files, Linux targets and register allocation remain future work.
 
-**Proved:** the earlier source facts; actual target-helper facts for normalization,
-register read/write/aliasing and non-clobber, frame enter/leave restoration,
-comparison flags and all six ALU operations against source bit vectors; actual
-frame-plan offsets, alignment, coverage, disjointness and encoding bounds; bounded
-target return/exhaustion facts; actual store-span size preservation, outside-byte
-preservation, initialization and exact little-endian byte contents, reconstruction
-of word/long values and preservation of disjoint loads (including uninitialized
-read failures), plus SP-relative address/store correspondence
-inside a valid owned frame; exact artifact binding and unavailable-evidence
-refusal. `scripts/ProofAudit.lean` prints every public theorem and `check.sh`
-enforces the measured axioms. Normalization, byte-store size, slot alignment and target run facts use `propext`;
-other arithmetic/target/source facts use `propext`/`Quot.sound`. Binding/refusal,
-array-offset, store-initialization and load-after-store reconstruction facts
-additionally use `Classical.choice`. No native-evaluation axioms or admitted goals
-are accepted.
-No whole-pipeline preservation, admission-soundness or codec theorem is claimed.
+**Proved:** initializer soundness/completeness and valid entry witnesses; target
+register/ALU/flags and byte-memory helpers; canonical frame offsets, coverage,
+alignment and disjointness; the source-value/frame relation and actual operand
+loads; source copies simulated by their emitted two-instruction MIR expansion;
+arbitrary checked source phi transfers simulated by emitted MIR edges in
+`4 * phiCount + 1` steps, preserving caller context outside R9 and owned memory;
+and an admitted cyclic loop's unbounded divergence through source, MIR and typed
+assembly. The generic instruction/transfer theorems retain explicit availability,
+typing, frame, PC and edge-membership premises. Exact artifact binding and
+unavailable-evidence refusal are also proved.
 
-**Tested:** unit/model/negative controls; 25 fixture functions with fresh-process
+`scripts/ProofAudit.lean` prints every public theorem and `check.sh` enforces its
+measured axioms. The audit permits only `propext`, `Quot.sound` and, for applicable
+facts, `Classical.choice`; some structural proofs require no axioms. No native
+evaluation axioms or admitted goals are accepted. No whole-pipeline preservation,
+admission-soundness, codec or ISA theorem is claimed.
+
+**Tested:** unit/model/negative controls, including malformed phi predecessor,
+destination, availability and width cases; 25 fixture functions with fresh-process
 and concurrent-process replay, module-order independence and independent hashes;
 32,000 arithmetic/comparison plus 8,000 loop/ABI cases per typed/baseline/QBE
 backend; the 4080-byte frame, word high bits and callee-saved registers; two
@@ -329,22 +330,23 @@ Failures from these Python campaigns retain replayable workspaces under
 `.build/first-path-failures/`. Larger campaigns can use
 `python3 scripts/first_path_fuzz.py --seed SEED --require-native`.
 
-**Pinned qualification:** `nix flake check --no-write-lock-file -L SNAPSHOT`
-passed on `aarch64-darwin` on 2026-10-19 at 15:04 UTC, using a clean copy of all
-tracked and untracked project sources (excluding build outputs). The tested
-compiler source/build identity is:
+**Pinned qualification:** `nix flake check --no-write-lock-file -L` passed on
+`aarch64-darwin` on 2026-10-20 at 13:27 UTC for commit
+`6da05bc492ea330d076fe8f46c333289d18082ae`. The tested compiler source/build identity is:
 
 ```text
-9c571508353d48fc9fcd40798ce06d2821f49d52215eac1a5f5903b843ee8521
+6caca21f0574d6453c95d85d445f08abdaf8c6348fc114da900816bbc09060e3
 ```
 
-The run built both executables, checked all 36 public theorem dependencies and
-ran `scripts/check.sh`, including the existing integer, control-flow, memory,
-blit, call, stack-argument and fuzz suites. The existing 616 original-QBE memory
-overlap mismatches remain separately reported known discrepancies, not matching
-cases. Linux and Intel Mac builds/native execution were not measured in this run.
-Local run metadata and the full log are retained under
-`.build/load-store-qualification/`; they are generated results, not certificates.
+The run built both executables, checked all 123 public theorem dependencies and
+ran `scripts/check.sh`, including the first-path replay/model/native checks and
+the existing integer, control-flow, memory, blit, call, stack-argument and fuzz
+suites. The existing 616 original-QBE memory overlap mismatches remain separately
+reported known discrepancies, not matching cases. Linux and Intel Mac builds or
+native execution were not measured in this local run. Remote CI independently
+runs Linux and ARM64 macOS jobs; those build hosts do not imply implemented Linux
+assembly output. Local metadata, proof audit and the full log are retained under
+`.build/phi-transfer-qualification/`; they are generated results, not certificates.
 
 **Remaining assumptions:** Lean's kernel and audited foundational axioms for the
 listed facts; adequacy of the source/target models; caller-supplied source and

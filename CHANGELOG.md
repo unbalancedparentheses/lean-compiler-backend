@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Added runtime rejection controls for duplicate phi destinations, missing
+  predecessors, unavailable operands, operand width mismatches and invalid
+  destinations. Recorded the 123-theorem native qualification checkpoint.
+
 - Strengthened the general source/MIR phi-transfer theorem with caller-context
   preservation: SP, frame metadata, flags, saved entry registers and all registers
   other than the R9 scratch register remain unchanged.

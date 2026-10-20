@@ -208,6 +208,19 @@ private def faultControls : IO Unit := do
   let broken := { cyclic with blocks := cyclic.blocks.set! 1 brokenBlock }
   require (match Source.transfer broken 0 1 state.environment with | .error (.invalidPhi 1) => true | _ => false)
     "duplicate incoming transfer must fail"
+  let rejectTransfer (phis : Array Source.Phi) (expected : Source.Fault) (label : String) : IO Unit := do
+    let broken := { cyclic with blocks := cyclic.blocks.set! 1 { loopBlock with phis } }
+    require (match Source.transfer broken 0 1 state.environment with
+      | .error actual => decide (actual = expected)
+      | .ok _ => false) label
+  rejectTransfer #[phi, phi] (.invalidPhi 1) "duplicate phi destinations must fail"
+  rejectTransfer #[{ phi with incoming := #[] }] (.invalidPhi 1) "missing phi predecessor must fail"
+  rejectTransfer #[{ phi with incoming := #[(0, .local 999)] }] (.missingValue 999)
+    "unavailable phi operand must fail"
+  rejectTransfer #[{ phi with incoming := #[(0, .literal (.long 1))] }] .widthMismatch
+    "wrong-width phi operand must fail"
+  rejectTransfer #[{ phi with destination := 999 }] (.invalidDestination 999)
+    "out-of-bounds phi destination must fail"
 
 def run : IO Unit := do
   arithmetic
