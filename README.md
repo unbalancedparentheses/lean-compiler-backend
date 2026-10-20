@@ -7,8 +7,8 @@ Executable semantics, existing proofs and regression tests remain required check
 tested and certified coverage are reported separately. The current implementation
 is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
 
-The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 37 native
-passes, eight assemble-only fixtures and 31 unsupported inputs out of 76.
+The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 45 native
+passes, 15 assemble-only fixtures and 16 unsupported inputs out of 76.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
@@ -74,7 +74,8 @@ before rebuilding; the checks reject stale source/build identities.
 - Integer arithmetic/bitwise operations, masked shifts, signed/unsigned
   division and remainder, negation, all integer comparisons and byte/half/word extensions.
 - Defined 32/64-bit modular arithmetic, including narrowing `l` operands to `w`.
-- SSA/type/name validation and explicit rejection of unsupported constructs.
+- Mutable-temporary SSA construction, type/name/dominance validation, and explicit
+  rejection of unsupported constructs.
 - Conditional/unconditional branches, fallthrough, loops, phi nodes and `hlt`.
   Phi transfers use parallel copies; cross-block uses are checked for dominance.
 - Integer byte/half/word/long loads and stores, including signed loads and
@@ -103,7 +104,7 @@ before rebuilding; the checks reject stale source/build identities.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
 The first port uses stack slots for every value. Aggregate ABI support,
-subword ABI forms, general SSA construction, TLS, remaining linkage forms, register
+subword ABI forms, TLS, remaining linkage forms, optimization passes, register
 allocation and object emission remain. Packed data, strings, symbol relocations
 and IEEE constant bit patterns are implemented. A separate restricted Concrete consumer is available in
 [Concrete draft PR #8](https://github.com/unbalancedparentheses/concrete2/pull/8);
@@ -126,7 +127,8 @@ Integer division by zero and signed minimum divided by -1 are outside the
 defined equivalence domain; the interpreter reports them explicitly. Native
 behavior for those inputs is not a portability or safety guarantee.
 The interpreter has a block-step budget; exhausting it reports an unevaluated
-result. General SSA construction from mutable temporary definitions is pending.
+result. Mutable temporaries are renamed into SSA with phi insertion before compatibility
+validation; the restricted first path still requires original SSA input.
 
 The memory interpreter uses abstract byte-addressed objects and rejects external,
 out-of-bounds and uninitialized accesses. This is a testing model, not native

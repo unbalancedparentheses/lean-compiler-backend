@@ -57,7 +57,7 @@ def program():
 def negatives(work):
     cases = {
         'undefined': ('function w $f() { @s %x =w add %missing, 1 ret %x }', 'undefined temporary'),
-        'duplicate': ('function w $f(w %a) { @s %a =w copy 1 ret %a }', 'duplicate SSA'),
+        'mutable_type': ('function w $f(w %a) { @s %a =s copy s_1 ret 0 }', 'inconsistent types'),
         'duplicate_parameter': ('function w $f(w %a, w %a) { @s ret %a }', 'duplicate parameter'),
         'duplicate_function': ('function w $f() { @s ret 0 } function w $f() { @s ret 1 }', 'duplicate function'),
         'widen': ('function l $f(w %a) { @s ret %a }', 'w-to-l'),

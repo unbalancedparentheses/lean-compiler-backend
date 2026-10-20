@@ -28,8 +28,8 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 
 The current compatibility slice includes scalar integer/floating arithmetic and
 conversions, global data, indirect calls, variadics, env arguments and dynamic
-allocation on Apple ARM64. Next address aggregate/subword ABI, general SSA
-construction, remaining linkage and the other target backends.
+allocation on Apple ARM64. Mutable-temporary SSA construction is now implemented. Next address aggregate/
+subword ABI, remaining linkage, optimizations and the other target backends.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding
@@ -148,6 +148,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Add explicit checked ABI plans and call/environment contracts, including callback
   and shared-memory assumptions. Define floating-point profiles before optimizing them.
 - [ ] P08 — Port SSA construction, CFG/alias analyses and optimization passes.
+  Mutable input now receives deterministic renaming and on-demand phi insertion;
+  constructed output passes the existing type/dominance validator. Undefined
+  incoming values and inconsistent mutable types are explicitly rejected.
   State transformation conditions and invalidate stale analyses. Record proof status
   per pass; certified pipelines enable only covered transformations. Keep a simple
   baseline path for comparison and independently justified fallback.
@@ -167,8 +170,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  45/76 inputs: 37 original executable fixtures pass natively, eight development
-  fixtures assemble only, and 31 remain unsupported. CI prevents emission
+  60/76 inputs: 45 original executable fixtures pass natively, 15 development
+  fixtures assemble only, and 16 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

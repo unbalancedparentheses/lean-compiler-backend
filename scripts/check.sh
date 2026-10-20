@@ -155,6 +155,7 @@ grep -Fx "'LeanCompilerBackend.Verified.simulate_instruction' depends on axioms:
 python3 scripts/test.py "$@"
 python3 scripts/integer.py "$@"
 python3 scripts/control.py "$@"
+python3 scripts/ssa.py "$@"
 python3 scripts/first_path.py "$@"
 python3 scripts/first_path_fuzz.py "$@"
 python3 scripts/symbols.py "$@"

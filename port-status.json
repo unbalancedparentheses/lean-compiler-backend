@@ -93,7 +93,7 @@
   },
   "syntax": {
     "integer functions and parameters": "partial: unquoted ASCII QBE names (including dots/dollar signs), decimal literals, w/l or void result, at most 64 w/l parameters",
-    "basic blocks, jumps, phi": "partial: integer SSA blocks, jmp/jnz/ret/hlt, fallthrough, loops, dominance and parallel phi transfers",
+    "basic blocks, jumps, phi": "partial: integer/floating SSA and mutable temporaries, jmp/jnz/ret/hlt, loops, dominance and parallel phi transfers",
     "calls and variadic functions": "partial: up to 64 w/l/s/d scalar arguments and scalar/void results; direct/indirect calls, callbacks, env and integer/floating variadics; aggregates and subword ABI remain",
     "floating point and conversions": "partial: IEEE constants/data, s/d arithmetic, comparisons, casts, numeric conversions, memory, phi and scalar ABI; defined-range conversion model and default IEEE execution profile",
     "memory and allocation": "partial: integer loads/stores, loadw/loadl aliases; positive constant/runtime alloc4/8/16 in any block and alloc1/2 aliases; effect-only constant blit copies in 0..4096 bytes for disjoint or identical spans; zero-sized static allocation remains unsupported",
@@ -102,7 +102,7 @@
   },
   "passes": {
     "parsing and validation": "partial: integer/control-flow/memory/integer-call SSA subset; full QBE syntax remains",
-    "CFG, dominance and SSA construction": "partial: CFG/dominance checks for SSA input; general SSA construction not implemented",
+    "CFG, dominance and SSA construction": "partial: CFG/dominance validation and mutable-temporary SSA construction with on-demand phis; stable types and defined incoming values required",
     "alias analysis and memory optimization": "not implemented",
     "copy elimination, folding, GVN, GCM and CFG simplification": "not implemented",
     "ABI lowering": "partial: Apple AArch64 scalar w/l/s/d register/stack arguments and results; independent GP/FP banks, direct/indirect calls, variadics, env and saved live values",

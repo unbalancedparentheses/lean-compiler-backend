@@ -17,16 +17,18 @@ private def usage : String :=
   "  lcb --job-info INPUT.job\n" ++
   "  lcb --eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
   "  lcb --version | --build-identity | --help\n" ++
-  "Initial subset: QBE w/l SSA, integer/control flow, direct/indirect integer calls, loads/stores, integer data/symbols and constant/runtime-sized stack allocations.\n"
+  "Compatibility subset: QBE scalar w/l/s/d values, SSA construction, control flow, direct/indirect scalar calls, variadics, data/symbols and stack allocation. Floating CLI arguments/results use raw IEEE bits.\n"
 
-private def loadModule (path : String) : IO LeanCompilerBackend.Module := do
+private def loadModule (path : String) (constructSSA : Bool := true) : IO LeanCompilerBackend.Module := do
   let source ← IO.FS.readFile path
-  match Parser.parseModule source >>= fun m => validateModule m *> pure m with
+  let parsed := Parser.parseModule source >>= fun m =>
+    if constructSSA then SSA.constructModule m else validateModule m *> pure m
+  match parsed with
   | .ok module => return module
   | .error message => throw (IO.userError s!"{path}: {message}")
 
 private def loadProgram (path : String) : IO Program := do
-  let module ← loadModule path
+  let module ← loadModule path false
   if !module.data.isEmpty then
     throw (IO.userError "module data is outside the first-path profile")
   return module.functions

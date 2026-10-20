@@ -203,3 +203,14 @@ The baseline keeps raw bits in stack slots, using caller-saved FP scratch regist
 for arithmetic. ABI lowering allocates GP and FP argument banks independently.
 The executable floating model and differential tests are compatibility evidence;
 first-path admission rejects floating types and operations.
+
+### Compatibility SSA construction
+
+`SSA.constructModule` runs only in the compatibility CLI load path. Each definition
+gets a fresh deterministic name; a per-block last-definition table resolves uses
+across edges. Join placeholders are cached before recursive predecessor reads so
+loop-carried references terminate. Phis are introduced only when a variable is
+read across a join. A collision-free prefix keeps generated names separate from
+user identifiers. The pass checks stable variable types and validates the complete
+result; optimizing trivial phis and the remaining QBE analyses/passes are separate
+work. The restricted job/admission path consumes the original parsed module.

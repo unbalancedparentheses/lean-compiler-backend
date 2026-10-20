@@ -213,3 +213,18 @@ integer outside the destination range. Native code emits `fcvtzs`/`fcvtzu` and
 inherits target behavior outside that interpreted domain. Precision changes emit
 AArch64 `fcvt`, matching pinned QBE and C under default round-to-nearest; the
 name `truncd` does not change FPCR or request a separate rounding mode.
+
+### Mutable temporaries and SSA construction
+
+The compatibility CLI normalizes repeated temporary assignments before validation,
+interpretation and emission. Uses refer to the current assignment within a block;
+block-entry values are resolved through predecessors, introducing phis at joins
+and closing loop backedges with cached placeholders. Explicit phi operands are
+resolved at the end of their named predecessor. All incoming phi sources are
+still read before destination updates. Assignments must keep a consistent width
+and integer/floating class. Missing incoming definitions, duplicate parameters,
+malformed CFGs and resource exhaustion are rejected. Existing SSA is unchanged.
+The resulting SSA must pass the existing validator. This is an executable pass
+with differential test coverage, not a proof of transformation correctness.
+First-path evaluation, job creation and compilation validate the original input
+and never silently normalize mutable input into the restricted profile.

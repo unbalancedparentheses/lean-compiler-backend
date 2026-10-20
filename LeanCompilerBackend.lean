@@ -1,5 +1,6 @@
 import LeanCompilerBackend.Parser
 import LeanCompilerBackend.Validate
+import LeanCompilerBackend.SSA
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.AArch64
 import LeanCompilerBackend.Verified.Job

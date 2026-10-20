@@ -1,12 +1,12 @@
 # Upstream fixture coverage checkpoint
 
-Pinned QBE 1.3, Apple ARM64; measured after numeric conversion support.
+Pinned QBE 1.3, Apple ARM64; measured after mutable-temporary SSA construction.
 This is compatibility testing, not formal certification.
 
-- 45 of 76 fixtures emit assembly.
-- 37 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
-- 8 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
-- 31 fixtures remain unsupported.
+- 60 of 76 fixtures emit assembly.
+- 45 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
+- 15 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
+- 16 fixtures remain unsupported.
 
 `scripts/upstream_suite.py` scans every fixture and runs every accepted executable
 fixture on native Apple ARM64. Other hosts check emission and report native execution
@@ -24,14 +24,14 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `_alt.ssa` | assembled only |
 | `_bf99.ssa` | Unsupported: line 435 near '@.L64': block parsing limit exceeded |
 | `_bfmandel.ssa` | Unsupported: line 289 near '@.L65': block parsing limit exceeded |
-| `_chacha20.ssa` | Unsupported: function $chacha20_rounds_qbe: duplicate SSA definition or duplicate parameter %in |
+| `_chacha20.ssa` | assembled only |
 | `_dragon.ssa` | assembled only |
-| `_fix1.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %x |
-| `_fix2.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %x |
-| `_fix3.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %s |
-| `_fix4.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %x |
-| `_gcm1.ssa` | Unsupported: function $ifmv: duplicate SSA definition or duplicate parameter %r |
-| `_gcm2.ssa` | Unsupported: function $gcm_test2: duplicate SSA definition or duplicate parameter %f |
+| `_fix1.ssa` | assembled only |
+| `_fix2.ssa` | assembled only |
+| `_fix3.ssa` | assembled only |
+| `_fix4.ssa` | assembled only |
+| `_gcm1.ssa` | assembled only |
+| `_gcm2.ssa` | assembled only |
 | `_live.ssa` | assembled only |
 | `_load-elim.ssa` | assembled only |
 | `_rpo.ssa` | assembled only |
@@ -49,7 +49,7 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `abi9.ssa` | Unsupported: line 1 near 'type': expected 'function' |
 | `alias1.ssa` | passed |
 | `align.ssa` | passed |
-| `cmp1.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %cmp |
+| `cmp1.ssa` | passed |
 | `collatz.ssa` | passed |
 | `conaddr.ssa` | passed |
 | `copy.ssa` | passed |
@@ -65,9 +65,9 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `fixarg.ssa` | passed |
 | `fold1.ssa` | passed |
 | `fpcnv.ssa` | passed |
-| `gvn1.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %t2 |
-| `gvn2.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %rc |
-| `ifc.ssa` | Unsupported: function $ifc1: duplicate SSA definition or duplicate parameter %v |
+| `gvn1.ssa` | passed |
+| `gvn2.ssa` | passed |
+| `ifc.ssa` | passed |
 | `isel1.ssa` | passed |
 | `isel2.ssa` | passed |
 | `isel3.ssa` | passed |
@@ -75,9 +75,9 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `isel5.ssa` | passed |
 | `isel6.ssa` | passed |
 | `ldbits.ssa` | passed |
-| `ldhoist.ssa` | Unsupported: function $f: duplicate SSA definition or duplicate parameter %n |
+| `ldhoist.ssa` | passed |
 | `load1.ssa` | passed |
-| `load2.ssa` | Unsupported: function $f: duplicate SSA definition or duplicate parameter %n |
+| `load2.ssa` | passed |
 | `load3.ssa` | passed |
 | `loop.ssa` | passed |
 | `mandel.ssa` | passed |
@@ -90,10 +90,10 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `puts10.ssa` | passed |
 | `queen.ssa` | passed |
 | `rega1.ssa` | passed |
-| `spill1.ssa` | Unsupported: function $f: duplicate SSA definition or duplicate parameter %a |
+| `spill1.ssa` | passed |
 | `strcmp.ssa` | passed |
 | `strspn.ssa` | passed |
 | `sum.ssa` | passed |
 | `tls.ssa` | Unsupported: line 2 near 'thread': expected 'function' |
 | `vararg1.ssa` | passed |
-| `vararg2.ssa` | Unsupported: function $qbeprint0: duplicate SSA definition or duplicate parameter %r |
+| `vararg2.ssa` | passed |

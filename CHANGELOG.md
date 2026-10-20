@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Construct SSA for mutable QBE temporaries with deterministic renaming and
+  on-demand join/loop phis, including floating values and mixed explicit phis.
+  Validate the transformed program and retain strict original-SSA admission
+  for the first path. Python/native QBE tests cover mutable control flow.
+
 - Add all scalar numeric conversion opcodes: single/double precision changes,
   signed/unsigned word/long to float, and float to word/long. Exact integer
   rounding avoids double rounding; the interpreter rejects invalid float-to-int
