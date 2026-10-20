@@ -259,3 +259,29 @@ Apple ARM64: writing w0 clears the upper half of x0. Both direct and interpreted
 indirect calls model that zero extension. Floating, subword and void result
 annotations still require exact matching. This rule records the current target's
 behavior and must be requalified when adding another target ABI.
+
+## Aggregate storage layouts
+
+Named record, union and opaque declarations are accepted in the compatibility
+pipeline. `lcb --type-layout INPUT.ssa` reports byte sizes, alignments and the
+offset, stride and repetition count of each field in each variant. Aggregate
+parameters, call results and returns still fail explicitly pending ABI lowering.
+The restricted first path rejects modules containing type declarations.
+
+References resolve in declaration order; duplicate names, forward references and
+recursive by-value types are rejected. Record members align naturally, including
+zero repetitions; record size rounds up to the maximum member/explicit alignment.
+Unions use the maximum variant extent, rounded to the maximum alignment. Explicit
+alignment is a lower bound, following pinned QBE's parser. Opaque types require
+explicit alignment and retain their exact size without rounding. Repeated nested
+opaque members therefore use that exact size as their stride. Padding is layout
+information and does not define or initialize memory bytes.
+
+Resource limits are 1024 named types, 1024 variants per type, 4096 fields per
+variant, 1048576 repetitions, 1 MiB computed size and power-of-two alignment up to
+65536. These bounds and rejection of non-power-of-two alignments are explicit
+admission restrictions; they do not assert full QBE type compatibility. Storage
+layout acceptance does not imply a target can pass the type by value.
+`scripts/aggregate_layout.py` compares 80 generated record/union/nested layouts
+against independent C sizeof/alignof/offsetof probes and checks QBE-specific
+opaque, zero-repetition and minimum-alignment cases. No layout theorem is claimed.

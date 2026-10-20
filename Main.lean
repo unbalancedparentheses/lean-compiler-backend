@@ -8,6 +8,7 @@ private def usage : String :=
   "Usage:\n" ++
   "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos]\n" ++
   "  lcb --check INPUT.ssa\n" ++
+  "  lcb --type-layout INPUT.ssa\n" ++
   "  lcb --first-path INPUT.ssa [-o OUTPUT.s] [--require-proof]\n" ++
   "  lcb --first-path-eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
   "  lcb --write-job INPUT.ssa FUNCTION OUTPUT.job\n" ++
@@ -29,8 +30,8 @@ private def loadModule (path : String) (constructSSA : Bool := true) : IO LeanCo
 
 private def loadProgram (path : String) : IO Program := do
   let module ← loadModule path false
-  if !module.data.isEmpty then
-    throw (IO.userError "module data is outside the first-path profile")
+  if !module.data.isEmpty || !module.types.isEmpty then
+    throw (IO.userError "module data/types are outside the first-path profile")
   return module.functions
 
 private def options : List String → Except String (Option String)
@@ -88,6 +89,17 @@ private def run (args : List String) : IO UInt32 := do
   | ["--version"] => IO.println "lean-compiler-backend 0.1.0 (experimental)"; return 0
   | ["--build-identity"] => IO.println Verified.compilerBuildIdentity; return 0
   | [] | ["--help"] => IO.print usage; return 0
+  | ["--type-layout", path] =>
+    let module ← loadModule path
+    let layouts ← match Aggregate.layouts module.types with
+      | .ok layouts => pure layouts
+      | .error reason => throw (IO.userError reason)
+    for layout in layouts do
+      IO.println s!"type {layout.name} {layout.size} {layout.alignment}"
+      for (variant, index) in layout.variants.toList.zipIdx do
+        for (field, fieldIndex) in variant.toList.zipIdx do
+          IO.println s!"field {layout.name} {index} {fieldIndex} {field.offset} {field.stride} {field.field.count}"
+    return 0
   | ["--check", path] =>
     let module ← loadModule path
     IO.println s!"checked {module.functions.size} function(s), {module.data.size} data definition(s); initial QBE subset"

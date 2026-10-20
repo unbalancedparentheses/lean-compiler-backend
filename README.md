@@ -91,6 +91,9 @@ before rebuilding; the checks reject stale source/build identities.
 - Single/double arithmetic, comparisons, casts, numeric conversions, memory, phi values
   and scalar calls/returns.
 - Apple ARM64 thread-local data and addresses, including external TLS and C threads.
+- Named aggregate record/union/opaque storage layouts with nesting and repetition;
+  inspect sizes and field offsets with `lcb --type-layout INPUT.ssa`. Passing these
+  types by value still requires the pending aggregate ABI implementation.
 - Signed/unsigned byte and short ABI arguments/results, including packed stack slots.
 - QBE `env` parameters/arguments in x9, including indirect and variadic calls.
 - Integer/floating variadic functions/calls, `vastart` and w/l/s/d `vaarg` on Apple ARM64.

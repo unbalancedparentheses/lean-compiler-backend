@@ -4,6 +4,7 @@
   Unsupported constructs are errors; no partial successful compilation.
 -/
 import LeanCompilerBackend.Numeric
+import LeanCompilerBackend.Aggregate
 
 namespace LeanCompilerBackend.Parser
 
@@ -503,10 +504,67 @@ private def parseData (exported threadLocal : Bool) : P DataDefinition := do
     else if (← peek) != some "}" then failAt "expected ',' or '}' after data field"
   failAt "data initializer parsing limit exceeded"
 
+private def parseAggregateFields : P (Array AggregateField) := do
+  expect "{"
+  let mut fields := #[]
+  for _ in [:4097] do
+    if (← peek) == some "}" then
+      discard take
+      return fields
+    let member ← if ((← peek).getD "").startsWith ":" then
+        pure (AggregateMember.named (← parseName ':'))
+      else do
+        let kind ← take
+        match kind with
+        | "b" => pure (.scalar .byte false) | "h" => pure (.scalar .half false)
+        | "w" => pure (.scalar .word false) | "l" => pure (.scalar .long false)
+        | "s" => pure (.scalar .word true) | "d" => pure (.scalar .long true)
+        | _ => failAt "expected aggregate member b/h/w/l/s/d or named type"
+    let count ← match ((← peek).getD "").toNat? with
+      | some n => discard take; pure n
+      | none => pure 1
+    fields := fields.push { member, count }
+    if (← peek) == some "," then discard take
+    else if (← peek) != some "}" then failAt "expected ',' or '}' after aggregate member"
+  failAt "aggregate field limit exceeded (4096)"
+
+private def parseAggregate : P AggregateType := do
+  expect "type"
+  let name ← parseName ':'
+  expect "="
+  let alignment ← if (← peek) == some "align" then do
+      discard take
+      let some n := (← take).toNat? | failAt "expected aggregate alignment"
+      pure (some n)
+    else pure none
+  -- Inspect the first body token without consuming the record's opening brace.
+  let saved ← get
+  expect "{"
+  if let some size := ((← peek).getD "").toNat? then
+    discard take
+    expect "}"
+    return { name, alignment, opaqueSize := some size }
+  if (← peek) == some "{" then
+    let mut variants := #[]
+    for _ in [:1025] do
+      if (← peek) == some "}" then
+        discard take
+        return { name, alignment, variants, isUnion := true }
+      variants := variants.push (← parseAggregateFields)
+    failAt "aggregate variant limit exceeded (1024)"
+  else
+    set saved
+    let fields ← parseAggregateFields
+    return { name, alignment, variants := #[fields] }
+
 private def parseDefinitions : Nat → P Module
   | 0 => failAt "module definition parsing limit exceeded"
   | fuel + 1 => do
     if (← peek).isNone then return {}
+    if (← peek) == some "type" then
+      let type ← parseAggregate
+      let rest ← parseDefinitions fuel
+      return { rest with types := #[type] ++ rest.types }
     let mut exported := false
     let mut threadLocal := false
     for _ in [:3] do
@@ -535,12 +593,14 @@ def parseModule (source : String) : Except String Module := do
   if tokens.isEmpty then throw "input contains no functions or data"
   if tokens.size > 50000 then throw "input exceeds initial token limit"
   let (program, _) ← (parseDefinitions (min (tokens.size + 1) 1025)).run { tokens }
+  discard (Aggregate.layouts program.types)
   return program
 
 /-- Legacy function-only API rejects data rather than silently discarding it. -/
 def parse (source : String) : Except String Program := do
   let module ← parseModule source
-  if !module.data.isEmpty then throw "module contains data; use Parser.parseModule"
+  if !module.data.isEmpty || !module.types.isEmpty then
+    throw "module contains data or types; use Parser.parseModule"
   return module.functions
 
 end LeanCompilerBackend.Parser

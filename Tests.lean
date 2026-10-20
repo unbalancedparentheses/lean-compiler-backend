@@ -38,4 +38,11 @@ def main : IO Unit := do
   require (!(isFailure (Parser.parse "export function d $float() { @s ret d_0 }"))) "floating signature should parse"
   require (isFailure (Parser.parse "export function :pair $bad() { @s ret 0 }")) "aggregate signature must reject"
   require (isFailure (Parser.parse "function w $bad() { @s ret 0 } trailing")) "surplus input must reject"
+  let aggregate ← match Parser.parseModule "type :record = { d } type :union = { { d } }" with
+    | .ok m => pure m
+    | .error e => throw (IO.userError e)
+  require (!aggregate.types[0]!.isUnion && aggregate.types[1]!.isUnion)
+    "single-variant unions must retain their ABI identity"
+  require (isFailure (Parser.parse "type :record = { w } function w $f() { @s ret 0 }"))
+    "function-only parsing must not silently discard aggregate types"
   IO.println "unit checks passed"

@@ -4,7 +4,7 @@
   This implements only the currently admitted subset, not QBE's full SSA
   construction or complete type system. See docs/UPSTREAM.md.
 -/
-import LeanCompilerBackend.IR
+import LeanCompilerBackend.Aggregate
 
 namespace LeanCompilerBackend
 
@@ -265,7 +265,9 @@ def validate (program : Program) : Except String Unit := do
                 throw s!"call ${target}: argument type disagrees with its definition"
 
 def validateModule (module : Module) : Except String Unit := do
-  if module.functions.isEmpty && module.data.isEmpty then throw "module contains no definitions"
+  discard (Aggregate.layouts module.types)
+  if module.functions.isEmpty && module.data.isEmpty && module.types.isEmpty then
+    throw "module contains no definitions"
   if !module.functions.isEmpty then validate module.functions
   if module.data.size > 1024 then throw "module exceeds the 1024-data-definition resource limit"
   let mut names := module.functions.toList.map (·.name)

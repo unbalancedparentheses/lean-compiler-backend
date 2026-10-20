@@ -295,9 +295,31 @@ structure DataDefinition where
 def DataDefinition.byteSize (data : DataDefinition) : Nat :=
   data.items.foldl (fun size item => size + item.byteSize) 0
 
+/-- Aggregate members retain repetition without expanding large arrays. -/
+inductive AggregateMember where
+  | scalar (width : MemoryWidth) (floating : Bool := false)
+  | named (name : String)
+  deriving Repr, Inhabited, BEq
+
+structure AggregateField where
+  member : AggregateMember
+  count : Nat := 1
+  deriving Repr, Inhabited, BEq
+
+/-- Retain union identity even for a single variant (needed by RV64 ABI).
+    Opaque sizes are exact, not rounded to alignment. -/
+structure AggregateType where
+  name : String
+  alignment : Option Nat := none
+  variants : Array (Array AggregateField) := #[]
+  isUnion : Bool := false
+  opaqueSize : Option Nat := none
+  deriving Repr, Inhabited, BEq
+
 /-- Module-level data is kept separate from the function-only compilation API. -/
 structure Module where
   functions : Program := #[]
+  types : Array AggregateType := #[]
   data : Array DataDefinition := #[]
   deriving Repr, Inhabited
 

@@ -149,7 +149,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   stack slice uses natural word/long packing and is checked against native C.
   Next implement aggregate support in this order:
   1. Parse named record, union and opaque types with repetition, nesting and explicit
-     alignment. Check layout against independent C sizeof/alignof/offsetof probes.
+     alignment. Storage parsing/layout and independent C sizeof/alignof/offsetof
+     probes are implemented; aggregate signature and ABI integration follow.
   2. Build aggregate argument/result plans: homogeneous single/double aggregates,
      small GP-register aggregates, stack fallback and caller-owned indirect copies;
      include x8 result pointers alongside x9 environments and variadic boundaries.

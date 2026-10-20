@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Parse named aggregate record, union and opaque types; check nested/repeated
+  storage layouts and expose `--type-layout`. Compare 80 generated layouts with C
+  size/alignment/offset probes. Aggregate calls remain explicitly unsupported.
+
 - Add Apple ARM64 thread-local data, TLV address resolution and external TLS,
   with live scalar register preservation and concurrent C-thread isolation tests.
   Permit known internal word results to be consumed as zero-extended long results
