@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.ArithmeticProofs
 import LeanCompilerBackend.Verified.PhiContextProofs
 import LeanCompilerBackend.Verified.InstructionProofs
 import LeanCompilerBackend.Verified.SourceTransferProofs
@@ -168,3 +169,16 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.stagePhis_copy
 #print axioms LeanCompilerBackend.Verified.Machine.phi_context
 #print axioms LeanCompilerBackend.Verified.Machine.lowerEdge_context
+
+-- Actual four-instruction arithmetic expansion and source simulation.
+#print axioms LeanCompilerBackend.Verified.Machine.sourceView_width
+#print axioms LeanCompilerBackend.Verified.Machine.sourceView_bits
+#print axioms LeanCompilerBackend.Verified.Machine.sourceView_value
+#print axioms LeanCompilerBackend.Verified.Machine.assignedReg_ready
+#print axioms LeanCompilerBackend.Verified.Machine.assignedReg_locals
+#print axioms LeanCompilerBackend.Verified.Machine.writeReg_assigned
+#print axioms LeanCompilerBackend.Verified.Machine.assignedReg_same
+#print axioms LeanCompilerBackend.Verified.Machine.assignedReg_other
+#print axioms LeanCompilerBackend.Verified.Machine.binary_expansion
+#print axioms LeanCompilerBackend.Verified.binary_instruction
+#print axioms LeanCompilerBackend.Verified.binary_steps

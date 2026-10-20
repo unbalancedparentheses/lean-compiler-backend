@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Proved all six arithmetic/bitwise source operations simulate through their
+  actual four-instruction MIR expansion, preserving the updated environment
+  relation under explicit availability, typing and instruction-position premises.
+
 - Added runtime rejection controls for duplicate phi destinations, missing
   predecessors, unavailable operands, operand width mismatches and invalid
   destinations. Recorded the 123-theorem native qualification checkpoint.

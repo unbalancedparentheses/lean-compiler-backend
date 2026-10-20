@@ -219,8 +219,9 @@ operand/store pair has a proved effect, and a canonical staging-slot write
 preserves every defined local, including mixed-width values. `InstructionProofs.copy_steps` connects an actual source copy step to the two
 actual MIR steps emitted by `lowerInstruction`, preserving the complete updated
 environment relation. The source/target instruction-position correspondence and
-typing/availability remain explicit premises. General arithmetic/comparison
-instruction simulation and whole-function preservation remain open.
+typing/availability remain explicit premises. `ArithmeticProofs.binary_steps` extends this to all six arithmetic/bitwise
+operations and their four emitted MIR steps, using the source bitvector result.
+Comparison instruction simulation and whole-function preservation remain open.
 
 `TransferProofs.executeMIRList_steps` connects straight-line instruction execution
 to an unbounded `stepMIR` prefix, with exactly one step per instruction. The
