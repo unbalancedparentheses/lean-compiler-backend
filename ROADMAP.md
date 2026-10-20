@@ -164,8 +164,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  35/76 inputs: 27 original executable fixtures pass natively, eight development
-  fixtures assemble only, and 41 remain unsupported. CI prevents emission
+  36/76 inputs: 28 original executable fixtures pass natively, eight development
+  fixtures assemble only, and 40 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

@@ -7,8 +7,8 @@ Executable semantics, existing proofs and regression tests remain required check
 tested and certified coverage are reported separately. The current implementation
 is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
 
-The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 27 native
-passes, eight assemble-only fixtures and 41 unsupported inputs out of 76.
+The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 28 native
+passes, eight assemble-only fixtures and 40 unsupported inputs out of 76.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
@@ -126,7 +126,7 @@ The memory interpreter uses abstract byte-addressed objects and rejects external
 out-of-bounds and uninitialized accesses. This is a testing model, not native
 runtime memory-safety enforcement. Native checks also exercise actual C-owned
 memory. Allocations currently require entry-block constants in 1..4096 bytes;
-the overall 4080-byte frame limit still applies. Memory fuzzing found a
+the compatibility backend has a 1 MiB total-frame resource limit. Memory fuzzing found a
 [QBE 1.3 load-forwarding discrepancy](docs/UPSTREAM_DISCREPANCIES.md). Original
 QBE mismatches are retained and reported separately from a declared corrected
 test comparison; native C references corroborate generated overlap cases.

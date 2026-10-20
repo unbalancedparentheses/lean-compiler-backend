@@ -154,6 +154,28 @@ private def emitCall (slots : List (String × Nat)) (target : CallTarget)
     -- Load the target after argument setup; x16 is reserved as call scratch.
     pure (lines ++ (← load slots .long 16 address) ++ ["\tblr x16"])
 
+/-- Split frame adjustments into the two legal AArch64 immediate scales. -/
+private def adjustStack (op : String) (bytes : Nat) : List String := Id.run do
+  let mut lines := []
+  if bytes / 4096 != 0 then
+    lines := lines ++ [s!"\t{op} sp, sp, #{bytes / 4096}, lsl #12"]
+  if bytes % 4096 != 0 then
+    lines := lines ++ [s!"\t{op} sp, sp, #{bytes % 4096}"]
+  return lines
+
+private def stackAddress (destination offset : Nat) : List String := Id.run do
+  let r := register .long destination
+  if offset < 4096 then return [s!"\tadd {r}, sp, #{offset}"]
+  let mut lines := [s!"\tadd {r}, sp, #{offset / 4096}, lsl #12"]
+  if offset % 4096 != 0 then
+    lines := lines ++ [s!"\tadd {r}, {r}, #{offset % 4096}"]
+  return lines
+
+private def loadIncoming (width : Width) (offset : Nat) : List String :=
+  if offset % width.bytes == 0 && offset / width.bytes < 4096 then
+    [s!"\tldr {register width 9}, [sp, #{offset}]"]
+  else stackAddress 10 offset ++ [s!"\tldr {register width 9}, [x10]"]
+
 private def emitInstruction (slots allocations : List (String × Nat)) (inst : Instruction)
     : Except String (List String) := do
   let mut lines : List String := []
@@ -183,7 +205,7 @@ private def emitInstruction (slots allocations : List (String × Nat)) (inst : I
     lines := lines ++ [s!"\tcmp {register width 9}, {register width 10}", s!"\tcset w9, {condition op}"]
   | .allocate _ _ =>
     let offset ← slotOffset allocations inst.destination
-    lines := lines ++ [s!"\tadd x9, sp, #{offset}"]
+    lines := lines ++ stackAddress 9 offset
   | .load kind address =>
     lines := lines ++ (← load slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
@@ -274,12 +296,12 @@ def emitFunction (f : Function) : Except String String := do
         allocations := (inst.destination, offset) :: allocations
         frameEnd := offset + size.toNat
   let frame := alignUp frameEnd 16
-  if frame > 4080 then throw "stack frame exceeds initial AArch64 immediate limit"
+  if frame > 1024 * 1024 then throw "stack frame exceeds the 1 MiB resource limit"
   let symbol := "_" ++ f.name
   let mut lines := [s!"; function {f.name}; target aarch64-macos; QBE integer SSA subset"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   lines := lines ++ [".p2align 2", s!"{symbol}:"]
-  if frame != 0 then lines := lines ++ [s!"\tsub sp, sp, #{frame}"]
+  lines := lines ++ adjustStack "sub" frame
   if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
   let incoming := argumentLayout (f.parameters.map (·.width))
   for i in [:f.parameters.size] do
@@ -289,8 +311,8 @@ def emitFunction (f : Function) : Except String String := do
     | .register index =>
       lines := lines ++ [s!"\tstr {register parameter.width index}, [sp, #{offset}]"]
     | .stack argumentOffset =>
-      lines := lines ++ [s!"\tldr {register parameter.width 9}, [sp, #{frame + argumentOffset}]",
-                         s!"\tstr {register parameter.width 9}, [sp, #{offset}]"]
+      lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
+        ++ [s!"\tstr {register parameter.width 9}, [sp, #{offset}]"]
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
     for statement in block.instructions do
@@ -301,7 +323,7 @@ def emitFunction (f : Function) : Except String String := do
         let some width := f.resultWidth | throw "void function cannot return an integer"
         lines := lines ++ (← load slots width 0 value)
       if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]
-      if frame != 0 then lines := lines ++ [s!"\tadd sp, sp, #{frame}"]
+      lines := lines ++ adjustStack "add" frame
       lines := lines ++ ["\tret"]
     | .halt => lines := lines ++ ["\tbrk #0"]
     | .jump target =>

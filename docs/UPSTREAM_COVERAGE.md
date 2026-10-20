@@ -1,12 +1,12 @@
 # Upstream fixture coverage checkpoint
 
-Pinned QBE 1.3, Apple ARM64; measured after the indirect-call implementation.
+Pinned QBE 1.3, Apple ARM64; measured after large-frame support.
 This is compatibility testing, not formal certification.
 
-- 35 of 76 fixtures emit assembly.
-- 27 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
+- 36 of 76 fixtures emit assembly.
+- 28 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
 - 8 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
-- 41 fixtures remain unsupported.
+- 40 fixtures remain unsupported.
 
 `scripts/upstream_suite.py` scans every fixture and runs every accepted executable
 fixture on native Apple ARM64. Other hosts check emission and report native execution
@@ -50,7 +50,7 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `alias1.ssa` | passed |
 | `align.ssa` | passed |
 | `cmp1.ssa` | Unsupported: function $test: duplicate SSA definition or duplicate parameter %cmp |
-| `collatz.ssa` | Unsupported: stack frame exceeds initial AArch64 immediate limit |
+| `collatz.ssa` | passed |
 | `conaddr.ssa` | passed |
 | `copy.ssa` | passed |
 | `cprime.ssa` | passed |

@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Raise compatibility stack frames from the 4080-byte immediate restriction to a
+  1 MiB resource limit. Split stack adjustments and allocation address calculations
+  into legal AArch64 immediate scales; materialize large incoming argument offsets.
+  Six layouts through 128 KiB of allocation pass interpreter/native Lean/QBE/C
+  checks, including mixed stack arguments, calls, return addresses and corruption
+  controls. The restricted first-path frame bound remains 4080 bytes.
+
 - Scan all 76 retained upstream SSA fixtures and prevent emission regressions in
   CI. The first native compatibility checkpoint emits 35: 27 runnable fixtures
   pass original drivers/output expectations with both Lean and QBE output, and

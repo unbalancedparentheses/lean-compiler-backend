@@ -268,7 +268,7 @@ def controls(work):
         source.write_text(f'function w $f() {{ @s {body} ret %r }}')
         result = subprocess.run([str(LCB), '--eval', source, 'f'], text=True, capture_output=True, timeout=30)
         assert result.returncode != 0 and message in result.stderr, result.stderr
-    source.write_text('function l $f() { @s %p =l alloc16 4096 ret 0 }')
+    source.write_text('function l $f() { @s ' + ' '.join(f'%p{i} =l alloc16 4096' for i in range(257)) + ' ret 0 }')
     result = subprocess.run([str(LCB), source, '-o', output], text=True, capture_output=True, timeout=30)
     assert result.returncode != 0 and 'stack frame' in result.stderr and not output.exists()
     return len(invalid) + len(undefined) + 1

@@ -97,7 +97,7 @@ def main():
                     try:
                         result = command([executable, 'a', 'b', 'c'], timeout=30)
                         # Upstream output fixtures check stdout, including void-main tests.
-                        passed = result.stdout.replace('\r', '') == expected if expected else result.returncode == 0
+                        passed = (result.returncode >= 0 and result.stdout.replace('\r', '') == expected) if expected else result.returncode == 0
                         status = 'passed' if passed else 'execution mismatch'
                         if not passed:
                             failures.append((source.name, f'{backend}: exit {result.returncode}; stdout={result.stdout!r}; expected={expected!r}; stderr={result.stderr}'))
