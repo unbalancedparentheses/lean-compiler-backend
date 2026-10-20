@@ -29,6 +29,17 @@ export function l $tls_array_addr() {
 @entry
  ret thread $tls_array
 }
+export function l $tls_select(w %choose) {
+@entry
+ jnz %choose, @counter, @array
+@counter
+ jmp @join
+@array
+ jmp @join
+@join
+ %address =l phi @counter thread $tls_counter, @array thread $tls_array
+ ret %address
+}
 export function l $tls_add(l %a) {
 @entry
  %r =l add %a, thread $tls_counter
@@ -78,7 +89,7 @@ extern _Thread_local uint64_t tls_counter;
 extern _Thread_local unsigned char tls_array[16];
 _Thread_local uint64_t external_tls=123;
 extern uint64_t tls_read(void),tls_addr(void),tls_add(uint64_t),tls_external(void),tls_call(void),tls_model(uint64_t);
-extern uint64_t word_widen(uint32_t),word_widen_indirect(uint32_t);
+extern uint64_t word_widen(uint32_t),word_widen_indirect(uint32_t),tls_select(uint32_t);
 extern void tls_write(uint64_t);
 uint64_t c_mix(uint64_t a,double f,uint64_t b,float g,uintptr_t p,uint64_t c,uintptr_t q,
                uint64_t d,uint64_t e,uint64_t h,uint64_t i,uint64_t j,uintptr_t r,...) {
@@ -102,7 +113,7 @@ static void *worker(void *argument) {
  pthread_mutex_unlock(&lock);
  bad|=tls_read()!=1000+id || tls_external()!=2000+id;
  bad|=tls_addr()!=(uintptr_t)&tls_counter || tls_add(id)!=(uintptr_t)&tls_counter+id;
- bad|=tls_call()!=777;
+ bad|=tls_call()!=777 || tls_select(1)!=(uintptr_t)&tls_counter || tls_select(0)!=(uintptr_t)tls_array;
  tls_write(3000+id);bad|=tls_counter!=3000+id;
  bad|=tls_model(4000+id)!=4000+id;
  return (void *)(uintptr_t)bad;
@@ -130,6 +141,8 @@ def main():
             assert int(run([LCB,'--eval',src,'tls_model',x]))==x
             for name in ['word_widen','word_widen_indirect']:assert int(run([LCB,'--eval',src,name,x&0xffffffff]))==x&0xffffffff
         assert int(run([LCB,'--eval',src,'tls_read']))==7
+        assert int(run([LCB,'--eval',src,'tls_select',1]))==int(run([LCB,'--eval',src,'tls_addr']))
+        assert int(run([LCB,'--eval',src,'tls_select',0]))==int(run([LCB,'--eval',src,'tls_array_addr']))
         reject([LCB,'--eval',src,'tls_external'],'no interpreter model')
         for i,text in enumerate([
             'thread data $v={l 1} function l $f() { @s ret $v }',
