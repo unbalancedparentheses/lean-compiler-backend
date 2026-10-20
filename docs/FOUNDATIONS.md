@@ -251,6 +251,10 @@ destinations, successful operand reads, destination bounds and declared widths.
 The source loop bodies are definitionally equal to those used in the proof;
 the interpreter algorithm was not replaced. Deriving the premises from admission
 and establishing edge membership for arbitrary lowered functions remain open.
+`PhiExamples.swap_simulation` instantiates the full source/MIR transfer theorem
+on the admitted cyclic loop for arbitrary compatible source values and machine
+data. `loop_related` and `loop_ready` exhibit a concrete live frame satisfying
+the relation and readiness premises.
 
 The invariant is that every commit reads its
 staged value while preserving the other staging slots. Only after all commits
@@ -304,7 +308,7 @@ other arithmetic/target/source facts use `propext`/`Quot.sound`. Binding/refusal
 array-offset, store-initialization and load-after-store reconstruction facts
 additionally use `Classical.choice`. No native-evaluation axioms or admitted goals
 are accepted.
-No composed preservation, admission-soundness or codec theorem is claimed.
+No whole-pipeline preservation, admission-soundness or codec theorem is claimed.
 
 **Tested:** unit/model/negative controls; 25 fixture functions with fresh-process
 and concurrent-process replay, module-order independence and independent hashes;

@@ -2,6 +2,7 @@
 import LeanCompilerBackend.Verified.PhiSwapProof
 import LeanCompilerBackend.Verified.DivergenceProofs
 import LeanCompilerBackend.Verified.EntryProofs
+import LeanCompilerBackend.Verified.SourceTransferProofs
 
 set_option maxRecDepth 10000
 
@@ -186,5 +187,85 @@ theorem cycle_behavior (w : Width) :
     cycle_admitted w, cycle_lowered w, assembly_selected w, init, entry,
     Machine.assemblyEntry_sound _ _ _ _ entry, source_diverges w, mir_diverges w,
     assembly_diverges w⟩
+
+/-- The backedge values are arbitrary; initialization literals only belong to
+    the other incoming edge. -/
+def swapInputs (w : Width) (a b : Source.Value) : List (Source.Phi × Source.Value) := [
+  ({ destination := 0, width := w,
+      incoming := #[(0, .literal (Source.Value.constant w 11)), (1, .local 1)] }, b),
+  ({ destination := 1, width := w,
+      incoming := #[(0, .literal (Source.Value.constant w 22)), (1, .local 0)] }, a)]
+
+theorem swap_inputs (w : Width) (a b : Source.Value) (ha : a.width = w) (hb : b.width = w) :
+    Source.TransferInputs 1 #[some a, some b] #[] (swapInputs w a b) := by
+  have same : (w != w) = false := by cases w <;> rfl
+  have read0 : Source.read #[some a, some b] w (.local 0) = .ok a := by
+    simp [Source.read, ha, same, bind, Except.bind, pure, Except.pure]
+  have read1 : Source.read #[some a, some b] w (.local 1) = .ok b := by
+    simp [Source.read, hb, same, bind, Except.bind, pure, Except.pure]
+  refine ⟨.local 1, ?_, by simp, read1, .local 0, ?_, ?_, read0, trivial⟩
+  · cases w <;> decide +kernel
+  · cases w <;> decide +kernel
+  · simp
+
+theorem swap_targets (w : Width) (a b : Source.Value) (ha : a.width = w) (hb : b.width = w) :
+    Source.TransferTargets (cycleSource w) 2 (swapInputs w a b) := by
+  simp [Source.TransferTargets, cycleSource, swapInputs, ha, hb]
+
+/-- The general source/MIR transfer theorem applies to an actually admitted,
+    lowered loop for arbitrary source values and compatible machine data. -/
+theorem swap_simulation (w : Width) (a b : Source.Value) (d : Machine.Data)
+    (ha : a.width = w) (hb : b.width = w) (ready : Machine.FrameReady d) (frame : d.frameBytes = 32)
+    (related : Machine.LocalsMatch (cycleMIR w) #[some a, some b] d) :
+    ∃ after updated,
+      Source.transfer (cycleSource w) 1 1 #[some a, some b] =
+        .ok { block := 1, position := 0, environment := updated } ∧
+      Machine.Steps (Machine.stepMIR (cycleMIR w)) 9
+        { label := .edge 1 1, data := d } { label := .body 1, data := after } ∧
+      Machine.FrameReady after ∧ after.frameBytes = 32 ∧
+      Machine.LocalsMatch (cycleMIR w) updated after := by
+  let block : Source.Block := {
+    phis := ((swapInputs w a b).map Prod.fst).toArray
+    instructions := #[], terminator := .jump 1 }
+  have sourceBlock : (cycleSource w).blocks[1]? = some block := by rfl
+  have phis : block.phis.toList = (swapInputs w a b).map Prod.fst := by simp [block]
+  have layout : (cycleMIR w).layout = planFrame (cycleSource w) := by cases w <;> decide +kernel
+  have frameSize : (planFrame (cycleSource w)).frameBytes = 32 := by cases w <;> decide +kernel
+  have capacity : (swapInputs w a b).length ≤ phiCapacity (cycleSource w) := by
+    change 2 ≤ phiCapacity (cycleSource w)
+    cases w <;> decide +kernel
+  have lower : StackMIR.lowerEdge (cycleSource w) 1 1 = .ok {
+      label := .edge 1 1, instructions := (Machine.swapCode w).toArray,
+      terminator := .jump (.body 1) } := by cases w <;> decide +kernel
+  have present : ∀ edge, StackMIR.lowerEdge (cycleSource w) 1 1 = .ok edge →
+      (cycleMIR w).blocks.find? (·.label == .edge 1 1) = some edge := by
+    intro edge h
+    rw [lower] at h
+    cases h
+    exact cycle_edge w
+  have result := Source.transfer_correct (cycleMIR w) (cycleSource w) block #[some a, some b] d 1 1
+    (swapInputs w a b) sourceBlock phis present layout (by simpa [frameSize] using frame)
+    (by simp [cycleSource]) capacity ready related (swap_inputs w a b ha hb) (swap_targets w a b ha hb)
+  simpa only [swapInputs, List.length_cons, List.length_nil, frameSize] using result
+
+/-- A concrete live frame satisfies the general theorem's value relation. -/
+theorem loop_related (w : Width) :
+    Machine.LocalsMatch (cycleMIR w) (sourceLoop w 11 22).environment (machineLoop w 11 22).data := by
+  intro id value found
+  cases id with
+  | zero =>
+    have same : Source.Value.constant w 11 = value := by simpa [sourceLoop] using found
+    subst value
+    refine ⟨0, ?_, ?_⟩ <;> cases w <;> decide +kernel
+  | succ id =>
+    cases id with
+    | zero =>
+      have same : Source.Value.constant w 22 = value := by simpa [sourceLoop] using found
+      subst value
+      refine ⟨8, ?_, ?_⟩ <;> cases w <;> decide +kernel
+    | succ id => simp [sourceLoop] at found
+
+theorem loop_ready (w : Width) : Machine.FrameReady (machineLoop w 11 22).data := by
+  constructor <;> cases w <;> decide +kernel
 
 end LeanCompilerBackend.Verified.PhiExamples

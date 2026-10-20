@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Instantiated the general source/MIR phi-transfer theorem on an admitted cyclic
+  loop with arbitrary compatible values, plus concrete live-frame witnesses.
+
 - Connected the general MIR phi-edge theorem to the source interpreter's actual
   checked transfer loops, including predecessor uniqueness, duplicate-destination
   checks, source reads and typed environment updates.

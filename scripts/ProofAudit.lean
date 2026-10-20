@@ -143,3 +143,10 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Source.commitPhis_ok
 #print axioms LeanCompilerBackend.Verified.Source.transfer_assigns
 #print axioms LeanCompilerBackend.Verified.Source.transfer_correct
+
+-- Admitted-loop instantiation and concrete relation witnesses.
+#print axioms LeanCompilerBackend.Verified.PhiExamples.swap_inputs
+#print axioms LeanCompilerBackend.Verified.PhiExamples.swap_targets
+#print axioms LeanCompilerBackend.Verified.PhiExamples.swap_simulation
+#print axioms LeanCompilerBackend.Verified.PhiExamples.loop_related
+#print axioms LeanCompilerBackend.Verified.PhiExamples.loop_ready
