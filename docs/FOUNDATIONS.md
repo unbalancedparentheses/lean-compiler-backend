@@ -233,8 +233,12 @@ kernel-checks its admission, actual lowering, MIR legality, layout and backedge
 lookup. Its transfer theorem then applies universally to compatible data states,
 so the cyclic proof premises are instantiated by an admitted lowered function.
 
-For a phi edge, freeze the predecessor environment before staging. Prove that
-every staging store preserves all value slots, then that every commit reads its
+`StagingProofs.stagePhis_correct` now proves the actual staging pass for arbitrary
+phi lists, using the actual incoming-operand lookup and successful source reads
+in a frozen predecessor environment. It establishes all staged values, preserves
+the source-value relation and frame readiness, and preserves every load below
+the first staging slot. Predecessor uniqueness remains an admission obligation.
+The next step is to prove that every commit reads its
 staged value while preserving the other staging slots. Only after all commits
 should the relation expose the destination environment. This is the point where
 cycles must be handled simultaneously, rather than by sequential substitution.

@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.StagingProofs
 import LeanCompilerBackend.Verified.OperandProofs
 import LeanCompilerBackend.Verified.PhiExamples
 import LeanCompilerBackend.Verified.PhiSwapProof
@@ -117,3 +118,5 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.planned_value
 #print axioms LeanCompilerBackend.Verified.Machine.planned_stage
 #print axioms LeanCompilerBackend.Verified.Machine.localsMatch_stage
+
+#print axioms LeanCompilerBackend.Verified.Machine.stagePhis_correct

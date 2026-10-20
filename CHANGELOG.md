@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Proved the actual phi staging pass for arbitrary lists, with a frozen source
+  environment, correct staged values, frame readiness and preserved locals.
+
 - Proved actual local/literal operand lowering under an explicit source/frame
   relation, including copy-store execution and preservation of every defined
   source value by canonical phi staging writes.

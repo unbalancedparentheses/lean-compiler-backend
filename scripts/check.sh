@@ -93,6 +93,7 @@ grep -Fx "'LeanCompilerBackend.Verified.Machine.operand_copy' depends on axioms:
 grep -Fx "'LeanCompilerBackend.Verified.Machine.planned_value' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.planned_stage' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.localsMatch_stage' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.stagePhis_correct' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 python3 scripts/test.py "$@"
 python3 scripts/integer.py "$@"
 python3 scripts/control.py "$@"
