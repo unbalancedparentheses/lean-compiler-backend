@@ -55,6 +55,8 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
     : Except String Unit := do
   match operand with
   | .constant _ => pure ()
+  | .symbol name =>
+    if !validName name then throw "unsupported symbol name"
   | .temporary name =>
     let some definition := definitions.find? (·.name == name)
       | throw s!"undefined temporary %{name}"
@@ -153,7 +155,7 @@ def validateFunction (f : Function) : Except String Unit := do
           | .constant bytes =>
             if bytes <= 0 || bytes > 4096 then
               throw "stack allocation currently requires a constant size in 1..4096"
-          | .temporary _ => throw "dynamic stack allocation is not yet supported"
+          | .temporary _ | .symbol _ => throw "dynamic stack allocation is not yet supported"
     let check := checkOperand definitions doms block.label (block.instructions.size + 1)
     match block.terminator with
     | .ret value =>

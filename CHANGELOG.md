@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Accept global symbol operands in the compatibility parser and emit Apple ARM64
+  GOT address loads, including external data, function addresses and phi inputs.
+  Native C/QBE comparisons cover reads, writes, address identity and truncation;
+  the interpreter refuses unresolved symbols and the first proof profile rejects them.
+
 - Prioritize full QBE compatibility before further formal proof expansion:
   complete Apple ARM64 language/ABI support, optimizations and register allocation,
   then remaining targets and qualification. Defer C01–C03 and proof expansion;

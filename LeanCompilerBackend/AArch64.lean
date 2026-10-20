@@ -72,6 +72,11 @@ private def load (slots : List (String × Nat)) (width : Width) (destination : N
     (value : Operand) : Except String (List String) := do
   match value with
   | .constant n => return immediate width destination n
+  | .symbol name =>
+    -- GOT references work for both module-local and externally linked symbols.
+    let r := register .long destination
+    return [s!"\tadrp {r}, _{name}@GOTPAGE", s!"\tldr {r}, [{r}, _{name}@GOTPAGEOFF]"]
+      ++ (if width == .word then [s!"\tmov {register .word destination}, {register .word destination}"] else [])
   | .temporary name =>
     match slots.lookup name with
     | some offset => return [s!"\tldr {register width destination}, [sp, #{offset}]"]
