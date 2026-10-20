@@ -90,6 +90,16 @@ private def parseValueType : P (Width × Bool) := do
   | some "d" => discard take; return (.long, true)
   | _ => return (← parseWidth, false)
 
+private def parseABIType : P (Width × Bool × Option Subword) := do
+  let subword := match (← peek).getD "" with
+    | "sb" => some Subword.signedByte | "ub" => some .unsignedByte
+    | "sh" => some .signedHalf | "uh" => some .unsignedHalf | _ => none
+  if subword.isSome then
+    discard take
+    return (.word, false, subword)
+  let (width, floating) ← parseValueType
+  pure (width, floating, none)
+
 private def parseName (sigil : Char) : P String := do
   let name ← take
   let chars := name.toList
@@ -160,13 +170,13 @@ private def parseArguments : Nat → Bool → P (Array CallArgument)
       if (← peek) == some ")" then failAt "trailing comma in call arguments"
       return ← parseArguments fuel true
     let environment := (← peek) == some "env"
-    let (width, floating) ← if environment then do discard take; pure (Width.long, false) else parseValueType
+    let (width, floating, subword) ← if environment then do discard take; pure (Width.long, false, none) else parseABIType
     let value ← parseOperand
     if (← peek) == some "," then
       discard take
       if (← peek) == some ")" then failAt "trailing comma in call arguments"
-      return #[{ width, value, variadic, environment, floating }] ++ (← parseArguments fuel variadic)
-    return #[{ width, value, variadic, environment, floating }]
+      return #[{ width, value, variadic, environment, floating, subword }] ++ (← parseArguments fuel variadic)
+    return #[{ width, value, variadic, environment, floating, subword }]
 
 private def parseCall : P (CallTarget × Array CallArgument) := do
   let target ← if ((← peek).getD "").startsWith "$" then
@@ -265,12 +275,13 @@ private def parseIncoming : Nat → P (Array (String × Operand))
 private def parseDefinition : P (Sum Phi Statement) := do
   let destination ← parseName '%'
   expect "="
-  let (width, floating) ← parseValueType
+  let (width, floating, callSubword) ← parseABIType
   let name ← take
+  if callSubword.isSome && name != "call" then failAt "subword result type is only valid for calls"
   if name == "phi" then
     pure (.inl { destination, width, floating, incoming := ← parseIncoming 65 })
   else
-    pure (.inr (.assign { destination, width, floating, operation := ← parseOperation floating name }))
+    pure (.inr (.assign { destination, width, floating, callSubword, operation := ← parseOperation floating name }))
 
 private def storeWidth : String → Option MemoryWidth
   | "storeb" => some .byte | "storeh" => some .half
@@ -301,14 +312,14 @@ private def parseParameters : Nat → P (Array Parameter × Bool)
       discard take
       return (#[], true)
     let environment := (← peek) == some "env"
-    let (width, floating) ← if environment then do discard take; pure (Width.long, false) else parseValueType
+    let (width, floating, subword) ← if environment then do discard take; pure (Width.long, false, none) else parseABIType
     let name ← parseName '%'
     if (← peek) == some "," then
       discard take
       if (← peek) == some ")" then failAt "trailing comma in parameters"
       let (rest, variadic) ← parseParameters fuel
-      return (#[{ name, width, environment, floating }] ++ rest, variadic)
-    return (#[{ name, width, environment, floating }], false)
+      return (#[{ name, width, environment, floating, subword }] ++ rest, variadic)
+    return (#[{ name, width, environment, floating, subword }], false)
 
 private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Array Statement × Terminator)
   | 0 => failAt "instruction parsing limit exceeded"
@@ -373,9 +384,10 @@ private def parseBlocks (resultWidth : Option Width) : Nat → P (Array Block)
 
 private def parseFunction (exported : Bool) : P Function := do
   expect "function"
-  let result ← if ((← peek).getD "").startsWith "$" then pure none else some <$> parseValueType
+  let result ← if ((← peek).getD "").startsWith "$" then pure none else some <$> parseABIType
   let resultWidth := result.map (·.1)
-  let resultFloating := result.any (·.2)
+  let resultFloating := result.any (·.2.1)
+  let resultSubword := result.bind (·.2.2)
   let name ← parseName '$'
   expect "("
   let (parameters, variadic) ← parseParameters (maxIntegerArguments + 3)
@@ -383,7 +395,7 @@ private def parseFunction (exported : Bool) : P Function := do
   expect "{"
   let blocks ← parseBlocks resultWidth 65
   expect "}"
-  return { name, exported, resultWidth, resultFloating, parameters, variadic, blocks }
+  return { name, exported, resultWidth, resultFloating, resultSubword, parameters, variadic, blocks }
 
 private def parseDataInteger : P Int := do
   let token ← take

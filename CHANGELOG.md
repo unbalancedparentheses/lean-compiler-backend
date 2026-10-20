@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Support signed/unsigned byte and short scalar ABI arguments/results on Apple
+  ARM64, including packed stack slots, mixed floating signatures, callbacks and
+  variadic boundaries. C/QBE tests cover eight signatures up to 64 arguments.
+
 - Construct SSA for mutable QBE temporaries with deterministic renaming and
   on-demand join/loop phis, including floating values and mixed explicit phis.
   Validate the transformed program and retain strict original-SSA admission

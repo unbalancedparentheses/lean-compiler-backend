@@ -228,3 +228,16 @@ The resulting SSA must pass the existing validator. This is an executable pass
 with differential test coverage, not a proof of transformation correctness.
 First-path evaluation, job creation and compilation validate the original input
 and never silently normalize mutable input into the restricted profile.
+
+### Subword scalar ABI
+
+The `sb`, `ub`, `sh` and `uh` types are ABI annotations over base-type w values.
+They are accepted for function parameters/results and call arguments/results,
+not ordinary arithmetic or phis. Apple callers and returns extend the low 8/16
+bits according to signedness; named stack arguments use 1/2-byte natural packing,
+and variadic slots remain eight bytes (holding extended word values). The
+interpreter chooses the same extended word representation for subword parameters
+and results. Portable QBE code must still explicitly extend subword values before
+using their unspecified upper bits. C default variadic promotions remain a
+frontend responsibility. Known and indirect-call ABI signatures include subword
+annotations. The first-path profile rejects subword signatures.

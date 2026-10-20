@@ -90,7 +90,7 @@ private def operand (symbols locals : List (String × UInt64)) (width : Width)
     | none => throw s!"undefined temporary %{name}"
 
 private def resolveCallTarget (functions : Program) (symbols locals : List (String × UInt64))
-    (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) (resultFloating : Bool) : Except String String := do
+    (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) (resultFloating : Bool) (resultSubword : Option Subword) : Except String String := do
   match target with
   | .direct name => pure name
   | .indirect value =>
@@ -101,9 +101,9 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
       | throw "indirect call target is not a defined function; result not evaluated"
     let arguments ← effectiveCallArguments callee arguments
     let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
-    if callee.resultWidth != resultWidth || callee.resultFloating != resultFloating || callee.parameters.size != fixed ||
+    if callee.resultWidth != resultWidth || callee.resultFloating != resultFloating || callee.resultSubword != resultSubword || callee.parameters.size != fixed ||
         (!callee.variadic && arguments.size != fixed) ||
-        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating) then
+        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating || p.subword != a.subword) then
       throw "indirect call signature disagrees with target definition; result not evaluated"
     pure name
 
@@ -176,8 +176,10 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
       | none => normalize inst.width value
     pure (extended, state)
   | .call target arguments =>
-    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width) inst.floating
-    let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
+    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width) inst.floating inst.callSubword
+    let values ← arguments.mapM fun argument => do
+      let value ← operand state.symbols locals argument.width argument.value
+      pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
     let (result, updated) ← call target values (arguments.map (·.width)) ((arguments[0]?).any (·.environment)) state
     let some value := result | throw "void call cannot define an integer result"
     pure (normalize inst.width value, updated)
@@ -204,8 +206,10 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let memory ← state.memory.write address width.bytes value
       state := { state with memory }
     | .callVoid target arguments =>
-      let target ← resolveCallTarget state.functions state.symbols locals target arguments none false
-      let values ← arguments.mapM fun argument => operand state.symbols locals argument.width argument.value
+      let target ← resolveCallTarget state.functions state.symbols locals target arguments none false none
+      let values ← arguments.mapM fun argument => do
+        let value ← operand state.symbols locals argument.width argument.value
+        pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
       let (result, updated) ← call target values (arguments.map (·.width)) ((arguments[0]?).any (·.environment)) state
       if result.isSome then throw "non-void call requires a return temporary"
       state := updated
@@ -243,7 +247,8 @@ private def execute (call : CallHandler) (f : Function) : Nat → String → Opt
     | .ret value =>
       let result ← value.mapM fun value => do
         let some width := f.resultWidth | throw "void function cannot return an integer"
-        operand state.symbols executed width value
+        let result ← operand state.symbols executed width value
+        pure (match f.resultSubword with | some kind => unary .word kind.extension result | none => result)
       pure (result, state)
     | .halt => throw "QBE hlt reached: target-dependent program termination"
     | .jump target => execute call f fuel target (some label) executed state
@@ -261,7 +266,9 @@ private def invoke (program : Program) : Nat → Function → Array UInt64 → A
     let mut locals : List (String × UInt64) := []
     for i in [:f.parameters.size] do
       let p := f.parameters[i]!
-      locals := (p.name, normalize p.width arguments[i]!) :: locals
+      let value := normalize p.width arguments[i]!
+      let value := match p.subword with | some kind => unary .word kind.extension value | none => value
+      locals := (p.name, value) :: locals
     let call : CallHandler := fun target values widths environment current => do
       let some callee := program.find? (·.name == target)
         | throw s!"external call ${target} has no interpreter model; result not evaluated"

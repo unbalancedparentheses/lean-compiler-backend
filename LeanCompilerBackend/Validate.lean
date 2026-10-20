@@ -72,6 +72,9 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
       else if !((doms.lookup useBlock).getD []).contains block then
         throw s!"%{name}: definition in @{block} does not dominate use in @{useBlock}"
 
+private def checkSubword (width : Width) (floating : Bool) (subword : Option Subword) : Except String Unit := do
+  if subword.isSome && (width != .word || floating) then throw "subword ABI class requires integer word storage"
+
 private def checkCallArguments (check : Width → Operand → Except String Unit)
     (checkFloat : Width → Operand → Except String Unit)
     (target : CallTarget) (arguments : Array CallArgument) : Except String Unit := do
@@ -83,19 +86,23 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
   let mut seenVariadic := false
   for i in [:arguments.size] do
     let argument := arguments[i]!
-    if argument.environment && (i != 0 || argument.variadic || argument.width != .long || argument.floating) then
+    checkSubword argument.width argument.floating argument.subword
+    if argument.environment && (i != 0 || argument.variadic || argument.width != .long || argument.floating || argument.subword.isSome) then
       throw "environment argument must be first, named and long"
     if seenVariadic && !argument.variadic then throw "fixed argument follows variadic argument"
     seenVariadic := seenVariadic || argument.variadic
     (if argument.floating then checkFloat else check) argument.width argument.value
 
 def validateFunction (f : Function) : Except String Unit := do
+  if f.resultSubword.isSome && f.resultWidth.isNone then throw "void result cannot have subword type"
+  if let some width := f.resultWidth then checkSubword width f.resultFloating f.resultSubword
   if f.resultFloating && f.resultWidth.isNone then throw "void result cannot have floating type"
   if !validName f.name then throw "unsupported function name"
   if f.parameters.size > maxIntegerArguments then
     throw s!"function exceeds the {maxIntegerArguments}-integer-parameter resource limit"
   for i in [:f.parameters.size] do
-    if f.parameters[i]!.environment && (i != 0 || f.parameters[i]!.width != .long || f.parameters[i]!.floating) then
+    checkSubword f.parameters[i]!.width f.parameters[i]!.floating f.parameters[i]!.subword
+    if f.parameters[i]!.environment && (i != 0 || f.parameters[i]!.width != .long || f.parameters[i]!.floating || f.parameters[i]!.subword.isSome) then
       throw "environment parameter must be first and long"
   if f.blocks.isEmpty then throw "function has no entry block"
   if f.blocks.size > 64 then throw "function exceeds initial 64-block limit"
@@ -152,6 +159,11 @@ def validateFunction (f : Function) : Except String Unit := do
         check .long destination
         if bytes > 4096 then throw "blit byte count exceeds the 4096-byte resource limit"
       | .assign inst =>
+        checkSubword inst.width inst.floating inst.callSubword
+        if inst.callSubword.isSome then
+          match inst.operation with
+          | .call .. => pure ()
+          | _ => throw "subword result type is only valid for calls"
         let floatingOperation := match inst.operation with
           | .convert .. | .copy .. | .cast .. | .load .plain _ | .floatBinary .. | .floatNegate .. | .call .. | .vaArg .. => true
           | _ => false
@@ -235,13 +247,13 @@ def validate (program : Program) : Except String Unit := do
         if let some (.direct target, arguments, resultWidth) := statement.callSite then
           if let some callee := program.find? (·.name == target) then
             let arguments ← effectiveCallArguments callee arguments
-            if resultWidth != callee.resultWidth || statement.resultFloating != callee.resultFloating then
+            if resultWidth != callee.resultWidth || statement.resultFloating != callee.resultFloating || statement.resultSubword != callee.resultSubword then
               throw s!"call ${target}: result type disagrees with its definition"
             let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
             if fixed != callee.parameters.size || (!callee.variadic && arguments.size != fixed) then
               throw s!"call ${target}: argument count/variadic boundary disagrees with its definition"
             for i in [:callee.parameters.size] do
-              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating then
+              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword then
                 throw s!"call ${target}: argument type disagrees with its definition"
 
 def validateModule (module : Module) : Except String Unit := do

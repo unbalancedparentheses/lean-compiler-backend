@@ -105,6 +105,12 @@ private def unaryInstruction (width : Width) (op : Unary) : List String :=
   | .signedWord => ["\tsxtw x9, w9"]
   | .unsignedWord => [] -- the w9 load has already cleared x9's high bits
 
+private def extendSubword (kind : Subword) (index : Nat) : String :=
+  let instruction := match kind with
+    | .signedByte => "sxtb" | .unsignedByte => "uxtb"
+    | .signedHalf => "sxth" | .unsignedHalf => "uxth"
+  s!"\t{instruction} w{index}, w{index}"
+
 private def slotOffset (slots : List (String × Nat)) (name : String) : Except String Nat :=
   match slots.lookup name with
   | some offset => .ok offset
@@ -134,7 +140,7 @@ structure ArgumentLayout where
   stackUsedBytes : Nat
 
 def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size)
-    (environment : Bool := false) (floating : Array Bool := #[]) : ArgumentLayout := Id.run do
+    (environment : Bool := false) (floating : Array Bool := #[]) (subwords : Array (Option Subword) := #[]) : ArgumentLayout := Id.run do
   let mut locations := #[]
   let mut offset := 0
   let mut gp := 0
@@ -148,7 +154,7 @@ def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size)
       locations := locations.push (.register gp)
       gp := gp + 1
     else
-      let bytes := if i >= variadicFrom then 8 else widths[i]!.bytes
+      let bytes := if i >= variadicFrom then 8 else (((subwords[i]?).getD none).map (·.bytes)).getD widths[i]!.bytes
       offset := alignUp offset bytes
       locations := locations.push (.stack offset)
       offset := offset + bytes
@@ -157,7 +163,7 @@ def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size)
 private def emitCall (base : String) (slots : List (String × Nat)) (target : CallTarget)
     (arguments : Array CallArgument) : Except String (List String) := do
   let mut lines := []
-  let layout := argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment)) (arguments.map (·.floating))
+  let layout := argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment)) (arguments.map (·.floating)) (arguments.map (·.subword))
   let dynamicOutgoing := base == "x29" && layout.stackBytes != 0
   if dynamicOutgoing then lines := lines ++ [s!"\tsub sp, sp, #{layout.stackBytes}"]
   for i in [:arguments.size] do
@@ -167,10 +173,17 @@ private def emitCall (base : String) (slots : List (String × Nat)) (target : Ca
     | .floatRegister index =>
       lines := lines ++ (← load base slots argument.width 9 argument.value)
       lines := lines ++ [s!"\tfmov {floatRegister argument.width index}, {register argument.width 9}"]
-    | .register index => lines := lines ++ (← load base slots argument.width index argument.value)
+    | .register index =>
+      lines := lines ++ (← load base slots argument.width index argument.value)
+      if let some kind := argument.subword then lines := lines ++ [extendSubword kind index]
     | .stack offset =>
       lines := lines ++ (← load base slots argument.width 9 argument.value)
-      lines := lines ++ [s!"\tstr {register argument.width 9}, [sp, #{offset}]"]
+      if let some kind := argument.subword then lines := lines ++ [extendSubword kind 9]
+      let instruction := if !argument.variadic then match argument.subword with
+        | some kind => if kind.bytes == 1 then "strb w9" else "strh w9"
+        | none => s!"str {register argument.width 9}"
+        else s!"str {register argument.width 9}"
+      lines := lines ++ [s!"\t{instruction}, [sp, #{offset}]"]
   if let some argument := arguments[0]? then
     if argument.environment then lines := lines ++ (← load base slots .long 9 argument.value)
   let branch ← match target with
@@ -360,7 +373,7 @@ def emitFunction (f : Function) : Except String String := do
   for block in f.blocks do
     for statement in block.instructions do
       if let some (_, arguments, _) := statement.callSite then
-        outgoing := max outgoing (argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment)) (arguments.map (·.floating))).stackBytes
+        outgoing := max outgoing (argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment)) (arguments.map (·.floating)) (arguments.map (·.subword))).stackBytes
   -- Dynamic functions reserve a canonical FP/LR record here and place outgoing
   -- arguments at each call's current SP, below any dynamic objects.
   if dynamic then outgoing := 16
@@ -392,7 +405,7 @@ def emitFunction (f : Function) : Except String String := do
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
   else if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
   let incoming := argumentLayout (f.parameters.map (·.width)) f.parameters.size
-    ((f.parameters[0]?).any (·.environment)) (f.parameters.map (·.floating))
+    ((f.parameters[0]?).any (·.environment)) (f.parameters.map (·.floating)) (f.parameters.map (·.subword))
   if let some parameter := f.parameters[0]? then
     if parameter.environment then
       let offset ← slotOffset slots parameter.name
@@ -407,8 +420,13 @@ def emitFunction (f : Function) : Except String String := do
     | .register index =>
       lines := lines ++ [s!"\tstr {register parameter.width index}, [{base}, #{offset}]"]
     | .stack argumentOffset =>
-      lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
-        ++ [s!"\tstr {register parameter.width 9}, [{base}, #{offset}]"]
+      if let some kind := parameter.subword then
+        let instruction := match kind with
+          | .signedByte => "ldrsb w9" | .unsignedByte => "ldrb w9"
+          | .signedHalf => "ldrsh w9" | .unsignedHalf => "ldrh w9"
+        lines := lines ++ stackAddress "sp" 10 (frame + argumentOffset) ++ [s!"\t{instruction}, [x10]"]
+      else lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
+      lines := lines ++ [s!"\tstr {register parameter.width 9}, [{base}, #{offset}]"]
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
     for statement in block.instructions do
@@ -418,6 +436,7 @@ def emitFunction (f : Function) : Except String String := do
       if let some value := value then
         let some width := f.resultWidth | throw "void function cannot return an integer"
         lines := lines ++ (← load base slots width 0 value)
+        if let some kind := f.resultSubword then lines := lines ++ [extendSubword kind 0]
         if f.resultFloating then lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width 0}"]
       if dynamic then lines := lines ++ ["\tmov sp, x29", "\tldp x29, x30, [sp]"]
       else if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]

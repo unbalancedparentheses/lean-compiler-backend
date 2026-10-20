@@ -96,6 +96,18 @@ inductive StackAlignment where
 def StackAlignment.bytes : StackAlignment → Nat
   | .four => 4 | .eight => 8 | .sixteen => 16
 
+/-- ABI-only subword classes; their SSA values have base type w. -/
+inductive Subword where
+  | signedByte | unsignedByte | signedHalf | unsignedHalf
+  deriving BEq, DecidableEq, Repr, Inhabited
+
+def Subword.bytes : Subword → Nat
+  | .signedByte | .unsignedByte => 1 | .signedHalf | .unsignedHalf => 2
+
+def Subword.extension : Subword → Unary
+  | .signedByte => .signedByte | .unsignedByte => .unsignedByte
+  | .signedHalf => .signedHalf | .unsignedHalf => .unsignedHalf
+
 inductive CallTarget where
   | direct (name : String)
   | indirect (address : Operand)
@@ -107,6 +119,7 @@ structure CallArgument where
   variadic : Bool := false
   environment : Bool := false
   floating : Bool := false
+  subword : Option Subword := none
   deriving Repr, Inhabited
 
 /-- Floating values use Width for storage size; their SSA class is tracked separately. -/
@@ -156,6 +169,7 @@ structure Instruction where
   width : Width
   operation : Operation
   floating : Bool := false
+  callSubword : Option Subword := none
   deriving Repr, Inhabited
 
 /-- Effect statements have no SSA result or artificial temporary definition. -/
@@ -181,11 +195,16 @@ def Statement.resultFloating : Statement → Bool
   | .assign inst => inst.floating
   | _ => false
 
+def Statement.resultSubword : Statement → Option Subword
+  | .assign inst => inst.callSubword
+  | _ => none
+
 structure Parameter where
   name : String
   width : Width
   environment : Bool := false
   floating : Bool := false
+  subword : Option Subword := none
   deriving Repr, Inhabited
 
 structure Phi where
@@ -219,6 +238,7 @@ structure Function where
   exported : Bool
   resultWidth : Option Width
   resultFloating : Bool := false
+  resultSubword : Option Subword := none
   parameters : Array Parameter
   variadic : Bool := false
   blocks : Array Block

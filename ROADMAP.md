@@ -28,8 +28,7 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 
 The current compatibility slice includes scalar integer/floating arithmetic and
 conversions, global data, indirect calls, variadics, env arguments and dynamic
-allocation on Apple ARM64. Mutable-temporary SSA construction is now implemented. Next address aggregate/
-subword ABI, remaining linkage, optimizations and the other target backends.
+allocation on Apple ARM64. Mutable-temporary SSA construction is now implemented. Next address aggregate ABI, remaining linkage, optimizations and the other target backends.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding
@@ -143,7 +142,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Direct and indirect calls with up to 64 w/l/s/d register/stack arguments and a scalar or void result,
   recursion and native C interoperation are implemented as an initial slice.
   Function tables, native C callbacks, env arguments and integer/floating variadics
-  (vastart/vaarg) are also tested. Aggregates and subword ABI forms remain open. The Apple ARM64 integer
+  (vastart/vaarg) are also tested. Subword ABI arguments/results and packed byte/short stack slots are tested;
+  aggregate ABI forms remain open. The Apple ARM64 integer
   stack slice uses natural word/long packing and is checked against native C.
   Add explicit checked ABI plans and call/environment contracts, including callback
   and shared-memory assumptions. Define floating-point profiles before optimizing them.

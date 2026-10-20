@@ -90,6 +90,7 @@ before rebuilding; the checks reject stale source/build identities.
   return address and keep live values in stack slots across calls.
 - Single/double arithmetic, comparisons, casts, numeric conversions, memory, phi values
   and scalar calls/returns.
+- Signed/unsigned byte and short ABI arguments/results, including packed stack slots.
 - QBE `env` parameters/arguments in x9, including indirect and variadic calls.
 - Integer/floating variadic functions/calls, `vastart` and w/l/s/d `vaarg` on Apple ARM64.
   Unnamed arguments use eight-byte stack slots, including indirect calls.
@@ -104,7 +105,7 @@ before rebuilding; the checks reject stale source/build identities.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
 The first port uses stack slots for every value. Aggregate ABI support,
-subword ABI forms, TLS, remaining linkage forms, optimization passes, register
+TLS, remaining linkage forms, optimization passes, register
 allocation and object emission remain. Packed data, strings, symbol relocations
 and IEEE constant bit patterns are implemented. A separate restricted Concrete consumer is available in
 [Concrete draft PR #8](https://github.com/unbalancedparentheses/concrete2/pull/8);
