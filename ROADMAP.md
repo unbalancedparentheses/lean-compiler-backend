@@ -147,8 +147,24 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   (vastart/vaarg) are also tested. Subword ABI arguments/results and packed byte/short stack slots are tested;
   aggregate ABI forms remain open. The Apple ARM64 integer
   stack slice uses natural word/long packing and is checked against native C.
-  Add explicit checked ABI plans and call/environment contracts, including callback
-  and shared-memory assumptions. Define floating-point profiles before optimizing them.
+  Next implement aggregate support in this order:
+  1. Parse named record, union and opaque types with repetition, nesting and explicit
+     alignment. Check layout against independent C sizeof/alignof/offsetof probes.
+  2. Build aggregate argument/result plans: homogeneous single/double aggregates,
+     small GP-register aggregates, stack fallback and caller-owned indirect copies;
+     include x8 result pointers alongside x9 environments and variadic boundaries.
+     Use pinned arm64/abi.c classification, including its alignment restrictions,
+     as the compatibility reference rather than silently broadening the ABI.
+  3. Model by-value argument copies and caller-owned result storage before releasing
+     callee objects. Preserve uninitialized padding; do not invent defined bytes or
+     read beyond a short aggregate when filling a final register fragment.
+  4. Qualify abi1–abi9 and mem1–mem3 with their original drivers plus independent C
+     boundary tests for exhausted GP/FP banks, nested calls, callbacks, dynamic
+     frames and guarded short objects. dark.ssa is explicitly skipped upstream
+     on Apple ARM64 and must not be counted as a native execution pass.
+  Keep ABI plans and call/environment contracts explicit, including callback and
+  shared-memory assumptions. Preserve the established floating execution profile
+  when later adding optimization passes.
 - [ ] P08 — Port SSA construction, CFG/alias analyses and optimization passes.
   Mutable input now receives deterministic renaming and on-demand phi insertion;
   constructed output passes the existing type/dominance validator. Undefined
