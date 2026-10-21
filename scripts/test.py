@@ -75,7 +75,7 @@ def negatives(work):
     for name, (source, diagnostic) in cases.items():
         src, out = work / f'{name}.ssa', work / f'{name}.s'
         src.write_text(source)
-        result = run([LCB, src, '-o', out], success=False)
+        result = run([LCB, '--target', 'aarch64-macos', src, '-o', out], success=False)
         assert diagnostic in result.stderr, (name, result.stderr)
         assert not out.exists(), f'{name}: rejected input wrote output'
     source = work / 'valid.ssa'
@@ -126,7 +126,7 @@ def limits(work):
     source = work / 'limits.ssa'
     source.write_text(prefix + maximal)
     run([LCB, '--check', source])
-    run([LCB, source, '-o', work / 'limits.s'])
+    run([LCB, '--target', 'aarch64-macos', source, '-o', work / 'limits.s'])
     source.write_text(prefix + maximal + 'function w $extra() { @s ret 0 }')
     run([LCB, '--check', source])
     source.write_text(maximal.replace(' ret %v479', ' %extra =l copy 0\n ret %v479'))
@@ -136,7 +136,7 @@ def limits(work):
     parameter_function = 'function l $parameters(' + maximum_parameters + ') {\n@s\n ret %p63\n}\n'
     source.write_text(prefix + parameter_function)
     run([LCB, '--check', source])
-    run([LCB, source, '-o', work / 'parameters.s'])
+    run([LCB, '--target', 'aarch64-macos', source, '-o', work / 'parameters.s'])
     assert int(run([LCB, '--eval', source, 'parameters', *map(str, range(64))]).stdout) == 63
     source.write_text('function l $f(' + maximum_parameters + ', l %extra) { @s ret 0 }')
     run([LCB, '--check', source], success=False)

@@ -111,7 +111,7 @@ def main():
         source.write_text(fixture())
         assemblies=[]
         for label,flags in [('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]:
-            assembly=work/(label+'.s');run([LCB,source,*flags,'-o',assembly]);assemblies.append((label,assembly))
+            assembly=work/(label+'.s');run([LCB, '--target', 'aarch64-macos',source,*flags,'-o',assembly]);assemblies.append((label,assembly))
         reference.write_text(c_source(cases,False));caller.write_text(c_source(cases,True))
         run([cc,'-std=c11','-O0','-ffp-contract=off',reference,'-o',work/'reference'])
         expected=[int(x) for x in run([work/'reference']).splitlines()]

@@ -145,7 +145,7 @@ def main():
         source, asm, cfile = work/'input.ssa', work/'lean.s', work/'caller.c'
         source.write_text(''.join(f.source() for f in functions))
         run([LCB, '--check', source])
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         lines = ['#include <stdint.h>', '#include <stdio.h>', '#include <inttypes.h>']
         for f in functions:
             ctype = f'uint{f.bits}_t'
@@ -175,7 +175,7 @@ def main():
                 assert actual == expected, (label,next((i for i,pair in enumerate(zip(actual,expected)) if pair[0]!=pair[1]),None))
             halt = work/'halt.ssa'
             halt.write_text('export function w $halt() {\n@entry\n hlt\n}\n')
-            run([LCB,halt,'-o',work/'halt.s'])
+            run([LCB, '--target', 'aarch64-macos',halt,'-o',work/'halt.s'])
             cfile.write_text('extern unsigned halt(void); int main(void) { return halt(); }\n')
             run([os.environ['LCB_CC'],cfile,work/'halt.s','-o',work/'halt'])
             stopped = subprocess.run([str(work/'halt')],capture_output=True,timeout=20)

@@ -54,7 +54,7 @@ def main():
                           'function l $identity_l(l %v) {\n@s\n ret %v\n}\n'+
                           wide('wide_word','w',2300)+'\n'+wide('wide_long','l',4500)+'\n'+
                           wide('wide_dynamic','l',4500,True)+'\n'+phi_function()+'\n')
-        assembly=work/'lean.s';run([LCB,source,'-o',assembly])
+        assembly=work/'lean.s';run([LCB, '--target', 'aarch64-macos',source,'-o',assembly])
         text=assembly.read_text()
         assert '[x15]' in text and 'add x15, x29,' in text, 'large frame addressing path not exercised'
         for name,count,width in [('wide_word',2300,32),('wide_long',4500,64),('wide_dynamic',4500,64)]:
@@ -90,11 +90,11 @@ int main(void) {
             assert changed!=text
             broken.write_text(changed);exe=work/'broken';run([cc,c,broken,'-o',exe])
             assert subprocess.run([exe],capture_output=True,timeout=120).returncode!=0
-        source.write_text(chain(4096));run([LCB,'--check',source]);run([LCB,source,'-o',work/'chain.s'])
+        source.write_text(chain(4096));run([LCB,'--check',source]);run([LCB, '--target', 'aarch64-macos',source,'-o',work/'chain.s'])
         assert int(run([LCB,'--eval',source,'chain',123]))==123
         reject([LCB,'--first-path',source],'blocks')
         source.write_text(chain(4097));reject([LCB,'--check',source],'block')
-        source.write_text(chain(3000,True));run([LCB,source,'-o',work/'mutable.s'])
+        source.write_text(chain(3000,True));run([LCB, '--target', 'aarch64-macos',source,'-o',work/'mutable.s'])
         assert int(run([LCB,'--eval',source,'chain',123]))==3245
         for count in [16384,16385]:
             source.write_text('function w $limit() {\n@entry\n'+''.join(f' %v{i} =w copy {i}\n' for i in range(count))+f' ret %v{count-1}\n}}\n')

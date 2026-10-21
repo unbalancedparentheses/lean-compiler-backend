@@ -199,7 +199,7 @@ export function l $recursive_entry(l %a,l %b) {{
         assert int(run([LCB,'--eval',source,'recursive_entry',a,b])) == wanted
     if qbe:
         asm, qasm, cfile = work/'recursive-lean.s',work/'recursive-qbe.s',work/'recursive.c'
-        run([LCB,source,'-o',asm])
+        run([LCB, '--target', 'aarch64-macos',source,'-o',asm])
         run([qbe,'-t','arm64_apple','-o',qasm,source])
         caller = '#include <stdint.h>\n#include <stdio.h>\n#include <inttypes.h>\n'
         caller += 'extern uint64_t recursive_entry(uint64_t,uint64_t);\nint main(void) {\n'
@@ -253,7 +253,7 @@ def main():
                     'upstream_lock_sha256': hashlib.sha256((ROOT/'upstream-lock.json').read_bytes()).hexdigest(),
                     'flake_lock_sha256': hashlib.sha256((ROOT/'flake.lock').read_bytes()).hexdigest()}, indent=2))
                 run([LCB, '--check', source])
-                run([LCB, source, '-o', asm])
+                run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
                 for spec in selected:
                     a, b = MASK, 0x80000000
                     values = spec.values(a,b)

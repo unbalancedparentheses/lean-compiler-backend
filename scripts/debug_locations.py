@@ -48,7 +48,7 @@ def main():
         source, asm = work/'input.ssa', work/'lean.s'
         source.write_text(SOURCE)
         run([LCB, '--check', source])
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         assert int(run([LCB, '--eval', source, 'debug_entry', '40'])) == 42
         text = asm.read_text()
         for location in ['.loc 1 10 2', '.loc 1 11 0', '.loc 1 12 3', '.loc 2 20 0', '.loc 3 30 0']:

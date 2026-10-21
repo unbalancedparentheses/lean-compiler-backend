@@ -119,7 +119,7 @@ field u 1 0 0 8 1
             assert result.returncode != 0, f'invalid aggregate accepted: {text}'
         source.write_text('type :x = { w } function w $f() { @s ret 42 }')
         assert run([LCB, '--eval', source, 'f']).strip() == '42'
-        assert '_f:' in run([LCB, source])
+        assert '_f:' in run([LCB, '--target', 'aarch64-macos', source])
         assert subprocess.run([LCB, '--first-path', source], capture_output=True).returncode != 0
     print('aggregate layouts: 80 generated C comparisons, QBE-specific layouts and 16 rejection controls passed')
 

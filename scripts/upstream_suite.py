@@ -68,7 +68,7 @@ def main():
             case = work/source.stem
             case.mkdir()
             asm = case/'lean.s'
-            result = command([compiler, source, '-o', asm, *(['--optimize'] if options.optimize else [])])
+            result = command([compiler, '--target', 'aarch64-macos', source, '-o', asm, *(['--optimize'] if options.optimize else [])])
             row = {'fixture': source.name, 'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
                    'emitted': result.returncode == 0, 'diagnostic': result.stderr.strip(),
                    'native': 'unsupported' if result.returncode else 'not measured'}

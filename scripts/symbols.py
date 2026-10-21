@@ -81,7 +81,7 @@ def main():
         source.write_text(SOURCE)
         caller.write_text(CALLER)
         run([LCB, '--check', source])
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         reject([LCB, '--eval', source, 'read_global'], 'no interpreter model')
         restricted = work/'restricted.ssa'
         restricted.write_text('function l $f() { @start ret $external_value }')

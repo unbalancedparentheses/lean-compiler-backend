@@ -67,7 +67,7 @@ def main():
     cc=os.environ.get('LCB_CC','cc')
     with tempfile.TemporaryDirectory(prefix='lcb-float-va-') as directory:
         work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c'
-        text,caller=fixture();src.write_text(text);c.write_text(caller);run([LCB,src,'-o',asm])
+        text,caller=fixture();src.write_text(text);c.write_text(caller);run([LCB, '--target', 'aarch64-macos',src,'-o',asm])
         for n in [0,4,5]:
             for mode in ['internal','indirect']:
                 assert int(run([LCB,'--eval',src,f'va_{mode}_{n}']))==4615626668101337088

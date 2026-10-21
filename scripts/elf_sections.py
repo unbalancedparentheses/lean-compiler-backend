@@ -34,7 +34,7 @@ def exercise(compiler, work, run, cc, qbe, native):
     text = assembly.read_text()
     assert '.section .lcb_data,"aw"' in text and '.section .lcb_code,"ax"' in text
     assert '.comm counter,64,64' in text
-    result = run([compiler, source, '-o', case/'wrong.s'])
+    result = run([compiler, '--target', 'aarch64-macos', source, '-o', case/'wrong.s'])
     assert result.returncode != 0 and 'selected object format' in result.stderr
     for content, reason in [
         (SOURCE.replace('.lcb_data', r'.bad\n.globl injected'), 'ASCII'),

@@ -247,7 +247,7 @@ def controls(work):
 def native(work, source, caller, expected, qbe, label, reference):
     assembly,cfile,qasm = work/f'{label}-lean.s',work/f'{label}-caller.c',work/f'{label}-qbe.s'
     cfile.write_text(caller)
-    run([LCB,source,'-o',assembly])
+    run([LCB, '--target', 'aarch64-macos',source,'-o',assembly])
     run([qbe,'-t','arm64_apple','-o',qasm,source])
     for backend,asm in [('lean',assembly),('qbe',qasm)]:
         actual = compile_and_run(os.environ['LCB_CC'],asm,cfile,work/f'{label}-{backend}')

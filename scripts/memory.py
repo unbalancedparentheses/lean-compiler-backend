@@ -224,7 +224,7 @@ def upstream_regression(work, original, corrected):
     found = {}
     for name, compiler in [('lean', None), ('original', original), ('corrected', corrected)]:
         assembly = work/f'regression-{name}.s'
-        run([LCB, source, '-o', assembly] if compiler is None else
+        run([LCB, '--target', 'aarch64-macos', source, '-o', assembly] if compiler is None else
             [compiler, '-t', 'arm64_apple', '-o', assembly, source])
         values = compile_and_run(os.environ['LCB_CC'], assembly, cfile, work/f'regression-{name}')
         assert len(values) == 2
@@ -312,7 +312,7 @@ def external_memory(work, original, corrected):
     lean_assembly = None
     for label, oracle in [('lean', None), ('lean-optimized', None), ('original', original), ('corrected', corrected)]:
         assembly = work/f'external-{label}.s'
-        run([LCB, source, *(['--optimize'] if label == 'lean-optimized' else []), '-o', assembly] if oracle is None else
+        run([LCB, '--target', 'aarch64-macos', source, *(['--optimize'] if label == 'lean-optimized' else []), '-o', assembly] if oracle is None else
             [oracle, '-t', 'arm64_apple', '-o', assembly, source])
         actual = compile_and_run(os.environ['LCB_CC'], assembly, cfile, work/f'external-{label}')
         assert actual == expected, ('external memory', label)
@@ -369,9 +369,9 @@ def main():
                     shutil.copy2(source, report_directory/f'batch-{start}.ssa')
                     shutil.copy2(work/'case.json', report_directory/f'batch-{start}.json')
                 run([LCB, '--check', source])
-                run([LCB, source, '-o', asm])
+                run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
                 optimized_asm = work/'lean-optimized.s'
-                run([LCB, source, '--optimize', '-o', optimized_asm])
+                run([LCB, '--target', 'aarch64-macos', source, '--optimize', '-o', optimized_asm])
                 for case in selected:
                     for a, b in arguments[:8]:
                         found = int(run([LCB, '--eval', source, case.name, a, b]))

@@ -68,7 +68,7 @@ def campaign(seed, required):
             assert run([LCB,'--eval',*args]).stdout.strip()==str(expected), (seed,name,n,value,'compatibility')
         typed, baseline = work/'typed.s', work/'baseline.s'
         run([LCB,'--first-path',src,'-o',typed])
-        run([LCB,src,'-o',baseline])
+        run([LCB, '--target', 'aarch64-macos',src,'-o',baseline])
         if platform.system() != 'Darwin' or platform.machine() != 'arm64':
             assert not required, 'native Apple ARM64 execution required'
             print(f'first-path fuzz {seed}: {len(cases)} Python/source/MIR/assembly/compatibility model cases; native not measured')

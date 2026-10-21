@@ -120,7 +120,7 @@ def main():
         source.write_text(SOURCE)
         caller.write_text(CALLER)
         run([LCB, '--check', source])
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         for name, value in EXPECTED.items():
             assert int(run([LCB, '--eval', source, name])) == value, name
         reject([LCB, '--first-path', source], 'outside the first-path profile')
@@ -131,7 +131,7 @@ def main():
         data_only = work/'data-only.ssa'
         data_only.write_text('export data $only = { l 7, z 8 }')
         run([LCB, '--check', data_only])
-        run([LCB, data_only, '-o', work/'data-only.s'])
+        run([LCB, '--target', 'aarch64-macos', data_only, '-o', work/'data-only.s'])
         if native_host():
             cc = os.environ.get('LCB_CC', 'clang')
             oracle = work/'oracle'

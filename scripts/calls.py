@@ -407,7 +407,7 @@ int main(void) {
                 for value,(a,b) in zip(expected,arguments)]
     for label, oracle in [('lean', None), ('qbe', qbe)]:
         asm = work/f'external-{label}.s'
-        run([LCB, source, '-o', asm] if oracle is None else [oracle,'-t','arm64_apple','-o',asm,source])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm] if oracle is None else [oracle,'-t','arm64_apple','-o',asm,source])
         executable = work/f'external-{label}'
         run([os.environ['LCB_CC'], '-std=c11','-O2',cfile,asm,helper_asm,'-o',executable])
         actual = [int(line) for line in run([executable]).splitlines()]
@@ -461,7 +461,7 @@ def main():
         try:
             rejected = controls(work)
             run([LCB,'--check',source])
-            run([LCB,source,'-o',asm])
+            run([LCB, '--target', 'aarch64-macos',source,'-o',asm])
             for case in cases:
                 for a,b in arguments[:8]:
                     found = int(run([LCB,'--eval',source,case.name,a,b]))

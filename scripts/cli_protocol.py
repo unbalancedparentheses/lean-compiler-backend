@@ -44,7 +44,7 @@ def main():
         # '--' makes leading-dash filenames literal, not options.
         unusual=work/'--optimize';unusual.write_text(SOURCE)
         result=run([LCB,'-t','arm64_apple','--','--optimize'],cwd=work)
-        assert result.returncode==0 and result.stdout==compile(first),result.stderr
+        assert result.returncode==0 and result.stdout==compile(first,'--target','aarch64-macos'),result.stderr
         assert compile(input=SOURCE)==compile(first)
         assert compile('--check','-',input=SOURCE)==compile('--check',first)
         assert compile('--eval','-','get_value',input=SOURCE).strip()=='40'
@@ -65,11 +65,16 @@ def main():
                 {'arm64':'arm64','aarch64':'arm64','x86_64':'amd64_sysv','amd64':'amd64_sysv','riscv64':'rv64'}.get(machine) if system=='Linux' else None)
         if args.require_native:assert target,'no native target available'
         if target:
-            asm=work/'combined.s';compile('-t',target,'--optimize','-o',asm,first,second)
+            for flags in [[],['--allocate'],['--optimize']]:
+                expected=compile('-t',target,first,*flags)
+                assert compile(first,*flags)==expected,'default target differs from native explicit target'
+                assert compile(*flags,input=SOURCE)==expected,'stdin default target differs from native explicit target'
+                cases+=2
+            asm=work/'combined.s';compile('--optimize','-o',asm,first,second)
             c=work/'caller.c';c.write_text('#include <stdint.h>\nextern uint64_t value,combined(void);int main(void){return value!=40||combined()!=42;}\n')
             exe=work/'combined';result=run([os.environ.get('LCB_CC','cc'),c,asm,'-o',exe]);assert result.returncode==0,result.stderr
             result=run([exe]);assert result.returncode==0,result.stderr
-        print(f'CLI: {cases} target/option/stdin/multi-input equivalences, interpreter stdin, refusal/artifact controls; native multi-module execution={bool(target)}',flush=True)
+        print(f'CLI: {cases} target/option/stdin/multi-input equivalences, interpreter stdin, refusal/artifact controls; native default-target multi-module execution={bool(target)}',flush=True)
 
 
 if __name__=='__main__':main()

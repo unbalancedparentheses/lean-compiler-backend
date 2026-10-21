@@ -171,7 +171,7 @@ def main():
         for name,wanted in [('reuse',1),('distinct',33),('padding',49),('model_varargs',130)]:
             assert int(run([LCB,'--eval',src,name]))==wanted
         reject([LCB,'--eval',src,'padding_bad'],'uninitialized')
-        asm=work/'lean.s';run([LCB,src,'-o',asm])
+        asm=work/'lean.s';run([LCB, '--target', 'aarch64-macos',src,'-o',asm])
         if native_host():
             cc=os.environ.get('LCB_CC','cc');c=work/'driver.c';c.write_text(C)
             exe=work/'lean';run([cc,c,asm,'-o',exe]);run([exe])

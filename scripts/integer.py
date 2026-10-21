@@ -130,7 +130,7 @@ def main():
             run([LCB, '--check', source])
             assemblies=[]
             for label,flags in [('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]:
-                assembly=work/(label+'.s');run([LCB,source,*flags,'-o',assembly]);assemblies.append((label,assembly))
+                assembly=work/(label+'.s');run([LCB, '--target', 'aarch64-macos',source,*flags,'-o',assembly]);assemblies.append((label,assembly))
             expected = []
             for spec in selected:
                 valid = [(a, b) for a, b in data[spec.input_bits] if spec.defined(a, b)]

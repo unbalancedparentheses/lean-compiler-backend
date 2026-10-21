@@ -135,7 +135,7 @@ def main():
     if options.require_native:assert native_host()
     cc=os.environ.get('LCB_CC','cc')
     with tempfile.TemporaryDirectory(prefix='lcb-tls-') as directory:
-        work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c';src.write_text(SOURCE);c.write_text(CALLER);run([LCB,src,'-o',asm])
+        work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c';src.write_text(SOURCE);c.write_text(CALLER);run([LCB, '--target', 'aarch64-macos',src,'-o',asm])
         assert int(run([LCB,'--eval',src,'tls_read']))==7
         for x in [0,1,0x80000000,0xffffffff,(1<<64)-1]:
             assert int(run([LCB,'--eval',src,'tls_model',x]))==x
@@ -158,7 +158,7 @@ def main():
             reproducer=ROOT/'tests/regressions/qbe-two-tls-call-arguments.ssa'
             rejected=subprocess.run([oracle/'qbe','-t','arm64_apple',reproducer],capture_output=True,text=True)
             assert rejected.returncode and 'isreg(i->to)' in rejected.stderr, 'pinned QBE TLS regression changed'
-            reduced=work/'reduced.s';run([LCB,reproducer,'-o',reduced])
+            reduced=work/'reduced.s';run([LCB, '--target', 'aarch64-macos',reproducer,'-o',reduced])
             run([cc,reproducer.with_suffix('.c'),reduced,'-o',work/'reduced']);run([work/'reduced'])
             # QBE 1.3 cannot allocate two inline TLV arguments. Use explicit helper
             # calls for its comparison, retaining the original input for Lean/C.

@@ -37,7 +37,7 @@ def main():
         work = Path(directory)
         source, asm = work/'input.ssa', work/'lean.s'
         source.write_text(SOURCE)
-        run([LCB, '--check', source]); run([LCB, source, '-o', asm])
+        run([LCB, '--check', source]); run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         assert int(run([LCB, '--eval', source, 'ordinary_entry'])) == 42
         text = asm.read_text()
         assert '.comm _shared,8,3' in text
@@ -79,11 +79,11 @@ int main(void) { shared[3]=99; return ordinary_entry()!=42 || shared[0]!=42 || s
             attributed = work/'attributed.ssa'
             attributed.write_text(SOURCE.replace('"__custom_data"', '"__custom_data,regular,no_dead_strip"')
                                   .replace('"__TEXT" "__custom_code"', '"__TEXT,__custom_code,regular,pure_instructions"'))
-            run([LCB, attributed, '-o', asm])
+            run([LCB, '--target', 'aarch64-macos', attributed, '-o', asm])
             run([cc, caller, asm, other, '-o', work/'attributed']); run([work/'attributed'])
             # Darwin .comm alignment is a logarithm, unlike ELF's byte count.
             aligned = work/'aligned.ssa'; aligned.write_text('common data $aligned = align 64 { z 64 }')
-            run([LCB, aligned, '-o', asm])
+            run([LCB, '--target', 'aarch64-macos', aligned, '-o', asm])
             assert '.comm _aligned,64,6' in asm.read_text()
             probe = work/'align.c'; probe.write_text('#include <stdint.h>\nextern char aligned[64]; int main(void) {return (uintptr_t)aligned%64;}')
             run([cc, probe, asm, '-o', work/'align']); run([work/'align'])

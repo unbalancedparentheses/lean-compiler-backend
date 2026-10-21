@@ -110,7 +110,7 @@ def main():
     cc=os.environ.get('LCB_CC','cc')
     with tempfile.TemporaryDirectory(prefix='lcb-float-abi-') as directory:
         work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c'
-        src.write_text(source());c.write_text(caller(seeds));run([LCB,src,'-o',asm])
+        src.write_text(source());c.write_text(caller(seeds));run([LCB, '--target', 'aarch64-macos',src,'-o',asm])
         count=0
         for n,kinds in enumerate(SIGNATURES):
             result='s' if n%2==0 else 'd'

@@ -155,7 +155,7 @@ def main():
         source, asm, caller, probe = work/'input.ssa', work/'lean.s', work/'caller.c', work/'probe.s'
         source.write_text(SOURCE)
         probe.write_text(PROBE)
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         checks = []
         for size, count, seed in matrix:
             wanted = (seed * (count+1) + 45*count + count*(count-1)//2) & MASK

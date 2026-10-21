@@ -123,7 +123,7 @@ def main():
     if options.require_native:assert native_host()
     rng=random.Random(options.seed);seeds=[0,1,MASK,1<<63]+[rng.getrandbits(64) for _ in range(4)];cc=os.environ.get('LCB_CC','cc')
     with tempfile.TemporaryDirectory(prefix='lcb-subword-') as directory:
-        work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c';src.write_text(fixture());c.write_text(caller(seeds));run([LCB,src,'-o',asm])
+        work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c';src.write_text(fixture());c.write_text(caller(seeds));run([LCB, '--target', 'aarch64-macos',src,'-o',asm])
         assert int(run([LCB,'--eval',src,'small_va_wrapper']))==((127+12345)^0x3ff8000000000000)
         count=1
         for n,kinds in enumerate(SIGNATURES):

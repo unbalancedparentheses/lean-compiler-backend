@@ -103,7 +103,7 @@ def main():
         work=Path(directory)
         source,asm,caller,probe=work/'input.ssa',work/'lean.s',work/'caller.c',work/'probe.s'
         source.write_text(fixture());probe.write_text(PROBE)
-        run([LCB,source,'-o',asm])
+        run([LCB, '--target', 'aarch64-macos',source,'-o',asm])
         checks=[]
         for seed in seeds:
             expected=(seed+sum((seed+i)&MASK for i in range(8))+((seed+8)&0xffffffff)+seed+100)&MASK

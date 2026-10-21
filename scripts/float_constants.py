@@ -84,7 +84,7 @@ def main():
                     checks.append(f'if (object_{index}[{offset}] != {(wanted>>(offset*8))&255}) return {index+1};\n')
             source.write_text(''.join(definitions))
             caller.write_text('#include <stdint.h>\n' + ''.join(declarations) + 'int main(void) {\n' + ''.join(checks) + 'return 0;}\n')
-            run([LCB, source, '-o', asm])
+            run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
             for index, (kind, text) in enumerate(selected):
                 for prefix in ['constant', 'data']:
                     found = int(run([LCB, '--eval', source, f'{prefix}_{index}']))

@@ -54,7 +54,9 @@ Next bounded work, before proof expansion:
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
    review implementation limits (4096 functions, 64 arguments, bounded object/frame
    sizes) against real frontend workloads. QBE target aliases, stdin/stdout and
-   multi-input CLI conventions now support frontend pipelines. Native data admits 256 MiB with
+   multi-input CLI conventions now support frontend pipelines. The compatibility
+   driver defaults to its supported host architecture/OS; unknown hosts require
+   an explicit target, and first-path output remains Apple ARM64. Native data admits 256 MiB with
    sparse BSS, covering QBE's 16 MiB global instruction buffer; the interpreter
    retains its 1 MiB budget. Add reduced cases for every gap.
 2. Extend the optional constant/copy/dead-definition and basic CFG pipeline with

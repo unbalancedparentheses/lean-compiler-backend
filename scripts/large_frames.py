@@ -51,7 +51,7 @@ def main():
         work = Path(directory)
         source, asm, caller = work/'input.ssa', work/'lean.s', work/'caller.c'
         source.write_text(text)
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         checks = []
         for count in COUNTS:
             for vector in vectors:

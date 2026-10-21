@@ -208,12 +208,12 @@ def case(work, seed, functions_count, steps, samples, qbe, self_test, control_fl
         asm, qbe_asm, cfile = work / 'lean.s', work / 'qbe.s', work / 'caller.c'
         cfile.write_text(driver(functions, arguments))
         compiler = os.environ['LCB_CC']
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         run([qbe, '-t', 'arm64_apple', '-o', qbe_asm, source])
         backends = [('lean', asm), ('qbe', qbe_asm)]
         if optimize:
             optimized_asm = work / 'optimized.s'
-            run([LCB, source, '--optimize', '-o', optimized_asm])
+            run([LCB, '--target', 'aarch64-macos', source, '--optimize', '-o', optimized_asm])
             backends.append(('optimized', optimized_asm))
         for label, assembly in backends:
             actual = compile_and_run(compiler, assembly, cfile, work / label)

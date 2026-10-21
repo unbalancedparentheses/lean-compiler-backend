@@ -101,7 +101,7 @@ def main():
         src.write_text(fixture());c.write_text(c_source(matrix,True));ref.write_text(c_source(matrix,False))
         assemblies=[]
         for label,flags in [('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]:
-            assembly=work/(label+'.s');run([LCB,src,*flags,'-o',assembly]);assemblies.append((label,assembly))
+            assembly=work/(label+'.s');run([LCB, '--target', 'aarch64-macos',src,*flags,'-o',assembly]);assemblies.append((label,assembly))
         run([cc,'-std=c11','-O0',ref,'-o',work/'reference']);expected=[int(x) for x in run([work/'reference']).splitlines()]
         for (index,x),wanted in zip(matrix,expected):
             found=int(run([LCB,'--eval',src,f'convert_{index}',x]))

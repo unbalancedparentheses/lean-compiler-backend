@@ -89,7 +89,7 @@ def main():
         source.write_text(text)
         caller.write_text(ctext)
         run([LCB, '--check', source])
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         for i, (_, values, _) in enumerate(matrix):
             assert int(run([LCB, '--eval', source, f'hash_{i}'])) == checksum(values), i
         for i, (text, diagnostic) in enumerate([

@@ -1,4 +1,5 @@
 import LeanCompilerBackend
+import LeanCompilerBackend.Driver.Tests
 import LeanCompilerBackend.CFG.Tests
 import LeanCompilerBackend.Liveness.Tests
 import LeanCompilerBackend.Allocation.Tests
@@ -25,6 +26,7 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
   | .error _ => false
 
 def main : IO Unit := do
+  Driver.Tests.run
   CFG.Tests.run
   Liveness.Tests.run
   Allocation.Tests.run

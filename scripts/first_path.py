@@ -264,7 +264,7 @@ def main():
         bad = work/'excluded.ssa'
         bad.write_text('function w $f(w %a) { @entry %r =w shl %a, 1 ret %r }')
         assert 'shifts' in run([LCB,'--first-path',bad],success=False).stderr
-        run([LCB,bad])  # Existing compatibility support remains available.
+        run([LCB, '--target', 'aarch64-macos',bad])  # Existing compatibility support remains available.
         print('first-path: fresh-process/module-order stability, explicit proof refusal and compatibility isolation passed')
         replay_checks(work, src, functions)
         if platform.system() != 'Darwin' or platform.machine() != 'arm64':
@@ -283,7 +283,7 @@ def main():
             return result
         check(assembly,'typed')
         baseline=work/'baseline.s'
-        run([LCB,src,'-o',baseline])
+        run([LCB, '--target', 'aarch64-macos',src,'-o',baseline])
         check(baseline,'baseline')
         qbe=work/'qbe'
         shutil.copytree(ROOT/'third_party/qbe',qbe)

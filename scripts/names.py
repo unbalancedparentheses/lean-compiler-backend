@@ -46,7 +46,7 @@ def main():
         source.write_text(SOURCE)
         caller.write_text('extern unsigned long long names_entry(void); int main(void) {return names_entry()!=42;}')
         run([LCB, '--check', source])
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         assert int(run([LCB, '--eval', source, 'names_entry'])) == 42
         for i, name in enumerate(['bad;name', 'bad:name', '9bad', 'bad/name', 'bad-name', 'caf\u00e9']):
             invalid = work/f'bad{i}.ssa'

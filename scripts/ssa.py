@@ -162,7 +162,7 @@ def main():
     cc=os.environ.get('LCB_CC','cc')
     with tempfile.TemporaryDirectory(prefix='lcb-ssa-') as directory:
         work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c';src.write_text(source)
-        run([LCB,src,'-o',asm]);first=asm.read_text();run([LCB,src,'-o',asm]);assert first==asm.read_text(),'unstable SSA names'
+        run([LCB, '--target', 'aarch64-macos',src,'-o',asm]);first=asm.read_text();run([LCB, '--target', 'aarch64-macos',src,'-o',asm]);assert first==asm.read_text(),'unstable SSA names'
         for name,args,wanted in cases:assert int(run([LCB,'--eval',src,name,*args]))==wanted,(name,args,wanted)
         decl=''.join(f'extern uint64_t mutable_{i}(uint64_t,uint32_t);\n' for i in range(len(models)))
         decl+='extern uint64_t irreducible(uint64_t,uint32_t),loop_livein(uint64_t,uint64_t);\n'

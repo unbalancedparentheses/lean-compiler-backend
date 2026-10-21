@@ -120,7 +120,7 @@ def main():
             src=work/f'input{batchnum}.ssa';src.write_text(source)
             caller=work/f'caller{batchnum}.c';caller.write_text(c)
             assembly=work/f'lean{batchnum}.s'
-            run([LCB,src,'-o',assembly])
+            run([LCB, '--target', 'aarch64-macos',src,'-o',assembly])
             for name,_,_,_ in batch:
                 assert run([LCB,'--eval',src,f'model_{name}']).strip()=='100'
             if qbe:
@@ -144,7 +144,7 @@ def main():
             'type :t = { w } function l $f() { @s %p =:t copy 0 ret %p }',
             'type :t = align 16 { w } function :t $f(:t %p) { @s ret %p }',
         ]:
-            src=work/'bad.ssa';src.write_text(text);reject([LCB,src],'')
+            src=work/'bad.ssa';src.write_text(text);reject([LCB, '--target', 'aarch64-macos',src],'')
     print(f'aggregate ABI: {len(TYPES)} layouts, by-value isolation and result lifetimes; '+
           ('native Lean/QBE/C returns, callbacks, mixed GP/FP exhaustion and dynamic frames passed' if qbe else 'native execution unmeasured'))
 

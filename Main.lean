@@ -1,4 +1,5 @@
 import LeanCompilerBackend
+import LeanCompilerBackend.Driver
 import LeanCompilerBackend.Verified.Codec
 import LeanCompilerBackend.Liveness.Report
 
@@ -9,7 +10,7 @@ private def usage : String :=
   "Usage:\n" ++
   "  lcb [OPTIONS] INPUT.ssa ... [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|x86_64-macos|riscv64-linux] [--optimize] [--allocate]\n" ++
   "  lcb -t arm64_apple|arm64|amd64_sysv|amd64_apple|rv64 [-o OUTPUT.s] [INPUT.ssa|- ...]\n" ++
-  "  Compatibility options may precede/follow inputs; missing input or - reads stdin; -o - writes stdout. Default target: aarch64-macos.\n" ++
+  "  Compatibility options may precede/follow inputs; missing input or - reads stdin; -o - writes stdout. Default target: host platform; first-path output remains aarch64-macos.\n" ++
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --liveness INPUT.ssa\n" ++
   "  lcb --allocation INPUT.ssa\n" ++
@@ -263,7 +264,11 @@ private def run (args : List String) : IO UInt32 := do
     let settings ← match compatibilityOptions args with
       | .ok value => pure value
       | .error message => throw (IO.userError message)
-    let selected := settings.target.getD "aarch64-macos"
+    let selected ← match settings.target with
+      | some target => pure target
+      | none => match Driver.hostTarget System.Platform.target with
+        | .ok target => pure target
+        | .error message => throw (IO.userError message)
     let allocate := settings.optimize || settings.allocate
     let inputs := if settings.inputs.isEmpty then ["-"] else settings.inputs
     let mut fragments : List String := []

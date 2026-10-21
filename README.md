@@ -73,7 +73,10 @@ nix run . -- --optimize -t amd64_sysv first.ssa second.ssa -o combined.s
 | `amd64_apple` | `x86_64-macos` |
 | `rv64` | `riscv64-linux` |
 
-Use `-t` or `--target`; the default remains `aarch64-macos`. Attached `-tTARGET`
+Use `-t` or `--target` to cross-compile. Without a target, the compatibility
+driver selects the architecture and OS of its Lean runtime: ARM64/x86-64 macOS
+or ARM64/x86-64/RV64 Linux. Unknown hosts require an explicit supported target.
+The restricted first-path interface still emits `aarch64-macos`. Attached `-tTARGET`
 and `-oPATH` forms work, and `--` marks remaining arguments as input paths.
 `-h`/`--help` and an interactive invocation without arguments show help. These
 options support frontend pipeline conventions; Windows AMD64 and QBE's internal

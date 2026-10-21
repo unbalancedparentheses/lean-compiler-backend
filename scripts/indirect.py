@@ -125,7 +125,7 @@ def main():
         source, asm, caller = work/'input.ssa', work/'lean.s', work/'caller.c'
         source.write_text(source_text)
         run([LCB, '--check', source])
-        run([LCB, source, '-o', asm])
+        run([LCB, '--target', 'aarch64-macos', source, '-o', asm])
         checks = []
         for count in COUNTS:
             for value in values:
