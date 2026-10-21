@@ -614,3 +614,26 @@ registers; callers must not depend on a particular returned value. This supports
 unreachable fallthrough blocks emitted by cproc. The interpreter preserves the
 absent result (a consuming call reports an error); the restricted first path
 rejects typed bare returns. No arbitrary zero result is synthesized.
+
+
+## Conservative physical homes
+
+The optional allocator assigns the first colors to dedicated callee-saved GP
+registers: AArch64 x19–x28, AMD64 rbx/r12–r15, and RV64 s1–s11. Remaining colors
+use reusable eight-byte spill slots. These banks are disjoint from lowering's
+argument, result, scratch, frame and platform-reserved registers. Used registers
+are saved before parameter writes and restored on every return, including bare
+returns. Saves, phi staging, aggregate/alloca objects and spills have separate
+frame regions. Dynamic frames access them through their stable frame base.
+
+Floating values use their raw bits in these GP homes, with existing transfers
+to/from FP scratch/argument banks. Word reads preserve target normalization;
+callee saves always preserve all 64 bits. Parallel phis still stage every source
+before committing any destination. Calls and TLS helpers preserve these homes by
+the target ABI; independent tests deliberately clobber the caller-saved GP/FP
+banks, verify every assigned callee-saved register and detect removed restores.
+
+This is conservative whole-range allocation, not full QBE allocation parity.
+It does not assign caller-saved or FP homes, split live ranges, coalesce moves,
+or verify individual machine instructions against their clobber descriptions.
+The source/home checkers and execution tests do not constitute a proof.

@@ -120,7 +120,18 @@ private def slotAccess (instruction base register : String) (bytes offset : Nat)
     [s!"\t{instruction} {register}, [{base}, #{offset}]"]
   else stackAddress base 15 offset ++ [s!"\t{instruction} {register}, [x15]"]
 
-private def load (darwin : Bool) (localSymbols : List String) (base : String) (slots : List (String × Nat)) (width : Width) (destination : Nat)
+private structure Homes where
+  stack : List (String × Nat)
+  registers : List (String × Nat)
+
+private def storeHome (base : String) (homes : Homes) (width : Width)
+    (source name : String) (floating : Bool := false) : Except String (List String) := do
+  if let some n := homes.registers.lookup name then
+    return [s!"\t{if floating then "fmov" else "mov"} {register width n}, {source}"]
+  let some offset := homes.stack.lookup name | throw s!"missing storage home for %{name}"
+  return slotAccess "str" base source width.bytes offset
+
+private def load (darwin : Bool) (localSymbols : List String) (base : String) (slots : Homes) (width : Width) (destination : Nat)
     (value : Operand) : Except String (List String) := do
   match value with
   | .constant n => return immediate width destination n
@@ -133,9 +144,11 @@ private def load (darwin : Bool) (localSymbols : List String) (base : String) (s
       else [s!"\tadrp {r}, :got:{name}", s!"\tldr {r}, [{r}, :got_lo12:{name}]"])
       ++ (if width == .word then [s!"\tmov {register .word destination}, {register .word destination}"] else [])
   | .temporary name =>
-    match slots.lookup name with
+    if let some n := slots.registers.lookup name then
+      return [s!"\tmov {register width destination}, {register width n}"]
+    match slots.stack.lookup name with
     | some offset => return slotAccess "ldr" base (register width destination) width.bytes offset
-    | none => throw s!"missing stack slot for %{name}"
+    | none => throw s!"missing storage home for %{name}"
 
 private def condition : Comparison → String
   | .eq => "eq" | .ne => "ne"
@@ -256,7 +269,7 @@ private def parametersAsArguments (f : Function) : Array CallArgument :=
       floating := p.floating, subword := p.subword, aggregate := p.aggregate, environment := p.environment }
 
 private def emitCall (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String)
-    (slots allocations : List (String × Nat)) (target : CallTarget)
+    (slots : Homes) (allocations : List (String × Nat)) (target : CallTarget)
     (arguments : Array CallArgument) (result : Option (String × String) := none)
     : Except String (List String) := do
   let mut lines := []
@@ -333,7 +346,7 @@ private def loadIncoming (width : Width) (offset : Nat) : List String :=
     [s!"\tldr {register width 9}, [sp, #{offset}]"]
   else stackAddress "sp" 10 offset ++ [s!"\tldr {register width 9}, [x10]"]
 
-private def emitInstruction (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat)) (inst : Instruction)
+private def emitInstruction (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String) (slots : Homes) (allocations : List (String × Nat)) (inst : Instruction)
     : Except String (List String) := do
   let mut lines : List String := []
   match inst.operation with
@@ -418,14 +431,12 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     lines := lines ++ (← load darwin localSymbols base slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
   | .call target arguments =>
-    -- Sources are stable stack slots: argument-register permutations cannot
-    -- overwrite an argument that has not yet been loaded. All other live values
-    -- also survive caller-saved clobbers in their own frame slots.
+    -- Stable homes are stack slots or callee-saved registers, outside argument
+    -- and scratch banks. Permutations and call clobbers preserve their values.
     lines := lines ++ (← emitCall darwin localSymbols types base slots allocations target arguments (inst.callAggregate.map (inst.destination, ·)))
     if inst.callAggregate.isNone then lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width 9}, {floatRegister inst.width 0}"
       else s!"\tmov {register inst.width 9}, {register inst.width 0}"]
-  let offset ← slotOffset slots inst.destination
-  pure (lines ++ slotAccess "str" base (register inst.width 9) inst.width.bytes offset)
+  pure (lines ++ (← storeHome base slots inst.width (register inst.width 9) inst.destination))
 
 private structure VariadicFrame where
   stackOffset : Nat
@@ -433,7 +444,7 @@ private structure VariadicFrame where
   gpUsed : Nat
   fpUsed : Nat
 
-private def emitStatement (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat))
+private def emitStatement (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String) (slots : Homes) (allocations : List (String × Nat))
     (varargs : VariadicFrame) (statement : Statement) : Except String (List String) := do
   match statement with
   | .assign inst => emitInstruction darwin localSymbols types base slots allocations inst
@@ -481,7 +492,7 @@ private def edgeLabel (f : Function) (label : String) : String :=
   s!"L_lcb_edge_{f.name.length}_{localName f.name}_{label}"
 
 /-- Phi lowering stages every source before changing any destination slot. -/
-private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (f : Function) (slots : List (String × Nat)) (stageBase : Nat)
+private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (f : Function) (slots : Homes) (stageBase : Nat)
     (predecessor target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw s!"unknown block @{target}"
   let mut lines := []
@@ -493,15 +504,14 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
     lines := lines ++ slotAccess "str" base (register phi.width 9) phi.width.bytes (stageBase + i * 8)
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
-    let offset ← slotOffset slots phi.destination
     let r := register phi.width 9
-    lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ slotAccess "str" base r phi.width.bytes offset
+    lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ (← storeHome base slots phi.width r phi.destination)
   pure lines
 
 def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String := do
   validateFunction f true
   checkTargetSection darwin f.customSection
-  let homes ← if allocate then Allocation.allocate f else pure (Allocation.baseline f)
+  let homes ← if allocate then Allocation.allocate f 10 else pure (Allocation.baseline f)
   let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
     match statement with
     | .assign { operation := .allocate _ size, .. } =>
@@ -521,10 +531,14 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   if dynamic then outgoing := 16
   -- The outgoing argument area is below all locals, phi staging, saved LR and
   -- allocation objects. Calls can overwrite it without destroying live values.
-  let slots := homes.homes.map fun (name, i) => (name, outgoing + i * 8)
+  let slots : Homes := {
+    stack := homes.homes.filterMap (fun (name,i) => if i >= homes.registerCount then some (name,outgoing+(i-homes.registerCount)*8) else none)
+    registers := homes.homes.filterMap (fun (name,i) => if i < homes.registerCount then some (name,19+i) else none) }
   let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
   let stageBase := outgoing + homes.spills * 8
   let mut frameEnd := outgoing + (homes.spills + maxPhis) * 8
+  let savedBase := frameEnd
+  frameEnd := frameEnd+homes.registers*8
   let hasCalls := f.blocks.any fun block => block.instructions.any (·.callSite.isSome)
   let returnAddress := frameEnd
   if hasCalls && !dynamic then frameEnd := frameEnd + 8
@@ -567,6 +581,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   if dynamic then
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
   else if hasCalls then lines := lines ++ slotAccess "str" "sp" "x30" 8 returnAddress
+  for i in [:homes.registers] do lines := lines ++ slotAccess "str" base s!"x{19+i}" 8 (savedBase+i*8)
   let incoming ← AggregateABI.plan types (parametersAsArguments f) darwin
   if !darwin && f.variadic then
     -- Save the argument banks before any user code or incoming-object copies.
@@ -578,12 +593,10 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
     lines := lines ++ stackAddress base 12 resultPointer ++ ["\tstr x8, [x12]"]
   if let some parameter := f.parameters[0]? then
     if parameter.environment then
-      let offset ← slotOffset slots parameter.name
-      lines := lines ++ slotAccess "str" base "x9" 8 offset
+      lines := lines ++ (← storeHome base slots .long "x9" parameter.name)
   for i in [:f.parameters.size] do
     let parameter := f.parameters[i]!
     if parameter.environment then continue
-    let offset ← slotOffset slots parameter.name
     let entry := incoming.arguments[i]!
     if let some info := entry.aggregate then
       let objectOffset ← slotOffset allocations parameter.name
@@ -605,13 +618,13 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
         | .stack argumentOffset =>
           lines := lines ++ stackAddress "sp" 12 (frame + argumentOffset)
             ++ stackAddress base 13 objectOffset ++ copyAggregate info.layout.size
-      lines := lines ++ stackAddress base 12 objectOffset ++ slotAccess "str" base "x12" 8 offset
+      lines := lines ++ stackAddress base 12 objectOffset ++ (← storeHome base slots .long "x12" parameter.name)
     else
       match entry.location with
       | .floating index _ _ =>
-        lines := lines ++ slotAccess "str" base (floatRegister parameter.width index) parameter.width.bytes offset
+        lines := lines ++ (← storeHome base slots parameter.width (floatRegister parameter.width index) parameter.name true)
       | .general index _ =>
-        lines := lines ++ slotAccess "str" base (register parameter.width index) parameter.width.bytes offset
+        lines := lines ++ (← storeHome base slots parameter.width (register parameter.width index) parameter.name)
       | .stack argumentOffset =>
         if let some kind := parameter.subword then
           let instruction := match kind with
@@ -619,7 +632,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
             | .signedHalf => "ldrsh w9" | .unsignedHalf => "ldrh w9"
           lines := lines ++ stackAddress "sp" 10 (frame + argumentOffset) ++ [s!"\t{instruction}, [x10]"]
         else lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
-        lines := lines ++ slotAccess "str" base (register parameter.width 9) parameter.width.bytes offset
+        lines := lines ++ (← storeHome base slots parameter.width (register parameter.width 9) parameter.name)
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
     let mut debugIndex := 0
@@ -649,6 +662,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           lines := lines ++ (← load darwin localSymbols base slots width 0 value)
           if let some kind := f.resultSubword then lines := lines ++ [extendSubword kind 0]
           if f.resultFloating then lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width 0}"]
+      for i in [:homes.registers] do lines := lines ++ slotAccess "ldr" base s!"x{19+i}" 8 (savedBase+i*8)
       if dynamic then lines := lines ++ ["\tmov sp, x29", "\tldp x29, x30, [sp]"]
       else if hasCalls then lines := lines ++ slotAccess "ldr" "sp" "x30" 8 returnAddress
       lines := lines ++ adjustStack "add" frame

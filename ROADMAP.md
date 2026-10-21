@@ -225,12 +225,14 @@ Existing P identifiers and completed checkpoints are retained for traceability.
 - [ ] P09 — Port liveness, spilling and register allocation together with value-flow
   checking. Packed-bitset SSA liveness now handles edge-specific parallel phi
   uses, instruction boundaries, calls and disconnected cycles, with independent
-  set/path oracles and upstream fixture coverage. Allocation, spilling and
-  machine value-flow checking remain unimplemented. Checked greedy stack-home
-  coloring now reuses nonoverlapping slots on all five targets; independent
+  set/path oracles and upstream fixture coverage. Checked greedy allocation uses
+  callee-saved GP registers and reusable spill slots on all five targets; independent
   boundary checks, corrupted plans, call pressure and phi swaps test this step.
   Independent symbolic home-flow checking now follows SSA identities through
   reachable joins, loops and parallel phi edges; machine effects remain separate.
+  Caller clobbers, callee saves, FP bit patterns and spill pressure have execution
+  and corruption checks. Caller-saved/FP-bank allocation, live-range splitting,
+  coalescing and machine instruction-level value-flow checking remain.
   Cover register aliases, call clobbers, saved registers, parallel copies,
   spills/reloads and frame constraints. Test value-flow checking now; defer its
   soundness proof to certification. Structural checks alone do not establish

@@ -4,6 +4,7 @@ import argparse
 import copy
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -64,7 +65,7 @@ def oracle():
     print(f'allocation oracle: {functions} functions, {values} values use {colors} homes; original fixtures and corruption check passed', flush=True)
 
 
-def fixture():
+def fixture(target):
     # Opaque call keeps 48 loaded values simultaneously live. No folding/CSE can
     # remove them; caller clobbers and spill/reload paths must preserve every bit.
     lines = ['export function l $pressure(l %p) {', '@s']
@@ -101,6 +102,19 @@ export function l $chain(l %x) {
  %c =l xor %b,92
  ret %c
 }
+export function d $float_keep(d %x,d %y) {
+@s
+ call $clobber()
+ %r =d add %x,%y
+ ret %r
+}
+export function d $float_bits(d %x) {
+@s
+ %bits =l cast %x
+ call $clobber()
+ %r =d cast %bits
+ ret %r
+}
 export function l $dynamic(l %n,l %x) {
 @s
  %p =l alloc16 %n
@@ -110,20 +124,46 @@ export function l $dynamic(l %n,l %x) {
  %r =l add %v,%x
  ret %r
 }''']
+    if target.startswith('aarch64'):
+        saved = [f'x{i}' for i in range(19,29)]
+        clobbered = [f'x{i}' for i in range(18)] + [f'v{i}' for i in range(8)]
+        destroy = [f'mov x{i}, #123' for i in range(18)] + [f'fmov d{i}, x0' for i in range(8)]
+    elif target.startswith('x86_64'):
+        saved = ['rbx','r12','r13','r14','r15']
+        clobbered = ['rax','rcx','rdx','rsi','rdi','r8','r9','r10','r11'] + [f'xmm{i}' for i in range(16)]
+        destroy = [f'movq $123, %%{r}' for r in clobbered[:9]] + [f'pxor %%xmm{i}, %%xmm{i}' for i in range(16)]
+    else:
+        saved = [f's{i}' for i in range(1,12)]
+        clobbered = [f'a{i}' for i in range(8)] + [f't{i}' for i in range(7)] + [f'fa{i}' for i in range(8)] + [f'ft{i}' for i in range(12)]
+        destroy = [f'li {r},123' for r in clobbered[:15]] + [f'fmv.d.x {r},a0' for r in clobbered[15:]]
+    destroy_asm = '__asm__ volatile("' + r'\n\t'.join(destroy) + '" ::: ' + ','.join('"'+r+'"' for r in clobbered) + ',"memory");'
+    probe = '__attribute__((noinline)) static int preserved(uint64_t *p) {\n'
+    for i,r in enumerate(saved): probe += f'register uint64_t k{i} __asm__("{r}") = UINT64_C({0x123456789abc0000+i});\n'
+    barrier = '__asm__ volatile("" : ' + ','.join(f'"+r"(k{i})' for i in range(len(saved))) + ' :: "memory");\n'
+    probe += barrier + '(void)pressure(p);\n' + barrier
+    probe += 'return ' + ' && '.join(f'k{i} == UINT64_C({0x123456789abc0000+i})' for i in range(len(saved))) + ';}\n'
     caller = '''#include <stdint.h>
 extern uint64_t pressure(uint64_t*), swap(uint64_t,uint64_t,unsigned), deadwrite(uint64_t,uint64_t), chain(uint64_t), dynamic(uint64_t,uint64_t);
+extern double float_keep(double,double), float_bits(double);
 volatile uint64_t barrier;
-__attribute__((noinline)) void clobber(void) { barrier++; }
+__attribute__((noinline)) void clobber(void) { barrier++; DESTROY }
+PROBE
 int main(void) {
  uint64_t a[48],sum=0;
  for(unsigned i=0;i<48;i++){a[i]=UINT64_C(0xf123456789abcd)*i+17;sum+=a[i];}
  if(pressure(a)!=sum)return 1;
+ if(!preserved(a))return 6;
+ if(float_keep(1.5,2.25)!=3.75)return 7;
+ union {uint64_t u;double d;} in,out;
+ in.u=UINT64_C(0x7ff8123456789abc);out.d=float_bits(in.d);if(out.u!=in.u)return 8;
+ in.u=UINT64_C(0x8000000000000000);out.d=float_bits(in.d);if(out.u!=in.u)return 9;
  for(unsigned i=1;i<33;i++)if(swap(17,93,i)!=(i%2?17-93:93-17ULL))return 2;
  if(deadwrite(17,93)!=17-93ULL)return 3;
  for(unsigned i=0;i<100;i++)if(chain(i)!=(((i+7)*3)^92))return 4;
  if(dynamic(8192,UINT64_C(0xf123456789abcdef))!=UINT64_C(0xe2468acf13579bde))return 5;
  return 0;
 }'''
+    caller = caller.replace('DESTROY',destroy_asm).replace('PROBE',probe)
     return '\n'.join(lines), caller
 
 
@@ -131,7 +171,7 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
     case = Path(work)/'allocation'
     case.mkdir(exist_ok=True)
     source, caller = case/'input.ssa', case/'caller.c'
-    text, c = fixture()
+    text, c = fixture(target)
     source.write_text(text)
     caller.write_text(c)
     for label, flags in [('baseline', []), ('allocated', ['--allocate']), ('optimized', ['--optimize'])]:
@@ -143,17 +183,48 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
             assert result.returncode == 0, result.stderr
             result = run([case/label], True)
             assert result.returncode == 0, (target, label, result.returncode, result.stderr)
-    print(f'{target}: allocation pressure, calls, parallel phi swaps, dead writes, dynamic frames; execution={execute}', flush=True)
+            if label == 'allocated':
+                patterns = {'aarch64': r'^\s*ldr x19, \[.*$',
+                            'x86_64': r'^\s*movq -[0-9]+\(%rbp\), %rbx$',
+                            'riscv64': r'^\s*ld s1, -?[0-9]+\(s0\)$'}
+                pattern = patterns[target.split('-')[0]]
+                damaged,count = re.subn(pattern, '\tnop', assembly.read_text(), flags=re.M)
+                assert count > 0, 'no callee-save restores found in allocated code'
+                broken = case/'broken-save.s'; broken.write_text(damaged)
+                result = run([cc, caller, broken, '-o', case/'broken-save'], True)
+                assert result.returncode == 0, result.stderr
+                result = run([case/'broken-save'], True)
+                assert result.returncode != 0, 'callee-save corruption was not detected'
+    print(f'{target}: allocation pressure/spills, caller clobbers, callee saves, FP bits, phi swaps, dead writes, dynamic frames; execution={execute}', flush=True)
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--require-native', action='store_true')
     ap.add_argument('--oracle-only', action='store_true')
+    ap.add_argument('--execution-only', action='store_true')
+    ap.add_argument('--target', choices=['aarch64-macos','aarch64-linux','x86_64-linux','riscv64-linux'], default='aarch64-macos')
+    ap.add_argument('--docker-container')
     args = ap.parse_args()
-    oracle()
+    if not args.execution_only: oracle()
     if args.oracle_only:
         return
+    if args.docker_container:
+        assert args.target.endswith('-linux')
+        work = ROOT/'.build/linux-arm64'/('allocation-'+args.target)
+        work.mkdir(exist_ok=True)
+        def run(cmd, inside=False):
+            cmd = list(map(str,cmd))
+            if inside:
+                if cmd[0].startswith(str(work)) and args.target != 'aarch64-linux':
+                    isa = args.target.split('-')[0]
+                    cmd = [f'qemu-{isa}','-L',f'/usr/{isa}-linux-gnu']+cmd
+                cmd = ['docker','exec',args.docker_container]+[x.replace(str(ROOT/'.build/linux-arm64'),'/work') for x in cmd]
+            return subprocess.run(cmd,text=True,capture_output=True,timeout=120)
+        cc = 'gcc' if args.target=='aarch64-linux' else args.target.split('-')[0]+'-linux-gnu-gcc'
+        exercise(LCB,work,run,cc,args.target,True)
+        return
+    assert args.target == 'aarch64-macos', 'Linux execution needs --docker-container'
     if args.require_native:
         assert native_host()
     def run(cmd, inside=False):

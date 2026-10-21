@@ -1,5 +1,6 @@
 /- Baseline Linux/macOS AMD64/System V lowering. ABI reference: pinned QBE amd64/sysv.c.
-   Every SSA value has a stable frame slot; this is not register allocation. -/
+   Baseline values use unique stack slots; optional allocation uses checked
+   callee-saved GP homes and reusable spill slots (including floating bit patterns). -/
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Allocation
 import LeanCompilerBackend.Assembly
@@ -15,12 +16,15 @@ private def fsuffix (w : Width) : String := if w == .word then "ss" else "sd"
 private def reg (w : Width) (r : String) : String :=
   "%" ++ if w == .long then r else match r with
     | "rax" => "eax" | "rcx" => "ecx" | "rdx" => "edx"
-    | "rdi" => "edi" | "rsi" => "esi" | _ => r ++ "d"
+    | "rdi" => "edi" | "rsi" => "esi" | "rbx" => "ebx" | _ => r ++ "d"
 private def gp : Array String := #["rdi", "rsi", "rdx", "rcx", "r8", "r9"]
+
+private def savedGP : Array String := #["rbx", "r12", "r13", "r14", "r15"]
 
 private structure Context where
   darwin : Bool
   slots : List (String × Nat)
+  registers : List (String × String)
   objects : List (String × Nat)
   types : Array AMD64ABI.Info
   resultPointer : Nat
@@ -34,6 +38,10 @@ private structure Context where
 private def slot (c : Context) (name : String) : Except String String := do
   let some offset := c.slots.lookup name | throw s!"missing AMD64 stack slot %{name}"
   pure s!"-{offset}(%rbp)"
+
+private def store (c : Context) (name : String) : Except String (List String) := do
+  if let some r := c.registers.lookup name then return [s!"\tmovq %rax, %{r}"]
+  return [s!"\tmovq %rax, {← slot c name}"]
 
 /-- ELF TLSDESC or Darwin TLV lookup, preserving live GP/FP call arguments. -/
 private def threadAddress (darwin : Bool) (w : Width) (destination name : String) : List String := Id.run do
@@ -54,7 +62,10 @@ private def threadAddress (darwin : Bool) (w : Width) (destination name : String
 
 private def load (c : Context) (w : Width) (r : String) : Operand → Except String (List String)
   | .constant n => pure [s!"\tmov{if w == .long then "absq" else "l"} ${Semantics.constant w n}, {reg w r}"]
-  | .temporary name => return [s!"\tmov{suffix w} {← slot c name}, {reg w r}"]
+  | .temporary name => do
+    if let some home := c.registers.lookup name then
+      return [s!"\tmov{suffix w} {reg w home}, {reg w r}"]
+    return [s!"\tmov{suffix w} {← slot c name}, {reg w r}"]
   | .symbol name =>
     let symbol := Assembly.symbolName c.darwin name
     let address := if c.locals.contains name then s!"\tleaq {symbol}(%rip), %{r}"
@@ -256,7 +267,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       "\taddq %rcx, %rdx", s!"\taddl ${step}, %ecx", s!"\tmovl %ecx, {field}(%rax)", "\tjmp 2f", "1:",
       "\tmovq 8(%rax), %rdx", "\tleaq 8(%rdx), %rcx", "\tmovq %rcx, 8(%rax)", "2:", s!"\tmov{s} (%rdx), {a}"]
   if w == .word then lines := lines ++ ["\tmovl %eax, %eax"]
-  pure (lines ++ [s!"\tmovq %rax, {← slot c inst.destination}"])
+  pure (lines ++ (← store c inst.destination))
 
 private def emitStatement (c : Context) : Statement → Except String (List String)
   | .assign inst => emitInstruction c inst
@@ -287,7 +298,7 @@ private def edge (c : Context) (f : Function) (source target : String) : Except 
     let some (_, value) := phi.incoming.find? (·.1 == source) | throw "missing phi incoming"
     lines := lines ++ (← load c phi.width "rax" value) ++ [s!"\tmovq %rax, -{c.stage+i*8}(%rbp)"]
   for i in [:block.phis.size] do
-    lines := lines ++ [s!"\tmovq -{c.stage+i*8}(%rbp), %rax", s!"\tmovq %rax, {← slot c block.phis[i]!.destination}"]
+    lines := lines ++ [s!"\tmovq -{c.stage+i*8}(%rbp), %rax"] ++ (← store c block.phis[i]!.destination)
   pure lines
 
 private def emitFunction (f : Function) (types : Array Info) (locals : List String) (fileId : Nat) (darwin : Bool) (allocate : Bool) : Except String String := do
@@ -297,9 +308,11 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
   if f.variadic && f.parameters.any (·.environment) then throw "AMD64 System V does not support variadic environment functions"
   let params := f.parameters.map fun p => { width := p.width, value := Operand.temporary p.name, floating := p.floating, subword := p.subword, environment := p.environment, aggregate := p.aggregate : CallArgument }
   let incoming ← plan types params (resultInfo.any (·.memory))
-  let homes ← if allocate then Allocation.allocate f else pure (Allocation.baseline f)
+  let homes ← if allocate then Allocation.allocate f savedGP.size else pure (Allocation.baseline f)
   let maxPhi := f.blocks.foldl (fun n b => max n b.phis.size) 0
   let mut fixed := (homes.spills + maxPhi)*8
+  let savedBase := fixed+8
+  fixed := fixed+homes.registers*8
   let resultPointer := fixed + 8
   if resultInfo.any (·.memory) then fixed := fixed+8
   let mut objects := []
@@ -314,13 +327,14 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
   let saveArea := align fixed + 176
   let frame := align (if f.variadic then saveArea else fixed)
   if frame > 1024*1024 then throw "AMD64 frame exceeds 1 MiB"
-  let c : Context := { darwin, slots := homes.homes.map (fun (n,i) => (n,(i+1)*8)), objects, types, resultPointer, locals, stage := (homes.spills+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
+  let c : Context := { darwin, slots := homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,(i-homes.registerCount+1)*8) else none), registers := homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none), objects, types, resultPointer, locals, stage := (homes.spills+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
   let symbol := Assembly.symbolName darwin f.name
   let mut lines := [f.customSection.map (Assembly.sectionDirective darwin) |>.getD ".text", ".p2align 4"]
   if !darwin then lines := lines ++ [s!".type {symbol}, @function"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   lines := lines ++ [s!"{symbol}:", "\tpushq %rbp", "\tmovq %rsp, %rbp"]
   if frame != 0 then lines := lines ++ [s!"\tsubq ${frame}, %rsp"]
+  for i in [:homes.registers] do lines := lines ++ [s!"\tmovq %{savedGP[i]!}, -{savedBase+i*8}(%rbp)"]
   if resultInfo.any (·.memory) then lines := lines ++ [s!"\tmovq %rdi, -{resultPointer}(%rbp)"]
   if f.variadic then
     for i in [:6] do lines := lines ++ [s!"\tmovq %{gp[i]!}, -{saveArea-i*8}(%rbp)"]
@@ -338,7 +352,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
       | .stack offset =>
         lines := lines ++ [s!"\tleaq {16+offset}(%rbp), %r10"] ++ (← objectAddress c p.name "r11") ++ copyBytes info.layout.size
       | _ => throw "invalid AMD64 aggregate parameter location"
-      lines := lines ++ (← objectAddress c p.name "rax") ++ [s!"\tmovq %rax, {← slot c p.name}"]
+      lines := lines ++ (← objectAddress c p.name "rax") ++ (← store c p.name)
       continue
     match incoming.places[i]! with
     | .integer index => lines := lines ++ [s!"\tmovq %{gp[index]!}, %rax"]
@@ -348,7 +362,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
     | .aggregate _ => throw "scalar parameter in aggregate registers"
     if let some kind := p.subword then lines := lines ++ extend .word kind.extension
     if p.width == .word then lines := lines ++ ["\tmovl %eax, %eax"]
-    lines := lines ++ [s!"\tmovq %rax, {← slot c p.name}"]
+    lines := lines ++ (← store c p.name)
   for block in f.blocks do
     lines := lines ++ [label darwin f block.label ++ ":"]
     let mut debugIndex := 0
@@ -376,6 +390,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
           lines := lines ++ (← load c width "rax" value)
           if let some kind := f.resultSubword then lines := lines ++ extend .word kind.extension
           if f.resultFloating then lines := lines ++ [s!"\tmov{if width == .word then "d" else "q"} {reg width "rax"}, %xmm0"]
+      for i in [:homes.registers] do lines := lines ++ [s!"\tmovq -{savedBase+i*8}(%rbp), %{savedGP[i]!}"]
       lines := lines ++ ["\tleave", "\tret"]
     | .halt => lines := lines ++ ["\tud2"]
     | .jump target => lines := lines ++ (← edge c f block.label target) ++ [s!"\tjmp {label darwin f target}"]

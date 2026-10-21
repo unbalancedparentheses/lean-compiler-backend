@@ -122,7 +122,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | copy elimination, folding, GVN, GCM and CFG simplification | partial: opt-in bounded SSA constant/integer folding, same-width copy propagation and conservative dead-definition removal, constant branches, unreachable-block/phi-edge cleanup and dominance-aware common integer expressions; full GVN, GCM and broader CFG/elimination remain |
 | ABI lowering | partial: Apple/Linux ARM64, Linux AMD64/System V and Linux RV64/LP64D scalar and aggregate calls/results; target-specific GP/FP/stack classification, hidden returns, variadics, env and saved live values |
 | instruction selection and assembly emission | partial: Apple/Linux ARM64, Linux AMD64 and Linux RV64 scalar integer/floating, control flow, memory, TLS and scalar/aggregate-call lowering; large frame-slot addressing |
-| liveness, spilling and register allocation | liveness and checked reusable stack homes implemented; physical registers, spilling and machine value-flow checking remain; default baseline gives every value a stack slot |
+| liveness, spilling and register allocation | liveness, checked callee-saved GP allocation and reusable spills implemented; caller-saved/FP-bank allocation, splitting/coalescing and machine value-flow checking remain; default baseline keeps unique slots |
 
 ## Targets and ABIs
 

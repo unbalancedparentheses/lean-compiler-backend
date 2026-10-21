@@ -1,5 +1,6 @@
 /- Linux RV64 LP64D lowering; ABI reference: pinned QBE rv64/abi.c.
-   Stable frame slots hold normalized SSA bit patterns. -/
+   Stable homes hold normalized SSA bit patterns; optional allocation uses
+   callee-saved GP registers and reusable spill slots. -/
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Allocation
 import LeanCompilerBackend.Assembly
@@ -24,8 +25,11 @@ private def toFloat (w : Width) (dst src : String) : List String :=
 private def fromFloat (w : Width) (dst src : String) : List String :=
   [s!"\tfmv.x.{if w == .word then "w" else "d"} {dst}, {src}"] ++ norm w dst
 
+private def savedGP : Array String := #["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11"]
+
 private structure Context where
   slots : List (String × Nat)
+  registers : List (String × String)
   locals : List String
   stage : Nat
   vaOffset : Int
@@ -37,6 +41,9 @@ private structure Context where
 private def slot (c : Context) (name : String) : Except String Int := do
   let some n := c.slots.lookup name | throw s!"missing RV64 slot %{name}"
   pure (-(n : Int))
+private def store (c : Context) (name : String) : Except String (List String) := do
+  if let some r := c.registers.lookup name then return [s!"\tmv {r}, t0"]
+  return memory "sd" "t0" "s0" (← slot c name)
 /-- General-dynamic TLS supports external definitions and shared libraries. -/
 private def threadAddress (w : Width) (destination name : String) : List String := Id.run do
   let saved := #["ra", "t0", "t1", "t2", "t3", "t4", "t5", "a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7"]
@@ -51,7 +58,9 @@ private def threadAddress (w : Width) (destination name : String) : List String 
   return lines ++ [s!"\tld {destination}, 280(sp)", "\taddi sp, sp, 304"] ++ norm w destination
 private def load (c : Context) (w : Width) (r : String) : Operand → Except String (List String)
   | .constant n => pure [s!"\tli {r}, {Semantics.constant w n}"]
-  | .temporary name => return memory (if w == Width.word then "lwu" else "ld") r "s0" (← slot c name)
+  | .temporary name => do
+    if let some home := c.registers.lookup name then return [s!"\tmv {r}, {home}"] ++ norm w r
+    return memory (if w == Width.word then "lwu" else "ld") r "s0" (← slot c name)
   | .symbol name => pure ([s!"\t{if c.locals.contains name then "lla" else "la"} {r}, {name}"] ++ norm w r)
   | .threadSymbol name => pure (threadAddress w r name)
 private def extend (w : Width) : Unary → List String
@@ -227,7 +236,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
     if let some k := inst.callSubword then lines := lines ++ extend .word k.extension
   | .vaArg list =>
     lines := (← load c .long "t0" list) ++ ["\tld t1, 0(t0)", "\taddi t2, t1, 8", "\tsd t2, 0(t0)", s!"\t{if w == Width.word then "lwu" else "ld"} t0, 0(t1)"]
-  pure (lines ++ norm w "t0" ++ memory "sd" "t0" "s0" (← slot c inst.destination))
+  pure (lines ++ norm w "t0" ++ (← store c inst.destination))
 
 private def emitStatement (c : Context) : Statement → Except String (List String)
   | .assign i => emitInstruction c i
@@ -254,7 +263,7 @@ private def edge (c : Context) (f : Function) (src dst : String) : Except String
     let some (_,v) := phi.incoming.find? (·.1 == src) | throw "missing RV64 phi incoming"
     lines := lines ++ (← load c phi.width "t0" v) ++ memory "sd" "t0" "s0" (-((c.stage+i*8) : Int))
   for i in [:block.phis.size] do
-    lines := lines ++ memory "ld" "t0" "s0" (-((c.stage+i*8) : Int)) ++ memory "sd" "t0" "s0" (← slot c block.phis[i]!.destination)
+    lines := lines ++ memory "ld" "t0" "s0" (-((c.stage+i*8) : Int)) ++ (← store c block.phis[i]!.destination)
   pure lines
 
 private def emitFunction (f : Function) (types : Array Info) (locals words : List String) (fileId : Nat) (allocate : Bool) : Except String String := do
@@ -264,9 +273,11 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
   let params := f.parameters.map fun p => {width := p.width, value := Operand.temporary p.name, floating := p.floating, subword := p.subword, environment := p.environment, aggregate := p.aggregate : CallArgument}
   let incoming ← plan types params (resultInfo.any (·.indirect))
   let header := if f.variadic then 80 else 16
-  let homes ← if allocate then Allocation.allocate f else pure (Allocation.baseline f)
+  let homes ← if allocate then Allocation.allocate f savedGP.size else pure (Allocation.baseline f)
   let maxPhi := f.blocks.foldl (fun n b => max n b.phis.size) 0
   let mut fixed := header+(homes.spills+maxPhi)*8
+  let savedBase := fixed+8
+  fixed := fixed+homes.registers*8
   let resultPointer := fixed+8
   if resultInfo.any (·.indirect) then fixed := fixed+8
   let mut objects := []
@@ -282,11 +293,12 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
   if frame > 1024*1024 then throw "RV64 frame exceeds 1 MiB"
   let aliases := f.blocks.toList.flatMap fun b => b.instructions.toList.filterMap fun s =>
     match s with | .assign {destination, operation := .copy (.symbol name), ..} => some (destination,name) | _ => none
-  let c : Context := {slots := homes.homes.map (fun (n,i) => (n,header+(i+1)*8)), locals, stage := header+(homes.spills+1)*8, vaOffset := if incoming.stackBytes > 0 then incoming.stackBytes else (incoming.ngp*8 : Int)-64, wordFunctions := words, aliases, objects, types, resultPointer}
+  let c : Context := {slots := homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,header+(i-homes.registerCount+1)*8) else none), registers := homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none), locals, stage := header+(homes.spills+1)*8, vaOffset := if incoming.stackBytes > 0 then incoming.stackBytes else (incoming.ngp*8 : Int)-64, wordFunctions := words, aliases, objects, types, resultPointer}
   let mut lines := [f.customSection.map (Assembly.sectionDirective false) |>.getD ".text", s!".type {f.name}, @function", ".p2align 2"]
   if f.exported then lines := lines ++ [s!".globl {f.name}"]
   lines := lines ++ [s!"{f.name}:", "\tmv t0, sp"] ++ address "sp" "sp" (-(frame : Int)) ++
     memory "sd" "ra" "t0" (-((header-8) : Int)) ++ memory "sd" "s0" "t0" (-(header : Int)) ++ ["\tmv s0, t0"]
+  for i in [:homes.registers] do lines := lines ++ memory "sd" savedGP[i]! "s0" (-((savedBase+i*8) : Int))
   if resultInfo.any (·.indirect) then lines := lines ++ memory "sd" "a0" "s0" (-(resultPointer : Int))
   if f.variadic then
     for i in [:8] do lines := lines ++ memory "sd" s!"a{i}" "s0" ((i*8 : Int)-64)
@@ -301,11 +313,11 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
         lines := lines ++ (← objectAddress c p.name "t2")
         for chunk in arg.chunks do
           lines := lines ++ getValue chunk.field.width chunk.place ++ writeFragment "t0" chunk.field.offset chunk.field.bytes
-      lines := lines ++ (← objectAddress c p.name "t0") ++ memory "sd" "t0" "s0" (← slot c p.name)
+      lines := lines ++ (← objectAddress c p.name "t0") ++ (← store c p.name)
       continue
     lines := lines ++ getValue p.width arg.chunks[0]!.place
     if let some k := p.subword then lines := lines ++ extend .word k.extension
-    lines := lines ++ norm p.width "t0" ++ memory "sd" "t0" "s0" (← slot c p.name)
+    lines := lines ++ norm p.width "t0" ++ (← store c p.name)
   for b in f.blocks do
     lines := lines ++ [label f b.label ++ ":"]
     let mut debugIndex := 0
@@ -333,6 +345,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
           if let some k := f.resultSubword then lines := lines ++ extend .word k.extension
           if f.resultFloating then lines := lines ++ toFloat w "fa0" "t0"
           else lines := lines ++ [s!"\t{if w == .word then "sext.w" else "mv"} a0, t0"]
+      for i in [:homes.registers] do lines := lines ++ memory "ld" savedGP[i]! "s0" (-((savedBase+i*8) : Int))
       lines := lines ++ memory "ld" "ra" "s0" (-((header-8) : Int)) ++ memory "ld" "t0" "s0" (-(header : Int)) ++ ["\tmv sp, s0", "\tmv s0, t0", "\tret"]
     | .halt => lines := lines ++ ["\tunimp"]
     | .jump dst => lines := lines ++ (← edge c f b.label dst) ++ [s!"\tj {label f dst}"]

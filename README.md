@@ -235,12 +235,12 @@ dead-definition removal, constant-branch simplification and unreachable-block
 removal and dominance-aware common integer-expression elimination. The default
 preserves the stack baseline.
 The pipeline repairs phi edges, remaps debug locations after removal and
-retains potentially effectful or trapping operations. It does not perform
-physical register allocation or expand the certified path.
-`--optimize` also reuses nonoverlapping SSA stack homes; `--allocate` enables
+retains potentially effectful or trapping operations. It does not expand the
+certified path. `--optimize` also allocates callee-saved GP register homes and
+reusable spill slots on all five targets; `--allocate` enables
 that allocation without the other optimization passes. `--allocation INPUT.ssa`
-prints diagnostic colors and liveness. Every plan is checked for live-value
-overwrites before emission. Default and certified compilation keep unique slots.
+prints target-independent diagnostic colors and liveness. Every plan is checked
+for live-value overwrites and symbolic value flow before emission. Default and certified compilation keep unique slots.
 
 Use `--liveness INPUT.ssa` to print diagnostic JSON for each SSA function,
 including block, instruction and phi-edge live sets. This analysis prepares

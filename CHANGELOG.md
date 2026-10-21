@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Allocate stable callee-saved GP homes on all five targets, with reusable spill
+  slots under pressure. Preserve integer/FP bit patterns, ABI saves/restores and
+  staged phi copies. Test explicit caller clobbers and every allocated callee
+  register, and require a missing-restore negative control to fail.
+
 - Add a reproducible cJSON/cproc real-program comparison: 119 functions, 153
   upstream assertions, matching parse/serialize checksums and measured code size,
   compile time and runtime. Record the baseline deep-recursion stack overflow
