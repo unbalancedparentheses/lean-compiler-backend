@@ -258,7 +258,7 @@ def controls(work):
     source, output = work/'control.ssa', work/'control.s'
     for text, message in invalid:
         source.write_text(text)
-        result = subprocess.run([str(LCB), source, '-o', output], text=True, capture_output=True, timeout=30)
+        result = subprocess.run([str(LCB), '--target', 'aarch64-macos', source, '-o', output], text=True, capture_output=True, timeout=30)
         assert result.returncode != 0 and message in result.stderr and not output.exists(), result.stderr
     undefined = [
         ('%p =l alloc4 4 %r =w load %p', 'uninitialized'),
@@ -270,7 +270,7 @@ def controls(work):
         result = subprocess.run([str(LCB), '--eval', source, 'f'], text=True, capture_output=True, timeout=30)
         assert result.returncode != 0 and message in result.stderr, result.stderr
     source.write_text('function l $f() { @s ' + ' '.join(f'%p{i} =l alloc16 4096' for i in range(257)) + ' ret 0 }')
-    result = subprocess.run([str(LCB), source, '-o', output], text=True, capture_output=True, timeout=30)
+    result = subprocess.run([str(LCB), '--target', 'aarch64-macos', source, '-o', output], text=True, capture_output=True, timeout=30)
     assert result.returncode != 0 and 'stack frame' in result.stderr and not output.exists()
     return len(invalid) + len(undefined) + 1
 

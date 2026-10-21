@@ -120,7 +120,7 @@ def rejected(work):
     for name, (body, diagnostic) in cases.items():
         path, output = work / f'{name}.ssa', work / f'{name}.s'
         path.write_text(f'function l $bad(l %n) {{\n{body}\n}}\n')
-        found = subprocess.run([str(LCB), str(path), '-o', str(output)], text=True, capture_output=True, timeout=20)
+        found = subprocess.run([str(LCB), '--target', 'aarch64-macos', str(path), '-o', str(output)], text=True, capture_output=True, timeout=20)
         assert found.returncode != 0 and diagnostic in found.stderr, (name, found.stderr)
         assert not output.exists(), name
     path = work / 'infinite.ssa'

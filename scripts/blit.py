@@ -214,7 +214,7 @@ def controls(work):
     ]
     for text,message in static:
         source.write_text(text)
-        result = subprocess.run([str(LCB),str(source),'-o',str(output)],text=True,capture_output=True,timeout=30)
+        result = subprocess.run([str(LCB), '--target', 'aarch64-macos',str(source),'-o',str(output)],text=True,capture_output=True,timeout=30)
         assert result.returncode and message in result.stderr and not output.exists(), (message,result.stderr)
     undefined = [
         ('%p =l alloc16 16 %q =l add %p,1 blit %p,%q,8', 'partially overlapping'),
