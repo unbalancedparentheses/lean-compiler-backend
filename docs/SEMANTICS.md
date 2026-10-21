@@ -640,7 +640,12 @@ destinations directly; constants and spills still use reserved scratch registers
 The allocation checker prevents overwriting another live value. Word operations
 use W aliases; variable shifts inspect only the low five or six count bits,
 preserving semantics when a long temporary supplies the count. Operand placement
-is tested but does not yet have a semantic preservation proof.
+is tested but does not yet have a semantic preservation proof. Allocated integer
+add/sub operations also select unsigned 12-bit immediates (optionally shifted by
+12), flipping add/sub for representable negative equivalents after width
+normalization. Constant shifts select immediate counts modulo the result width.
+Unencodable constants retain register materialization; the stack baseline keeps
+its previous lowering.
 
 This is conservative whole-range allocation, not full QBE allocation parity.
 It does not assign caller-saved or FP homes, split live ranges, coalesce moves,

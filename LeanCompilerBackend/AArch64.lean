@@ -80,6 +80,24 @@ private def immediate (width : Width) (destination : Nat) (value : Int) : List S
     if chunk != 0 then result := result ++ [s!"\tmovk {r}, #{chunk}, lsl #{shift}"]
   return result
 
+/-- Bounded immediate forms used only by the optional allocated path. The
+    textual operand is independently assembled and exercised by target tests. -/
+private def binaryImmediate (width : Width) (op : Binary) (value : Int) : Option (String × String) := do
+  match op with
+  | .add | .sub =>
+    let signed := Semantics.signedBits width.bits (Semantics.constant width value)
+    let magnitude := signed.natAbs
+    let operand ← if magnitude ≤ 4095 then some s!"#{magnitude}"
+      else if magnitude % 4096 == 0 && magnitude / 4096 ≤ 4095 then
+        some s!"#{magnitude / 4096}, lsl #12"
+      else none
+    let subtract := (op == .sub) != (signed < 0)
+    return (if subtract then "sub" else "add", operand)
+  | .shiftLeft | .logicalRight | .arithmeticRight =>
+    let amount := (Semantics.constant .word value).toNat % width.bits
+    return (mnemonic (select op), s!"#{amount}")
+  | _ => none
+
 /-- Resolve Darwin TLV or Linux TLSDESC while preserving live scalar argument/scratch
     registers. The baseline does not yet hoist/cache repeated TLS lookups. -/
 private def threadAddress (darwin : Bool) (width : Width) (destination : Nat) (name : String) : List String := Id.run do
@@ -388,6 +406,11 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     -- Stable GP homes can be read/written directly. Scratch registers remain
     -- reserved for constants and spilled operands; allocation already checks
     -- that overwriting a destination cannot destroy another live SSA value.
+    let (a, b) := if !slots.registers.isEmpty && op == .add then
+      match a with | .constant _ => (b, a) | _ => (a, b)
+      else (a, b)
+    let encoded := if slots.registers.isEmpty then none else
+      match b with | .constant value => binaryImmediate inst.width op value | _ => none
     let left := match a with
       | .temporary name => (slots.registers.lookup name).getD 9
       | _ => 9
@@ -396,10 +419,13 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
       | _ => 10
     let destination := (slots.registers.lookup inst.destination).getD 9
     if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
-    if right == 10 then lines := lines ++ (← load darwin localSymbols base slots (op.rhsWidth inst.width) 10 b)
+    if let some (instruction, operand) := encoded then
+      lines := lines ++ [s!"\t{instruction} {register inst.width destination}, {register inst.width left}, {operand}"]
+    else
+      if right == 10 then lines := lines ++ (← load darwin localSymbols base slots (op.rhsWidth inst.width) 10 b)
+      lines := lines ++ [s!"\t{mnemonic (select op)} {register inst.width destination}, {register inst.width left}, {register inst.width right}"]
     -- Variable shifts inspect only the low 5/6 count bits, so reading an
     -- allocated count directly preserves the existing word-count normalization.
-    lines := lines ++ [s!"\t{mnemonic (select op)} {register inst.width destination}, {register inst.width left}, {register inst.width right}"]
     if destination != 9 then return lines
   | .unary op value =>
     lines := lines ++ (← load darwin localSymbols base slots (op.inputWidth inst.width) 9 value)

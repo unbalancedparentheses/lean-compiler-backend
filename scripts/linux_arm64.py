@@ -133,6 +133,8 @@ def main():
     memory_tests(compiler,work,run,cc,'aarch64-linux',native)
     from allocation import exercise as allocation_tests
     allocation_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from instruction_selection import exercise as selection_tests
+    selection_tests(compiler,work,run,cc,'aarch64-linux',native)
     from control_flow import exercise as cfg_tests
     cfg_tests(compiler,work,run,cc,'aarch64-linux',native,optimized_only=args.optimize)
     from constant_fold import exercise as fold_tests

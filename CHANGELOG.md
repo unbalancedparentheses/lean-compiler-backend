@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Select ARM64 add/sub and shift immediate forms on the allocated path, including
+  negative equivalents, shifted 12-bit constants and masked shift counts. Keep
+  register fallbacks for unencodable values and test 1,680 independent edge cases
+  per mode, including an intentionally corrupted immediate.
+
 - Emit ARM64 integer binary operations directly on assigned GP homes, avoiding
   redundant scratch moves. Check wide shift counts, caller clobbers and spill
   pressure; requalify cJSON, cproc self-compilation and seeded C through cproc.

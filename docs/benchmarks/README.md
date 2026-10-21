@@ -193,3 +193,18 @@ attempted seeds under this compiler identity; the same two reference timeouts
 remain unqualified. These are repeated programs within the 44 unique passing
 programs above, not additional unique coverage. The cJSON and Csmith scripts
 accept `--compiler PATH` to snapshot and qualify a candidate binary explicitly.
+
+
+## ARM64 immediate selection
+
+The [cJSON immediate-selection report](cjson-immediates.json) retains all 153
+assertions and matching checksums, with the baseline-only stack retry recorded.
+Optimized library text is 61,248 bytes versus 63,500 in the direct-home report.
+Five-sample median runtimes in this run are baseline 0.7461 s, optimized 0.3202 s,
+QBE 0.2002 s and GCC 0.1624 s; concurrent qualification and cross-run variation
+prevent interpreting this as a universal speedup.
+
+The [cproc report](cproc-immediates.json) retains 19 identical IR reproductions
+and 196 original tests for our baseline and optimized frontends. Optimized
+frontend text falls from 281,892 to 267,900 bytes. Original QBE's ARM64 external
+offset failure and the separately corrected oracle remain explicitly separated.
