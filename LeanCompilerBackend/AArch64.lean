@@ -621,6 +621,74 @@ private def emitStatement (darwin : Bool) (localSymbols : List String) (types : 
       | .word => s!"str w{valueHome}" | .long => s!"str x{valueHome}"
     pure (addressLines ++ valueLines ++ [s!"\t{instruction}, [x{addressHome}]"])
 
+/-- Count every SSA use, including phi edges and terminators. An adjacent
+    address definition may disappear only when its memory operand is the sole use. -/
+private def useCounts (f : Function) : Std.HashMap String Nat := Id.run do
+  let add := fun (counts : Std.HashMap String Nat) (v : Operand) => match v with
+    | .temporary name => counts.insert name ((counts[name]?).getD 0 + 1)
+    | _ => counts
+  let mut counts := {}
+  for b in f.blocks do
+    for phi in b.phis do
+      for (_,v) in phi.incoming do counts := add counts v
+    for statement in b.instructions do
+      counts := statement.operands.foldl add counts
+    match b.terminator with
+    | .ret (some v) | .branch v .. => counts := add counts v
+    | _ => pure ()
+  return counts
+
+/-- Select an adjacent long address calculation plus its sole load/store use.
+    No intervening instruction can overwrite the base's assigned home, and no
+    remaining use needs the omitted address result. This deliberately does not
+    extend liveness or fuse across blocks. The stack baseline stays unchanged. -/
+private def adjacentMemory (darwin : Bool) (localSymbols : List String) (base : String)
+    (slots : Homes) (uses : Std.HashMap String Nat) (first second : Statement)
+    : Except String (Option (List String)) := do
+  let .assign address := first | return none
+  if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
+  let pair := match address.operation with
+    | .binary .add pointer (.constant n) | .binary .add (.constant n) pointer => some (pointer,n)
+    | .binary .sub pointer (.constant n) => some (pointer,-n)
+    | _ => none
+  let some (pointer,rawOffset) := pair | return none
+  let access := match second with
+    | .assign {operation := .load kind (.temporary name), width, ..} => some (name,kind.bytes width)
+    | .store width _ (.temporary name) => some (name,width.bytes)
+    | .storeFloat width _ (.temporary name) => some (name,width.bytes)
+    | _ => none
+  let some (name,bytes) := access | return none
+  if name != address.destination then return none
+  let offset := Semantics.signedBits 64 (Semantics.constant .long rawOffset)
+  let scaled := offset >= 0 && offset.toNat % bytes == 0 && offset.toNat / bytes < 4096
+  if !scaled && !(offset >= -256 && offset <= 255) then return none
+  let addressHome := operandRegister slots 9 pointer
+  let mut lines ← if addressHome == 9 then load darwin localSymbols base slots .long 9 pointer else pure []
+  let memory := fun (instruction : String) =>
+    let instruction := if scaled then instruction else
+      (instruction.replace "ldr" "ldur").replace "str" "stur"
+    s!"\t{instruction}, [x{addressHome}, #{offset}]"
+  match second with
+  | .assign inst =>
+    let .load kind _ := inst.operation | return none
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    lines := lines ++ [memory (memoryLoad inst.width resultHome kind)]
+    if resultHome == 9 then
+      lines := lines ++ (← storeHome base slots inst.width (register inst.width 9) inst.destination)
+  | .store width value _ =>
+    let valueHome := operandRegister slots 10 value
+    if valueHome == 10 then lines := lines ++ (← load darwin localSymbols base slots width.valueWidth 10 value)
+    let instruction := match width with
+      | .byte => s!"strb w{valueHome}" | .half => s!"strh w{valueHome}"
+      | .word => s!"str w{valueHome}" | .long => s!"str x{valueHome}"
+    lines := lines ++ [memory instruction]
+  | .storeFloat width value _ =>
+    let valueHome := operandRegister slots 10 value
+    if valueHome == 10 then lines := lines ++ (← load darwin localSymbols base slots width 10 value)
+    lines := lines ++ [memory s!"str {register width valueHome}"]
+  | _ => return none
+  return some lines
+
 private def blockLabel (f : Function) (label : String) : String :=
   s!"L_lcb_block_{f.name.length}_{localName f.name}_{label}"
 
@@ -800,11 +868,13 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           lines := lines ++ stackAddress "sp" 10 (frame + argumentOffset) ++ [s!"\t{instruction}, [x10]"]
         else lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
         lines := lines ++ (← storeHome base slots parameter.width (register parameter.width 9) parameter.name)
+  let addressUses := if allocate then useCounts f else {}
   for blockIndex in [:f.blocks.size] do
     let block := f.blocks[blockIndex]!
     let next := (f.blocks[blockIndex+1]?).map (·.label)
     lines := lines ++ [blockLabel f block.label ++ ":"]
     let mut debugIndex := 0
+    let mut pendingMemory : Option (List String) := none
     for instructionIndex in [:block.instructions.size + 1] do
       for _ in [:block.debugLocations.size] do
         if let some location := block.debugLocations[debugIndex]? then
@@ -813,7 +883,15 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           debugIndex := debugIndex + 1
         else break
       if let some statement := block.instructions[instructionIndex]? then
-        lines := lines ++ (← emitStatement darwin localSymbols types base slots allocations varargs statement)
+        if let some selected := pendingMemory then
+          lines := lines ++ selected
+          pendingMemory := none
+        else
+          if allocate then
+            if let some next := block.instructions[instructionIndex+1]? then
+              pendingMemory ← adjacentMemory darwin localSymbols base slots addressUses statement next
+          if pendingMemory.isNone then
+            lines := lines ++ (← emitStatement darwin localSymbols types base slots allocations varargs statement)
     match block.terminator with
     | .ret value =>
       if let some value := value then

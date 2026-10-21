@@ -734,3 +734,27 @@ assertions across 18 executables and retains matching benchmark checksums.
 Only baseline `misc_tests` needs the documented 64 MiB stack retry. Optimized
 object text is 37,872 bytes; local medians are 0.2282 s optimized, 0.1834 s QBE
 and 0.1505 s GCC. These are bounded measurements, not optimization parity.
+
+
+## ARM64 adjacent constant-offset memory selection
+
+Compiler identity `572e2fa7eff07fb81f554b9fea65cee36943e057e35cd31d6920504ff1877c82`
+combines an adjacent long add/subtract with a sole load/store address use in the
+allocated emitter. Whole-function use counting includes phi edges and returns;
+nonadjacent or shared addresses retain the original instructions. The exact
+memory access size selects scaled 12-bit or signed unscaled 9-bit offsets.
+Independent byte-level tests cover boundary offsets, narrow signed loads,
+floating bit patterns, memory writes and shared-address fallbacks. A deliberately
+wrong offset must fail. No baseline or non-ARM emitter changes are made.
+
+[Zlib](zlib-address-selection.json) retains its upstream tests, 12 exact gzip
+streams and independent decompression/round trips. Linked text is 142,402 bytes
+(4,332 fewer than the preceding checkpoint). This run's round-trip medians are
+8.26 ms optimized, 8.64 ms original QBE and 4.24 ms GCC; the small timing difference
+is not a general speedup or parity claim.
+[QBE self-compilation](qbe-address-selection.json) retains all 455 fixture and 32
+self-IR reproductions, one matching rejection and 58 original native ARM64 runtime
+tests for qualified backends. Original ARM64 QBE's parser failure stays separate.
+Optimized input-object text is 381,116 bytes (8,976 fewer), default-linked text
+410,012 bytes. Self-IR compile medians are 0.1914 s optimized, 0.1653 s corrected
+QBE and 0.1013 s GCC-built reference. Preservation proof scope is unchanged.

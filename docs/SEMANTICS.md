@@ -698,6 +698,17 @@ normalization. Scalar call results and floating returns transfer directly betwee
 ABI registers and homes; aggregate results keep their existing lowering. These
 changes preserve memory operation order and do not introduce alias analysis.
 
+ARM64 allocated emission can combine an adjacent long add/subtract by a constant
+with its sole load/store use. A whole-function count includes phi edges and
+terminators; additional uses or intervening statements keep the original code.
+The selected address uses the original base home at that adjacent point, without
+extending its lifetime. The offset is normalized to signed 64-bit form, then uses
+an unsigned scaled 12-bit offset or a signed unscaled 9-bit offset when legal for
+the actual access size. There is no writeback. The memory instruction retains
+its own debug location; baseline emission remains unchanged. This instruction
+selection is execution-tested, not covered by the primitive ALU theorem or a
+machine-level value-flow proof.
+
 This is conservative whole-range allocation, not full QBE allocation parity.
 It does not assign caller-saved or FP homes, split live ranges, coalesce moves,
 or verify individual machine instructions against their clobber descriptions.
