@@ -80,9 +80,13 @@ def negatives(work):
         assert not out.exists(), f'{name}: rejected input wrote output'
     source = work / 'valid.ssa'
     source.write_text('function w $f() { @s ret 0 }')
-    result = run([LCB, source, '--target', 'x86_64-linux'], success=False)
+    result = run([LCB, source, '--target', 'not-a-supported-target'], success=False)
     assert 'unsupported target' in result.stderr
-    print(f'rejection controls: {len(cases) + 1}')
+    for target in ['aarch64-linux', 'x86_64-linux']:
+        run([LCB, source, '--target', target])
+    result = run([LCB, '--first-path', source, '--target', 'x86_64-linux'], success=False)
+    assert 'unsupported target' in result.stderr
+    print(f'rejection controls: {len(cases) + 2}; implemented Linux target selection passed')
 
 
 def interpreter(work, src):
