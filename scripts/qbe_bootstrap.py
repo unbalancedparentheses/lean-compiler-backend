@@ -101,6 +101,7 @@ def main():
                      'Original QBE backend self-compilation failures are retained separately from the exact test-only target-specific external-address correction.',
                      'Reproducing Windows assembly with compiled QBE does not implement a Windows target in LCB.',
                      'Original runner tests execute native ARM64 output. Other target outputs are byte comparisons only.',
+                     'Input-object text totals are separate from linked executable text; the linker can add layout-dependent erratum workarounds and padding.',
                      'Workload runtime includes process startup and assembly output to /dev/null; local samples are not universal performance claims.',
                      'For emulated compiler executables, the native GCC reference timing is not a like-for-like performance comparison.']}
     if isa=='x86_64':
@@ -147,8 +148,19 @@ def main():
                 'fixture_assembly_matches':{},'self_ir_assembly_matches':0,'original_runner_passes':None}
             unavailable.add(label)
             continue
+        size_rows=docker(['size',*map(inside,objects)]).stdout.splitlines()[1:]
+        hash_rows=docker(['sha256sum',*map(inside,objects)]).stdout.splitlines()
+        assert len(size_rows)==len(objects)==len(hash_rows)
+        object_sizes={}
+        for ir,row,hash_row in zip(inputs,size_rows,hash_rows):
+            fields=row.split()
+            object_sizes[ir.stem]={'text':int(fields[0]),'data':int(fields[1]),'bss':int(fields[2]),
+                                  'sha256':hash_row.split()[0]}
         report['backends'][label]={'compile_seconds':timings,'total_compile_seconds':sum(timings.values()),
-            'link_flags':link_flags,'size':docker(['size',inside(exe)]).stdout.strip(),'fixture_assembly_matches':{},'self_ir_assembly_matches':0}
+            'link_flags':link_flags,'size':docker(['size',inside(exe)]).stdout.strip(),
+            'object_sizes':object_sizes,'object_text_bytes':sum(row['text'] for row in object_sizes.values()),
+            'executable_sha256':docker(['sha256sum',inside(exe)]).stdout.split()[0],
+            'fixture_assembly_matches':{},'self_ir_assembly_matches':0}
     runners = {'reference':inside(source/'qbe')}
     for label in labels:
         if label in unavailable:continue

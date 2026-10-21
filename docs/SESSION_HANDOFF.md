@@ -8,7 +8,7 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`01fb509500e9265bd5d6f071241beba285bedb7da6fd42fd513b80d3e00a255d`.
+`09245df713c4bb399c36e1e239c2c3551fc01b9bf120798effb5735d5b752b9c`.
 Check Git for the exact latest implementation/documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
 
@@ -17,6 +17,8 @@ published in coherent tested commits; this document does not identify its own SH
 - Integer identities and power-of-two multiplication become width-correct copies
   and shifts. Narrow entry-stack promotion handles initialized byte/halfword
   objects, explicit store truncation and load signedness.
+- Unsigned division/remainder by a nonzero power of two becomes a logical
+  shift/mask; normalized-zero divisors and signed operations retain their handling.
 - ARM64 stationary phi homes avoid staging. Acyclic register transfers are
   scheduled without overwriting pending inputs; cycles and stack/symbol moves
   retain simultaneous staging. Fall-through jumps are omitted.
@@ -57,17 +59,30 @@ narrow-promotion tests cover 16,896 loop cases plus 1,024 scalar cases.
 
 The full gate passed after allocation ranking and host-native CLI changes
 (`.build/ranked-full-check.log`, `.build/host-default-full-check.log`). The common-address full run passed
-(`.build/symbol-hoist-full-check.log`). The loop-weight full run is ongoing in
-`.build/loop-priority-full-check.log`; verify completion before claiming a pass.
-All five optimized target suites and fresh differential fuzz seeds
-20261301–20261332 pass: 256 functions / 2,048 independent input cases.
+(`.build/symbol-hoist-full-check.log`). The loop-weight full run also passes
+(`.build/loop-priority-full-check.log`). Current unsigned-strength full validation
+is running in `.build/unsigned-final-full-check.log`; verify completion before
+claiming a pass. All five target suites pass, including 216 unsigned division/
+remainder functions and 2,592 independent cases per mode. Fresh differential
+fuzz seeds 20261333–20261364 pass: 256 functions / 2,048 input cases. The earlier
+`.build/unsigned-strength-full-check.log` was stopped during a size investigation
+and is not a completed gate; the final source identity matches the original
+independently qualified candidate.
 Existing proof audits remain unchanged in scope.
 
 Latest published reports in `docs/benchmarks`:
 
+- `zlib-unsigned-strength.json` and `qbe-unsigned-strength.json` qualify the current
+  identity with all original tests and exact stream/assembly reproductions.
+  zlib text remains 147,430 bytes. QBE input-object text falls 448 bytes to 395,844;
+  default-linked text is 432,940 because the default Cortex-A53 erratum workaround
+  adds more layout-dependent overhead. `qbe-link-size-diagnostic.json` isolates
+  that effect with hash-bound objects and diagnostic relinks. Production flags
+  remain unchanged; disabling the workaround is not a qualification or recommendation.
+
 - Loop-weight reports `zlib-loop-priority.json`, `cjson-loop-priority.json` and
   `qbe-loop-priority.json` retain every qualified test below on the current
-  compiler. zlib text grows slightly to 147,430 bytes; median round trip is
+  loop-weight compiler. zlib text grows slightly to 147,430 bytes; median round trip is
   9.37 ms versus original QBE 7.88 ms. cJSON text is 37,916 bytes, runtime
   0.2104 s versus QBE 0.1686 s. Compiled QBE text is 425,188 bytes, self-IR
   runtime 0.1856 s versus corrected QBE 0.1612 s. These local samples show a
@@ -111,10 +126,11 @@ and separately corrected oracle copies remain distinct; vendored QBE is unchange
 See [benchmarks/README.md](benchmarks/README.md) and
 [UPSTREAM_DISCREPANCIES.md](UPSTREAM_DISCREPANCIES.md).
 
-CI was all green through `c559be5`. `a721ee7` exposed three old Apple-specific
+CI was all green through `8c31976`. `a721ee7` exposed three old Apple-specific
 refusal controls under the new Linux default; `72389df` fixes their targets and
-all three CI jobs pass. Both native Linux jobs also pass the logical-immediate
-checkpoint; its macOS job and common-address CI remain in progress at 22:25 UTC.
+all three CI jobs pass. Both native Linux jobs pass the common-address and
+loop-weight checkpoints; their macOS jobs and newer checkpoints remain in progress
+at 22:55 UTC. Check exact latest statuses before reporting completion.
 
 ## Next work
 

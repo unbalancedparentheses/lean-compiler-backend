@@ -64,9 +64,25 @@ def run : IO Unit := do
     require (same actual expected) "constant folding changed word normalization or live parameter"
   require (optimized.functions[0]!.blocks[0]!.instructions.size == 1)
     "dead constant chain was not eliminated"
+  for (width, bits) in [("w",32),("l",64)] do
+    for op in ["udiv","urem"] do
+      for bit in [:bits] do
+        let divisor := toString (2^bit : Nat)
+        let m ← parse ("function " ++ width ++ " $f(l %x) { @s %r =" ++ width ++ " " ++ op ++ " %x," ++ divisor ++ " ret %r }")
+        let optimized ← optimize m
+        require (optimized.functions[0]!.blocks[0]!.instructions.all fun statement => match statement with
+          | .assign {operation := .divide .., ..} => false | _ => true)
+          "unsigned power-of-two division was not reduced"
+        for x in (#[0,1,7,8,4294967295,4294967296,9223372036854775808,18446744073709551615] : Array UInt64) do
+          require (same (Semantics.evaluate m.functions[0]! #[x]) (Semantics.evaluate optimized.functions[0]! #[x]))
+            s!"unsigned division/remainder changed width: {width} {op} {divisor}"
   for source in #[
     "function w $f() { @s %x =w div -2147483648, -1 ret %x }",
-    "function l $f() { @s %x =l udiv 17, 0 ret %x }"] do
+    "function l $f() { @s %x =l udiv 17, 0 ret %x }",
+    "function w $f(l %x) { @s %r =w udiv %x,4294967296 ret %r }",
+    "function l $f(l %x) { @s %r =l urem %x,0 ret %r }",
+    "function l $f(l %x) { @s %r =l div %x,8 ret %r }",
+    "function w $f(l %x) { @s %r =w rem %x,8 ret %r }"] do
     let bad ← parse source
     let result ← optimize bad
     require (match result.functions[0]!.blocks[0]!.instructions[0]! with

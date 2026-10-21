@@ -658,3 +658,31 @@ This profile is separate from the seven scalar/aggregate batches (141/176,
 1,422,785 qualified IR lines); their restrictions and denominators are unchanged.
 A repeated default-profile seed also passes after the harness change and is not
 counted as a new unique program.
+
+
+## Unsigned division and remainder by powers of two
+
+The optional optimizer now turns unsigned division by a nonzero power of two
+into a logical shift and unsigned remainder into a mask. Division/remainder by
+one use width-correct copies/constants. Zero after width normalization and
+signed operations retain their original handling. Unit checks cover every power
+in both widths; an independent native matrix covers 216 functions / 2,592 cases
+per mode, including long-to-word truncation, negative bit-pattern constants and
+nonpower fallbacks. A corrupted divisor shift must fail the native ARM64 oracle.
+
+[The zlib report](zlib-unsigned-strength.json) retains all unchanged upstream tests
+and 12 byte-exact gzip comparisons; optimized minigzip text remains 147,430 bytes.
+[QBE self-compilation](qbe-unsigned-strength.json) retains all qualified fixture
+and self-IR reproductions plus 58 original native runtime tests. The original
+ARM64 QBE parser failure remains separate. These are execution qualifications;
+no new preservation proof or general speedup claim accompanies this rewrite.
+
+The [linked-size diagnostic](qbe-link-size-diagnostic.json) separates compiler
+output from GNU linker's default Cortex-A53 erratum workaround. QBE input-object
+text falls from 396,292 to 395,844 bytes (448 fewer); default-linked text grows
+from 425,188 to 432,940 bytes. A diagnostic-only relink disabling the 843419
+workaround gives 421,088 and 420,640 bytes, isolating 8,200 additional bytes of
+layout-dependent workaround overhead. Production qualification retains the
+default flags. The diagnostic is not a runtime qualification or recommendation
+to disable the workaround. QBE reports now retain input-object sizes/hashes and
+executable hashes so future size comparisons can distinguish these effects.

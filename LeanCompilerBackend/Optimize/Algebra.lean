@@ -10,8 +10,21 @@ private def constant (width : Width) : Operand → Option UInt64
 /-- Preserve the result-width copy: a word identity still truncates a long input.
     This pass neither folds floating operations nor removes effectful definitions.
     Multiplication is modular, so every single-bit multiplier is a left shift,
-    including the signed high bit. Shift counts have QBE's modulo-width meaning. -/
+    including the signed high bit. Unsigned division/remainder by a nonzero
+    power of two becomes a logical shift/mask; signed and zero divisors stay.
+    Shift counts have QBE's modulo-width meaning. -/
 def operation (width : Width) (operation : Operation) : Operation := Id.run do
+  if let .divide op a b := operation then
+    if op == .unsignedDiv || op == .unsignedRem then
+      if let some n := constant width b then
+        for bit in [:width.bits] do
+          if n == (1 : UInt64) <<< bit.toUInt64 then
+            if op == .unsignedDiv then
+              return if bit == 0 then .copy a else .binary .logicalRight a (.constant bit)
+            else
+              return if bit == 0 then .copy (.constant 0) else
+                .binary .andBits a (.constant (Int.ofNat (n.toNat-1)))
+    return operation
   let .binary op a b := operation | return operation
   let ca := constant width a
   let cb := constant (op.rhsWidth width) b

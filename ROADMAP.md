@@ -235,6 +235,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Escaped, partial, mixed-class and potentially uninitialized objects stay in memory.
   Repeated module-defined, non-TLS data addresses can share an entry definition;
   external/TLS resolution stays in place and memory contents are never cached.
+  Unsigned power-of-two division/remainder use width-correct shifts/masks,
+  retaining zero-divisor and signed-operation boundaries.
   These passes have executable checks, not preservation proofs.
   Independent arithmetic and optimized upstream/ABI suites pass on all five targets
   (Linux AMD64/RV64 under QEMU; macOS AMD64 through Rosetta). Next implement broader CFG transformations, remaining analyses and
