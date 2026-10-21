@@ -8,9 +8,12 @@ tested and certified coverage are reported separately. The current implementatio
 is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
 
 The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 58 native
-passes, 15 assemble-only fixtures and 15 unsupported inputs out of 76.
+passes, 17 assemble-only fixtures and one unsupported input out of 76 on Apple ARM64.
+Linux ARM64 currently has 55 native passes, 17 assembly-only fixtures and four
+unsupported fixtures; see the target-specific coverage record.
 
-The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
+Implemented targets are **AArch64 macOS** and a partial **AArch64 Linux ELF** target
+(`--target aarch64-linux`). Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
 backend for compiling the Lean language itself.
 

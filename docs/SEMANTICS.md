@@ -396,3 +396,20 @@ multiple translation units belongs to the native linker, tested independently.
 Common linkage is incompatible with a custom section and is data-only. The native
 matrix compares the shared two-string section syntax and common data with QBE,
 then independently checks Lean's 64-byte common alignment against C.
+
+## Initial Linux ARM64 target
+
+`--target aarch64-linux` selects ELF symbol spelling/relocations, function type
+and size records, a non-executable stack note and AAPCS64 eight-byte scalar stack
+slots. Independent GP/FP banks and aggregate classification are shared with the
+Apple target, but Linux unnamed call arguments continue to use available argument
+registers. Variadic function entry/va_list handling, Linux TLS and custom ELF
+sections are currently rejected. First-path jobs remain Apple-only.
+
+Private module symbols use direct PC-relative address formation. External or
+exported symbols use GOT relocations. This distinction matters: GNU assembler can
+fold a private-symbol GOT relocation into a section symbol plus addend, while the
+linker does not preserve that addend as the desired symbol address. The original
+abi5, abi8 and queen fixtures catch this issue. Common symbol alignment is in bytes
+on ELF, versus log2(bytes) on Darwin. Interpreter evaluation is target-independent
+and does not certify either native ABI lowering.

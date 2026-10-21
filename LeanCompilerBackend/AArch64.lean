@@ -110,15 +110,22 @@ private def slotAccess (instruction base register : String) (bytes offset : Nat)
     [s!"\t{instruction} {register}, [{base}, #{offset}]"]
   else stackAddress base 15 offset ++ [s!"\t{instruction} {register}, [x15]"]
 
-private def load (base : String) (slots : List (String × Nat)) (width : Width) (destination : Nat)
+private def symbolName (darwin : Bool) (name : String) : String :=
+  (if darwin then "_" else "") ++ name
+
+private def load (darwin : Bool) (localSymbols : List String) (base : String) (slots : List (String × Nat)) (width : Width) (destination : Nat)
     (value : Operand) : Except String (List String) := do
   match value with
   | .constant n => return immediate width destination n
-  | .threadSymbol name => pure (threadAddress width destination name)
+  | .threadSymbol name =>
+    if darwin then pure (threadAddress width destination name)
+    else throw "Linux ARM64 TLS is not yet implemented"
   | .symbol name =>
     -- GOT references work for both module-local and externally linked symbols.
     let r := register .long destination
-    return [s!"\tadrp {r}, _{name}@GOTPAGE", s!"\tldr {r}, [{r}, _{name}@GOTPAGEOFF]"]
+    return (if darwin then [s!"\tadrp {r}, _{name}@GOTPAGE", s!"\tldr {r}, [{r}, _{name}@GOTPAGEOFF]"]
+      else if localSymbols.contains name then [s!"\tadrp {r}, {name}", s!"\tadd {r}, {r}, :lo12:{name}"]
+      else [s!"\tadrp {r}, :got:{name}", s!"\tldr {r}, [{r}, :got_lo12:{name}]"])
       ++ (if width == .word then [s!"\tmov {register .word destination}, {register .word destination}"] else [])
   | .temporary name =>
     match slots.lookup name with
@@ -243,19 +250,19 @@ private def parametersAsArguments (f : Function) : Array CallArgument :=
     { width := p.width, value := .temporary p.name,
       floating := p.floating, subword := p.subword, aggregate := p.aggregate, environment := p.environment }
 
-private def emitCall (types : Array AggregateABI.TypeInfo) (base : String)
+private def emitCall (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String)
     (slots allocations : List (String × Nat)) (target : CallTarget)
     (arguments : Array CallArgument) (result : Option (String × String) := none)
     : Except String (List String) := do
   let mut lines := []
-  let plan ← AggregateABI.plan types arguments
+  let plan ← AggregateABI.plan types arguments darwin
   let dynamicOutgoing := base == "x29" && plan.totalBytes != 0
   if dynamicOutgoing then lines := lines ++ adjustStack "sub" plan.totalBytes
   -- Copy indirect arguments before filling live argument registers.
   for i in [:arguments.size] do
     if let some offset := plan.arguments[i]!.copyOffset then
       let some info := plan.arguments[i]!.aggregate | throw "missing indirect aggregate type"
-      lines := lines ++ (← load base slots .long 12 arguments[i]!.value)
+      lines := lines ++ (← load darwin localSymbols base slots .long 12 arguments[i]!.value)
         ++ stackAddress "sp" 13 offset ++ copyAggregate info.layout.size
   for i in [:arguments.size] do
     let argument := arguments[i]!
@@ -269,7 +276,7 @@ private def emitCall (types : Array AggregateABI.TypeInfo) (base : String)
         | .stack dest => lines := lines ++ stackAddress "sp" 12 offset ++ [s!"\tstr x12, [sp, #{dest}]"]
         | _ => throw "indirect aggregate in floating register"
       else
-        lines := lines ++ (← load base slots .long 12 argument.value)
+        lines := lines ++ (← load darwin localSymbols base slots .long 12 argument.value)
         match entry.location with
         | .general first count =>
           for j in [:count] do
@@ -281,13 +288,13 @@ private def emitCall (types : Array AggregateABI.TypeInfo) (base : String)
     else
       match entry.location with
       | .floating index _ _ =>
-        lines := lines ++ (← load base slots argument.width 9 argument.value)
+        lines := lines ++ (← load darwin localSymbols base slots argument.width 9 argument.value)
           ++ [s!"\tfmov {floatRegister argument.width index}, {register argument.width 9}"]
       | .general index _ =>
-        lines := lines ++ (← load base slots argument.width index argument.value)
+        lines := lines ++ (← load darwin localSymbols base slots argument.width index argument.value)
         if let some kind := argument.subword then lines := lines ++ [extendSubword kind index]
       | .stack offset =>
-        lines := lines ++ (← load base slots argument.width 9 argument.value)
+        lines := lines ++ (← load darwin localSymbols base slots argument.width 9 argument.value)
         if let some kind := argument.subword then lines := lines ++ [extendSubword kind 9]
         let instruction := if !argument.variadic then match argument.subword with
           | some kind => if kind.bytes == 1 then "strb w9" else "strh w9"
@@ -299,10 +306,10 @@ private def emitCall (types : Array AggregateABI.TypeInfo) (base : String)
     if info.passing == .indirect then
       lines := lines ++ stackAddress base 8 (← slotOffset allocations destination)
   if let some argument := arguments[0]? then
-    if argument.environment then lines := lines ++ (← load base slots .long 9 argument.value)
+    if argument.environment then lines := lines ++ (← load darwin localSymbols base slots .long 9 argument.value)
   lines := lines ++ (← match target with
-    | .direct name => pure [s!"\tbl _{name}"]
-    | .indirect address => pure ((← load base slots .long 16 address) ++ ["\tblr x16"]))
+    | .direct name => pure [s!"\tbl {symbolName darwin name}"]
+    | .indirect address => pure ((← load darwin localSymbols base slots .long 16 address) ++ ["\tblr x16"]))
   if dynamicOutgoing then lines := lines ++ adjustStack "add" plan.totalBytes
   if let some (destination, name) := result then
     let info ← AggregateABI.find types name
@@ -321,12 +328,12 @@ private def loadIncoming (width : Width) (offset : Nat) : List String :=
     [s!"\tldr {register width 9}, [sp, #{offset}]"]
   else stackAddress "sp" 10 offset ++ [s!"\tldr {register width 9}, [x10]"]
 
-private def emitInstruction (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat)) (inst : Instruction)
+private def emitInstruction (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat)) (inst : Instruction)
     : Except String (List String) := do
   let mut lines : List String := []
   match inst.operation with
   | .convert op value =>
-    lines := lines ++ (← load base slots op.inputWidth 9 value)
+    lines := lines ++ (← load darwin localSymbols base slots op.inputWidth 9 value)
     let input := register op.inputWidth 9
     let output := register inst.width 9
     let source := floatRegister op.inputWidth 16
@@ -341,35 +348,35 @@ private def emitInstruction (types : Array AggregateABI.TypeInfo) (base : String
       let instruction := if signed then "scvtf" else "ucvtf"
       lines := lines ++ [s!"\t{instruction} {destination}, {input}", s!"\tfmov {output}, {destination}"]
   | .floatBinary op a b =>
-    lines := lines ++ (← load base slots inst.width 9 a) ++ (← load base slots inst.width 10 b)
+    lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a) ++ (← load darwin localSymbols base slots inst.width 10 b)
     let f9 := floatRegister inst.width 16
     let f10 := floatRegister inst.width 17
     let instruction := match op with | .add => "fadd" | .sub => "fsub" | .mul => "fmul" | .div => "fdiv"
     lines := lines ++ [s!"\tfmov {f9}, {register inst.width 9}", s!"\tfmov {f10}, {register inst.width 10}",
       s!"\t{instruction} {f9}, {f9}, {f10}", s!"\tfmov {register inst.width 9}, {f9}"]
   | .floatNegate value =>
-    lines := lines ++ (← load base slots inst.width 9 value)
+    lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
     let r := register inst.width 9
     lines := lines ++ [s!"\teor {r}, {r}, #{2 ^ (inst.width.bits - 1)}"]
   | .floatCompare op width a b =>
-    lines := lines ++ (← load base slots width 9 a) ++ (← load base slots width 10 b)
+    lines := lines ++ (← load darwin localSymbols base slots width 9 a) ++ (← load darwin localSymbols base slots width 10 b)
     let f9 := floatRegister width 16
     let f10 := floatRegister width 17
     lines := lines ++ [s!"\tfmov {f9}, {register width 9}", s!"\tfmov {f10}, {register width 10}",
       s!"\tfcmp {f9}, {f10}", s!"\tcset w9, {floatCondition op}"]
-  | .cast value => lines := lines ++ (← load base slots inst.width 9 value)
-  | .copy value => lines := lines ++ (← load base slots inst.width 9 value)
+  | .cast value => lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
+  | .copy value => lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
   | .binary op a b =>
-    lines := lines ++ (← load base slots inst.width 9 a)
-    lines := lines ++ (← load base slots (op.rhsWidth inst.width) 10 b)
+    lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
+    lines := lines ++ (← load darwin localSymbols base slots (op.rhsWidth inst.width) 10 b)
     let r := register inst.width 9
     lines := lines ++ [s!"\t{mnemonic (select op)} {r}, {r}, {register inst.width 10}"]
   | .unary op value =>
-    lines := lines ++ (← load base slots (op.inputWidth inst.width) 9 value)
+    lines := lines ++ (← load darwin localSymbols base slots (op.inputWidth inst.width) 9 value)
     lines := lines ++ unaryInstruction inst.width op
   | .divide op a b =>
-    lines := lines ++ (← load base slots inst.width 9 a)
-    lines := lines ++ (← load base slots inst.width 10 b)
+    lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
+    lines := lines ++ (← load darwin localSymbols base slots inst.width 10 b)
     let instruction := if op == .signedDiv || op == .signedRem then "sdiv" else "udiv"
     let r9 := register inst.width 9
     let r10 := register inst.width 10
@@ -378,44 +385,46 @@ private def emitInstruction (types : Array AggregateABI.TypeInfo) (base : String
       lines := lines ++ [s!"\t{instruction} {r11}, {r9}, {r10}", s!"\tmsub {r9}, {r11}, {r10}, {r9}"]
     else lines := lines ++ [s!"\t{instruction} {r9}, {r9}, {r10}"]
   | .compare op width a b =>
-    lines := lines ++ (← load base slots width 9 a)
-    lines := lines ++ (← load base slots width 10 b)
+    lines := lines ++ (← load darwin localSymbols base slots width 9 a)
+    lines := lines ++ (← load darwin localSymbols base slots width 10 b)
     lines := lines ++ [s!"\tcmp {register width 9}, {register width 10}", s!"\tcset w9, {condition op}"]
   | .allocate _ size =>
     if base == "x29" then
-      lines := lines ++ (← load base slots .long 9 size)
+      lines := lines ++ (← load darwin localSymbols base slots .long 9 size)
       lines := lines ++ ["\tadd x9, x9, #15", "\tand x9, x9, #-16",
         "\tsub sp, sp, x9", "\tmov x9, sp"]
     else
       let offset ← slotOffset allocations inst.destination
       lines := lines ++ stackAddress base 9 offset
   | .vaArg list =>
-    lines := lines ++ (← load base slots .long 9 list)
+    if !darwin then throw "Linux ARM64 vaarg is not yet implemented"
+    lines := lines ++ (← load darwin localSymbols base slots .long 9 list)
     lines := lines ++ ["\tldr x10, [x9]", s!"\tldr {register inst.width 11}, [x10]",
       "\tadd x10, x10, #8", "\tstr x10, [x9]", s!"\tmov {register inst.width 9}, {register inst.width 11}"]
   | .load kind address =>
-    lines := lines ++ (← load base slots .long 9 address)
+    lines := lines ++ (← load darwin localSymbols base slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
   | .call target arguments =>
     -- Sources are stable stack slots: argument-register permutations cannot
     -- overwrite an argument that has not yet been loaded. All other live values
     -- also survive caller-saved clobbers in their own frame slots.
-    lines := lines ++ (← emitCall types base slots allocations target arguments (inst.callAggregate.map (inst.destination, ·)))
+    lines := lines ++ (← emitCall darwin localSymbols types base slots allocations target arguments (inst.callAggregate.map (inst.destination, ·)))
     if inst.callAggregate.isNone then lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width 9}, {floatRegister inst.width 0}"
       else s!"\tmov {register inst.width 9}, {register inst.width 0}"]
   let offset ← slotOffset slots inst.destination
   pure (lines ++ slotAccess "str" base (register inst.width 9) inst.width.bytes offset)
 
-private def emitStatement (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat))
+private def emitStatement (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat))
     (varargsOffset : Nat) (statement : Statement) : Except String (List String) := do
   match statement with
-  | .assign inst => emitInstruction types base slots allocations inst
-  | .callVoid target arguments => emitCall types base slots allocations target arguments
-  | .vaStart list =>
-    pure ((← load base slots .long 9 list) ++ stackAddress base 10 varargsOffset ++ ["\tstr x10, [x9]"])
+  | .assign inst => emitInstruction darwin localSymbols types base slots allocations inst
+  | .callVoid target arguments => emitCall darwin localSymbols types base slots allocations target arguments
+  | .vaStart list => do
+    if !darwin then throw "Linux ARM64 vastart is not yet implemented"
+    pure ((← load darwin localSymbols base slots .long 9 list) ++ stackAddress base 10 varargsOffset ++ ["\tstr x10, [x9]"])
   | .blit source destination bytes =>
     if bytes == 0 then return []
-    let mut lines := (← load base slots .long 9 source) ++ (← load base slots .long 10 destination)
+    let mut lines := (← load darwin localSymbols base slots .long 9 source) ++ (← load darwin localSymbols base slots .long 10 destination)
     let mut offset := 0
     -- Unaligned ordinary integer accesses are supported by the initial target.
     -- Partial source/destination overlap is outside QBE's defined blit domain.
@@ -430,11 +439,11 @@ private def emitStatement (types : Array AggregateABI.TypeInfo) (base : String) 
         offset := offset + size
     pure lines
   | .storeFloat width value address =>
-    pure ((← load base slots .long 9 address) ++ (← load base slots width 10 value) ++
+    pure ((← load darwin localSymbols base slots .long 9 address) ++ (← load darwin localSymbols base slots width 10 value) ++
       [s!"\tstr {register width 10}, [x9]"])
   | .store width value address =>
-    let addressLines ← load base slots .long 9 address
-    let valueLines ← load base slots width.valueWidth 10 value
+    let addressLines ← load darwin localSymbols base slots .long 9 address
+    let valueLines ← load darwin localSymbols base slots width.valueWidth 10 value
     let instruction := match width with
       | .byte => "strb w10" | .half => "strh w10"
       | .word => "str w10" | .long => "str x10"
@@ -447,7 +456,7 @@ private def edgeLabel (f : Function) (label : String) : String :=
   s!"L_lcb_edge_{f.name.length}_{f.name}_{label}"
 
 /-- Phi lowering stages every source before changing any destination slot. -/
-private def emitEdge (base : String) (f : Function) (slots : List (String × Nat)) (stageBase : Nat)
+private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (f : Function) (slots : List (String × Nat)) (stageBase : Nat)
     (predecessor target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw s!"unknown block @{target}"
   let mut lines := []
@@ -455,7 +464,7 @@ private def emitEdge (base : String) (f : Function) (slots : List (String × Nat
     let phi := block.phis[i]!
     let some (_, value) := phi.incoming.find? (·.1 == predecessor)
       | throw s!"missing phi predecessor @{predecessor}"
-    lines := lines ++ (← load base slots phi.width 9 value)
+    lines := lines ++ (← load darwin localSymbols base slots phi.width 9 value)
     lines := lines ++ slotAccess "str" base (register phi.width 9) phi.width.bytes (stageBase + i * 8)
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
@@ -470,8 +479,10 @@ private def debugFilename (name : String) : String :=
     let n := byte.toNat
     "\\" ++ toString (n / 64) ++ toString (n / 8 % 8) ++ toString (n % 8)) ++ "\""
 
-def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) : Except String String := do
+def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) : Except String String := do
   validateFunction f true
+  if !darwin && f.variadic then throw "Linux ARM64 variadic function entry is not yet implemented"
+  if !darwin && f.customSection.isSome then throw "Linux custom sections are not yet implemented"
   let localNames := f.locals
   let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
     match statement with
@@ -486,7 +497,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   for block in f.blocks do
     for statement in block.instructions do
       if let some (_, arguments, _) := statement.callSite then
-        outgoing := max outgoing (← AggregateABI.plan types arguments).totalBytes
+        outgoing := max outgoing (← AggregateABI.plan types arguments darwin).totalBytes
   -- Dynamic functions reserve a canonical FP/LR record here and place outgoing
   -- arguments at each call's current SP, below any dynamic objects.
   if dynamic then outgoing := 16
@@ -526,16 +537,17 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           frameEnd := offset + size.toNat
   let frame := alignUp frameEnd 16
   if frame > 1024 * 1024 then throw "stack frame exceeds the 1 MiB resource limit"
-  let symbol := "_" ++ f.name
-  let mut lines := [s!"; function {f.name}; target aarch64-macos; QBE integer SSA subset",
+  let symbol := symbolName darwin f.name
+  let mut lines := [s!"{if darwin then ";" else "//"} function {f.name}; AArch64 compatibility backend",
     f.customSection.map (fun customSection => ".section " ++ customSection) |>.getD ".text"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
+  if !darwin then lines := lines ++ [s!".type {symbol}, %function"]
   lines := lines ++ [".p2align 2", s!"{symbol}:"]
   lines := lines ++ adjustStack "sub" frame
   if dynamic then
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
   else if hasCalls then lines := lines ++ slotAccess "str" "sp" "x30" 8 returnAddress
-  let incoming ← AggregateABI.plan types (parametersAsArguments f)
+  let incoming ← AggregateABI.plan types (parametersAsArguments f) darwin
   if resultInfo.any (·.passing == .indirect) then
     lines := lines ++ stackAddress base 12 resultPointer ++ ["\tstr x8, [x12]"]
   if let some parameter := f.parameters[0]? then
@@ -593,13 +605,13 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           debugIndex := debugIndex + 1
         else break
       if let some statement := block.instructions[instructionIndex]? then
-        lines := lines ++ (← emitStatement types base slots allocations (frame + alignUp incoming.stackUsed 8) statement)
+        lines := lines ++ (← emitStatement darwin localSymbols types base slots allocations (frame + alignUp incoming.stackUsed 8) statement)
     match block.terminator with
     | .ret value =>
       if let some value := value then
         let some width := f.resultWidth | throw "void function cannot return an integer"
         if let some info := resultInfo then
-          lines := lines ++ (← load base slots .long 12 value)
+          lines := lines ++ (← load darwin localSymbols base slots .long 12 value)
           match info.passing with
           | .general count =>
             for j in [:count] do lines := lines ++ readFragment j (j*8) (min 8 (info.layout.size-j*8))
@@ -608,7 +620,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           | .indirect =>
             lines := lines ++ stackAddress base 13 resultPointer ++ ["\tldr x13, [x13]"] ++ copyAggregate info.layout.size
         else
-          lines := lines ++ (← load base slots width 0 value)
+          lines := lines ++ (← load darwin localSymbols base slots width 0 value)
           if let some kind := f.resultSubword then lines := lines ++ [extendSubword kind 0]
           if f.resultFloating then lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width 0}"]
       if dynamic then lines := lines ++ ["\tmov sp, x29", "\tldp x29, x30, [sp]"]
@@ -617,26 +629,27 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
       lines := lines ++ ["\tret"]
     | .halt => lines := lines ++ ["\tbrk #0"]
     | .jump target =>
-      lines := lines ++ (← emitEdge base f slots stageBase block.label target)
+      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label target)
       lines := lines ++ [s!"\tb {blockLabel f target}"]
     | .branch condition yes no =>
-      lines := lines ++ (← load base slots .word 9 condition)
+      lines := lines ++ (← load darwin localSymbols base slots .word 9 condition)
       let otherwise := edgeLabel f block.label
       lines := lines ++ [s!"\tcbz w9, {otherwise}"]
-      lines := lines ++ (← emitEdge base f slots stageBase block.label yes)
+      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label yes)
       lines := lines ++ [s!"\tb {blockLabel f yes}", otherwise ++ ":"]
-      lines := lines ++ (← emitEdge base f slots stageBase block.label no)
+      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label no)
       lines := lines ++ [s!"\tb {blockLabel f no}"]
+  if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   let file := match f.debugFile with
     | some name => s!".file {debugFileId} {debugFilename name}\n"
     | none => ""
   pure (file ++ String.intercalate "\n" (lines ++ [""]))
 
-private def emitFunctions (program : Program) (types : Array AggregateABI.TypeInfo := #[]) : Except String (List String) := do
+private def emitFunctions (program : Program) (types : Array AggregateABI.TypeInfo := #[]) (darwin : Bool := true) (localSymbols : List String := []) : Except String (List String) := do
   let mut fileId := 1
   let mut functions := []
   for f in program do
-    functions := (← emitFunction f types fileId) :: functions
+    functions := (← emitFunction f types fileId darwin localSymbols) :: functions
     if f.debugFile.isSome then fileId := fileId + 1
   pure functions.reverse
 
@@ -647,12 +660,12 @@ def emit (program : Program) : Except String String := do
     ++ String.intercalate "\n" functions
     ++ ".subsections_via_symbols\n"
 
-private def emitData (data : DataDefinition) : String := Id.run do
+private def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run do
   if data.common then
-    return s!".comm _{data.name},{data.byteSize},{Nat.log2 data.alignment}\n"
+    return s!".comm {symbolName darwin data.name},{data.byteSize},{if darwin then Nat.log2 data.alignment else data.alignment}\n"
   let mut lines := if data.threadLocal then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"] else [data.customSection.map (fun customSection => ".section " ++ customSection) |>.getD ".data"]
-  if data.exported then lines := lines ++ [s!".globl _{data.name}"]
-  let initialSymbol := if data.threadLocal then s!"_{data.name}$tlv$init" else s!"_{data.name}"
+  if data.exported then lines := lines ++ [s!".globl {symbolName darwin data.name}"]
+  let initialSymbol := if data.threadLocal then s!"_{data.name}$tlv$init" else symbolName darwin data.name
   if data.threadLocal then
     lines := lines ++ [s!"_{data.name}:", "\t.quad __tlv_bootstrap", "\t.quad 0", s!"\t.quad {initialSymbol}",
       ".section __DATA,__thread_data,thread_local_regular"]
@@ -672,16 +685,20 @@ private def emitData (data : DataDefinition) : String := Id.run do
         lines := lines ++ ["\t.byte " ++ String.intercalate ", " chunk]
     | .address name offset =>
       let suffix := if offset < 0 then toString offset else "+" ++ toString offset
-      lines := lines ++ [s!"\t.quad _{name}{suffix}"]
+      lines := lines ++ [s!"\t.quad {symbolName darwin name}{suffix}"]
   return String.intercalate "\n" (lines ++ [""])
 
-def emitModule (module : Module) : Except String String := do
+def emitModule (module : Module) (darwin : Bool := true) : Except String String := do
   validateModule module
+  if !darwin && module.data.any (·.threadLocal) then throw "Linux ARM64 TLS is not yet implemented"
+  if !darwin && module.data.any (·.customSection.isSome) then throw "Linux custom sections are not yet implemented"
   let types ← AggregateABI.classify module.types
-  let functions ← emitFunctions module.functions types
-  return "; Generated by Lean Compiler Backend; no Lean runtime in emitted code\n.text\n"
+  let localSymbols := (module.functions.filter (!·.exported)).toList.map (·.name) ++
+    (module.data.filter (fun data => !data.exported && !data.common)).toList.map (·.name)
+  let functions ← emitFunctions module.functions types darwin localSymbols
+  return (if darwin then "; Generated by Lean Compiler Backend; no Lean runtime in emitted code\n.text\n" else "// Generated by Lean Compiler Backend\n.text\n")
     ++ String.intercalate "\n" functions
-    ++ String.intercalate "\n" (module.data.toList.map emitData)
-    ++ ".subsections_via_symbols\n"
+    ++ String.intercalate "\n" (module.data.toList.map (emitData darwin))
+    ++ (if darwin then ".subsections_via_symbols\n" else ".section .note.GNU-stack,\"\",%progbits\n")
 
 end LeanCompilerBackend.AArch64

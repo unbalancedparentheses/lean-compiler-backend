@@ -197,6 +197,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   the Apple targets. Generate assembly for each target; object emission remains
   a separate milestone. Track native and emulated Linux execution, ABI tests,
   assembler/linker qualification and certification scope separately per target.
+  Linux ARM64 ELF now emits 72/76 upstream fixtures, with 55 executable drivers
+  and 17 assembly-only fixtures passing on native Linux ARM64. Variadic function
+  entry, TLS and ELF custom sections are next; AMD64 and RV64 remain unimplemented.
   Coverage on one ISA or OS ABI does not certify another. 32-bit ARM/x86/RISC-V
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential

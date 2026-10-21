@@ -105,3 +105,17 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `tls.ssa` | passed |
 | `vararg1.ssa` | passed |
 | `vararg2.ssa` | passed |
+
+## Linux ARM64 checkpoint
+
+The initial `--target aarch64-linux` implementation emits 72/76 fixtures. An
+ARM64 Ubuntu 24.04 container running on the local ARM64 Linux Docker VM assembled
+and executed 55 original drivers with both Lean and pinned QBE (`arm64`) output;
+17 development fixtures assembled with both. `dark.ssa`, `tls.ssa`, `vararg1.ssa`
+and `vararg2.ssa` remain explicitly unsupported. This is native ARM64 instruction
+execution inside a Linux VM, not x86 emulation or a proof.
+
+`scripts/linux_arm64.py` runs emission checks everywhere, native qualification
+on ARM64 Linux, or against an explicitly supplied Docker container. The retained
+`tests/upstream-linux-arm64-coverage.json` prevents emission regressions. Current
+Ubuntu x86 CI checks emission and models; it does not count as Linux ARM64 execution.

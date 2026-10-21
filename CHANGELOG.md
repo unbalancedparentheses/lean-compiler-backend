@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add initial Linux ARM64 ELF emission, scalar/aggregate ABI and native upstream
+  qualification: 72/76 emitted, 55 executable and 17 assembly-only passes.
+  Keep Linux variadic entry, TLS and custom sections explicitly unsupported.
+
 - Fix SSA cycle detection to permit loop live-ins after a join placeholder has
   been cached; retain rejection of cycles with no reaching definition.
 

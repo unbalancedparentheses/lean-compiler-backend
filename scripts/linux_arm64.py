@@ -1,0 +1,88 @@
+#!/usr/bin/env python3
+"""Qualify Linux ARM64 emission and optionally execute original QBE drivers.
+
+For macOS development, --docker-container names an existing ARM64 Linux container
+with this script's --work directory mounted at /work, gcc installed, and pinned
+QBE built at /tmp/qbe/qbe. CI can run directly on an ARM64 Linux host.
+"""
+import argparse
+import json
+import os
+from pathlib import Path
+import platform
+import shutil
+import subprocess
+from fuzz import ROOT, LCB
+from upstream_suite import extract
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--docker-container')
+    ap.add_argument('--require-native', action='store_true')
+    ap.add_argument('--work', type=Path, default=ROOT/'.build/linux-arm64')
+    args = ap.parse_args()
+    work = args.work.resolve(); work.mkdir(parents=True, exist_ok=True)
+    native = bool(args.docker_container) or (platform.system() == 'Linux' and platform.machine() in ['aarch64', 'arm64'])
+    if args.require_native: assert native, 'Linux ARM64 execution unavailable'
+    def run(command, inside=False):
+        command = [str(x) for x in command]
+        if inside and args.docker_container:
+            command = ['docker', 'exec', args.docker_container] + [x.replace(str(work), '/work') for x in command]
+        return subprocess.run(command, text=True, capture_output=True, timeout=120)
+    qbe = '/tmp/qbe/qbe'
+    cc = 'gcc' if args.docker_container else os.environ.get('LCB_CC', 'cc')
+    if native and not args.docker_container:
+        oracle = work/'oracle'
+        if not oracle.exists(): shutil.copytree(ROOT/'third_party/qbe', oracle)
+        result = run(['make', '-C', oracle, '-j2', f'CC={cc}']); assert result.returncode == 0, result.stderr
+        qbe = oracle/'qbe'
+    rows, failures = [], []
+    for fixture in sorted((ROOT/'third_party/qbe/test').glob('*.ssa')):
+        case = work/fixture.stem; case.mkdir(exist_ok=True)
+        source, assembly = case/'input.ssa', case/'lean.s'
+        shutil.copy2(fixture, source)
+        result = run([LCB, source, '--target', 'aarch64-linux', '-o', assembly])
+        row = {'fixture': fixture.name, 'emitted': result.returncode == 0, 'diagnostic': result.stderr.strip(), 'native': 'unmeasured'}
+        rows.append(row)
+        if result.returncode:
+            assert 'not yet implemented' in result.stderr or fixture.name == 'dark.ssa', result.stderr
+            continue
+        text = assembly.read_text()
+        assert '@GOTPAGE' not in text and '.subsections_via_symbols' not in text
+        if not native: continue
+        source_text = source.read_text()
+        driver, expected = extract(source_text, 'driver'), extract(source_text, 'output')
+        cfile = case/'driver.c'; cfile.write_text(driver)
+        qasm = case/'qbe.s'; result = run([qbe, '-t', 'arm64', '-o', qasm, source], True)
+        if result.returncode:
+            failures.append((fixture.name, 'QBE emission', result.stderr)); continue
+        statuses = []
+        for label, asm in [('lean', assembly), ('qbe', qasm)]:
+            exe = case/label
+            command = [cc, '-Wno-error=implicit-function-declaration', '-Wno-error=implicit-int']
+            private = fixture.name.startswith('_')
+            command += ['-c', asm, '-o', exe] if private else ([cfile, asm, '-o', exe] if driver else [asm, '-o', exe])
+            result = run(command, True)
+            if result.returncode:
+                failures.append((fixture.name, label+' assembly/link', result.stderr)); statuses.append('failed'); continue
+            if private: statuses.append('assembled'); continue
+            result = run([exe, 'a', 'b', 'c'], True)
+            passed = (result.returncode >= 0 and result.stdout.replace('\r', '') == expected) if expected else result.returncode == 0
+            statuses.append('passed' if passed else 'failed')
+            if not passed: failures.append((fixture.name, label+' execution', result.returncode, result.stdout, result.stderr, expected))
+        row['native'] = statuses[0] if len(statuses) == 2 and len(set(statuses)) == 1 else 'failed'
+    baseline = json.loads((ROOT/'tests/upstream-linux-arm64-coverage.json').read_text())['emitted']
+    emitted_names = {row['fixture'] for row in rows if row['emitted']}
+    for missing in sorted(set(baseline) - emitted_names): failures.append((missing, 'emission regression'))
+    report = {'target': 'aarch64-linux', 'fixtures': rows, 'failures': failures}
+    (work/'report.json').write_text(json.dumps(report, indent=2)+'\n')
+    emitted = sum(row['emitted'] for row in rows)
+    executed = sum(row['native'] == 'passed' for row in rows)
+    assembled = sum(row['native'] == 'assembled' for row in rows)
+    print(f'Linux ARM64: {emitted}/{len(rows)} emitted; {executed} original executable drivers and {assembled} assembly-only fixtures passed per Lean/QBE backend; native={native}', flush=True)
+    for failure in failures: print(failure, flush=True)
+    assert not failures, f'{len(failures)} Linux ARM64 failures'
+
+
+if __name__ == '__main__': main()

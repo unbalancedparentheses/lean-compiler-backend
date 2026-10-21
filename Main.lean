@@ -6,7 +6,7 @@ open LeanCompilerBackend
 private def usage : String :=
   "Lean Compiler Backend 0.1.0\n" ++
   "Usage:\n" ++
-  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos]\n" ++
+  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux]\n" ++
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --type-layout INPUT.ssa\n" ++
   "  lcb --first-path INPUT.ssa [-o OUTPUT.s] [--require-proof]\n" ++
@@ -43,6 +43,22 @@ private def options : List String → Except String (Option String)
   | "--target" :: "aarch64-macos" :: rest => options rest
   | "--target" :: target :: _ => .error s!"unsupported target '{target}'; supported: aarch64-macos"
   | option :: _ => .error s!"unknown or incomplete option '{option}'"
+
+private def compatibilityOptions (args : List String) : Except String (Option String × Bool) := do
+  let rec strip : List String → Option Bool → Except String (List String × Bool)
+    | [], target => pure ([], target.getD true)
+    | "--target" :: value :: rest, target => do
+      if target.isSome then throw "target specified more than once"
+      let darwin ← match value with
+        | "aarch64-macos" => pure true
+        | "aarch64-linux" => pure false
+        | _ => throw s!"unsupported target '{value}'; supported: aarch64-macos, aarch64-linux"
+      strip rest (some darwin)
+    | arg :: rest, target => do
+      let (rest, darwin) ← strip rest target
+      pure (arg :: rest, darwin)
+  let (rest, darwin) ← strip args none
+  pure (← options rest, darwin)
 
 private def firstPathOptions (args : List String) : Except String (Option String × Verified.EvidenceRequest) := do
   let requested := if args.contains "--require-proof" then .kernelTypedAssembly else .none
@@ -188,11 +204,11 @@ private def run (args : List String) : IO UInt32 := do
     | .error message => throw (IO.userError message)
   | path :: rest =>
     if path.startsWith "-" then throw (IO.userError s!"unknown or incomplete command '{path}'")
-    let output ← match options rest with
+    let (output, darwin) ← match compatibilityOptions rest with
       | .ok value => pure value
       | .error message => throw (IO.userError message)
     let module ← loadModule path
-    let assembly ← match AArch64.emitModule module with
+    let assembly ← match AArch64.emitModule module darwin with
       | .ok text => pure text
       | .error message => throw (IO.userError message)
     match output with

@@ -32,7 +32,7 @@ def report():
              'Counts describe inventory, not correctness or complete compatibility.', '',
              f'- {len(operations)} public opcode names; {len(status["operations"])} currently accept some forms.',
              f'- {len(private)} internal opcode names; no complete internal-operation port yet.',
-             f'- {len(targets)} upstream target/ABI configurations; one partial initial target.',
+             f'- {len(targets)} upstream target/ABI configurations; {len(status["targets"])} partial targets.',
              f'- {len(modules)} compiler C/header modules; no complete module-for-module port yet.',
              f'- {len(tests)} upstream SSA fixtures retained; partial qualification is tracked in [UPSTREAM_COVERAGE.md](UPSTREAM_COVERAGE.md).', '',
              'A supported opcode name may have unimplemented types (especially floating point).',

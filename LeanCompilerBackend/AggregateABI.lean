@@ -89,7 +89,7 @@ structure Plan where
 
 private def align (n a : Nat) : Nat := (n + a - 1) / a * a
 
-def plan (types : Array TypeInfo) (arguments : Array CallArgument) : Except String Plan := do
+def plan (types : Array TypeInfo) (arguments : Array CallArgument) (darwin : Bool := true) : Except String Plan := do
   let mut result := #[]
   let mut gp := 0
   let mut fp := 0
@@ -105,7 +105,7 @@ def plan (types : Array TypeInfo) (arguments : Array CallArgument) : Except Stri
       | some (.homogeneous w n) => (0, n, w)
       | some .indirect => (1, 0, Width.long)
       | none => if argument.floating then (0, 1, argument.width) else (1, 0, argument.width)
-    if !argument.variadic && gp + ngp <= 8 && fp + nfp <= 8 then
+    if !(darwin && argument.variadic) && gp + ngp <= 8 && fp + nfp <= 8 then
       let location := if nfp != 0 then Location.floating fp nfp width else .general gp ngp
       result := result.push { location, aggregate }
       gp := gp + ngp
@@ -113,13 +113,13 @@ def plan (types : Array TypeInfo) (arguments : Array CallArgument) : Except Stri
     else
       -- An aggregate is never split across registers and the stack. Exhaust its
       -- bank when it does not fit; the other bank remains available.
-      if !argument.variadic then
+      if !(darwin && argument.variadic) then
         if gp + ngp > 8 then gp := 8
         if fp + nfp > 8 then fp := 8
       let bytes := match aggregate with
         | some info => if info.passing == .indirect then 8 else align info.layout.size 8
-        | none => if argument.variadic then 8 else (argument.subword.map (·.bytes)).getD argument.width.bytes
-      let alignment := if aggregate.isSome || argument.variadic then 8 else bytes
+        | none => if !darwin || argument.variadic then 8 else (argument.subword.map (·.bytes)).getD argument.width.bytes
+      let alignment := if !darwin || aggregate.isSome || argument.variadic then 8 else bytes
       stack := align stack alignment
       result := result.push { location := .stack stack, aggregate }
       stack := stack + bytes
