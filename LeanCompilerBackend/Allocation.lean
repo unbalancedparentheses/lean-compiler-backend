@@ -84,6 +84,34 @@ def check (f : Function) (live : Liveness.Result) (plan : Plan) : Except String 
         safeWrite name live.before[b]![i+1]!
   return ()
 
+/-- Prefer frequently accessed color groups for the finite register bank.
+    This only permutes existing colors; interference and home-flow checks still
+    validate the resulting assignment independently. It is a static heuristic,
+    not a runtime profile or live-range splitting. -/
+private def prioritize (f : Function) (live : Liveness.Result) (colors : Array Nat)
+    (count : Nat) : Array Nat := Id.run do
+  let mut scores := Array.replicate count 0
+  let bump := fun (scores : Array Nat) (name : String) =>
+    match live.indices[name]? with
+    | some i => let c := colors[i]!; scores.set! c (scores[c]!+1)
+    | none => scores
+  let read := fun (scores : Array Nat) (value : Operand) =>
+    match value with | .temporary name => bump scores name | _ => scores
+  for p in f.parameters do scores := bump scores p.name
+  for b in f.blocks do
+    for phi in b.phis do
+      scores := bump scores phi.destination
+      for (_,value) in phi.incoming do scores := read scores value
+    for statement in b.instructions do
+      for value in statement.operands do scores := read scores value
+      if let some (name,_) := statement.definition then scores := bump scores name
+    for value in Liveness.terminatorOperands b.terminator do scores := read scores value
+  let order := (List.range count).toArray.qsort fun a b =>
+    scores[a]! > scores[b]! || (scores[a]! == scores[b]! && a < b)
+  let mut rank := Array.replicate count 0
+  for i in [:order.size] do rank := rank.set! order[i]! i
+  return colors.map (fun c => rank[c]!)
+
 /-- Deterministic greedy coloring. Call-preserved homes avoid call clobbers;
     excess colors spill to reusable eight-byte slots. No live-range splitting. -/
 def allocate (f : Function) (registerCount : Nat := 0) : Except String Plan := do
@@ -100,6 +128,8 @@ def allocate (f : Function) (registerCount : Nat := 0) : Except String Plan := d
     if color == occupants.size then occupants := occupants.push 0
     occupants := occupants.set! color (occupants[color]! ||| (1 <<< i))
     colors := colors.push color
+  colors := if registerCount > 0 && occupants.size > registerCount then
+    prioritize f live colors occupants.size else colors
   let result := {names := live.names, colors, colorCount := occupants.size, registerCount : Plan}
   check f live result
   HomeFlow.check f result.names result.colors result.colorCount

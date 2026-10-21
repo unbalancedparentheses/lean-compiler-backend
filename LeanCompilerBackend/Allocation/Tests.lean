@@ -16,6 +16,12 @@ private def rejected (r : Except String Unit) : Bool :=
   match r with | .error _ => true | _ => false
 
 def run : IO Unit := do
+  let hot ← parse "function l $hot(l %cold,l %hot) { @s %a =l mul %hot,3 %b =l xor %a,%hot %r =l add %b,%cold ret %r }"
+  let preferred ← unwrap (allocate hot 1)
+  let hotLive ← unwrap (Liveness.analyze hot)
+  unless preferred.colors[hotLive.indices["hot"]!]! == 0 &&
+      preferred.colors[hotLive.indices["cold"]!]! != 0 do
+    throw (IO.userError "frequent color group was not preferred for the register bank")
   let f ← parse "function l $f(l %x) { @s %a =l add %x, 1 %b =l mul %a, 3 ret %b }"
   let plan ← unwrap (allocate f)
   unless plan.colorCount == 1 do throw (IO.userError "nonoverlapping chain did not share its home")

@@ -242,7 +242,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   checking. Packed-bitset SSA liveness now handles edge-specific parallel phi
   uses, instruction boundaries, calls and disconnected cycles, with independent
   set/path oracles and upstream fixture coverage. Checked greedy allocation uses
-  callee-saved GP registers and reusable spill slots on all five targets; independent
+  callee-saved GP registers and reusable spill slots on all five targets. Existing
+  color groups are ranked by static read/write counts before assigning the finite
+  register bank; both independent allocation checks rerun after this permutation. Independent
   boundary checks, corrupted plans, call pressure and phi swaps test this step.
   Independent symbolic home-flow checking now follows SSA identities through
   reachable joins, loops and parallel phi edges; machine effects remain separate.

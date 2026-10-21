@@ -528,3 +528,35 @@ separate. Optimized text is 467,972 bytes; median self-IR compilation is 0.2050 
 versus 0.1634 s for corrected-QBE-built QBE and 0.0961 s for GCC-built QBE.
 No additional preservation proofs or full allocation-parity claims accompany
 these execution and size results.
+
+
+## Prefer frequently accessed homes for registers
+
+A static read/write count now ranks existing interference-color groups before
+assigning the finite callee-saved register bank. It changes register-versus-spill
+placement while preserving the color partition; both independent interference
+and symbolic home-flow checks run on the final assignment. This is a heuristic,
+without profile-guided weights, splitting, coalescing or a preservation proof.
+
+[Native zlib report](zlib-ranked.json): all original static tests and exact gzip
+comparisons pass. Optimized text falls to 147,226 bytes from 175,374, and the
+same-run median round trip is 0.0102 s versus 0.0690 s baseline, 0.00813 s
+original QBE, 0.00808 s corrected QBE and 0.00401 s GCC. The unchanged workload
+also passes [x86-64](zlib-ranked-x86.json) and [RV64](zlib-ranked-rv.json) under
+QEMU; those timings are emulated, and the original RV64 QBE link failure remains
+unqualified. Native target CI is separate from these local cross-target runs.
+
+[QBE self-compilation](qbe-ranked.json) retains every qualified reproduction and
+original runtime test, with optimized text 426,480 bytes. Same-run self-IR
+compilation medians: optimized 0.1896 s, corrected-QBE-built 0.1604 s and
+GCC-built reference 0.0982 s. [cJSON](cjson-ranked.json) retains all 153 assertions,
+checksums and its baseline-only stack retry; optimized library text is 38,148
+bytes. Concurrent local work affected this cJSON timing batch, so its raw samples
+should not be used to infer a cross-checkpoint speedup.
+
+[The new Csmith batch](csmith-ranked.json), seeds 20261133–20261164, qualifies
+24 of 32 attempts and 204,836 IR lines against GCC O0/O2, both backend modes
+and original QBE. Eight GCC-reference timeouts remain unqualified. Across six
+disjoint batches this is **115 of 144 unique attempts**, **1,110,492 qualified
+IR lines** including runtime helpers, and 29 retained reference timeouts. The
+existing generator restrictions remain in force; this is not whole-C coverage.
