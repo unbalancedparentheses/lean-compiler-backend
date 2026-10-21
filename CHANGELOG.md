@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add a reproducible cJSON/cproc real-program comparison: 119 functions, 153
+  upstream assertions, matching parse/serialize checksums and measured code size,
+  compile time and runtime. Record the baseline deep-recursion stack overflow
+  and the optimized stack-home fix rather than counting the retry as a default pass.
+
 - Check allocated homes with independent symbolic SSA value flow through reachable
   joins, loops and parallel phi edges; reject lost operands before emission.
 - Accept QBE bare returns in typed compatibility functions, including unreachable

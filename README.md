@@ -245,3 +245,7 @@ overwrites before emission. Default and certified compilation keep unique slots.
 Use `--liveness INPUT.ssa` to print diagnostic JSON for each SSA function,
 including block, instruction and phi-edge live sets. This analysis prepares
 register allocation; it does not change emitted assembly or add proof coverage.
+
+A [real-program cJSON comparison](docs/benchmarks/README.md) runs unchanged
+upstream tests and records correctness, stack-limit exceptions, compile time,
+object size and native runtime against pinned QBE and GCC.
