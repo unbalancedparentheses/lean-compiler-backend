@@ -465,3 +465,21 @@ The [cproc self-compilation rerun](cproc-algebra.json) uses this same compiler
 identity. Baseline, optimized and corrected-QBE builds each reproduce all 19
 stage-one IR files and pass all 196 original cproc tests. The original ARM64 QBE
 external-address failure remains explicitly separate in the report.
+
+
+## Narrow scalar promotion checkpoint
+
+[zlib narrow-promotion report](zlib-narrow.json) records promotion of initialized,
+nonescaping byte/halfword objects alongside 4/8-byte objects. Byte/half stores
+retain explicit truncation; loads preserve signedness and 32/64-bit result width.
+Escaping, mixed-size and potentially uninitialized objects remain in memory.
+Independent tests add 16,896 narrow loop cases, boundary-bit interpreter checks
+and a native wrong-signedness corruption control.
+
+All unchanged zlib tests and gzip comparisons pass. Optimized minigzip text is
+203,574 bytes (206,102 at the algebra checkpoint); its hottest `deflate_slow`
+function no longer carries four narrow-object stack addresses. Same-run median
+round trip: baseline 0.0713 s, optimized 0.0275 s, original QBE 0.00855 s,
+corrected QBE 0.00860 s and GCC 0.00436 s. This is useful progress, with a
+substantial performance gap still present; cross-run timings are not a controlled
+speedup measurement.

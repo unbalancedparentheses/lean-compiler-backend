@@ -14,6 +14,8 @@ private def temporary : Operand → Option String
   | .temporary name => some name | _ => none
 
 /-- Only direct, exact-width scalar accesses to entry-block objects qualify.
+    Byte/half objects use word SSA values with explicit store truncation and
+    signed/unsigned load extension to either word or long results.
     Any address escape, pointer arithmetic, partial or mixed-class access rejects
     the object. Loads must be definitely initialized on every entry-reachable path. -/
 def promote (f : Function) : Function := Id.run do
@@ -23,7 +25,7 @@ def promote (f : Function) : Function := Id.run do
   for statement in entry.instructions do
     if let .assign inst := statement then
       if let .allocate _ (.constant bytes) := inst.operation then
-        if bytes == 4 || bytes == 8 then
+        if bytes == 1 || bytes == 2 || bytes == 4 || bytes == 8 then
           indices := indices.insert inst.destination candidates.size
           candidates := candidates.push { name := inst.destination, bytes := bytes.toNat }
   if candidates.isEmpty then return f
@@ -41,12 +43,14 @@ def promote (f : Function) : Function := Id.run do
     | some i => cs.set! i {cs[i]! with valid := false}
     | none => cs
   let access := fun (cs : Array Candidate) (address : Operand) (bytes : Nat) (kind : Width × Bool) =>
+    let kind := if bytes < 4 && !kind.2 then (.word,false) else kind
     match temporary address >>= fun n => indices[n]? with
     | some i =>
       let c := cs[i]!
       cs.set! i {c with
         kind := some kind
-        valid := c.valid && c.bytes == bytes && c.bytes == kind.1.bytes &&
+        valid := c.valid && c.bytes == bytes &&
+          (c.bytes == kind.1.bytes || (c.bytes < 4 && kind == (.word,false))) &&
           (c.kind.isNone || c.kind == some kind)}
     | none => cs
   for b in [:f.blocks.size] do
@@ -121,15 +125,25 @@ def promote (f : Function) : Function := Id.run do
       | .assign inst =>
         if (active inst.destination).isSome then continue
         match inst.operation with
-        | .load _ (.temporary name) =>
+        | .load kind (.temporary name) =>
           if let some i := active name then
-            instructions := instructions.push (.assign {inst with operation := .copy (.temporary (variableName i))})
+            let value := Operand.temporary (variableName i)
+            let operation := match kind with
+              | .signedByte => Operation.unary .signedByte value
+              | .unsignedByte => Operation.unary .unsignedByte value
+              | .signedHalf => Operation.unary .signedHalf value
+              | .unsignedHalf => Operation.unary .unsignedHalf value
+              | _ => Operation.copy value
+            instructions := instructions.push (.assign {inst with operation})
           else instructions := instructions.push statement
         | _ => instructions := instructions.push statement
       | .store _ value (.temporary name) | .storeFloat _ value (.temporary name) =>
         if let some i := active name then
           let (width,floating) := candidates[i]!.kind.getD (.long,false)
-          instructions := instructions.push (.assign {destination := variableName i, width, floating, operation := .copy value})
+          let operation := if candidates[i]!.bytes == 1 then Operation.unary .unsignedByte value
+            else if candidates[i]!.bytes == 2 then Operation.unary .unsignedHalf value
+            else Operation.copy value
+          instructions := instructions.push (.assign {destination := variableName i, width, floating, operation})
         else instructions := instructions.push statement
       | _ => instructions := instructions.push statement
     positions := positions.push instructions.size

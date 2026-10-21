@@ -2,6 +2,7 @@
 """Independent native tests for scalar stack promotion and conservative guards."""
 import argparse
 import os
+import re
 from pathlib import Path
 import subprocess
 import tempfile
@@ -81,6 +82,49 @@ export function l $mixed_bits(l %x) {
  ret %r
 }
 '''
+    declarations, checks = [], []
+    for suffix, bits in [('b',8),('h',16)]:
+        name='narrow_'+suffix
+        source += f'''export function l ${name}(l %input,w %n) {{
+@s
+ %p =l alloc4 {bits//8}
+ store{suffix} %input,%p
+ jmp @test
+@test
+ %i =w phi @s 0,@body %next
+ %more =w cultw %i,%n
+ jnz %more,@body,@done
+@body
+ %u =w loadu{suffix} %p
+ %s =w loads{suffix} %p
+ %a =w mul %s,33
+ %b =w add %a,%u
+ %c =w add %b,%i
+ store{suffix} %c,%p
+ %next =w add %i,1
+ jmp @test
+@done
+ %unsigned =l loadu{suffix} %p
+ %signed =w loads{suffix} %p
+ %wide =l extuw %signed
+ %high =l shl %wide,32
+ %r =l or %high,%unsigned
+ ret %r
+}}
+'''
+        declarations.append(f'extern uint64_t {name}(uint64_t,unsigned);')
+        checks.append(f'''for(unsigned n=0;n<33;n++)for(unsigned k=0;k<256;k++){{
+ uint64_t input=UINT64_C(0xf123456789abcdef)*k;
+ uint32_t value=input&{(1<<bits)-1};
+ for(unsigned i=0;i<n;i++){{
+  int32_t signed_value=value<{1<<(bits-1)}?(int32_t)value:(int32_t)value-{1<<bits};
+  value=((uint32_t)signed_value*33+value+i)&{(1<<bits)-1};
+ }}
+ int32_t signed_value=value<{1<<(bits-1)}?(int32_t)value:(int32_t)value-{1<<bits};
+ uint64_t expected=((uint64_t)(uint32_t)signed_value<<32)|value;
+ if({name}(input,n)!=expected)return {6+bits};
+}}
+''')
     caller='''#include <stdint.h>
 extern uint64_t memory_loop(uint64_t,uint64_t),escape(uint64_t),partial(uint64_t),mixed_bits(uint64_t);
 extern double floating_memory(double,unsigned);
@@ -98,6 +142,8 @@ int main(void) {
  if(floating_memory(-7.25,1)!=-7.25||floating_memory(-7.25,0)!=2.5)return 5;
  return 0;
 }'''
+    caller=caller.replace("int main(void)","\n".join(declarations)+"\nint main(void)")
+    caller=caller.replace(" return 0;","\n".join(checks)+" return 0;")
     return source,caller
 
 
@@ -111,7 +157,20 @@ def exercise(compiler,work,run,cc,target,execute=True):
         if execute:
             result=run([cc,caller,asm,'-o',exe],True);assert result.returncode==0,result.stderr
             result=run([exe],True);assert result.returncode==0,(target,label,result.returncode,result.stderr)
-    print(f'{target}: scalar promotion: 1024 loop/branch cases, escaping/partial/mixed objects and FP branches; execution={execute}',flush=True)
+            if label=='optimized' and target.startswith('aarch64'):
+                text=asm.read_text();prefix='_' if target.endswith('macos') else ''
+                start=text.index('\n'+prefix+'narrow_b:\n')
+                end=text.index('\n'+prefix+'narrow_h:\n',start)
+                matches=list(re.finditer(r'\bsxtb (w\d+), (w\d+)',text[start:end]))
+                assert matches,'narrow result lacks signed-byte extension'
+                match=matches[-1]
+                offset=start+match.start()
+                damaged=text[:offset]+'uxtb'+text[offset+4:]
+                bad=case/'broken-signedness.s';bad.write_text(damaged)
+                badexe=case/'broken-signedness'
+                result=run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
+                result=run([badexe],True);assert result.returncode!=0,'wrong narrow signedness escaped the independent oracle'
+    print(f'{target}: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution={execute}',flush=True)
 
 
 def main():

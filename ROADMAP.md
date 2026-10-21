@@ -228,8 +228,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   edges are removed, with bounded rounds to expose newly constant phis.
   Dominance-aware common integer-expression elimination reuses identical pure
   definitions without merging sibling branches or memory operations. Conservative
-  scalar promotion replaces initialized, nonescaping exact-width 4/8-byte entry
-  objects with SSA values; trivial-phi cleanup removes redundant merge copies.
+  scalar promotion replaces initialized, nonescaping exact-width 1/2/4/8-byte entry
+  objects with SSA values, preserving narrow-store truncation and load signedness; trivial-phi cleanup removes redundant merge copies.
   Escaped, partial, mixed-class and potentially uninitialized objects stay in memory.
   These passes have executable checks, not preservation proofs.
   Independent arithmetic and optimized upstream/ABI suites pass on all five targets

@@ -19,6 +19,23 @@ private def agrees (f g : Function) (args : Array UInt64) : Bool :=
   | .ok a, .ok b => a == b | _, _ => false
 
 def run : IO Unit := do
+  for (bytes, suffix) in #[(1, "b"), (2, "h")] do
+    for signedness in #["s", "u"] do
+      for width in #["w", "l"] do
+        let text := "function " ++ width ++ " $f(l %x) { @s %p =l alloc4 " ++ toString bytes ++
+          " store" ++ suffix ++ " %x,%p %v =" ++ width ++ " load" ++ signedness ++ suffix ++ " %p ret %v }"
+        let original ← parse text
+        let result := Memory.promote original
+        require (memoryCount result == 0) "narrow scalar did not promote"
+        for x in (#[0,1,127,128,255,256,32767,32768,65535,65536,4294967295,18446744073709551615] : Array UInt64) do
+          require (agrees original result #[x]) "narrow promotion lost store truncation or load signedness"
+  for source in #[
+    "function w $f() { @s %p =l alloc4 1 %r =w loadub %p ret %r }",
+    "function w $f() { @s %p =l alloc4 2 storeh 65535,%p storeb 0,%p %r =w loaduh %p ret %r }",
+    "function w $f() { @s %p =l alloc4 1 storeb 17,%p call $touch(l %p) %r =w loadub %p ret %r }"] do
+    let original ← parse source
+    require (memoryCount (Memory.promote original) == memoryCount original)
+      "unsupported narrow object was promoted"
   let branch ← parse "function l $f(l %x,w %c) { @s %p =l alloc8 8 jnz %c,@a,@b @a storel %x,%p jmp @done @b storel 17,%p jmp @done @done %v =l loadl %p ret %v }"
   let result := Memory.promote branch
   require (memoryCount result == 0 && result.blocks.any (!·.phis.isEmpty)) "branch stores did not become SSA phis"
