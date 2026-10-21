@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Admit native module data through 256 MiB, covering QBE's 16 MiB instruction
+  buffer. Emit ordinary zero-only globals into BSS on all five targets. Preserve
+  the interpreter's 1 MiB initialization budget with a pre-allocation refusal;
+  check page/tail accesses, relocations, alignment and compact object files.
+
 - Select ARM64 add/sub and shift immediate forms on the allocated path, including
   negative equivalents, shifted 12-bit constants and masked shift counts. Keep
   register fallbacks for unencodable values and test 1,680 independent edge cases

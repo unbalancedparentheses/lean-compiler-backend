@@ -53,7 +53,9 @@ Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
    review implementation limits (4096 functions, 64 arguments, bounded object/frame
-   sizes) against real frontend workloads. Add reduced cases for every gap.
+   sizes) against real frontend workloads. Native data now admits 256 MiB with
+   sparse BSS, covering QBE's 16 MiB global instruction buffer; the interpreter
+   retains its 1 MiB budget. Add reduced cases for every gap.
 2. Extend the optional constant/copy/dead-definition and basic CFG pipeline with
    alias analysis, broader CFG transforms and the remaining QBE optimization passes.
 3. Extend implemented liveness, reusable spills and callee-saved allocation with

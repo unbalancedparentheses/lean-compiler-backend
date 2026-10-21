@@ -502,7 +502,7 @@ private def parseData (exported threadLocal : Bool) : P DataDefinition := do
     let kind ← take
     if kind == "z" then
       let bytes ← parseDataInteger
-      if bytes < 0 || bytes > 1024 * 1024 then failAt "zero fill size must be in 0..1048576"
+      if bytes < 0 || bytes > 256 * 1024 * 1024 then failAt "zero fill size must be in 0..268435456"
       items := items.push (.zeroes bytes.toNat)
     else
       let width ← match kind with

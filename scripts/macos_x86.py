@@ -103,6 +103,8 @@ def main():
         objects(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple')
     from quoted_names import exercise as quoted
     from zero_alloc import exercise as zero
+    from large_data import exercise as large_data_tests
+    large_data_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from large_objects import exercise as large_object_tests
     large_object_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from memory_promotion import exercise as memory_tests

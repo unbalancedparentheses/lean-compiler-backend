@@ -344,6 +344,10 @@ private def invoke (program : Program) : Nat → Function → Array UInt64 → A
 
 /-- Allocate all objects before resolving initializers, allowing forward/self references. -/
 private def initializeModule (module : Module) : Except String ExecutionState := do
+  -- Native zero-fill directives can describe large sparse objects cheaply.
+  -- This interpreter uses explicit bytes, so reject before allocating any object.
+  if module.data.foldl (fun total data => total + data.byteSize) 0 > 1024 * 1024 then
+    throw "module data exceeds the 1 MiB interpreter initialization budget"
   let mut memory : Memory := {}
   let mut symbols : List (String × UInt64) := []
   -- Function identities are opaque non-memory addresses in this interpreter.

@@ -188,6 +188,7 @@ python3 scripts/macos_x86.py
 python3 scripts/memory.py "$@"
 python3 scripts/large_frames.py "$@"
 python3 scripts/large_objects.py "$@"
+python3 scripts/large_data.py "$@"
 python3 scripts/dynamic_alloc.py "$@"
 python3 scripts/zero_alloc.py "$@"
 python3 scripts/module_scale.py "$@"

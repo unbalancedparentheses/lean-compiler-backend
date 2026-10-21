@@ -382,7 +382,7 @@ def validateModule (module : Module) : Except String Unit := do
         (data.alignment &&& (data.alignment - 1)) != 0 then
       throw "data alignment must be a power of two in 1..64"
     total := total + data.byteSize
-    if total > 1024 * 1024 then throw "module data exceeds the 1 MiB resource limit"
+    if total > 256 * 1024 * 1024 then throw "module data exceeds the 256 MiB resource limit"
     for item in data.items do
       if let .address name _ := item then
         if !validGlobalName name then throw "unsupported data relocation symbol"

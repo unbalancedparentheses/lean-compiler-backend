@@ -119,8 +119,13 @@ Function addresses are opaque, non-memory interpreter identities. Unresolved
 external symbols have no interpreter result; native assembly delegates their
 resolution to the linker. Numeric pointer values are not compared across models.
 Data/function name collisions and direct calls to data definitions are rejected.
-The module has a 1 MiB initialized-data resource limit. These features are outside
-the restricted first-path proof domain and remain explicitly uncertified.
+Native module data and individual zero-fill fields have a 256 MiB resource
+limit. Ordinary nonempty zero-only definitions use ELF BSS or Mach-O zerofill;
+custom sections, TLS and common linkage preserve their distinct paths. The
+interpreter retains a separate 1 MiB initialization budget and checks the whole
+module before allocating any byte arrays. Native admission therefore does not
+imply interpreter execution. These features are outside the restricted
+first-path proof domain and remain explicitly uncertified.
 
 ## Compatibility indirect calls
 

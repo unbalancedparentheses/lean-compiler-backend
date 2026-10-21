@@ -96,6 +96,8 @@ def main():
     module_tests(compiler,work,run,cc,args.target,execute)
     from extern_offsets import exercise as extern_offset_tests
     extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
+    from large_data import exercise as large_data_tests
+    large_data_tests(compiler,work,run,cc,args.target,execute)
     from large_objects import exercise as large_object_tests
     large_object_tests(compiler,work,run,cc,args.target,execute)
     from memory_promotion import exercise as memory_tests

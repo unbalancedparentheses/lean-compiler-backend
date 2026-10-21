@@ -41,10 +41,15 @@ def debugFilename (name : String) : String :=
 def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run do
   if data.common then
     return s!".comm {symbolName darwin data.name},{data.byteSize},{if darwin then Nat.log2 data.alignment else data.alignment}\n"
+  let zeroOnly := data.byteSize > 0 && !data.threadLocal && data.customSection.isNone &&
+    data.items.all (fun item => match item with | .zeroes _ => true | _ => false)
+  if darwin && zeroOnly then
+    let global := if data.exported then s!".globl {symbolName true data.name}\n" else ""
+    return global ++ s!".zerofill __DATA,__bss,{symbolName true data.name},{data.byteSize},{Nat.log2 data.alignment}\n"
   let mut lines := if data.threadLocal then
     if darwin then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"]
     else [".section .tdata,\"awT\",%progbits", s!".type {data.name}, %tls_object"]
-    else [data.customSection.map (sectionDirective darwin) |>.getD ".data"]
+    else [data.customSection.map (sectionDirective darwin) |>.getD (if zeroOnly then ".bss" else ".data")]
   if data.exported then lines := lines ++ [s!".globl {symbolName darwin data.name}"]
   let initialSymbol := if darwin && data.threadLocal then symbolSuffix (symbolName true data.name) "$tlv$init" else symbolName darwin data.name
   if darwin && data.threadLocal then

@@ -127,6 +127,8 @@ def main():
     module_tests(compiler,work,run,cc,'aarch64-linux',native)
     from extern_offsets import exercise as extern_offset_tests
     extern_offset_tests(compiler,work,run,cc,qbe,native)
+    from large_data import exercise as large_data_tests
+    large_data_tests(compiler,work,run,cc,'aarch64-linux',native)
     from large_objects import exercise as large_object_tests
     large_object_tests(compiler,work,run,cc,'aarch64-linux',native)
     from memory_promotion import exercise as memory_tests
