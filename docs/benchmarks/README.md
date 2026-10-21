@@ -641,3 +641,20 @@ its baseline-only stack retry. Optimized text is 37,916 bytes; median runtime
 retains all qualified reproductions and 58 original runtime tests. Optimized
 text is 425,188 bytes; self-IR medians are 0.1856 s optimized, 0.1612 s corrected-QBE
 and 0.0972 s GCC reference. Original QBE's parser failure remains separate.
+
+
+## Separate pointer-generating Csmith profile
+
+`LCB_CC=cc python3 scripts/csmith_compare.py --profile pointers --seed-start 20261501 --seeds 32 --report .build/csmith-pointers.json`
+enables one-level pointers without const qualifiers while preserving the other
+packed/bitfield/volatile restrictions. [The report](csmith-pointers.json) qualifies
+8/32 attempts and 49,596 IR lines against GCC O0/O2, baseline, optimized and
+original QBE. Twenty-one known incompatible-pointer frontend diagnostics and
+three GCC O0 reference timeouts remain unqualified. Frontend-rejected sources
+retain GCC syntax diagnostics and source hashes; they never reach backend comparison.
+Unexpected frontend failures and all backend failures still stop the run.
+
+This profile is separate from the seven scalar/aggregate batches (141/176,
+1,422,785 qualified IR lines); their restrictions and denominators are unchanged.
+A repeated default-profile seed also passes after the harness change and is not
+counted as a new unique program.

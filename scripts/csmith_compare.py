@@ -5,7 +5,9 @@ Requires the ARM64 Linux test container with csmith 2.3.0 and libcsmith-dev.
 Generated C, IR, assembly, compiler diagnostics and outputs remain in .build.
 Pointers/packed structs/bitfields/volatile accesses are disabled in this profile:
 cproc rejects some of Csmith's incompatible-pointer comparisons. Arrays, ordinary
-structs/unions, scalar arithmetic, loops and calls remain enabled.
+structs/unions, scalar arithmetic, loops and calls remain enabled. An optional
+pointer profile admits one-level pointers without const qualifiers and retains frontend
+incompatible-pointer diagnostics as unqualified, never as backend passes.
 """
 import argparse
 import hashlib
@@ -30,11 +32,16 @@ def main():
     ap.add_argument('--seed-start', type=int, default=20261021)
     ap.add_argument('--seeds', type=int, default=8)
     ap.add_argument('--report', type=Path)
+    ap.add_argument('--profile', choices=['scalar','pointers'], default='scalar')
     ap.add_argument('--compiler', type=Path, default=ROOT/'.lake/build/bin/lcb')
     args = ap.parse_args()
     assert 1 <= args.seeds <= 1000
     base = ROOT/'.build/linux-arm64'
-    work = base/'csmith'
+    options = list(OPTIONS)
+    if args.profile == 'pointers':
+        options.remove('--no-pointers')
+        options += ['--no-consts','--no-const-pointers','--max-pointer-depth','1']
+    work = base/('csmith' if args.profile == 'scalar' else 'csmith-pointers')
     work.mkdir(parents=True, exist_ok=True)
     def inside(path): return '/work/'+str(Path(path).relative_to(base))
     def docker(cmd, cwd=None, check=True):
@@ -67,21 +74,40 @@ def main():
               'runtime_header_hashes':docker(['find','/usr/include/csmith','-type','f','-exec','sha256sum','{}','+']).stdout.strip(),
               'cproc_commit':CPROC,'qbe_version':'1.3 (unchanged pinned source)',
               'compiler_identity':command([compiler,'--build-identity']).stdout.strip(),
-              'generation_options':OPTIONS,'frontend_defines':DEFINES,'cases':[],'unqualified':[],
+              'profile':args.profile,'generation_options':options,'frontend_defines':DEFINES,'cases':[],'unqualified':[],
               'notes':['Generated programs and upstream sources are not patched.',
                        'GCC O0 and O2 compile the C directly; all three backends receive identical cproc IR.',
                        'Default profile excludes pointer, packed-struct, bitfield and volatile generation; arrays/ordinary aggregates remain enabled.',
                        'The two floating-limit defines supply constants expected by GCC float.h used by Csmith safe_math.h.',
                        'Qualified executables terminate within 15 seconds and print the same checksum; GCC O0 reference timeouts are retained as unqualified seeds.']}
+    if args.profile == 'pointers':
+        report['notes'].append('Pointer profile enables one-level pointers without const qualifiers; packed structs, bitfields and volatile accesses remain disabled. Known cproc incompatible-pointer comparison/assignment diagnostics are retained as frontend rejections, with GCC syntax diagnostics, not backend failures or passes.')
     report_path = args.report or work/'report.json'
     report_path.parent.mkdir(parents=True,exist_ok=True)
     for seed in range(args.seed_start,args.seed_start+args.seeds):
         case=work/str(seed);case.mkdir(exist_ok=True)
         source,ir=case/'input.c',case/'input.ssa'
-        docker(['csmith','--seed',str(seed),*OPTIONS,'--output',inside(source)])
+        docker(['csmith','--seed',str(seed),*options,'--output',inside(source)])
         synchronize(source,False)
         frontend=docker([inside(cproc/'cproc'),'-I/usr/include/csmith',*DEFINES,'-emit-qbe',inside(source),'-o',inside(ir)],check=False)
         (case/'frontend.log').write_text(frontend.stdout+frontend.stderr)
+        if frontend.returncode and args.profile == 'pointers':
+            errors = [line.split('error: ',1)[1] for line in frontend.stderr.splitlines() if 'error: ' in line]
+            known = {'base types of pointer assignment must be compatible or void',
+                     "pointer operands to '==' operator are to incompatible types",
+                     "pointer operands to '!=' operator are to incompatible types"}
+            assert frontend.returncode == 1 and errors and all(error in known for error in errors),(seed,'unexpected frontend failure',frontend.stderr)
+            syntax = docker(['gcc','-fsyntax-only','-I/usr/include/csmith',inside(source)],check=False)
+            (case/'gcc-syntax.log').write_text(syntax.stdout+syntax.stderr)
+            assert syntax.returncode == 0,(seed,'GCC syntax rejection',syntax.stderr)
+            report['unqualified'].append({'seed':seed,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
+                'source_lines':len(source.read_text().splitlines()),'reason_kind':'frontend-rejection',
+                'reason':'Known incompatible-pointer diagnostic before backend IR; no backend comparison measured',
+                'frontend_exit':frontend.returncode,'frontend_diagnostic':frontend.stderr,
+                'gcc_syntax_exit':syntax.returncode,'gcc_syntax_diagnostic':syntax.stderr})
+            report_path.write_text(json.dumps(report,indent=2)+'\n')
+            print(f'Csmith {seed}: known frontend pointer rejection retained as unqualified',flush=True)
+            continue
         assert frontend.returncode==0,(seed,'frontend rejection',frontend.stderr)
         synchronize(ir,False)
         text=ir.read_text()
@@ -107,6 +133,7 @@ def main():
             result=docker(['timeout','15',inside(exe)],check=False)
             (case/(label+'-run.log')).write_text(result.stdout+result.stderr)
             if label=='gcc-O0' and result.returncode==124:
+                row['reason_kind']='reference-timeout'
                 row['reason']='GCC O0 reference exceeded the 15-second execution budget; backend comparison unmeasured'
                 report['unqualified'].append(row)
                 qualified=False
@@ -119,7 +146,7 @@ def main():
         if qualified:report['cases'].append(row)
         report_path.write_text(json.dumps(report,indent=2)+'\n')
         if qualified:print(f'Csmith {seed}: {row["ir_lines"]} IR lines; GCC O0/O2, baseline, optimized and original QBE agree: {row["outputs"]["gcc-O0"]}',flush=True)
-    print(f'{len(report["cases"])} Csmith seeds passed; {len(report["unqualified"])} reference timeouts unqualified; report: {report_path}',flush=True)
+    print(f'{len(report["cases"])} Csmith seeds passed; {len(report["unqualified"])} attempts unqualified; report: {report_path}',flush=True)
 
 
 if __name__=='__main__':main()

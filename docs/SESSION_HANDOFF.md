@@ -93,13 +93,18 @@ The preceding identity-bound reports retain their own measurements:
   checksums; baseline alone needs a 64 MiB deep-recursion stack retry. Optimized
   library text 37,876 bytes; median 0.2267 s versus QBE 0.1798 s and GCC 0.1462 s.
 - `cproc-symbol-hoist.json`: 18 C units, 19 exact IR reproductions, 196 original
-  tests per qualified backend on the current identity. Original QBE-built cproc
+  tests per qualified backend on the address-sharing identity. Original QBE-built cproc
   crashes on `attr`; that failure remains separate from the corrected oracle.
 - `csmith-symbol-hoist.json` adds 26/32 qualified programs and 312,293 IR lines:
   aggregate 141/176 unique attempts, 1,422,785 qualified IR lines including runtime
   helpers, 35 reference timeouts across seven disjoint batches.
   Generator restrictions exclude pointers, packed structs, bitfields and volatile
   accesses because of cproc frontend limits; this is not unrestricted whole-C coverage.
+
+The separate `csmith-pointers.json` profile enables one-level pointers without
+const qualifiers: 8/32 attempts qualify, with 49,596 IR lines. Twenty-one known
+frontend pointer-type rejections and three reference timeouts remain unqualified;
+these are separate from the default-profile corpus and not backend pass claims.
 
 Reports retain their exact compiler/source/configuration hashes. Original QBE
 and separately corrected oracle copies remain distinct; vendored QBE is unchanged.
