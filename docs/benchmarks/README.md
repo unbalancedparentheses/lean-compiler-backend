@@ -611,3 +611,8 @@ qualifies 26/32 programs and 312,293 IR lines against GCC O0/O2, baseline, optim
 and original QBE. Six GCC-reference timeouts remain unqualified. Across seven
 batches the total is **141/176 unique attempts**, **1,422,785 qualified IR lines**
 and 35 retained reference timeouts, under the same restricted generator profile.
+
+[cproc self-compilation](cproc-symbol-hoist.json) on the same compiler identity
+passes all 19 exact stage-two IR reproductions and 196/196 original tests per
+qualified backend across 18 source units. The original QBE-built compiler's
+`attr` crash remains separate; the corrected-QBE-built compiler qualifies.

@@ -79,8 +79,9 @@ Latest published reports in `docs/benchmarks`:
 - `cjson-symbol-hoist.json`: 153 assertions across 18 executables, matching
   checksums; baseline alone needs a 64 MiB deep-recursion stack retry. Optimized
   library text 37,876 bytes; median 0.2267 s versus QBE 0.1798 s and GCC 0.1462 s.
-- `cproc-algebra.json`: 18 C units, 19 exact IR reproductions, 196 original tests
-  per qualified backend. This earlier compiler identity remains in its report.
+- `cproc-symbol-hoist.json`: 18 C units, 19 exact IR reproductions, 196 original
+  tests per qualified backend on the current identity. Original QBE-built cproc
+  crashes on `attr`; that failure remains separate from the corrected oracle.
 - `csmith-symbol-hoist.json` adds 26/32 qualified programs and 312,293 IR lines:
   aggregate 141/176 unique attempts, 1,422,785 qualified IR lines including runtime
   helpers, 35 reference timeouts across seven disjoint batches.
@@ -94,8 +95,8 @@ See [benchmarks/README.md](benchmarks/README.md) and
 
 CI was all green through `c559be5`. `a721ee7` exposed three old Apple-specific
 refusal controls under the new Linux default; `72389df` fixes their targets and
-both native Linux jobs pass. Its macOS job and later logical-immediate CI were
-still running at 22:20 UTC; inspect current exact run statuses.
+all three CI jobs pass. Both native Linux jobs also pass the logical-immediate
+checkpoint; its macOS job and common-address CI remain in progress at 22:25 UTC.
 
 ## Next work
 
