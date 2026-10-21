@@ -88,6 +88,8 @@ def main():
     quoted_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
     from module_scale import exercise as module_tests
     module_tests(compiler,work,run,cc,args.target,execute)
+    from allocation import exercise as allocation_tests
+    allocation_tests(compiler,work,run,cc,args.target,execute)
     from control_flow import exercise as cfg_tests
     cfg_tests(compiler,work,run,cc,args.target,execute,optimized_only=args.optimize)
     from constant_fold import exercise as fold_tests

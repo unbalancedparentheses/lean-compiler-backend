@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Reuse nonoverlapping SSA stack homes with checked greedy coloring on all five
+  targets under `--optimize` or `--allocate`. Retain the default unique-slot
+  baseline. Independently check upstream allocation boundaries and execute call
+  pressure, phi swaps, dead writes and dynamic-frame cases.
+
 - Add packed-bitset SSA liveness and `--liveness` JSON diagnostics with
   edge-specific phi operands and instruction boundaries. Check against independent
   set and path oracles, original QBE fixtures and compatibility resource limits.

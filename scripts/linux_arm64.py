@@ -119,6 +119,8 @@ def main():
     quoted_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
     from module_scale import exercise as module_tests
     module_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from allocation import exercise as allocation_tests
+    allocation_tests(compiler,work,run,cc,'aarch64-linux',native)
     from control_flow import exercise as cfg_tests
     cfg_tests(compiler,work,run,cc,'aarch64-linux',native,optimized_only=args.optimize)
     from constant_fold import exercise as fold_tests

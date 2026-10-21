@@ -7,9 +7,10 @@ open LeanCompilerBackend
 private def usage : String :=
   "Lean Compiler Backend 0.1.0\n" ++
   "Usage:\n" ++
-  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|x86_64-macos|riscv64-linux] [--optimize]\n" ++
+  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|x86_64-macos|riscv64-linux] [--optimize] [--allocate]\n" ++
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --liveness INPUT.ssa\n" ++
+  "  lcb --allocation INPUT.ssa\n" ++
   "  lcb --type-layout INPUT.ssa\n" ++
   "  lcb --first-path INPUT.ssa [-o OUTPUT.s] [--require-proof]\n" ++
   "  lcb --first-path-eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
@@ -116,6 +117,20 @@ private def run (args : List String) : IO UInt32 := do
         for (field, fieldIndex) in variant.toList.zipIdx do
           IO.println s!"field {layout.name} {index} {fieldIndex} {field.offset} {field.stride} {field.field.count}"
     return 0
+  | ["--allocation", path] =>
+    let module ← loadModule path
+    for f in module.functions do
+      let result ← match Allocation.allocate f with
+        | .ok result => pure result
+        | .error reason => throw (IO.userError reason)
+      let live ← match Liveness.analyze f with
+        | .ok live => pure live
+        | .error reason => throw (IO.userError reason)
+      IO.println (Lean.Json.mkObj [
+        ("liveness", Liveness.report f live), ("colors", Lean.toJson result.colors),
+        ("colorCount", Lean.toJson result.colorCount),
+        ("parameters", Lean.toJson (f.parameters.map (·.name)))]).compress
+    return 0
   | ["--liveness", path] =>
     let module ← loadModule path
     for f in module.functions do
@@ -213,7 +228,8 @@ private def run (args : List String) : IO UInt32 := do
   | path :: rest =>
     if path.startsWith "-" then throw (IO.userError s!"unknown or incomplete command '{path}'")
     let optimize := rest.contains "--optimize"
-    let (output, selected) ← match compatibilityOptions (rest.filter (· != "--optimize")) with
+    let allocate := optimize || rest.contains "--allocate"
+    let (output, selected) ← match compatibilityOptions (rest.filter (fun x => x != "--optimize" && x != "--allocate")) with
       | .ok value => pure value
       | .error message => throw (IO.userError message)
     let module ← loadModule path
@@ -222,9 +238,9 @@ private def run (args : List String) : IO UInt32 := do
       | .ok optimized => pure optimized
       | .error message => throw (IO.userError message)
       else pure module
-    let result := if selected == "x86_64-linux" || selected == "x86_64-macos" then AMD64.emitModule module (selected == "x86_64-macos")
-      else if selected == "riscv64-linux" then RV64.emitModule module
-      else AArch64.emitModule module (selected == "aarch64-macos")
+    let result := if selected == "x86_64-linux" || selected == "x86_64-macos" then AMD64.emitModule module (selected == "x86_64-macos") allocate
+      else if selected == "riscv64-linux" then RV64.emitModule module allocate
+      else AArch64.emitModule module (selected == "aarch64-macos") allocate
     let assembly ← match result with
       | .ok text => pure text
       | .error message => throw (IO.userError message)

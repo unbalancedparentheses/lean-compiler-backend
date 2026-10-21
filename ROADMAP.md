@@ -226,7 +226,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   checking. Packed-bitset SSA liveness now handles edge-specific parallel phi
   uses, instruction boundaries, calls and disconnected cycles, with independent
   set/path oracles and upstream fixture coverage. Allocation, spilling and
-  value-flow checking remain unimplemented. Cover register aliases, call clobbers, saved registers, parallel copies,
+  machine value-flow checking remain unimplemented. Checked greedy stack-home
+  coloring now reuses nonoverlapping slots on all five targets; independent
+  boundary checks, corrupted plans, call pressure and phi swaps test this step.
+  Cover register aliases, call clobbers, saved registers, parallel copies,
   spills/reloads and frame constraints. Test value-flow checking now; defer its
   soundness proof to certification. Structural checks alone do not establish
   certified correctness. Re-run the Concrete factorial

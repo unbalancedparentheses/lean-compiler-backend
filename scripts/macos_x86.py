@@ -103,6 +103,8 @@ def main():
         objects(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple')
     from quoted_names import exercise as quoted
     from zero_alloc import exercise as zero
+    from allocation import exercise as allocation_tests
+    allocation_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from control_flow import exercise as cfg
     from module_scale import exercise as modules
     quoted(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple', execute)

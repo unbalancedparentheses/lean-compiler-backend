@@ -578,3 +578,22 @@ on the accepted original QBE fixtures; small cases also use per-value forward
 path searches. Resource tests exercise 4096 blocks and 16384 definitions. These
 are logical SSA live sets, not physical-register clobber or interference checks.
 The JSON schema is diagnostic and neither a certificate nor a preservation proof.
+
+
+## Checked SSA storage homes
+
+Compatibility `--allocate` (also enabled by `--optimize`) greedily colors SSA
+values into reusable eight-byte stack homes. A definition conflicts with every
+other value live after its write. All parameter stores conflict with one another;
+parallel phi destinations conflict with each other and with the live values
+after the phi group. Even dead writes are included because emission retains them.
+Incoming phi operands are staged in separate slots before any destination write.
+Allocation does not reuse address-taken allocation objects, aggregate buffers,
+outgoing arguments, variadic saves or phi staging.
+
+A separate plan checker examines definition boundaries directly, without using
+the interference graph or coloring algorithm. It rejects missing/out-of-range
+homes and writes that overwrite another live value. Python checks injectivity
+at all live boundaries on upstream fixtures and generated cases. This is a
+logical-home conflict check, not a machine value-flow checker or a proof.
+The baseline and certified entry points retain their original unique slots.
