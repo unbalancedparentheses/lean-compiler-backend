@@ -1,8 +1,9 @@
-/- Optional compatibility-only integer constant propagation/folding.
+/- Optional compatibility-only constant/copy/CFG/common-expression optimization.
    No floating folding, memory reordering or certified-path use. -/
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Optimize.Cleanup
 import LeanCompilerBackend.Optimize.ControlFlow
+import LeanCompilerBackend.Optimize.Common
 
 namespace LeanCompilerBackend.Optimize
 
@@ -85,7 +86,8 @@ def module (m : Module) : Except String Module := do
     -- Expose constants from pruned phis in subsequent bounded rounds.
     for _ in [:4] do
       result ← ControlFlow.simplify (function result)
-    pure (Cleanup.deadDefinitions (function result))
+    result ← Common.eliminate (function result)
+    pure (Cleanup.deadDefinitions result)
   let result := {m with functions}
   validateModule result
   pure result

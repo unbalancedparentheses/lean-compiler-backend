@@ -32,13 +32,16 @@ def fixture():
  %bad =l div 1, 0
  ret %bad
 @live
+ %base =l mul %x, 3
  %test =w and %x, 1
  jnz %test, @odd, @even
 @odd
- %a =l add %x, %v
+ %duplicate_odd =l mul %x, 3
+ %a =l add %duplicate_odd, %v
  jmp @done
 @even
- %b =l xor %x, %v
+ %duplicate_even =l mul %x, 3
+ %b =l xor %duplicate_even, %v
  jmp @done
 @done
  %r =l phi @odd %a, @even %b
@@ -47,7 +50,8 @@ def fixture():
 ''')
         declarations.append(f'extern uint64_t cfg_{i}(uint64_t);')
         for x in [0, 1, 42, 43, (1 << 64)-1, 1 << 63]:
-            expected = ((x + chosen) if x & 1 else (x ^ chosen)) & ((1 << 64)-1)
+            base = (x * 3) & ((1 << 64)-1)
+            expected = ((base + chosen) if x & 1 else (base ^ chosen)) & ((1 << 64)-1)
             checks.append(f'if(cfg_{i}(UINT64_C({x}))!=UINT64_C({expected}))return {i+1};')
     c = '#include <stdint.h>\n#include <stdlib.h>\nvoid unexpected(void){abort();}\n'
     c += '\n'.join(declarations) + '\nint main(void){\n' + '\n'.join(checks) + '\nreturn 0;}\n'
@@ -67,13 +71,15 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
         result = run([compiler, source, '--target', target, *(['--optimize'] if optimized else []), '-o', assembly])
         assert result.returncode == 0, result.stderr
         if optimized:
-            assert 'unexpected' not in assembly.read_text(), 'unreachable call retained'
+            emitted = assembly.read_text()
+            assert 'unexpected' not in emitted, 'unreachable call retained'
+            assert emitted.count('mul') == 32, 'dominating common multiplications were not shared'
         if execute:
             result = run([cc, caller, assembly, '-o', case/label], True)
             assert result.returncode == 0, result.stderr
             result = run([case/label], True)
             assert result.returncode == 0, (label, result.returncode, result.stderr)
-    print(f'{target}: CFG/phi cleanup, word conditions, live dynamic edges; 192 independent cases; execution={execute}', flush=True)
+    print(f'{target}: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 192 independent cases; execution={execute}', flush=True)
 
 
 def main():

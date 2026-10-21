@@ -516,7 +516,17 @@ conditions, remove blocks unreachable from entry and filter phi incoming edges
 to the remaining predecessors. Later rounds can discover constants in pruned
 phis. Dynamic edges and reachable loops remain; unreachable effects/traps can
 be removed. The pipeline does not reorder memory, remove reachable potential
-traps, allocate registers or claim formal preservation. The rewritten
+traps, allocate registers or claim formal preservation.
+
+After CFG cleanup, common-expression elimination traverses reachable blocks in
+reverse postorder and reuses only an identical definition that dominates the
+current instruction. Structural keys include operand order, operation/input
+comparison width and result width/class. Same-block definitions must precede the
+use. Rewritten uses expose further identical expressions during the scan. Only
+integer unary/binary/comparison operations and bit casts are eligible; memory,
+calls, TLS/symbol materialization, floating arithmetic, conversions and divisions
+remain excluded. This is conservative expression elimination, not full QBE GVN
+or memory/alias optimization. The rewritten
 module is validated before target lowering. Default compilation and all
 first-path/certified job operations remain outside this optional pipeline.
 

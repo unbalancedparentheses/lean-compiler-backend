@@ -64,8 +64,27 @@ def run : IO Unit := do
   let deadCycle ← parse "function l $f() { @s ret 42 @a %x =l phi @b %y jmp @b @b %y =l copy %x jmp @a }"
   let cleaned ← optimize deadCycle
   require (cleaned.functions[0]!.blocks.size == 1) "unreachable phi cycle survived"
+  let common ← parse "function l $f(l %x) { @s %a =l add %x, 1 %b =l add %x, 1 %c =l mul %a, 2 %d =l mul %b, 2 %r =l add %c, %d ret %r }"
+  let cleaned ← optimize common
+  require (cleaned.functions[0]!.blocks[0]!.instructions.size == 3) "cascading common expressions were retained"
+  for x in (#[0,1,42,18446744073709551615] : Array UInt64) do
+    require (same (Semantics.evaluate common.functions[0]! #[x]) (Semantics.evaluate cleaned.functions[0]! #[x])) "common expressions changed bit-vector results"
+  let dominated ← parse "function l $f(l %x, w %condition) { @s jmp @parent @left %a =l mul %x, 7 jmp @join @right %b =l mul %x, 7 jmp @join @join %r =l phi @left %a, @right %b ret %r @parent %base =l mul %x, 7 jnz %condition, @left, @right }"
+  let cleaned ← optimize dominated
+  require (cleaned.functions[0]!.blocks.foldl (fun n b => n + b.instructions.size) 0 == 1) "dominating common expression in later-listed block was missed"
+  for c in (#[0,1] : Array UInt64) do
+    require (same (Semantics.evaluate dominated.functions[0]! #[42,c]) (Semantics.evaluate cleaned.functions[0]! #[42,c])) "cross-block common expression changed phi results"
+  let siblings ← parse "function l $f(l %x, w %condition) { @s jnz %condition, @left, @right @left %a =l add %x, 1 jmp @join @right %b =l add %x, 1 jmp @join @join %v =l phi @left %a, @right %b %z =l add %x, 1 %r =l add %v, %z ret %r }"
+  let cleaned ← optimize siblings
+  require (cleaned.functions[0]!.blocks.foldl (fun n b => n + b.instructions.size) 0 == 4) "common expression crossed a non-dominating branch"
+  let loads ← parse "function l $f(l %p) { @s %a =l load %p storel 42, %p %b =l load %p %r =l add %a, %b ret %r }"
+  let cleaned ← optimize loads
+  require (cleaned.functions[0]!.blocks[0]!.instructions.size == 4) "common expression merged potentially aliased memory reads"
+  let widths ← parse "function l $f(l %x) { @s %a =w add %x, 1 %b =l add %x, 1 %wide =l extuw %a %r =l xor %wide, %b ret %r }"
+  let cleaned ← optimize widths
+  require (same (Semantics.evaluate widths.functions[0]! #[4294967295]) (Semantics.evaluate cleaned.functions[0]! #[4294967295])) "common expression merged different result widths"
   let large ← parse "function l $f() { @s %n =l copy 8192 %p =l alloc16 %n ret 42 }"
   discard (optimize large)
-  IO.println "constant propagation: word normalization, defined-domain folding, cyclic phis, debug indices and runtime-size admission passed"
+  IO.println "compatibility optimization: constants, copies, CFG/phi cleanup, dominance-aware common expressions, widths, traps and debug indices passed"
 
 end LeanCompilerBackend.Optimize.Tests

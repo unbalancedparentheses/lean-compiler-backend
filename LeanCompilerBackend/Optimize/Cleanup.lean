@@ -5,7 +5,7 @@ namespace LeanCompilerBackend.Optimize.Cleanup
 
 private def mapTarget (map : Operand → Operand) : CallTarget → CallTarget
   | .direct name => .direct name | .indirect v => .indirect (map v)
-private def mapOperation (map : Operand → Operand) : Operation → Operation
+def mapOperation (map : Operand → Operand) : Operation → Operation
   | .copy v => .copy (map v) | .cast v => .cast (map v)
   | .unary op v => .unary op (map v)
   | .binary op a b => .binary op (map a) (map b)
@@ -39,6 +39,13 @@ private def resolve (aliases : Std.HashMap String String) (v : Operand) : Operan
     name := next
   return .temporary name
 
+/-- Rewrite use operands without changing definition types or debug positions. -/
+def rewriteOperands (f : Function) (map : Operand → Operand) : Function :=
+  {f with blocks := f.blocks.map fun b => {b with
+    phis := b.phis.map (fun p => {p with incoming := p.incoming.map (fun (label,v) => (label,map v))})
+    instructions := b.instructions.map (mapStatement map)
+    terminator := mapTerminator map b.terminator}}
+
 /-- Same-width/class temporary copies only: never drop a narrowing conversion or
     turn a runtime allocation into a statically bounded constant allocation. -/
 def copies (f : Function) : Function := Id.run do
@@ -54,11 +61,7 @@ def copies (f : Function) : Function := Id.run do
       if let .assign i := s then
         if let .copy (.temporary source) := i.operation then
           if types[source]? == some (i.width,i.floating) then aliases := aliases.insert i.destination source
-  let map := resolve aliases
-  return {f with blocks := f.blocks.map fun b => {b with
-    phis := b.phis.map (fun p => {p with incoming := p.incoming.map (fun (label,v) => (label,map v))})
-    instructions := b.instructions.map (mapStatement map)
-    terminator := mapTerminator map b.terminator}}
+  return rewriteOperands f (resolve aliases)
 
 private def temporary : Operand → List String
   | .temporary name => [name] | _ => []

@@ -214,6 +214,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   remapping debug locations while retaining reachable potential effects/traps.
   Constant branches use word semantics; unreachable blocks and obsolete phi
   edges are removed, with bounded rounds to expose newly constant phis.
+  Dominance-aware common integer-expression elimination reuses identical pure
+  definitions without merging sibling branches or memory operations.
   Independent arithmetic and optimized upstream/ABI suites pass on all five targets
   (Linux AMD64/RV64 under QEMU; macOS AMD64 through Rosetta). Next implement broader CFG transformations, remaining analyses and
   optimization passes; this is not full P08 completion.

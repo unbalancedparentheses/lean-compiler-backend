@@ -19,7 +19,7 @@ def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--target', choices=['x86_64-linux','riscv64-linux'], default='x86_64-linux')
     ap.add_argument('--docker-container')
-    ap.add_argument('--optimize',action='store_true',help='qualify optional constant propagation/folding')
+    ap.add_argument('--optimize',action='store_true',help='qualify the optional compatibility optimizer')
     ap.add_argument('--require-execution', action='store_true')
     args=ap.parse_args()
     isa, qtarget = ('x86_64','amd64_sysv') if args.target=='x86_64-linux' else ('riscv64','rv64')

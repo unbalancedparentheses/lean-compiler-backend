@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Eliminate identical pure integer expressions using dominance and reverse
+  postorder, preserving result width/class and excluding memory, TLS, floating
+  arithmetic and potentially trapping operations. Test out-of-order blocks,
+  sibling branches, cascading expressions and independent native results.
+
 - Add optimized native output to seeded differential fuzzing, alongside baseline,
   interpreter, Python and QBE results. Preserve separate optimized failure
   artifacts and require the emitted-code corruption control in CI.
