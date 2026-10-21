@@ -1,4 +1,5 @@
 import LeanCompilerBackend.Liveness
+import LeanCompilerBackend.Parser
 
 namespace LeanCompilerBackend.Liveness.Tests
 
@@ -32,6 +33,12 @@ def run : IO Unit := do
       result.contains result.before[0]![16384]! "v16383" &&
       result.members result.before[0]![16384]! == #["v16383"] do
     throw (IO.userError "liveness lost high-index values at the 16384-definition boundary")
+  let disconnected ← match Parser.parseModule "function l $f(l %x) { @s ret %x @dead %a =l phi @dead %b %b =l add %a,1 jmp @dead }" with
+    | .ok m => pure m.functions[0]! | .error e => throw (IO.userError e)
+  let result ← analyze disconnected
+  unless result.liveIn.size == 2 && result.contains result.before[1]![0]! "a" &&
+      result.contains result.liveOut[1]! "b" do
+    throw (IO.userError "liveness lost disconnected cyclic phi values")
   IO.println "liveness resource boundaries: 4096 blocks and 16384 definitions passed"
 
 end LeanCompilerBackend.Liveness.Tests

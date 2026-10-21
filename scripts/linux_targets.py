@@ -33,9 +33,15 @@ def main():
         command=[str(x) for x in command]
         if args.optimize and command[0]==str(compiler) and len(command)>1 and not command[1].startswith('--'):command+=['--optimize']
         if inside and args.docker_container:
+            from docker_sync import sources
+            sources(command,docker_root,args.docker_container)
             if executable or command[0].startswith(str(work)+"/"):command=[f'qemu-{isa}','-L',f'/usr/{isa}-linux-gnu']+command
             command=['docker','exec',args.docker_container]+[x.replace(str(docker_root),'/work') for x in command]
-        return subprocess.run(command,text=True,capture_output=True,timeout=120)
+        result=subprocess.run(command,text=True,capture_output=True,timeout=120)
+        if args.docker_container and not inside and command[0]==str(compiler) and result.returncode==0 and '-o' in command:
+            from docker_sync import host_file
+            host_file(command[command.index('-o')+1],docker_root,args.docker_container)
+        return result
     compiler=work/'lcb-snapshot';shutil.copy2(LCB,compiler)
     identity=run([compiler,'--build-identity']).stdout.strip()
     cc=os.environ.get('LCB_CROSS_CC',f'{isa}-linux-gnu-gcc') if args.docker_container else os.environ.get('LCB_CC','cc')

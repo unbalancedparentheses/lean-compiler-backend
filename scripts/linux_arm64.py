@@ -33,8 +33,14 @@ def main():
         if args.optimize and command[0] == str(compiler) and len(command)>1 and not command[1].startswith('--'):
             command += ['--optimize']
         if inside and args.docker_container:
+            from docker_sync import sources
+            sources(command, mount_root, args.docker_container)
             command = ['docker', 'exec', args.docker_container] + [x.replace(str(mount_root), '/work') for x in command]
-        return subprocess.run(command, text=True, capture_output=True, timeout=120)
+        result = subprocess.run(command, text=True, capture_output=True, timeout=120)
+        if args.docker_container and not inside and command[0] == str(compiler) and result.returncode == 0 and '-o' in command:
+            from docker_sync import host_file
+            host_file(command[command.index('-o')+1], mount_root, args.docker_container)
+        return result
     compiler = work/'lcb-snapshot'
     shutil.copy2(LCB, compiler)
     compiler_identity = run([compiler, '--build-identity']).stdout.strip()
@@ -119,6 +125,8 @@ def main():
     quoted_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
     from module_scale import exercise as module_tests
     module_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from extern_offsets import exercise as extern_offset_tests
+    extern_offset_tests(compiler,work,run,cc,qbe,native)
     from memory_promotion import exercise as memory_tests
     memory_tests(compiler,work,run,cc,'aarch64-linux',native)
     from allocation import exercise as allocation_tests

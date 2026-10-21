@@ -53,6 +53,19 @@ def main : IO Unit := do
     | .error e => throw (IO.userError e)
   require (valueEquals (validateFunction bare[0]! true) ()) "compatibility bare typed return must validate"
   require (isFailure (validateFunction bare[0]!)) "first-path bare typed return must reject"
+  let deadInput := "function l $dead(l %x) { @s %v =l add %x,17 jmp @join @unreachable jmp @join @join %p =l phi @s %v,@unreachable 0 %r =l add %p,%v ret %r }"
+  let raw ← match Parser.parseModule deadInput with
+    | .ok m => pure m | .error e => throw (IO.userError e)
+  require (isFailure (validateModule raw)) "raw unreachable predecessor should expose dominance restriction"
+  let normalized ← match SSA.constructModule raw with
+    | .ok m => pure m | .error e => throw (IO.userError e)
+  require (normalized.functions[0]!.blocks.size == 2 && normalized.functions[0]!.blocks[1]!.phis[0]!.incoming.size == 1)
+    "compatibility normalization must remove dead blocks and their phi incoming edges"
+  require (valueEquals (Semantics.evaluate normalized.functions[0]! #[25]) 84) "dead predecessor normalization changed value"
+  for malformed in #[
+    "function l $f() { @s jmp @join @join %v =l phi @missing 0 ret %v }",
+    "function l $f() { @s jmp @join @unused jmp @missing @join ret 1 }"] do
+    require (isFailure (Parser.parseModule malformed >>= SSA.constructModule)) "unreachable pruning hid a malformed CFG"
   let aggregate ← match Parser.parseModule "type :record = { d } type :union = { { d } }" with
     | .ok m => pure m
     | .error e => throw (IO.userError e)

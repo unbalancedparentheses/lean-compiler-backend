@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Prune unreachable compatibility blocks before SSA/dominance, preserving raw
+  resource limits and repairing phi incoming edges. This admits unchanged cproc
+  frontend IR with dead predecessors while keeping first-path admission separate.
+
 - Promote initialized, nonescaping exact-width scalar entry allocations to SSA
   under `--optimize`, with conservative guards for escapes, partial/mixed accesses
   and undefined loads. Remove trivial temporary phis with an external seed.

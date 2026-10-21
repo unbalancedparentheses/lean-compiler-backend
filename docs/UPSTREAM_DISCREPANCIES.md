@@ -141,3 +141,32 @@ compiler-generated suffix inside the quote. The original Lean source must pass
 C lookup/call tests; the separate QBE reference renames only the TLS symbol to an
 ordinary identifier. Quoted functions/data and exact Darwin prefix behavior
 remain checked in both outputs. Vendored QBE is unchanged.
+
+## ARM64 ELF external-symbol offsets use the wrong GOT relocation
+
+The cproc self-compilation comparison exposed this on native Linux ARM64. The
+[reduced IR](../tests/regressions/qbe-arm64-extern-offset.ssa) returns
+`extern $external_bytes + 32`; its [C driver](../tests/regressions/qbe-arm64-extern-offset.c)
+checks the result against `external_bytes + 32`. Both Lean modes pass. Original
+QBE 1.3 links successfully but returns the wrong pointer (driver exit 1).
+
+QBE folds the addition into a symbol constant and emits `:got:symbol+32` /
+`#:got_lo12:symbol+32`, then treats the loaded GOT value as the offset address.
+A GOT lookup must obtain the symbol's base address before applying the offset.
+The original QBE-compiled cproc subsequently crashes in `strtoull`, having read
+an incorrect `tok.literal` pointer. Rebuilding QBE inside Linux reproduces the
+same failure, excluding the macOS-hosted cross-compiler as its sole cause.
+
+`scripts/linux_arm64.py` retains the original wrong-pointer control and requires
+both Lean modes to match C. `scripts/cproc_bootstrap.py` additionally builds a
+separately named oracle with the exact
+[test-only correction](../tests/upstream/qbe-1.3-arm64-extern-offset.json), after
+checking the pinned `arm64/isel.c` hash. It splits long external symbol constants
+into a zero-offset address load and an explicit integer addition before register
+allocation. The original upstream source and cproc input IR remain unchanged.
+
+With this bounded oracle correction, the QBE-compiled cproc frontend reproduces
+19 stage-one IR files byte-for-byte and passes all 196 original cproc tests, as
+do the baseline and optimized Lean-compiled frontends. The original QBE crash
+remains a recorded failure; corrected-oracle successes are reported separately.
+This is a tested comparison correction, not a proof or a claim about newer QBE.

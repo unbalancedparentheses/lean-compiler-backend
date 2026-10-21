@@ -53,6 +53,35 @@ def fixture():
             base = (x * 3) & ((1 << 64)-1)
             expected = ((base + chosen) if x & 1 else (base ^ chosen)) & ((1 << 64)-1)
             checks.append(f'if(cfg_{i}(UINT64_C({x}))!=UINT64_C({expected}))return {i+1};')
+    source.append("""export function l $unreachable_predecessor(l %x) {
+@s
+ %v =l add %x,17
+ jmp @join
+@dead
+ call $unexpected()
+ jmp @join
+@join
+ %p =l phi @s %v,@dead 123
+ %r =l add %p,%v
+ ret %r
+}
+export function l $unreachable_mutable(l %x) {
+@s
+ %v =l add %x,17
+ jmp @join
+@dead
+ %v =l copy 123
+ jmp @join
+@join
+ %v =l add %v,1
+ ret %v
+}
+""")
+    declarations += ['extern uint64_t unreachable_predecessor(uint64_t);',
+                     'extern uint64_t unreachable_mutable(uint64_t);']
+    for x in [0, 1, (1 << 64)-1]:
+        checks += [f'if(unreachable_predecessor(UINT64_C({x}))!=UINT64_C({((x+17)*2)&((1<<64)-1)}))return 40;',
+                   f'if(unreachable_mutable(UINT64_C({x}))!=UINT64_C({(x+18)&((1<<64)-1)}))return 41;']
     c = '#include <stdint.h>\n#include <stdlib.h>\nvoid unexpected(void){abort();}\n'
     c += '\n'.join(declarations) + '\nint main(void){\n' + '\n'.join(checks) + '\nreturn 0;}\n'
     return ''.join(source), c
@@ -79,7 +108,7 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
             assert result.returncode == 0, result.stderr
             result = run([case/label], True)
             assert result.returncode == 0, (label, result.returncode, result.stderr)
-    print(f'{target}: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 192 independent cases; execution={execute}', flush=True)
+    print(f'{target}: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution={execute}', flush=True)
 
 
 def main():

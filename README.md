@@ -128,6 +128,12 @@ and IEEE constant bit patterns are implemented. A separate restricted Concrete c
 it does not close full compatibility. Concrete's checked-overflow operations must lower
 to explicit checks; wrapping QBE arithmetic does not implement them by itself.
 
+The larger cproc self-compilation comparison compiles all 18 frontend source
+units through our backend, then checks byte-identical IR reproduction and the
+196 original frontend tests. The original QBE 1.3 ARM64 external-GOT-offset
+failure is retained separately from a corrected test oracle; see
+[real-program comparisons](docs/benchmarks/README.md).
+
 [The port inventory](docs/PORT_STATUS.md) lists every upstream public/internal
 opcode, target/ABI and compiler source module, including unimplemented areas.
 Special syntax such as `blit` is tracked separately from the public opcode-name

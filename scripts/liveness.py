@@ -165,6 +165,7 @@ def main():
         assert set(diamond[1]['edges'][0]['live']) == {'a'}
         assert set(diamond[2]['edges'][0]['live']) == {'b'}
         assert set(diamond[3]['liveIn']) == set()
+        assert len(small[3]['blocks']) == 1, 'compatibility input must prune the disconnected loop'
         call = small[2]['blocks'][0]
         assert set(call['before'][0]) == {'x', 'fn', 'p'}
         assert set(call['before'][1]) == {'x', 'r', 'p'}
@@ -188,7 +189,7 @@ def main():
                 functions += 1
                 points += sum(len(b['before']) for b in report['blocks'])
             fixtures += 1
-    print(f'liveness: {fixtures} original QBE fixtures, {functions} functions, {points} upstream instruction boundaries; set and path oracles, phi swaps/calls/disconnected loops and wrong-edge corruption passed', flush=True)
+    print(f'liveness: {fixtures} original QBE fixtures, {functions} functions, {points} upstream instruction boundaries; set and path oracles, phi swaps/calls/unreachable normalization and wrong-edge corruption passed', flush=True)
 
 
 if __name__ == '__main__':

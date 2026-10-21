@@ -243,6 +243,12 @@ private def discardUnusedVoidResults (voidNames : Std.HashSet String) (f : Funct
 /-- Normalize only the explicitly uncertified compatibility module. -/
 def constructModule (m : LeanCompilerBackend.Module) : Except String LeanCompilerBackend.Module := do
   let functions ← m.functions.mapM fun f => do
+    -- QBE fillcfg prunes unreachable predecessors before SSA/dominance.
+    -- Keep the raw resource boundary rather than allowing dead input to evade it.
+    if f.blocks.size > maxCompatibilityBlocks then throw "function exceeds 4096-block limit"
+    let count := f.blocks.foldl (fun n b => n + b.instructions.size + b.phis.size) 0
+    if count > maxCompatibilityInstructions then throw "function exceeds 16384-instruction/phi limit"
+    let f ← CFG.pruneUnreachable f
     match construct f with
     | .ok result => pure result
     | .error error => throw s!"function ${f.name}: {error}"

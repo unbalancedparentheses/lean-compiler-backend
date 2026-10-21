@@ -74,3 +74,36 @@ The optimized library's object text is 69,732 bytes, down from 95,436 bytes in
 the register-only checkpoint. Other qualification processes were active during
 this run; these measurements are comparative evidence for this workload, not an
 isolated benchmark or a claim of general performance parity.
+
+## cproc frontend self-compilation
+
+[Raw report](cproc-bootstrap.json) records 18 unchanged frontend translation
+units: 293 functions, 32,871 IR lines and 764,079 bytes. A GCC-built, pinned cproc
+produces the same IR once for each backend. GCC assembles/links the resulting
+objects against Linux libc; the frontend implementation itself is entirely
+compiled through the backend under test.
+
+Both our baseline and optimized resulting frontends reproduce all 18 source-unit
+IR files plus cJSON byte-for-byte and pass **196/196 original cproc tests**.
+Those tests cover generated IR, preprocessing and diagnostics. This goes beyond
+compilation success: the resulting compiler performs its normal work.
+
+Original QBE 1.3 compiles and links all units but its resulting frontend crashes
+on the first reproduction input. A retained external-GOT-offset regression
+isolates the discrepancy. A separately named QBE oracle with the exact test-only
+correction reproduces all 19 IR files and passes 196/196 tests. The report keeps
+the original failure separate; see [the reduced case and explanation](../UPSTREAM_DISCREPANCIES.md#arm64-elf-external-symbol-offsets-use-the-wrong-got-relocation).
+
+The optimized executable has 315,240 text bytes versus 389,864 for our baseline
+and 132,444 for the corrected QBE oracle. These are size measurements, not runtime
+performance parity. The report also retains one backend-compilation time per
+translation unit; it does not treat that single run as a rigorous speed benchmark.
+
+Reproduce on the same ARM64 Linux container setup:
+
+```sh
+LCB_CC=cc python3 scripts/cproc_bootstrap.py
+```
+
+This is frontend self-compilation and functional bootstrap checking, not a
+bit-identical stage-two/stage-three executable bootstrap or a formal proof.

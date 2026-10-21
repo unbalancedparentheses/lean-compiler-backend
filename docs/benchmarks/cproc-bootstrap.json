@@ -1,0 +1,327 @@
+{
+  "schema": 1,
+  "program": "cproc frontend self-compilation",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "cjson_commit": "c859b25da02955fef659d658b8f324b5cde87be3",
+  "compiler_identity": "e6cbf5abdaed0482e0cbd40eff1c116ac6aff248d35c6f9ea2c3fae5b5b5e6e4",
+  "qbe_version": "1.3 (repository pinned source)",
+  "qbe_build_flags": "-std=c99 -O2",
+  "target": "aarch64-linux",
+  "compile_host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "execution": "Linux 36d787fe752f 7.2.9-orbstack-00391-g2b298d05fbd4 #1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+  "translation_units": {
+    "attr": {
+      "sha256": "79c11e937948cc9aa2b78ae4b3ff2aab5a3277da2a5e0ba6de2a321b304fb2c9",
+      "bytes": 12042,
+      "lines": 518,
+      "functions": 6
+    },
+    "decl": {
+      "sha256": "d8dc24e7a6cd8e989a1b10b8f9c10118a3469a84b8531f51ee3f69040d9fa280",
+      "bytes": 127497,
+      "lines": 5283,
+      "functions": 26
+    },
+    "eval": {
+      "sha256": "6c614d8ceabcb5f94ab1bd458f8f847f55a62b5dd23ddb133324768f05dd77dc",
+      "bytes": 40188,
+      "lines": 1781,
+      "functions": 4
+    },
+    "expr": {
+      "sha256": "774ac6a857114ca9021cfd51513540f5112f9fadb07a81f8269e6ab5f309e590",
+      "bytes": 149180,
+      "lines": 6252,
+      "functions": 42
+    },
+    "init": {
+      "sha256": "1f4d11201ce031f732a56141c208ebad51bb3c126b7a5c3e15860540c410a757",
+      "bytes": 32003,
+      "lines": 1448,
+      "functions": 14
+    },
+    "main": {
+      "sha256": "ab9d4bb97fdc46ea6104f0b060bc6e4385d1fdc52f4ece52b29a144a99e80809",
+      "bytes": 9627,
+      "lines": 439,
+      "functions": 8
+    },
+    "map": {
+      "sha256": "7bcd7b768d3ed03b88497941a5b5fa4417a9d8bc201dcb9d6accb36cdd831a01",
+      "bytes": 12854,
+      "lines": 642,
+      "functions": 14
+    },
+    "pp": {
+      "sha256": "da350524bb5b2a502d464f65d09a3399d6157c0d6af7249bbbf5852f6975c8ea",
+      "bytes": 51260,
+      "lines": 2304,
+      "functions": 29
+    },
+    "scan": {
+      "sha256": "1b5549566ccdc4579e64dbfaf6f52b9b83091cc590318f01017252dc425dfc16",
+      "bytes": 38457,
+      "lines": 1810,
+      "functions": 25
+    },
+    "scope": {
+      "sha256": "92bd2b0477de201765318c306207c8f1a7fbffe5fa9f4b8417dc4b5cb89b51aa",
+      "bytes": 9642,
+      "lines": 427,
+      "functions": 13
+    },
+    "stmt": {
+      "sha256": "8758a2b63e6b13de82db65756ca333e060bc4f68e3011acf8b18a2bfe460d285",
+      "bytes": 28790,
+      "lines": 1141,
+      "functions": 9
+    },
+    "targ": {
+      "sha256": "78541f4a6eb73b173af677a1b4730d1a35858f838305eb5734d26ace74377540",
+      "bytes": 2276,
+      "lines": 84,
+      "functions": 1
+    },
+    "token": {
+      "sha256": "372b893ed0aeb36bbe080fcb146ed7f29c12e8625683e8f08e2594740929536e",
+      "bytes": 17928,
+      "lines": 741,
+      "functions": 14
+    },
+    "tree": {
+      "sha256": "4323dccfce8151fc1ec530d5639288aacc384f83da2bfe7731e730ddac24cab8",
+      "bytes": 7826,
+      "lines": 380,
+      "functions": 4
+    },
+    "type": {
+      "sha256": "988019bfc63323d533dd7225d35e8573c8b631ce7fdd0ac81949536264520e20",
+      "bytes": 27135,
+      "lines": 1197,
+      "functions": 13
+    },
+    "utf": {
+      "sha256": "513fffe1798935dbe55f1de9be81f1b88fe35c572128116744fcb5b0b5f7319c",
+      "bytes": 6662,
+      "lines": 332,
+      "functions": 3
+    },
+    "util": {
+      "sha256": "d33e488a5e9dbb1c2150f311d66e1bc9c4c1d4cb5cbd2a75c21c0f71a2ad0717",
+      "bytes": 12566,
+      "lines": 630,
+      "functions": 21
+    },
+    "qbe": {
+      "sha256": "e1707531d8e3446293b9be16127221a9782948b2ae2f256a95c590e43c5f4115",
+      "bytes": 178146,
+      "lines": 7462,
+      "functions": 47
+    }
+  },
+  "backends": {
+    "baseline": {
+      "compile_seconds": {
+        "attr": 0.02804862498305738,
+        "decl": 0.07415120804216713,
+        "eval": 0.040457084018271416,
+        "expr": 0.06362045800779015,
+        "init": 0.03307875001337379,
+        "main": 0.025066041969694197,
+        "map": 0.02741770801367238,
+        "pp": 0.03477750002639368,
+        "scan": 0.03812074998859316,
+        "scope": 0.025219000002834946,
+        "stmt": 0.03522141696885228,
+        "targ": 0.023190457955934107,
+        "token": 0.028782416018657386,
+        "tree": 0.025180625030770898,
+        "type": 0.03061449999222532,
+        "utf": 0.024745667004026473,
+        "util": 0.028845167020335793,
+        "qbe": 0.09998666698811576
+      },
+      "total_compile_seconds": 0.6865240420447662,
+      "executable_bytes": 906832,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 389864\t  21816\t      8\t 411688\t  64828\t/work/cproc-bootstrap/cproc-baseline",
+      "reproduced_ir": {
+        "attr": "79c11e937948cc9aa2b78ae4b3ff2aab5a3277da2a5e0ba6de2a321b304fb2c9",
+        "decl": "d8dc24e7a6cd8e989a1b10b8f9c10118a3469a84b8531f51ee3f69040d9fa280",
+        "eval": "6c614d8ceabcb5f94ab1bd458f8f847f55a62b5dd23ddb133324768f05dd77dc",
+        "expr": "774ac6a857114ca9021cfd51513540f5112f9fadb07a81f8269e6ab5f309e590",
+        "init": "1f4d11201ce031f732a56141c208ebad51bb3c126b7a5c3e15860540c410a757",
+        "main": "ab9d4bb97fdc46ea6104f0b060bc6e4385d1fdc52f4ece52b29a144a99e80809",
+        "map": "7bcd7b768d3ed03b88497941a5b5fa4417a9d8bc201dcb9d6accb36cdd831a01",
+        "pp": "da350524bb5b2a502d464f65d09a3399d6157c0d6af7249bbbf5852f6975c8ea",
+        "scan": "1b5549566ccdc4579e64dbfaf6f52b9b83091cc590318f01017252dc425dfc16",
+        "scope": "92bd2b0477de201765318c306207c8f1a7fbffe5fa9f4b8417dc4b5cb89b51aa",
+        "stmt": "8758a2b63e6b13de82db65756ca333e060bc4f68e3011acf8b18a2bfe460d285",
+        "targ": "78541f4a6eb73b173af677a1b4730d1a35858f838305eb5734d26ace74377540",
+        "token": "372b893ed0aeb36bbe080fcb146ed7f29c12e8625683e8f08e2594740929536e",
+        "tree": "4323dccfce8151fc1ec530d5639288aacc384f83da2bfe7731e730ddac24cab8",
+        "type": "988019bfc63323d533dd7225d35e8573c8b631ce7fdd0ac81949536264520e20",
+        "utf": "513fffe1798935dbe55f1de9be81f1b88fe35c572128116744fcb5b0b5f7319c",
+        "util": "d33e488a5e9dbb1c2150f311d66e1bc9c4c1d4cb5cbd2a75c21c0f71a2ad0717",
+        "qbe": "e1707531d8e3446293b9be16127221a9782948b2ae2f256a95c590e43c5f4115",
+        "cJSON": "75d9f87dcd7713c67eeb61052fba4c499feb3483370fded8c73ab655f13de84a"
+      },
+      "upstream_tests_passed": 196,
+      "upstream_tests_total": 196
+    },
+    "optimized": {
+      "compile_seconds": {
+        "attr": 0.028636625036597252,
+        "decl": 0.11598674999549985,
+        "eval": 0.055507374985609204,
+        "expr": 0.11486866598716006,
+        "init": 0.039480958017520607,
+        "main": 0.029946374997962266,
+        "map": 0.029417790996376425,
+        "pp": 0.04861520801205188,
+        "scan": 0.0439619580283761,
+        "scope": 0.026904249971266836,
+        "stmt": 0.0329837910248898,
+        "targ": 0.024731374986004084,
+        "token": 0.0339257909799926,
+        "tree": 0.025867999996989965,
+        "type": 0.040773540968075395,
+        "utf": 0.02663570799631998,
+        "util": 0.029120624996721745,
+        "qbe": 0.13970320799853653
+      },
+      "total_compile_seconds": 0.8870679949759506,
+      "executable_bytes": 841312,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 315240\t  21816\t      8\t 337064\t  524a8\t/work/cproc-bootstrap/cproc-optimized",
+      "reproduced_ir": {
+        "attr": "79c11e937948cc9aa2b78ae4b3ff2aab5a3277da2a5e0ba6de2a321b304fb2c9",
+        "decl": "d8dc24e7a6cd8e989a1b10b8f9c10118a3469a84b8531f51ee3f69040d9fa280",
+        "eval": "6c614d8ceabcb5f94ab1bd458f8f847f55a62b5dd23ddb133324768f05dd77dc",
+        "expr": "774ac6a857114ca9021cfd51513540f5112f9fadb07a81f8269e6ab5f309e590",
+        "init": "1f4d11201ce031f732a56141c208ebad51bb3c126b7a5c3e15860540c410a757",
+        "main": "ab9d4bb97fdc46ea6104f0b060bc6e4385d1fdc52f4ece52b29a144a99e80809",
+        "map": "7bcd7b768d3ed03b88497941a5b5fa4417a9d8bc201dcb9d6accb36cdd831a01",
+        "pp": "da350524bb5b2a502d464f65d09a3399d6157c0d6af7249bbbf5852f6975c8ea",
+        "scan": "1b5549566ccdc4579e64dbfaf6f52b9b83091cc590318f01017252dc425dfc16",
+        "scope": "92bd2b0477de201765318c306207c8f1a7fbffe5fa9f4b8417dc4b5cb89b51aa",
+        "stmt": "8758a2b63e6b13de82db65756ca333e060bc4f68e3011acf8b18a2bfe460d285",
+        "targ": "78541f4a6eb73b173af677a1b4730d1a35858f838305eb5734d26ace74377540",
+        "token": "372b893ed0aeb36bbe080fcb146ed7f29c12e8625683e8f08e2594740929536e",
+        "tree": "4323dccfce8151fc1ec530d5639288aacc384f83da2bfe7731e730ddac24cab8",
+        "type": "988019bfc63323d533dd7225d35e8573c8b631ce7fdd0ac81949536264520e20",
+        "utf": "513fffe1798935dbe55f1de9be81f1b88fe35c572128116744fcb5b0b5f7319c",
+        "util": "d33e488a5e9dbb1c2150f311d66e1bc9c4c1d4cb5cbd2a75c21c0f71a2ad0717",
+        "qbe": "e1707531d8e3446293b9be16127221a9782948b2ae2f256a95c590e43c5f4115",
+        "cJSON": "75d9f87dcd7713c67eeb61052fba4c499feb3483370fded8c73ab655f13de84a"
+      },
+      "upstream_tests_passed": 196,
+      "upstream_tests_total": 196
+    },
+    "qbe": {
+      "compile_seconds": {
+        "attr": 0.005880541983060539,
+        "decl": 0.015316792007070035,
+        "eval": 0.006337792030535638,
+        "expr": 0.01404087501578033,
+        "init": 0.006192707980517298,
+        "main": 0.004576000035740435,
+        "map": 0.004655207972973585,
+        "pp": 0.007833959010895342,
+        "scan": 0.006340208987239748,
+        "scope": 0.005213790980633348,
+        "stmt": 0.005359999951906502,
+        "targ": 0.004273083002772182,
+        "token": 0.0055085839703679085,
+        "tree": 0.004499582981225103,
+        "type": 0.006192124972585589,
+        "utf": 0.004817874985747039,
+        "util": 0.004588249954394996,
+        "qbe": 0.016398750012740493
+      },
+      "total_compile_seconds": 0.1280261258361861,
+      "executable_bytes": 233960,
+      "reproduced_ir": {},
+      "failure": {
+        "input": "attr",
+        "exit": 139,
+        "stderr": ""
+      },
+      "upstream_tests_passed": null,
+      "upstream_tests_total": null
+    },
+    "qbe-corrected": {
+      "compile_seconds": {
+        "attr": 0.005350208026356995,
+        "decl": 0.015008207992650568,
+        "eval": 0.006547041004523635,
+        "expr": 0.014247125014662743,
+        "init": 0.007055458030663431,
+        "main": 0.005177542043384165,
+        "map": 0.005280290963128209,
+        "pp": 0.008156290976330638,
+        "scan": 0.006660416955128312,
+        "scope": 0.004049375012982637,
+        "stmt": 0.005869666987564415,
+        "targ": 0.006862291949801147,
+        "token": 0.005198042024858296,
+        "tree": 0.0050214590155519545,
+        "type": 0.006363374995999038,
+        "utf": 0.004269625002052635,
+        "util": 0.004739500000141561,
+        "qbe": 0.019171916996128857
+      },
+      "total_compile_seconds": 0.13502783299190924,
+      "executable_bytes": 234136,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 132444\t  20512\t    528\t 153484\t  2578c\t/work/cproc-bootstrap/cproc-qbe-corrected",
+      "reproduced_ir": {
+        "attr": "79c11e937948cc9aa2b78ae4b3ff2aab5a3277da2a5e0ba6de2a321b304fb2c9",
+        "decl": "d8dc24e7a6cd8e989a1b10b8f9c10118a3469a84b8531f51ee3f69040d9fa280",
+        "eval": "6c614d8ceabcb5f94ab1bd458f8f847f55a62b5dd23ddb133324768f05dd77dc",
+        "expr": "774ac6a857114ca9021cfd51513540f5112f9fadb07a81f8269e6ab5f309e590",
+        "init": "1f4d11201ce031f732a56141c208ebad51bb3c126b7a5c3e15860540c410a757",
+        "main": "ab9d4bb97fdc46ea6104f0b060bc6e4385d1fdc52f4ece52b29a144a99e80809",
+        "map": "7bcd7b768d3ed03b88497941a5b5fa4417a9d8bc201dcb9d6accb36cdd831a01",
+        "pp": "da350524bb5b2a502d464f65d09a3399d6157c0d6af7249bbbf5852f6975c8ea",
+        "scan": "1b5549566ccdc4579e64dbfaf6f52b9b83091cc590318f01017252dc425dfc16",
+        "scope": "92bd2b0477de201765318c306207c8f1a7fbffe5fa9f4b8417dc4b5cb89b51aa",
+        "stmt": "8758a2b63e6b13de82db65756ca333e060bc4f68e3011acf8b18a2bfe460d285",
+        "targ": "78541f4a6eb73b173af677a1b4730d1a35858f838305eb5734d26ace74377540",
+        "token": "372b893ed0aeb36bbe080fcb146ed7f29c12e8625683e8f08e2594740929536e",
+        "tree": "4323dccfce8151fc1ec530d5639288aacc384f83da2bfe7731e730ddac24cab8",
+        "type": "988019bfc63323d533dd7225d35e8573c8b631ce7fdd0ac81949536264520e20",
+        "utf": "513fffe1798935dbe55f1de9be81f1b88fe35c572128116744fcb5b0b5f7319c",
+        "util": "d33e488a5e9dbb1c2150f311d66e1bc9c4c1d4cb5cbd2a75c21c0f71a2ad0717",
+        "qbe": "e1707531d8e3446293b9be16127221a9782948b2ae2f256a95c590e43c5f4115",
+        "cJSON": "75d9f87dcd7713c67eeb61052fba4c499feb3483370fded8c73ab655f13de84a"
+      },
+      "upstream_tests_passed": 196,
+      "upstream_tests_total": 196
+    }
+  },
+  "oracle_patch_sha256": "81bd4149db4f03d9a5515f3fa5283048f8f4b08323ca722882a3d8b0e5f350bd",
+  "notes": [
+    "Unmodified pinned program sources and identical stage-one IR for all backends.",
+    "Original QBE results are retained separately from the test-only external-GOT-offset correction.",
+    "Stage-one frontend uses GCC; GCC links stage-two frontend objects with system libc.",
+    "Backend compile times exclude preprocessing, assembler and linker.",
+    "Successful stage-two frontends reproduce all frontend source units and cJSON byte-for-byte.",
+    "Original cproc tests compare IR, preprocessing and diagnostic outputs."
+  ],
+  "extern_offset_regression": {
+    "baseline": {
+      "exit": 0,
+      "matches_c_pointer": true
+    },
+    "optimized": {
+      "exit": 0,
+      "matches_c_pointer": true
+    },
+    "qbe": {
+      "exit": 1,
+      "matches_c_pointer": false
+    },
+    "qbe-corrected": {
+      "exit": 0,
+      "matches_c_pointer": true
+    }
+  }
+}

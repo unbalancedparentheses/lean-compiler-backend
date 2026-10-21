@@ -659,3 +659,12 @@ The pass assumes the existing valid-object memory domain. It does not preserve
 resource-exhaustion behavior such as stack overflow and does not optimize escaped
 objects, general aliases or aggregate fields. Its initialization/escape checks and
 SSA validation are executable defenses, not proved semantic preservation.
+
+
+Compatibility module admission removes blocks unreachable from the entry and
+their phi incoming edges before mutable SSA construction and dominance checking,
+as QBE's `fillcfg` does. Dead predecessors cannot impose spurious dominance or
+initialization requirements on reachable joins. Unknown jump targets and duplicate
+labels are still rejected before pruning, and raw block/instruction limits still
+apply. Constant branches are not folded at admission. The restricted first-path
+importer retains its original validation and does not invoke this normalization.

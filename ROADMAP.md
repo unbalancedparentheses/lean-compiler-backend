@@ -204,6 +204,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Indexed CFG/predecessor tables, packed-set dominance, definition/reaching-value
   caches and large native SSA-slot addressing are implemented. Compatibility now
   admits 4096 blocks and 16384 instructions/phis, independently of first-path limits.
+  Entry-unreachable blocks are pruned before compatibility SSA/dominance, matching
+  QBE admission and allowing dead predecessors in cproc-generated input.
   Module parsing is iterative and admits 4096 functions with indexed direct-call
   validation; a 4096-function call chain executes across all five implemented targets.
   The retained _bf99 fixture (266 blocks/2001 assignments) and _bfmandel fixture

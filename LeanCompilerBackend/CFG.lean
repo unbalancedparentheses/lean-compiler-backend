@@ -27,6 +27,31 @@ def build (f : Function) : Except String Graph := do
         predecessors := predecessors.set! target (predecessors[target]!.push i)
   pure { indices, predecessors, successors }
 
+/-- Remove blocks with no path from entry before compatibility SSA construction.
+    An unreachable predecessor must not constrain a reachable join's values.
+    Keep malformed incoming labels from reachable regions for validation to reject. -/
+def pruneUnreachable (f : Function) : Except String Function := do
+  let graph ← build f
+  if f.blocks.isEmpty then return f
+  let mut reachable := (Array.replicate f.blocks.size false).set! 0 true
+  let mut pending := #[0]
+  for next in [:f.blocks.size] do
+    if next >= pending.size then break
+    for successor in graph.successors[pending[next]!]! do
+      if !reachable[successor]! then
+        reachable := reachable.set! successor true
+        pending := pending.push successor
+  let mut blocks := #[]
+  for i in [:f.blocks.size] do
+    if reachable[i]! then
+      let b := f.blocks[i]!
+      blocks := blocks.push {b with phis := b.phis.map fun p => {p with
+        incoming := p.incoming.filter fun (label, _) =>
+          match graph.indices[label]? with
+          | some source => reachable[source]!
+          | none => true}}
+  return {f with blocks}
+
 structure Dominators where
   graph : Graph
   sets : Array Nat
