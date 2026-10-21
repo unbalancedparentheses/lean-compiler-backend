@@ -717,3 +717,12 @@ failure remains separate. Optimized input-object text is 390,092 bytes (5,752
 fewer than the preceding checkpoint); default-linked text is 418,988 bytes.
 Self-IR compile medians were 0.2505 s optimized, 0.2145 s corrected QBE and
 0.1239 s GCC-built reference. No preservation proof is added.
+
+[The new disjoint Csmith batch](csmith-memory-forward.json), seeds 20261229–20261260,
+qualifies 29/32 programs and 220,985 IR lines. Three GCC O0 reference timeouts
+remain unqualified. Nine disjoint default-profile batches now cover **195/240
+unique attempts**, **1,854,065 qualified IR lines** including runtime
+helpers, and 45 reference timeouts. The pointer profile remains separate.
+[Rebuilt cproc](cproc-memory-forward.json) reproduces all 19 stage-two IR files
+from 18 source units and passes 196/196 upstream tests for qualified backends.
+Original QBE's frontend crash remains separate from the corrected-QBE oracle.
