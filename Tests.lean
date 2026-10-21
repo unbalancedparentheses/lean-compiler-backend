@@ -3,6 +3,7 @@ import LeanCompilerBackend.CFG.Tests
 import LeanCompilerBackend.Liveness.Tests
 import LeanCompilerBackend.Allocation.Tests
 import LeanCompilerBackend.Optimize.Tests
+import LeanCompilerBackend.Optimize.MemoryTests
 import LeanCompilerBackend.Verified.Tests
 import LeanCompilerBackend.Verified.JobTests
 import LeanCompilerBackend.Verified.CodecTests
@@ -28,6 +29,7 @@ def main : IO Unit := do
   Liveness.Tests.run
   Allocation.Tests.run
   Optimize.Tests.run
+  Optimize.MemoryTests.run
   Verified.Tests.run
   Verified.JobTests.run
   Verified.CodecTests.run

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Promote initialized, nonescaping exact-width scalar entry allocations to SSA
+  under `--optimize`, with conservative guards for escapes, partial/mixed accesses
+  and undefined loads. Remove trivial temporary phis with an external seed.
+  Compare independent loop/branch/FP results on all five targets and retain
+  the unchanged stack baseline. These transformations remain unproved.
+
 - Allocate stable callee-saved GP homes on all five targets, with reusable spill
   slots under pressure. Preserve integer/FP bit patterns, ABI saves/restores and
   staged phi copies. Test explicit caller clobbers and every allocated callee

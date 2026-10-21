@@ -61,6 +61,27 @@ def copies (f : Function) : Function := Id.run do
       if let .assign i := s then
         if let .copy (.temporary source) := i.operation then
           if types[source]? == some (i.width,i.floating) then aliases := aliases.insert i.destination source
+  -- A phi whose non-self incoming values are all the same temporary is an
+  -- alias. Resolve copies/earlier aliases first, but require an external seed;
+  -- a pure self cycle does not establish a value. Bounded sweeps are conservative.
+  for _ in [:16] do
+    let mut changed := false
+    for b in f.blocks do
+      for p in b.phis do
+        let mut source : Option String := none
+        let mut consistent := true
+        for (_,v) in p.incoming do
+          match resolve aliases v with
+          | .temporary name =>
+            if name != p.destination then
+              if source.isSome && source != some name then consistent := false
+              source := some name
+          | _ => consistent := false
+        if let some name := source then
+          if consistent && types[name]? == some (p.width,p.floating) && aliases[p.destination]? != some name then
+            aliases := aliases.insert p.destination name
+            changed := true
+    if !changed then break
   return rewriteOperands f (resolve aliases)
 
 private def temporary : Operand → List String

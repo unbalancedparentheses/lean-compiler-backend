@@ -231,6 +231,7 @@ def case(work, seed, functions_count, steps, samples, qbe, self_test, control_fl
 
 
 def main():
+    global LCB
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--seed', type=int, action='append')
     parser.add_argument('--seed-start', type=int, default=20261018)
@@ -251,6 +252,9 @@ def main():
     total = 0
     with tempfile.TemporaryDirectory(prefix='lcb-fuzz-') as directory:
         root, qbe = Path(directory), None
+        compiler = root / "lcb-snapshot"
+        shutil.copy2(LCB, compiler)
+        LCB = compiler
         if native_host():
             assert os.environ.get('LCB_CC'), 'run fuzzing inside nix develop'
             oracle = root / 'oracle'

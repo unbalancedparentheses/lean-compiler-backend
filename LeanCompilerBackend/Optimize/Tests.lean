@@ -83,6 +83,15 @@ def run : IO Unit := do
   let widths ← parse "function l $f(l %x) { @s %a =w add %x, 1 %b =l add %x, 1 %wide =l extuw %a %r =l xor %wide, %b ret %r }"
   let cleaned ← optimize widths
   require (same (Semantics.evaluate widths.functions[0]! #[4294967295]) (Semantics.evaluate cleaned.functions[0]! #[4294967295])) "common expression merged different result widths"
+  let trivial ← parse "function l $f(l %x,w %c) { @s jnz %c,@a,@b @a jmp @join @b jmp @join @join %r =l phi @a %x,@b %x ret %r }"
+  let cleaned ← optimize trivial
+  require (cleaned.functions[0]!.blocks.all (·.phis.isEmpty)) "equal-input phi was not eliminated"
+  for c in (#[0,1] : Array UInt64) do
+    require (same (Semantics.evaluate trivial.functions[0]! #[42,c]) (Semantics.evaluate cleaned.functions[0]! #[42,c])) "trivial phi changed result"
+  let selfPhi ← parse "function l $f(l %x) { @s jmp @loop @loop %v =l phi @s %x,@loop %v %i =w phi @s 0,@loop %j %j =w add %i,1 %c =w cultw %j,7 jnz %c,@loop,@done @done ret %v }"
+  let cleaned ← optimize selfPhi
+  require (cleaned.functions[0]!.blocks.foldl (fun n b => n+b.phis.size) 0 == 1) "self-edge trivial phi was not eliminated"
+  require (same (Semantics.evaluate selfPhi.functions[0]! #[42]) (Semantics.evaluate cleaned.functions[0]! #[42])) "self-edge phi changed result"
   let large ← parse "function l $f() { @s %n =l copy 8192 %p =l alloc16 %n ret 42 }"
   discard (optimize large)
   IO.println "compatibility optimization: constants, copies, CFG/phi cleanup, dominance-aware common expressions, widths, traps and debug indices passed"

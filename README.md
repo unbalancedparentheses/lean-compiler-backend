@@ -119,8 +119,10 @@ before rebuilding; the checks reject stale source/build identities.
   and composed compilation preservation are not proved.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
-The first port uses stack slots for every value. Remaining linkage/debug forms, optimization passes, register
-allocation and object emission remain. Packed data, strings, symbol relocations
+The default baseline uses stack slots for every value. Optional optimization
+promotes eligible scalar stack objects to SSA and assigns callee-saved registers
+with reusable spill slots. Broader linkage/debug forms, optimization and allocation
+passes, and object emission remain. Packed data, strings, symbol relocations
 and IEEE constant bit patterns are implemented. A separate restricted Concrete consumer is available in
 [Concrete draft PR #8](https://github.com/unbalancedparentheses/concrete2/pull/8);
 it does not close full compatibility. Concrete's checked-overflow operations must lower

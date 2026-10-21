@@ -55,7 +55,8 @@ Next bounded work, before proof expansion:
    sizes) against real frontend workloads. Add reduced cases for every gap.
 2. Extend the optional constant/copy/dead-definition and basic CFG pipeline with
    alias analysis, broader CFG transforms and the remaining QBE optimization passes.
-3. Implement liveness, spilling and register allocation with value-flow checks;
+3. Extend implemented liveness, reusable spills and callee-saved allocation with
+   caller-saved/FP banks, splitting/coalescing and machine value-flow checks;
    retain the current stack baseline as a differential oracle.
 4. Complete the remaining QBE ABI configuration (`amd64_win`),
    broaden boundary tests on existing targets and obtain native RV64 qualification.
@@ -215,7 +216,11 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Constant branches use word semantics; unreachable blocks and obsolete phi
   edges are removed, with bounded rounds to expose newly constant phis.
   Dominance-aware common integer-expression elimination reuses identical pure
-  definitions without merging sibling branches or memory operations.
+  definitions without merging sibling branches or memory operations. Conservative
+  scalar promotion replaces initialized, nonescaping exact-width 4/8-byte entry
+  objects with SSA values; trivial-phi cleanup removes redundant merge copies.
+  Escaped, partial, mixed-class and potentially uninitialized objects stay in memory.
+  These passes have executable checks, not preservation proofs.
   Independent arithmetic and optimized upstream/ABI suites pass on all five targets
   (Linux AMD64/RV64 under QEMU; macOS AMD64 through Rosetta). Next implement broader CFG transformations, remaining analyses and
   optimization passes; this is not full P08 completion.

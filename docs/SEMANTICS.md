@@ -637,3 +637,25 @@ This is conservative whole-range allocation, not full QBE allocation parity.
 It does not assign caller-saved or FP homes, split live ranges, coalesce moves,
 or verify individual machine instructions against their clobber descriptions.
 The source/home checkers and execution tests do not constitute a proof.
+
+
+## Conservative scalar stack promotion
+
+The optional optimizer promotes only entry-block allocations of exactly four or
+eight bytes whose uses are direct scalar loads/stores of the full width and a
+single integer/floating class. Any address escape, arithmetic, partial access,
+class reinterpretation or unreachable use keeps the object in memory. A forward
+must-initialization analysis intersects predecessor facts and requires every load
+to follow a store on every reachable path. It never supplies an initial value.
+
+Eligible stores become assignments to a fresh mutable temporary; loads become
+copies. Existing SSA construction inserts merge phis, and the result must pass
+validation. Resource or validation failure retains the original function. Debug
+instruction positions are remapped. Same-width temporary copies and trivial
+phis are propagated; a phi must have an external temporary seed, and all non-self
+inputs must resolve to that seed. Pure self cycles do not create a value.
+
+The pass assumes the existing valid-object memory domain. It does not preserve
+resource-exhaustion behavior such as stack overflow and does not optimize escaped
+objects, general aliases or aggregate fields. Its initialization/escape checks and
+SSA validation are executable defenses, not proved semantic preservation.

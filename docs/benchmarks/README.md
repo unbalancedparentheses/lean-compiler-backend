@@ -60,3 +60,17 @@ Register homes materially improve this workload, but the result is still slower
 than QBE. Cross-run timing variation is visible; compare backends within the same
 report and retain the raw samples rather than treating the change as a precise
 universal speedup.
+
+
+## Scalar promotion checkpoint
+
+[Raw report](cjson-scalar-promotion.json) records the compiler with conservative
+scalar stack promotion and trivial-phi cleanup. All 153 assertions across 18
+executables and all parse/serialize checksums pass, with the same baseline-only
+stack exception. Five samples per backend give median optimized runtime
+0.3972 s, baseline 0.8751 s,
+QBE 0.2148 s and GCC 0.1757 s.
+The optimized library's object text is 69,732 bytes, down from 95,436 bytes in
+the register-only checkpoint. Other qualification processes were active during
+this run; these measurements are comparative evidence for this workload, not an
+isolated benchmark or a claim of general performance parity.

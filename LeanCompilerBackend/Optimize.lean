@@ -4,6 +4,7 @@ import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Optimize.Cleanup
 import LeanCompilerBackend.Optimize.ControlFlow
 import LeanCompilerBackend.Optimize.Common
+import LeanCompilerBackend.Optimize.Memory
 
 namespace LeanCompilerBackend.Optimize
 
@@ -82,12 +83,14 @@ def function (f : Function) : Function := Id.run do
 def module (m : Module) : Except String Module := do
   validateModule m
   let functions ← m.functions.mapM fun f => do
-    let mut result := Cleanup.copies f
+    let mut result := Memory.promote (Cleanup.copies f)
+    result := Cleanup.copies result
     -- Expose constants from pruned phis in subsequent bounded rounds.
     for _ in [:4] do
       result ← ControlFlow.simplify (function result)
+      result := Cleanup.copies result
     result ← Common.eliminate (function result)
-    pure (Cleanup.deadDefinitions result)
+    pure (Cleanup.deadDefinitions (Cleanup.copies result))
   let result := {m with functions}
   validateModule result
   pure result
