@@ -171,6 +171,14 @@ do the baseline and optimized Lean-compiled frontends. The original QBE crash
 remains a recorded failure; corrected-oracle successes are reported separately.
 This is a tested comparison correction, not a proof or a claim about newer QBE.
 
+The same correction is also needed when compiling QBE itself from cproc IR.
+Original QBE's resulting executable rejects the first retained fixture with
+“missing second operand in copy.” With the existing external-offset correction,
+it reproduces 487 successful assemblies and passes 58 original ARM64 runtime
+tests, matching both Lean-built executables. See the
+[QBE bootstrap report](benchmarks/qbe-bootstrap.json); the original failed
+self-compilation remains separate from the corrected oracle.
+
 ## RV64 external-symbol offsets fail GOT relocation linking
 
 The same reduced external-offset IR also exposes a pinned QBE 1.3 RV64 issue.

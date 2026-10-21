@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Bootstrap unchanged QBE itself through cproc and our baseline/optimized backend:
+  725 functions, 974 exact assembly reproductions across the two executables,
+  matching reference rejections and 58 original ARM64 tests per executable.
+  Retain original QBE self-compilation failure and the passing corrected oracle.
+
 - Admit native module data through 256 MiB, covering QBE's 16 MiB instruction
   buffer. Emit ordinary zero-only globals into BSS on all five targets. Preserve
   the interpreter's 1 MiB initialization budget with a pre-allocation refusal;

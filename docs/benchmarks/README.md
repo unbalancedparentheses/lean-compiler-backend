@@ -208,3 +208,46 @@ The [cproc report](cproc-immediates.json) retains 19 identical IR reproductions
 and 196 original tests for our baseline and optimized frontends. Optimized
 frontend text falls from 281,892 to 267,900 bytes. Original QBE's ARM64 external
 offset failure and the separately corrected oracle remain explicitly separated.
+
+
+## QBE itself as the compiled workload
+
+[The QBE bootstrap report](qbe-bootstrap.json) compiles all 32 unchanged QBE 1.3
+translation units through pinned cproc: 725 functions and 81,635 IR lines. Both
+our baseline and optimized resulting QBE executables reproduce 455 successful
+original-fixture assemblies across QBE's six target settings, plus all 32
+self-source IR assemblies, byte-for-byte against GCC-built original QBE. Each
+also reproduces the original Windows/TLS rejection and passes the original
+ARM64 runner's 58 executable tests. Across our two executables that is 974 exact
+successful assembly comparisons and two matching rejections.
+
+These are QBE programs compiled by our ARM64 backend. Their ability to emit
+Windows assembly does **not** implement Windows ABI support in our own backend.
+Only the ARM64 fixture outputs are executed here; other target outputs are byte
+comparisons. The broader direct target suites remain separate evidence.
+
+This workload exposed QBE's 16 MiB global instruction buffer, exceeding our
+former 1 MiB data bound. Native admission now allows 256 MiB module data and
+emits ordinary zero-only globals into BSS; the interpreter still refuses more
+than 1 MiB before allocating its byte arrays. Object size and page/tail accesses
+are independently checked on all five targets.
+
+Original QBE compiling itself from this cproc IR produces a broken parser: the
+first fixture fails with “missing second operand in copy.” The report retains
+that failure. The existing, separately named external-GOT-offset correction
+restores all 487 successful assembly reproductions and 58 runner tests. No new
+oracle patch is introduced, and neither upstream source nor input IR is edited.
+
+Five samples compiling all 32 self-source IR files to ARM64 assembly in the VM
+give these median workload times, including process startup and `/dev/null`
+output: GCC-built reference QBE 0.1035 s, our baseline-built QBE 0.7139 s, our
+optimized-built QBE 0.2811 s, and corrected-QBE-built QBE 0.1639 s. Optimized
+executable text is 662,628 bytes versus 1,070,964 baseline and 352,532 for the
+corrected QBE comparison. Local concurrent workloads and few repetitions limit
+performance conclusions; original failing QBE is not counted as a timing pass.
+
+Reproduce with `LCB_CC=cc python3 scripts/qbe_bootstrap.py`. The script retains
+source/IR hashes, exact compiler identity, original failures, patch hash, native
+runner logs and all timing samples. SQLite and Lua were also probed, but cproc
+rejects their volatile stores before backend input; SQLite additionally requires
+unsupported long-double expressions. Those probes are not backend qualification.
