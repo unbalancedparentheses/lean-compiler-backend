@@ -297,6 +297,8 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
       match f.resultWidth, value with
       | some width, some value => checkOperand definitions doms block.label (block.instructions.size + 1) width value f.resultFloating
       | none, none => pure ()
+      | some _, none =>
+        if !scalable then throw "bare return in typed function is outside the first-path profile"
       | _, _ => throw "return value disagrees with function result type"
     | .branch value _ _ => check .word value
     | .jump _ | .halt => pure ()

@@ -1,5 +1,6 @@
 /- Compatibility-only allocation of stable SSA homes. Not a proof certificate. -/
 import LeanCompilerBackend.Liveness
+import LeanCompilerBackend.Allocation.HomeFlow
 
 namespace LeanCompilerBackend.Allocation
 
@@ -101,6 +102,7 @@ def allocate (f : Function) (registerCount : Nat := 0) : Except String Plan := d
     colors := colors.push color
   let result := {names := live.names, colors, colorCount := occupants.size, registerCount : Plan}
   check f live result
+  HomeFlow.check f result.names result.colors result.colorCount
   return result
 
 /-- Identity homes preserve the original baseline and certified entry points. -/

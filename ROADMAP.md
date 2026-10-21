@@ -229,6 +229,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   machine value-flow checking remain unimplemented. Checked greedy stack-home
   coloring now reuses nonoverlapping slots on all five targets; independent
   boundary checks, corrupted plans, call pressure and phi swaps test this step.
+  Independent symbolic home-flow checking now follows SSA identities through
+  reachable joins, loops and parallel phi edges; machine effects remain separate.
   Cover register aliases, call clobbers, saved registers, parallel copies,
   spills/reloads and frame constraints. Test value-flow checking now; defer its
   soundness proof to certification. Structural checks alone do not establish

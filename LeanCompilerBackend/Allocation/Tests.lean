@@ -25,6 +25,8 @@ def run : IO Unit := do
   unless plan.registers == 1 && plan.spills >= 1 do throw (IO.userError "pressure did not spill")
   let corrupt := {plan with colors := Array.replicate plan.names.size 0, colorCount := 1}
   unless rejected (check f live corrupt) do throw (IO.userError "overlapping homes were accepted")
+  unless rejected (HomeFlow.check f corrupt.names corrupt.colors corrupt.colorCount) do
+    throw (IO.userError "home-flow checker accepted overlapping parameter values")
   let missing := {plan with colors := #[]}
   unless rejected (check f live missing) do throw (IO.userError "missing allocation was accepted")
   let bad := {plan with colors := plan.colors.set! 0 plan.colorCount}
@@ -36,6 +38,8 @@ def run : IO Unit := do
   let unused := live.indices["unused"]!
   let bad := {plan with colors := plan.colors.set! unused plan.colors[a]!}
   unless rejected (check f live bad) do throw (IO.userError "dead phi overwrote live parallel destination")
+  unless rejected (HomeFlow.check f bad.names bad.colors bad.colorCount) do
+    throw (IO.userError "home-flow checker accepted dead phi overwrite")
   IO.println "allocation checks: reusable homes, spills, dead writes and corrupted plans passed"
 
 end LeanCompilerBackend.Allocation.Tests

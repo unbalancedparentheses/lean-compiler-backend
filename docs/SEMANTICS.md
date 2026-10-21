@@ -597,3 +597,20 @@ homes and writes that overwrite another live value. Python checks injectivity
 at all live boundaries on upstream fixtures and generated cases. This is a
 logical-home conflict check, not a machine value-flow checker or a proof.
 The baseline and certified entry points retain their original unique slots.
+
+
+The allocator additionally runs a forward symbolic home-flow checker independent
+of liveness and graph coloring. Each home holds a known SSA identity or an unknown
+value; joins retain an identity only if all reached predecessors agree. Each write
+sets its destination identity, and phi edge transfers stage all source reads before
+renaming destinations. After the fixed point, every reachable instruction,
+terminator and phi operand must find the expected identity. Unreachable blocks
+remain covered by the conflict checker. This validates the stable-home transfer
+contract, not machine instruction effects, clobber metadata or assembly bytes.
+
+QBE permits a bare `ret` in a typed function. Compatibility parsing preserves it
+as a return without a value and emits the normal epilogue without setting result
+registers; callers must not depend on a particular returned value. This supports
+unreachable fallthrough blocks emitted by cproc. The interpreter preserves the
+absent result (a consuming call reports an error); the restricted first path
+rejects typed bare returns. No arbitrary zero result is synthesized.

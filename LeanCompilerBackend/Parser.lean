@@ -358,7 +358,11 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
       debugLocations := debugLocations.push { instruction := instructions.size, line, column }
     else if (← peek) == some "ret" then
       discard take
-      let value ← if resultWidth.isSome then some <$> parseOperand else pure none
+      -- A bare ret is valid even in a typed function (e.g. an unreachable
+      -- fallthrough block emitted by C frontends). Preserve the absent value.
+      let next ← peek
+      let bare := next.isNone || next == some "}" || next.any (·.startsWith "@")
+      let value ← if resultWidth.isSome && !bare then some <$> parseOperand else pure none
       return (phis, instructions, .ret value, debugLocations)
     else if (← peek) == some "jmp" then
       discard take

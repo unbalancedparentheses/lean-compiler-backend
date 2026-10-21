@@ -46,6 +46,11 @@ def main : IO Unit := do
   require (!(isFailure (Parser.parse "export function d $float() { @s ret d_0 }"))) "floating signature should parse"
   require (isFailure (Parser.parse "export function :pair $bad() { @s ret 0 }")) "aggregate signature must reject"
   require (isFailure (Parser.parse "function w $bad() { @s ret 0 } trailing")) "surplus input must reject"
+  let bare ← match Parser.parse "function w $bare() { @s ret }" with
+    | .ok p => pure p
+    | .error e => throw (IO.userError e)
+  require (valueEquals (validateFunction bare[0]! true) ()) "compatibility bare typed return must validate"
+  require (isFailure (validateFunction bare[0]!)) "first-path bare typed return must reject"
   let aggregate ← match Parser.parseModule "type :record = { d } type :union = { { d } }" with
     | .ok m => pure m
     | .error e => throw (IO.userError e)
