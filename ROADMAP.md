@@ -15,13 +15,13 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 
 ## Active execution order
 
-1. Complete QBE language and ABI coverage on Apple ARM64 (P05–P07): full syntax,
-   data and symbols, allocation, floating point and conversions, aggregates,
-   indirect calls and variadics. Grow upstream and native ABI tests with each slice.
-2. Implement SSA construction, analyses, optimization, liveness, spilling and
-   register allocation (P08–P09), measuring against the existing stack baseline.
-3. Complete the remaining QBE targets and ABI configurations (P10), including
-   Linux ARM64, Linux x86-64 and Linux RV64 assembly and execution qualification.
+1. Close remaining language, resource-limit and ABI gaps (P05–P07) with real
+   frontend workloads and reduced regressions across the five implemented targets.
+2. Extend the implemented SSA, scalar promotion, CFG optimization, liveness and
+   callee-saved allocation pipeline (P08–P09) toward QBE optimization coverage.
+   Measure against the retained stack baseline and original QBE.
+3. Implement the remaining Windows AMD64 ABI configuration (P10), broaden the
+   existing five targets' boundary cases and obtain native RV64/Intel macOS evidence.
 4. Close full-suite and performance qualification (P11–P12). These checks start
    now and grow throughout the port; they are not deferred until feature completion.
 5. Resume C01–C03 and expand V01–V05 proof coverage against the established
@@ -29,11 +29,12 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 
 The current compatibility slice includes scalar integer/floating arithmetic and
 conversions, global data, indirect calls, variadics, env arguments and dynamic
-allocation on Apple ARM64 and Linux ARM64, x86-64 and RV64. Mutable-temporary
-SSA construction and aggregate arguments/results are implemented on all four
-configurations. Native Apple ARM64, Linux ARM64 and Linux x86-64 qualification
-is available; RV64 execution is emulated. Next address remaining syntax and
-linkage, broader ABI edge cases, optimization passes and register allocation.
+allocation on Apple ARM64/x86-64 and Linux ARM64/x86-64/RV64. Mutable-temporary
+SSA construction, aggregate arguments/results and checked callee-saved allocation
+are implemented on all five configurations. Native Apple ARM64, Linux ARM64 and
+Linux x86-64 qualification is available; RV64 runs under QEMU and Intel macOS
+output runs through Rosetta locally. Remaining work includes syntax/linkage edges,
+Windows AMD64, broader ABI qualification and optimization/allocation passes.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding
@@ -163,8 +164,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   through 1 MiB after Csmith exposed a valid 4,704-byte local array; native/emulated
   entry/nonentry tests cover tails, calls and page offsets near the bound. Apple ARM64 TLS data/address access
   is tested with concurrent C threads. Apple custom code/data sections and common
-  zero-fill definitions now pass native section/coalescing tests; quoted globals,
-  additional section forms and other target TLS conventions remain.
+  zero-fill definitions now pass native section/coalescing tests. Quoted globals
+  and existing Linux/Apple TLS conventions are implemented; additional section
+  forms and Windows conventions remain.
   Local single/double arithmetic, comparisons, casts, memory and phi values are
   implemented, including numeric conversions, scalar floating calls/returns and
   variadics. Float-to-integer interpretation rejects non-finite/out-of-range inputs.
@@ -177,7 +179,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   (vastart/vaarg) are also tested. Subword ABI arguments/results and packed byte/short stack slots are tested;
   Apple ARM64 aggregate arguments/results now include GP/FP registers, stack fallback,
   private indirect copies, opaque values, aggregate variadics and exact short tails.
-  Other target ABIs remain open. The Apple ARM64 integer
+  The five implemented target ABIs now have aggregate lowering; Windows AMD64
+  and broader edge-case qualification remain open. The Apple ARM64 integer
   stack slice uses natural word/long packing and is checked against native C.
   Aggregate implementation/qualification checklist:
   1. Parse named record, union and opaque types with repetition, nesting and explicit
@@ -272,9 +275,16 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   fixtures assemble only, and dark.ssa remains unsupported (it is skipped upstream
   on Apple ARM64 and deliberately omits a required argument). CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
+  Larger workloads include cJSON (153 assertions across 18 executables), cproc
+  frontend self-compilation (19 reproduced IR files and 196 tests on each Linux
+  target), and seeded Csmith comparisons against GCC O0/O2 and original QBE.
+  Original upstream discrepancies and reference timeouts remain separate from passes.
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines
   throughout development; performance improvements must preserve correctness gates.
+  [Published reports](docs/benchmarks/README.md) track cJSON runtime/compile time
+  and code size, plus cproc code size. Current optimized output still exceeds
+  QBE code size/runtime on the measured workload; these gates remain open.
 
 Exit gate: full coverage across the inventoried syntax, documented semantics,
 targets, ABIs and passes, with known discrepancies explicit. A working subset or

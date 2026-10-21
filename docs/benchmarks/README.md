@@ -161,3 +161,11 @@ generation options, per-backend checksums and unqualified seeds are retained in
 the report. Full generated sources, assembly and logs remain under
 `.build/linux-arm64/csmith/<seed>/`. These generated tests are additional evidence,
 not exhaustive C/QBE compatibility or semantic preservation proofs.
+
+
+[An additional 32-seed report](csmith-extended.json), using the same compiler
+identity and profile, qualifies 30 more programs; seeds 20261059 and 20261067 time
+out in the GCC O0 reference and remain unqualified. Across both batches, **44 of
+48 attempted programs** complete all five checksum comparisons, totaling 29,533
+generated C lines and 425,809 IR lines including runtime helpers. The four
+reference timeouts are not counted as backend passes.
