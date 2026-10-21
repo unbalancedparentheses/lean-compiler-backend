@@ -53,6 +53,17 @@ def run : IO Unit := do
   let narrow ← parse "function l $f(l %x) { @s %w =w copy %x %r =l extuw %w ret %r }"
   let cleaned ← optimize narrow
   require (same (Semantics.evaluate narrow.functions[0]! #[18446744073709551615]) (Semantics.evaluate cleaned.functions[0]! #[18446744073709551615])) "copy propagation removed word truncation"
+  let diamond ← parse "function l $f() { @s jnz 4294967296, @bad, @good @bad %trap =l div 1, 0 jmp @join @good jmp @join @join %v =l phi @bad 7, @good 42 %c =w ceql %v, 42 jnz %c, @yes, @no @yes ret %v @no ret 9 }"
+  let cleaned ← optimize diamond
+  require (same (Semantics.evaluate diamond.functions[0]! #[]) (Semantics.evaluate cleaned.functions[0]! #[])) "CFG simplification changed word branch/phi result"
+  require (cleaned.functions[0]!.blocks.size == 4) "CFG simplification retained unreachable diamond arms"
+  require (cleaned.functions[0]!.blocks.all (fun b => b.phis.isEmpty && b.instructions.isEmpty)) "pruned phi did not expose constants"
+  let infinite ← parse "function w $f() { @s jmp @loop @loop jnz 1, @loop, @done @done ret 42 }"
+  let cleaned ← optimize infinite
+  require (cleaned.functions[0]!.blocks.size == 2 && match cleaned.functions[0]!.blocks[1]!.terminator with | .jump label => label == "loop" | _ => false) "constant true loop was not retained"
+  let deadCycle ← parse "function l $f() { @s ret 42 @a %x =l phi @b %y jmp @b @b %y =l copy %x jmp @a }"
+  let cleaned ← optimize deadCycle
+  require (cleaned.functions[0]!.blocks.size == 1) "unreachable phi cycle survived"
   let large ← parse "function l $f() { @s %n =l copy 8192 %p =l alloc16 %n ret 42 }"
   discard (optimize large)
   IO.println "constant propagation: word normalization, defined-domain folding, cyclic phis, debug indices and runtime-size admission passed"

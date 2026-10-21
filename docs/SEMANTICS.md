@@ -505,9 +505,14 @@ Same-width/class temporary copies are propagated before folding. A mark/sweep
 cleanup removes unused pure integer definitions and phis, including dead cycles.
 Calls, loads, divisions, allocations, conversions, floating operations, vaarg and
 symbol/TLS materialization remain conservative roots. Debug instruction indices
-are remapped to surviving positions, including the terminator. Blocks and edges
-remain unchanged. The pipeline does not reorder memory, remove potential traps,
-prune branches, allocate registers or claim formal preservation. The rewritten
+are remapped to surviving positions, including the terminator.
+
+Four bounded fold/CFG rounds replace constant branches using normalized 32-bit
+conditions, remove blocks unreachable from entry and filter phi incoming edges
+to the remaining predecessors. Later rounds can discover constants in pruned
+phis. Dynamic edges and reachable loops remain; unreachable effects/traps can
+be removed. The pipeline does not reorder memory, remove reachable potential
+traps, allocate registers or claim formal preservation. The rewritten
 module is validated before target lowering. Default compilation and all
 first-path/certified job operations remain outside this optional pipeline.
 

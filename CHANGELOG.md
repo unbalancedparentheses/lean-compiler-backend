@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Simplify constant word branches, prune unreachable blocks and repair phi
+  incoming edges under `--optimize`. Add 192 independent native/emulated CFG
+  oracle cases per target, alongside loop, dead-cycle and truncation unit checks.
+
 - Extend `--optimize` with same-width copy propagation and conservative dead
   definition/phi removal. Remap debug locations and retain potential effects and
   traps. Validate with unit checks, independent arithmetic and optimized upstream/

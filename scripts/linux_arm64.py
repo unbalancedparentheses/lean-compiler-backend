@@ -117,6 +117,8 @@ def main():
 
     from quoted_names import exercise as quoted_tests
     quoted_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
+    from control_flow import exercise as cfg_tests
+    cfg_tests(compiler,work,run,cc,'aarch64-linux',native,optimized_only=args.optimize)
     from constant_fold import exercise as fold_tests
     if not args.optimize:fold_tests(compiler,work,run,cc,'aarch64-linux',native)
     from zero_alloc import exercise as zero_tests

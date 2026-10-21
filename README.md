@@ -228,7 +228,8 @@ distinct from proved support.
 
 Use `--optimize` with compatibility compilation to enable bounded constant
 propagation, integer folding, same-width copy propagation and conservative
-dead-definition removal. The default preserves the stack baseline.
-The pipeline preserves control flow, remaps debug locations after removal and
+dead-definition removal, constant-branch simplification and unreachable-block
+removal. The default preserves the stack baseline.
+The pipeline repairs phi edges, remaps debug locations after removal and
 retains potentially effectful or trapping operations. It does not perform
 register allocation or expand the certified path.

@@ -1,7 +1,8 @@
 /- Optional compatibility-only integer constant propagation/folding.
-   No floating folding, memory reordering, CFG changes or certified-path use. -/
+   No floating folding, memory reordering or certified-path use. -/
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Optimize.Cleanup
+import LeanCompilerBackend.Optimize.ControlFlow
 
 namespace LeanCompilerBackend.Optimize
 
@@ -79,7 +80,13 @@ def function (f : Function) : Function := Id.run do
 
 def module (m : Module) : Except String Module := do
   validateModule m
-  let result := {m with functions := m.functions.map (fun f => Cleanup.deadDefinitions (function (Cleanup.copies f)))}
+  let functions ← m.functions.mapM fun f => do
+    let mut result := Cleanup.copies f
+    -- Expose constants from pruned phis in subsequent bounded rounds.
+    for _ in [:4] do
+      result ← ControlFlow.simplify (function result)
+    pure (Cleanup.deadDefinitions (function result))
+  let result := {m with functions}
   validateModule result
   pure result
 
