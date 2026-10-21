@@ -96,6 +96,20 @@ private def threadAddress (width : Width) (destination : Nat) (name : String) : 
   if width == .word then lines := lines ++ [s!"\tmov w{destination}, w{destination}"]
   return lines
 
+private def stackAddress (base : String) (destination offset : Nat) : List String := Id.run do
+  let r := register .long destination
+  if offset < 4096 then return [s!"\tadd {r}, {base}, #{offset}"]
+  let mut lines := [s!"\tadd {r}, {base}, #{offset / 4096}, lsl #12"]
+  if offset % 4096 != 0 then
+    lines := lines ++ [s!"\tadd {r}, {r}, #{offset % 4096}"]
+  return lines
+
+/-- x15 is reserved for large frame-slot addresses, never an ABI argument. -/
+private def slotAccess (instruction base register : String) (bytes offset : Nat) : List String :=
+  if offset % bytes == 0 && offset / bytes < 4096 then
+    [s!"\t{instruction} {register}, [{base}, #{offset}]"]
+  else stackAddress base 15 offset ++ [s!"\t{instruction} {register}, [x15]"]
+
 private def load (base : String) (slots : List (String × Nat)) (width : Width) (destination : Nat)
     (value : Operand) : Except String (List String) := do
   match value with
@@ -108,7 +122,7 @@ private def load (base : String) (slots : List (String × Nat)) (width : Width) 
       ++ (if width == .word then [s!"\tmov {register .word destination}, {register .word destination}"] else [])
   | .temporary name =>
     match slots.lookup name with
-    | some offset => return [s!"\tldr {register width destination}, [{base}, #{offset}]"]
+    | some offset => return slotAccess "ldr" base (register width destination) width.bytes offset
     | none => throw s!"missing stack slot for %{name}"
 
 private def condition : Comparison → String
@@ -189,14 +203,6 @@ private def adjustStack (op : String) (bytes : Nat) : List String := Id.run do
     lines := lines ++ [s!"\t{op} sp, sp, #{bytes / 4096}, lsl #12"]
   if bytes % 4096 != 0 then
     lines := lines ++ [s!"\t{op} sp, sp, #{bytes % 4096}"]
-  return lines
-
-private def stackAddress (base : String) (destination offset : Nat) : List String := Id.run do
-  let r := register .long destination
-  if offset < 4096 then return [s!"\tadd {r}, {base}, #{offset}"]
-  let mut lines := [s!"\tadd {r}, {base}, #{offset / 4096}, lsl #12"]
-  if offset % 4096 != 0 then
-    lines := lines ++ [s!"\tadd {r}, {r}, #{offset % 4096}"]
   return lines
 
 /-- Exact object fragments avoid QBE's known possible tail overread. x12 is the
@@ -398,7 +404,7 @@ private def emitInstruction (types : Array AggregateABI.TypeInfo) (base : String
     if inst.callAggregate.isNone then lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width 9}, {floatRegister inst.width 0}"
       else s!"\tmov {register inst.width 9}, {register inst.width 0}"]
   let offset ← slotOffset slots inst.destination
-  pure (lines ++ [s!"\tstr {register inst.width 9}, [{base}, #{offset}]"])
+  pure (lines ++ slotAccess "str" base (register inst.width 9) inst.width.bytes offset)
 
 private def emitStatement (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat))
     (varargsOffset : Nat) (statement : Statement) : Except String (List String) := do
@@ -450,16 +456,16 @@ private def emitEdge (base : String) (f : Function) (slots : List (String × Nat
     let some (_, value) := phi.incoming.find? (·.1 == predecessor)
       | throw s!"missing phi predecessor @{predecessor}"
     lines := lines ++ (← load base slots phi.width 9 value)
-    lines := lines ++ [s!"\tstr {register phi.width 9}, [{base}, #{stageBase + i * 8}]"]
+    lines := lines ++ slotAccess "str" base (register phi.width 9) phi.width.bytes (stageBase + i * 8)
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
     let offset ← slotOffset slots phi.destination
     let r := register phi.width 9
-    lines := lines ++ [s!"\tldr {r}, [{base}, #{stageBase + i * 8}]", s!"\tstr {r}, [{base}, #{offset}]"]
+    lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ slotAccess "str" base r phi.width.bytes offset
   pure lines
 
 def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) : Except String String := do
-  validateFunction f
+  validateFunction f true
   let localNames := f.locals
   let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
     match statement with
@@ -521,14 +527,14 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) : E
   lines := lines ++ adjustStack "sub" frame
   if dynamic then
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
-  else if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
+  else if hasCalls then lines := lines ++ slotAccess "str" "sp" "x30" 8 returnAddress
   let incoming ← AggregateABI.plan types (parametersAsArguments f)
   if resultInfo.any (·.passing == .indirect) then
     lines := lines ++ stackAddress base 12 resultPointer ++ ["\tstr x8, [x12]"]
   if let some parameter := f.parameters[0]? then
     if parameter.environment then
       let offset ← slotOffset slots parameter.name
-      lines := lines ++ [s!"\tstr x9, [{base}, #{offset}]"]
+      lines := lines ++ slotAccess "str" base "x9" 8 offset
   for i in [:f.parameters.size] do
     let parameter := f.parameters[i]!
     if parameter.environment then continue
@@ -554,13 +560,13 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) : E
         | .stack argumentOffset =>
           lines := lines ++ stackAddress "sp" 12 (frame + argumentOffset)
             ++ stackAddress base 13 objectOffset ++ copyAggregate info.layout.size
-      lines := lines ++ stackAddress base 12 objectOffset ++ [s!"\tstr x12, [{base}, #{offset}]"]
+      lines := lines ++ stackAddress base 12 objectOffset ++ slotAccess "str" base "x12" 8 offset
     else
       match entry.location with
       | .floating index _ _ =>
-        lines := lines ++ [s!"\tstr {floatRegister parameter.width index}, [{base}, #{offset}]"]
+        lines := lines ++ slotAccess "str" base (floatRegister parameter.width index) parameter.width.bytes offset
       | .general index _ =>
-        lines := lines ++ [s!"\tstr {register parameter.width index}, [{base}, #{offset}]"]
+        lines := lines ++ slotAccess "str" base (register parameter.width index) parameter.width.bytes offset
       | .stack argumentOffset =>
         if let some kind := parameter.subword then
           let instruction := match kind with
@@ -568,7 +574,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) : E
             | .signedHalf => "ldrsh w9" | .unsignedHalf => "ldrh w9"
           lines := lines ++ stackAddress "sp" 10 (frame + argumentOffset) ++ [s!"\t{instruction}, [x10]"]
         else lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
-        lines := lines ++ [s!"\tstr {register parameter.width 9}, [{base}, #{offset}]"]
+        lines := lines ++ slotAccess "str" base (register parameter.width 9) parameter.width.bytes offset
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
     for statement in block.instructions do
@@ -591,7 +597,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) : E
           if let some kind := f.resultSubword then lines := lines ++ [extendSubword kind 0]
           if f.resultFloating then lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width 0}"]
       if dynamic then lines := lines ++ ["\tmov sp, x29", "\tldp x29, x30, [sp]"]
-      else if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]
+      else if hasCalls then lines := lines ++ slotAccess "ldr" "sp" "x30" 8 returnAddress
       lines := lines ++ adjustStack "add" frame
       lines := lines ++ ["\tret"]
     | .halt => lines := lines ++ ["\tbrk #0"]

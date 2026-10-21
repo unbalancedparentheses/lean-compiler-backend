@@ -173,13 +173,14 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Mutable input now receives deterministic renaming and on-demand phi insertion;
   constructed output passes the existing type/dominance validator. Undefined
   incoming values and inconsistent mutable types are explicitly rejected.
-  Before raising resource caps, replace the bounded list-based dominance analysis
-  with a scalable CFG implementation and support large SSA slot offsets in emission.
-  The retained _bf99 fixture has 266 blocks and 2,001 assignments; _bfmandel has
-  2,060 blocks and 4,581 assignments. Both currently stop at the 64-block parser
-  cap. Larger renamed programs can also exceed direct AArch64 load/store offsets,
-  so increasing parsing limits alone is not sufficient. Keep first-path resource
-  limits independent of compatibility expansion.
+  Indexed CFG/predecessor tables, packed-set dominance, definition/reaching-value
+  caches and large native SSA-slot addressing are implemented. Compatibility now
+  admits 4096 blocks and 16384 instructions/phis, independently of first-path limits.
+  The retained _bf99 fixture (266 blocks/2001 assignments) and _bfmandel fixture
+  (2060 blocks/4581 assignments) emit and assemble. Exhaustive small-graph tests
+  compare the indexed analysis with the preserved reducible validator; large
+  native frame/phi tests cover scaled-offset boundaries. Next implement remaining
+  analyses and optimization passes; this is not full P08 completion.
   State transformation conditions and invalidate stale analyses. Record proof status
   per pass; certified pipelines enable only covered transformations. Keep a simple
   baseline path for comparison and independently justified fallback.
@@ -199,8 +200,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  73/76 inputs: 58 original executable fixtures pass natively, 15 development
-  fixtures assemble only, and 3 remain unsupported. CI prevents emission
+  75/76 inputs: 58 original executable fixtures pass natively, 17 development
+  fixtures assemble only, and dark.ssa remains unsupported (it is skipped upstream
+  on Apple ARM64 and deliberately omits a required argument). CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

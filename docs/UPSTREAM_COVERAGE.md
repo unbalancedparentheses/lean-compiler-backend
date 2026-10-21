@@ -5,16 +5,16 @@ This is compatibility testing, not formal certification.
 
 2026-10-21 aggregate checkpoint: the all-fixture native scan passed at 71 emitted
 fixtures, then the original abi1/abi4 drivers passed with both backends after the
-unused-void-result normalization. Combined results are below. The full native Nix
+unused-void-result normalization. The large-CFG extension additionally emits and assembles _bf99 and _bfmandel.
+Combined results are below. The full native Nix
 suite is being rerun for this checkpoint; aggregate tests and 147 theorem audits
 already pass. Ubuntu qualification builds/tests the compiler and models; it does
 not imply a Linux assembly target.
 
-- 73 of 76 fixtures emit assembly.
+- 75 of 76 fixtures emit assembly.
 - 58 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
-- 15 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
-- 3 fixtures remain unsupported: the two large CFG development inputs and dark.ssa.
-  dark.ssa deliberately omits a required argument and is skipped upstream on Apple ARM64.
+- 17 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
+- dark.ssa remains unsupported; it deliberately omits a required argument and is skipped upstream on Apple ARM64.
 
 `scripts/upstream_suite.py` scans every fixture and runs every accepted executable
 fixture on native Apple ARM64. Other hosts check emission and report native execution
@@ -30,8 +30,8 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | Fixture | Measured result |
 | --- | --- |
 | `_alt.ssa` | assembled only |
-| `_bf99.ssa` | Unsupported: line 435 near '@.L64': block parsing limit exceeded |
-| `_bfmandel.ssa` | Unsupported: line 289 near '@.L65': block parsing limit exceeded |
+| `_bf99.ssa` | assembled only |
+| `_bfmandel.ssa` | assembled only |
 | `_chacha20.ssa` | assembled only |
 | `_dragon.ssa` | assembled only |
 | `_fix1.ssa` | assembled only |

@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Scale compatibility CFG/SSA validation with indexed edges, packed dominance
+  sets and hashed lookups; preserve the reducible first-path validator and limits.
+  Raise compatibility bounds to 4096 blocks/16384 instructions, parse iteratively,
+  and emit large frame-slot accesses through x15. Both retained large CFG fixtures
+  now assemble, bringing emission coverage to 75/76.
+
 - Add Apple ARM64 aggregate arguments/results, private by-value copies, GP/FP and
   stack plans, indirect x8 returns, x9 environments and aggregate variadics.
   Preserve unknown padding and caller-owned result-buffer lifetime in the model;

@@ -275,15 +275,15 @@ private def parseOperation (floating : Bool) (name : String) : P Operation := do
     let rhs ← parseOperand
     pure (.binary op lhs rhs)
 
-private def parseIncoming : Nat → P (Array (String × Operand))
-  | 0 => failAt "phi incoming-edge limit exceeded"
-  | fuel + 1 => do
+private def parseIncoming (limit : Nat) : P (Array (String × Operand)) := do
+  let mut incoming := #[]
+  for _ in [:limit] do
     let label ← parseName '@'
     let value ← parseOperand
-    if (← peek) == some "," then
-      discard take
-      pure (#[ (label, value) ] ++ (← parseIncoming fuel))
-    else pure #[ (label, value) ]
+    incoming := incoming.push (label, value)
+    if (← peek) == some "," then discard take
+    else return incoming
+  failAt "phi incoming-edge limit exceeded"
 
 private def parseDefinition : P (Sum Phi Statement) := do
   let destination ← parseName '%'
@@ -293,7 +293,7 @@ private def parseDefinition : P (Sum Phi Statement) := do
   if callSubword.isSome && name != "call" then failAt "subword result type is only valid for calls"
   if callAggregate.isSome && name != "call" then failAt "aggregate result type is only valid for calls"
   if name == "phi" then
-    pure (.inl { destination, width, floating, incoming := ← parseIncoming 65 })
+    pure (.inl { destination, width, floating, incoming := ← parseIncoming (maxCompatibilityBlocks + 1) })
   else
     pure (.inr (.assign { destination, width, floating, callSubword, callAggregate, operation := ← parseOperation floating name }))
 
@@ -335,30 +335,31 @@ private def parseParameters : Nat → P (Array Parameter × Bool)
       return (#[{ name, width, environment, floating, subword, aggregate }] ++ rest, variadic)
     return (#[{ name, width, environment, floating, subword, aggregate }], false)
 
-private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Array Statement × Terminator)
-  | 0 => failAt "instruction parsing limit exceeded"
-  | fuel + 1 => do
+private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi × Array Statement × Terminator) := do
+  let mut phis := #[]
+  let mut instructions := #[]
+  for _ in [:limit] do
     if (← peek) == some "ret" then
       discard take
       let value ← if resultWidth.isSome then some <$> parseOperand else pure none
-      pure (#[], #[], .ret value)
+      return (phis, instructions, .ret value)
     else if (← peek) == some "jmp" then
       discard take
-      pure (#[], #[], .jump (← parseName '@'))
+      return (phis, instructions, .jump (← parseName '@'))
     else if (← peek) == some "jnz" then
       discard take
       let condition ← parseOperand
       expect ","
       let yes ← parseName '@'
       expect ","
-      pure (#[], #[], .branch condition yes (← parseName '@'))
+      return (phis, instructions, .branch condition yes (← parseName '@'))
     else if (← peek) == some "hlt" then
       discard take
-      pure (#[], #[], .halt)
+      return (phis, instructions, .halt)
     else if let some token := ← peek then
       if token.startsWith "@" then
         -- QBE permits fallthrough when the next label begins a new block.
-        pure (#[], #[], .jump (String.ofList token.toList.tail))
+        return (phis, instructions, .jump (String.ofList token.toList.tail))
       else
         let definition ← if let some width := storeWidth token then
           Sum.inr <$> parseStore width
@@ -376,25 +377,23 @@ private def parseBody (resultWidth : Option Width) : Nat → P (Array Phi × Arr
           let (target, arguments) ← parseCall
           pure (.inr (.callVoid target arguments))
         else parseDefinition
-        let (phis, instructions, terminator) ← parseBody resultWidth fuel
         match definition with
-        | .inl phi => pure (#[phi] ++ phis, instructions, terminator)
-        | .inr inst =>
-          if !phis.isEmpty then failAt "phi definitions must precede ordinary instructions"
-          pure (#[], #[inst] ++ instructions, terminator)
+        | .inl phi =>
+          if !instructions.isEmpty then failAt "phi definitions must precede ordinary instructions"
+          phis := phis.push phi
+        | .inr inst => instructions := instructions.push inst
     else failAt "expected block terminator"
 
-private def parseBlocks (resultWidth : Option Width) : Nat → P (Array Block)
-  | 0 => failAt "block parsing limit exceeded"
-  | fuel + 1 => do
+  failAt "instruction parsing limit exceeded"
+
+private def parseBlocks (resultWidth : Option Width) (limit : Nat) : P (Array Block) := do
+  let mut blocks := #[]
+  for _ in [:limit] do
     let label ← parseName '@'
-    let (phis, instructions, terminator) ← parseBody resultWidth 481
-    let block := { label, phis, instructions, terminator : Block }
-    match ← peek with
-    | some token =>
-      if token.startsWith "@" then pure (#[block] ++ (← parseBlocks resultWidth fuel))
-      else pure #[block]
-    | none => pure #[block]
+    let (phis, instructions, terminator) ← parseBody resultWidth (maxCompatibilityInstructions + 1)
+    blocks := blocks.push { label, phis, instructions, terminator }
+    if !((← peek).getD "").startsWith "@" then return blocks
+  failAt "block parsing limit exceeded"
 
 private def parseFunction (exported : Bool) : P Function := do
   expect "function"
@@ -408,7 +407,7 @@ private def parseFunction (exported : Bool) : P Function := do
   let (parameters, variadic) ← parseParameters (maxIntegerArguments + 3)
   expect ")"
   expect "{"
-  let blocks ← parseBlocks resultWidth 65
+  let blocks ← parseBlocks resultWidth (maxCompatibilityBlocks + 1)
   expect "}"
   return { name, exported, resultWidth, resultFloating, resultSubword, resultAggregate, parameters, variadic, blocks }
 
@@ -596,10 +595,10 @@ private def parseDefinitions : Nat → P Module
       return { rest with functions := #[f] ++ rest.functions }
 
 def parseModule (source : String) : Except String Module := do
-  if source.utf8ByteSize > 1024 * 1024 then throw "input exceeds 1 MiB initial resource limit"
+  if source.utf8ByteSize > 8 * 1024 * 1024 then throw "input exceeds 8 MiB compatibility resource limit"
   let tokens := tokenize source
   if tokens.isEmpty then throw "input contains no functions or data"
-  if tokens.size > 50000 then throw "input exceeds initial token limit"
+  if tokens.size > 500000 then throw "input exceeds 500000-token compatibility limit"
   let (program, _) ← (parseDefinitions (min (tokens.size + 1) 1025)).run { tokens }
   discard (Aggregate.layouts program.types)
   return program

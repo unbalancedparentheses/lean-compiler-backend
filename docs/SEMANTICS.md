@@ -330,3 +330,34 @@ corrupted full-width-load control. `scripts/aggregate_edges.py` checks result
 buffer reuse, distinct sites, padding, opaque values, x8+x9 and aggregate variadics.
 Three retained upstream discrepancies are tested separately, not counted as QBE
 matches. Aggregate lowering is tested and explicitly uncertified.
+
+## Scalable compatibility CFG and frame limits
+
+The compatibility parser admits up to 4096 blocks and 16384 instructions/phis per
+function, with 8 MiB input and 500000 tokens. Block bodies, block lists and phi
+incoming lists parse iteratively. The 64-function and 64-argument bounds remain.
+The restricted first path independently retains 64 blocks, 480 definitions, eight
+parameters and its 4080-byte frame bound.
+
+Compatibility validation uses indexed CFG edges, hash-indexed definitions and a
+work-list dominance fixed point over packed finite sets. The original list-based
+validator remains the reducible small-profile path used by existing kernel-checked
+examples. Both retain the previous conservative behavior for disconnected regions:
+predecessor-free nodes dominate only themselves; closed unreachable SCCs can retain
+vacuous dominators. Unreachable incoming edges are not silently removed. All 4096
+four-node graphs compare the two algorithms, with node-deletion reachability as
+an additional oracle on fully reachable graphs. This is regression testing, not
+a soundness proof of the new analysis.
+
+SSA construction indexes block predecessors, temporary types and reaching-value
+caches. A repeated unresolved read in a single-predecessor cycle fails explicitly.
+Native frame loads/stores use scaled immediate addresses when encodable, otherwise
+compute the address in reserved scratch x15. This covers word/long and floating
+slots, parameter saves, phi staging/commits and saved LR. Dynamic-frame base x29
+and ordinary SP-based frames share the same addressing helper.
+
+`scripts/large_cfg.py` exercises the exact compatibility caps, a 3000-block mutable
+program, large static/dynamic W/X frames, incoming stack arguments and cyclic phi
+transfers against native C and QBE. Corrupting a high frame-address component is
+detected. The retained _bf99 and _bfmandel development fixtures now emit and
+assemble; they remain assembly-only tests, matching upstream's test policy.

@@ -45,12 +45,13 @@ restricted compatible operation subset, not a claim of full QBE compatibility.
 Unquoted names follow QBE's ASCII grammar, including dots and embedded dollar
 signs, with a letter, underscore or dot first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
 
-Functions have at most 64 integer arguments, 480 instructions/phi nodes and 64 blocks;
-programs have at most 64 functions and 1 MiB of input. Frames are 16-byte aligned,
+Compatibility functions have at most 64 arguments, 16384 instructions/phi nodes
+and 4096 blocks; programs have at most 64 functions, 8 MiB of input and 500000
+tokens. The restricted first-path profile retains 64 blocks and 480 definitions. Frames are 16-byte aligned,
 at most 1 MiB in the compatibility backend (4080 bytes in the restricted first
 proof profile). Large frame adjustments and allocation addresses use split
 AArch64 immediate scales; large incoming stack offsets use a scratch address
-register. Every value gets an eight-byte slot; word values access only
+register, and large local/phi/LR accesses reserve x15 for their address. Every value gets an eight-byte slot; word values access only
 the low four bytes. Implicit word-to-long widening is rejected. Scratch registers
 x9/x10/x11 and the x16 indirect-call target are caller-clobbered. Dynamic
 allocation functions save/restore x29 and use it as a stable frame base.

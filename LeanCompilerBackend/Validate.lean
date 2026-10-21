@@ -5,6 +5,7 @@
   construction or complete type system. See docs/UPSTREAM.md.
 -/
 import LeanCompilerBackend.Aggregate
+import LeanCompilerBackend.CFG
 
 namespace LeanCompilerBackend
 
@@ -14,14 +15,14 @@ private def predecessors (f : Function) (label : String) : List String :=
   f.blocks.toList.filterMap fun block =>
     if block.terminator.successors.contains label then some block.label else none
 
-private abbrev Dominators := List (String × List String)
+private abbrev ReferenceDominators := List (String × List String)
 
 /-- Finite-set iteration; unsupported/nonconverging cases fail closed. -/
-private def dominators (f : Function) : Except String Dominators := do
+private def referenceDominators (f : Function) : Except String ReferenceDominators := do
   let names := f.blocks.toList.map (·.label)
   let entry := f.blocks[0]!.label
   let initial := names.map fun name => (name, if name == entry then [entry] else names)
-  let rec iterate : Nat → Dominators → Except String Dominators
+  let rec iterate : Nat → ReferenceDominators → Except String ReferenceDominators
     | 0, _ => .error "dominance iteration resource limit exceeded"
     | fuel + 1, old => do
       let updated := names.map fun name =>
@@ -35,6 +36,14 @@ private def dominators (f : Function) : Except String Dominators := do
       if updated == old then pure updated else iterate fuel updated
   iterate (f.blocks.size * f.blocks.size + 1) initial
 
+private inductive Dominators where
+  | reference (sets : ReferenceDominators)
+  | indexed (sets : CFG.Dominators)
+
+private def Dominators.contains : Dominators → String → String → Bool
+  | .reference sets, useBlock, definitionBlock => ((sets.lookup useBlock).getD []).contains definitionBlock
+  | .indexed sets, useBlock, definitionBlock => sets.contains useBlock definitionBlock
+
 private structure Definition where
   name : String
   width : Width
@@ -42,14 +51,26 @@ private structure Definition where
   position : Nat
   floating : Bool := false
 
-private def addDefinition (definitions : List Definition) (definition : Definition)
-    : Except String (List Definition) := do
-  if !validName definition.name then throw "unsupported temporary/parameter name"
-  if definitions.any (·.name == definition.name) then
-    throw s!"duplicate SSA definition or duplicate parameter %{definition.name}"
-  pure (definition :: definitions)
+private inductive Definitions where
+  | reference (entries : List Definition)
+  | indexed (entries : Std.HashMap String Definition)
 
-private def checkOperand (definitions : List Definition) (doms : Dominators)
+private def Definitions.find? : Definitions → String → Option Definition
+  | .reference entries, name => entries.find? (·.name == name)
+  | .indexed entries, name => entries[name]?
+
+private def Definitions.insert : Definitions → Definition → Definitions
+  | .reference entries, entry => .reference (entry :: entries)
+  | .indexed entries, entry => .indexed (entries.insert entry.name entry)
+
+private def addDefinition (definitions : Definitions) (definition : Definition)
+    : Except String Definitions := do
+  if !validName definition.name then throw "unsupported temporary/parameter name"
+  if (definitions.find? definition.name).isSome then
+    throw s!"duplicate SSA definition or duplicate parameter %{definition.name}"
+  pure (definitions.insert definition)
+
+private def checkOperand (definitions : Definitions) (doms : Dominators)
     (useBlock : String) (position : Nat) (width : Width) (operand : Operand) (floating : Bool := false)
     : Except String Unit := do
   match operand with
@@ -58,7 +79,7 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
     if floating then throw "symbol address cannot have floating type"
     if !validName name then throw "unsupported symbol name"
   | .temporary name =>
-    let some definition := definitions.find? (·.name == name)
+    let some definition := definitions.find? name
       | throw s!"undefined temporary %{name}"
     if definition.floating != floating then throw s!"%{name}: integer/floating type mismatch; use cast"
     if floating && definition.width != width then throw s!"%{name}: floating precision mismatch"
@@ -69,7 +90,7 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
     | some block =>
       if block == useBlock then
         if definition.position >= position then throw s!"%{name}: definition does not precede use"
-      else if !((doms.lookup useBlock).getD []).contains block then
+      else if !doms.contains useBlock block then
         throw s!"%{name}: definition in @{block} does not dominate use in @{useBlock}"
 
 private def checkSubword (width : Width) (floating : Bool) (subword : Option Subword) : Except String Unit := do
@@ -99,7 +120,7 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
     seenVariadic := seenVariadic || argument.variadic
     (if argument.floating then checkFloat else check) argument.width argument.value
 
-def validateFunction (f : Function) : Except String Unit := do
+def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
   if f.resultAggregate.isSome && f.resultWidth.isNone then throw "void result cannot have aggregate type"
   if let some width := f.resultWidth then checkAggregate width f.resultFloating f.resultSubword f.resultAggregate
   if f.resultSubword.isSome && f.resultWidth.isNone then throw "void result cannot have subword type"
@@ -114,9 +135,11 @@ def validateFunction (f : Function) : Except String Unit := do
     if f.parameters[i]!.environment && (i != 0 || f.parameters[i]!.width != .long || f.parameters[i]!.floating || f.parameters[i]!.subword.isSome || f.parameters[i]!.aggregate.isSome) then
       throw "environment parameter must be first and long"
   if f.blocks.isEmpty then throw "function has no entry block"
-  if f.blocks.size > 64 then throw "function exceeds initial 64-block limit"
+  let blockLimit := if scalable then maxCompatibilityBlocks else 64
+  if f.blocks.size > blockLimit then throw s!"function exceeds {blockLimit}-block limit"
   let count := f.blocks.foldl (fun n block => n + block.instructions.size + block.phis.size) 0
-  if count > 480 then throw "function exceeds initial 480-instruction/phi limit"
+  let instructionLimit := if scalable then maxCompatibilityInstructions else 480
+  if count > instructionLimit then throw s!"function exceeds {instructionLimit}-instruction/phi limit"
   let names := f.blocks.toList.map (·.label)
   if names.any (!validName ·) then throw "unsupported block name"
   if names.eraseDups.length != names.length then throw "duplicate block label"
@@ -125,7 +148,7 @@ def validateFunction (f : Function) : Except String Unit := do
     for target in block.terminator.successors do
       if !names.contains target then throw s!"unknown block @{target}"
       if target == entry then throw "QBE entry block must not be a jump target"
-  let mut definitions := []
+  let mut definitions := if scalable then Definitions.indexed {} else .reference []
   for parameter in f.parameters do
     definitions ← addDefinition definitions
       { name := parameter.name, width := parameter.width, floating := parameter.floating, block := none, position := 0 }
@@ -137,9 +160,16 @@ def validateFunction (f : Function) : Except String Unit := do
       if let some (name, width) := block.instructions[i]!.definition then
         definitions ← addDefinition definitions
           { name, width, floating := match block.instructions[i]! with | .assign inst => inst.floating | _ => false, block := some block.label, position := i + 1 }
-  let doms ← dominators f
+  let graph ← if scalable then some <$> CFG.build f else pure none
+  let doms ← match graph with
+    | some graph => Dominators.indexed <$> CFG.dominators graph
+    | none => Dominators.reference <$> referenceDominators f
   for block in f.blocks do
-    let preds := predecessors f block.label
+    let preds := match graph with
+      | some graph =>
+        let blockIndex := (graph.indices[block.label]?).getD 0
+        graph.predecessors[blockIndex]!.toList.map (fun (index : Nat) => (f.blocks[index]! : Block).label)
+      | none => predecessors f block.label
     for phi in block.phis do
       let incoming := phi.incoming.toList.map (·.1)
       if incoming.isEmpty || incoming.eraseDups.length != incoming.length
@@ -258,7 +288,7 @@ def validate (program : Program) : Except String Unit := do
   for f in program do
     if names.contains f.name then throw ("duplicate function $" ++ f.name)
     names := f.name :: names
-    match validateFunction f with
+    match validateFunction f true with
     | .ok () => pure ()
     | .error message => throw s!"function ${f.name}: {message}"
   -- External symbols have no declaration in QBE IL. Their ABI is an explicit

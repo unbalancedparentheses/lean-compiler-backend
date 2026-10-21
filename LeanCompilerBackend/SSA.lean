@@ -17,9 +17,12 @@ private structure Plan where
 
 private structure State where
   plans : Array Plan := #[]
-  types : List (String × Width × Bool) := []
+  types : Std.HashMap String (Width × Bool) := {}
+  indices : Std.HashMap String Nat := {}
+  predecessors : Array (Array Nat) := #[]
   parameters : Bindings := []
-  cache : List ((String × String) × String) := []
+  cache : Std.HashMap (String × String) String := {}
+  visiting : Std.HashSet (String × String) := {}
   generated : List (String × Phi) := []
   namePrefix : String := "lcb.ssa."
   next : Nat := 0
@@ -38,28 +41,32 @@ private def readAt : Nat → String → String → Bool → M String
   | 0, _, _, _ => throw "SSA construction recursion resource limit exceeded"
   | fuel + 1, label, varName, atEnd => do
     let s ← get
-    let some plan := s.plans.find? (·.block.label == label)
-      | throw s!"SSA construction: unknown block @{label}"
+    let some index := s.indices[label]? | throw s!"SSA construction: unknown block @{label}"
+    let plan := s.plans[index]!
     if atEnd then
       if let some name := plan.outgoing.lookup varName then return name
       return ← readAt fuel label varName false
-    if let some name := s.cache.lookup (label, varName) then return name
+    if let some name := s.cache[(label, varName)]? then return name
     if label == s.plans[0]!.block.label then
       let some name := s.parameters.lookup varName
         | throw s!"SSA construction: undefined temporary %{varName} at entry"
       return name
-    let preds := s.plans.filter (fun p => p.block.terminator.successors.contains label)
+    let preds := s.predecessors[index]!
     if preds.isEmpty then throw s!"SSA construction: undefined temporary %{varName} in unreachable @{label}"
     if preds.size == 1 then
-      let name ← readAt fuel preds[0]!.block.label varName true
-      modify fun s => { s with cache := ((label, varName), name) :: s.cache }
+      if s.visiting.contains (label, varName) then
+        throw s!"SSA construction: undefined temporary %{varName} in predecessor cycle"
+      modify fun s => { s with visiting := s.visiting.insert (label, varName) }
+      let name ← readAt fuel s.plans[preds[0]!]!.block.label varName true
+      modify fun s => { s with cache := s.cache.insert (label, varName) name, visiting := s.visiting.erase (label, varName) }
       return name
-    let some (_, width, floating) := s.types.find? (·.1 == varName)
+    let some (width, floating) := s.types[varName]?
       | throw s!"SSA construction: undefined temporary %{varName}"
     let name ← fresh
-    modify fun s => { s with cache := ((label, varName), name) :: s.cache }
+    modify fun s => { s with cache := s.cache.insert (label, varName) name }
     let incoming ← preds.mapM fun pred => do
-      pure (pred.block.label, Operand.temporary (← readAt fuel pred.block.label varName true))
+      let label := s.plans[pred]!.block.label
+      pure (label, Operand.temporary (← readAt fuel label varName true))
     let phi : Phi := { destination := name, width, floating, incoming }
     modify fun s => { s with generated := (label, phi) :: s.generated }
     return name
@@ -68,7 +75,7 @@ private def operand (label : String) (locals : Bindings) : Operand → M Operand
   | .temporary name => do
     let renamed ← match locals.lookup name with
       | some value => pure value
-      | none => readAt 4096 label name false
+      | none => readAt 32768 label name false
     pure (.temporary renamed)
   | value => pure value
 
@@ -103,7 +110,7 @@ private def rewriteBlock (plan : Plan) : M Block := do
     let phi := plan.block.phis[i]!
     let incoming ← phi.incoming.mapM fun (label, value) => do
       let value ← match value with
-        | .temporary name => pure (.temporary (← readAt 4096 label name true))
+        | .temporary name => pure (.temporary (← readAt 32768 label name true))
         | _ => pure value
       pure (label, value)
     phis := phis.push { phi with destination := plan.phiNames[i]!, incoming }
@@ -131,26 +138,31 @@ private def rewriteBlock (plan : Plan) : M Block := do
     | .halt => pure .halt
   pure { plan.block with phis, instructions, terminator }
 
-private def addType (types : List (String × Width × Bool)) (name : String) (width : Width)
-    (floating : Bool) : Except String (List (String × Width × Bool)) := do
+private def addType (types : Std.HashMap String (Width × Bool)) (name : String) (width : Width)
+    (floating : Bool) : Except String (Std.HashMap String (Width × Bool)) := do
   if !validIdentifier name then throw "SSA construction: invalid temporary name"
-  if let some (_, oldWidth, oldFloating) := types.find? (·.1 == name) then
+  if let some (oldWidth, oldFloating) := types[name]? then
     if oldWidth != width || oldFloating != floating then
       throw s!"SSA construction: inconsistent types for mutable temporary %{name}"
     return types
-  pure ((name, width, floating) :: types)
+  pure (types.insert name (width, floating))
 
 /-- Leave already-SSA inputs unchanged; mutable input is renamed and validated.
     The original first-path importer does not invoke this pass. -/
 def construct (f : Function) : Except String Function := do
   let names := f.locals.toList.map (·.1)
-  if names.eraseDups.length == names.length then return f
+  let mut seen : Std.HashSet String := {}
+  let mut duplicate := false
+  for name in names do
+    if seen.contains name then duplicate := true
+    seen := seen.insert name
+  if !duplicate then return f
   if f.blocks.isEmpty then throw "SSA construction: function has no entry block"
   let parameters := f.parameters.toList.map (·.name)
   if parameters.eraseDups.length != parameters.length then throw "duplicate parameter"
   let labels := f.blocks.toList.map (·.label)
   if labels.eraseDups.length != labels.length then throw "duplicate block label"
-  let mut types := []
+  let mut types : Std.HashMap String (Width × Bool) := {}
   for p in f.parameters do types ← addType types p.name p.width p.floating
   for block in f.blocks do
     if !validIdentifier block.label then throw "SSA construction: invalid block name"
@@ -193,8 +205,9 @@ def construct (f : Function) : Except String Function := do
     let blocks := blocks.map fun block => { block with
       phis := block.phis ++ (generated.filterMap fun (label, phi) => if label == block.label then some phi else none).toArray }
     pure { f with parameters, blocks }
-  let (result, _) ← build.run { types, namePrefix }
-  match validateFunction result with
+  let graph ← CFG.build f
+  let (result, _) ← build.run { types, namePrefix, indices := graph.indices, predecessors := graph.predecessors }
+  match validateFunction result true with
   | .ok () => pure result
   | .error error => throw s!"constructed SSA failed validation: {error}"
 

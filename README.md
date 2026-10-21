@@ -78,6 +78,9 @@ before rebuilding; the checks reject stale source/build identities.
   rejection of unsupported constructs.
 - Conditional/unconditional branches, fallthrough, loops, phi nodes and `hlt`.
   Phi transfers use parallel copies; cross-block uses are checked for dominance.
+  Indexed CFG/SSA validation supports up to 4096 blocks and 16384 instructions,
+  with large native frame-slot addressing. The restricted proof profile keeps its
+  smaller independent limits.
 - Integer byte/half/word/long loads and stores, including signed loads and
   unaligned accesses. Positive constant/runtime `alloc4`/`alloc8`/`alloc16`
   allocations in any block; QBE's `loadw`/`loadl` and `alloc1`/`alloc2` aliases.
