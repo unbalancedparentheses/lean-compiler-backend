@@ -5,6 +5,29 @@ import subword
 import float_variadic
 import floating
 import conversions
+import re
+
+
+def qbe_subword_reference(source):
+    """Pinned QBE omits narrow ABI extensions on RV64 and some AMD64 calls.
+
+    Keep the Lean input unmodified; make extensions explicit only in the QBE
+    reference. C callers still independently enforce the complete narrow ABI.
+    """
+    def function(match):
+        text=match.group(0)
+        result=re.match(r"export function (sb|ub|sh|uh) ",text)
+        if result:
+            text=re.sub(r" ret (%h\d+)",lambda m:f" %abi_result =w ext{result[1]} {m[1]}\n ret %abi_result",text)
+        extensions=[]
+        def argument(m):
+            kind,name=m.groups();new="abi_"+name
+            extensions.append(f" %{new} =w ext{kind} %{name}\n")
+            return f"{kind} %{new}"
+        text=re.sub(r"(sb|ub|sh|uh) %(raw\d+)",argument,text)
+        if extensions:text=text.replace(" %r =", "".join(extensions)+" %r =")
+        return text
+    return re.sub(r"export function [\s\S]*?\n}",function,source)
 
 
 def exercise(compiler, work, run, cc, qbe, target, qtarget, va_list_bytes):
@@ -17,7 +40,10 @@ def exercise(compiler, work, run, cc, qbe, target, qtarget, va_list_bytes):
         source,assembly,caller=case/'input.ssa',case/'lean.s',case/'caller.c'
         source.write_text(source_text);caller.write_text(caller_text)
         result=run([compiler,source,'--target',target,'-o',assembly]);assert result.returncode==0,result.stderr
-        qasm=case/'qbe.s';result=run([qbe,'-t',qtarget,'-o',qasm,source],True);assert result.returncode==0,result.stderr
+        qsource=source
+        if name=='subword':
+            qsource=case/'qbe-reference.ssa';qsource.write_text(qbe_subword_reference(source_text))
+        qasm=case/'qbe.s';result=run([qbe,'-t',qtarget,'-o',qasm,qsource],True);assert result.returncode==0,result.stderr
         for label,asm in [('lean',assembly),('qbe',qasm)]:
             exe=case/label;result=run([cc,'-O2',caller,asm,'-o',exe],True);assert result.returncode==0,result.stderr
             result=run([exe],True);assert result.returncode==0,(name,label,result.returncode,result.stdout,result.stderr)
@@ -38,4 +64,5 @@ def exercise(compiler, work, run, cc, qbe, target, qtarget, va_list_bytes):
             for case_data,a,b in zip(matrix,actual,expected):
                 key=case_data if name=='floating' else case_data[0]
                 assert module.equivalent(key,a,b),(name,label,case_data,hex(a),hex(b))
+    print(f'{target}: QBE subword reference uses explicit narrow extensions; Lean input and independent C ABI checks remain unchanged',flush=True)
     print(f'{target}: generated mixed scalar ABI/subword/variadic matrices and independent C floating/conversion oracles passed against QBE',flush=True)
