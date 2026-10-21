@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add Apple ARM64 aggregate arguments/results, private by-value copies, GP/FP and
+  stack plans, indirect x8 returns, x9 environments and aggregate variadics.
+  Preserve unknown padding and caller-owned result-buffer lifetime in the model;
+  copy exact short tails natively. Qualify 22 layouts and all original abi1–abi9,
+  mem1–mem3 drivers. Retain three QBE ABI discrepancies separately.
+
 - Parse named aggregate record, union and opaque types; check nested/repeated
   storage layouts and expose `--type-layout`. Compare 80 generated layouts with C
   size/alignment/offset probes. Aggregate calls remain explicitly unsupported.

@@ -75,6 +75,11 @@ private def checkOperand (definitions : List Definition) (doms : Dominators)
 private def checkSubword (width : Width) (floating : Bool) (subword : Option Subword) : Except String Unit := do
   if subword.isSome && (width != .word || floating) then throw "subword ABI class requires integer word storage"
 
+private def checkAggregate (width : Width) (floating : Bool) (subword : Option Subword)
+    (aggregate : Option String) : Except String Unit := do
+  if aggregate.isSome && (width != .long || floating || subword.isSome) then
+    throw "aggregate ABI class requires integer long pointer storage"
+
 private def checkCallArguments (check : Width → Operand → Except String Unit)
     (checkFloat : Width → Operand → Except String Unit)
     (target : CallTarget) (arguments : Array CallArgument) : Except String Unit := do
@@ -87,13 +92,16 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
   for i in [:arguments.size] do
     let argument := arguments[i]!
     checkSubword argument.width argument.floating argument.subword
-    if argument.environment && (i != 0 || argument.variadic || argument.width != .long || argument.floating || argument.subword.isSome) then
+    checkAggregate argument.width argument.floating argument.subword argument.aggregate
+    if argument.environment && (i != 0 || argument.variadic || argument.width != .long || argument.floating || argument.subword.isSome || argument.aggregate.isSome) then
       throw "environment argument must be first, named and long"
     if seenVariadic && !argument.variadic then throw "fixed argument follows variadic argument"
     seenVariadic := seenVariadic || argument.variadic
     (if argument.floating then checkFloat else check) argument.width argument.value
 
 def validateFunction (f : Function) : Except String Unit := do
+  if f.resultAggregate.isSome && f.resultWidth.isNone then throw "void result cannot have aggregate type"
+  if let some width := f.resultWidth then checkAggregate width f.resultFloating f.resultSubword f.resultAggregate
   if f.resultSubword.isSome && f.resultWidth.isNone then throw "void result cannot have subword type"
   if let some width := f.resultWidth then checkSubword width f.resultFloating f.resultSubword
   if f.resultFloating && f.resultWidth.isNone then throw "void result cannot have floating type"
@@ -101,8 +109,9 @@ def validateFunction (f : Function) : Except String Unit := do
   if f.parameters.size > maxIntegerArguments then
     throw s!"function exceeds the {maxIntegerArguments}-integer-parameter resource limit"
   for i in [:f.parameters.size] do
+    checkAggregate f.parameters[i]!.width f.parameters[i]!.floating f.parameters[i]!.subword f.parameters[i]!.aggregate
     checkSubword f.parameters[i]!.width f.parameters[i]!.floating f.parameters[i]!.subword
-    if f.parameters[i]!.environment && (i != 0 || f.parameters[i]!.width != .long || f.parameters[i]!.floating || f.parameters[i]!.subword.isSome) then
+    if f.parameters[i]!.environment && (i != 0 || f.parameters[i]!.width != .long || f.parameters[i]!.floating || f.parameters[i]!.subword.isSome || f.parameters[i]!.aggregate.isSome) then
       throw "environment parameter must be first and long"
   if f.blocks.isEmpty then throw "function has no entry block"
   if f.blocks.size > 64 then throw "function exceeds initial 64-block limit"
@@ -159,6 +168,11 @@ def validateFunction (f : Function) : Except String Unit := do
         check .long destination
         if bytes > 4096 then throw "blit byte count exceeds the 4096-byte resource limit"
       | .assign inst =>
+        checkAggregate inst.width inst.floating inst.callSubword inst.callAggregate
+        if inst.callAggregate.isSome then
+          match inst.operation with
+          | .call .. => pure ()
+          | _ => throw "aggregate result type is only valid for calls"
         checkSubword inst.width inst.floating inst.callSubword
         if inst.callSubword.isSome then
           match inst.operation with
@@ -232,10 +246,10 @@ def effectiveCallArguments (callee : Function) (arguments : Array CallArgument)
 /-- Internal Apple ARM64 w results clear the upper half of x0, allowing a caller
     to consume the result as l. Floating/subword/void signatures remain exact. -/
 def callResultMatches (callee : Function) (width : Option Width) (floating : Bool)
-    (subword : Option Subword) : Bool :=
-  floating == callee.resultFloating && subword == callee.resultSubword &&
+    (subword : Option Subword) (aggregate : Option String := none) : Bool :=
+  aggregate == callee.resultAggregate && floating == callee.resultFloating && subword == callee.resultSubword &&
     (width == callee.resultWidth ||
-      (!floating && subword.isNone && callee.resultWidth == some .word && width == some .long))
+      (!floating && subword.isNone && aggregate.isNone && callee.resultWidth == some .word && width == some .long))
 
 def validate (program : Program) : Except String Unit := do
   if program.isEmpty then throw "program contains no functions"
@@ -255,17 +269,28 @@ def validate (program : Program) : Except String Unit := do
         if let some (.direct target, arguments, resultWidth) := statement.callSite then
           if let some callee := program.find? (·.name == target) then
             let arguments ← effectiveCallArguments callee arguments
-            if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword then
+            if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword statement.resultAggregate then
               throw s!"call ${target}: result type disagrees with its definition"
             let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
             if fixed != callee.parameters.size || (!callee.variadic && arguments.size != fixed) then
               throw s!"call ${target}: argument count/variadic boundary disagrees with its definition"
             for i in [:callee.parameters.size] do
-              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword then
+              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword || arguments[i]!.aggregate != callee.parameters[i]!.aggregate then
                 throw s!"call ${target}: argument type disagrees with its definition"
 
 def validateModule (module : Module) : Except String Unit := do
   discard (Aggregate.layouts module.types)
+  let checkType := fun name => do
+    if let some name := name then
+      if !(module.types.any (·.name == name)) then throw s!"undefined aggregate type :{name}"
+  for f in module.functions do
+    checkType f.resultAggregate
+    for parameter in f.parameters do checkType parameter.aggregate
+    for block in f.blocks do
+      for statement in block.instructions do
+        checkType statement.resultAggregate
+        if let some (_, arguments, _) := statement.callSite then
+          for argument in arguments do checkType argument.aggregate
   if module.functions.isEmpty && module.data.isEmpty && module.types.isEmpty then
     throw "module contains no definitions"
   if !module.functions.isEmpty then validate module.functions

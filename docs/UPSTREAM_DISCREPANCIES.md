@@ -74,3 +74,30 @@ separate address-returning helper calls before passing ordinary temporaries.
 That source-level workaround passes the same C checks; it is reported separately
 and is not a claim that original QBE compiles the inline form. The vendored QBE
 source is unchanged. The original upstream `tls.ssa` fixture needs no workaround.
+
+## Apple ARM64 aggregate ABI discrepancies
+
+`scripts/aggregate_edges.py` reproduces each of these on pinned QBE 1.3 and checks
+that Lean-generated code passes the same C driver. These are separate discrepancy
+controls, never included in the count of matching upstream fixture executions.
+Vendored QBE remains unchanged.
+
+- [Padded float aggregate](../tests/regressions/qbe-padded-float-aggregate.ssa):
+  `align 8 { s }` has one float plus tail padding. QBE's `typclass` divides its
+  eight-byte size by four and consumes two FP registers. The C ABI passes this
+  padded object in a GP register, leaving d0 for the next double. The
+  [driver](../tests/regressions/qbe-padded-float-aggregate.c) clears d2 and verifies
+  the next double; QBE returns the wrong value. Lean requires a homogeneous
+  layout's extent to match its size, including when nested.
+- [Aggregate variadic argument](../tests/regressions/qbe-aggregate-variadic.ssa):
+  QBE's aggregate branch of `argsclass` ignores the Darwin variadic marker and
+  puts a small aggregate in GP registers. C `va_arg` reads the stack instead.
+  The [driver](../tests/regressions/qbe-aggregate-variadic.c) reads 123 with Lean
+  output; original QBE puts the subsequent scalar 7 in that stack position.
+- [Short aggregate return](../tests/regressions/qbe-aggregate-tail-overread.ssa):
+  QBE's `ldregs` loads a full eight-byte register from a one-byte object. Its
+  source already notes the possible out-of-bounds read. The
+  [driver](../tests/regressions/qbe-aggregate-tail-overread.c) places the byte
+  immediately before a protected page; original QBE faults, while Lean loads
+  exactly one byte and returns 42. Ordinary aggregate comparisons use readable
+  objects and remain separate from this guarded boundary test.

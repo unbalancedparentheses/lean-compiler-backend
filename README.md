@@ -7,7 +7,7 @@ Executable semantics, existing proofs and regression tests remain required check
 tested and certified coverage are reported separately. The current implementation
 is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
 
-The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 46 native
+The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 58 native
 passes, 15 assemble-only fixtures and 15 unsupported inputs out of 76.
 
 The first target is **AArch64 macOS**. Input is a restricted QBE-style SSA
@@ -93,7 +93,8 @@ before rebuilding; the checks reject stale source/build identities.
 - Apple ARM64 thread-local data and addresses, including external TLS and C threads.
 - Named aggregate record/union/opaque storage layouts with nesting and repetition;
   inspect sizes and field offsets with `lcb --type-layout INPUT.ssa`. Passing these
-  types by value still requires the pending aggregate ABI implementation.
+  types by value is supported on Apple ARM64 through GP/FP registers, stack
+  fallback and private indirect copies, including aggregate returns and variadics.
 - Signed/unsigned byte and short ABI arguments/results, including packed stack slots.
 - QBE `env` parameters/arguments in x9, including indirect and variadic calls.
 - Integer/floating variadic functions/calls, `vastart` and w/l/s/d `vaarg` on Apple ARM64.
@@ -108,8 +109,7 @@ before rebuilding; the checks reject stale source/build identities.
   and composed compilation preservation are not proved.
 - Independent Python arithmetic, native C ABI tests and upstream QBE comparison.
 
-The first port uses stack slots for every value. Aggregate ABI support,
-remaining linkage/debug forms, optimization passes, register
+The first port uses stack slots for every value. Remaining linkage/debug forms, optimization passes, register
 allocation and object emission remain. Packed data, strings, symbol relocations
 and IEEE constant bit patterns are implemented. A separate restricted Concrete consumer is available in
 [Concrete draft PR #8](https://github.com/unbalancedparentheses/concrete2/pull/8);

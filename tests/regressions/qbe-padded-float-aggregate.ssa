@@ -1,0 +1,6 @@
+# Tail padding is not a second floating member in the C ABI.
+type :one = align 8 { s }
+export function d $padded_float(:one %p, d %value) {
+@entry
+ ret %value
+}

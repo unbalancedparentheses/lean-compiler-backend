@@ -1,18 +1,20 @@
 # Upstream fixture coverage checkpoint
 
-Pinned QBE 1.3, Apple ARM64; measured after Apple ARM64 TLS support.
+Pinned QBE 1.3, Apple ARM64; measured after Apple ARM64 aggregate ABI support.
 This is compatibility testing, not formal certification.
 
-Compiler checkpoint [`50d22a0`](https://github.com/unbalancedparentheses/lean-compiler-backend/commit/50d22a09c0635bdf9afbda65529eb6d52a8136f5),
-2026-10-20: the full native Nix regression suite passed, and
-[Ubuntu/macOS CI passed](https://github.com/unbalancedparentheses/lean-compiler-backend/actions/runs/39454944919).
-Ubuntu qualification builds/tests the compiler and models; it does not imply a
-Linux assembly target. Additional concurrent TLS-phi tests passed at `d9cdc9a`.
+2026-10-21 aggregate checkpoint: the all-fixture native scan passed at 71 emitted
+fixtures, then the original abi1/abi4 drivers passed with both backends after the
+unused-void-result normalization. Combined results are below. The full native Nix
+suite is being rerun for this checkpoint; aggregate tests and 147 theorem audits
+already pass. Ubuntu qualification builds/tests the compiler and models; it does
+not imply a Linux assembly target.
 
-- 61 of 76 fixtures emit assembly.
-- 46 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
+- 73 of 76 fixtures emit assembly.
+- 58 executable fixtures pass their original drivers/output expectations with both Lean and QBE output.
 - 15 underscore-prefixed development fixtures assemble with both backends; they are not counted as executable passes.
-- 15 fixtures remain unsupported.
+- 3 fixtures remain unsupported: the two large CFG development inputs and dark.ssa.
+  dark.ssa deliberately omits a required argument and is skipped upstream on Apple ARM64.
 
 `scripts/upstream_suite.py` scans every fixture and runs every accepted executable
 fixture on native Apple ARM64. Other hosts check emission and report native execution
@@ -44,15 +46,15 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `_spill1.ssa` | assembled only |
 | `_spill2.ssa` | assembled only |
 | `_spill3.ssa` | assembled only |
-| `abi1.ssa` | Unsupported: line 5 near 'type': expected 'function' |
-| `abi2.ssa` | Unsupported: line 1 near 'type': expected 'function' |
-| `abi3.ssa` | Unsupported: line 1 near 'type': expected 'function' |
-| `abi4.ssa` | Unsupported: line 3 near 'type': expected 'function' |
-| `abi5.ssa` | Unsupported: line 3 near 'type': expected 'function' |
-| `abi6.ssa` | Unsupported: line 5 near 'type': expected 'function' |
-| `abi7.ssa` | Unsupported: line 4 near 'type': expected 'function' |
-| `abi8.ssa` | Unsupported: line 4 near 'type': expected 'function' |
-| `abi9.ssa` | Unsupported: line 1 near 'type': expected 'function' |
+| `abi1.ssa` | passed |
+| `abi2.ssa` | passed |
+| `abi3.ssa` | passed |
+| `abi4.ssa` | passed |
+| `abi5.ssa` | passed |
+| `abi6.ssa` | passed |
+| `abi7.ssa` | passed |
+| `abi8.ssa` | passed |
+| `abi9.ssa` | passed |
 | `alias1.ssa` | passed |
 | `align.ssa` | passed |
 | `cmp1.ssa` | passed |
@@ -61,7 +63,7 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `copy.ssa` | passed |
 | `cprime.ssa` | passed |
 | `cup.ssa` | passed |
-| `dark.ssa` | Unsupported: line 6 near 'type': expected 'function' |
+| `dark.ssa` | Unsupported: intentional argument-count mismatch; upstream skips Apple ARM64 |
 | `double.ssa` | passed |
 | `dynalloc.ssa` | passed |
 | `echo.ssa` | passed |
@@ -88,9 +90,9 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 | `loop.ssa` | passed |
 | `mandel.ssa` | passed |
 | `max.ssa` | passed |
-| `mem1.ssa` | Unsupported: line 1 near 'type': expected 'function' |
-| `mem2.ssa` | Unsupported: line 4 near 'type': expected 'function' |
-| `mem3.ssa` | Unsupported: line 4 near 'type': expected 'function' |
+| `mem1.ssa` | passed |
+| `mem2.ssa` | passed |
+| `mem3.ssa` | passed |
 | `philv.ssa` | passed |
 | `prime.ssa` | passed |
 | `puts10.ssa` | passed |

@@ -1,0 +1,8 @@
+type :small = { l }
+export function l $aggregate_variadic() {
+@entry
+ %p =l alloc8 8
+ storel 123, %p
+ %r =l call $read_first(w 0, ..., :small %p, l 7)
+ ret %r
+}

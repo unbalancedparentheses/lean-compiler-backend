@@ -121,6 +121,7 @@ structure CallArgument where
   environment : Bool := false
   floating : Bool := false
   subword : Option Subword := none
+  aggregate : Option String := none
   deriving Repr, Inhabited
 
 /-- Floating values use Width for storage size; their SSA class is tracked separately. -/
@@ -181,6 +182,7 @@ structure Instruction where
   operation : Operation
   floating : Bool := false
   callSubword : Option Subword := none
+  callAggregate : Option String := none
   deriving Repr, Inhabited
 
 /-- Effect statements have no SSA result or artificial temporary definition. -/
@@ -210,6 +212,10 @@ def Statement.resultSubword : Statement → Option Subword
   | .assign inst => inst.callSubword
   | _ => none
 
+def Statement.resultAggregate : Statement → Option String
+  | .assign inst => inst.callAggregate
+  | _ => none
+
 def Statement.operands : Statement → List Operand
   | .assign inst => inst.operation.operands
   | .store _ value address | .storeFloat _ value address => [value, address]
@@ -223,6 +229,7 @@ structure Parameter where
   environment : Bool := false
   floating : Bool := false
   subword : Option Subword := none
+  aggregate : Option String := none
   deriving Repr, Inhabited
 
 structure Phi where
@@ -257,6 +264,7 @@ structure Function where
   resultWidth : Option Width
   resultFloating : Bool := false
   resultSubword : Option Subword := none
+  resultAggregate : Option String := none
   parameters : Array Parameter
   variadic : Bool := false
   blocks : Array Block

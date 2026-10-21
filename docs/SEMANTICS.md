@@ -173,8 +173,9 @@ only caller-supplied bytes initialized, rejects reads beyond the supplied tail,
 and restores the parent invocation's variadic context across nested calls.
 CLI evaluation accepts the named parameters only; use typed IL wrappers to supply
 variadic arguments. Dynamic native targets and vaarg types must match the actual
-call ABI; native code does not add type or bounds guards. Floating/aggregate
-variadics and the restricted first-path profile remain unsupported.
+call ABI; native code does not add type or bounds guards. Floating and aggregate
+variadic extensions are described below. Variadics remain outside the restricted
+first-path profile.
 
 ## Environment arguments
 
@@ -265,7 +266,7 @@ behavior and must be requalified when adding another target ABI.
 Named record, union and opaque declarations are accepted in the compatibility
 pipeline. `lcb --type-layout INPUT.ssa` reports byte sizes, alignments and the
 offset, stride and repetition count of each field in each variant. Aggregate
-parameters, call results and returns still fail explicitly pending ABI lowering.
+parameters, call results and returns use the Apple ARM64 ABI described below.
 The restricted first path rejects modules containing type declarations.
 
 References resolve in declaration order; duplicate names, forward references and
@@ -285,3 +286,47 @@ layout acceptance does not imply a target can pass the type by value.
 `scripts/aggregate_layout.py` compares 80 generated record/union/nested layouts
 against independent C sizeof/alignof/offsetof probes and checks QBE-specific
 opaque, zero-repetition and minimum-alignment cases. No layout theorem is claimed.
+
+## Apple ARM64 aggregate ABI
+
+An aggregate-typed parameter or call result is represented by an integer long
+pointer in the function body. Its ABI type name remains explicit on function and
+call signatures; known direct and interpreted indirect calls check those names.
+Types must precede their uses. ABI admission currently limits aggregate size to
+4096 bytes and alignment to at most 8, independently of the larger storage-layout
+limits. The existing 64-argument, function and instruction limits still apply.
+
+Homogeneous single/double aggregates use up to four FP registers; small other
+aggregates use one or two GP registers. An aggregate that does not fit is passed
+entirely on the stack and exhausts the relevant register bank. Large or opaque
+aggregates use a pointer to a private caller-owned copy. Indirect results use x8;
+environments continue to use x9. Unnamed Darwin variadic aggregates use the stack,
+with an indirect pointer for large/opaque values. Native calls and definitions
+use the same argument plan. Over-aligned float structs with tail padding are not
+misclassified as extra floating members; see the retained QBE discrepancies.
+
+The callee gets private by-value parameter storage. Every aggregate call site has
+one caller-owned result buffer per activation, reused when that same call site
+executes again (including in a loop), matching the stack baseline. Distinct call
+sites and recursive activations have distinct buffers. The interpreter copies
+result bytes before releasing callee objects and preserves unknown padding bytes
+as unknown; reading them still fails. Native transfers copy only the declared
+object extent and never round a final short fragment into an out-of-object read.
+Neither emitted code nor these tests add runtime object bounds or initialization
+guards. In particular, the upstream abi9 fixture reads a larger aggregate than
+its source allocation; its original native output check is not evidence that the
+whole input has defined memory behavior.
+
+After compatibility SSA construction, an unused scalar result assigned from a
+known void function is discarded. This supports upstream abi1/abi4 without
+inventing an observable result. Used void-call results, indirect signature
+mismatches and aggregate/scalar type mismatches remain errors. This normalization
+is not enabled on the restricted first path.
+
+`scripts/aggregate_abi.py` checks 22 layouts against native C and pinned QBE,
+including both call directions, callbacks, register-bank exhaustion and dynamic
+frames. Lean/C-only protected-page cases detect short-object overreads, with a
+corrupted full-width-load control. `scripts/aggregate_edges.py` checks result
+buffer reuse, distinct sites, padding, opaque values, x8+x9 and aggregate variadics.
+Three retained upstream discrepancies are tested separately, not counted as QBE
+matches. Aggregate lowering is tested and explicitly uncertified.

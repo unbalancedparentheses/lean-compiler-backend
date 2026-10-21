@@ -6,6 +6,7 @@
   and the retained upstream licenses in third_party/.
 -/
 import LeanCompilerBackend.Semantics
+import LeanCompilerBackend.AggregateABI
 
 namespace LeanCompilerBackend.AArch64
 
@@ -181,40 +182,6 @@ def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size)
       offset := offset + bytes
   return { locations, stackBytes := alignUp offset 16, stackUsedBytes := offset }
 
-private def emitCall (base : String) (slots : List (String × Nat)) (target : CallTarget)
-    (arguments : Array CallArgument) : Except String (List String) := do
-  let mut lines := []
-  let layout := argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment)) (arguments.map (·.floating)) (arguments.map (·.subword))
-  let dynamicOutgoing := base == "x29" && layout.stackBytes != 0
-  if dynamicOutgoing then lines := lines ++ [s!"\tsub sp, sp, #{layout.stackBytes}"]
-  for i in [:arguments.size] do
-    let argument := arguments[i]!
-    if argument.environment then continue
-    match layout.locations[i]! with
-    | .floatRegister index =>
-      lines := lines ++ (← load base slots argument.width 9 argument.value)
-      lines := lines ++ [s!"\tfmov {floatRegister argument.width index}, {register argument.width 9}"]
-    | .register index =>
-      lines := lines ++ (← load base slots argument.width index argument.value)
-      if let some kind := argument.subword then lines := lines ++ [extendSubword kind index]
-    | .stack offset =>
-      lines := lines ++ (← load base slots argument.width 9 argument.value)
-      if let some kind := argument.subword then lines := lines ++ [extendSubword kind 9]
-      let instruction := if !argument.variadic then match argument.subword with
-        | some kind => if kind.bytes == 1 then "strb w9" else "strh w9"
-        | none => s!"str {register argument.width 9}"
-        else s!"str {register argument.width 9}"
-      lines := lines ++ [s!"\t{instruction}, [sp, #{offset}]"]
-  if let some argument := arguments[0]? then
-    if argument.environment then lines := lines ++ (← load base slots .long 9 argument.value)
-  let branch ← match target with
-    | .direct name => pure [s!"\tbl _{name}"]
-    | .indirect address =>
-      -- Load the target after argument setup; x16 is reserved as call scratch.
-      pure ((← load base slots .long 16 address) ++ ["\tblr x16"])
-  let restore := if dynamicOutgoing then [s!"\tadd sp, sp, #{layout.stackBytes}"] else []
-  pure (lines ++ branch ++ restore)
-
 /-- Split frame adjustments into the two legal AArch64 immediate scales. -/
 private def adjustStack (op : String) (bytes : Nat) : List String := Id.run do
   let mut lines := []
@@ -232,12 +199,123 @@ private def stackAddress (base : String) (destination offset : Nat) : List Strin
     lines := lines ++ [s!"\tadd {r}, {r}, #{offset % 4096}"]
   return lines
 
+/-- Exact object fragments avoid QBE's known possible tail overread. x12 is the
+    object pointer; x13 is scratch. Padding inside the object may be transferred. -/
+private def readFragment (destination offset bytes : Nat) : List String := Id.run do
+  if bytes == 8 then return [s!"\tldr x{destination}, [x12, #{offset}]"]
+  if bytes == 4 then return [s!"\tldr w{destination}, [x12, #{offset}]"]
+  let mut lines := [s!"\tmov x{destination}, #0"]
+  for i in [:bytes] do
+    lines := lines ++ [s!"\tldrb w13, [x12, #{offset+i}]",
+      s!"\torr x{destination}, x{destination}, x13, lsl #{8*i}"]
+  return lines
+
+private def writeFragment (source offset bytes : Nat) : List String := Id.run do
+  if bytes == 8 then return [s!"\tstr x{source}, [x12, #{offset}]"]
+  if bytes == 4 then return [s!"\tstr w{source}, [x12, #{offset}]"]
+  let mut lines := [s!"\tmov x13, x{source}"]
+  for i in [:bytes] do
+    lines := lines ++ [s!"\tstrb w13, [x12, #{offset+i}]"]
+    if i + 1 < bytes then lines := lines ++ ["\tlsr x13, x13, #8"]
+  return lines
+
+/-- Copy exact bytes from x12 to x13, using x14 only. -/
+private def copyAggregate (bytes : Nat) : List String := Id.run do
+  let mut lines := []
+  let mut offset := 0
+  for size in [8, 4, 2, 1] do
+    for _ in [:((bytes - offset) / size)] do
+      let (read, write) := match size with
+        | 8 => ("ldr x14", "str x14") | 4 => ("ldr w14", "str w14")
+        | 2 => ("ldrh w14", "strh w14") | _ => ("ldrb w14", "strb w14")
+      lines := lines ++ [s!"\t{read}, [x12, #{offset}]", s!"\t{write}, [x13, #{offset}]"]
+      offset := offset + size
+  return lines
+
+private def parametersAsArguments (f : Function) : Array CallArgument :=
+  f.parameters.map fun p =>
+    { width := p.width, value := .temporary p.name,
+      floating := p.floating, subword := p.subword, aggregate := p.aggregate, environment := p.environment }
+
+private def emitCall (types : Array AggregateABI.TypeInfo) (base : String)
+    (slots allocations : List (String × Nat)) (target : CallTarget)
+    (arguments : Array CallArgument) (result : Option (String × String) := none)
+    : Except String (List String) := do
+  let mut lines := []
+  let plan ← AggregateABI.plan types arguments
+  let dynamicOutgoing := base == "x29" && plan.totalBytes != 0
+  if dynamicOutgoing then lines := lines ++ adjustStack "sub" plan.totalBytes
+  -- Copy indirect arguments before filling live argument registers.
+  for i in [:arguments.size] do
+    if let some offset := plan.arguments[i]!.copyOffset then
+      let some info := plan.arguments[i]!.aggregate | throw "missing indirect aggregate type"
+      lines := lines ++ (← load base slots .long 12 arguments[i]!.value)
+        ++ stackAddress "sp" 13 offset ++ copyAggregate info.layout.size
+  for i in [:arguments.size] do
+    let argument := arguments[i]!
+    if argument.environment then continue
+    let entry := plan.arguments[i]!
+    if let some info := entry.aggregate then
+      if info.passing == .indirect then
+        let some offset := entry.copyOffset | throw "missing indirect aggregate copy"
+        match entry.location with
+        | .general first _ => lines := lines ++ stackAddress "sp" first offset
+        | .stack dest => lines := lines ++ stackAddress "sp" 12 offset ++ [s!"\tstr x12, [sp, #{dest}]"]
+        | _ => throw "indirect aggregate in floating register"
+      else
+        lines := lines ++ (← load base slots .long 12 argument.value)
+        match entry.location with
+        | .general first count =>
+          for j in [:count] do
+            lines := lines ++ readFragment (first+j) (j*8) (min 8 (info.layout.size-j*8))
+        | .floating first count width =>
+          for j in [:count] do
+            lines := lines ++ [s!"\tldr {floatRegister width (first+j)}, [x12, #{j*width.bytes}]"]
+        | .stack offset => lines := lines ++ stackAddress "sp" 13 offset ++ copyAggregate info.layout.size
+    else
+      match entry.location with
+      | .floating index _ _ =>
+        lines := lines ++ (← load base slots argument.width 9 argument.value)
+          ++ [s!"\tfmov {floatRegister argument.width index}, {register argument.width 9}"]
+      | .general index _ =>
+        lines := lines ++ (← load base slots argument.width index argument.value)
+        if let some kind := argument.subword then lines := lines ++ [extendSubword kind index]
+      | .stack offset =>
+        lines := lines ++ (← load base slots argument.width 9 argument.value)
+        if let some kind := argument.subword then lines := lines ++ [extendSubword kind 9]
+        let instruction := if !argument.variadic then match argument.subword with
+          | some kind => if kind.bytes == 1 then "strb w9" else "strh w9"
+          | none => s!"str {register argument.width 9}"
+          else s!"str {register argument.width 9}"
+        lines := lines ++ [s!"\t{instruction}, [sp, #{offset}]"]
+  if let some (destination, name) := result then
+    let info ← AggregateABI.find types name
+    if info.passing == .indirect then
+      lines := lines ++ stackAddress base 8 (← slotOffset allocations destination)
+  if let some argument := arguments[0]? then
+    if argument.environment then lines := lines ++ (← load base slots .long 9 argument.value)
+  lines := lines ++ (← match target with
+    | .direct name => pure [s!"\tbl _{name}"]
+    | .indirect address => pure ((← load base slots .long 16 address) ++ ["\tblr x16"]))
+  if dynamicOutgoing then lines := lines ++ adjustStack "add" plan.totalBytes
+  if let some (destination, name) := result then
+    let info ← AggregateABI.find types name
+    lines := lines ++ stackAddress base 12 (← slotOffset allocations destination)
+    match info.passing with
+    | .general count =>
+      for j in [:count] do lines := lines ++ writeFragment j (j*8) (min 8 (info.layout.size-j*8))
+    | .homogeneous width count =>
+      for j in [:count] do lines := lines ++ [s!"\tstr {floatRegister width j}, [x12, #{j*width.bytes}]"]
+    | .indirect => pure ()
+    lines := lines ++ ["\tmov x9, x12"]
+  pure lines
+
 private def loadIncoming (width : Width) (offset : Nat) : List String :=
   if offset % width.bytes == 0 && offset / width.bytes < 4096 then
     [s!"\tldr {register width 9}, [sp, #{offset}]"]
   else stackAddress "sp" 10 offset ++ [s!"\tldr {register width 9}, [x10]"]
 
-private def emitInstruction (base : String) (slots allocations : List (String × Nat)) (inst : Instruction)
+private def emitInstruction (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat)) (inst : Instruction)
     : Except String (List String) := do
   let mut lines : List String := []
   match inst.operation with
@@ -316,17 +394,17 @@ private def emitInstruction (base : String) (slots allocations : List (String ×
     -- Sources are stable stack slots: argument-register permutations cannot
     -- overwrite an argument that has not yet been loaded. All other live values
     -- also survive caller-saved clobbers in their own frame slots.
-    lines := lines ++ (← emitCall base slots target arguments)
-    lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width 9}, {floatRegister inst.width 0}"
+    lines := lines ++ (← emitCall types base slots allocations target arguments (inst.callAggregate.map (inst.destination, ·)))
+    if inst.callAggregate.isNone then lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width 9}, {floatRegister inst.width 0}"
       else s!"\tmov {register inst.width 9}, {register inst.width 0}"]
   let offset ← slotOffset slots inst.destination
   pure (lines ++ [s!"\tstr {register inst.width 9}, [{base}, #{offset}]"])
 
-private def emitStatement (base : String) (slots allocations : List (String × Nat))
+private def emitStatement (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat))
     (varargsOffset : Nat) (statement : Statement) : Except String (List String) := do
   match statement with
-  | .assign inst => emitInstruction base slots allocations inst
-  | .callVoid target arguments => emitCall base slots target arguments
+  | .assign inst => emitInstruction types base slots allocations inst
+  | .callVoid target arguments => emitCall types base slots allocations target arguments
   | .vaStart list =>
     pure ((← load base slots .long 9 list) ++ stackAddress base 10 varargsOffset ++ ["\tstr x10, [x9]"])
   | .blit source destination bytes =>
@@ -380,7 +458,7 @@ private def emitEdge (base : String) (f : Function) (slots : List (String × Nat
     lines := lines ++ [s!"\tldr {r}, [{base}, #{stageBase + i * 8}]", s!"\tstr {r}, [{base}, #{offset}]"]
   pure lines
 
-def emitFunction (f : Function) : Except String String := do
+def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) : Except String String := do
   validateFunction f
   let localNames := f.locals
   let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
@@ -389,12 +467,14 @@ def emitFunction (f : Function) : Except String String := do
       block.label != f.blocks[0]!.label || match size with
         | .constant _ => false | _ => true
     | _ => false
+  let dynamic := dynamic || f.blocks.any (fun block => block.instructions.any (fun statement =>
+    statement.callSite.any (fun (_, args, _) => args.any (·.aggregate.isSome))))
   let base := if dynamic then "x29" else "sp"
   let mut outgoing := 0
   for block in f.blocks do
     for statement in block.instructions do
       if let some (_, arguments, _) := statement.callSite then
-        outgoing := max outgoing (argumentLayout (arguments.map (·.width)) ((arguments.findIdx? (·.variadic)).getD arguments.size) ((arguments[0]?).any (·.environment)) (arguments.map (·.floating)) (arguments.map (·.subword))).stackBytes
+        outgoing := max outgoing (← AggregateABI.plan types arguments).totalBytes
   -- Dynamic functions reserve a canonical FP/LR record here and place outgoing
   -- arguments at each call's current SP, below any dynamic objects.
   if dynamic then outgoing := 16
@@ -407,7 +487,24 @@ def emitFunction (f : Function) : Except String String := do
   let hasCalls := f.blocks.any fun block => block.instructions.any (·.callSite.isSome)
   let returnAddress := frameEnd
   if hasCalls && !dynamic then frameEnd := frameEnd + 8
+  let resultInfo ← f.resultAggregate.mapM (AggregateABI.find types)
+  let resultPointer := frameEnd
+  if resultInfo.any (·.passing == .indirect) then frameEnd := frameEnd + 8
   let mut allocations : List (String × Nat) := []
+  for parameter in f.parameters do
+    if let some name := parameter.aggregate then
+      let info ← AggregateABI.find types name
+      frameEnd := alignUp frameEnd 8
+      allocations := (parameter.name, frameEnd) :: allocations
+      frameEnd := frameEnd + max info.layout.size 1
+  for block in f.blocks do
+    for statement in block.instructions do
+      if let .assign inst := statement then
+        if let some name := inst.callAggregate then
+          let info ← AggregateABI.find types name
+          frameEnd := alignUp frameEnd 8
+          allocations := (inst.destination, frameEnd) :: allocations
+          frameEnd := frameEnd + max info.layout.size 1
   if !dynamic then
     for statement in f.blocks[0]!.instructions do
       if let .assign inst := statement then
@@ -425,8 +522,9 @@ def emitFunction (f : Function) : Except String String := do
   if dynamic then
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
   else if hasCalls then lines := lines ++ [s!"\tstr x30, [sp, #{returnAddress}]"]
-  let incoming := argumentLayout (f.parameters.map (·.width)) f.parameters.size
-    ((f.parameters[0]?).any (·.environment)) (f.parameters.map (·.floating)) (f.parameters.map (·.subword))
+  let incoming ← AggregateABI.plan types (parametersAsArguments f)
+  if resultInfo.any (·.passing == .indirect) then
+    lines := lines ++ stackAddress base 12 resultPointer ++ ["\tstr x8, [x12]"]
   if let some parameter := f.parameters[0]? then
     if parameter.environment then
       let offset ← slotOffset slots parameter.name
@@ -435,30 +533,63 @@ def emitFunction (f : Function) : Except String String := do
     let parameter := f.parameters[i]!
     if parameter.environment then continue
     let offset ← slotOffset slots parameter.name
-    match incoming.locations[i]! with
-    | .floatRegister index =>
-      lines := lines ++ [s!"\tstr {floatRegister parameter.width index}, [{base}, #{offset}]"]
-    | .register index =>
-      lines := lines ++ [s!"\tstr {register parameter.width index}, [{base}, #{offset}]"]
-    | .stack argumentOffset =>
-      if let some kind := parameter.subword then
-        let instruction := match kind with
-          | .signedByte => "ldrsb w9" | .unsignedByte => "ldrb w9"
-          | .signedHalf => "ldrsh w9" | .unsignedHalf => "ldrh w9"
-        lines := lines ++ stackAddress "sp" 10 (frame + argumentOffset) ++ [s!"\t{instruction}, [x10]"]
-      else lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
-      lines := lines ++ [s!"\tstr {register parameter.width 9}, [{base}, #{offset}]"]
+    let entry := incoming.arguments[i]!
+    if let some info := entry.aggregate then
+      let objectOffset ← slotOffset allocations parameter.name
+      if info.passing == .indirect then
+        match entry.location with
+        | .general first _ => lines := lines ++ [s!"\tmov x12, x{first}"]
+        | .stack argumentOffset =>
+          lines := lines ++ stackAddress "sp" 12 (frame + argumentOffset) ++ ["\tldr x12, [x12]"]
+        | _ => throw "indirect parameter in floating register"
+        lines := lines ++ stackAddress base 13 objectOffset ++ copyAggregate info.layout.size
+      else
+        match entry.location with
+        | .general first count =>
+          lines := lines ++ stackAddress base 12 objectOffset
+          for j in [:count] do lines := lines ++ writeFragment (first+j) (j*8) (min 8 (info.layout.size-j*8))
+        | .floating first count width =>
+          lines := lines ++ stackAddress base 12 objectOffset
+          for j in [:count] do lines := lines ++ [s!"\tstr {floatRegister width (first+j)}, [x12, #{j*width.bytes}]"]
+        | .stack argumentOffset =>
+          lines := lines ++ stackAddress "sp" 12 (frame + argumentOffset)
+            ++ stackAddress base 13 objectOffset ++ copyAggregate info.layout.size
+      lines := lines ++ stackAddress base 12 objectOffset ++ [s!"\tstr x12, [{base}, #{offset}]"]
+    else
+      match entry.location with
+      | .floating index _ _ =>
+        lines := lines ++ [s!"\tstr {floatRegister parameter.width index}, [{base}, #{offset}]"]
+      | .general index _ =>
+        lines := lines ++ [s!"\tstr {register parameter.width index}, [{base}, #{offset}]"]
+      | .stack argumentOffset =>
+        if let some kind := parameter.subword then
+          let instruction := match kind with
+            | .signedByte => "ldrsb w9" | .unsignedByte => "ldrb w9"
+            | .signedHalf => "ldrsh w9" | .unsignedHalf => "ldrh w9"
+          lines := lines ++ stackAddress "sp" 10 (frame + argumentOffset) ++ [s!"\t{instruction}, [x10]"]
+        else lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
+        lines := lines ++ [s!"\tstr {register parameter.width 9}, [{base}, #{offset}]"]
   for block in f.blocks do
     lines := lines ++ [blockLabel f block.label ++ ":"]
     for statement in block.instructions do
-      lines := lines ++ (← emitStatement base slots allocations (frame + alignUp incoming.stackUsedBytes 8) statement)
+      lines := lines ++ (← emitStatement types base slots allocations (frame + alignUp incoming.stackUsed 8) statement)
     match block.terminator with
     | .ret value =>
       if let some value := value then
         let some width := f.resultWidth | throw "void function cannot return an integer"
-        lines := lines ++ (← load base slots width 0 value)
-        if let some kind := f.resultSubword then lines := lines ++ [extendSubword kind 0]
-        if f.resultFloating then lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width 0}"]
+        if let some info := resultInfo then
+          lines := lines ++ (← load base slots .long 12 value)
+          match info.passing with
+          | .general count =>
+            for j in [:count] do lines := lines ++ readFragment j (j*8) (min 8 (info.layout.size-j*8))
+          | .homogeneous width count =>
+            for j in [:count] do lines := lines ++ [s!"\tldr {floatRegister width j}, [x12, #{j*width.bytes}]"]
+          | .indirect =>
+            lines := lines ++ stackAddress base 13 resultPointer ++ ["\tldr x13, [x13]"] ++ copyAggregate info.layout.size
+        else
+          lines := lines ++ (← load base slots width 0 value)
+          if let some kind := f.resultSubword then lines := lines ++ [extendSubword kind 0]
+          if f.resultFloating then lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width 0}"]
       if dynamic then lines := lines ++ ["\tmov sp, x29", "\tldp x29, x30, [sp]"]
       else if hasCalls then lines := lines ++ [s!"\tldr x30, [sp, #{returnAddress}]"]
       lines := lines ++ adjustStack "add" frame
@@ -479,7 +610,7 @@ def emitFunction (f : Function) : Except String String := do
 
 def emit (program : Program) : Except String String := do
   validate program
-  let functions ← program.toList.mapM emitFunction
+  let functions ← program.toList.mapM (fun f => emitFunction f)
   return "; Generated by Lean Compiler Backend; no Lean runtime in emitted code\n.text\n"
     ++ String.intercalate "\n" functions
     ++ ".subsections_via_symbols\n"
@@ -512,7 +643,8 @@ private def emitData (data : DataDefinition) : String := Id.run do
 
 def emitModule (module : Module) : Except String String := do
   validateModule module
-  let functions ← module.functions.toList.mapM emitFunction
+  let types ← AggregateABI.classify module.types
+  let functions ← module.functions.toList.mapM (fun f => emitFunction f types)
   return "; Generated by Lean Compiler Backend; no Lean runtime in emitted code\n.text\n"
     ++ String.intercalate "\n" functions
     ++ String.intercalate "\n" (module.data.toList.map emitData)

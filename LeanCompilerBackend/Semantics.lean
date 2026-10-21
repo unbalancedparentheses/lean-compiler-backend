@@ -6,6 +6,7 @@
 import LeanCompilerBackend.Validate
 import LeanCompilerBackend.Memory
 import LeanCompilerBackend.Floating
+import LeanCompilerBackend.AggregateABI
 
 namespace LeanCompilerBackend.Semantics
 
@@ -90,7 +91,7 @@ private def operand (symbols locals : List (String × UInt64)) (width : Width)
     | none => throw s!"undefined temporary %{name}"
 
 private def resolveCallTarget (functions : Program) (symbols locals : List (String × UInt64))
-    (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) (resultFloating : Bool) (resultSubword : Option Subword) : Except String String := do
+    (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) (resultFloating : Bool) (resultSubword : Option Subword) (resultAggregate : Option String) : Except String String := do
   match target with
   | .direct name => pure name
   | .indirect value =>
@@ -101,9 +102,9 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
       | throw "indirect call target is not a defined function; result not evaluated"
     let arguments ← effectiveCallArguments callee arguments
     let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
-    if !callResultMatches callee resultWidth resultFloating resultSubword || callee.parameters.size != fixed ||
+    if !callResultMatches callee resultWidth resultFloating resultSubword resultAggregate || callee.parameters.size != fixed ||
         (!callee.variadic && arguments.size != fixed) ||
-        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating || p.subword != a.subword) then
+        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating || p.subword != a.subword || p.aggregate != a.aggregate) then
       throw "indirect call signature disagrees with target definition; result not evaluated"
     pure name
 
@@ -116,10 +117,12 @@ private structure ExecutionState where
   memory : Memory := {}
   symbols : List (String × UInt64) := []
   functions : Program := #[]
+  types : Array AggregateABI.TypeInfo := #[]
   variadicStart : Option UInt64 := none
   remainingBlocks : Nat := 100000
+  resultObjects : List (String × UInt64) := []
 
-private abbrev CallHandler := String → Array UInt64 → Array Width → Bool → ExecutionState →
+private abbrev CallHandler := String → Array UInt64 → Array Width → Array (Option String) → Bool → Option String → ExecutionState →
   Except String (Option UInt64 × ExecutionState)
 
 private def evaluateOperation (call : CallHandler) (inst : Instruction)
@@ -176,11 +179,11 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
       | none => normalize inst.width value
     pure (extended, state)
   | .call target arguments =>
-    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width) inst.floating inst.callSubword
+    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width) inst.floating inst.callSubword inst.callAggregate
     let values ← arguments.mapM fun argument => do
       let value ← operand state.symbols locals argument.width argument.value
       pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
-    let (result, updated) ← call target values (arguments.map (·.width)) ((arguments[0]?).any (·.environment)) state
+    let (result, updated) ← call target values (arguments.map (·.width)) (arguments.map (·.aggregate)) ((arguments[0]?).any (·.environment)) (some inst.destination) state
     let some value := result | throw "void call cannot define an integer result"
     pure (normalize inst.width value, updated)
 
@@ -206,11 +209,11 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let memory ← state.memory.write address width.bytes value
       state := { state with memory }
     | .callVoid target arguments =>
-      let target ← resolveCallTarget state.functions state.symbols locals target arguments none false none
+      let target ← resolveCallTarget state.functions state.symbols locals target arguments none false none none
       let values ← arguments.mapM fun argument => do
         let value ← operand state.symbols locals argument.width argument.value
         pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
-      let (result, updated) ← call target values (arguments.map (·.width)) ((arguments[0]?).any (·.environment)) state
+      let (result, updated) ← call target values (arguments.map (·.width)) (arguments.map (·.aggregate)) ((arguments[0]?).any (·.environment)) none state
       if result.isSome then throw "non-void call requires a return temporary"
       state := updated
     | .vaStart list =>
@@ -256,42 +259,89 @@ private def execute (call : CallHandler) (f : Function) : Nat → String → Opt
       let value ← operand state.symbols executed .word condition
       execute call f fuel (if value != 0 then yes else no) (some label) executed state
 
-private def invoke (program : Program) : Nat → Function → Array UInt64 → Array Width → ExecutionState →
+private def invoke (program : Program) : Nat → Function → Array UInt64 → Array Width → Array (Option String) → Option UInt64 → ExecutionState →
     Except String (Option UInt64 × ExecutionState)
-  | 0, _, _, _, _ => .error "interpreter call-depth budget exhausted; result not evaluated"
-  | depth + 1, f, arguments, argumentWidths, state => do
+  | 0, _, _, _, _, _, _ => .error "interpreter call-depth budget exhausted; result not evaluated"
+  | depth + 1, f, arguments, argumentWidths, argumentTypes, resultStorage, state => do
     if arguments.size < f.parameters.size || (!f.variadic && arguments.size != f.parameters.size) ||
-        argumentWidths.size != arguments.size then
+        argumentWidths.size != arguments.size || argumentTypes.size != arguments.size then
       throw s!"function ${f.name} expects {f.parameters.size} arguments, got {arguments.size}"
+    let call : CallHandler := fun target values widths types environment site current => do
+      let some callee := program.find? (·.name == target)
+        | throw s!"external call ${target} has no interpreter model; result not evaluated"
+      let (storage, current) ← match callee.resultAggregate, site with
+        | some name, some site => do
+          if let some address := current.resultObjects.lookup site then
+            pure (some address, current)
+          else
+            let info ← AggregateABI.find current.types name
+            let (address, memory) ← current.memory.allocate .eight info.layout.size
+            pure (some address, { current with memory, resultObjects := (site, address) :: current.resultObjects })
+        | _, _ => pure (none, current)
+      if environment && !((callee.parameters[0]?).any (·.environment)) then
+        invoke program depth callee (values.extract 1 values.size) (widths.extract 1 widths.size) (types.extract 1 types.size) storage current
+      else invoke program depth callee values widths types storage current
+    -- Result storage belongs to the caller and survives release of callee objects.
+    let resultInfo ← f.resultAggregate.mapM (AggregateABI.find state.types)
+    let (resultAddress, state) ← match resultInfo with
+      | none => pure (none, state)
+      | some info => do
+        if let some address := resultStorage then pure (some address, state)
+        else
+          let (address, memory) ← state.memory.allocate .eight info.layout.size
+          pure (some address, { state with memory })
+    let objectCount := state.memory.objects.size
+    let allocatedBytes := state.memory.allocatedBytes
+    let mut initial := { state with variadicStart := none, resultObjects := [] }
     let mut locals : List (String × UInt64) := []
     for i in [:f.parameters.size] do
       let p := f.parameters[i]!
-      let value := normalize p.width arguments[i]!
-      let value := match p.subword with | some kind => unary .word kind.extension value | none => value
+      let mut value := normalize p.width arguments[i]!
+      if let some name := p.aggregate then
+        let info ← AggregateABI.find state.types name
+        let (address, memory) ← initial.memory.allocate .eight info.layout.size
+        let memory ← memory.blit value address info.layout.size
+        initial := { initial with memory }
+        value := address
+      else value := match p.subword with | some kind => unary .word kind.extension value | none => value
       locals := (p.name, value) :: locals
-    let call : CallHandler := fun target values widths environment current => do
-      let some callee := program.find? (·.name == target)
-        | throw s!"external call ${target} has no interpreter model; result not evaluated"
-      if environment && !((callee.parameters[0]?).any (·.environment)) then
-        invoke program depth callee (values.extract 1 values.size) (widths.extract 1 widths.size) current
-      else invoke program depth callee values widths current
-    let objectCount := state.memory.objects.size
-    let allocatedBytes := state.memory.allocatedBytes
-    let mut initial := { state with variadicStart := none }
     if f.variadic then
-      let count := arguments.size - f.parameters.size
-      let (base, memory) ← state.memory.allocate .eight (count * 8)
+      let mut bytes := 0
+      for i in [f.parameters.size:arguments.size] do
+        let info ← argumentTypes[i]!.mapM (AggregateABI.find state.types)
+        bytes := bytes + (match info with
+          | some info => if info.passing == .indirect then 8 else alignUp info.layout.size 8
+          | none => 8)
+      let (base, memory) ← initial.memory.allocate .eight bytes
       let mut memory := memory
-      for i in [:count] do
-        let index := f.parameters.size + i
-        memory ← memory.write (base + (i * 8).toUInt64) argumentWidths[index]!.bytes arguments[index]!
-      initial := { state with memory, variadicStart := some base }
+      let mut offset := 0
+      for i in [f.parameters.size:arguments.size] do
+        if let some name := argumentTypes[i]! then
+          let info ← AggregateABI.find state.types name
+          if info.passing == .indirect then
+            let (address, copied) ← memory.allocate .eight info.layout.size
+            memory ← copied.blit arguments[i]! address info.layout.size
+            memory ← memory.write (base + offset.toUInt64) 8 address
+            offset := offset + 8
+          else
+            memory ← memory.blit arguments[i]! (base + offset.toUInt64) info.layout.size
+            offset := offset + alignUp info.layout.size 8
+        else
+          memory ← memory.write (base + offset.toUInt64) argumentWidths[i]!.bytes arguments[i]!
+          offset := offset + 8
+      initial := { initial with memory, variadicStart := some base }
     let (value, updated) ← execute call f 100000 f.blocks[0]!.label none locals initial
+    let (value, updated) ← match resultInfo, resultAddress, value with
+      | some info, some destination, some source => do
+        let memory ← updated.memory.blit source destination info.layout.size
+        pure (some destination, { updated with memory })
+      | none, none, _ => pure (value, updated)
+      | _, _, _ => throw "aggregate call did not return an object"
     -- Preserve writes to caller-owned objects, but invalidate this activation's
     -- stack objects. Addresses are never reused, so a dangling pointer stays invalid.
     let memory := { updated.memory with
       objects := updated.memory.objects.extract 0 objectCount, allocatedBytes }
-    pure (value, { updated with memory, variadicStart := state.variadicStart })
+    pure (value, { updated with memory, variadicStart := state.variadicStart, resultObjects := state.resultObjects })
 
 /-- Allocate all objects before resolving initializers, allowing forward/self references. -/
 private def initializeModule (module : Module) : Except String ExecutionState := do
@@ -324,7 +374,7 @@ private def initializeModule (module : Module) : Except String ExecutionState :=
           | throw s!"external symbol ${name} has no interpreter model; result not evaluated"
         memory ← memory.write (base + offset.toUInt64) 8 (address + constant .long addend)
       offset := offset + item.byteSize
-  return { memory, symbols, functions := module.functions }
+  return { memory, symbols, functions := module.functions, types := ← AggregateABI.classify module.types }
 
 def evaluateModule (module : Module) (name : String) (arguments : Array UInt64)
     : Except String (Option UInt64) := do
@@ -333,7 +383,7 @@ def evaluateModule (module : Module) (name : String) (arguments : Array UInt64)
   let initial ← initializeModule module
   -- CLI arguments describe the named parameters; variadic tails need typed IL calls.
   if arguments.size != f.parameters.size then throw "CLI argument count must match named parameters"
-  let (value, _) ← invoke module.functions 128 f arguments (f.parameters.map (·.width)) initial
+  let (value, _) ← invoke module.functions 128 f arguments (f.parameters.map (·.width)) (f.parameters.map (·.aggregate)) none initial
   pure value
 
 def evaluateProgram (program : Program) (name : String) (arguments : Array UInt64)

@@ -198,12 +198,39 @@ def construct (f : Function) : Except String Function := do
   | .ok () => pure result
   | .error error => throw s!"constructed SSA failed validation: {error}"
 
+/-- QBE fixtures may assign an unused scalar result from a defined void callee.
+    Drop that dead result after SSA renaming; never manufacture a value that can
+    be observed, and retain result-signature checks for every used temporary. -/
+private def discardUnusedVoidResults (program : Program) (f : Function) : Function := Id.run do
+  let mut used : List String := []
+  for block in f.blocks do
+    let terms := match block.terminator with
+      | .ret (some value) | .branch value _ _ => [value]
+      | _ => []
+    let operands := block.phis.toList.flatMap (fun phi => phi.incoming.toList.map (·.2)) ++
+      block.instructions.toList.flatMap Statement.operands ++ terms
+    for operand in operands do
+      if let .temporary name := operand then used := name :: used
+  let blocks := f.blocks.map fun block =>
+    { block with instructions := block.instructions.map fun statement =>
+      match statement with
+      | .assign inst => match inst.operation with
+        | .call (.direct name) arguments =>
+          if inst.callAggregate.isNone && !used.contains inst.destination &&
+              (program.find? (·.name == name)).any (·.resultWidth.isNone) then
+            .callVoid (.direct name) arguments
+          else statement
+        | _ => statement
+      | _ => statement }
+  return { f with blocks }
+
 /-- Normalize only the explicitly uncertified compatibility module. -/
 def constructModule (m : LeanCompilerBackend.Module) : Except String LeanCompilerBackend.Module := do
   let functions ← m.functions.mapM fun f => do
     match construct f with
     | .ok result => pure result
     | .error error => throw s!"function ${f.name}: {error}"
+  let functions := functions.map (discardUnusedVoidResults functions)
   let result := { m with functions }
   validateModule result
   pure result

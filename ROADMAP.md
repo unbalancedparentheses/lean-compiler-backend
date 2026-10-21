@@ -28,7 +28,7 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 
 The current compatibility slice includes scalar integer/floating arithmetic and
 conversions, global data, indirect calls, variadics, env arguments and dynamic
-allocation on Apple ARM64. Mutable-temporary SSA construction is now implemented. Next address aggregate ABI, remaining linkage, optimizations and the other target backends.
+allocation on Apple ARM64. Mutable-temporary SSA construction is now implemented. Aggregate arguments/results are now supported on Apple ARM64. Next address remaining linkage, scalable CFG/resource handling, optimizations and the other target backends.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding
@@ -145,23 +145,26 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   recursion and native C interoperation are implemented as an initial slice.
   Function tables, native C callbacks, env arguments and integer/floating variadics
   (vastart/vaarg) are also tested. Subword ABI arguments/results and packed byte/short stack slots are tested;
-  aggregate ABI forms remain open. The Apple ARM64 integer
+  Apple ARM64 aggregate arguments/results now include GP/FP registers, stack fallback,
+  private indirect copies, opaque values, aggregate variadics and exact short tails.
+  Other target ABIs remain open. The Apple ARM64 integer
   stack slice uses natural word/long packing and is checked against native C.
-  Next implement aggregate support in this order:
+  Aggregate implementation/qualification checklist:
   1. Parse named record, union and opaque types with repetition, nesting and explicit
      alignment. Storage parsing/layout and independent C sizeof/alignof/offsetof
-     probes are implemented; aggregate signature and ABI integration follow.
-  2. Build aggregate argument/result plans: homogeneous single/double aggregates,
+     probes, aggregate signatures and Apple ARM64 ABI integration are implemented.
+  2. Implemented aggregate argument/result plans: homogeneous single/double aggregates,
      small GP-register aggregates, stack fallback and caller-owned indirect copies;
      include x8 result pointers alongside x9 environments and variadic boundaries.
      Use pinned arm64/abi.c classification, including its alignment restrictions,
      as the compatibility reference rather than silently broadening the ABI.
-  3. Model by-value argument copies and caller-owned result storage before releasing
+  3. Implemented by-value argument copies and caller-owned result storage before releasing
      callee objects. Preserve uninitialized padding; do not invent defined bytes or
      read beyond a short aggregate when filling a final register fragment.
-  4. Qualify abi1–abi9 and mem1–mem3 with their original drivers plus independent C
-     boundary tests for exhausted GP/FP banks, nested calls, callbacks, dynamic
-     frames and guarded short objects. dark.ssa is explicitly skipped upstream
+  4. abi1–abi9 and mem1–mem3 pass their original drivers. Independent C
+     boundary tests cover exhausted GP/FP banks, nested calls, callbacks, dynamic
+     frames and guarded short objects. Pinned QBE discrepancies for tail overreads,
+     padded float classification and Darwin aggregate variadics are retained separately. dark.ssa is explicitly skipped upstream
      on Apple ARM64 and must not be counted as a native execution pass.
   Keep ABI plans and call/environment contracts explicit, including callback and
   shared-memory assumptions. Preserve the established floating execution profile
@@ -196,8 +199,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
   fuzzing; reduce and retain every mismatch. The current all-fixture scan emits
-  61/76 inputs: 46 original executable fixtures pass natively, 15 development
-  fixtures assemble only, and 15 remain unsupported. CI prevents emission
+  73/76 inputs: 58 original executable fixtures pass natively, 15 development
+  fixtures assemble only, and 3 remain unsupported. CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

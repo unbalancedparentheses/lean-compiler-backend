@@ -111,7 +111,7 @@ field u 1 0 0 8 1
             'type :x = { l 131073 }', 'type :x = align 8 { 1048577 }',
             'type :x = { w l }', 'type :x = { { w }, { l } }',
             'type :x = { sb }', 'export type :x = { w }',
-            'type :x = { w } function :x $f() { @s ret 0 }',
+            'type :x = { w } function :missing $f() { @s ret 0 }',
         ]
         for text in invalid:
             source.write_text(text)
