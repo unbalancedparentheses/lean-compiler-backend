@@ -125,6 +125,11 @@ execution. The new `ubuntu-24.04-arm` CI job runs the native Linux matrix, inclu
 TLS, variadics and ELF section/constructor tests; its first run passed at `407180d` on Ubuntu ARM64, Ubuntu x86-64 and macOS.
 The runner label is documented in [GitHub runner selection](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job).
 
+Linux ARM64 also runs the shared independent C scalar-signature, narrow-ABI,
+variadic, floating-arithmetic and numeric-conversion matrices in both baseline
+and optimized target runs. These supplement the original fixture drivers and
+target-specific TLS/variadic checks.
+
 ## Linux x86-64 checkpoint
 
 `--target x86_64-linux` emits 75/76 fixtures. Both Lean and pinned QBE

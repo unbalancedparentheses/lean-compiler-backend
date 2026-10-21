@@ -121,6 +121,10 @@ def main():
             result = run([exe], True); assert result.returncode == 0, (label, result.returncode, result.stderr)
         print('Linux variadics: mixed GP/FP exhaustion, dynamic frames, direct/indirect calls and C interoperation passed against QBE', flush=True)
 
+    if native:
+        from target_scalar import exercise as scalar_tests
+        scalar_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',32)
+
     from quoted_names import exercise as quoted_tests
     quoted_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
     from module_scale import exercise as module_tests
