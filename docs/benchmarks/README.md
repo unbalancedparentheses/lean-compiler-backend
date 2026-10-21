@@ -442,3 +442,26 @@ Across five disjoint batches, **91 of 112 unique attempts** qualify,
 with **905,656 IR lines** and 21 retained reference timeouts. The generation
 profile and restrictions remain unchanged; this is corpus evidence, not a
 compatibility percentage.
+
+
+## Integer algebra checkpoint
+
+[zlib algebra report](zlib-algebra.json) records width-aware zero/one/all-ones
+identities and power-of-two multiplication selection. All 17 unchanged units,
+original static tests and 12 byte-identical gzip streams still pass. Optimized
+minigzip text falls from 213,198 to 206,102 bytes; baseline text is unchanged.
+The same-run median round trip is 0.0320 s optimized, 0.0696 s baseline,
+0.00817 s original QBE, 0.00799 s corrected QBE and 0.00397 s GCC. The small
+runtime difference from the prior run is not evidence of broad performance parity.
+
+The independent instruction-selection matrix now includes both operand orders
+of multiplication and bitwise operations, 32/64-bit wrapping constants and
+modulo-width shifts: 1,786 functions and 14,288 cases per lowering mode.
+Word identities retain explicit truncation when their operand is a long value.
+These optional compatibility transformations have executable tests, not
+preservation proofs.
+
+The [cproc self-compilation rerun](cproc-algebra.json) uses this same compiler
+identity. Baseline, optimized and corrected-QBE builds each reproduce all 19
+stage-one IR files and pass all 196 original cproc tests. The original ARM64 QBE
+external-address failure remains explicitly separate in the report.

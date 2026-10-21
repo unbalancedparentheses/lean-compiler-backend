@@ -20,17 +20,22 @@ def fixture():
     sources, declarations, checks = [], [], []
     for width, bits in [('w',32), ('l',64)]:
         mask = (1<<bits)-1
-        for op in ['add','add_left','sub','shl','shr','sar']:
-            for value in counts if op in ['shl','shr','sar'] else constants:
+        for op in ['add','add_left','sub','shl','shr','sar','mul','mul_left','and','and_left','or','or_left','xor','xor_left']:
+            algebra_constants = constants + [2, 4, 8, 1<<16, 1<<48, -(1<<31), -(1<<32), (1<<32)+1]
+            for value in counts if op in ['shl','shr','sar'] else algebra_constants:
                 name = f'isel_{len(sources)}'
-                actual_op = 'add' if op=='add_left' else op
-                operands = f'{value},%x' if op=='add_left' else f'%x,{value}'
+                actual_op = op.removesuffix('_left')
+                operands = f'{value},%x' if op.endswith('_left') else f'%x,{value}'
                 sources.append(f'export function {width} ${name}(l %x) {{\n@s\n %r ={width} {actual_op} {operands}\n ret %r\n}}\n')
                 declarations.append(f'extern uint{bits}_t {name}(uint64_t);')
                 for x in inputs:
                     a, b = x & mask, value & mask
                     if op.startswith('add'): result = a+b
                     elif op=='sub': result = a-b
+                    elif op.startswith('mul'): result = a*b
+                    elif op.startswith('and'): result = a&b
+                    elif op.startswith('or'): result = a|b
+                    elif op.startswith('xor'): result = a^b
                     elif op=='shl': result = a << (value%bits)
                     elif op=='shr': result = a >> (value%bits)
                     else: result = (a if a < 1<<(bits-1) else a-(1<<bits)) >> (value%bits)

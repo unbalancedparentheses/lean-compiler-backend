@@ -5,6 +5,7 @@ import LeanCompilerBackend.Optimize.Cleanup
 import LeanCompilerBackend.Optimize.ControlFlow
 import LeanCompilerBackend.Optimize.Common
 import LeanCompilerBackend.Optimize.Memory
+import LeanCompilerBackend.Optimize.Algebra
 
 namespace LeanCompilerBackend.Optimize
 
@@ -49,7 +50,7 @@ private def constantResult (facts : Facts) (i : Instruction) : Option UInt64 := 
 private def statement (facts : Facts) : Statement → Statement
   | .assign i =>
     let op := (constantResult facts i).map (fun n => Operation.copy (.constant n.toNat))
-    .assign {i with operation := op.getD (operation facts i.operation)}
+    .assign {i with operation := op.getD (Algebra.operation i.width (operation facts i.operation))}
   | .store w v p => .store w (operand facts v) (operand facts p)
   | .storeFloat w v p => .storeFloat w (operand facts v) (operand facts p)
   | .callVoid fn args => .callVoid (target facts fn) (args.map fun a => {a with value := operand facts a.value})

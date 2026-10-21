@@ -18,6 +18,22 @@ private def optimize (m : Module) : IO Module :=
   | .error e => throw (IO.userError e)
 
 def run : IO Unit := do
+  for (op, operand, expectedShift) in #[
+      ("mul", "1", false), ("mul", "4294967297", false),
+      ("mul", "8", true), ("mul", "-2147483648", true),
+      ("add", "4294967296", false), ("sub", "0", false),
+      ("and", "-1", false), ("or", "0", false), ("xor", "0", false),
+      ("shl", "32", false), ("shr", "-32", false), ("sar", "4294967360", false)] do
+    let m ← parse ("function w $f(l %x) { @s %r =w " ++ op ++ " %x, " ++ operand ++ " ret %r }")
+    let optimized ← optimize m
+    let instructions := optimized.functions[0]!.blocks[0]!.instructions
+    require (instructions.size == 1 && match instructions[0]! with
+      | .assign {operation := .binary .shiftLeft .., ..} => expectedShift
+      | .assign {operation := .copy .., ..} => !expectedShift
+      | _ => false) s!"integer identity was not selected: {op} {operand}"
+    for x in (#[0, 1, 4294967295, 4294967296, 9223372036854775808, 18446744073709551615] : Array UInt64) do
+      require (same (Semantics.evaluate m.functions[0]! #[x]) (Semantics.evaluate optimized.functions[0]! #[x]))
+        s!"integer identity lost result width: {op} {operand}"
   let m ← parse "function l $f(l %x) { @s %a =w add 4294967295, 2 %b =l extuw %a %c =l mul %b, 37 %d =l xor %c, %x ret %d }"
   let optimized ← optimize m
   for x in (#[0,1,37,4294967295,18446744073709551615] : Array UInt64) do

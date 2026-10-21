@@ -221,6 +221,7 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   compare the indexed analysis with the preserved reducible validator; large
   native frame/phi tests cover scaled-offset boundaries. Optional `--optimize`
   now propagates known constants through SSA and folds defined integer operations,
+  simplifies width-aware integer identities and power-of-two multiplication,
   propagates same-width temporary copies and removes dead pure definitions,
   remapping debug locations while retaining reachable potential effects/traps.
   Constant branches use word semantics; unreachable blocks and obsolete phi
