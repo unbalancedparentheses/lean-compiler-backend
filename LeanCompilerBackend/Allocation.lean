@@ -84,28 +84,73 @@ def check (f : Function) (live : Liveness.Result) (plan : Plan) : Except String 
         safeWrite name live.before[b]![i+1]!
   return ()
 
+/-- Bounded natural-loop frequency heuristic. Multiple backedges to one header
+    count as one loop; nesting saturates at three levels. Disconnected regions
+    and irreducible cycles without a dominating header get no inferred weight.
+    Large graphs or unavailable dominance fall back to uniform static counts. -/
+def loopWeights (graph : CFG.Graph) : Array Nat := Id.run do
+  let count := graph.successors.size
+  let uniform := Array.replicate count 1
+  if count == 0 || count > 512 then return uniform
+  let .ok doms := CFG.dominators graph | return uniform
+  let mut reachable := (Array.replicate count false).set! 0 true
+  let mut pending := #[0]
+  for next in [:count] do
+    if next >= pending.size then break
+    for successor in graph.successors[pending[next]!]! do
+      if !reachable[successor]! then
+        reachable := reachable.set! successor true
+        pending := pending.push successor
+  let mut depth := Array.replicate count 0
+  for header in [:count] do
+    if !reachable[header]! then continue
+    let tails := graph.predecessors[header]!.filter fun tail =>
+      reachable[tail]! && (doms.sets[tail]! >>> header) &&& 1 == 1
+    if tails.isEmpty then continue
+    let mut members := (Array.replicate count false).set! header true
+    let mut membersPending := #[]
+    for tail in tails do
+      if !members[tail]! then
+        members := members.set! tail true
+        membersPending := membersPending.push tail
+    for next in [:count] do
+      if next >= membersPending.size then break
+      for predecessor in graph.predecessors[membersPending[next]!]! do
+        if reachable[predecessor]! && !members[predecessor]! then
+          members := members.set! predecessor true
+          membersPending := membersPending.push predecessor
+    for node in [:count] do
+      if members[node]! then depth := depth.set! node (min 3 (depth[node]!+1))
+  return depth.map fun d => 8^d
+
+
 /-- Prefer frequently accessed color groups for the finite register bank.
     This only permutes existing colors; interference and home-flow checks still
-    validate the resulting assignment independently. It is a static heuristic,
-    not a runtime profile or live-range splitting. -/
+    validate the resulting assignment independently. Natural loops get bounded
+    static frequency weights, not runtime profiles or live-range splitting. -/
 private def prioritize (f : Function) (live : Liveness.Result) (colors : Array Nat)
     (count : Nat) : Array Nat := Id.run do
+  let weights := loopWeights live.graph
   let mut scores := Array.replicate count 0
-  let bump := fun (scores : Array Nat) (name : String) =>
+  let bump := fun (scores : Array Nat) (weight : Nat) (name : String) =>
     match live.indices[name]? with
-    | some i => let c := colors[i]!; scores.set! c (scores[c]!+1)
+    | some i => let c := colors[i]!; scores.set! c (scores[c]!+weight)
     | none => scores
-  let read := fun (scores : Array Nat) (value : Operand) =>
-    match value with | .temporary name => bump scores name | _ => scores
-  for p in f.parameters do scores := bump scores p.name
-  for b in f.blocks do
-    for phi in b.phis do
-      scores := bump scores phi.destination
-      for (_,value) in phi.incoming do scores := read scores value
-    for statement in b.instructions do
-      for value in statement.operands do scores := read scores value
-      if let some (name,_) := statement.definition then scores := bump scores name
-    for value in Liveness.terminatorOperands b.terminator do scores := read scores value
+  let read := fun (scores : Array Nat) (weight : Nat) (value : Operand) =>
+    match value with | .temporary name => bump scores weight name | _ => scores
+  for p in f.parameters do scores := bump scores 1 p.name
+  for blockIndex in [:f.blocks.size] do
+    let block := f.blocks[blockIndex]!
+    let weight := weights[blockIndex]!
+    for phi in block.phis do
+      scores := bump scores weight phi.destination
+      for (predecessor,value) in phi.incoming do
+        let edgeWeight := (live.graph.indices[predecessor]?).map (fun i => weights[i]!) |>.getD 1
+        scores := read scores edgeWeight value
+    for statement in block.instructions do
+      for value in statement.operands do scores := read scores weight value
+      if let some (name,_) := statement.definition then scores := bump scores weight name
+    for value in Liveness.terminatorOperands block.terminator do scores := read scores weight value
   let order := (List.range count).toArray.qsort fun a b =>
     scores[a]! > scores[b]! || (scores[a]! == scores[b]! && a < b)
   let mut rank := Array.replicate count 0

@@ -8,7 +8,7 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`2950d20fd2294e6a435ba3a1522cd943e08c556003ad1a6270eaef0fa445126a`.
+`01fb509500e9265bd5d6f071241beba285bedb7da6fd42fd513b80d3e00a255d`.
 Check Git for the exact latest implementation/documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
 
@@ -21,7 +21,9 @@ published in coherent tested commits; this document does not identify its own SH
   scheduled without overwriting pending inputs; cycles and stack/symbol moves
   retain simultaneous staging. Fall-through jumps are omitted.
 - Existing allocation color groups are ranked by static read/write counts before
-  assigning the callee-saved register bank. Independent interference/home-flow
+  assigning the callee-saved register bank. Bounded natural-loop weights now
+  prefer loop accesses, saturate at three nesting levels and retain uniform
+  weights above 512 blocks. Independent interference/home-flow
   checks run on the final assignment. This substantially reduced zlib spilling.
 - ARM64 logical immediates handle repeated rotated masks, with independent
   exhaustive encoding and native execution checks.
@@ -54,13 +56,24 @@ logical-encoding unit oracle checks 190,980 cases, including all 1,302 word and
 narrow-promotion tests cover 16,896 loop cases plus 1,024 scalar cases.
 
 The full gate passed after allocation ranking and host-native CLI changes
-(`.build/ranked-full-check.log`, `.build/host-default-full-check.log`). The latest
-common-address full run is `.build/symbol-hoist-full-check.log`; verify its
-completion status before treating it as final. Fresh optimized differential fuzz
-seeds 20261269–20261300 passed: 256 functions / 2,048 independent input cases.
+(`.build/ranked-full-check.log`, `.build/host-default-full-check.log`). The common-address full run passed
+(`.build/symbol-hoist-full-check.log`). The loop-weight full run is ongoing in
+`.build/loop-priority-full-check.log`; verify completion before claiming a pass.
+All five optimized target suites and fresh differential fuzz seeds
+20261301–20261332 pass: 256 functions / 2,048 independent input cases.
 Existing proof audits remain unchanged in scope.
 
 Latest published reports in `docs/benchmarks`:
+
+- Loop-weight reports `zlib-loop-priority.json`, `cjson-loop-priority.json` and
+  `qbe-loop-priority.json` retain every qualified test below on the current
+  compiler. zlib text grows slightly to 147,430 bytes; median round trip is
+  9.37 ms versus original QBE 7.88 ms. cJSON text is 37,916 bytes, runtime
+  0.2104 s versus QBE 0.1686 s. Compiled QBE text is 425,188 bytes, self-IR
+  runtime 0.1856 s versus corrected QBE 0.1612 s. These local samples show a
+  speed/size tradeoff, not controlled cross-workload performance parity.
+
+The preceding identity-bound reports retain their own measurements:
 
 - `zlib-symbol-hoist.json`: 17 unchanged C units / 271 functions, original static
   tests and 12 byte-exact gzip streams plus independent decompression/round trips.
@@ -101,8 +114,8 @@ checkpoint; its macOS job and common-address CI remain in progress at 22:25 UTC.
 ## Next work
 
 1. Use measured workloads to guide broader memory/CFG transformations and
-   allocation improvements: loop-aware priorities, caller-saved/FP banks,
-   live-range splitting/coalescing. Current static ranking is deliberately limited.
+   allocation improvements: caller-saved/FP banks,
+   live-range splitting/coalescing. Current bounded loop-weight ranking remains a heuristic.
 2. Close Windows AMD64 ABI/emission and remaining syntax/linkage/resource/ABI
    boundary cases. Host-native default-driver behavior is now implemented.
 3. Obtain native RV64 and Intel macOS qualification; local evidence is emulated.

@@ -16,6 +16,28 @@ private def rejected (r : Except String Unit) : Bool :=
   match r with | .error _ => true | _ => false
 
 def run : IO Unit := do
+  for (source, expected) in [
+    ("function $f() { @e jmp @h @h jnz 1,@a,@b @a jmp @h @b jnz 1,@h,@d @d ret }", #[1,8,8,8,1]),
+    ("function $f() { @e jnz 1,@a,@b @a jmp @b @b jnz 1,@a,@d @d ret }", #[1,1,1,1]),
+    ("function $f() { @e jmp @d @a jmp @a @d ret }", #[1,1,1]),
+    ("function $f() { @e jmp @h @h jnz 1,@h,@d @d ret }", #[1,8,1]),
+    ("function $f() { @e jmp @a @a jnz 1,@b,@z @b jnz 1,@c,@la @c jnz 1,@d,@lb @d jnz 1,@d,@lc @lc jmp @c @lb jmp @b @la jmp @a @z ret }", #[1,8,64,512,512,512,64,8,1])] do
+    let m ← unwrap (Parser.parseModule source)
+    let graph ← unwrap (CFG.build m.functions[0]!)
+    unless loopWeights graph == expected do
+      throw (IO.userError "natural loop weights differ from expected membership/nesting")
+  let largeGraph : CFG.Graph := {
+    successors := ((Array.replicate 513 #[]).set! 0 #[1]).set! 1 #[1]
+    predecessors := (Array.replicate 513 #[]).set! 1 #[0,1] }
+  unless (loopWeights largeGraph).all (· == 1) &&
+      (loopWeights {}).isEmpty do
+    throw (IO.userError "loop heuristic resource/empty fallback changed")
+  let loopHot ← parse "function l $loop_hot(l %cold,l %hot,w %go) { @e %a =l add %cold,%cold %b =l add %cold,%cold %c =l add %cold,%cold %d =l add %cold,%cold %e =l add %cold,%cold %f =l add %cold,%cold jmp @loop @loop %r =l add %hot,%hot jnz %go,@loop,@done @done %sum =l add %cold,%hot ret %sum }"
+  let loopPlan ← unwrap (allocate loopHot 1)
+  let loopLive ← unwrap (Liveness.analyze loopHot)
+  unless loopPlan.colors[loopLive.indices["hot"]!]! == 0 &&
+      loopPlan.colors[loopLive.indices["cold"]!]! != 0 do
+    throw (IO.userError "loop uses did not outrank colder static uses")
   let hot ← parse "function l $hot(l %cold,l %hot) { @s %a =l mul %hot,3 %b =l xor %a,%hot %r =l add %b,%cold ret %r }"
   let preferred ← unwrap (allocate hot 1)
   let hotLive ← unwrap (Liveness.analyze hot)

@@ -616,3 +616,28 @@ and 35 retained reference timeouts, under the same restricted generator profile.
 passes all 19 exact stage-two IR reproductions and 196/196 original tests per
 qualified backend across 18 source units. The original QBE-built compiler's
 `attr` crash remains separate; the corrected-QBE-built compiler qualifies.
+
+
+## Bounded loop weights for register priorities
+
+Natural loops now weight existing allocation color groups by eight per nesting
+level, saturating at three. Multiple backedges to one header count once, and phi
+inputs use predecessor-edge weights. Unreachable regions and irreducible cycles
+without a dominating header get no inferred loop weight; graphs larger than 512
+blocks retain uniform static counts. This heuristic only permutes existing colors;
+independent allocation and home-flow checks still validate the final assignment.
+It is neither profiling nor live-range splitting, and it has no preservation proof.
+
+[Native zlib](zlib-loop-priority.json) passes all original tests and 12 byte-exact
+gzip streams. Optimized text grows from 145,190 to 147,430 bytes; same-run round
+trip medians are 9.37 ms optimized, 7.88 ms original QBE, 7.83 ms corrected QBE,
+65.43 ms baseline and 3.88 ms GCC. The earlier address-sharing sample was 10.27 ms
+optimized versus 8.01 ms QBE. These local samples indicate a speed/size tradeoff
+for this workload, not general optimization parity.
+
+[cJSON](cjson-loop-priority.json) retains all 153 assertions and checksums, with
+its baseline-only stack retry. Optimized text is 37,916 bytes; median runtime
+0.2104 s versus 0.1686 s QBE and 0.1406 s GCC. [QBE self-compilation](qbe-loop-priority.json)
+retains all qualified reproductions and 58 original runtime tests. Optimized
+text is 425,188 bytes; self-IR medians are 0.1856 s optimized, 0.1612 s corrected-QBE
+and 0.0972 s GCC reference. Original QBE's parser failure remains separate.
