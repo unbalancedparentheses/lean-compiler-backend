@@ -98,7 +98,10 @@ def main():
     matrix=cases(options.seed);cc=os.environ.get('LCB_CC','cc')
     with tempfile.TemporaryDirectory(prefix='lcb-conversion-') as directory:
         work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c';ref=work/'reference.c'
-        src.write_text(fixture());run([LCB,src,'-o',asm]);c.write_text(c_source(matrix,True));ref.write_text(c_source(matrix,False))
+        src.write_text(fixture());c.write_text(c_source(matrix,True));ref.write_text(c_source(matrix,False))
+        assemblies=[]
+        for label,flags in [('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]:
+            assembly=work/(label+'.s');run([LCB,src,*flags,'-o',assembly]);assemblies.append((label,assembly))
         run([cc,'-std=c11','-O0',ref,'-o',work/'reference']);expected=[int(x) for x in run([work/'reference']).splitlines()]
         for (index,x),wanted in zip(matrix,expected):
             found=int(run([LCB,'--eval',src,f'convert_{index}',x]))
@@ -115,13 +118,13 @@ def main():
         if native_host():
             oracle=work/'oracle';shutil.copytree(ROOT/'third_party/qbe',oracle);run(['make','-j2',f'CC={cc}'],cwd=oracle)
             qasm=work/'qbe.s';run([oracle/'qbe','-t','arm64_apple','-o',qasm,src])
-            for label,assembly in [('lean',asm),('qbe',qasm)]:
+            for label,assembly in [*assemblies,('qbe',qasm)]:
                 exe=work/label;run([cc,'-O0',c,assembly,'-o',exe]);found=[int(x) for x in run([exe]).splitlines()]
                 assert len(found)==len(expected)
                 for (index,x),a,b in zip(matrix,found,expected):assert equivalent(index,a,b),(label,SPECS[index],hex(x),hex(a),hex(b))
-            damaged=work/'damaged.s';damaged.write_text(asm.read_text().replace('scvtf','ucvtf'));run([cc,'-O0',c,damaged,'-o',work/'damaged'])
+            damaged=work/'damaged.s';damaged.write_text(assemblies[-1][1].read_text().replace('scvtf','ucvtf'));run([cc,'-O0',c,damaged,'-o',work/'damaged'])
             found=[int(x) for x in run([work/'damaged']).splitlines()]
             assert any(not equivalent(i,a,b) for (i,_),a,b in zip(matrix,found,expected))
-        print(f'conversions: {len(SPECS)} typed forms, {len(matrix)} C/interpreter cases, invalid-domain refusals; '+('native Lean/QBE and signedness corruption passed' if native_host() else 'native execution unmeasured'))
+        print(f'conversions: {len(SPECS)} typed forms, {len(matrix)} C/interpreter cases, invalid-domain refusals; '+('native baseline/allocated/optimized/QBE and signedness corruption passed' if native_host() else 'native execution unmeasured'))
 
 if __name__=='__main__':main()

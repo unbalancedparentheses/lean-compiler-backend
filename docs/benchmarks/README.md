@@ -280,3 +280,23 @@ remain unqualified; their backend results are unmeasured. Across the three
 nonoverlapping batches, **57 of 64 attempted programs** qualify, totaling
 555,639 IR lines including runtime helpers. This is corpus evidence, not a
 percentage estimate of language compatibility.
+
+
+## Remaining scalar and FP register transfers
+
+The [cJSON scalar-home report](cjson-scalar-homes.json) retains all 153 assertions
+and matching checksums, including the baseline-only stack retry. Optimized text
+is 54,536 bytes, down from 55,568. Same-run medians are baseline 0.6474 s,
+optimized 0.2617 s, QBE 0.1738 s and GCC 0.1428 s.
+
+The [QBE scalar-home report](qbe-scalar-homes.json) retains 487 successful assembly
+reproductions and 58 original tests per passing executable. Optimized text is
+628,064 bytes, down from 633,184. Median workload times are reference 0.0906 s,
+baseline 0.6779 s, optimized 0.2431 s and corrected QBE 0.1473 s. Original QBE's
+self-compilation failure remains separate. Timing changed substantially with
+host load; compare within a run and do not infer a precise cross-run speedup.
+
+Independent native matrices now exercise baseline, allocated and optimized output
+for all 30,460 integer, 896 floating and 1,228 conversion cases. Added 24-value
+single/double pressure tests cover spills, calls, conversions and boolean results;
+word-normalization controls retain nonzero high bits in the source value.

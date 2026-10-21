@@ -109,7 +109,9 @@ def main():
         work=Path(directory)
         source,asm,caller,reference=work/'input.ssa',work/'lean.s',work/'caller.c',work/'reference.c'
         source.write_text(fixture())
-        run([LCB,source,'-o',asm])
+        assemblies=[]
+        for label,flags in [('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]:
+            assembly=work/(label+'.s');run([LCB,source,*flags,'-o',assembly]);assemblies.append((label,assembly))
         reference.write_text(c_source(cases,False));caller.write_text(c_source(cases,True))
         run([cc,'-std=c11','-O0','-ffp-contract=off',reference,'-o',work/'reference'])
         expected=[int(x) for x in run([work/'reference']).splitlines()]
@@ -133,16 +135,16 @@ def main():
             oracle=work/'qbe';shutil.copytree(ROOT/'third_party/qbe',oracle)
             run(['make','-j2',f'CC={cc}'],cwd=oracle)
             qasm=work/'qbe.s';run([oracle/'qbe','-t','arm64_apple','-o',qasm,source])
-            for label,assembly in [('lean',asm),('qbe',qasm)]:
+            for label,assembly in [*assemblies,('qbe',qasm)]:
                 exe=work/(label+'-exe');run([cc,'-O0',caller,assembly,'-o',exe])
                 found=[int(x) for x in run([exe]).splitlines()]
                 assert len(found)==len(expected)
                 for case,a,b in zip(cases,found,expected): assert equivalent(case,a,b),(label,case,hex(a),hex(b))
-            damaged=work/'damaged.s';damaged.write_text(asm.read_text().replace('fadd','fsub'))
+            damaged=work/'damaged.s';damaged.write_text(assemblies[-1][1].read_text().replace('fadd','fsub'))
             run([cc,'-O0',caller,damaged,'-o',work/'damaged'])
             found=[int(x) for x in run([work/'damaged']).splitlines()]
             assert any(not equivalent(c,a,b) for c,a,b in zip(cases,found,expected)), 'corruption escaped'
         print(f'floating: {len(cases)} C/interpreter cases; arithmetic, comparisons, casts, memory and phi; '+
-              ('native Lean/QBE and arithmetic corruption passed' if native_host() else 'native execution unmeasured'))
+              ('native baseline/allocated/optimized/QBE and arithmetic corruption passed' if native_host() else 'native execution unmeasured'))
 
 if __name__=='__main__': main()

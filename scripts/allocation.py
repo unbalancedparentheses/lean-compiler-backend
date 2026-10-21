@@ -75,6 +75,19 @@ def fixture(target):
     for i in range(1, 48):
         lines += [f'%sum{i} =l add %sum{i-1},%v{i}']
     lines += ['ret %sum47', '}']
+    for kind,stride,to_integer in [('s',4,'stosi'),('d',8,'dtosi')]:
+        lines += [f'export function {kind} $float_pressure_{kind}(l %p) {{','@s']
+        for i in range(24):
+            lines += [f'%p{i} =l add %p,{i*stride}',f'%v{i} ={kind} load{kind} %p{i}']
+        lines += ['call $clobber()',f'%sum0 ={kind} copy {kind}_0']
+        for i in range(24):
+            lines += [f'%mul{i} ={kind} mul %v{i},{kind}_1.5',f'%int{i} =l {to_integer} %v{i}',
+                      f'%back{i} ={kind} sltof %int{i}',f'%positive{i} =l cgt{kind} %v{i},{kind}_0',
+                      f'%flag{i} ={kind} ultof %positive{i}',f'%a{i} ={kind} add %mul{i},%back{i}',
+                      f'%b{i} ={kind} add %a{i},%flag{i}',f'%sum{i+1} ={kind} add %sum{i},%b{i}']
+        lines += [f'%negative ={kind} neg %sum24','ret %negative','}']
+    lines += ['export function l $zero_extend(l %x) { @s %r =l extuw %x ret %r }',
+              'export function l $copy_narrow(l %x) { @s %w =w copy %x %r =l extuw %w ret %r }']
     lines += ['''export function l $swap(l %x,l %y,w %n) {
 @s
  jmp @loop
@@ -154,7 +167,9 @@ export function l $dynamic(l %n,l %x) {
     probe += 'return ' + ' && '.join(f'k{i} == UINT64_C({0x123456789abc0000+i})' for i in range(len(saved))) + ';}\n'
     caller = '''#include <stdint.h>
 extern uint64_t pressure(uint64_t*), swap(uint64_t,uint64_t,unsigned), deadwrite(uint64_t,uint64_t), chain(uint64_t), dynamic(uint64_t,uint64_t), shift_mix(uint64_t,uint64_t);
-extern double float_keep(double,double), float_bits(double);
+extern double float_keep(double,double), float_bits(double), float_pressure_d(double*);
+extern float float_pressure_s(float*);
+extern uint64_t zero_extend(uint64_t),copy_narrow(uint64_t);
 volatile uint64_t barrier;
 __attribute__((noinline)) void clobber(void) { barrier++; DESTROY }
 PROBE
@@ -171,6 +186,9 @@ int main(void) {
  if(deadwrite(17,93)!=17-93ULL)return 3;
  for(unsigned i=0;i<100;i++)if(chain(i)!=(((i+7)*3)^92))return 4;
  if(dynamic(8192,UINT64_C(0xf123456789abcdef))!=UINT64_C(0xe2468acf13579bde))return 5;
+ double doubles[24];float singles[24];for(unsigned i=0;i<24;i++){doubles[i]=i+1;singles[i]=i+1;}
+ if(float_pressure_d(doubles)!=-774.0||float_pressure_s(singles)!=-774.0f)return 11;
+ if(zero_extend(UINT64_C(0xf123456789abcdef))!=UINT64_C(0x89abcdef)||copy_narrow(UINT64_C(0xf123456789abcdef))!=UINT64_C(0x89abcdef))return 12;
  uint64_t counts[]={0,1,31,32,63,64,UINT64_C(0x100000020),UINT64_C(0x8000000000000000),UINT64_MAX};
  uint64_t values[]={0,17,UINT64_MAX,UINT64_C(0x8000000000000000),UINT64_C(0xf0123456789abcde)};
  for(unsigned j=0;j<5;j++)for(unsigned k=0;k<9;k++) {
@@ -214,7 +232,7 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
                 assert result.returncode == 0, result.stderr
                 result = run([case/'broken-save'], True)
                 assert result.returncode != 0, 'callee-save corruption was not detected'
-    print(f'{target}: allocation pressure/spills, caller clobbers, callee saves, FP bits, phi swaps, dead writes, dynamic frames; execution={execute}', flush=True)
+    print(f'{target}: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, phi swaps, dead writes, dynamic frames; execution={execute}', flush=True)
 
 
 def main():

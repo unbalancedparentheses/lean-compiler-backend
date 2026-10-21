@@ -142,6 +142,10 @@ private structure Homes where
   stack : List (String × Nat)
   registers : List (String × Nat)
 
+private def operandRegister (homes : Homes) (scratch : Nat) : Operand → Nat
+  | .temporary name => (homes.registers.lookup name).getD scratch
+  | _ => scratch
+
 private def storeHome (base : String) (homes : Homes) (width : Width)
     (source name : String) (floating : Bool := false) : Except String (List String) := do
   if let some n := homes.registers.lookup name then
@@ -163,6 +167,7 @@ private def load (darwin : Bool) (localSymbols : List String) (base : String) (s
       ++ (if width == .word then [s!"\tmov {register .word destination}, {register .word destination}"] else [])
   | .temporary name =>
     if let some n := slots.registers.lookup name then
+      if width == .long && n == destination then return []
       return [s!"\tmov {register width destination}, {register width n}"]
     match slots.stack.lookup name with
     | some offset => return slotAccess "ldr" base (register width destination) width.bytes offset
@@ -173,16 +178,21 @@ private def condition : Comparison → String
   | .signedLE => "le" | .signedLT => "lt" | .signedGE => "ge" | .signedGT => "gt"
   | .unsignedLE => "ls" | .unsignedLT => "lo" | .unsignedGE => "hs" | .unsignedGT => "hi"
 
-private def unaryInstruction (width : Width) (op : Unary) : List String :=
-  let r := register width 9
+private def unaryInstruction (width : Width) (op : Unary) (destination source : Nat) : List String :=
+  let output := register width destination
+  let input := register width source
   match op with
-  | .negate => [s!"\tneg {r}, {r}"]
-  | .signedByte => [s!"\tsxtb {r}, w9"]
-  | .unsignedByte => ["\tuxtb w9, w9"]
-  | .signedHalf => [s!"\tsxth {r}, w9"]
-  | .unsignedHalf => ["\tuxth w9, w9"]
-  | .signedWord => ["\tsxtw x9, w9"]
-  | .unsignedWord => [] -- the w9 load has already cleared x9's high bits
+  | .negate => [s!"\tneg {output}, {input}"]
+  | .signedByte => [s!"\tsxtb {output}, w{source}"]
+  | .unsignedByte => [s!"\tuxtb w{destination}, w{source}"]
+  | .signedHalf => [s!"\tsxth {output}, w{source}"]
+  | .unsignedHalf => [s!"\tuxth w{destination}, w{source}"]
+  | .signedWord => [s!"\tsxtw x{destination}, w{source}"]
+  | .unsignedWord =>
+    -- The baseline's w9 load already normalizes; direct homes need a W write,
+    -- including when source and destination are the same physical register.
+    if destination == 9 && source == 9 then []
+    else [s!"\tmov w{destination}, w{source}"]
 
 private def extendSubword (kind : Subword) (index : Nat) : String :=
   let instruction := match kind with
@@ -369,9 +379,11 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
   let mut lines : List String := []
   match inst.operation with
   | .convert op value =>
-    lines := lines ++ (← load darwin localSymbols base slots op.inputWidth 9 value)
-    let input := register op.inputWidth 9
-    let output := register inst.width 9
+    let sourceHome := operandRegister slots 9 value
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    if sourceHome == 9 then lines := lines ++ (← load darwin localSymbols base slots op.inputWidth 9 value)
+    let input := register op.inputWidth sourceHome
+    let output := register inst.width resultHome
     let source := floatRegister op.inputWidth 16
     let destination := floatRegister inst.width 17
     match op with
@@ -383,25 +395,40 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     | .fromInteger _ signed =>
       let instruction := if signed then "scvtf" else "ucvtf"
       lines := lines ++ [s!"\t{instruction} {destination}, {input}", s!"\tfmov {output}, {destination}"]
+    if resultHome != 9 then return lines
   | .floatBinary op a b =>
-    lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a) ++ (← load darwin localSymbols base slots inst.width 10 b)
+    let left := operandRegister slots 9 a
+    let right := operandRegister slots 10 b
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
+    if right == 10 then lines := lines ++ (← load darwin localSymbols base slots inst.width 10 b)
     let f9 := floatRegister inst.width 16
     let f10 := floatRegister inst.width 17
     let instruction := match op with | .add => "fadd" | .sub => "fsub" | .mul => "fmul" | .div => "fdiv"
-    lines := lines ++ [s!"\tfmov {f9}, {register inst.width 9}", s!"\tfmov {f10}, {register inst.width 10}",
-      s!"\t{instruction} {f9}, {f9}, {f10}", s!"\tfmov {register inst.width 9}, {f9}"]
+    lines := lines ++ [s!"\tfmov {f9}, {register inst.width left}", s!"\tfmov {f10}, {register inst.width right}",
+      s!"\t{instruction} {f9}, {f9}, {f10}", s!"\tfmov {register inst.width resultHome}, {f9}"]
+    if resultHome != 9 then return lines
   | .floatNegate value =>
-    lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
-    let r := register inst.width 9
-    lines := lines ++ [s!"\teor {r}, {r}, #{2 ^ (inst.width.bits - 1)}"]
+    let sourceHome := operandRegister slots 9 value
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    if sourceHome == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
+    lines := lines ++ [s!"\teor {register inst.width resultHome}, {register inst.width sourceHome}, #{2 ^ (inst.width.bits - 1)}"]
+    if resultHome != 9 then return lines
   | .floatCompare op width a b =>
-    lines := lines ++ (← load darwin localSymbols base slots width 9 a) ++ (← load darwin localSymbols base slots width 10 b)
+    let left := operandRegister slots 9 a
+    let right := operandRegister slots 10 b
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    if left == 9 then lines := lines ++ (← load darwin localSymbols base slots width 9 a)
+    if right == 10 then lines := lines ++ (← load darwin localSymbols base slots width 10 b)
     let f9 := floatRegister width 16
     let f10 := floatRegister width 17
-    lines := lines ++ [s!"\tfmov {f9}, {register width 9}", s!"\tfmov {f10}, {register width 10}",
-      s!"\tfcmp {f9}, {f10}", s!"\tcset w9, {floatCondition op}"]
-  | .cast value => lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
-  | .copy value => lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
+    lines := lines ++ [s!"\tfmov {f9}, {register width left}", s!"\tfmov {f10}, {register width right}",
+      s!"\tfcmp {f9}, {f10}", s!"\tcset w{resultHome}, {floatCondition op}"]
+    if resultHome != 9 then return lines
+  | .cast value | .copy value =>
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    lines := lines ++ (← load darwin localSymbols base slots inst.width resultHome value)
+    if resultHome != 9 then return lines
   | .binary op a b =>
     -- Stable GP homes can be read/written directly. Scratch registers remain
     -- reserved for constants and spilled operands; allocation already checks
@@ -411,12 +438,8 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
       else (a, b)
     let encoded := if slots.registers.isEmpty then none else
       match b with | .constant value => binaryImmediate inst.width op value | _ => none
-    let left := match a with
-      | .temporary name => (slots.registers.lookup name).getD 9
-      | _ => 9
-    let right := match b with
-      | .temporary name => (slots.registers.lookup name).getD 10
-      | _ => 10
+    let left := operandRegister slots 9 a
+    let right := operandRegister slots 10 b
     let destination := (slots.registers.lookup inst.destination).getD 9
     if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
     if let some (instruction, operand) := encoded then
@@ -428,25 +451,29 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     -- allocated count directly preserves the existing word-count normalization.
     if destination != 9 then return lines
   | .unary op value =>
-    lines := lines ++ (← load darwin localSymbols base slots (op.inputWidth inst.width) 9 value)
-    lines := lines ++ unaryInstruction inst.width op
+    let sourceHome := operandRegister slots 9 value
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    if sourceHome == 9 then lines := lines ++ (← load darwin localSymbols base slots (op.inputWidth inst.width) 9 value)
+    lines := lines ++ unaryInstruction inst.width op resultHome sourceHome
+    if resultHome != 9 then return lines
   | .divide op a b =>
-    lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
-    lines := lines ++ (← load darwin localSymbols base slots inst.width 10 b)
+    let left := operandRegister slots 9 a
+    let right := operandRegister slots 10 b
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
+    if right == 10 then lines := lines ++ (← load darwin localSymbols base slots inst.width 10 b)
     let instruction := if op == .signedDiv || op == .signedRem then "sdiv" else "udiv"
-    let r9 := register inst.width 9
-    let r10 := register inst.width 10
+    let rLeft := register inst.width left
+    let rRight := register inst.width right
+    let output := register inst.width resultHome
     if op == .signedRem || op == .unsignedRem then
-      let r11 := register inst.width 11
-      lines := lines ++ [s!"\t{instruction} {r11}, {r9}, {r10}", s!"\tmsub {r9}, {r11}, {r10}, {r9}"]
-    else lines := lines ++ [s!"\t{instruction} {r9}, {r9}, {r10}"]
+      let quotient := register inst.width 11
+      lines := lines ++ [s!"\t{instruction} {quotient}, {rLeft}, {rRight}", s!"\tmsub {output}, {quotient}, {rRight}, {rLeft}"]
+    else lines := lines ++ [s!"\t{instruction} {output}, {rLeft}, {rRight}"]
+    if resultHome != 9 then return lines
   | .compare op width a b =>
-    let left := match a with
-      | .temporary name => (slots.registers.lookup name).getD 9
-      | _ => 9
-    let right := match b with
-      | .temporary name => (slots.registers.lookup name).getD 10
-      | _ => 10
+    let left := operandRegister slots 9 a
+    let right := operandRegister slots 10 b
     let destination := (slots.registers.lookup inst.destination).getD 9
     let encoded := if slots.registers.isEmpty then none else
       match b with | .constant value => binaryImmediate width .sub value | _ => none

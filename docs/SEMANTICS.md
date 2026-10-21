@@ -654,7 +654,13 @@ its previous lowering. Integer comparisons likewise read assigned homes and
 write boolean results with W-register CSET, including long results. Encodable
 negative constants use CMN with a nonzero magnitude; zero uses CMP so carry
 semantics remain correct. Both register and immediate comparison paths remain
-execution-tested rather than formally proved.
+execution-tested rather than formally proved. Copies/casts, unary operations,
+division/remainder, floating arithmetic/comparisons and numeric conversions also
+use assigned GP homes directly where possible. FP arithmetic still uses reserved
+FP scratch registers; this is not FP-bank allocation. Word copies and unsigned
+word extensions retain W writes even when a home is reused, clearing high bits;
+only identical long-register copies can omit the move. Remainders retain a
+reserved quotient scratch so an aliased destination cannot destroy an operand.
 
 This is conservative whole-range allocation, not full QBE allocation parity.
 It does not assign caller-saved or FP homes, split live ranges, coalesce moves,

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Use assigned ARM64 homes directly for scalar copies/casts, extensions, division,
+  remainder, floating operations and conversions. Preserve explicit word
+  normalization and FP bit transfers. Run integer/FP/conversion oracles in all
+  three lowering modes and add single/double spill pressure across calls.
+
 - Accept QBE-style `-t` target aliases, leading/trailing options, stdin/stdout
   pipelines, attached options and multiple input modules. Keep interactive help,
   explicit unsupported-target/debug errors and separate first-path options.

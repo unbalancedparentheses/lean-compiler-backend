@@ -128,7 +128,9 @@ def main():
             source, asm, cfile = work / 'input.ssa', work / 'lean.s', work / 'caller.c'
             source.write_text(''.join(spec.source() for spec in selected))
             run([LCB, '--check', source])
-            run([LCB, source, '-o', asm])
+            assemblies=[]
+            for label,flags in [('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]:
+                assembly=work/(label+'.s');run([LCB,source,*flags,'-o',assembly]);assemblies.append((label,assembly))
             expected = []
             for spec in selected:
                 valid = [(a, b) for a, b in data[spec.input_bits] if spec.defined(a, b)]
@@ -146,7 +148,7 @@ def main():
                 cfile.write_text(caller(selected, data))
                 qbe_asm = work / 'qbe.s'
                 run([qbe, '-t', 'arm64_apple', '-o', qbe_asm, source])
-                for label, assembly in [('lean', asm), ('qbe', qbe_asm)]:
+                for label, assembly in [*assemblies, ('qbe', qbe_asm)]:
                     actual = compile_and_run(os.environ['LCB_CC'], assembly, cfile, work / label)
                     assert actual == expected, (label, batch, next((i for i, pair in enumerate(zip(actual, expected)) if pair[0] != pair[1]), None))
             count += len(expected)
@@ -160,7 +162,7 @@ def main():
         result = subprocess.run([str(LCB), '--check', str(undefined)], capture_output=True, text=True, timeout=20)
         assert result.returncode != 0 and 'require a long result' in result.stderr
     print(f'integer operation matrix: {len(specs)} typed forms, {interpreted} interpreter cases; '
-          + (f'{count} native cases per backend (Lean and QBE)' if qbe else 'native not measured'))
+          + (f'{count} native cases per baseline/allocated/optimized/QBE backend' if qbe else 'native not measured'))
 
 
 if __name__ == '__main__': main()
