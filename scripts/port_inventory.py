@@ -35,8 +35,8 @@ def report():
              f'- {len(targets)} upstream target/ABI configurations; {len(status["targets"])} partial targets.',
              f'- {len(modules)} compiler C/header modules; no complete module-for-module port yet.',
              f'- {len(tests)} upstream SSA fixtures retained; partial qualification is tracked in [UPSTREAM_COVERAGE.md](UPSTREAM_COVERAGE.md).', '',
-             'A supported opcode name may have unimplemented types (especially floating point).',
-             'Integer-parameter ABI tests and generated programs do not qualify the full upstream suite.', '',
+             'Accepted opcode names do not qualify every form, ABI convention or resource range.',
+             'Target suites and larger-program results are bounded evidence, not a compatibility percentage.', '',
              '## Public operations', '', '| Opcode | Accepted result/value forms |', '| --- | --- |']
     for op in operations:
         supported = ', '.join(status['operations'].get(op, [])) or 'not implemented'

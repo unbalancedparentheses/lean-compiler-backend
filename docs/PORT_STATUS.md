@@ -10,8 +10,8 @@ Counts describe inventory, not correctness or complete compatibility.
 - 37 compiler C/header modules; no complete module-for-module port yet.
 - 76 upstream SSA fixtures retained; partial qualification is tracked in [UPSTREAM_COVERAGE.md](UPSTREAM_COVERAGE.md).
 
-A supported opcode name may have unimplemented types (especially floating point).
-Integer-parameter ABI tests and generated programs do not qualify the full upstream suite.
+Accepted opcode names do not qualify every form, ABI convention or resource range.
+Target suites and larger-program results are bounded evidence, not a compatibility percentage.
 
 ## Public operations
 
@@ -109,19 +109,19 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 
 | Area | Status |
 | --- | --- |
-| integer functions and parameters | partial: unquoted ASCII QBE names (including dots/dollar signs) and exact assembler-quoted global names, decimal literals, w/l or void result, at most 64 scalar/aggregate parameters |
+| scalar functions and parameters | partial: unquoted ASCII QBE names (including dots/dollar signs) and exact assembler-quoted global names, decimal/IEEE literals, w/l/s/d or void result, at most 64 scalar/aggregate parameters |
 | basic blocks, jumps, phi | partial: integer/floating SSA and mutable temporaries, jmp/jnz/ret/hlt, loops, dominance and parallel phi transfers |
-| calls and variadic functions | partial: up to 64 w/l/s/d scalar arguments and scalar/void results; direct/indirect calls, callbacks, env and integer/floating variadics; subword ABI annotations and packed byte/short slots; Apple/Linux ARM64, Linux AMD64 and Linux RV64 aggregate arguments/returns, callbacks and variadics; remaining QBE OS/ABI variants remain |
+| calls and variadic functions | partial: up to 64 w/l/s/d scalar arguments and scalar/void results; direct/indirect calls, callbacks, env and integer/floating variadics; subword ABI annotations and packed byte/short slots; Apple/Linux ARM64 and AMD64, plus Linux RV64 aggregate arguments/returns, callbacks and variadics; remaining QBE OS/ABI variants remain |
 | floating point and conversions | partial: IEEE constants/data, s/d arithmetic, comparisons, casts, numeric conversions, memory, phi and scalar ABI; defined-range conversion model and default IEEE execution profile |
 | memory and allocation | partial: integer loads/stores, loadw/loadl aliases; constant alloc4/8/16 through 1 MiB and nonnegative runtime allocation in any block and alloc1/2 aliases; effect-only constant blit copies in 0..4096 bytes for disjoint or identical spans; zero-sized static/dynamic objects are aligned but grant no accessible bytes |
 | aggregate type and data definitions | partial: packed b/h/w/l/s/d bit-pattern data, z zero fill, alignment 1..64, long symbol relocations with addends, byte strings (literal line breaks, UTF-8/common and octal escapes) and data-only modules; named record/union/opaque aggregate storage layouts with nested/repeated fields and explicit alignment; aggregate ABI through 4096-byte objects (ARM64 alignment 8; AMD64/RV64 alignment 16); remaining linkage forms remain |
-| linkage, sections, TLS and debug locations | partial: export, ordinary/explicit extern symbols and Apple ARM64 and Linux ARM64/AMD64/RV64 thread-local data/addresses; dbgfile/dbgloc source line metadata and native DWARF line tables; Apple custom function/data sections and common zero-fill/coalescing; quoted global names supported with target-exact spelling; further section types and other target conventions remain |
+| linkage, sections, TLS and debug locations | partial: export, ordinary/explicit extern symbols and Apple ARM64/AMD64 and Linux ARM64/AMD64/RV64 thread-local data/addresses; dbgfile/dbgloc source line metadata and native DWARF line tables; Mach-O/ELF custom function/data sections, ELF init-array constructors and common zero-fill/coalescing; quoted global names supported with target-exact spelling; further section types and other target conventions remain |
 | parsing and validation | partial: scalar integer/floating, control-flow, memory, TLS and scalar/aggregate-call input with SSA construction; full QBE syntax remains |
 | CFG, dominance and SSA construction | partial: entry-unreachable pruning before SSA/dominance, indexed CFG and packed-set dominance, hash-indexed SSA construction with on-demand phis; up to 4096 blocks/16384 instructions; stable types and defined incoming values required |
 | alias analysis and memory optimization | partial: conservative promotion of initialized, nonescaping exact-width 4/8-byte entry objects to SSA; general alias analysis, load/store elimination and aggregate promotion remain |
 | copy elimination, folding, GVN, GCM and CFG simplification | partial: opt-in bounded SSA constant/integer folding, same-width copy/trivial-phi propagation and conservative dead-definition removal, constant branches, unreachable-block/phi-edge cleanup and dominance-aware common integer expressions; full GVN, GCM and broader CFG/elimination remain |
-| ABI lowering | partial: Apple/Linux ARM64, Linux AMD64/System V and Linux RV64/LP64D scalar and aggregate calls/results; target-specific GP/FP/stack classification, hidden returns, variadics, env and saved live values |
-| instruction selection and assembly emission | partial: Apple/Linux ARM64, Linux AMD64 and Linux RV64 scalar integer/floating, control flow, memory, TLS and scalar/aggregate-call lowering; large frame-slot addressing |
+| ABI lowering | partial: Apple/Linux ARM64, Apple/Linux AMD64 and Linux RV64/LP64D scalar and aggregate calls/results; target-specific GP/FP/stack classification, hidden returns, variadics, env and saved live values |
+| instruction selection and assembly emission | partial: Apple/Linux ARM64 and AMD64, plus Linux RV64 scalar integer/floating, control flow, memory, TLS and scalar/aggregate-call lowering; large frame-slot addressing |
 | liveness, spilling and register allocation | liveness, checked callee-saved GP allocation and reusable spills implemented; caller-saved/FP-bank allocation, splitting/coalescing and machine value-flow checking remain; default baseline keeps unique slots |
 
 ## Targets and ABIs
