@@ -139,3 +139,25 @@ executable/shared-library linkage. Only the deliberately missing argument in
 `dark.ssa` remains unsupported. `tests/upstream-x86_64-coverage.json` prevents
 emission regressions; `scripts/linux_targets.py` executes natively on Linux x86-64
 CI and reports emulated execution separately when using the development container.
+
+
+## Linux RV64 checkpoint
+
+`--target riscv64-linux` emits 75/76 fixtures, with 58 original executable
+and 17 assembly-only passes against pinned QBE under QEMU user emulation.
+Native RV64 execution has not been measured. Tests additionally cover the full
+scalar/float/conversion matrix, 22 aggregate layouts, exact short tails with
+negative overread controls, by-value isolation, callbacks, split GP/stack
+arguments, exact FP bank capacity, aligned variadic pairs, and eight-thread
+executable/shared-library TLS. The emission baseline is
+`tests/upstream-riscv64-coverage.json`; CI checks RV64 emission on other ISAs.
+
+Oracle differences are explicit: pinned QBE RV64 output needs non-PIE linking
+for some global addresses; Lean output is linked as PIE. The QBE subword reference
+adds explicit narrow extensions (Lean uses the original input). Pinned RV64
+`argsclass` uses `>=` instead of `>` for available aggregate registers, causing
+three exact-capacity C pressure checks to fail. Tests identify those specific
+failures and check the remaining QBE cases separately; all original C pressure
+checks remain mandatory for Lean. These are oracle limitations, not ignored
+compiler failures. Native Linux x86-64 and ARM64 CI passed at `6823743`;
+local cross-Clang also passed the full AMD64 matrices and TLS checks.

@@ -90,9 +90,10 @@
     "dbgloc": ["source line and optional column; preceding dbgfile required"]
   },
   "targets": {
-    "amd64_sysv": "partial: Linux x86-64 ELF scalar integer/floating operations, CFG/phi, memory, scalar/aggregate calls and returns, variadic entry, TLSDESC TLS and ELF data/sections; 75/76 emitted, 58 executable drivers and 17 assembly-only fixtures passed under QEMU; native x86 qualification remains pending",
+    "amd64_sysv": "partial: Linux x86-64 ELF scalar integer/floating operations, CFG/phi, memory, scalar/aggregate calls and returns, variadic entry, TLSDESC TLS and ELF data/sections; 75/76 emitted, 58 executable drivers and 17 assembly-only fixtures passed under QEMU; native Linux x86-64 CI passed at 6823743",
     "arm64": "partial: Linux ELF scalar/aggregate calls and returns, stack arguments, data, variadic functions and TLSDESC TLS; 75/76 upstream fixtures emit, 58 executable drivers and 17 assembly-only fixtures qualified on Linux ARM64; custom ELF sections/init arrays and common symbols implemented; remaining ISA targets and broader qualification remain",
-    "arm64_apple": "partial: scalar/aggregate functions with control flow, memory, TLS and direct/indirect register/stack-argument calls"
+    "arm64_apple": "partial: scalar/aggregate functions with control flow, memory, TLS and direct/indirect register/stack-argument calls",
+    "rv64": "partial: Linux RV64 LP64D scalar/floating operations, CFG, memory, aggregate GP/FP/split-stack/indirect calls and returns, variadics and general-dynamic TLS; 75/76 emitted, 58 executable drivers and 17 assembly-only fixtures passed under QEMU; native RV64 qualification remains pending"
   },
   "syntax": {
     "integer functions and parameters": "partial: unquoted ASCII QBE names (including dots/dollar signs), decimal literals, w/l or void result, at most 64 w/l parameters",

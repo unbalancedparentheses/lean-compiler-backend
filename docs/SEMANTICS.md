@@ -456,3 +456,28 @@ code uses the independently tested defined-range source domain, including unsign
 64-bit cases. Integer division uses hardware traps outside the source's defined
 nonzero/nonoverflow domain. No register allocation or preservation proof for the
 new emitter is claimed.
+
+
+## Linux RV64 LP64D target
+
+`--target riscv64-linux` uses eight GP and eight FP argument registers, with
+named floating arguments falling back to GP/stack locations after FP exhaustion.
+Word ABI values are sign-extended to XLEN at call boundaries and normalized to
+32-bit SSA bit patterns internally. Scalar integer/floating instructions,
+conversions, control flow, phi transfers, memory and dynamic allocation use
+stable frame slots. Environment pointers use t5.
+
+Small aggregates use one or two GP chunks, or eligible flattened floating/mixed
+fields. Register allocation falls back to integer classification when either
+required bank is exhausted; two-chunk integer values may split across the last
+GP register and the stack. Large/opaque aggregates use private caller copies and
+indirect results. Exact fragment transfers avoid short-object overreads. ABI
+aggregate limits are 4096 bytes and alignment 16, independently of storage types.
+Variadic aggregates with 16-byte alignment start at an even GP pair; variadic
+scalars use GP registers then stack, with a saved bank contiguous with incoming
+stack arguments. General-dynamic TLS preserves live argument and scratch
+registers across `__tls_get_addr` and supports shared-library definitions.
+
+This target is compatibility lowering, not certified lowering. Current execution
+evidence is QEMU plus independent C and pinned-QBE comparisons; native RV64
+qualification and broader syntax/ABI coverage remain open.

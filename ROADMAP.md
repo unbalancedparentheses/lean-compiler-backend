@@ -201,8 +201,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   and 17 assembly-only fixtures passing on native Linux ARM64, including variadic
   functions and TLS. Custom ELF sections and init-array constructors are implemented;
   Linux AMD64 scalar/aggregate/variadic lowering and TLS now emit 75/76 fixtures
-  (58 executable and 17 assembly-only passes under QEMU). RV64
-  remains unimplemented. Native Linux ARM64 CI is now enabled.
+  (58 executable and 17 assembly-only passes under QEMU), with native x86-64 CI
+  passing at `6823743`. Linux RV64 scalar/aggregate/variadic/TLS lowering also
+  reaches 75/76 fixtures (58 executable and 17 assembly-only passes under QEMU).
+  Native Linux ARM64 CI is enabled; native RV64 qualification remains.
   Coverage on one ISA or OS ABI does not certify another. 32-bit ARM/x86/RISC-V
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential

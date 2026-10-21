@@ -34,7 +34,7 @@ def main():
         return subprocess.run(command,text=True,capture_output=True,timeout=120)
     compiler=work/'lcb-snapshot';shutil.copy2(LCB,compiler)
     identity=run([compiler,'--build-identity']).stdout.strip()
-    cc=f'{isa}-linux-gnu-gcc' if args.docker_container else os.environ.get('LCB_CC','cc')
+    cc=os.environ.get('LCB_CROSS_CC',f'{isa}-linux-gnu-gcc') if args.docker_container else os.environ.get('LCB_CC','cc')
     qbe='/tmp/qbe/qbe'
     if native and not args.docker_container:
         oracle=work/'oracle'
@@ -59,6 +59,7 @@ def main():
         for label,asm in [('lean',assembly),('qbe',qasm)]:
             exe=case/label;private=fixture.name.startswith('_')
             command=[cc,'-Wno-error=implicit-function-declaration','-Wno-error=implicit-int']
+            if isa=='riscv64' and label=='qbe':command+=['-no-pie']
             command+=['-c',asm,'-o',exe] if private else ([cfile,asm,'-o',exe] if driver else [asm,'-o',exe])
             result=run(command,True)
             if result.returncode:
@@ -72,11 +73,13 @@ def main():
     if execute:
         from target_scalar import exercise
         exercise(compiler,work,run,cc,qbe,args.target,qtarget,24 if isa=='x86_64' else 8)
-        if isa=='x86_64':
-            from target_aggregate import exercise as aggregate_tests
-            aggregate_tests(compiler,work,run,cc,qbe,args.target,qtarget)
-            from target_tls import exercise as tls_tests
-            tls_tests(compiler,work,run,cc,args.target)
+        from target_aggregate import exercise as aggregate_tests
+        aggregate_tests(compiler,work,run,cc,qbe,args.target,qtarget)
+        if isa=='riscv64':
+            from riscv_abi import exercise as riscv_tests
+            riscv_tests(compiler,work,run,cc)
+        from target_tls import exercise as tls_tests
+        tls_tests(compiler,work,run,cc,args.target)
     baseline=ROOT/f'tests/upstream-{isa}-coverage.json'
     if baseline.exists():
         missing=set(json.loads(baseline.read_text())['emitted'])-{x['fixture'] for x in rows if x['emitted']}

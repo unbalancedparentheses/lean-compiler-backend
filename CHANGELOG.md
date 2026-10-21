@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+- Add Linux RV64 LP64D lowering, including scalar/floating operations, aggregate
+  register/split-stack/indirect ABI, variadics, general-dynamic TLS and ELF output.
+  QEMU tests pass 75/76 emission fixtures, 58 executable drivers, 17 assembly-only
+  fixtures, 22 aggregate layouts, protected tails and threaded/shared TLS.
+  Independent C tests cover exact FP capacity and aligned variadic register pairs.
+- Qualify AMD64 natively in Linux CI. Isolate pinned QBE narrow-extension and
+  RV64 exact-register-capacity discrepancies without weakening Lean/C checks.
+
 - Add AMD64 System V aggregate classification/stack copies/hidden returns and
   TLSDESC TLS. QEMU qualification reaches 75/76 emitted and 58 executable drivers,
   with 22-layout aggregate, guard-page, bank-rollback and threaded TLS checks.

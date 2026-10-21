@@ -6,7 +6,7 @@ open LeanCompilerBackend
 private def usage : String :=
   "Lean Compiler Backend 0.1.0\n" ++
   "Usage:\n" ++
-  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux]\n" ++
+  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|riscv64-linux]\n" ++
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --type-layout INPUT.ssa\n" ++
   "  lcb --first-path INPUT.ssa [-o OUTPUT.s] [--require-proof]\n" ++
@@ -49,8 +49,8 @@ private def compatibilityOptions (args : List String) : Except String (Option St
     | [], target => pure ([], target.getD "aarch64-macos")
     | "--target" :: value :: rest, target => do
       if target.isSome then throw "target specified more than once"
-      if !["aarch64-macos", "aarch64-linux", "x86_64-linux"].contains value then
-        throw s!"unsupported target '{value}'; supported: aarch64-macos, aarch64-linux, x86_64-linux"
+      if !["aarch64-macos", "aarch64-linux", "x86_64-linux", "riscv64-linux"].contains value then
+        throw s!"unsupported target '{value}'; supported: aarch64-macos, aarch64-linux, x86_64-linux, riscv64-linux"
       strip rest (some value)
     | arg :: rest, target => do
       let (rest, selected) ← strip rest target
@@ -207,6 +207,7 @@ private def run (args : List String) : IO UInt32 := do
       | .error message => throw (IO.userError message)
     let module ← loadModule path
     let result := if selected == "x86_64-linux" then AMD64.emitModule module
+      else if selected == "riscv64-linux" then RV64.emitModule module
       else AArch64.emitModule module (selected == "aarch64-macos")
     let assembly ← match result with
       | .ok text => pure text
