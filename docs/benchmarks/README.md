@@ -332,3 +332,18 @@ exceed the GCC O0 reference budget and remain unqualified. The four independent
 batches now total **68 qualified programs out of 80 attempts**, 670,485 IR
 lines and twelve unqualified reference timeouts. The earlier rerun is not
 counted as additional unique programs. Generation restrictions remain unchanged.
+
+
+## Compact ARM64 constants
+
+The [cJSON constant-materialization report](cjson-compact-constants.json) retains
+153 assertions and matching checksums, including the baseline stack retry.
+Optimized text is 47,136 bytes (24 fewer instructions than the memory-home run).
+Same-run medians are baseline 0.7939 s, optimized 0.3094 s, QBE 0.2084 s and
+GCC 0.1674 s. Concurrent local load makes cross-run speed comparisons unreliable.
+
+Allocated ARM64 functions use MOVZ/MOVN plus necessary MOVK halfwords, including
+shifted initial halfwords. The independent instruction matrix now covers 1,274
+functions and 10,192 cases per lowering mode, including a corrupted MOVN control.
+All 600 baseline/non-ARM fixture assemblies remain byte-identical; an additional
+eight-seed campaign passes 512 generated input cases across independent models.

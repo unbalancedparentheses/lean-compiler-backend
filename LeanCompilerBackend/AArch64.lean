@@ -80,6 +80,25 @@ private def immediate (width : Width) (destination : Nat) (value : Int) : List S
     if chunk != 0 then result := result ++ [s!"\tmovk {r}, #{chunk}, lsl #{shift}"]
   return result
 
+/-- Choose a zero/ones fill and one initial halfword; keep the baseline emitter
+    unchanged. MOVN uses the complement of its encoded halfword. -/
+private def compactImmediate (width : Width) (destination : Nat) (value : Int) : List String := Id.run do
+  let bits := Semantics.constant width value
+  let shifts := (List.range (width.bits / 16)).map (· * 16)
+  let chunk := fun shift => (bits >>> shift.toUInt64) &&& 65535
+  let inverted := shifts.countP (fun shift => chunk shift != 65535) <
+    shifts.countP (fun shift => chunk shift != 0)
+  let fill : UInt64 := if inverted then 65535 else 0
+  let first := (shifts.find? (fun shift => chunk shift != fill)).getD 0
+  let initial := if inverted then 65535 - chunk first else chunk first
+  let r := register width destination
+  let suffix := if first == 0 then "" else s!", lsl #{first}"
+  let mut result := [s!"\t{if inverted then "movn" else "movz"} {r}, #{initial}{suffix}"]
+  for shift in shifts do
+    if shift != first && chunk shift != fill then
+      result := result ++ [s!"\tmovk {r}, #{chunk shift}, lsl #{shift}"]
+  return result
+
 /-- Bounded immediate forms used only by the optional allocated path. The
     textual operand is independently assembled and exercised by target tests. -/
 private def binaryImmediate (width : Width) (op : Binary) (value : Int) : Option (String × String) := do
@@ -156,7 +175,8 @@ private def storeHome (base : String) (homes : Homes) (width : Width)
 private def load (darwin : Bool) (localSymbols : List String) (base : String) (slots : Homes) (width : Width) (destination : Nat)
     (value : Operand) : Except String (List String) := do
   match value with
-  | .constant n => return immediate width destination n
+  | .constant n => return if slots.registers.isEmpty then immediate width destination n
+    else compactImmediate width destination n
   | .threadSymbol name => pure (threadAddress darwin width destination name)
   | .symbol name =>
     -- GOT references work for both module-local and externally linked symbols.

@@ -54,6 +54,18 @@ def fixture():
                             kind = predicate if predicate in ['eq','ne'] else predicate[1:]
                             result = {'eq':a==b,'ne':a!=b,'lt':a<b,'le':a<=b,'gt':a>b,'ge':a>=b}[kind]
                             checks.append(f'if({name}(UINT64_C({x}))!=UINT{result_bits}_C({int(result)})){{fprintf(stderr,"case {len(checks)}\\n");return 1;}}')
+    # XOR forces constant materialization instead of an add/compare immediate.
+    materialized = constants + [1<<16,1<<32,1<<48,0xffff<<48,0xffffffffffff0000,
+        0xffffffff0000ffff,0xffff0000ffffffff,0x1234000000000000,
+        0x0000123400005678,0xffff1234ffff5678,0x8000000080000000]
+    for width,bits in [('w',32),('l',64)]:
+        for value in materialized:
+            name = f'isel_{len(sources)}'
+            sources.append(f'export function {width} ${name}(l %x) {{\n@s\n %r ={width} xor %x,{value}\n ret %r\n}}\n')
+            declarations.append(f'extern uint{bits}_t {name}(uint64_t);')
+            for x in inputs:
+                result = (x ^ value) & ((1<<bits)-1)
+                checks.append(f'if({name}(UINT64_C({x}))!=UINT{bits}_C({result})){{fprintf(stderr,"case {len(checks)}\\n");return 1;}}')
     caller = '#include <stdint.h>\n#include <stdio.h>\n'+'\n'.join(declarations)+'\nint main(void){\n'+'\n'.join(checks)+'\nreturn 0;\n}\n'
     return ''.join(sources), caller, len(sources), len(checks)
 
@@ -71,6 +83,8 @@ def exercise(compiler, work, run, cc, target, execute=True):
             assert re.search(r'\b(?:add|sub) [wx]\d+, [wx]\d+, #4095, lsl #12',output)
             assert re.search(r'\b(?:lsl|lsr|asr) [wx]\d+, [wx]\d+, #31',output)
             assert re.search(r'\bcmn [wx]\d+, #4095',output)
+            assert re.search(r'\bmovn [wx]\d+, #',output)
+            assert re.search(r'\bmovz x\d+, #1, lsl #48',output)
         if execute:
             result = run([cc,caller,asm,'-o',exe],True);assert result.returncode==0,result.stderr
             result = run([exe],True);assert result.returncode==0,(target,label,result.stderr)
@@ -85,6 +99,11 @@ def exercise(compiler, work, run, cc, target, execute=True):
             bad.write_text(damaged)
             result = run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
             result = run([badexe],True);assert result.returncode!=0,'wrong comparison escaped the independent oracle'
+            damaged,n = re.subn(r'(\bmovn [wx]\d+, #)([0-9]+)',lambda m:m[1]+str(int(m[2])^1),asm.read_text(),count=1)
+            assert n==1
+            bad.write_text(damaged)
+            result = run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
+            result = run([badexe],True);assert result.returncode!=0,'wrong MOVN escaped the independent oracle'
     print(f'{target}: {functions} integer immediate/comparison/fallback functions, {count} independent cases per baseline/allocated/optimized mode; execution={execute}',flush=True)
 
 

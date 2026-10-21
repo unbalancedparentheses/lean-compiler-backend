@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Materialize ARM64 constants with shifted MOVZ/MOVN and only necessary MOVK
+  halfwords in allocated functions. Preserve baseline/non-ARM output and check
+  10,192 independent integer cases per mode, including MOVN corruption.
+
 - Preserve literal multiline data strings through lexing, with correct comment,
   escape and source-line handling. Qualify 759 exact data bytes on all five
   targets and preserve 750 existing fixture assemblies; QBE reference strings

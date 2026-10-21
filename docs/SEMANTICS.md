@@ -654,6 +654,9 @@ is tested but does not yet have a semantic preservation proof. Allocated integer
 add/sub operations also select unsigned 12-bit immediates (optionally shifted by
 12), flipping add/sub for representable negative equivalents after width
 normalization. Constant shifts select immediate counts modulo the result width.
+Within functions with assigned GP homes, constants choose a zero or all-ones
+initial fill (MOVZ/MOVN), start at a useful halfword and use MOVK only for the
+remaining differing halfwords. Word-width normalization precedes selection.
 Unencodable constants retain register materialization; the stack baseline keeps
 its previous lowering. Integer comparisons likewise read assigned homes and
 write boolean results with W-register CSET, including long results. Encodable
