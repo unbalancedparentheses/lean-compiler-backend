@@ -81,7 +81,7 @@ Latest published reports in `docs/benchmarks`:
   remain unchanged; disabling the workaround is not a qualification or recommendation.
 
 - Loop-weight reports `zlib-loop-priority.json`, `cjson-loop-priority.json` and
-  `qbe-loop-priority.json` retain every qualified test below on the current
+  `qbe-loop-priority.json` retain every qualified test below on that
   loop-weight compiler. zlib text grows slightly to 147,430 bytes; median round trip is
   9.37 ms versus original QBE 7.88 ms. cJSON text is 37,916 bytes, runtime
   0.2104 s versus QBE 0.1686 s. Compiled QBE text is 425,188 bytes, self-IR
@@ -110,11 +110,12 @@ The preceding identity-bound reports retain their own measurements:
 - `cproc-symbol-hoist.json`: 18 C units, 19 exact IR reproductions, 196 original
   tests per qualified backend on the address-sharing identity. Original QBE-built cproc
   crashes on `attr`; that failure remains separate from the corrected oracle.
-- `csmith-symbol-hoist.json` adds 26/32 qualified programs and 312,293 IR lines:
-  aggregate 141/176 unique attempts, 1,422,785 qualified IR lines including runtime
-  helpers, 35 reference timeouts across seven disjoint batches.
-  Generator restrictions exclude pointers, packed structs, bitfields and volatile
-  accesses because of cproc frontend limits; this is not unrestricted whole-C coverage.
+- `csmith-unsigned-strength.json` adds 25/32 qualified programs and 210,295 IR lines
+  on the current compiler: aggregate 166/208 unique attempts, 1,633,080 qualified
+  IR lines including runtime helpers, 42 reference timeouts across eight disjoint
+  default-profile batches. Generator restrictions exclude pointers, packed structs,
+  bitfields and volatile accesses because of frontend limits; this is not
+  unrestricted whole-C coverage.
 
 The separate `csmith-pointers.json` profile enables one-level pointers without
 const qualifiers: 8/32 attempts qualify, with 49,596 IR lines. Twenty-one known

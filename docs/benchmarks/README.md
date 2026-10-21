@@ -686,3 +686,11 @@ layout-dependent workaround overhead. Production qualification retains the
 default flags. The diagnostic is not a runtime qualification or recommendation
 to disable the workaround. QBE reports now retain input-object sizes/hashes and
 executable hashes so future size comparisons can distinguish these effects.
+
+[The final scalar/aggregate Csmith batch](csmith-unsigned-strength.json), seeds
+20261197–20261228, qualifies 25/32 programs and 210,295 IR lines on the unsigned
+strength-reduction compiler. Seven GCC O0 reference timeouts remain unqualified.
+Across eight disjoint default-profile batches this is **166/208 unique attempts**,
+**1,633,080 qualified IR lines** including runtime helpers, and 42 reference
+timeouts. The separate pointer profile remains 8/32 with its own restrictions
+and unqualified outcomes; it is not folded into this denominator.
