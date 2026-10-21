@@ -30,6 +30,9 @@ def main():
         if inside and args.docker_container:
             command = ['docker', 'exec', args.docker_container] + [x.replace(str(work), '/work') for x in command]
         return subprocess.run(command, text=True, capture_output=True, timeout=120)
+    compiler = work/'lcb-snapshot'
+    shutil.copy2(LCB, compiler)
+    compiler_identity = run([compiler, '--build-identity']).stdout.strip()
     qbe = '/tmp/qbe/qbe'
     cc = 'gcc' if args.docker_container else os.environ.get('LCB_CC', 'cc')
     if native and not args.docker_container:
@@ -42,7 +45,7 @@ def main():
         case = work/fixture.stem; case.mkdir(exist_ok=True)
         source, assembly = case/'input.ssa', case/'lean.s'
         shutil.copy2(fixture, source)
-        result = run([LCB, source, '--target', 'aarch64-linux', '-o', assembly])
+        result = run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
         row = {'fixture': fixture.name, 'emitted': result.returncode == 0, 'diagnostic': result.stderr.strip(), 'native': 'unmeasured'}
         rows.append(row)
         if result.returncode:
@@ -72,10 +75,45 @@ def main():
             statuses.append('passed' if passed else 'failed')
             if not passed: failures.append((fixture.name, label+' execution', result.returncode, result.stdout, result.stderr, expected))
         row['native'] = statuses[0] if len(statuses) == 2 and len(set(statuses)) == 1 else 'failed'
+    if native:
+        from tls import SOURCE as tls_source, CALLER as tls_caller
+        case = work/'tls-interop'; case.mkdir(exist_ok=True)
+        source, assembly, caller = case/'input.ssa', case/'lean.s', case/'caller.c'
+        source.write_text(tls_source); caller.write_text(tls_caller)
+        result = run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
+        assert result.returncode == 0, result.stderr
+        for shared in [False, True]:
+            exe = case/('shared' if shared else 'static')
+            if shared:
+                library = case/'liblcb_tls.so'
+                result = run([cc, '-fPIC', '-shared', assembly, '-o', library], True)
+                assert result.returncode == 0, result.stderr
+                command = [cc, '-pthread', caller, library, '-Wl,-rpath,$ORIGIN', '-o', exe]
+            else:
+                command = [cc, '-pthread', caller, assembly, '-o', exe]
+            result = run(command, True); assert result.returncode == 0, result.stderr
+            result = run([exe], True)
+            assert result.returncode == 0 and result.stdout == 'TLS passed\n', (shared, result.returncode, result.stdout, result.stderr)
+        print('Linux TLS: eight concurrent C threads, external TLS, mixed live arguments and executable/shared-library linkage passed', flush=True)
+        from float_variadic import fixture as floating_variadics
+        source_text, caller_text = floating_variadics(32)
+        case = work/'variadic-interop'; case.mkdir(exist_ok=True)
+        source, assembly, caller = case/'input.ssa', case/'lean.s', case/'caller.c'
+        source.write_text(source_text); caller.write_text(caller_text)
+        result = run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
+        assert result.returncode == 0, result.stderr
+        qasm = case/'qbe.s'; result = run([qbe, '-t', 'arm64', '-o', qasm, source], True)
+        assert result.returncode == 0, result.stderr
+        for label, asm in [('lean', assembly), ('qbe', qasm)]:
+            exe = case/label
+            result = run([cc, caller, asm, '-o', exe], True); assert result.returncode == 0, result.stderr
+            result = run([exe], True); assert result.returncode == 0, (label, result.returncode, result.stderr)
+        print('Linux variadics: mixed GP/FP exhaustion, dynamic frames, direct/indirect calls and C interoperation passed against QBE', flush=True)
+
     baseline = json.loads((ROOT/'tests/upstream-linux-arm64-coverage.json').read_text())['emitted']
     emitted_names = {row['fixture'] for row in rows if row['emitted']}
     for missing in sorted(set(baseline) - emitted_names): failures.append((missing, 'emission regression'))
-    report = {'target': 'aarch64-linux', 'fixtures': rows, 'failures': failures}
+    report = {'target': 'aarch64-linux', 'compiler_identity': compiler_identity, 'fixtures': rows, 'failures': failures}
     (work/'report.json').write_text(json.dumps(report, indent=2)+'\n')
     emitted = sum(row['emitted'] for row in rows)
     executed = sum(row['native'] == 'passed' for row in rows)

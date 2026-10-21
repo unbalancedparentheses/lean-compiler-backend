@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add Linux ARM64 variadic function entry, register-save va_list handling and
+  TLSDESC TLS. Native coverage reaches 75/76 emitted, 58 executable drivers and
+  17 assembly-only fixtures, plus mixed variadic and threaded/shared-library TLS
+  interoperation. Snapshot compiler binaries for stable upstream test runs.
+
 - Add initial Linux ARM64 ELF emission, scalar/aggregate ABI and native upstream
   qualification: 72/76 emitted, 55 executable and 17 assembly-only passes.
   Keep Linux variadic entry, TLS and custom sections explicitly unsupported.

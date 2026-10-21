@@ -397,14 +397,24 @@ Common linkage is incompatible with a custom section and is data-only. The nativ
 matrix compares the shared two-string section syntax and common data with QBE,
 then independently checks Lean's 64-byte common alignment against C.
 
-## Initial Linux ARM64 target
+## Linux ARM64 target
 
 `--target aarch64-linux` selects ELF symbol spelling/relocations, function type
 and size records, a non-executable stack note and AAPCS64 eight-byte scalar stack
 slots. Independent GP/FP banks and aggregate classification are shared with the
 Apple target, but Linux unnamed call arguments continue to use available argument
-registers. Variadic function entry/va_list handling, Linux TLS and custom ELF
-sections are currently rejected. First-path jobs remain Apple-only.
+registers. Variadic entry saves the eight GP registers and eight 128-bit SIMD
+registers in a 192-byte frame area. `vastart` initializes the AAPCS64 32-byte
+va_list (stack pointer, GP/FP tops and signed offsets); `vaarg` consumes the
+appropriate register bank before switching to eight-byte stack slots. Source
+storage for native Linux va_list must cover 32 bytes, versus eight on Darwin.
+The abstract interpreter models argument consumption rather than either concrete
+ABI representation. First-path jobs remain Apple-only.
+
+Linux TLS uses ELF TLSDESC relocations and `tpidr_el0`, preserving live argument
+and scratch registers around the resolver. Native tests cover private/exported
+TLS, external C TLS, eight concurrent threads, and executable/shared-library
+linkage. Custom ELF sections are currently rejected.
 
 Private module symbols use direct PC-relative address formation. External or
 exported symbols use GOT relocations. This distinction matters: GNU assembler can

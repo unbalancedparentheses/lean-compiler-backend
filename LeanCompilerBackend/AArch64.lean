@@ -76,17 +76,23 @@ private def immediate (width : Width) (destination : Nat) (value : Int) : List S
     if chunk != 0 then result := result ++ [s!"\tmovk {r}, #{chunk}, lsl #{shift}"]
   return result
 
-/-- Resolve a Darwin TLV descriptor while preserving live scalar argument/scratch
+/-- Resolve Darwin TLV or Linux TLSDESC while preserving live scalar argument/scratch
     registers. The baseline does not yet hoist/cache repeated TLS lookups. -/
-private def threadAddress (width : Width) (destination : Nat) (name : String) : List String := Id.run do
+private def threadAddress (darwin : Bool) (width : Width) (destination : Nat) (name : String) : List String := Id.run do
   let mut lines := ["\tsub sp, sp, #256"]
   for i in [:9] do
     lines := lines ++ [s!"\tstp x{2*i}, x{2*i+1}, [sp, #{16*i}]"]
   lines := lines ++ ["\tstr x30, [sp, #144]"]
   for i in [:4] do
     lines := lines ++ [s!"\tstp d{2*i}, d{2*i+1}, [sp, #{160+16*i}]"]
-  lines := lines ++ [s!"\tadrp x0, _{name}@TLVPPAGE", s!"\tldr x0, [x0, _{name}@TLVPPAGEOFF]",
-    "\tldr x1, [x0]", "\tblr x1", "\tstr x0, [sp, #224]"]
+  if darwin then
+    lines := lines ++ [s!"\tadrp x0, _{name}@TLVPPAGE", s!"\tldr x0, [x0, _{name}@TLVPPAGEOFF]",
+      "\tldr x1, [x0]", "\tblr x1"]
+  else
+    lines := lines ++ [s!"\tadrp x0, :tlsdesc:{name}", s!"\tldr x1, [x0, :tlsdesc_lo12:{name}]",
+      s!"\tadd x0, x0, :tlsdesc_lo12:{name}", s!"\t.tlsdesccall {name}", "\tblr x1",
+      "\tmrs x1, tpidr_el0", "\tadd x0, x1, x0"]
+  lines := lines ++ ["\tstr x0, [sp, #224]"]
   for i in [:9] do
     lines := lines ++ [s!"\tldp x{2*i}, x{2*i+1}, [sp, #{16*i}]"]
   lines := lines ++ ["\tldr x30, [sp, #144]"]
@@ -117,9 +123,7 @@ private def load (darwin : Bool) (localSymbols : List String) (base : String) (s
     (value : Operand) : Except String (List String) := do
   match value with
   | .constant n => return immediate width destination n
-  | .threadSymbol name =>
-    if darwin then pure (threadAddress width destination name)
-    else throw "Linux ARM64 TLS is not yet implemented"
+  | .threadSymbol name => pure (threadAddress darwin width destination name)
   | .symbol name =>
     -- GOT references work for both module-local and externally linked symbols.
     let r := register .long destination
@@ -397,10 +401,18 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
       let offset ← slotOffset allocations inst.destination
       lines := lines ++ stackAddress base 9 offset
   | .vaArg list =>
-    if !darwin then throw "Linux ARM64 vaarg is not yet implemented"
     lines := lines ++ (← load darwin localSymbols base slots .long 9 list)
-    lines := lines ++ ["\tldr x10, [x9]", s!"\tldr {register inst.width 11}, [x10]",
-      "\tadd x10, x10, #8", "\tstr x10, [x9]", s!"\tmov {register inst.width 9}, {register inst.width 11}"]
+    if darwin then
+      lines := lines ++ ["\tldr x10, [x9]", s!"\tldr {register inst.width 11}, [x10]",
+        "\tadd x10, x10, #8", "\tstr x10, [x9]", s!"\tmov {register inst.width 9}, {register inst.width 11}"]
+    else
+      let offset := if inst.floating then 28 else 24
+      let top := if inst.floating then 16 else 8
+      let step := if inst.floating then 16 else 8
+      lines := lines ++ [s!"\tldrsw x10, [x9, #{offset}]", "\ttbz x10, #63, 1f",
+        s!"\tldr x11, [x9, #{top}]", "\tadd x11, x11, x10", s!"\tadd w10, w10, #{step}",
+        s!"\tstr w10, [x9, #{offset}]", "\tb 2f", "1:", "\tldr x11, [x9]",
+        "\tadd x10, x11, #8", "\tstr x10, [x9]", "2:", s!"\tldr {register inst.width 9}, [x11]"]
   | .load kind address =>
     lines := lines ++ (← load darwin localSymbols base slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
@@ -414,14 +426,26 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
   let offset ← slotOffset slots inst.destination
   pure (lines ++ slotAccess "str" base (register inst.width 9) inst.width.bytes offset)
 
+private structure VariadicFrame where
+  stackOffset : Nat
+  saveOffset : Nat
+  gpUsed : Nat
+  fpUsed : Nat
+
 private def emitStatement (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String) (slots allocations : List (String × Nat))
-    (varargsOffset : Nat) (statement : Statement) : Except String (List String) := do
+    (varargs : VariadicFrame) (statement : Statement) : Except String (List String) := do
   match statement with
   | .assign inst => emitInstruction darwin localSymbols types base slots allocations inst
   | .callVoid target arguments => emitCall darwin localSymbols types base slots allocations target arguments
   | .vaStart list => do
-    if !darwin then throw "Linux ARM64 vastart is not yet implemented"
-    pure ((← load darwin localSymbols base slots .long 9 list) ++ stackAddress base 10 varargsOffset ++ ["\tstr x10, [x9]"])
+    let mut lines := (← load darwin localSymbols base slots .long 9 list) ++
+      stackAddress base 10 varargs.stackOffset ++ ["\tstr x10, [x9]"]
+    if !darwin then
+      lines := lines ++ stackAddress base 10 (varargs.saveOffset + 64) ++ ["\tstr x10, [x9, #8]"] ++
+        stackAddress base 10 (varargs.saveOffset + 192) ++ ["\tstr x10, [x9, #16]"] ++
+        immediate .word 10 (((varargs.gpUsed : Int) - 8) * 8) ++ ["\tstr w10, [x9, #24]"] ++
+        immediate .word 10 (((varargs.fpUsed : Int) - 8) * 16) ++ ["\tstr w10, [x9, #28]"]
+    pure lines
   | .blit source destination bytes =>
     if bytes == 0 then return []
     let mut lines := (← load darwin localSymbols base slots .long 9 source) ++ (← load darwin localSymbols base slots .long 10 destination)
@@ -481,7 +505,6 @@ private def debugFilename (name : String) : String :=
 
 def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) : Except String String := do
   validateFunction f true
-  if !darwin && f.variadic then throw "Linux ARM64 variadic function entry is not yet implemented"
   if !darwin && f.customSection.isSome then throw "Linux custom sections are not yet implemented"
   let localNames := f.locals
   let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
@@ -513,6 +536,8 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   let resultInfo ← f.resultAggregate.mapM (AggregateABI.find types)
   let resultPointer := frameEnd
   if resultInfo.any (·.passing == .indirect) then frameEnd := frameEnd + 8
+  let variadicSave := alignUp frameEnd 16
+  if !darwin && f.variadic then frameEnd := variadicSave + 192
   let mut allocations : List (String × Nat) := []
   for parameter in f.parameters do
     if let some name := parameter.aggregate then
@@ -548,6 +573,12 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
   else if hasCalls then lines := lines ++ slotAccess "str" "sp" "x30" 8 returnAddress
   let incoming ← AggregateABI.plan types (parametersAsArguments f) darwin
+  if !darwin && f.variadic then
+    -- Save the argument banks before any user code or incoming-object copies.
+    for i in [:8] do
+      lines := lines ++ slotAccess "str" base s!"x{i}" 8 (variadicSave + i*8)
+      lines := lines ++ slotAccess "str" base s!"q{i}" 16 (variadicSave + 64 + i*16)
+  let varargs : VariadicFrame := { stackOffset := frame + alignUp incoming.stackUsed 8, saveOffset := variadicSave, gpUsed := incoming.gpUsed, fpUsed := incoming.fpUsed }
   if resultInfo.any (·.passing == .indirect) then
     lines := lines ++ stackAddress base 12 resultPointer ++ ["\tstr x8, [x12]"]
   if let some parameter := f.parameters[0]? then
@@ -605,7 +636,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           debugIndex := debugIndex + 1
         else break
       if let some statement := block.instructions[instructionIndex]? then
-        lines := lines ++ (← emitStatement darwin localSymbols types base slots allocations (frame + alignUp incoming.stackUsed 8) statement)
+        lines := lines ++ (← emitStatement darwin localSymbols types base slots allocations varargs statement)
     match block.terminator with
     | .ret value =>
       if let some value := value then
@@ -663,10 +694,13 @@ def emit (program : Program) : Except String String := do
 private def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run do
   if data.common then
     return s!".comm {symbolName darwin data.name},{data.byteSize},{if darwin then Nat.log2 data.alignment else data.alignment}\n"
-  let mut lines := if data.threadLocal then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"] else [data.customSection.map (fun customSection => ".section " ++ customSection) |>.getD ".data"]
+  let mut lines := if data.threadLocal then
+    if darwin then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"]
+    else [".section .tdata,\"awT\",%progbits", s!".type {data.name}, %tls_object"]
+    else [data.customSection.map (fun customSection => ".section " ++ customSection) |>.getD ".data"]
   if data.exported then lines := lines ++ [s!".globl {symbolName darwin data.name}"]
-  let initialSymbol := if data.threadLocal then s!"_{data.name}$tlv$init" else symbolName darwin data.name
-  if data.threadLocal then
+  let initialSymbol := if darwin && data.threadLocal then s!"_{data.name}$tlv$init" else symbolName darwin data.name
+  if darwin && data.threadLocal then
     lines := lines ++ [s!"_{data.name}:", "\t.quad __tlv_bootstrap", "\t.quad 0", s!"\t.quad {initialSymbol}",
       ".section __DATA,__thread_data,thread_local_regular"]
   lines := lines ++ [s!".balign {data.alignment}", s!"{initialSymbol}:"]
@@ -690,7 +724,6 @@ private def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run 
 
 def emitModule (module : Module) (darwin : Bool := true) : Except String String := do
   validateModule module
-  if !darwin && module.data.any (·.threadLocal) then throw "Linux ARM64 TLS is not yet implemented"
   if !darwin && module.data.any (·.customSection.isSome) then throw "Linux custom sections are not yet implemented"
   let types ← AggregateABI.classify module.types
   let localSymbols := (module.functions.filter (!·.exported)).toList.map (·.name) ++

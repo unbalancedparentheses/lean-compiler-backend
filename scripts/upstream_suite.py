@@ -51,6 +51,8 @@ def main():
     rows, failures = [], []
     with tempfile.TemporaryDirectory(prefix='lcb-upstream-') as directory:
         work = Path(directory)
+        compiler = work/'lcb-snapshot'
+        shutil.copy2(LCB, compiler)
         cc = os.environ.get('LCB_CC', 'clang')
         qbe = None
         if native_host():
@@ -63,7 +65,7 @@ def main():
             case = work/source.stem
             case.mkdir()
             asm = case/'lean.s'
-            result = command([LCB, source, '-o', asm])
+            result = command([compiler, source, '-o', asm])
             row = {'fixture': source.name, 'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
                    'emitted': result.returncode == 0, 'diagnostic': result.stderr.strip(),
                    'native': 'unsupported' if result.returncode else 'not measured'}
@@ -123,7 +125,7 @@ def main():
                 failures.append((missing, 'regressed from emitted baseline'))
         if options.write_baseline and not failures:
             BASELINE.write_text(json.dumps({'target': 'aarch64-macos', 'emitted': emitted}, indent=2)+'\n')
-        report = {'target': 'aarch64-macos', 'compiler_identity': run([LCB, '--build-identity']).strip(),
+        report = {'target': 'aarch64-macos', 'compiler_identity': run([compiler, '--build-identity']).strip(),
                   'native_measured': native_host(), 'fixtures': rows, 'failures': failures}
         options.report.parent.mkdir(parents=True, exist_ok=True)
         options.report.write_text(json.dumps(report, indent=2)+'\n')

@@ -9,7 +9,7 @@ from fuzz import ROOT, LCB, run, native_host
 from symbols import reject
 
 
-def fixture():
+def fixture(va_list_bytes=8):
     out=[]; decl=[]; cdefs=[]; checks=[]
     for n in [0,4,5]:
         kinds=['w']*9+['s','d']*n+['w']
@@ -17,7 +17,7 @@ def fixture():
         cparams=','.join(f'{dict(w="int",s="float",d="double")[k]} a{i}' for i,k in enumerate(kinds))
         args=','.join(f'{k} '+('7' if k=='w' else f'{k}_1.5') for k in kinds)
         cargs=','.join('7' if k=='w' else '1.5' for k in kinds)
-        body=f'export function d $mixed_va_{n}({params},...) {{\n@entry\n %size =l copy 16\n %ap =l alloc16 %size\n vastart %ap\n'
+        body=f'export function d $mixed_va_{n}({params},...) {{\n@entry\n %size =l copy {max(16, va_list_bytes)}\n %ap =l alloc16 %size\n vastart %ap\n'
         body+=' %x =d vaarg %ap\n %i =w vaarg %ap\n %y =d vaarg %ap\n %l =l vaarg %ap\n %r =d add %x, %y\n'
         body+=' %c0 =w ceqw %i, 123\n %cl =w ceql %l, 456\n %c1 =w and %c0, %cl\n'
         prev='%c1'
@@ -58,7 +58,7 @@ export function l $single_tail() {
 ''')
     decl.append('extern uint64_t single_tail(void);\n');checks.append('if(single_tail()!=UINT64_C(1081081856)) return 3;\n')
     c='#include <stdint.h>\n#include <stdarg.h>\n'+''.join(decl+cdefs)+'int main(void) {\n'+''.join(checks)+'return 0;}\n'
-    return ''.join(out),c
+    return ''.join(out).replace('alloc8 8', f'alloc8 {va_list_bytes}'),c
 
 
 def main():

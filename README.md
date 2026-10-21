@@ -9,8 +9,8 @@ is a bounded integer, control-flow, memory, integer-data and direct/indirect-cal
 
 The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 58 native
 passes, 17 assemble-only fixtures and one unsupported input out of 76 on Apple ARM64.
-Linux ARM64 currently has 55 native passes, 17 assembly-only fixtures and four
-unsupported fixtures; see the target-specific coverage record.
+Linux ARM64 also has 58 native passes, 17 assembly-only fixtures and one
+unsupported fixture; see the target-specific coverage record.
 
 Implemented targets are **AArch64 macOS** and a partial **AArch64 Linux ELF** target
 (`--target aarch64-linux`). Input is a restricted QBE-style SSA

@@ -8,7 +8,8 @@ fixtures, then the original abi1/abi4 drivers passed with both backends after th
 unused-void-result normalization. The large-CFG extension additionally emits and assembles _bf99 and _bfmandel.
 Combined results are below. The full native Nix suite passed for aggregate commit `3f805da` (73/76 emitted,
 58 executable passes and 15 assembly-only fixtures); the large-CFG extension
-is undergoing full qualification. Targeted CFG tests and 147 theorem audits pass. Ubuntu qualification builds/tests the compiler and models; it does
+passed the full native Nix suite with linkage checkpoint `ae832d4`, following
+the SSA cycle-guard correction in `fdda0c7`. All 147 theorem audits pass. Ubuntu qualification builds/tests the compiler and models; it does
 not imply a Linux assembly target.
 
 - 75 of 76 fixtures emit assembly.
@@ -108,11 +109,13 @@ Use `--write-baseline` only after a passing run to extend the emission baseline.
 
 ## Linux ARM64 checkpoint
 
-The initial `--target aarch64-linux` implementation emits 72/76 fixtures. An
+The `--target aarch64-linux` implementation emits 75/76 fixtures. An
 ARM64 Ubuntu 24.04 container running on the local ARM64 Linux Docker VM assembled
-and executed 55 original drivers with both Lean and pinned QBE (`arm64`) output;
-17 development fixtures assembled with both. `dark.ssa`, `tls.ssa`, `vararg1.ssa`
-and `vararg2.ssa` remain explicitly unsupported. This is native ARM64 instruction
+and executed 58 original drivers with both Lean and pinned QBE (`arm64`) output;
+17 development fixtures assembled with both. Only `dark.ssa` remains unsupported
+because its call omits a required argument. Additional tests cover Linux
+variadic GP/FP exhaustion and eight concurrent TLS threads through executable
+and shared-library linkage. This is native ARM64 instruction
 execution inside a Linux VM, not x86 emulation or a proof.
 
 `scripts/linux_arm64.py` runs emission checks everywhere, native qualification

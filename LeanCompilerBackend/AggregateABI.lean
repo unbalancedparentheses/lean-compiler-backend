@@ -83,6 +83,8 @@ structure Argument where
 structure Plan where
   arguments : Array Argument
   stackUsed : Nat
+  gpUsed : Nat := 0
+  fpUsed : Nat := 0
   stackBytes : Nat
   totalBytes : Nat
   deriving Repr, Inhabited
@@ -131,6 +133,6 @@ def plan (types : Array TypeInfo) (arguments : Array CallArgument) (darwin : Boo
         endOffset := align endOffset 8
         result := result.set! i { result[i]! with copyOffset := some endOffset }
         endOffset := endOffset + info.layout.size
-  return { arguments := result, stackUsed := stack, stackBytes, totalBytes := align endOffset 16 }
+  return { arguments := result, stackUsed := stack, gpUsed := gp, fpUsed := fp, stackBytes, totalBytes := align endOffset 16 }
 
 end LeanCompilerBackend.AggregateABI
