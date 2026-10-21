@@ -127,6 +127,8 @@ def main():
 
     from quoted_names import exercise as quoted_tests
     quoted_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
+    from global_addresses import exercise as global_address_tests
+    global_address_tests(compiler,work,run,cc,'aarch64-linux',native)
     from module_scale import exercise as module_tests
     module_tests(compiler,work,run,cc,'aarch64-linux',native)
     from extern_offsets import exercise as extern_offset_tests

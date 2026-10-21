@@ -6,6 +6,7 @@ import LeanCompilerBackend.Optimize.ControlFlow
 import LeanCompilerBackend.Optimize.Common
 import LeanCompilerBackend.Optimize.Memory
 import LeanCompilerBackend.Optimize.Algebra
+import LeanCompilerBackend.Optimize.Symbols
 
 namespace LeanCompilerBackend.Optimize
 
@@ -83,6 +84,7 @@ def function (f : Function) : Function := Id.run do
 
 def module (m : Module) : Except String Module := do
   validateModule m
+  let globals := (m.data.filter (!·.threadLocal)).map (·.name)
   let functions ← m.functions.mapM fun f => do
     let mut result := Memory.promote (Cleanup.copies f)
     result := Cleanup.copies result
@@ -90,6 +92,7 @@ def module (m : Module) : Except String Module := do
     for _ in [:4] do
       result ← ControlFlow.simplify (function result)
       result := Cleanup.copies result
+    result := Symbols.hoist globals result
     result ← Common.eliminate (function result)
     pure (Cleanup.deadDefinitions (Cleanup.copies result))
   let result := {m with functions}

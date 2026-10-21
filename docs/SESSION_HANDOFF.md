@@ -7,112 +7,109 @@ remain the priority; broader certification is deferred.
 ## Repository and current compiler
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
-The latest compiler implementation checkpoint is `f52fa92`; its source/build
-identity is `0f70bfb3f1e74bf5ca9cad3c1c32e241323dbc6d744e1950289c92dbe6e00d34`.
-Subsequent checkpoints add larger-program qualification and accurate inventory.
-All work is committed/pushed in coherent checkpoints; check Git for the latest
-handoff/documentation commit rather than treating this file as its own head ID.
+The current compiler source/build identity is
+`2950d20fd2294e6a435ba3a1522cd943e08c556003ad1a6270eaef0fa445126a`.
+Check Git for the exact latest implementation/documentation checkpoint. Work is
+published in coherent tested commits; this document does not identify its own SHA.
 
-This window added:
+## Changes in the latest window
 
-- ARM64 direct assigned-home lowering for comparisons, scalar/FP operations,
-  memory operands and scalar call results, with word normalization and legal
-  address/result aliasing retained. Immediate arithmetic and shifted MOVZ/MOVN
-  constant materialization remove more redundant instructions.
-- Native data admission through 256 MiB and compact BSS for ordinary zero-only
-  globals, while the interpreter keeps its 1 MiB initialization budget.
-- QBE-style target aliases/options, stdin/stdout and multiple input modules,
-  plus a real cproc-to-backend pipeline. The default remains `aarch64-macos`;
-  explicit targets are required for other hosts. Windows/debug-driver options
-  remain unsupported.
-- Literal multiline data strings, with preserved UTF-8/control bytes and source
-  locations. QBE reference strings use escaped line breaks because raw multiline
-  assembler strings have platform-dependent handling.
-- QBE itself and zlib/example/minigzip compiled for all three Linux targets.
-  x86-64/RV64 executables run under explicitly labelled QEMU emulation.
-- A reduced original-QBE AMD64 external-address/CMP/CMOV flag-clobber defect,
-  independent C checks and an exact separately applied oracle-only correction.
-  The vendored QBE snapshot remains unchanged.
+- Integer identities and power-of-two multiplication become width-correct copies
+  and shifts. Narrow entry-stack promotion handles initialized byte/halfword
+  objects, explicit store truncation and load signedness.
+- ARM64 stationary phi homes avoid staging. Acyclic register transfers are
+  scheduled without overwriting pending inputs; cycles and stack/symbol moves
+  retain simultaneous staging. Fall-through jumps are omitted.
+- Existing allocation color groups are ranked by static read/write counts before
+  assigning the callee-saved register bank. Independent interference/home-flow
+  checks run on the final assignment. This substantially reduced zlib spilling.
+- ARM64 logical immediates handle repeated rotated masks, with independent
+  exhaustive encoding and native execution checks.
+- Repeated addresses of module-defined, non-TLS data can share an entry
+  definition. External/TLS resolution stays in place, and memory contents are
+  never cached. Calls may mutate referenced globals normally.
+- Compatibility CLI default target now follows the compiler host on all five
+  implemented configurations. First-path output remains Apple ARM64. Old
+  architecture-specific refusal tests now request their intended target explicitly.
+- Previous large-data/BSS, multiline-string, multi-module CLI and independent
+  original-QBE discrepancy regressions remain in place.
 
-## Validation and measurements
+These optional compatibility optimizations have execution evidence, not new
+preservation proofs. No Windows target or end-to-end certification was added.
 
-`LCB_CC=cc bash scripts/check.sh --require-native` completed successfully on the
-final compiler, including the proof audit, native Apple ARM64 checks, Rosetta
-macOS AMD64 suite and final optimized differential fuzz. Its retained log is
-`.build/compact-constants-full-check.log`; the preceding memory-home full run
-also passed (`.build/memory-homes-full-check.log`). Linux target execution is
-separate from the nonnative emission checks within this host's full run.
+## Validation and larger workloads
 
-- All five targets retain 75/76 upstream fixture admission. Target suites cover
-  58 executable drivers and 17 assembly-only fixtures; `dark.ssa` intentionally
-  omits a required argument. This is bounded coverage, not complete compatibility.
-- Latest optimized Linux ARM64 target/ABI suite passed. Independent Linux scalar
-  matrices are now wired into both baseline and optimized runs. The new AMD64
-  conditional-address regression passed Linux/QEMU and macOS/Rosetta in all
-  lowering modes, retaining the original QBE failure.
-- The integer immediate/materialization matrix passes 10,192 independent cases
-  across 1,274 functions per baseline/allocated/optimized mode, including wrong
-  arithmetic/comparison immediates and a corrupted MOVN control.
-- Full native integer/FP/conversion matrices pass 30,460 / 896 / 1,228 cases per
-  baseline/allocated/optimized/QBE mode. Allocation controls include 24-value FP
-  pressure, FP call results, signed narrow loads and address/result aliasing.
-- Memory checks pass 4,209 native cases per baseline/optimized/corrected-QBE
-  backend, 1,664 C-owned-buffer cases and 2,208 independent C cases. Original
-  QBE overlap mismatches remain separate.
-- Multiline data checks pass 39 objects/759 exact bytes in all three lowering
-  modes on all five targets. The lexer preserved 750 fixture assemblies; compact
-  constants preserved all 600 baseline/non-ARM fixture assemblies.
-- An additional 32-seed campaign (20261109–20261140) passes 256 generated functions
-  and 2,048 input cases across Python, interpretation, baseline/optimized native
-  output and QBE. Log: `.build/final-32-seed-fuzz.log`.
-- cJSON retains 153 assertions across 18 executables and matching checksums.
-  Baseline alone needs a 64 MiB stack retry for deep recursion. Latest optimized
-  library text is 47,136 bytes; see `cjson-compact-constants.json` for raw timings.
-- QBE self-compilation has 32 C units/725 functions. Each passing executable
-  reproduces 455 successful fixture assemblies across six QBE targets plus 32
-  self-IR assemblies, matches one original rejection, and passes 58 original
-  tests generating native ARM64 output. Original failures are retained separately.
-  Latest ARM64 optimized text is 557,352 bytes; cross-target reports retain their
-  own earlier compiler identities. Emitting Windows output with compiled QBE does
-  not implement a Windows target in our backend.
-- zlib compiles 17 unchanged C units/271 functions, including its test programs.
-  Every qualified build passes the original static test recipe and 12 exact gzip
-  streams/independent round trips. Native ARM64 and QEMU x86-64/RV64 qualify;
-  original RV64 QBE link failure remains unqualified. Native optimized round trip
-  is about 33 ms versus original QBE's 8 ms in the published run: optimization
-  parity is still clearly incomplete. GCC and backend builds link the same set
-  of library objects; source configuration and section-size caveats are recorded.
-- Earlier cproc bootstrap reports remain valid historical evidence: 19 reproduced
-  IR files and 196 original tests per qualified Linux target/backend. They were
-  not rerun with the final constant-materialization compiler in this window.
-- The published Csmith corpus qualifies 91/112 unique attempts, with
-  905,656 IR lines including runtime helpers and twenty-one reference timeouts.
-  The final batch uses seeds 20261101–20261132 on the final compiler; its 23
-  passing programs match GCC O0/O2, both backend modes and original QBE. The
-  repeated original batch is not counted as extra unique programs.
+All five targets retain 75/76 upstream fixture admission: 58 executable drivers
+and 17 assembly-only fixtures. `dark.ssa` intentionally omits a required argument.
+Linux ARM64 runs natively; local Linux x86/RV and macOS x86 runs use QEMU/Rosetta.
+Linux x86 and ARM also have native CI. This is bounded coverage, not a parity percentage.
 
-Reports and reproduction commands: [benchmarks/README.md](benchmarks/README.md).
-Original/corrected oracle details: [UPSTREAM_DISCREPANCIES.md](UPSTREAM_DISCREPANCIES.md).
-As of 18:47 UTC, all three CI jobs are green through `8b1b1ea`, including the final compiler and
-cross-QBE regression wiring. Later benchmark/inventory/documentation runs may
-still be queued; inspect their exact statuses rather than inferring a pass.
+Latest target suites pass with common-address checks: 8,192 independent cases
+per lowering mode, including calls that mutate globals, narrowing/phi uses,
+loops and name collisions. The ARM64 wrong-address control must fail. Full
+integer/FP/conversion matrices retain 30,460 / 896 / 1,228 cases per lowering mode.
+The immediate matrix now covers 3,106 functions / 24,848 cases per mode. The
+logical-encoding unit oracle checks 190,980 cases, including all 1,302 word and
+5,334 long encodings. Phi tests cover 79 permutations / 5,372 cases per mode;
+narrow-promotion tests cover 16,896 loop cases plus 1,024 scalar cases.
+
+The full gate passed after allocation ranking and host-native CLI changes
+(`.build/ranked-full-check.log`, `.build/host-default-full-check.log`). The latest
+common-address full run is `.build/symbol-hoist-full-check.log`; verify its
+completion status before treating it as final. Fresh optimized differential fuzz
+seeds 20261269–20261300 passed: 256 functions / 2,048 independent input cases.
+Existing proof audits remain unchanged in scope.
+
+Latest published reports in `docs/benchmarks`:
+
+- `zlib-symbol-hoist.json`: 17 unchanged C units / 271 functions, original static
+  tests and 12 byte-exact gzip streams plus independent decompression/round trips.
+  Native optimized text is 145,190 bytes. Same-run round-trip medians: optimized
+  10.27 ms, original QBE 8.01 ms, corrected QBE 8.15 ms, baseline 68.92 ms and
+  GCC 3.91 ms. Earlier text was 206,102 bytes / about 32 ms in the algebra report;
+  cross-run timings are not controlled speedup claims. Optimization parity remains
+  incomplete. `zlib-ranked-x86.json` and `zlib-ranked-rv.json` retain successful
+  QEMU qualification and the original RV64 QBE link failure separately.
+- `qbe-symbol-hoist.json`: 32 unchanged C units / 725 functions. Qualified builds
+  reproduce 455 fixture assemblies across six QBE targets and 32 self-IR assemblies,
+  one matching rejection, and 58 original tests generating native ARM64 output.
+  Optimized text 420,484 bytes; median self-IR compile 0.1934 s versus corrected-QBE
+  0.1672 s and GCC reference 0.0996 s. Original ARM64 QBE's parser failure remains
+  unqualified. Compiled QBE emitting Windows assembly does not add Windows to LCB.
+- `cjson-symbol-hoist.json`: 153 assertions across 18 executables, matching
+  checksums; baseline alone needs a 64 MiB deep-recursion stack retry. Optimized
+  library text 37,876 bytes; median 0.2267 s versus QBE 0.1798 s and GCC 0.1462 s.
+- `cproc-algebra.json`: 18 C units, 19 exact IR reproductions, 196 original tests
+  per qualified backend. This earlier compiler identity remains in its report.
+- `csmith-symbol-hoist.json` adds 26/32 qualified programs and 312,293 IR lines:
+  aggregate 141/176 unique attempts, 1,422,785 qualified IR lines including runtime
+  helpers, 35 reference timeouts across seven disjoint batches.
+  Generator restrictions exclude pointers, packed structs, bitfields and volatile
+  accesses because of cproc frontend limits; this is not unrestricted whole-C coverage.
+
+Reports retain their exact compiler/source/configuration hashes. Original QBE
+and separately corrected oracle copies remain distinct; vendored QBE is unchanged.
+See [benchmarks/README.md](benchmarks/README.md) and
+[UPSTREAM_DISCREPANCIES.md](UPSTREAM_DISCREPANCIES.md).
+
+CI was all green through `c559be5`. `a721ee7` exposed three old Apple-specific
+refusal controls under the new Linux default; `72389df` fixes their targets and
+both native Linux jobs pass. Its macOS job and later logical-immediate CI were
+still running at 22:20 UTC; inspect current exact run statuses.
 
 ## Next work
 
-1. Use the new zlib workload to guide broader memory/CFG optimizations, then
-   caller-saved/FP allocation and splitting/coalescing. Small instruction-selection
-   wins alone do not close the measured compression gap.
-2. Close remaining compatibility gaps deliberately: Windows AMD64 ABI/emission,
-   host-native default-driver behavior, remaining syntax/linkage/resource edges
-   and target-specific ABI cases. Preserve the current explicit-target behavior
-   and baseline evidence when changing the default CLI target.
-3. Obtain native RV64 and Intel macOS qualification; local evidence for these
-   remains QEMU/Rosetta. Linux x86-64 and ARM64 also have native CI coverage.
-4. Keep the [roadmap](../ROADMAP.md) full-port-first ordering. Existing proofs
-   cover restricted source/machine semantics, primitive selection and first-path
-   helpers/body steps. Neither these optimizations nor the complete compatibility
-   pipeline have an end-to-end preservation proof. Source/home checkers and
-   execution tests do not establish machine-level semantic correctness.
+1. Use measured workloads to guide broader memory/CFG transformations and
+   allocation improvements: loop-aware priorities, caller-saved/FP banks,
+   live-range splitting/coalescing. Current static ranking is deliberately limited.
+2. Close Windows AMD64 ABI/emission and remaining syntax/linkage/resource/ABI
+   boundary cases. Host-native default-driver behavior is now implemented.
+3. Obtain native RV64 and Intel macOS qualification; local evidence is emulated.
+4. Keep the [roadmap](../ROADMAP.md) full-port-first ordering. Existing proofs cover
+   restricted source/machine semantics, primitive ALU selection and first-path
+   helpers/body steps. The new optimization passes, actual machine instruction
+   effects, ABI and complete compatibility pipeline lack an end-to-end proof.
+   Source/home checkers and execution tests do not establish that proof.
 
 ## Environment and continuation safety
 

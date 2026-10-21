@@ -114,6 +114,8 @@ def main():
     from allocation import exercise as allocation_tests
     allocation_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from control_flow import exercise as cfg
+    from global_addresses import exercise as global_addresses
+    global_addresses(compiler, work, run, cc, 'x86_64-macos', execute)
     from module_scale import exercise as modules
     quoted(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple', execute)
     zero(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple', execute)

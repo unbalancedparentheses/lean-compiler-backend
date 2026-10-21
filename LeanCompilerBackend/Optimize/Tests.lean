@@ -18,6 +18,28 @@ private def optimize (m : Module) : IO Module :=
   | .error e => throw (IO.userError e)
 
 def run : IO Unit := do
+  let globals ← parse "data $table = { l 5 } dbgfile \"addresses.c\" function l $f(l %lcb.symbol.0) { @s dbgloc 7 %a =l loadl $table %b =l loadl $table %c =l loadl $table %ab =l add %a,%b %abc =l add %ab,%c %r =l add %abc,%lcb.symbol.0 ret %r }"
+  let shared ← optimize globals
+  let symbolUses := shared.functions[0]!.blocks.foldl (fun n b => n +
+    b.instructions.foldl (fun count s => count + (s.operands.filter fun v =>
+      match v with | .symbol _ => true | _ => false).length) 0) 0
+  require (symbolUses == 1) "repeated module-data address was not shared"
+  require (shared.functions[0]!.blocks[0]!.debugLocations[0]!.instruction == 1)
+    "address hoisting did not shift the original debug location"
+  for x in (#[0,1,42,18446744073709551615] : Array UInt64) do
+    let expected := some (some (15+x))
+    require ((Semantics.evaluateModule globals "f" #[x]).toOption == expected &&
+      (Semantics.evaluateModule shared "f" #[x]).toOption == expected)
+      "shared address changed contents or collided with an existing local"
+  let external ← parse "function w $f(w %condition) { @s jnz %condition,@use,@done @use %a =l copy $missing %b =l add $missing,8 %c =l add $missing,16 ret 0 @done ret 42 }"
+  let retained ← optimize external
+  require ((Semantics.evaluateModule retained "f" #[0]).toOption == some (some 42) &&
+    retained.functions[0]!.blocks[0]!.instructions.isEmpty)
+    "external symbol resolution was moved onto an inactive path"
+  let tls ← parse "thread data $local = { l 1 } function l $f(w %condition) { @s jnz %condition,@use,@done @use %a =l copy thread $local %b =l add thread $local,8 %c =l add thread $local,16 ret %a @done ret 42 }"
+  let retained ← optimize tls
+  require retained.functions[0]!.blocks[0]!.instructions.isEmpty
+    "TLS address resolution was hoisted"
   for (op, operand, expectedShift) in #[
       ("mul", "1", false), ("mul", "4294967297", false),
       ("mul", "8", true), ("mul", "-2147483648", true),

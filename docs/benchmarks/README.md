@@ -579,3 +579,35 @@ these samples do not establish a runtime improvement over the prior checkpoint.
 Native Apple/Linux ARM64 and another 32-seed/2,048-case differential campaign
 pass. The existing primitive selection proof does not certify these new
 immediate encodings or the assembly pipeline.
+
+
+## Common module-data addresses
+
+The optional optimizer shares addresses referenced at least three times for
+module-defined, non-TLS data. It preserves external/TLS resolution boundaries,
+loads after mutating calls and original debug-location indices. This is address
+materialization only, without alias analysis or load/store motion. Independent
+checks cover 8,192 call/mutation, narrowing/phi, loop and name-collision cases per
+lowering mode, including a wrong-address corruption control on native ARM64.
+
+[Native zlib](zlib-symbol-hoist.json) retains all unchanged upstream tests and
+12 exact gzip comparisons. Optimized text is 145,190 bytes versus 145,466 before
+this pass; same-run round-trip medians are 0.0103 s optimized, 0.00801 s original
+QBE and 0.00391 s GCC. [cJSON](cjson-symbol-hoist.json) retains all 153 assertions
+and matching checksums, with its baseline-only deep-recursion stack retry.
+Optimized text is 37,876 bytes; same-run medians are 0.2267 s optimized, 0.1798 s
+QBE and 0.1462 s GCC. These are modest size reductions, not established runtime
+improvements or preservation proofs.
+
+[QBE self-compilation](qbe-symbol-hoist.json) also retains 455 exact fixture
+assemblies, 32 exact self-IR assemblies and all 58 original native ARM64 runtime
+tests per qualified backend. Optimized text is 420,484 bytes; same-run self-IR
+compilation medians are 0.1934 s optimized, 0.1672 s corrected-QBE-built QBE and
+0.0996 s GCC-built reference. The original ARM64 QBE parser failure remains a
+separate unqualified result; the correction is applied only to an oracle copy.
+
+[Another disjoint Csmith batch](csmith-symbol-hoist.json), seeds 20261165–20261196,
+qualifies 26/32 programs and 312,293 IR lines against GCC O0/O2, baseline, optimized
+and original QBE. Six GCC-reference timeouts remain unqualified. Across seven
+batches the total is **141/176 unique attempts**, **1,422,785 qualified IR lines**
+and 35 retained reference timeouts, under the same restricted generator profile.
