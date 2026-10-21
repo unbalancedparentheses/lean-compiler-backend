@@ -84,6 +84,7 @@ def main():
     ap.add_argument('--repetitions',type=int,default=5)
     ap.add_argument('--skip-tests',action='store_true')
     ap.add_argument('--report',type=Path)
+    ap.add_argument('--compiler',type=Path,default=ROOT/'.lake/build/bin/lcb')
     args=ap.parse_args()
     assert args.iterations>0 and args.repetitions>0
     work=ROOT/'.build/linux-arm64/cjson-benchmark'
@@ -113,7 +114,7 @@ def main():
             time.sleep(0.05)
         raise AssertionError(f'shared-file digest did not synchronize: {path}')
     compiler=work/'lcb-snapshot'
-    shutil.copy2(ROOT/'.lake/build/bin/lcb',compiler)
+    shutil.copy2(args.compiler,compiler)
     def frontend(source,ir):
         docker([inside(cproc/'cproc'),*DEFINES,'-emit-qbe',inside(source),'-o',inside(ir)])
         synchronize(ir,False)

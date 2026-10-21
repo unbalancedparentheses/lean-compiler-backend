@@ -30,6 +30,7 @@ def main():
     ap.add_argument('--seed-start', type=int, default=20261021)
     ap.add_argument('--seeds', type=int, default=8)
     ap.add_argument('--report', type=Path)
+    ap.add_argument('--compiler', type=Path, default=ROOT/'.lake/build/bin/lcb')
     args = ap.parse_args()
     assert 1 <= args.seeds <= 1000
     base = ROOT/'.build/linux-arm64'
@@ -59,7 +60,7 @@ def main():
     command(['make','clean'],cwd=qbesrc)
     command(['make','-j4',f'CC={os.environ.get("LCB_CC","cc")}','CFLAGS=-std=c99 -O2'],cwd=qbesrc)
     compiler = work/'lcb-snapshot'
-    shutil.copy2(ROOT/'.lake/build/bin/lcb',compiler)
+    shutil.copy2(args.compiler,compiler)
     report = {'schema':1,'program':'seeded Csmith via cproc','target':'aarch64-linux',
               'execution':docker(['uname','-a']).stdout.strip(),'csmith_version':version,
               'packages':docker(['dpkg-query','-W','csmith','libcsmith-dev','gcc','libc6-dev']).stdout.strip(),

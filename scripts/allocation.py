@@ -102,6 +102,16 @@ export function l $chain(l %x) {
  %c =l xor %b,92
  ret %c
 }
+export function l $shift_mix(l %x,l %count) {
+@s
+ %a =l shl %x,%count
+ %b =l shr %x,%count
+ %c =w shl %x,%count
+ %wide =l extuw %c
+ %r0 =l xor %a,%b
+ %r =l xor %r0,%wide
+ ret %r
+}
 export function d $float_keep(d %x,d %y) {
 @s
  call $clobber()
@@ -143,7 +153,7 @@ export function l $dynamic(l %n,l %x) {
     probe += barrier + '(void)pressure(p);\n' + barrier
     probe += 'return ' + ' && '.join(f'k{i} == UINT64_C({0x123456789abc0000+i})' for i in range(len(saved))) + ';}\n'
     caller = '''#include <stdint.h>
-extern uint64_t pressure(uint64_t*), swap(uint64_t,uint64_t,unsigned), deadwrite(uint64_t,uint64_t), chain(uint64_t), dynamic(uint64_t,uint64_t);
+extern uint64_t pressure(uint64_t*), swap(uint64_t,uint64_t,unsigned), deadwrite(uint64_t,uint64_t), chain(uint64_t), dynamic(uint64_t,uint64_t), shift_mix(uint64_t,uint64_t);
 extern double float_keep(double,double), float_bits(double);
 volatile uint64_t barrier;
 __attribute__((noinline)) void clobber(void) { barrier++; DESTROY }
@@ -161,6 +171,13 @@ int main(void) {
  if(deadwrite(17,93)!=17-93ULL)return 3;
  for(unsigned i=0;i<100;i++)if(chain(i)!=(((i+7)*3)^92))return 4;
  if(dynamic(8192,UINT64_C(0xf123456789abcdef))!=UINT64_C(0xe2468acf13579bde))return 5;
+ uint64_t counts[]={0,1,31,32,63,64,UINT64_C(0x100000020),UINT64_C(0x8000000000000000),UINT64_MAX};
+ uint64_t values[]={0,17,UINT64_MAX,UINT64_C(0x8000000000000000),UINT64_C(0xf0123456789abcde)};
+ for(unsigned j=0;j<5;j++)for(unsigned k=0;k<9;k++) {
+  uint64_t x=values[j],n=counts[k];
+  uint64_t expected=(x<<(n&63))^(x>>(n&63))^(uint64_t)((uint32_t)x<<(n&31));
+  if(shift_mix(x,n)!=expected)return 10;
+ }
  return 0;
 }'''
     caller = caller.replace('DESTROY',destroy_asm).replace('PROBE',probe)
@@ -178,6 +195,8 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
         assembly = case/(label+'.s')
         result = run([compiler, source, '--target', target, *flags, '-o', assembly])
         assert result.returncode == 0, result.stderr
+        if target.startswith('aarch64') and flags:
+            assert re.search(r'\b(?:add|sub|mul|eor|and|orr) [wx](?:19|2[0-8]), [wx](?:19|2[0-8]),', assembly.read_text()), 'allocated integer operations did not use GP homes directly'
         if execute:
             result = run([cc, caller, assembly, '-o', case/label], True)
             assert result.returncode == 0, result.stderr

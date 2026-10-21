@@ -242,6 +242,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   boundary checks, corrupted plans, call pressure and phi swaps test this step.
   Independent symbolic home-flow checking now follows SSA identities through
   reachable joins, loops and parallel phi edges; machine effects remain separate.
+  ARM64 integer binary operations now consume assigned GP homes directly;
+  wide shift counts and mixed-width operations have independent execution checks.
   Caller clobbers, callee saves, FP bit patterns and spill pressure have execution
   and corruption checks. Caller-saved/FP-bank allocation, live-range splitting,
   coalescing and machine instruction-level value-flow checking remain.

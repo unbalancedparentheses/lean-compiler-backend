@@ -1,0 +1,270 @@
+{
+  "schema": 1,
+  "program": "seeded Csmith via cproc",
+  "target": "aarch64-linux",
+  "execution": "Linux 36d787fe752f 7.2.9-orbstack-00391-g2b298d05fbd4 #1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+  "csmith_version": "csmith 2.3.0\nGit version: 30dccd7",
+  "packages": "csmith\t2.3.0-7.1build1\ngcc\t4:13.2.0-7ubuntu1\nlibc6-dev:arm64\t2.39-0ubuntu8.9\nlibcsmith-dev:arm64\t2.3.0-7.1build1",
+  "runtime_header_hashes": "856e32a93d4305faa0584bacf92b9b5e18d6ef3ec3513847c0ffe658a8b1010e  /usr/include/csmith/windows/stdint.h\nfde8b6d94e2a9a3f39a15f71d6568700751491a2c4f3859825125841c2aead3f  /usr/include/csmith/csmith.h\n26777592313e2823c1f69ba94026a2e4a36f2e81779cda45ab8d6d1eb645a2d2  /usr/include/csmith/csmith_minimal.h\n77eb5e25caeef577bf2a2e49a25eaaa4f00af5e625741b0da5606160a2df6120  /usr/include/csmith/platform_avr.h\nc6c1fe0072d29142ba8dc26c3fc11c7bedaea935bb9787b850fbb590836236d4  /usr/include/csmith/platform_generic.h\n7eff136116a4a3d06d1bfb1e9da88c7a614e13f75f7ee5aa7a3f2459e6beff2d  /usr/include/csmith/platform_msp430.h\n9ef11c27ca09318ae50341f76c1469e060ac20b81651a48b3ffbc2504d68deb5  /usr/include/csmith/random_inc.h\n11d936797a71f5d08d6987993c5316235222d08533381bf4661c69fecad0d483  /usr/include/csmith/safe_abbrev.h\n9d842b239f43babfd6129c2e3672f8c572686a2b7bd846524f0b89ad1d0c9d46  /usr/include/csmith/safe_math.h\n5d692a4e005e66e8c980a89393827229af515e97011820d08411fe7ff555277c  /usr/include/csmith/safe_math_macros.h\n5c81aa6d031de2f8bfbb85546bcd8ec6747dcb4105dc2ee2c50ce541caf09c56  /usr/include/csmith/safe_math_macros_notmp.h\n70e9d8900648ed2a8dc38feed6dc3885958797ac694b213db397e1fc0a877535  /usr/include/csmith/volatile_runtime.c\n13a46f1a8766f43867c13377c6c8f19c85a9af641d27a178484662dedbdd44e9  /usr/include/csmith/volatile_runtime.h",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "qbe_version": "1.3 (unchanged pinned source)",
+  "compiler_identity": "3b4bbe28ef512a2fce654c3462a1a00e0752c9c360eaf942630139f3a8313643",
+  "generation_options": [
+    "--no-pointers",
+    "--no-packed-struct",
+    "--no-bitfields",
+    "--no-volatiles",
+    "--no-volatile-pointers",
+    "--max-funcs",
+    "8",
+    "--max-block-depth",
+    "3",
+    "--max-expr-complexity",
+    "6"
+  ],
+  "frontend_defines": [
+    "-D__FLT_MAX__=3.40282346638528859811704183484516925e+38F",
+    "-D__DBL_MAX__=1.79769313486231570814527423731704357e+308"
+  ],
+  "cases": [
+    {
+      "seed": 20261021,
+      "source_sha256": "3a70b34bc24542af5ee02404ab139cbb117b10a242de46eefffe21156b8fda53",
+      "source_lines": 630,
+      "ir_sha256": "85f4b741f7a3afc83f97f04b51f3a7daf47007fc0bdb7034e3b0263474eaf421",
+      "ir_lines": 9318,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = 72D0F749",
+        "gcc-O2": "checksum = 72D0F749",
+        "baseline": "checksum = 72D0F749",
+        "optimized": "checksum = 72D0F749",
+        "qbe": "checksum = 72D0F749"
+      }
+    },
+    {
+      "seed": 20261022,
+      "source_sha256": "063d0a50982cb335e714809214d4b8d1776a8a07a81488fc5cefde50c3c4ccde",
+      "source_lines": 951,
+      "ir_sha256": "f95d5d016444a4483e07449b1cd8cf3f4b6c0e8c9a1728b5a88636d0b754d52c",
+      "ir_lines": 15099,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = 9F96982E",
+        "gcc-O2": "checksum = 9F96982E",
+        "baseline": "checksum = 9F96982E",
+        "optimized": "checksum = 9F96982E",
+        "qbe": "checksum = 9F96982E"
+      }
+    },
+    {
+      "seed": 20261023,
+      "source_sha256": "3c7b00eef8822ca1f1bced548bc329021b21b9391e0a287259ffafd13c0e2991",
+      "source_lines": 918,
+      "ir_sha256": "2f18ae470297fcde679148a90c0b8147a72ed8a1c0ff9e6383f0d02eee42ebcc",
+      "ir_lines": 11600,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = 59474BAF",
+        "gcc-O2": "checksum = 59474BAF",
+        "baseline": "checksum = 59474BAF",
+        "optimized": "checksum = 59474BAF",
+        "qbe": "checksum = 59474BAF"
+      }
+    },
+    {
+      "seed": 20261024,
+      "source_sha256": "17010f9ad07d6fa75b37569bdeb2588528420465f6cf1b0b7081375d114dc419",
+      "source_lines": 648,
+      "ir_sha256": "da2156078c084e82e08ce10a4a1ca51b2079f277dcc1d50567596d3009b2870b",
+      "ir_lines": 9874,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = F94F672E",
+        "gcc-O2": "checksum = F94F672E",
+        "baseline": "checksum = F94F672E",
+        "optimized": "checksum = F94F672E",
+        "qbe": "checksum = F94F672E"
+      }
+    },
+    {
+      "seed": 20261025,
+      "source_sha256": "36d0e6689a6fb4f1918edc9ffe208ecd397d64326dcb08b5a29b2dfaa6e4c1ac",
+      "source_lines": 100,
+      "ir_sha256": "273fda084c2b8ae79f89bec3e263eca5088e75c93387e45095b6d352a93f94cc",
+      "ir_lines": 2587,
+      "functions": 98,
+      "outputs": {
+        "gcc-O0": "checksum = 0",
+        "gcc-O2": "checksum = 0",
+        "baseline": "checksum = 0",
+        "optimized": "checksum = 0",
+        "qbe": "checksum = 0"
+      }
+    },
+    {
+      "seed": 20261026,
+      "source_sha256": "8c4f3aa66961bdfab5c9eb4eb8d82b4456ee75d53ca0282cb34c5f1b7f3f43c7",
+      "source_lines": 840,
+      "ir_sha256": "5c133ec7511bf6115a6a062d7640e0a8be8f56bd3a8b2ad6f136eff24c380ac9",
+      "ir_lines": 8604,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = BC2B1518",
+        "gcc-O2": "checksum = BC2B1518",
+        "baseline": "checksum = BC2B1518",
+        "optimized": "checksum = BC2B1518",
+        "qbe": "checksum = BC2B1518"
+      }
+    },
+    {
+      "seed": 20261027,
+      "source_sha256": "b32739a0f174e593d7ad58f302400e6a0b86b6281567112f7921d521e9bf4017",
+      "source_lines": 93,
+      "ir_sha256": "f83e45c6e8c0764e60e2dc7f4d01e5959a70739b39784e80e64d581e3de2bbf0",
+      "ir_lines": 2632,
+      "functions": 98,
+      "outputs": {
+        "gcc-O0": "checksum = A16C1BA4",
+        "gcc-O2": "checksum = A16C1BA4",
+        "baseline": "checksum = A16C1BA4",
+        "optimized": "checksum = A16C1BA4",
+        "qbe": "checksum = A16C1BA4"
+      }
+    },
+    {
+      "seed": 20261029,
+      "source_sha256": "55cac012dc8e075111578cf8a3fdf85e6cc1d6a4f9688b2f0a8d8d28c349e817",
+      "source_lines": 1045,
+      "ir_sha256": "9f122d3ae2e687f712efbbcac6b896f1a309b07c2a3959405a3856a044d39848",
+      "ir_lines": 14259,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = A4B3015B",
+        "gcc-O2": "checksum = A4B3015B",
+        "baseline": "checksum = A4B3015B",
+        "optimized": "checksum = A4B3015B",
+        "qbe": "checksum = A4B3015B"
+      }
+    },
+    {
+      "seed": 20261030,
+      "source_sha256": "ff3601179c45b17522a35133d4798f7c4c2e5d532d7d3f3d53eed08069a49579",
+      "source_lines": 600,
+      "ir_sha256": "35e002118361142b90861b8e607c225e6e8509afa567395de31f61fb10739577",
+      "ir_lines": 8369,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = 4AFEF015",
+        "gcc-O2": "checksum = 4AFEF015",
+        "baseline": "checksum = 4AFEF015",
+        "optimized": "checksum = 4AFEF015",
+        "qbe": "checksum = 4AFEF015"
+      }
+    },
+    {
+      "seed": 20261032,
+      "source_sha256": "5887604842edd81be5afe8982d7444e23e4db3f2c967dc1c42a4f32fd052eddf",
+      "source_lines": 741,
+      "ir_sha256": "b2307c215a7f10b578f070a6ace5648fe9f7afd027ad33d5f3b9d04263219e9d",
+      "ir_lines": 10505,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = 283F172F",
+        "gcc-O2": "checksum = 283F172F",
+        "baseline": "checksum = 283F172F",
+        "optimized": "checksum = 283F172F",
+        "qbe": "checksum = 283F172F"
+      }
+    },
+    {
+      "seed": 20261033,
+      "source_sha256": "e72d598e39ab837aa6aca78632e6aacec33a1811f2b5701d0f52d8a0cc5addb7",
+      "source_lines": 777,
+      "ir_sha256": "c4ac19c297caa21cef0848087314bb26fc02fd14c16b12da74d605068abab5c7",
+      "ir_lines": 13957,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = 9141049A",
+        "gcc-O2": "checksum = 9141049A",
+        "baseline": "checksum = 9141049A",
+        "optimized": "checksum = 9141049A",
+        "qbe": "checksum = 9141049A"
+      }
+    },
+    {
+      "seed": 20261034,
+      "source_sha256": "075fc16e39aa9847c7daf3e3d9f478b03d421109d16f829101e9574b386a5f5a",
+      "source_lines": 663,
+      "ir_sha256": "1ae8976b28d7c929a8e52408feb86764e3f291a74f891bf60198ea37cf46cf4b",
+      "ir_lines": 8473,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = C6B476D4",
+        "gcc-O2": "checksum = C6B476D4",
+        "baseline": "checksum = C6B476D4",
+        "optimized": "checksum = C6B476D4",
+        "qbe": "checksum = C6B476D4"
+      }
+    },
+    {
+      "seed": 20261035,
+      "source_sha256": "890c91ce34153437f280f5991a3c62c4fb9c49331f51a8c5d33cab8b253c42cc",
+      "source_lines": 885,
+      "ir_sha256": "30160d6653eec4692a892ef187054d648abf4eb74562a9dad12f6cffb6d7bc90",
+      "ir_lines": 10408,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = F7F8F00E",
+        "gcc-O2": "checksum = F7F8F00E",
+        "baseline": "checksum = F7F8F00E",
+        "optimized": "checksum = F7F8F00E",
+        "qbe": "checksum = F7F8F00E"
+      }
+    },
+    {
+      "seed": 20261036,
+      "source_sha256": "a395e47a2215d4c0dda5ac8f083ba17364918320311199e8847728b77103ea20",
+      "source_lines": 690,
+      "ir_sha256": "f67ae33f518ef5efb16cddcbfa096f306e5162e6fc0ddb5e194a021b0b80da9c",
+      "ir_lines": 8015,
+      "functions": 105,
+      "outputs": {
+        "gcc-O0": "checksum = 7EEADCD",
+        "gcc-O2": "checksum = 7EEADCD",
+        "baseline": "checksum = 7EEADCD",
+        "optimized": "checksum = 7EEADCD",
+        "qbe": "checksum = 7EEADCD"
+      }
+    }
+  ],
+  "unqualified": [
+    {
+      "seed": 20261028,
+      "source_sha256": "7af3e5fdb0251e4bb50b5cd4b6dd569f815ae8ef2b87b5642d9cc431db6240f0",
+      "source_lines": 778,
+      "ir_sha256": "31f39bf2f08f6bd71660d2fa6c0bf02e6e18610292169c6945f1997bcdf1c1ff",
+      "ir_lines": 8650,
+      "functions": 105,
+      "outputs": {},
+      "reason": "GCC O0 reference exceeded the 15-second execution budget; backend comparison unmeasured"
+    },
+    {
+      "seed": 20261031,
+      "source_sha256": "c332f9547868635da1ba87bfdb6213998fdb85baf0f9051a055ceb80ee694f16",
+      "source_lines": 864,
+      "ir_sha256": "4c919c90bd15eea2ae11a7f49105ff116167f932b36ca562339c638e72d95a99",
+      "ir_lines": 13109,
+      "functions": 105,
+      "outputs": {},
+      "reason": "GCC O0 reference exceeded the 15-second execution budget; backend comparison unmeasured"
+    }
+  ],
+  "notes": [
+    "Generated programs and upstream sources are not patched.",
+    "GCC O0 and O2 compile the C directly; all three backends receive identical cproc IR.",
+    "Default profile excludes pointer, packed-struct, bitfield and volatile generation; arrays/ordinary aggregates remain enabled.",
+    "The two floating-limit defines supply constants expected by GCC float.h used by Csmith safe_math.h.",
+    "Qualified executables terminate within 15 seconds and print the same checksum; GCC O0 reference timeouts are retained as unqualified seeds."
+  ]
+}

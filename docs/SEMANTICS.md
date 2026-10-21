@@ -635,6 +635,13 @@ before committing any destination. Calls and TLS helpers preserve these homes by
 the target ABI; independent tests deliberately clobber the caller-saved GP/FP
 banks, verify every assigned callee-saved register and detect removed restores.
 
+ARM64 integer binary operations read assigned GP homes and write assigned
+destinations directly; constants and spills still use reserved scratch registers.
+The allocation checker prevents overwriting another live value. Word operations
+use W aliases; variable shifts inspect only the low five or six count bits,
+preserving semantics when a long temporary supplies the count. Operand placement
+is tested but does not yet have a semantic preservation proof.
+
 This is conservative whole-range allocation, not full QBE allocation parity.
 It does not assign caller-saved or FP homes, split live ranges, coalesce moves,
 or verify individual machine instructions against their clobber descriptions.

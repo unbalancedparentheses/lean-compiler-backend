@@ -169,3 +169,27 @@ out in the GCC O0 reference and remain unqualified. Across both batches, **44 of
 48 attempted programs** complete all five checksum comparisons, totaling 29,533
 generated C lines and 425,809 IR lines including runtime helpers. The four
 reference timeouts are not counted as backend passes.
+
+
+## Direct ARM64 integer register operations
+
+The [cJSON report](cjson-direct-homes.json) records direct use of allocated GP
+homes by integer binary operations. All 153 assertions across 18 executables
+pass, retaining the baseline-only 64 MiB stack retry. All four parse/serialize
+checksums match. Five samples per backend give median runtimes of 0.8051 s for
+our baseline, 0.3453 s for our optimized output, 0.2031 s for QBE and 0.1706 s
+for GCC. Other qualification processes were active; compare within this run
+rather than inferring a precise speedup from earlier measurements.
+
+The optimized cJSON library has 63,500 object text bytes, versus 69,732 at the
+scalar-promotion checkpoint. The [cproc bootstrap report](cproc-direct-homes.json)
+reduces optimized executable text from 315,240 to 281,892 bytes and retains all
+19 byte-identical IR reproductions and 196 original tests for our baseline and
+optimized frontends. Original QBE's ARM64 external-offset failure remains
+separate from the passing corrected oracle.
+
+A [Csmith rerun](csmith-direct-homes.json) requalifies 14 of the original 16
+attempted seeds under this compiler identity; the same two reference timeouts
+remain unqualified. These are repeated programs within the 44 unique passing
+programs above, not additional unique coverage. The cJSON and Csmith scripts
+accept `--compiler PATH` to snapshot and qualify a candidate binary explicitly.

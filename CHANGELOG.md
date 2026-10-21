@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Emit ARM64 integer binary operations directly on assigned GP homes, avoiding
+  redundant scratch moves. Check wide shift counts, caller clobbers and spill
+  pressure; requalify cJSON, cproc self-compilation and seeded C through cproc.
+  The new operand placement remains outside the existing proof boundary.
+
 - Run the independent byte-array memory oracle against optimized native output
   as well as the baseline, including C-owned buffers and guard bytes. Retain
   original-QBE overlap mismatches separately from the corrected comparison.

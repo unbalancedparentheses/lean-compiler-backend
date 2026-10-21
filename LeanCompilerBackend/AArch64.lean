@@ -385,10 +385,22 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
   | .cast value => lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
   | .copy value => lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
   | .binary op a b =>
-    lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
-    lines := lines ++ (← load darwin localSymbols base slots (op.rhsWidth inst.width) 10 b)
-    let r := register inst.width 9
-    lines := lines ++ [s!"\t{mnemonic (select op)} {r}, {r}, {register inst.width 10}"]
+    -- Stable GP homes can be read/written directly. Scratch registers remain
+    -- reserved for constants and spilled operands; allocation already checks
+    -- that overwriting a destination cannot destroy another live SSA value.
+    let left := match a with
+      | .temporary name => (slots.registers.lookup name).getD 9
+      | _ => 9
+    let right := match b with
+      | .temporary name => (slots.registers.lookup name).getD 10
+      | _ => 10
+    let destination := (slots.registers.lookup inst.destination).getD 9
+    if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
+    if right == 10 then lines := lines ++ (← load darwin localSymbols base slots (op.rhsWidth inst.width) 10 b)
+    -- Variable shifts inspect only the low 5/6 count bits, so reading an
+    -- allocated count directly preserves the existing word-count normalization.
+    lines := lines ++ [s!"\t{mnemonic (select op)} {register inst.width destination}, {register inst.width left}, {register inst.width right}"]
+    if destination != 9 then return lines
   | .unary op value =>
     lines := lines ++ (← load darwin localSymbols base slots (op.inputWidth inst.width) 9 value)
     lines := lines ++ unaryInstruction inst.width op
