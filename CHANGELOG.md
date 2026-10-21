@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add optimized native output to seeded differential fuzzing, alongside baseline,
+  interpreter, Python and QBE results. Preserve separate optimized failure
+  artifacts and require the emitted-code corruption control in CI.
+
 - Add `--target x86_64-macos` with System V scalar/aggregate/variadic ABI,
   Mach-O symbols/sections/common data and TLV TLS. Qualify original upstream
   fixtures and independent C ABI/object/TLS cases through labelled Rosetta

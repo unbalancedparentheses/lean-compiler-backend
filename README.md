@@ -5,7 +5,9 @@ full QBE 1.3 port. Full compatibility is the immediate priority: complete langua
 ABI, optimization and target support before expanding formal proof coverage.
 Executable semantics, existing proofs and regression tests remain required checks;
 tested and certified coverage are reported separately. The current implementation
-is a bounded integer, control-flow, memory, integer-data and direct/indirect-call subset. Concrete is a consumer, not a dependency.
+supports a bounded QBE-compatible IR with integer/floating-point operations,
+control flow, memory, scalar/aggregate ABIs, TLS and direct/indirect calls.
+Optimization and target coverage remain partial. Concrete is a consumer, not a dependency.
 
 The [upstream fixture checkpoint](docs/UPSTREAM_COVERAGE.md) records 58 native
 passes, 17 assemble-only fixtures and one unsupported input out of 76 on Apple ARM64.

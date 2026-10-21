@@ -176,7 +176,7 @@ def compile_and_run(compiler, asm, cfile, executable):
     return [int(line) for line in run([executable]).splitlines()]
 
 
-def case(work, seed, functions_count, steps, samples, qbe, self_test, control_flow):
+def case(work, seed, functions_count, steps, samples, qbe, self_test, control_flow, optimize=False):
     functions = generate(seed, functions_count, steps, control_flow)
     arguments = inputs(seed, samples)
     source = work / 'input.ssa'
@@ -191,6 +191,7 @@ def case(work, seed, functions_count, steps, samples, qbe, self_test, control_fl
         'flake_lock_sha256': hashlib.sha256((ROOT / 'flake.lock').read_bytes()).hexdigest(),
         'target': 'aarch64-macos',
         'control_flow': control_flow,
+        'optimized': optimize,
         'generator_sha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'cc_version': run([os.environ['LCB_CC'], '--version']) if os.environ.get('LCB_CC') else None,
     }, indent=2) + '\n')
@@ -209,7 +210,12 @@ def case(work, seed, functions_count, steps, samples, qbe, self_test, control_fl
         compiler = os.environ['LCB_CC']
         run([LCB, source, '-o', asm])
         run([qbe, '-t', 'arm64_apple', '-o', qbe_asm, source])
-        for label, assembly in [('lean', asm), ('qbe', qbe_asm)]:
+        backends = [('lean', asm), ('qbe', qbe_asm)]
+        if optimize:
+            optimized_asm = work / 'optimized.s'
+            run([LCB, source, '--optimize', '-o', optimized_asm])
+            backends.append(('optimized', optimized_asm))
+        for label, assembly in backends:
             actual = compile_and_run(compiler, assembly, cfile, work / label)
             (work / f'{label}-output.json').write_text(json.dumps(actual))
             assert actual == expected, f'{label} native mismatch; seed={seed}'
@@ -217,7 +223,8 @@ def case(work, seed, functions_count, steps, samples, qbe, self_test, control_fl
             # Every return is changed by one. The comparison must notice this
             # deliberate emitted-code corruption; do not count it as a valid case.
             corrupt = work / 'corrupt.s'
-            corrupt.write_text(asm.read_text().replace('\tret', '\tadd x0, x0, #1\n\tret'))
+            tested_asm = optimized_asm if optimize else asm
+            corrupt.write_text(tested_asm.read_text().replace('\tret', '\tadd x0, x0, #1\n\tret'))
             actual = compile_and_run(compiler, corrupt, cfile, work / 'corrupt')
             assert actual != expected, 'fuzzer failed to detect deliberately corrupted emitted code'
     return len(expected)
@@ -231,6 +238,7 @@ def main():
     parser.add_argument('--functions', type=int, default=8)
     parser.add_argument('--steps', type=int, default=32)
     parser.add_argument('--samples', type=int, default=3)
+    parser.add_argument('--optimize', action='store_true', help='also compare the optional optimized pipeline against the independent oracle')
     parser.add_argument('--straight-line', action='store_true', help='exclude generated branches/loops')
     parser.add_argument('--require-native', action='store_true')
     parser.add_argument('--artifacts', type=Path, default=ROOT / '.build/fuzz-failures')
@@ -254,10 +262,10 @@ def main():
             work.mkdir()
             try:
                 total += case(work, seed, options.functions, options.steps, options.samples, qbe,
-                              index == 0, not options.straight_line)
+                              index == 0, not options.straight_line, options.optimize)
                 print(f'fuzz seed {seed}: passed', flush=True)
             except Exception:
-                target = options.artifacts / f'seed-{seed}'
+                target = options.artifacts / f'{"optimized-" if options.optimize else ""}seed-{seed}'
                 target.mkdir(parents=True, exist_ok=True)
                 for path in work.iterdir():
                     if path.suffix in ('.ssa', '.c', '.s', '.json', '.txt'):
@@ -267,6 +275,7 @@ def main():
                 print((work / 'input.ssa').read_text(), flush=True)
                 raise
     paths = 'Python / Lean interpreter / Lean native / QBE native' if qbe else 'Python / Lean interpreter; native not measured'
+    if qbe and options.optimize: paths += ' / Lean optimized native'
     print(f'fuzz: {len(seeds)} seeds, {len(seeds) * options.functions} generated functions, {total} input cases; {paths}')
     if qbe: print('fuzz negative control: corrupted emitted return detected')
 

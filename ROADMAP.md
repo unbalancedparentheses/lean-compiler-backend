@@ -204,7 +204,7 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   caches and large native SSA-slot addressing are implemented. Compatibility now
   admits 4096 blocks and 16384 instructions/phis, independently of first-path limits.
   Module parsing is iterative and admits 4096 functions with indexed direct-call
-  validation; a 4096-function call chain executes across all four targets.
+  validation; a 4096-function call chain executes across all five implemented targets.
   The retained _bf99 fixture (266 blocks/2001 assignments) and _bfmandel fixture
   (2060 blocks/4581 assignments) emit and assemble. Exhaustive small-graph tests
   compare the indexed analysis with the preserved reducible validator; large
@@ -214,8 +214,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   remapping debug locations while retaining reachable potential effects/traps.
   Constant branches use word semantics; unreachable blocks and obsolete phi
   edges are removed, with bounded rounds to expose newly constant phis.
-  Independent arithmetic and optimized upstream/ABI suites pass on all four targets
-  (AMD64/RV64 emulated). Next implement broader CFG transformations, remaining analyses and
+  Independent arithmetic and optimized upstream/ABI suites pass on all five targets
+  (Linux AMD64/RV64 under QEMU; macOS AMD64 through Rosetta). Next implement broader CFG transformations, remaining analyses and
   optimization passes; this is not full P08 completion.
   State transformation conditions and invalidate stale analyses. Record proof status
   per pass; certified pipelines enable only covered transformations. Keep a simple
