@@ -268,3 +268,15 @@ baseline 1.9613 s, optimized 0.7166 s, QBE 0.4256 s and GCC 0.2623 s. QBE worklo
 medians are reference 0.1196 s, baseline 0.8357 s, optimized 0.3185 s and corrected
 QBE 0.1925 s. These do not establish a runtime improvement over earlier runs;
 the code-size reduction and functional comparisons are the stable findings.
+
+
+## Additional generated-C coverage
+
+[The comparison-lowering Csmith batch](csmith-comparisons.json) tries seeds
+20261069–20261084 and qualifies 13 new programs, adding 129,830 IR lines. GCC
+O0/O2, our baseline/optimized backend and original QBE agree on each checksum.
+Seeds 20261073, 20261075 and 20261077 exceed the GCC O0 reference budget and
+remain unqualified; their backend results are unmeasured. Across the three
+nonoverlapping batches, **57 of 64 attempted programs** qualify, totaling
+555,639 IR lines including runtime helpers. This is corpus evidence, not a
+percentage estimate of language compatibility.
