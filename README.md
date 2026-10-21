@@ -13,7 +13,8 @@ Linux ARM64 also has 58 native passes, 17 assembly-only fixtures and one
 unsupported fixture; see the target-specific coverage record.
 
 Implemented targets are **AArch64 macOS** and a partial **AArch64 Linux ELF** target
-(`--target aarch64-linux`). Input is a restricted QBE-style SSA
+(`--target aarch64-linux`), plus an initial **Linux x86-64 System V** target
+(`--target x86_64-linux`). Input is a restricted QBE-style SSA
 language; output is assembly. This is a backend implemented in Lean, not yet a
 backend for compiling the Lean language itself.
 

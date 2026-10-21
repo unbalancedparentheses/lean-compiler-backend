@@ -6,7 +6,7 @@ Counts describe inventory, not correctness or complete compatibility.
 
 - 87 public opcode names; 87 currently accept some forms.
 - 70 internal opcode names; no complete internal-operation port yet.
-- 6 upstream target/ABI configurations; 2 partial targets.
+- 6 upstream target/ABI configurations; 3 partial targets.
 - 37 compiler C/header modules; no complete module-for-module port yet.
 - 76 upstream SSA fixtures retained; partial qualification is tracked in [UPSTREAM_COVERAGE.md](UPSTREAM_COVERAGE.md).
 
@@ -129,7 +129,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | Upstream name | Status |
 | --- | --- |
 | `amd64_apple` | not implemented |
-| `amd64_sysv` | not implemented |
+| `amd64_sysv` | partial: Linux x86-64 ELF scalar integer/floating operations, CFG/phi, memory, scalar calls, variadic entry and ELF data/sections; 62/76 emitted, 45 executable drivers and 17 assembly-only fixtures passed under QEMU; aggregate ABI and TLS remain |
 | `amd64_win` | not implemented |
 | `arm64` | partial: Linux ELF scalar/aggregate calls and returns, stack arguments, data, variadic functions and TLSDESC TLS; 75/76 upstream fixtures emit, 58 executable drivers and 17 assembly-only fixtures qualified on Linux ARM64; custom ELF sections/init arrays and common symbols implemented; remaining ISA targets and broader qualification remain |
 | `arm64_apple` | partial: scalar/aggregate functions with control flow, memory, TLS and direct/indirect register/stack-argument calls |

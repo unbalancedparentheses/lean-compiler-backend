@@ -426,3 +426,24 @@ linker does not preserve that addend as the desired symbol address. The original
 abi5, abi8 and queen fixtures catch this issue. Common symbol alignment is in bytes
 on ELF, versus log2(bytes) on Darwin. Interpreter evaluation is target-independent
 and does not certify either native ABI lowering.
+
+## Initial Linux AMD64/System V target
+
+`--target x86_64-linux` uses six GP and eight SSE argument registers with
+independent banks, eight-byte stack slots, 16-byte call-site alignment and
+frame-pointer-relative SSA storage. All results are stored in normalized
+64-bit slots; scalar floating values retain their IEEE bits. Dynamic allocations
+and outgoing call areas live below the fixed frame. Phi transfers stage all
+incoming values before committing destination slots.
+
+Variadic functions save GP/SSE argument banks and initialize the 24-byte System V
+va_list. Calls set AL to the used SSE-register count. Environment calls pass their
+special pointer in RAX; mixing an environment with variadics is rejected, as in
+pinned QBE's System V ABI. Aggregate arguments/results and AMD64 TLS are not yet
+implemented. The shared ELF data renderer emits object type/size metadata.
+
+SSE comparisons explicitly handle unordered operands. Integer/floating conversion
+code uses the independently tested defined-range source domain, including unsigned
+64-bit cases. Integer division uses hardware traps outside the source's defined
+nonzero/nonoverflow domain. No register allocation or preservation proof for the
+new emitter is claimed.

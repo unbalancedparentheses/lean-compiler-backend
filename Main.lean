@@ -6,7 +6,7 @@ open LeanCompilerBackend
 private def usage : String :=
   "Lean Compiler Backend 0.1.0\n" ++
   "Usage:\n" ++
-  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux]\n" ++
+  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux]\n" ++
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --type-layout INPUT.ssa\n" ++
   "  lcb --first-path INPUT.ssa [-o OUTPUT.s] [--require-proof]\n" ++
@@ -44,21 +44,19 @@ private def options : List String → Except String (Option String)
   | "--target" :: target :: _ => .error s!"unsupported target '{target}'; supported: aarch64-macos"
   | option :: _ => .error s!"unknown or incomplete option '{option}'"
 
-private def compatibilityOptions (args : List String) : Except String (Option String × Bool) := do
-  let rec strip : List String → Option Bool → Except String (List String × Bool)
-    | [], target => pure ([], target.getD true)
+private def compatibilityOptions (args : List String) : Except String (Option String × String) := do
+  let rec strip : List String → Option String → Except String (List String × String)
+    | [], target => pure ([], target.getD "aarch64-macos")
     | "--target" :: value :: rest, target => do
       if target.isSome then throw "target specified more than once"
-      let darwin ← match value with
-        | "aarch64-macos" => pure true
-        | "aarch64-linux" => pure false
-        | _ => throw s!"unsupported target '{value}'; supported: aarch64-macos, aarch64-linux"
-      strip rest (some darwin)
+      if !["aarch64-macos", "aarch64-linux", "x86_64-linux"].contains value then
+        throw s!"unsupported target '{value}'; supported: aarch64-macos, aarch64-linux, x86_64-linux"
+      strip rest (some value)
     | arg :: rest, target => do
-      let (rest, darwin) ← strip rest target
-      pure (arg :: rest, darwin)
-  let (rest, darwin) ← strip args none
-  pure (← options rest, darwin)
+      let (rest, selected) ← strip rest target
+      pure (arg :: rest, selected)
+  let (rest, selected) ← strip args none
+  pure (← options rest, selected)
 
 private def firstPathOptions (args : List String) : Except String (Option String × Verified.EvidenceRequest) := do
   let requested := if args.contains "--require-proof" then .kernelTypedAssembly else .none
@@ -204,11 +202,13 @@ private def run (args : List String) : IO UInt32 := do
     | .error message => throw (IO.userError message)
   | path :: rest =>
     if path.startsWith "-" then throw (IO.userError s!"unknown or incomplete command '{path}'")
-    let (output, darwin) ← match compatibilityOptions rest with
+    let (output, selected) ← match compatibilityOptions rest with
       | .ok value => pure value
       | .error message => throw (IO.userError message)
     let module ← loadModule path
-    let assembly ← match AArch64.emitModule module darwin with
+    let result := if selected == "x86_64-linux" then AMD64.emitModule module
+      else AArch64.emitModule module (selected == "aarch64-macos")
+    let assembly ← match result with
       | .ok text => pure text
       | .error message => throw (IO.userError message)
     match output with

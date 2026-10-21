@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add Linux x86-64/System V scalar, floating, CFG, memory and variadic lowering.
+  Qualify 62/76 emitted fixtures, 45 executable drivers and 17 assembly-only
+  fixtures under QEMU, plus generated C/QBE scalar/conversion matrices.
+  Share object-format rendering and emit ELF object type/size metadata.
+
 - Add validated ELF custom sections, init-array constructors and native Linux
   ARM64 CI. Reject custom section placement in the restricted first-path importer.
 

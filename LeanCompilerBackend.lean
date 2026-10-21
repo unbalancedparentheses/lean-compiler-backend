@@ -3,6 +3,7 @@ import LeanCompilerBackend.Validate
 import LeanCompilerBackend.SSA
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.AArch64
+import LeanCompilerBackend.AMD64
 import LeanCompilerBackend.Verified.Job
 import LeanCompilerBackend.Verified.MachineProofs
 import LeanCompilerBackend.Verified.BindingProofs

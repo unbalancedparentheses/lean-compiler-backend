@@ -122,5 +122,17 @@ execution inside a Linux VM, not x86 emulation or a proof.
 on ARM64 Linux, or against an explicitly supplied Docker container. The retained
 `tests/upstream-linux-arm64-coverage.json` prevents emission regressions. Ubuntu x86 CI checks emission and models; it does not count as Linux ARM64
 execution. The new `ubuntu-24.04-arm` CI job runs the native Linux matrix, including
-TLS, variadics and ELF section/constructor tests; its first run is pending.
+TLS, variadics and ELF section/constructor tests; its first run passed at `407180d` on Ubuntu ARM64, Ubuntu x86-64 and macOS.
 The runner label is documented in [GitHub runner selection](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job).
+
+## Initial Linux x86-64 checkpoint
+
+`--target x86_64-linux` emits 62/76 fixtures. Both Lean and pinned QBE
+`amd64_sysv` output passed 45 original executable drivers and assembled 17
+additional development fixtures using cross-GCC and QEMU user emulation in the
+ARM64 Linux container. This is emulated x86-64 execution, not native x86 testing.
+Additional C/QBE matrices cover mixed scalar signatures, subwords, variadics,
+floating arithmetic/comparisons and numeric conversions. Aggregate ABI and TLS
+remain explicitly unsupported. `tests/upstream-x86_64-coverage.json` prevents
+emission regressions; `scripts/linux_targets.py` executes natively on Linux x86-64
+CI and reports emulated execution separately when using the development container.
