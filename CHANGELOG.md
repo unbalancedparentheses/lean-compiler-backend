@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Support zero-sized static and runtime stack allocations with alignment checks,
+  live-object preservation and interpreter rejection of zero-object dereferences.
+
 - Add Linux RV64 LP64D lowering, including scalar/floating operations, aggregate
   register/split-stack/indirect ABI, variadics, general-dynamic TLS and ELF output.
   QEMU tests pass 75/76 emission fixtures, 58 executable drivers, 17 assembly-only

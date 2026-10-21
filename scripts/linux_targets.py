@@ -80,6 +80,8 @@ def main():
             riscv_tests(compiler,work,run,cc)
         from target_tls import exercise as tls_tests
         tls_tests(compiler,work,run,cc,args.target)
+    from zero_alloc import exercise as zero_tests
+    zero_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
     baseline=ROOT/f'tests/upstream-{isa}-coverage.json'
     if baseline.exists():
         missing=set(json.loads(baseline.read_text())['emitted'])-{x['fixture'] for x in rows if x['emitted']}

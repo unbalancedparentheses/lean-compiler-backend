@@ -9,7 +9,8 @@ and a fallible comparison implementation, not a permanent constraint on the IR.
 
 This is a general-purpose backend implemented in Lean 4. Concrete is a consumer
 through a separate adapter. The current implementation is a bounded scalar
-integer/floating, control-flow, memory, TLS and scalar-call subset on Apple ARM64. The existing
+integer/floating, control-flow, memory, TLS and aggregate-call backend on Apple
+ARM64 and Linux ARM64/x86-64/RV64. The existing
 opcode-selection theorem is limited; the backend is not verified end to end.
 
 ## Active execution order
@@ -28,7 +29,11 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 
 The current compatibility slice includes scalar integer/floating arithmetic and
 conversions, global data, indirect calls, variadics, env arguments and dynamic
-allocation on Apple ARM64. Mutable-temporary SSA construction is now implemented. Aggregate arguments/results are now supported on Apple ARM64. Next address remaining linkage, optimizations and the other target backends.
+allocation on Apple ARM64 and Linux ARM64, x86-64 and RV64. Mutable-temporary
+SSA construction and aggregate arguments/results are implemented on all four
+configurations. Native Apple ARM64, Linux ARM64 and Linux x86-64 qualification
+is available; RV64 execution is emulated. Next address remaining syntax and
+linkage, broader ABI edge cases, optimization passes and register allocation.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding

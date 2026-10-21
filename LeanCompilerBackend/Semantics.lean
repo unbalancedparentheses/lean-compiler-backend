@@ -162,7 +162,6 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
     pure (compare width op lhs rhs, state)
   | .allocate alignment size =>
     let size ← operand state.symbols locals .long size
-    if size == 0 then throw "zero-sized stack allocation is outside the interpreted domain"
     let (address, memory) ← state.memory.allocate alignment size.toNat
     pure (address, { state with memory })
   | .vaArg list =>

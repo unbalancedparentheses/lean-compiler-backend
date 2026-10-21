@@ -145,7 +145,7 @@ validation; the restricted first path still requires original SSA input.
 The memory interpreter uses abstract byte-addressed objects and rejects external,
 out-of-bounds and uninitialized accesses. This is a testing model, not native
 runtime memory-safety enforcement. Native checks also exercise actual C-owned
-memory. Allocations accept constants in 1..4096 bytes or runtime sizes in any block.
+memory. Allocations accept constants in 0..4096 bytes or runtime sizes in any block.
 The compatibility backend limits fixed frames to 1 MiB; the interpreter limits
 allocated memory to 1 MiB. Native runtime allocation assumes a valid positive
 size and sufficient stack space. Memory fuzzing found a

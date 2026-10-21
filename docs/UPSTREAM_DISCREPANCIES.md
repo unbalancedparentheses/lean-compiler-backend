@@ -101,3 +101,30 @@ Vendored QBE remains unchanged.
   immediately before a protected page; original QBE faults, while Lean loads
   exactly one byte and returns 42. Ordinary aggregate comparisons use readable
   objects and remain separate from this guarded boundary test.
+
+## Linux scalar and aggregate ABI discrepancies
+
+The original QBE source remains unchanged. `scripts/target_scalar.py` retains
+original Lean inputs and makes narrow argument/return extensions explicit only
+for the QBE reference: pinned RV64 omits required subword return extensions, and
+AMD64 narrow call arguments disagree with Clang C callees in some signed-halfword
+cases. The independent C caller still checks the original Lean source.
+
+`scripts/target_aggregate.py` isolates three RV64 exact-capacity pressure failures
+(single float, single double and mixed float/integer aggregates). In pinned
+`rv64/abi.c`, `argsclass` uses `>=` when deciding whether aggregate register banks
+fit, incorrectly falling back when the remaining capacity exactly matches the
+required count. Full original Lean/C pressure checks remain mandatory. Other QBE
+cases run separately, with the specific oracle failures printed explicitly.
+`scripts/riscv_abi.py` also checks a reduced exact-FP-capacity case against C.
+
+## AMD64 zero-allocation alignment
+
+`scripts/zero_alloc.py` reproduces an empty-leaf-frame `alloc16 0` mismatch:
+pinned QBE emits the unadjusted entry stack pointer, which is only 8 modulo 16
+because of the return address. The reduced probe returns `50 42 42` instead of
+`42 42 42` for static, dynamic and loop cases. Lean passes the original source.
+A separate QBE reference uses 16-byte allocations for the zero-sized constants;
+this preserves the tested alignment/live-object properties without claiming
+that original QBE passed. Zero-sized objects are never dereferenced in the
+native test; the interpreter separately rejects such accesses.

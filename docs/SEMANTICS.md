@@ -150,9 +150,9 @@ conversions, argument registers or ABI support.
 ## Runtime stack allocation
 
 Compatibility allocation accepts long size operands in any block. Constant sizes
-retain the 1..4096 per-object admission bound; runtime sizes are positive and
-limited by the interpreter's total 1 MiB live-memory budget. Zero-sized runtime
-allocations have no interpreter result. Native code rounds allocation size to
+retain the 0..4096 per-object admission bound; runtime sizes are nonnegative and
+limited by the interpreter's total 1 MiB live-memory budget. Zero-sized objects
+are aligned and grant no accessible bytes. Native code rounds allocation size to
 16-byte stack alignment, keeps each allocation until function return, and restores
 the entry stack/frame pointers. It does not insert size, overflow or stack-capacity
 guards; callers must provide valid sizes and sufficient stack space. Escaped stack
@@ -481,3 +481,11 @@ registers across `__tls_get_addr` and supports shared-library definitions.
 This target is compatibility lowering, not certified lowering. Current execution
 evidence is QEMU plus independent C and pinned-QBE comparisons; native RV64
 qualification and broader syntax/ABI coverage remain open.
+
+Zero-sized stack allocations return an address with the requested alignment,
+both in the entry block and dynamically in loops. They grant no readable or
+writable bytes; dereferencing one remains outside the interpreted domain. Pointer
+identity between zero-sized objects is unspecified by the compatibility contract.
+The abstract interpreter may assign distinct addresses while native targets may
+reuse the current stack address. Tests assert alignment and preservation of live
+nonempty objects, not equality or uniqueness of zero-sized allocation addresses.

@@ -167,7 +167,7 @@ def main():
             checks.append(f'if (dynamic_external((uintptr_t)callback,{size},UINT64_C({seed})) != UINT64_C({callback_wanted}) || !aligned) return 2;\n')
             checks.append(f'if (guard_dynamic({size}) != 43) return 3;\n')
         caller.write_text(C_PREFIX + 'int main(void) {\n' + ''.join(checks) + 'puts("dynamic allocation passed"); return 0;}\n')
-        reject([LCB, '--eval', source, 'dynamic_leaf', 0, 1], 'zero-sized')
+        reject([LCB, '--eval', source, 'dynamic_leaf', 0, 1], 'outside an allocated object')
         reject([LCB, '--eval', source, 'dynamic_leaf', 1048577, 1], 'memory budget')
         if native_host():
             cc = os.environ.get('LCB_CC', 'clang')

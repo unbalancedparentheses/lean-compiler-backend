@@ -182,6 +182,7 @@ python3 scripts/linux_targets.py --target riscv64-linux
 python3 scripts/memory.py "$@"
 python3 scripts/large_frames.py "$@"
 python3 scripts/dynamic_alloc.py "$@"
+python3 scripts/zero_alloc.py "$@"
 python3 scripts/blit.py "$@"
 python3 scripts/calls.py "$@"
 python3 scripts/indirect.py "$@"

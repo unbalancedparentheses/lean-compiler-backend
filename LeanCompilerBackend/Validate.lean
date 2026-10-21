@@ -288,8 +288,8 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
           if inst.width != .long then throw "stack allocation requires a long result"
           match size with
           | .constant bytes =>
-            if bytes <= 0 || bytes > 4096 then
-              throw "stack allocation currently requires a constant size in 1..4096"
+            if bytes < 0 || bytes > 4096 then
+              throw "stack allocation currently requires a constant size in 0..4096"
           | .temporary _ | .symbol _ | .threadSymbol _ => check .long size
     let check := fun width value => checkOperand definitions doms block.label (block.instructions.size + 1) width value false
     match block.terminator with
