@@ -72,6 +72,11 @@ def main():
     if execute:
         from target_scalar import exercise
         exercise(compiler,work,run,cc,qbe,args.target,qtarget,24 if isa=='x86_64' else 8)
+        if isa=='x86_64':
+            from target_aggregate import exercise as aggregate_tests
+            aggregate_tests(compiler,work,run,cc,qbe,args.target,qtarget)
+            from target_tls import exercise as tls_tests
+            tls_tests(compiler,work,run,cc,args.target)
     baseline=ROOT/f'tests/upstream-{isa}-coverage.json'
     if baseline.exists():
         missing=set(json.loads(baseline.read_text())['emitted'])-{x['fixture'] for x in rows if x['emitted']}

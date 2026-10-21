@@ -2,8 +2,11 @@
    Every SSA value has a stable frame slot; this is not register allocation. -/
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Assembly
+import LeanCompilerBackend.AMD64ABI
 
 namespace LeanCompilerBackend.AMD64
+
+open AMD64ABI
 
 private def align (n : Nat) : Nat := (n + 15) / 16 * 16
 private def suffix (w : Width) : String := if w == .word then "l" else "q"
@@ -16,6 +19,9 @@ private def gp : Array String := #["rdi", "rsi", "rdx", "rcx", "r8", "r9"]
 
 private structure Context where
   slots : List (String × Nat)
+  objects : List (String × Nat)
+  types : Array AMD64ABI.Info
+  resultPointer : Nat
   locals : List String
   stage : Nat
   saveArea : Nat
@@ -27,6 +33,20 @@ private def slot (c : Context) (name : String) : Except String String := do
   let some offset := c.slots.lookup name | throw s!"missing AMD64 stack slot %{name}"
   pure s!"-{offset}(%rbp)"
 
+/-- TLSDESC works for executable and shared-library TLS. Preserve live call arguments. -/
+private def threadAddress (w : Width) (destination name : String) : List String := Id.run do
+  let saved := #["rax", "rcx", "rdx", "rsi", "rdi", "r8", "r9", "r10", "r11"]
+  let mut lines := ["\tsubq $224, %rsp"]
+  for i in [:saved.size] do lines := lines ++ [s!"\tmovq %{saved[i]!}, {i*8}(%rsp)"]
+  for i in [:8] do lines := lines ++ [s!"\tmovdqu %xmm{i}, {80+i*16}(%rsp)"]
+  lines := lines ++ [s!"\tleaq {name}@TLSDESC(%rip), %rax", s!"\tcall *{name}@TLSCALL(%rax)",
+    "\taddq %fs:0, %rax", "\tmovq %rax, 208(%rsp)"]
+  for i in [:saved.size] do lines := lines ++ [s!"\tmovq {i*8}(%rsp), %{saved[i]!}"]
+  for i in [:8] do lines := lines ++ [s!"\tmovdqu {80+i*16}(%rsp), %xmm{i}"]
+  lines := lines ++ [s!"\tmovq 208(%rsp), %{destination}", "\taddq $224, %rsp"]
+  if w == .word then lines := lines ++ [s!"\tmovl {reg .word destination}, {reg .word destination}"]
+  return lines
+
 private def load (c : Context) (w : Width) (r : String) : Operand → Except String (List String)
   | .constant n => pure [s!"\tmov{if w == .long then "absq" else "l"} ${Semantics.constant w n}, {reg w r}"]
   | .temporary name => return [s!"\tmov{suffix w} {← slot c name}, {reg w r}"]
@@ -34,7 +54,7 @@ private def load (c : Context) (w : Width) (r : String) : Operand → Except Str
     let address := if c.locals.contains name then s!"\tleaq {name}(%rip), %{r}"
       else s!"\tmovq {name}@GOTPCREL(%rip), %{r}"
     pure ([address] ++ if w == .word then [s!"\tmovl {reg .word r}, {reg .word r}"] else [])
-  | .threadSymbol _ => throw "Linux AMD64 TLS is not yet implemented"
+  | .threadSymbol name => pure (threadAddress w r name)
 
 private def extend (w : Width) : Unary → List String
   | .negate => [s!"\tneg{suffix w} {reg w "rax"}"]
@@ -45,36 +65,70 @@ private def extend (w : Width) : Unary → List String
   | .signedWord => if w == .long then ["\tmovslq %eax, %rax"] else ["\tmovl %eax, %eax"]
   | .unsignedWord => ["\tmovl %eax, %eax"]
 
-private inductive Location where
-  | integer (index : Nat) | floating (index : Nat) | stack (offset : Nat) | environment
-  deriving Inhabited
-private structure Plan where
-  places : Array Location := #[]
-  ngp : Nat := 0
-  nfp : Nat := 0
-  stackBytes : Nat := 0
+private def objectAddress (c : Context) (name r : String) : Except String (List String) := do
+  let some offset := c.objects.lookup name | throw s!"missing AMD64 aggregate object %{name}"
+  pure [s!"\tleaq -{offset}(%rbp), %{r}"]
 
-private def plan (args : Array CallArgument) : Except String Plan := do
-  let mut p : Plan := {}
-  if args.any (·.environment) && args.any (·.variadic) then
-    throw "AMD64 System V does not support variadic environment calls"
-  for arg in args do
-    if arg.aggregate.isSome then throw "Linux AMD64 aggregate ABI is not yet implemented"
-    if arg.environment then p := { p with places := p.places.push .environment }
-    else if arg.floating && p.nfp < 8 then
-      p := { p with places := p.places.push (.floating p.nfp), nfp := p.nfp + 1 }
-    else if !arg.floating && p.ngp < 6 then
-      p := { p with places := p.places.push (.integer p.ngp), ngp := p.ngp + 1 }
-    else p := { p with places := p.places.push (.stack p.stackBytes), stackBytes := p.stackBytes + 8 }
-  pure p
+/-- Exact-width transfer: r10 addresses the object; r11 is scratch. -/
+private def readFragment (destination : String) (offset bytes : Nat) : List String := Id.run do
+  if bytes == 8 then return [s!"\tmovq {offset}(%r10), %{destination}"]
+  if bytes == 4 then return [s!"\tmovl {offset}(%r10), {reg .word destination}"]
+  let mut lines := [s!"\txorq %{destination}, %{destination}"]
+  for i in [:bytes] do
+    lines := lines ++ [s!"\tmovzbq {offset+i}(%r10), %r11"]
+    if i != 0 then lines := lines ++ [s!"\tshlq ${i*8}, %r11"]
+    lines := lines ++ [s!"\torq %r11, %{destination}"]
+  return lines
 
-private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgument) : Except String (List String) := do
-  let p ← plan args
+private def writeFragment (source : String) (offset bytes : Nat) : List String := Id.run do
+  if bytes == 8 then return [s!"\tmovq %{source}, {offset}(%r10)"]
+  if bytes == 4 then return [s!"\tmovl {reg .word source}, {offset}(%r10)"]
+  let mut lines := [s!"\tmovq %{source}, %r11"]
+  for i in [:bytes] do
+    lines := lines ++ [s!"\tmovb %r11b, {offset+i}(%r10)"]
+    if i+1 < bytes then lines := lines ++ ["\tshrq $8, %r11"]
+  return lines
+
+/-- Copy from r10 to r11 without touching argument registers. -/
+private def copyBytes (bytes : Nat) : List String := Id.run do
+  let mut lines := []
+  for i in [:bytes/8] do
+    lines := lines ++ [s!"\tmovq {i*8}(%r10), %rax", s!"\tmovq %rax, {i*8}(%r11)"]
+  for i in [bytes/8*8:bytes] do
+    lines := lines ++ [s!"\tmovb {i}(%r10), %al", s!"\tmovb %al, {i}(%r11)"]
+  return lines
+
+private def returnChunks (info : Info) : Array (Bool × String × Nat) := Id.run do
+  let mut ngp := 0
+  let mut nfp := 0
+  let mut chunks := #[]
+  for i in [:info.classes.size] do
+    match info.classes[i]! with
+    | .integer => chunks := chunks.push (false, if ngp == 0 then "rax" else "rdx", i*8); ngp := ngp+1
+    | .floating => chunks := chunks.push (true,s!"xmm{nfp}",i*8); nfp := nfp+1
+    | .empty => pure ()
+  return chunks
+
+private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgument) (result : Option (String × String) := none) : Except String (List String) := do
+  let resultInfo ← result.mapM (fun (_, name) => AMD64ABI.find c.types name)
+  let p ← plan c.types args (resultInfo.any (·.memory))
   let bytes := align p.stackBytes
   let mut lines := if bytes != 0 then [s!"\tsubq ${bytes}, %rsp"] else []
   for i in [:args.size] do
     let arg := args[i]!
     if arg.environment then continue
+    if let some name := arg.aggregate then
+      let info ← AMD64ABI.find c.types name
+      lines := lines ++ (← load c .long "r10" arg.value)
+      match p.places[i]! with
+      | .aggregate chunks =>
+        for (floating,index,offset) in chunks do
+          let destination := if floating then "rax" else gp[index]!
+          lines := lines ++ readFragment destination offset (min 8 (info.layout.size-offset))
+          if floating then lines := lines ++ [s!"\tmovq %rax, %xmm{index}"]
+      | .stack offset => lines := lines ++ [s!"\tleaq {offset}(%rsp), %r11"] ++ copyBytes info.layout.size
+      | _ => throw "invalid AMD64 aggregate argument location"
+      continue
     lines := lines ++ (← load c arg.width "rax" arg.value)
     if let some kind := arg.subword then lines := lines ++ extend .word kind.extension
     match p.places[i]! with
@@ -82,11 +136,22 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
     | .floating index => lines := lines ++ [s!"\tmov{if arg.width == .word then "d" else "q"} {reg arg.width "rax"}, %xmm{index}"]
     | .stack offset => lines := lines ++ [s!"\tmovq %rax, {offset}(%rsp)"]
     | .environment => pure ()
+    | .aggregate _ => throw "scalar argument in aggregate registers"
+  if let some (destination, _) := result then
+    if resultInfo.any (·.memory) then lines := lines ++ (← objectAddress c destination "rdi")
   if let .indirect address := target then lines := lines ++ (← load c .long "r11" address)
   if let some arg := args.find? (·.environment) then lines := lines ++ (← load c .long "rax" arg.value)
   else if args.any (·.variadic) then lines := lines ++ [s!"\tmovl ${p.nfp}, %eax"]
   lines := lines ++ [match target with | .direct name => s!"\tcall {name}" | .indirect _ => "\tcall *%r11"]
   if bytes != 0 then lines := lines ++ [s!"\taddq ${bytes}, %rsp"]
+  if let some (destination, _) := result then
+    let some info := resultInfo | throw "missing AMD64 result classification"
+    lines := lines ++ (← objectAddress c destination "r10")
+    if !info.memory then
+      for (floating,source,offset) in returnChunks info do
+        if floating then lines := lines ++ [s!"\tmovq %{source}, %rcx"]
+        lines := lines ++ writeFragment (if floating then "rcx" else source) offset (min 8 (info.layout.size-offset))
+    lines := lines ++ ["\tmovq %r10, %rax"]
   pure lines
 
 private def condition : Comparison → String
@@ -94,7 +159,6 @@ private def condition : Comparison → String
   | .unsignedLE => "be" | .unsignedLT => "b" | .unsignedGE => "ae" | .unsignedGT => "a"
 
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
-  if inst.callAggregate.isSome then throw "Linux AMD64 aggregate ABI is not yet implemented"
   let w := inst.width
   let s := suffix w
   let a := reg w "rax"
@@ -174,7 +238,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
     let destination := if kind == .unsignedByte || kind == .unsignedHalf || kind == .unsignedWord then "%eax" else a
     lines := lines ++ [s!"\t{instruction} (%rax), {destination}"]
   | .call target args =>
-    lines := ← emitCall c target args
+    lines := ← emitCall c target args (inst.callAggregate.map (inst.destination, ·))
     if inst.floating then lines := lines ++ [s!"\tmov{if w == .word then "d" else "q"} %xmm0, {a}"]
     if let some kind := inst.callSubword then lines := lines ++ extend .word kind.extension
   | .vaArg list =>
@@ -220,34 +284,60 @@ private def edge (c : Context) (f : Function) (source target : String) : Except 
     lines := lines ++ [s!"\tmovq -{c.stage+i*8}(%rbp), %rax", s!"\tmovq %rax, {← slot c block.phis[i]!.destination}"]
   pure lines
 
-private def emitFunction (f : Function) (locals : List String) (fileId : Nat) : Except String String := do
+private def emitFunction (f : Function) (types : Array Info) (locals : List String) (fileId : Nat) : Except String String := do
   validateFunction f true
   Assembly.checkTargetSection false f.customSection
-  if f.resultAggregate.isSome then throw "Linux AMD64 aggregate ABI is not yet implemented"
+  let resultInfo ← f.resultAggregate.mapM (AMD64ABI.find types)
   if f.variadic && f.parameters.any (·.environment) then throw "AMD64 System V does not support variadic environment functions"
   let params := f.parameters.map fun p => { width := p.width, value := Operand.temporary p.name, floating := p.floating, subword := p.subword, environment := p.environment, aggregate := p.aggregate : CallArgument }
-  let incoming ← plan params
+  let incoming ← plan types params (resultInfo.any (·.memory))
   let names := f.locals
   let maxPhi := f.blocks.foldl (fun n b => max n b.phis.size) 0
-  let fixed := (names.size + maxPhi)*8
+  let mut fixed := (names.size + maxPhi)*8
+  let resultPointer := fixed + 8
+  if resultInfo.any (·.memory) then fixed := fixed+8
+  let mut objects := []
+  let aggregateObjects := f.parameters.filterMap (fun p => p.aggregate.map (p.name, ·)) ++
+    f.blocks.foldl (fun result b => result ++ b.instructions.filterMap (fun statement =>
+      match statement with | .assign inst => inst.callAggregate.map (inst.destination, ·) | _ => none)) #[]
+  for (name,typeName) in aggregateObjects do
+    let info ← AMD64ABI.find types typeName
+    let alignment := max 8 info.layout.alignment
+    fixed := (fixed + max info.layout.size 1 + alignment-1)/alignment*alignment
+    objects := (name,fixed) :: objects
   let saveArea := align fixed + 176
   let frame := align (if f.variadic then saveArea else fixed)
   if frame > 1024*1024 then throw "AMD64 frame exceeds 1 MiB"
-  let c : Context := { slots := names.toList.zipIdx.map (fun ((n,_),i) => (n,(i+1)*8)), locals, stage := (names.size+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
+  let c : Context := { slots := names.toList.zipIdx.map (fun ((n,_),i) => (n,(i+1)*8)), objects, types, resultPointer, locals, stage := (names.size+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
   let mut lines := [f.customSection.map (Assembly.sectionDirective false) |>.getD ".text", s!".type {f.name}, @function", ".p2align 4"]
   if f.exported then lines := lines ++ [s!".globl {f.name}"]
   lines := lines ++ [s!"{f.name}:", "\tpushq %rbp", "\tmovq %rsp, %rbp"]
   if frame != 0 then lines := lines ++ [s!"\tsubq ${frame}, %rsp"]
+  if resultInfo.any (·.memory) then lines := lines ++ [s!"\tmovq %rdi, -{resultPointer}(%rbp)"]
   if f.variadic then
     for i in [:6] do lines := lines ++ [s!"\tmovq %{gp[i]!}, -{saveArea-i*8}(%rbp)"]
     for i in [:8] do lines := lines ++ [s!"\tmovdqu %xmm{i}, -{saveArea-48-i*16}(%rbp)"]
   for i in [:f.parameters.size] do
     let p := f.parameters[i]!
+    if let some name := p.aggregate then
+      let info ← AMD64ABI.find types name
+      match incoming.places[i]! with
+      | .aggregate chunks =>
+        lines := lines ++ (← objectAddress c p.name "r10")
+        for (floating,index,offset) in chunks do
+          if floating then lines := lines ++ [s!"\tmovq %xmm{index}, %rax"]
+          lines := lines ++ writeFragment (if floating then "rax" else gp[index]!) offset (min 8 (info.layout.size-offset))
+      | .stack offset =>
+        lines := lines ++ [s!"\tleaq {16+offset}(%rbp), %r10"] ++ (← objectAddress c p.name "r11") ++ copyBytes info.layout.size
+      | _ => throw "invalid AMD64 aggregate parameter location"
+      lines := lines ++ (← objectAddress c p.name "rax") ++ [s!"\tmovq %rax, {← slot c p.name}"]
+      continue
     match incoming.places[i]! with
     | .integer index => lines := lines ++ [s!"\tmovq %{gp[index]!}, %rax"]
     | .floating index => lines := lines ++ [s!"\tmov{if p.width == .word then "d" else "q"} %xmm{index}, {reg p.width "rax"}"]
     | .stack offset => lines := lines ++ [s!"\tmovq {16+offset}(%rbp), %rax"]
     | .environment => pure ()
+    | .aggregate _ => throw "scalar parameter in aggregate registers"
     if let some kind := p.subword then lines := lines ++ extend .word kind.extension
     if p.width == .word then lines := lines ++ ["\tmovl %eax, %eax"]
     lines := lines ++ [s!"\tmovq %rax, {← slot c p.name}"]
@@ -266,9 +356,18 @@ private def emitFunction (f : Function) (locals : List String) (fileId : Nat) : 
     | .ret value =>
       if let some value := value then
         let some width := f.resultWidth | throw "missing return type"
-        lines := lines ++ (← load c width "rax" value)
-        if let some kind := f.resultSubword then lines := lines ++ extend .word kind.extension
-        if f.resultFloating then lines := lines ++ [s!"\tmov{if width == .word then "d" else "q"} {reg width "rax"}, %xmm0"]
+        if let some info := resultInfo then
+          lines := lines ++ (← load c .long "r10" value)
+          if info.memory then
+            lines := lines ++ [s!"\tmovq -{resultPointer}(%rbp), %r11"] ++ copyBytes info.layout.size ++ ["\tmovq %r11, %rax"]
+          else
+            for (floating,destination,offset) in returnChunks info do
+              lines := lines ++ readFragment (if floating then "rcx" else destination) offset (min 8 (info.layout.size-offset))
+              if floating then lines := lines ++ [s!"\tmovq %rcx, %{destination}"]
+        else
+          lines := lines ++ (← load c width "rax" value)
+          if let some kind := f.resultSubword then lines := lines ++ extend .word kind.extension
+          if f.resultFloating then lines := lines ++ [s!"\tmov{if width == .word then "d" else "q"} {reg width "rax"}, %xmm0"]
       lines := lines ++ ["\tleave", "\tret"]
     | .halt => lines := lines ++ ["\tud2"]
     | .jump target => lines := lines ++ (← edge c f block.label target) ++ [s!"\tjmp {label f target}"]
@@ -282,14 +381,14 @@ private def emitFunction (f : Function) (locals : List String) (fileId : Nat) : 
 
 def emitModule (m : Module) : Except String String := do
   validateModule m
-  if m.data.any (·.threadLocal) then throw "Linux AMD64 TLS is not yet implemented"
   for data in m.data do Assembly.checkTargetSection false data.customSection
+  let types ← AMD64ABI.classify m.types
   let locals := (m.functions.filter (!·.exported)).toList.map (·.name) ++
     (m.data.filter (fun d => !d.exported && !d.common)).toList.map (·.name)
   let mut output := "# Generated by Lean Compiler Backend; Linux AMD64 System V\n"
   let mut fileId := 1
   for f in m.functions do
-    output := output ++ (← emitFunction f locals fileId)
+    output := output ++ (← emitFunction f types locals fileId)
     if f.debugFile.isSome then fileId := fileId + 1
   for data in m.data do output := output ++ Assembly.emitData false data
   pure (output ++ ".section .note.GNU-stack,\"\",@progbits\n")

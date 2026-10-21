@@ -200,8 +200,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Linux ARM64 ELF now emits 75/76 upstream fixtures, with 58 executable drivers
   and 17 assembly-only fixtures passing on native Linux ARM64, including variadic
   functions and TLS. Custom ELF sections and init-array constructors are implemented;
-  Linux AMD64 scalar/variadic lowering now emits 62/76 fixtures (45 executable
-  and 17 assembly-only passes under QEMU); aggregate ABI and TLS are next. RV64
+  Linux AMD64 scalar/aggregate/variadic lowering and TLS now emit 75/76 fixtures
+  (58 executable and 17 assembly-only passes under QEMU). RV64
   remains unimplemented. Native Linux ARM64 CI is now enabled.
   Coverage on one ISA or OS ABI does not certify another. 32-bit ARM/x86/RISC-V
   are outside the QBE baseline and require separately scoped target work.

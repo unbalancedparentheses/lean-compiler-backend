@@ -129,7 +129,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | Upstream name | Status |
 | --- | --- |
 | `amd64_apple` | not implemented |
-| `amd64_sysv` | partial: Linux x86-64 ELF scalar integer/floating operations, CFG/phi, memory, scalar calls, variadic entry and ELF data/sections; 62/76 emitted, 45 executable drivers and 17 assembly-only fixtures passed under QEMU; aggregate ABI and TLS remain |
+| `amd64_sysv` | partial: Linux x86-64 ELF scalar integer/floating operations, CFG/phi, memory, scalar/aggregate calls and returns, variadic entry, TLSDESC TLS and ELF data/sections; 75/76 emitted, 58 executable drivers and 17 assembly-only fixtures passed under QEMU; native x86 qualification remains pending |
 | `amd64_win` | not implemented |
 | `arm64` | partial: Linux ELF scalar/aggregate calls and returns, stack arguments, data, variadic functions and TLSDESC TLS; 75/76 upstream fixtures emit, 58 executable drivers and 17 assembly-only fixtures qualified on Linux ARM64; custom ELF sections/init arrays and common symbols implemented; remaining ISA targets and broader qualification remain |
 | `arm64_apple` | partial: scalar/aggregate functions with control flow, memory, TLS and direct/indirect register/stack-argument calls |

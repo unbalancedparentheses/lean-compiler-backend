@@ -427,7 +427,7 @@ abi5, abi8 and queen fixtures catch this issue. Common symbol alignment is in by
 on ELF, versus log2(bytes) on Darwin. Interpreter evaluation is target-independent
 and does not certify either native ABI lowering.
 
-## Initial Linux AMD64/System V target
+## Linux AMD64/System V target
 
 `--target x86_64-linux` uses six GP and eight SSE argument registers with
 independent banks, eight-byte stack slots, 16-byte call-site alignment and
@@ -439,8 +439,17 @@ incoming values before committing destination slots.
 Variadic functions save GP/SSE argument banks and initialize the 24-byte System V
 va_list. Calls set AL to the used SSE-register count. Environment calls pass their
 special pointer in RAX; mixing an environment with variadics is rejected, as in
-pinned QBE's System V ABI. Aggregate arguments/results and AMD64 TLS are not yet
-implemented. The shared ELF data renderer emits object type/size metadata.
+pinned QBE's System V ABI. Aggregate classification merges integer/SSE classes
+per eightbyte, recursively accounting for nested field offsets and unions. Empty
+padding chunks consume no register. Failed aggregate register allocation rolls
+back both banks; memory-class arguments are copied onto the call stack and
+large returns use a hidden RDI pointer. Callee parameters and caller result sites
+have private canonical frame objects. Exact short-tail transfers avoid overreads.
+The bounded aggregate ABI admits sizes through 4096 and alignment through 16.
+
+AMD64 TLS uses TLSDESC and the FS thread pointer, preserving live caller registers
+around resolution. Executable and shared-library tests cover eight concurrent C
+threads. The shared ELF data renderer emits object type/size metadata.
 
 SSE comparisons explicitly handle unordered operands. Integer/floating conversion
 code uses the independently tested defined-range source domain, including unsigned

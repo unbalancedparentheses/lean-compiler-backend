@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add AMD64 System V aggregate classification/stack copies/hidden returns and
+  TLSDESC TLS. QEMU qualification reaches 75/76 emitted and 58 executable drivers,
+  with 22-layout aggregate, guard-page, bank-rollback and threaded TLS checks.
+
 - Add Linux x86-64/System V scalar, floating, CFG, memory and variadic lowering.
   Qualify 62/76 emitted fixtures, 45 executable drivers and 17 assembly-only
   fixtures under QEMU, plus generated C/QBE scalar/conversion matrices.
