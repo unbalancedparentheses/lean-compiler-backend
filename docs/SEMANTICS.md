@@ -661,6 +661,11 @@ FP scratch registers; this is not FP-bank allocation. Word copies and unsigned
 word extensions retain W writes even when a home is reused, clearing high bits;
 only identical long-register copies can omit the move. Remainders retain a
 reserved quotient scratch so an aliased destination cannot destroy an operand.
+Loads/stores use assigned address and value homes, including legal address/result
+aliasing for plain loads. Narrow loads retain their signedness and W-register
+normalization. Scalar call results and floating returns transfer directly between
+ABI registers and homes; aggregate results keep their existing lowering. These
+changes preserve memory operation order and do not introduce alias analysis.
 
 This is conservative whole-range allocation, not full QBE allocation parity.
 It does not assign caller-saved or FP homes, split live ranges, coalesce moves,

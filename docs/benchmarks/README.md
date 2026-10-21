@@ -300,3 +300,24 @@ Independent native matrices now exercise baseline, allocated and optimized outpu
 for all 30,460 integer, 896 floating and 1,228 conversion cases. Added 24-value
 single/double pressure tests cover spills, calls, conversions and boolean results;
 word-normalization controls retain nonzero high bits in the source value.
+
+
+## Direct ARM64 memory and call-result transfers
+
+The [cJSON memory-home report](cjson-memory-homes.json) retains 153 assertions
+and matching checksums, including the baseline-only stack retry. Optimized text
+is 47,232 bytes, down from 54,536. Same-run medians are baseline 0.6622 s,
+optimized 0.2556 s, QBE 0.1774 s and GCC 0.1489 s.
+
+The [QBE memory-home report](qbe-memory-homes.json) retains 487 successful
+assembly reproductions and 58 original runtime tests per passing executable.
+Optimized text is 562,896 bytes, down from 628,064. Same-run medians are
+reference 0.0997 s, baseline 0.6993 s, optimized 0.2491 s and corrected QBE
+0.1598 s. Original QBE's self-compilation failure remains separate. These local
+timings are load-sensitive; code size and functional results are more stable.
+
+Independent memory checks cover 4,209 generated native cases, 1,664 C-owned
+buffer cases and 2,208 C-oracle cases in baseline and optimized modes. Targeted
+controls cover address/result home aliasing, signed and unsigned narrow loads,
+FP call results and callee-save restoration. All 150 baseline ARM64 fixture
+assemblies remain byte-identical to the preceding compiler.

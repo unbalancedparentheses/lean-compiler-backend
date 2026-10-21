@@ -88,6 +88,12 @@ def fixture(target):
         lines += [f'%negative ={kind} neg %sum24','ret %negative','}']
     lines += ['export function l $zero_extend(l %x) { @s %r =l extuw %x ret %r }',
               'export function l $copy_narrow(l %x) { @s %w =w copy %x %r =l extuw %w ret %r }']
+    lines += ['export function l $load_alias(l %p) { @s %r =l loadl %p ret %r }',
+              'export function l $load_signed_alias(l %p) { @s %r =l loadsb %p ret %r }',
+              'export function l $load_word_alias(l %p) { @s %r =l loaduw %p ret %r }',
+              'export function l $self_pointer(l %p) { @s storel %p,%p %q =l loadl %p %r =l ceql %p,%q ret %r }']
+    for kind in ['s','d']:
+        lines += [f'export function {kind} $call_keep_{kind}({kind} %x) {{ @s %a ={kind} call $opaque_{kind}({kind} %x) %r ={kind} add %a,%x ret %r }}']
     lines += ['''export function l $swap(l %x,l %y,w %n) {
 @s
  jmp @loop
@@ -170,8 +176,12 @@ extern uint64_t pressure(uint64_t*), swap(uint64_t,uint64_t,unsigned), deadwrite
 extern double float_keep(double,double), float_bits(double), float_pressure_d(double*);
 extern float float_pressure_s(float*);
 extern uint64_t zero_extend(uint64_t),copy_narrow(uint64_t);
+extern uint64_t load_alias(uint64_t*),load_signed_alias(uint64_t*),load_word_alias(uint64_t*),self_pointer(uint64_t*);
+extern double call_keep_d(double);extern float call_keep_s(float);
 volatile uint64_t barrier;
 __attribute__((noinline)) void clobber(void) { barrier++; DESTROY }
+__attribute__((noinline)) double opaque_d(double x) { clobber(); return x+0.5; }
+__attribute__((noinline)) float opaque_s(float x) { clobber(); return x+0.5f; }
 PROBE
 int main(void) {
  uint64_t a[48],sum=0;
@@ -189,6 +199,10 @@ int main(void) {
  double doubles[24];float singles[24];for(unsigned i=0;i<24;i++){doubles[i]=i+1;singles[i]=i+1;}
  if(float_pressure_d(doubles)!=-774.0||float_pressure_s(singles)!=-774.0f)return 11;
  if(zero_extend(UINT64_C(0xf123456789abcdef))!=UINT64_C(0x89abcdef)||copy_narrow(UINT64_C(0xf123456789abcdef))!=UINT64_C(0x89abcdef))return 12;
+ uint64_t alias=UINT64_C(0xfedcba9889abcd80);
+ if(load_alias(&alias)!=alias||load_signed_alias(&alias)!=UINT64_C(0xffffffffffffff80)||load_word_alias(&alias)!=UINT64_C(0x89abcd80))return 13;
+ if(self_pointer(&alias)!=1||alias!=(uintptr_t)&alias)return 14;
+ if(call_keep_d(1.25)!=3.0||call_keep_s(2.5f)!=5.5f)return 15;
  uint64_t counts[]={0,1,31,32,63,64,UINT64_C(0x100000020),UINT64_C(0x8000000000000000),UINT64_MAX};
  uint64_t values[]={0,17,UINT64_MAX,UINT64_C(0x8000000000000000),UINT64_C(0xf0123456789abcde)};
  for(unsigned j=0;j<5;j++)for(unsigned k=0;k<9;k++) {
@@ -225,8 +239,17 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
                             'x86_64': r'^\s*movq -[0-9]+\(%rbp\), %rbx$',
                             'riscv64': r'^\s*ld s1, -?[0-9]+\(s0\)$'}
                 pattern = patterns[target.split('-')[0]]
-                damaged,count = re.subn(pattern, '\tnop', assembly.read_text(), flags=re.M)
-                assert count > 0, 'no callee-save restores found in allocated code'
+                text=assembly.read_text()
+                prefix='_' if target.endswith('macos') else ''
+                start=text.index('\n'+prefix+'pressure:\n')
+                end=text.index('\n'+prefix+'float_pressure_s:\n',start)
+                # Direct operand lowering can now load x19 from ordinary memory.
+                # Damage only the final matching restore in the pressure function,
+                # whose caller independently checks its saved-register sentinel.
+                matches=list(re.finditer(pattern,text[start:end],flags=re.M))
+                assert matches,'no callee-save restore found in pressure function'
+                match=matches[-1]
+                damaged=text[:start+match.start()]+'\tnop'+text[start+match.end():]
                 broken = case/'broken-save.s'; broken.write_text(damaged)
                 result = run([cc, caller, broken, '-o', case/'broken-save'], True)
                 assert result.returncode == 0, result.stderr

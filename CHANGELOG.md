@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Transfer ARM64 memory operands and scalar call results directly through assigned
+  homes. Test address/result aliasing, signed narrow loads, FP call results and
+  caller preservation against independent C memory oracles and full QBE bootstrap.
+
 - Use assigned ARM64 homes directly for scalar copies/casts, extensions, division,
   remainder, floating operations and conversions. Preserve explicit word
   normalization and FP bit transfers. Run integer/FP/conversion oracles in all

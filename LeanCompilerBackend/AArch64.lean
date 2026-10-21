@@ -205,14 +205,14 @@ private def slotOffset (slots : List (String × Nat)) (name : String) : Except S
   | some offset => .ok offset
   | none => .error s!"missing stack slot for %{name}"
 
-private def memoryLoad (width : Width) : LoadKind → String
-  | .signedByte => s!"ldrsb {register width 9}"
-  | .unsignedByte => "ldrb w9"
-  | .signedHalf => s!"ldrsh {register width 9}"
-  | .unsignedHalf => "ldrh w9"
-  | .signedWord => if width == .long then "ldrsw x9" else "ldr w9"
-  | .unsignedWord => "ldr w9"
-  | .plain => s!"ldr {register width 9}"
+private def memoryLoad (width : Width) (destination : Nat) : LoadKind → String
+  | .signedByte => s!"ldrsb {register width destination}"
+  | .unsignedByte => s!"ldrb w{destination}"
+  | .signedHalf => s!"ldrsh {register width destination}"
+  | .unsignedHalf => s!"ldrh w{destination}"
+  | .signedWord => if width == .long then s!"ldrsw x{destination}" else s!"ldr w{destination}"
+  | .unsignedWord => s!"ldr w{destination}"
+  | .plain => s!"ldr {register width destination}"
 
 /-- Apple ARM64 packs non-variadic stack scalars at their natural size/alignment.
     In particular consecutive words occupy four bytes each, not eight. This
@@ -511,14 +511,20 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
         s!"\tstr w10, [x9, #{offset}]", "\tb 2f", "1:", "\tldr x11, [x9]",
         "\tadd x10, x11, #8", "\tstr x10, [x9]", "2:", s!"\tldr {register inst.width 9}, [x11]"]
   | .load kind address =>
-    lines := lines ++ (← load darwin localSymbols base slots .long 9 address)
-    lines := lines ++ [s!"\t{memoryLoad inst.width kind}, [x9]"]
+    let addressHome := operandRegister slots 9 address
+    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    if addressHome == 9 then lines := lines ++ (← load darwin localSymbols base slots .long 9 address)
+    lines := lines ++ [s!"\t{memoryLoad inst.width resultHome kind}, [x{addressHome}]"]
+    if resultHome != 9 then return lines
   | .call target arguments =>
     -- Stable homes are stack slots or callee-saved registers, outside argument
     -- and scratch banks. Permutations and call clobbers preserve their values.
     lines := lines ++ (← emitCall darwin localSymbols types base slots allocations target arguments (inst.callAggregate.map (inst.destination, ·)))
-    if inst.callAggregate.isNone then lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width 9}, {floatRegister inst.width 0}"
-      else s!"\tmov {register inst.width 9}, {register inst.width 0}"]
+    if inst.callAggregate.isNone then
+      let resultHome := (slots.registers.lookup inst.destination).getD 9
+      lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width resultHome}, {floatRegister inst.width 0}"
+        else s!"\tmov {register inst.width resultHome}, {register inst.width 0}"]
+      if resultHome != 9 then return lines
   pure (lines ++ (← storeHome base slots inst.width (register inst.width 9) inst.destination))
 
 private structure VariadicFrame where
@@ -557,16 +563,21 @@ private def emitStatement (darwin : Bool) (localSymbols : List String) (types : 
         lines := lines ++ [s!"\t{read}, [x9, #{offset}]", s!"\t{write}, [x10, #{offset}]"]
         offset := offset + size
     pure lines
-  | .storeFloat width value address =>
-    pure ((← load darwin localSymbols base slots .long 9 address) ++ (← load darwin localSymbols base slots width 10 value) ++
-      [s!"\tstr {register width 10}, [x9]"])
-  | .store width value address =>
-    let addressLines ← load darwin localSymbols base slots .long 9 address
-    let valueLines ← load darwin localSymbols base slots width.valueWidth 10 value
+  | .storeFloat width value address => do
+    let addressHome := operandRegister slots 9 address
+    let valueHome := operandRegister slots 10 value
+    let addressLines ← if addressHome == 9 then load darwin localSymbols base slots .long 9 address else pure []
+    let valueLines ← if valueHome == 10 then load darwin localSymbols base slots width 10 value else pure []
+    pure (addressLines ++ valueLines ++ [s!"\tstr {register width valueHome}, [x{addressHome}]"])
+  | .store width value address => do
+    let addressHome := operandRegister slots 9 address
+    let valueHome := operandRegister slots 10 value
+    let addressLines ← if addressHome == 9 then load darwin localSymbols base slots .long 9 address else pure []
+    let valueLines ← if valueHome == 10 then load darwin localSymbols base slots width.valueWidth 10 value else pure []
     let instruction := match width with
-      | .byte => "strb w10" | .half => "strh w10"
-      | .word => "str w10" | .long => "str x10"
-    pure (addressLines ++ valueLines ++ [s!"\t{instruction}, [x9]"])
+      | .byte => s!"strb w{valueHome}" | .half => s!"strh w{valueHome}"
+      | .word => s!"str w{valueHome}" | .long => s!"str x{valueHome}"
+    pure (addressLines ++ valueLines ++ [s!"\t{instruction}, [x{addressHome}]"])
 
 private def blockLabel (f : Function) (label : String) : String :=
   s!"L_lcb_block_{f.name.length}_{localName f.name}_{label}"
@@ -741,6 +752,10 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
             for j in [:count] do lines := lines ++ [s!"\tldr {floatRegister width j}, [x12, #{j*width.bytes}]"]
           | .indirect =>
             lines := lines ++ stackAddress base 13 resultPointer ++ ["\tldr x13, [x13]"] ++ copyAggregate info.layout.size
+        else if f.resultFloating && f.resultSubword.isNone then
+          let sourceHome := operandRegister slots 0 value
+          if sourceHome == 0 then lines := lines ++ (← load darwin localSymbols base slots width 0 value)
+          lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width sourceHome}"]
         else
           lines := lines ++ (← load darwin localSymbols base slots width 0 value)
           if let some kind := f.resultSubword then lines := lines ++ [extendSubword kind 0]
