@@ -81,7 +81,7 @@ def main():
         aggregate_tests(compiler,work,run,cc,qbe,args.target,qtarget)
         if isa=='riscv64':
             from riscv_abi import exercise as riscv_tests
-            riscv_tests(compiler,work,run,cc)
+            riscv_tests(compiler,work,run,cc,qbe)
         from target_tls import exercise as tls_tests
         tls_tests(compiler,work,run,cc,args.target)
     from constant_fold import exercise as fold_tests

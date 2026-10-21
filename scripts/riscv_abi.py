@@ -1,5 +1,6 @@
 """Independent C checks for RV64-specific register boundaries and variadics."""
 from pathlib import Path
+from fuzz import ROOT
 
 SOURCE='''type :pair = align 16 { l, l }
 type :single = { s }
@@ -54,11 +55,23 @@ int main(void) {
 }
 '''
 
-def exercise(compiler,work,run,cc):
+def exercise(compiler,work,run,cc,qbe=None):
     case=Path(work)/'rv64-abi-boundaries';case.mkdir(exist_ok=True)
     source,assembly,caller=case/'input.ssa',case/'lean.s',case/'caller.c'
     source.write_text(SOURCE);caller.write_text(CALLER)
     result=run([compiler,source,'--target','riscv64-linux','-o',assembly]);assert result.returncode==0,result.stderr
     result=run([cc,'-O2',caller,assembly,'-o',case/'lean'],True);assert result.returncode==0,result.stderr
     result=run([case/'lean'],True);assert result.returncode==0,(result.returncode,result.stderr)
+    if qbe:
+        reduced=case/'exact-capacity.ssa';driver=case/'exact-capacity.c'
+        reduced.write_text((ROOT/'tests/regressions/qbe-rv64-exact-fp-capacity.ssa').read_text())
+        driver.write_text((ROOT/'tests/regressions/qbe-rv64-exact-fp-capacity.c').read_text())
+        for label in ['lean','qbe']:
+            asm=case/(label+'-exact.s');exe=case/(label+'-exact')
+            cmd=[compiler,reduced,'--target','riscv64-linux','-o',asm] if label=='lean' else [qbe,'-t','rv64','-o',asm,reduced]
+            result=run(cmd,label=='qbe');assert result.returncode==0,result.stderr
+            result=run([cc,'-O2',driver,asm,'-o',exe],True);assert result.returncode==0,result.stderr
+            result=run([exe],True)
+            assert result.returncode==(0 if label=='lean' else 1),(label,result.returncode,result.stderr)
+        print('riscv64-linux: reduced exact-FP-capacity fixture passes Lean/C and reproduces pinned QBE failure',flush=True)
     print('riscv64-linux: exact FP capacity, split GP/stack aggregates and aligned variadic pairs passed independent C checks',flush=True)

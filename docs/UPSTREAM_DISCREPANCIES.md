@@ -116,7 +116,10 @@ cases. The independent C caller still checks the original Lean source.
 fit, incorrectly falling back when the remaining capacity exactly matches the
 required count. Full original Lean/C pressure checks remain mandatory. Other QBE
 cases run separately, with the specific oracle failures printed explicitly.
-`scripts/riscv_abi.py` also checks a reduced exact-FP-capacity case against C.
+`scripts/riscv_abi.py` also reproduces the reduced
+[exact-FP-capacity input](../tests/regressions/qbe-rv64-exact-fp-capacity.ssa)
+with its [C caller](../tests/regressions/qbe-rv64-exact-fp-capacity.c): Lean must
+pass and pinned QBE must return the specific failure status.
 
 ## AMD64 zero-allocation alignment
 
