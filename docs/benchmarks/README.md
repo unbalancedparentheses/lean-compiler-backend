@@ -371,3 +371,45 @@ backend. Neither original failure counts as a successful comparison.
 
 Reproduce with `python3 scripts/qbe_bootstrap.py --target x86_64-linux` or
 `--target riscv64-linux`, using the documented Linux qualification container.
+
+
+The [QBE compact-constant rerun](qbe-compact-constants.json) retains 487 exact
+successful assembly reproductions and 58 original runtime tests per passing
+executable. Optimized text is 557,352 bytes, down from 562,896. Same-run medians
+are GCC reference 0.1004 s, baseline 0.7086 s, optimized 0.2756 s and corrected
+QBE 0.1649 s. Original QBE's failure remains retained separately.
+
+## zlib compression and decompression
+
+[The zlib report](zlib.json) compiles pinned zlib 1.3.1's fifteen library units
+plus its original `example` and `minigzip` programs: 271 functions and 34,503
+cproc IR lines. Upstream `configure --static` generates Makefile/zconf.h; C
+sources remain unchanged. All five builds pass the original `teststatic` recipe,
+with executable hashes checked to ensure the recipe did not rebuild them.
+
+Four deterministic payloads (including empty input, every byte value, random
+bytes and a larger mixed payload) at compression levels 1, 6 and 9 produce
+**12 byte-identical gzip streams per backend** against GCC. Each decompression
+matches the independently generated Python payload; Python gzip also checks the
+compressed stream. Original QBE passes this workload without a correction.
+The separately corrected copy is measured independently.
+
+Five local compression/decompression samples on the largest payload give these
+median times, including process startup and pipe I/O:
+
+| Backend | Median round trip |
+| --- | ---: |
+| Baseline | 68.15 ms |
+| Optimized | 32.96 ms |
+| Original QBE | 7.94 ms |
+| Corrected QBE | 8.01 ms |
+| GCC | 3.85 ms |
+
+This workload exposes a larger optimization gap than cJSON: our optimized output
+is about 4.2 times slower than original QBE in this run. All modes link all fifteen
+library objects plus the selected test-program object. GCC uses upstream configured
+`-O3` flags; backend modes receive identical cproc IR. GNU `size` includes read-only
+data in its text figure, so section placement matters when interpreting raw sizes.
+Local timing and emulation distinctions remain important; these are not universal
+performance ratios. Reproduce with `python3 scripts/zlib_benchmark.py` in the
+Linux ARM64 qualification environment.

@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Compile zlib plus its original example/minigzip programs through identical cproc
+  IR. All five builds pass upstream static tests and twelve exact gzip/round-trip
+  cases. Publish the compression performance gap as well as functional matches.
+
 - Bootstrap QBE into Linux x86-64 and RV64 executables under QEMU, preserving
   exact assembly reproduction and original runtime tests. Reduce and retain an
   original QBE AMD64 CMP/CMOV flag-clobber defect; keep its separately corrected
