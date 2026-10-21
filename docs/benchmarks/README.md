@@ -694,3 +694,26 @@ Across eight disjoint default-profile batches this is **166/208 unique attempts*
 **1,633,080 qualified IR lines** including runtime helpers, and 42 reference
 timeouts. The separate pointer profile remains 8/32 with its own restrictions
 and unqualified outcomes; it is not folded into this denominator.
+
+## Same-block memory forwarding
+
+Compiler identity `9500650d1e283b80bce7e70c69fbd7646ed492d32e96509a8a1db6c69c3d0bf8`
+adds exact-address load reuse and matching store-to-load forwarding inside one
+SSA block. Every write invalidates earlier facts; calls, variadic state, blits
+and allocation are barriers. It assumes no pointer disjointness and removes no
+stores. The independent C matrix checks 56,320 cases per mode across five targets,
+including overlapping pointer writes, signed widths, FP bits, callbacks and loops.
+The deleted-store control is required to fail on ARM64.
+
+[Zlib](zlib-memory-forward.json) retains the original static tests and all 12 exact
+gzip streams, independent decompression and round trips. Optimized linked text is
+146,734 bytes, versus 147,430 at the preceding checkpoint. In this locally loaded
+run, median round trips were 12.11 ms optimized and 11.41 ms original QBE; these
+are measurements of that run, not a controlled cross-checkpoint speedup claim.
+[QBE self-compilation](qbe-memory-forward.json) retains 455 exact fixture assemblies
+across six QBE targets, 32 self-IR reproductions, one matching rejection and 58
+original ARM64 runtime tests for qualified backends. Original ARM64 QBE's parser
+failure remains separate. Optimized input-object text is 390,092 bytes (5,752
+fewer than the preceding checkpoint); default-linked text is 418,988 bytes.
+Self-IR compile medians were 0.2505 s optimized, 0.2145 s corrected QBE and
+0.1239 s GCC-built reference. No preservation proof is added.

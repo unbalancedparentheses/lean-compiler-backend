@@ -94,6 +94,8 @@ def main():
     quoted_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
     from global_addresses import exercise as global_address_tests
     global_address_tests(compiler,work,run,cc,args.target,execute)
+    from memory_forward import exercise as memory_forward_tests
+    memory_forward_tests(compiler,work,run,cc,args.target,execute)
     from unsigned_strength import exercise as unsigned_tests
     unsigned_tests(compiler,work,run,cc,args.target,execute)
     from module_scale import exercise as module_tests

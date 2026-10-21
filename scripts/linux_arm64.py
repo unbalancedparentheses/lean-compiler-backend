@@ -129,6 +129,8 @@ def main():
     quoted_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
     from global_addresses import exercise as global_address_tests
     global_address_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from memory_forward import exercise as memory_forward_tests
+    memory_forward_tests(compiler,work,run,cc,'aarch64-linux',native)
     from unsigned_strength import exercise as unsigned_tests
     unsigned_tests(compiler,work,run,cc,'aarch64-linux',native)
     from module_scale import exercise as module_tests

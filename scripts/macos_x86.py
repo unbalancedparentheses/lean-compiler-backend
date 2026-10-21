@@ -114,6 +114,8 @@ def main():
     from allocation import exercise as allocation_tests
     allocation_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from control_flow import exercise as cfg
+    from memory_forward import exercise as memory_forward_tests
+    memory_forward_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from unsigned_strength import exercise as unsigned_tests
     unsigned_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from global_addresses import exercise as global_addresses

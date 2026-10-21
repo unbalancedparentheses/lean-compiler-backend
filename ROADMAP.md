@@ -60,7 +60,9 @@ Next bounded work, before proof expansion:
    sparse BSS, covering QBE's 16 MiB global instruction buffer; the interpreter
    retains its 1 MiB budget. Add reduced cases for every gap.
 2. Extend the optional constant/copy/dead-definition and basic CFG pipeline with
-   alias analysis, broader CFG transforms and the remaining QBE optimization passes.
+   general alias analysis, broader CFG transforms and the remaining QBE optimization
+   passes. Exact-address same-block memory forwarding is implemented with
+   conservative barriers for writes, calls, variadic state, blits and allocations.
 3. Extend implemented liveness, reusable spills and callee-saved allocation with
    caller-saved/FP banks, splitting/coalescing and machine value-flow checks;
    retain the current stack baseline as a differential oracle.

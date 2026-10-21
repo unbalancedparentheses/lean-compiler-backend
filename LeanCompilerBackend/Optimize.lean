@@ -94,6 +94,7 @@ def module (m : Module) : Except String Module := do
       result := Cleanup.copies result
     result := Symbols.hoist globals result
     result ← Common.eliminate (function result)
+    result := Memory.forward (Cleanup.copies result)
     pure (Cleanup.deadDefinitions (Cleanup.copies result))
   let result := {m with functions}
   validateModule result

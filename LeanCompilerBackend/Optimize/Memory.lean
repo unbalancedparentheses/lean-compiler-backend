@@ -162,4 +162,69 @@ def promote (f : Function) : Function := Id.run do
   | .error _ =>
     return f
 
+private structure Stored where
+  address : Operand
+  bytes : Nat
+  floating : Bool
+  value : Operand
+
+private def sameAddress : Operand → Operand → Bool
+  | .temporary a, .temporary b | .symbol a, .symbol b | .threadSymbol a, .threadSymbol b => a == b
+  | .constant a, .constant b => a == b
+  | _, _ => false
+
+private def storedOperation (stored : Stored) (i : Instruction) (kind : LoadKind)
+    (address : Operand) : Option Operation := do
+  if !sameAddress stored.address address || stored.bytes != kind.bytes i.width ||
+      stored.floating != i.floating then none
+  else
+    some (match kind with
+      | .signedByte => .unary .signedByte stored.value
+      | .unsignedByte => .unary .unsignedByte stored.value
+      | .signedHalf => .unary .signedHalf stored.value
+      | .unsignedHalf => .unary .unsignedHalf stored.value
+      | .signedWord => if i.width == .word then .copy stored.value else .unary .signedWord stored.value
+      | .unsignedWord => if i.width == .word then .copy stored.value else .unary .unsignedWord stored.value
+      | .plain => .copy stored.value)
+
+/-- Same-block, exact-address forwarding. Every store invalidates all prior
+    facts before recording its own value. Calls, variadic state accesses, blits
+    and allocations clear all facts. No alias-disjointness or cross-block facts
+    are assumed, and stores are never removed. Access widths and FP classes must
+    match; integer store truncation/load extension remains explicit. -/
+def forward (f : Function) : Function := Id.run do
+  let mut blocks := #[]
+  for block in f.blocks do
+    let mut loads : Std.HashMap String String := {}
+    let mut stored : Option Stored := none
+    let mut instructions := #[]
+    for statement in block.instructions do
+      let mut replacement := statement
+      match statement with
+      | .assign i =>
+        match i.operation with
+        | .load kind address =>
+          let key := s!"{reprStr address}|{reprStr kind}|{reprStr i.width}|{i.floating}"
+          let forwarded := stored.bind (fun value => storedOperation value i kind address)
+          let operation := forwarded.orElse (fun _ =>
+            (loads[key]?).map (fun name => Operation.copy (.temporary name)))
+          if let some operation := operation then replacement := .assign {i with operation}
+          loads := loads.insert key i.destination
+        | .call .. | .vaArg .. | .allocate .. =>
+          loads := {}
+          stored := none
+        | _ => pure ()
+      | .store width value address =>
+        loads := {}
+        stored := some {address, value, bytes := width.bytes, floating := false}
+      | .storeFloat width value address =>
+        loads := {}
+        stored := some {address, value, bytes := width.bytes, floating := true}
+      | .callVoid .. | .vaStart .. | .blit .. =>
+        loads := {}
+        stored := none
+      instructions := instructions.push replacement
+    blocks := blocks.push {block with instructions}
+  return {f with blocks}
+
 end LeanCompilerBackend.Optimize.Memory

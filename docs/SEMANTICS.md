@@ -729,6 +729,25 @@ objects, general aliases or aggregate fields. Its initialization/escape checks a
 SSA validation are executable defenses, not proved semantic preservation.
 
 
+## Conservative same-block memory forwarding
+
+After SSA optimization, an exact repeated load can reuse an earlier result in
+that block. A load can also reuse the most recent store when the address,
+byte count and integer/floating class match. Narrow integer stores retain
+explicit truncation and signed/unsigned load extension; floating values retain
+their bits. Every store clears earlier facts before recording its own value.
+Calls (including indirect and result-producing calls), variadic state accesses,
+blits and allocations clear all facts. Facts never cross block boundaries.
+Stores are preserved, and no access is moved. Differently spelled pointers are
+not assumed disjoint: a write through any pointer invalidates all previous loads.
+
+This relies on the existing sequential, valid-object memory domain and SSA
+single definitions. It does not introduce volatile/atomic semantics, general
+alias analysis, dead-store elimination or a preservation proof. Independent C
+oracles cover signed widths, FP bit patterns, overlapping writes, mutating
+callbacks, blits and loops; a deleted-store control must fail.
+
+
 Compatibility module admission removes blocks unreachable from the entry and
 their phi incoming edges before mutable SSA construction and dominance checking,
 as QBE's `fillcfg` does. Dead predecessors cannot impose spurious dominance or
