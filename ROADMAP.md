@@ -284,7 +284,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
   Larger workloads include cJSON (153 assertions across 18 executables), cproc
   frontend self-compilation (19 reproduced IR files and 196 tests on each Linux
-  target), and seeded Csmith comparisons against GCC O0/O2 and original QBE.
+  target), QBE self-compilation (487 exact successful assembly reproductions and
+  58 original ARM64-output tests per baseline/optimized executable on all three
+  Linux targets; cross-host executables use QEMU), and seeded Csmith comparisons
+  against GCC O0/O2 and original QBE.
   Original upstream discrepancies and reference timeouts remain separate from passes.
 - [ ] P12 — Measure compile time, checker time, generated-code performance, code size
   and memory against pinned QBE on the same workloads/toolchain. Maintain baselines

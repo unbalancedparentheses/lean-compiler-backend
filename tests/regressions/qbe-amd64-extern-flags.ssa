@@ -1,0 +1,15 @@
+# External-address materialization must preserve a pending comparison's flags.
+export data $empty = { b 0 }
+export function l $choose(w %x) {
+@start
+ %condition =w ceqw %x, 34
+ jnz %condition, @yes, @no
+@yes
+ jmp @join
+@no
+ %address =l add extern $external, 140
+ jmp @join
+@join
+ %result =l phi @yes $empty, @no %address
+ ret %result
+}

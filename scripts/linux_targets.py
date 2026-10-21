@@ -102,6 +102,9 @@ def main():
     large_object_tests(compiler,work,run,cc,args.target,execute)
     from memory_promotion import exercise as memory_tests
     memory_tests(compiler,work,run,cc,args.target,execute)
+    if args.target == 'x86_64-linux':
+        from extern_flags import exercise as flags_tests
+        flags_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
     from allocation import exercise as allocation_tests
     allocation_tests(compiler,work,run,cc,args.target,execute)
     from control_flow import exercise as cfg_tests

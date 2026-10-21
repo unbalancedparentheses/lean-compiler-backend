@@ -1,0 +1,628 @@
+{
+  "schema": 1,
+  "program": "QBE 1.3 self-compilation",
+  "target": "riscv64-linux",
+  "execution_mode": "QEMU user emulation",
+  "execution": "Linux 36d787fe752f 7.2.9-orbstack-00391-g2b298d05fbd4 #1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+  "compile_host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "compiler_identity": "1646f424aed8dea3bf4925db7437e0fc255e1010c09e7287ee4c29137eba42ea",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "frontend_defines": [
+    "-D__CHAR_BIT__=8",
+    "-D__SCHAR_MAX__=127",
+    "-D__SHRT_MAX__=32767",
+    "-D__LONG_MAX__=9223372036854775807L"
+  ],
+  "reference_build_flags": "-std=c99 -O2",
+  "source_hashes": {
+    "util.c": "833a66c4c703cd47d7855cfd4b9f77642bdd0d35c6914c0baa3cd555031e35dd",
+    "fold.c": "3544071a30cc049320838f3bf44c1f83171117735fd2bb67959b2bc0a4431be8",
+    "LICENSE": "add7f24e6d31aab495e9741f0c10ece97fda25a33047c423bfcd7b1db330653a",
+    "all.h": "61bc106ffb07e0abe0b418f95ac7e1a9e4c6bcf8c308d8743562299129056519",
+    "cfg.c": "99099b6c39fbf9de442811c9e5e57417d6ef13ffa534ff6c82cade4fcadcf438",
+    "ssa.c": "a06727f6e5f6786e6fb1f30912631896007b9867dfd64e3e27a754ee9a9332c8",
+    "emit.c": "48af42e44d5017102e6ec7bec00465304f324f89160a93825f4952a257702031",
+    "Makefile": "3a544741d5f3b92428e26708a98e51ab7ecc96ba2f7683ad6a8ff67f99b24c6d",
+    "mem.c": "4229d499db4186086b2d02ac78c983a6f31012d350bd281128ea61c037af4b65",
+    "spill.c": "d8b5367c4531faedbd4e073ccd955557a8e2333f9240d9f186f62dde777baebe",
+    "live.c": "19f084507c5f38f213e90193c11111e6079a06e3dd13f80df4b9e2c65b6a5eb5",
+    "abi.c": "923a5ea94e088e8ee4435924b38c0efaa601e4fc3b65b1964d70903491533103",
+    "gcm.c": "6af05af2af79bdd217b53133735e1d98fede157ee46ca1aac54c337a817ac586",
+    "rega.c": "167270237fb1a6a528f7f53bda895eb46074d42ac1d4a41ae9489706f10ae9ff",
+    "copy.c": "f1b6ebcb4802e2aa32239c905ae47aea0c6d1335cedcbb2a0e3aad8d18f4e06f",
+    "simpl.c": "0c14d2e5cc81bf6250a92f4c54eb8d453334100e127796b7a2e84f40b6e00254",
+    "README": "fa6f634fc6c5b9e428beb8dbad447fa37eff38ab9f4e8368b0c782e8b58ea5ee",
+    "main.c": "a6a9a128d2dc5f9db117a2d25843c0124d80609d1f1c176e3c71de188fd0ade1",
+    ".gitignore": "43b6dfef5d02e7de54e141906ec23649f01b53ce72f564687e18503827a7beed",
+    "gvn.c": "d09e291f14d1b777c2a27ddbf128eae02c7d649ccd88b2d180c29c2bf6b0e6a9",
+    "alias.c": "c210400e482f4ad2576d238d8cc411e0b1984ca57fb5d5ec849ed83fb6fd404f",
+    "ops.h": "39a2fe3c63ef4ab9c67d894ba83324ff6f9cdcdb3c5fe81f96efedf0350cf8ba",
+    "parse.c": "e762d78e1890af5c06daa581cfd40b30fcaa840450f32ca9cf2b141740a869da",
+    "load.c": "1b35c950499fa6c8d8a562ced54a531cd39adc384fc637922e69498e6bbb8b71",
+    "ifopt.c": "b4d49edd190dabc6b183453de5237d2ba33607739b61d6d9f1a2c8c1369f2f86",
+    "rv64/targ.c": "82668853f271d1dc20b914a2e0f402764e42951a75059ba29d4e0f77fe85cb83",
+    "rv64/isel.c": "95500527dcc4036b239b2ab62525aa1df0a645df142647756756526343a87846",
+    "rv64/all.h": "2636f565c1e4a2e4aff1fe9501c40220a4eb67e905e650f4f734ab8714d53d5f",
+    "rv64/emit.c": "4d76c3878e19a8d22a060300d43feab4fb54b589b341bb94e34d2fa4393999d3",
+    "rv64/abi.c": "c9ad2cfcb7ee56d8cd99e3cae2d4961929e099fc47f6e2b4a82162ed1fd92f22",
+    "tools/pmov.c": "3b3eb463f34424035ec79513f1ff64b749c4d382c17e4d73355508a7d9ea4964",
+    "tools/callgen.ml": "72325141ca3624e543e4c3f121802010ca99f0e93137cd761ca2d0352e9b44ff",
+    "tools/vatest.py": "42db35fe76e50f01cde8ceffa2cfa85780380cb7b2099693c7aacaa769c43ab7",
+    "tools/cra.sh": "79a3070f1be16e3cc3b8a841cef7b56f230477f8be5e94503ce03e601a23170e",
+    "tools/lexh.c": "4e6183a33f9abf412d7ea267897a07da4c972804d3b17d171dd68bcc2eced5d6",
+    "tools/log2.c": "ed282110b0e7cabf3e69a6fcb6c4dc44bf37369b97b904e8991211b61625db57",
+    "tools/abifuzz.sh": "1b9416517f334ddfdbfb9e72ce391e18fa402995f7135cbc41f8a733a0aabc1b",
+    "tools/abi8.py": "22a96bd793ceaaa4c17cb8b7aea75e64db481b780516792dfc24b2a04d943367",
+    "tools/test.sh": "74796a084e0ddb69e6679eb1dcc1fa3dc9f720fa2d4807c08be702e2f915f319",
+    "test/isel2.ssa": "ffdbdbfba74b85eee8f9c69539f72d329bab213d86f9fda7030135562593f186",
+    "test/ldbits.ssa": "43756455d2e58a8b1e7b0d7b0c0030b2008c62a88d017a216ba655583e075ec1",
+    "test/isel3.ssa": "a199aaecd4176b32eed30daaf6e92a293b50f17813168efc53a6a6632c9aee2a",
+    "test/mandel.ssa": "5f6ddb545e276d159570ea7ec3f91aa374acf449eb2759cfe77d373fc72e8c7b",
+    "test/isel1.ssa": "32a5f1c2ff32bf22d92bc0e543084a7e96b5172ad5f6a988e818c813e3687ef5",
+    "test/copy.ssa": "4e404dc9d755109de053dab761327167ddc817bb47c824140722b2d05bd8416c",
+    "test/_bf99.ssa": "72ae5fb8887972c6887d9149395fe62cbbe621ed89f26e08149bb1998af14ef1",
+    "test/_rpo.ssa": "63d5c64304f006b51f4e54f044cd30aeeaece8e521109ff5ab8d887b216c043a",
+    "test/conaddr.ssa": "49941972ad1ca03a76ff6c4bf8e85f9c2e91517b1e3b4e414234d35cee8c43f1",
+    "test/isel4.ssa": "bf521030b22117e54daf66afc3c67877e2ad699f0fcd6743c5700629d105c111",
+    "test/load3.ssa": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+    "test/load2.ssa": "49215dded4b09d5f8d6c976c985068a1a97acab8125dfea373d784f4b5827b44",
+    "test/isel5.ssa": "6382c7d98a92c78717c585e90be6d62e13c762be4ec48e458ba50979ae693b11",
+    "test/alias1.ssa": "c58146da60a5e157fac5c5636ee1747851660b643aa1212d907f96cec37f4c1f",
+    "test/sum.ssa": "b1580fe79ba46691fd9145fb89a3cbec105865c9e3053f34ff3b8ee2c17ad2f2",
+    "test/loop.ssa": "0c013790c40e20ade3ab5ede4fa450196e82a56811b32ffb19e06cd4c9ba8ff1",
+    "test/load1.ssa": "070cbd2ac1ab3d8565bec32225a84e3eb440283963ca733180a7eb64e73a3843",
+    "test/isel6.ssa": "6316bf3bb1b0398f67b08101727e20bf1c6da4fea760385cea677c820e9a9058",
+    "test/puts10.ssa": "7ec69098b239e124724d3e678ecb291800ff3e004c1b19022b9b1a4f5fc5b7a2",
+    "test/abi2.ssa": "7164037f72c213a348f5ab580e63f3f6924f92f179d9b5f647691dda0e00dc30",
+    "test/_bfmandel.ssa": "440f49a38c02728f333fa846969623c14448dc9407984817da2322552aa13990",
+    "test/abi3.ssa": "38f94339a421efb68258e6fa4f64e4fd7909617dbc848e338884db6b524e8f9f",
+    "test/abi1.ssa": "8bfcc7af87a8cb45bde00461a73e1008e871f2a3879f778ab43b453bf1090159",
+    "test/dynalloc.ssa": "53578be74882aee600e6a00997be24712d2650b8debdda86b75f859ab4fca6c8",
+    "test/eucl.ssa": "9ed32b05ba1e20f5a7aa589e754a8b8cc9fb51419a1a473f7c180f3975a88e3a",
+    "test/abi4.ssa": "055db9a58500e1fc371c46f53a4d92ed369746a8f098411dbaffb2bc912af60b",
+    "test/abi5.ssa": "38fb92ec37f473dc2ea64d150004c18e45ec2f1b79e9a3c5c260750ba84055ff",
+    "test/max.ssa": "b2c524eea0cbe94594036e579ee41ce363d82ecf9a6c645200b2ef5c36167df3",
+    "test/cup.ssa": "ecc28fe5adb5cb44918e5474f2d9a9a19f9324eadd3bf03fc68f5e802aeaf775",
+    "test/fixarg.ssa": "dd59861481ee51c7b43cd4f4014141aaa07062e4893170bd5e845bb79f934df1",
+    "test/strcmp.ssa": "971f58decd24599f4834d0bf808bf60f929998cec0988bcb18c4be9ad68d3a55",
+    "test/abi7.ssa": "db0978ea0dd926ea37d69ca26e76f3b96b163e574eab07388132b13cdd4ea1cb",
+    "test/abi6.ssa": "5f5584de651fbea79de0ccb3e71223825716acad41e16e4958396c0fbb93f947",
+    "test/_load-elim.ssa": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+    "test/ldhoist.ssa": "69eb55e3af26a5caf3043cb4701a6788590a60e12dc2dfb738823f84c1a69376",
+    "test/_live.ssa": "64ec49c87978cd05beeb2d7ff8bb071e19e9161a1dd3970c07542bb3ada59b40",
+    "test/_spill1.ssa": "1bd406055470f450c7416419941b2d38c67c2674d525ac7ec9a0aff00ce2f2c7",
+    "test/cprime.ssa": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+    "test/philv.ssa": "c952c8ee18c78c7b0372da1abbaf6237119828361d0adbe61b2341bd8792b12f",
+    "test/tls.ssa": "b97fc2c8d39cfda18e1ae928584ae9b7c6debf3fbba62c9bb2a16841df2abea8",
+    "test/spill1.ssa": "7d3300e5a50b700bac4f583c0d9aad897b76340673c89c67a565e3444ea836e6",
+    "test/_spill2.ssa": "74ac81e0f6de3b2ffd9b110121e461da1e6e84003ca28938601353598b199b27",
+    "test/rega1.ssa": "7f6222cec0042e10c6d1a6251ac6e75554370b2f8d0a8d6cad06b5ce8cebf224",
+    "test/abi8.ssa": "e471e0a30c39bc6105953d5ad2b501cf9bbb8113d0bd34cad4dbb7c23b6a2877",
+    "test/abi9.ssa": "e3e092f679adf015f7829940f29cf2cac7255ca64ffb94d9782c0a6f33476824",
+    "test/echo.ssa": "a2c7f1c4f967d5b61f9271e0e839371d161423b2ce122753ce8bc20a069735d7",
+    "test/_spill3.ssa": "fa68a2000e7a5940c33e45b5d2456367250959d66e15bfc425962cf0ee594836",
+    "test/mem3.ssa": "952465f9f3d79f78a1c2576fdb4134d2ab15c61f9128be0e6d398aaf150be27c",
+    "test/env.ssa": "ea28b83be22662df7f03c7aa339dd10647c97b0c9bf4a87cdf6fe8957d0df4df",
+    "test/_alt.ssa": "5bd52cf1e30b1f0bc038c20ae80ffc605c520a635a693923fea47b817e6ab1af",
+    "test/vararg2.ssa": "02f27e1d3a5d1001def434d94d79bd5bd1d8cab7947b4298ae6b1c524269b5b4",
+    "test/_gcm1.ssa": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+    "test/_dragon.ssa": "153f712b8de8d0f57a617467c2cf68e844818cd383d7f59fb1210384d6ed3165",
+    "test/mem2.ssa": "95e7b786aa8205555700b7003a1c0e2cfcd9774cc2560df80ddb47e4abd5d3e4",
+    "test/prime.ssa": "bb8cbff468347a4cae7b8bb42a70c1a8642b1bb83bbd31af442f3071d54521cf",
+    "test/euclc.ssa": "29ad0153e8eb60a20e7d449bc43faede8d4323f2d66ffbb092297bd2e2fde72f",
+    "test/vararg1.ssa": "8e881b4105fc95deecf57c7d1b5339611225dfd9a8a39422288527617b342dd2",
+    "test/align.ssa": "55fdab6dc709d040abc9eca6f2484f7b624e98057c865c60b1d13b3ebf31cb61",
+    "test/_gcm2.ssa": "53ad71740fa485b3ebdec3bce0d1079b7ff2123e8e6d903104890d34be182302",
+    "test/strspn.ssa": "3657178e2a2bc77cdea75d659b440d05f533ee190679d002fc9e17d171d8aefc",
+    "test/mem1.ssa": "b3b5545b9054d5f96f29ae692a7ad128b6559ff9c645bb94b114164c35f067e3",
+    "test/gvn2.ssa": "7b9f291de76d3a2927cb2615608427985697aec86c3ad593748aaecda513d248",
+    "test/dark.ssa": "6a03914f4ea621f16fd4d866507f34a78ebb33d7f93978a1c5b1912aca64bcb0",
+    "test/ifc.ssa": "71372a2da4188349ffc50922ede4a20a29c9f5d3be0adec6412797a7667c40d2",
+    "test/cmp1.ssa": "24e123980be560396e3323cfa7ca889585c3c9d44f5fc5021d67f4a52fead544",
+    "test/fpcnv.ssa": "c21291e8622c582f988326bb227c82664d3832b00d6a5b021ad2c07d8ed1dc9f",
+    "test/fold1.ssa": "cf5c6213aa87b06b867abd393befdbaf6b1299ffda5613fbd241583e3f36534b",
+    "test/_fix4.ssa": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+    "test/collatz.ssa": "8b9b7aa9b409c8e5b63bc9b0d237baccbd992a81cfc2d93fb522589c1746b445",
+    "test/gvn1.ssa": "b348d145f28297d843863cadfe6cbc4a2a9ab146f215fb3ca48be82eed4da7a1",
+    "test/double.ssa": "8658801b2a3dacd115582b05c4ed2ea69fe4b91e5fa4a2c91f56dd5bf461df18",
+    "test/_chacha20.ssa": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+    "test/_slow.qbe": "837691533c8a5e22b6971db94a4da7574b08414b85623b45012b7404c1280f95",
+    "test/_fix1.ssa": "581dae6814d060cd7ec4eab55ac37fde0a0a00d343626a09800361afb2c03dae",
+    "test/queen.ssa": "414170ef76a28aa2a6e87841bba8a93f8959fe2ebaae3c01a8ab6a015155b90d",
+    "test/_fix2.ssa": "86c5a15198cd32f26ef54b558de5f720dfea6865c809f22a1cc505935432a13a",
+    "test/_fix3.ssa": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+    "amd64/targ.c": "e53960a60eb5c1d3364bb8595bb64b3f5827db9436f886432de368cbb4e22211",
+    "amd64/isel.c": "049096f821fdb5035a68838f313c2f6431e8a5178a8958a9259bf566ef977eb5",
+    "amd64/all.h": "8ce357c9b3c7970a0160bc02c3ef61197bb1d469b06a93b08e0ac5b9061f55e3",
+    "amd64/emit.c": "b2563a49370154419246b11c4f6f2cd45e0f7c1327e491a2c7d2a2d4c8f8c36f",
+    "amd64/winabi.c": "abea8f315c09fc26a5df7abbbc98470a6113d08a866bbbdf7928825d10dc6ec9",
+    "amd64/sysv.c": "d7b867b243dba484924e46062ccb3ff1ca44243ad06004f8a7b8f6cd937d6ec0",
+    "doc/llvm.txt": "af2a0ce4bc5f2d98243c609ead421b26fd6ee4a829df2501f77d5c1904603e00",
+    "doc/il.txt": "65ccd9585dfaf6dd27a5fb5fa2cbe6363097c98e20cb2815785234f1eaf39daf",
+    "doc/win.txt": "0c677c8f8ce5d40d60301ca51ac46bf1655cceed3c46edb2d68f63e1e1b786dd",
+    "doc/rv64.txt": "d5b8f76e89d9e62e60c48c17c49085359f7be195740134186eceac39a0e7bc7a",
+    "doc/native_win.txt": "fcb9231085c72909d9e8542aac88be14e61f52421a7646c28c139cacbd09ccfe",
+    "doc/abi.txt": "2707369f86df7db168e7495891049ab8bc82f64b1ea157b5cd336ba72304372f",
+    "minic/Makefile": "216cd4a8e295db9ef0f6d96eb83daddb75e1f51137e0580ac92ede9e9ae7382c",
+    "minic/mcc": "61e27ac879db3c0560535f8b3ba6a6c5f80ca97afa7f462866f01c20569e462a",
+    "minic/.gitignore": "b81039a453138d1d4c1ef2bd4598512b1691afdb8164e48410a06528c8000837",
+    "minic/yacc.c": "42a71ff6fb0f5eb861923682833dbd53a3d6cdabb1f0fab8bd3cb9f0fcda4d59",
+    "minic/minic.y": "3ad958541b34cc9c7a32da59003d1c8482a0f291777aa3865a88a7134f8e9399",
+    "arm64/targ.c": "5215bee5bae89d5d95cec3a4ddaea32ff15e6d35952c248f1d49653609c6dac7",
+    "arm64/isel.c": "3e7eab441eb37ae1cc29916586a6bfe1c55012400766e733d30dbc528f5747ef",
+    "arm64/all.h": "0c7503dd82c3efd65e1876865e4dcb2b6af287e43942cf9452ddbdd0473df52d",
+    "arm64/emit.c": "3dc7280fe44797b56c00194091d2686b90317f673b2175a87df89fa0a6f3cabf",
+    "arm64/abi.c": "1e881c0d2443e8a37b54ec9cb4474963bd5635286a5067df611e11ab250cccb5",
+    "minic/test/mandel.c": "835dc25eb3c7afb3aa0f89b2f5aa369f926990ac6b5a266511f9d49d982c1164",
+    "minic/test/knight.c": "a1b4f6c89d47c2e6ff2bff91a580a8525470ec638f02577aa4343b5e61ee128d",
+    "minic/test/queen.c": "7e01a19ba293d5c68425250cb85a613900b8e2ea77f02ae94c33b92aa0b89493",
+    "minic/test/collatz.c": "08962ec9ae1148ed40d29c9100e9ea72f4517375114cb8ad6e4f20cc5a10ccdb",
+    "minic/test/prime.c": "910ff8512e54e6b1b6fcf2a1656ecea2b3d475131c4acdb5b27fb05ac542b86c",
+    "minic/test/euler9.c": "4fcd8d845a822e7a52db18249283a5c7d87a01fb627214126c2707c15fc05f44",
+    "tools/mgen/cgen.ml": "4c4e66754eb694ab7b3fb8644acf61e1608ebb3ed32874219c0ee910e053cb9b",
+    "tools/mgen/match.ml": "8e5b4b9f93d71b6bef45f28787b3d477a5e458e3973248e989541b3b695e9fe6",
+    "tools/mgen/Makefile": "08d3afbf5a3280d5e59d8f337f85e54630717b9976bc1740446de0ad60f575f2",
+    "tools/mgen/.ocp-indent": "9d64bbd561a0cc7896d7cd574375fee38773655a76003e78861d6fe66237d912",
+    "tools/mgen/fuzz.ml": "b4730297bc55639fbcc725f06211b49f6206b98b4f006554db31ceb7e979e526",
+    "tools/mgen/main.ml": "231741d58ae935fda00a5e5512e74d450d74518c8e5af30a87d24b41686ec908",
+    "tools/mgen/sexp.ml": "f4551363b67895d0a65fd851eada71174539832d2214fed09339519acb7cd2a7",
+    "tools/mgen/.gitignore": "116df4b2318956380f1d2da6e6fad022c4742895da6be9de6ad93af568d447f5",
+    "tools/mgen/test.ml": "f0fd09d27acb3c01b09da4ec64423c39b02c55653d0a1db41918ed4ec818df1e"
+  },
+  "translation_units": {
+    "main.c": {
+      "ir_sha256": "e0606633ea118faa5c57c1af47a2b4638fa1ace82a6b2dc0549369fbc90de74e",
+      "bytes": 22229,
+      "lines": 925,
+      "functions": 14
+    },
+    "util.c": {
+      "ir_sha256": "cc46105795ee82e76b98f89e9e90fd2ffd85d94441d85078454a97a425e01318",
+      "bytes": 73038,
+      "lines": 3457,
+      "functions": 61
+    },
+    "parse.c": {
+      "ir_sha256": "f82d16a276b1b03c9bbc7617edbd801a28e71176fcd29754a317e7b9976ba267",
+      "bytes": 192491,
+      "lines": 6798,
+      "functions": 39
+    },
+    "abi.c": {
+      "ir_sha256": "8646b7a821848b35b35018dc8279ef67c832b49dd983e226e6a1bbb8644dfee4",
+      "bytes": 6427,
+      "lines": 319,
+      "functions": 11
+    },
+    "cfg.c": {
+      "ir_sha256": "f4968f1c5a53f1aabd139bbb159d316aa32655ca53e93d897ddc25502f46ca66",
+      "bytes": 61045,
+      "lines": 2936,
+      "functions": 38
+    },
+    "mem.c": {
+      "ir_sha256": "30d5e26100d9762c35e5f96c448adc01d26744cd3cced20cb3bb1e16a1d9e3c8",
+      "bytes": 74282,
+      "lines": 3217,
+      "functions": 20
+    },
+    "ssa.c": {
+      "ir_sha256": "6388264be6e45cfa89e7c3b6b1028284d9b55682a17fbecaa6e6c48b4d658812",
+      "bytes": 55620,
+      "lines": 2537,
+      "functions": 22
+    },
+    "alias.c": {
+      "ir_sha256": "a2f697f67b38ce1008bb730ff1398d46e07f7037d2e0499ad954a482548f2b6e",
+      "bytes": 30693,
+      "lines": 1382,
+      "functions": 16
+    },
+    "load.c": {
+      "ir_sha256": "4ba940829dc4066e3a63c2bfd45c1c49253d629747490ab71e56ea88e255b28b",
+      "bytes": 63126,
+      "lines": 2790,
+      "functions": 21
+    },
+    "copy.c": {
+      "ir_sha256": "66353f1af63fa6d925254b650ae28eff97e69e84edfc20e1d62a79cc60e0113b",
+      "bytes": 50855,
+      "lines": 2288,
+      "functions": 23
+    },
+    "fold.c": {
+      "ir_sha256": "f767081fc3636171f00d1864a57c2edc3fd8a661e1ec829225814730641d8152",
+      "bytes": 49300,
+      "lines": 2187,
+      "functions": 15
+    },
+    "gvn.c": {
+      "ir_sha256": "526ad11129866e108e313a0c4965b67e111b2ce915e335d9121fdd7429dbd5e4",
+      "bytes": 53405,
+      "lines": 2452,
+      "functions": 33
+    },
+    "gcm.c": {
+      "ir_sha256": "30223f4a84990a569cce7ce8907ac6abdbf433a321bd4cefa22ce8dfc1f15b95",
+      "bytes": 47386,
+      "lines": 2185,
+      "functions": 31
+    },
+    "simpl.c": {
+      "ir_sha256": "ccb830afba4798298592ca803ba6d63478ea70e4c0a37acd21f2d0ada9bf7264",
+      "bytes": 17022,
+      "lines": 767,
+      "functions": 15
+    },
+    "ifopt.c": {
+      "ir_sha256": "0bb92bd11458484cf629579ae08c2c72af72fee232226f3908664eab03c06c9e",
+      "bytes": 15215,
+      "lines": 706,
+      "functions": 15
+    },
+    "live.c": {
+      "ir_sha256": "75b9a37222feaf6616b007d2ac339f6884e41756a3999b42521403a9742e71f9",
+      "bytes": 24866,
+      "lines": 1104,
+      "functions": 13
+    },
+    "spill.c": {
+      "ir_sha256": "e6a5bb7fa327dd79fadd5592ac1a479387cf166279a9148d307f1c6c86c45e87",
+      "bytes": 57744,
+      "lines": 2538,
+      "functions": 25
+    },
+    "rega.c": {
+      "ir_sha256": "4ce4f2f4cbb54fe1c816a9deb2b66851823a070ec0817780519962de7a09f9c4",
+      "bytes": 108135,
+      "lines": 4677,
+      "functions": 32
+    },
+    "emit.c": {
+      "ir_sha256": "f3f7c618cd9b95594d54ea551bdb972d611e58f74196f238a79d78f7b15d13ec",
+      "bytes": 24652,
+      "lines": 1024,
+      "functions": 21
+    },
+    "amd64/targ.c": {
+      "ir_sha256": "6eec46edc10c34f0be611e44dd79bdeb0a784a831d240724be50493b0840bda7",
+      "bytes": 7946,
+      "lines": 230,
+      "functions": 11
+    },
+    "amd64/sysv.c": {
+      "ir_sha256": "3e0c8eaac4e06df1f469b8894acbbf2ab3730d938f9445e1a442a6b781e0b01e",
+      "bytes": 106279,
+      "lines": 4489,
+      "functions": 25
+    },
+    "amd64/isel.c": {
+      "ir_sha256": "2042886ba37030a26cb7a6cba685b418c03a498d8a058a0a9f85222b6dc4d875",
+      "bytes": 136809,
+      "lines": 5654,
+      "functions": 27
+    },
+    "amd64/emit.c": {
+      "ir_sha256": "1e50a925760278d422bdaaa0656eca4ab7f1bfd67979f86d67f1523dd4d985df",
+      "bytes": 107528,
+      "lines": 4005,
+      "functions": 21
+    },
+    "amd64/winabi.c": {
+      "ir_sha256": "16f951d84b919c3bde5d606301c08dbcca4e31196dceed42ad80fd11214b1156",
+      "bytes": 101087,
+      "lines": 4211,
+      "functions": 27
+    },
+    "arm64/targ.c": {
+      "ir_sha256": "d7ef6c4682d9cfbcdb5e6d822ab11c4dfb16c73b9d22d5decf1c0c1986921a1d",
+      "bytes": 5509,
+      "lines": 224,
+      "functions": 11
+    },
+    "arm64/abi.c": {
+      "ir_sha256": "ac7daff498d4fec7ff67a77a7f29fb57e5d0b65e74e52219795c677ee069cfaa",
+      "bytes": 116730,
+      "lines": 5007,
+      "functions": 30
+    },
+    "arm64/isel.c": {
+      "ir_sha256": "1d88315756d2118da2f5f2f88fb14f06c851fdbad0f75e75d8c582e88af39f5b",
+      "bytes": 43961,
+      "lines": 1951,
+      "functions": 18
+    },
+    "arm64/emit.c": {
+      "ir_sha256": "f35bab873a675dc3465af3035ea4295b63205debed882cba360d2f0e3eb15abe",
+      "bytes": 82687,
+      "lines": 3082,
+      "functions": 19
+    },
+    "rv64/targ.c": {
+      "ir_sha256": "9e193f05caab75267c8fbc1fb6a89d1ca9154829d54d22d8703aeae079da788f",
+      "bytes": 5964,
+      "lines": 224,
+      "functions": 11
+    },
+    "rv64/abi.c": {
+      "ir_sha256": "677929ed35b112ab5675046c4af49b819a5b69c6bcf51855d700a3ffae0f19ab",
+      "bytes": 97588,
+      "lines": 4197,
+      "functions": 24
+    },
+    "rv64/isel.c": {
+      "ir_sha256": "68fc113f457660a1a1849895b249ace19dc007fb085efe9642193fbe8c0ef0d0",
+      "bytes": 38378,
+      "lines": 1674,
+      "functions": 18
+    },
+    "rv64/emit.c": {
+      "ir_sha256": "b1c71b81d7a4f725887837a1d2a356d7b57a6d5dd86eef11ba4e0858b7c6908f",
+      "bytes": 67806,
+      "lines": 2405,
+      "functions": 18
+    }
+  },
+  "backends": {
+    "baseline": {
+      "compile_seconds": {
+        "main": 0.031424415996298194,
+        "util": 0.036688457999844104,
+        "parse": 0.09828574996208772,
+        "abi": 0.02545537502737716,
+        "cfg": 0.04321333399275318,
+        "mem": 0.12020279199350625,
+        "ssa": 0.049667333951219916,
+        "alias": 0.04321383300703019,
+        "load": 0.04760499997064471,
+        "copy": 0.046087415947113186,
+        "fold": 0.05773416697047651,
+        "gvn": 0.037966417032293975,
+        "gcm": 0.035090207995381206,
+        "simpl": 0.03132787504000589,
+        "ifopt": 0.02964429196435958,
+        "live": 0.03212020796490833,
+        "spill": 0.058813416049815714,
+        "rega": 0.09754395799245685,
+        "emit": 0.029365082969889045,
+        "amd64-targ": 0.03120016702450812,
+        "amd64-sysv": 0.09302837500581518,
+        "amd64-isel": 0.161445084027946,
+        "amd64-emit": 0.10672516596969217,
+        "amd64-winabi": 0.10145412501879036,
+        "arm64-targ": 0.02639483305392787,
+        "arm64-abi": 0.08233583398396149,
+        "arm64-isel": 0.04044095799326897,
+        "arm64-emit": 0.06718275003368035,
+        "rv64-targ": 0.027528125036042184,
+        "rv64-abi": 0.07569416699698195,
+        "rv64-isel": 0.03874608303885907,
+        "rv64-emit": 0.056099082983564585
+      },
+      "total_compile_seconds": 1.8597240819945,
+      "link_flags": [],
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n1374859\t  42634\t16912400\t18329893\t117b125\t/work/qbe-bootstrap-riscv64/qbe-baseline",
+      "fixture_assembly_matches": {
+        "arm64": 76,
+        "arm64_apple": 76,
+        "amd64_sysv": 76,
+        "amd64_apple": 76,
+        "amd64_win": 75,
+        "rv64": 76
+      },
+      "self_ir_assembly_matches": 32,
+      "original_runner_passes": 58,
+      "original_runner_log_sha256": "f86ab64d9e88ef9fdd4405bff5488e395b1a9e8375cd80ad6025382bd7889d02"
+    },
+    "optimized": {
+      "compile_seconds": {
+        "main": 0.03914229100337252,
+        "util": 0.0620001659845002,
+        "parse": 0.1541340000112541,
+        "abi": 0.02799337502801791,
+        "cfg": 0.0657376250019297,
+        "mem": 0.14402533398242667,
+        "ssa": 0.0576458330033347,
+        "alias": 0.04796608298784122,
+        "load": 0.08225991699146107,
+        "copy": 0.057551125006284565,
+        "fold": 0.0768391250167042,
+        "gvn": 0.05587662500329316,
+        "gcm": 0.05289533402537927,
+        "simpl": 0.034447250014636666,
+        "ifopt": 0.03326008404837921,
+        "live": 0.04523841600166634,
+        "spill": 0.07590945897391066,
+        "rega": 0.13044099998660386,
+        "emit": 0.03648362500825897,
+        "amd64-targ": 0.032763375027570873,
+        "amd64-sysv": 0.11187329096719623,
+        "amd64-isel": 0.1610019170329906,
+        "amd64-emit": 0.12131887499708682,
+        "amd64-winabi": 0.14172904094448313,
+        "arm64-targ": 0.027494832989759743,
+        "arm64-abi": 0.12414962501497939,
+        "arm64-isel": 0.05470683303428814,
+        "arm64-emit": 0.08946983300847933,
+        "rv64-targ": 0.03126424999209121,
+        "rv64-abi": 0.12199720798525959,
+        "rv64-isel": 0.050718082988169044,
+        "rv64-emit": 0.07016825000755489
+      },
+      "total_compile_seconds": 2.418502081069164,
+      "link_flags": [],
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 817465\t  42634\t16912400\t17772499\t10f2fd3\t/work/qbe-bootstrap-riscv64/qbe-optimized",
+      "fixture_assembly_matches": {
+        "arm64": 76,
+        "arm64_apple": 76,
+        "amd64_sysv": 76,
+        "amd64_apple": 76,
+        "amd64_win": 75,
+        "rv64": 76
+      },
+      "self_ir_assembly_matches": 32,
+      "original_runner_passes": 58,
+      "original_runner_log_sha256": "f86ab64d9e88ef9fdd4405bff5488e395b1a9e8375cd80ad6025382bd7889d02"
+    },
+    "qbe": {
+      "compile_seconds": {
+        "main": 1.9995635829982348,
+        "util": 0.010152374976314604,
+        "parse": 0.019600541971158236,
+        "abi": 0.005636083020363003,
+        "cfg": 0.009301832993514836,
+        "mem": 0.010570915997959673,
+        "ssa": 0.008710958005394787,
+        "alias": 0.00964429194573313,
+        "load": 0.01124270900618285,
+        "copy": 0.008138292003422976,
+        "fold": 0.008501957985572517,
+        "gvn": 0.010358542029280216,
+        "gcm": 0.007990874990355223,
+        "simpl": 0.006235125008970499,
+        "ifopt": 0.006424958992283791,
+        "live": 0.006604083988349885,
+        "spill": 0.011969749990385026,
+        "rega": 0.012195500021334738,
+        "emit": 0.007111291983164847,
+        "amd64-targ": 0.00487975002033636,
+        "amd64-sysv": 0.01270737504819408,
+        "amd64-isel": 0.01606724999146536,
+        "amd64-emit": 0.013185040967073292,
+        "amd64-winabi": 0.012434084026608616,
+        "arm64-targ": 0.005213041964452714,
+        "arm64-abi": 0.0146545420284383,
+        "arm64-isel": 0.009384458011481911,
+        "arm64-emit": 0.011264749977272004,
+        "rv64-targ": 0.005628791986964643,
+        "rv64-abi": 0.011737750028260052,
+        "rv64-isel": 0.009011083981022239,
+        "rv64-emit": 0.010281375027261674
+      },
+      "total_compile_seconds": 2.306402960966807,
+      "link_flags": [
+        "-no-pie"
+      ],
+      "failure": {
+        "phase": "link",
+        "exit": 1,
+        "stderr": "/work/qbe-bootstrap-riscv64/main-qbe.o: in function `data':\n(.text+0x3ea): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/util-qbe.o: in function `igroup':\n(.text+0xf78): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/parse-qbe.o: in function `typecheck':\n(.text+0x2b30): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/cfg-qbe.o: in function `ifgraph':\n(.text+0x1928): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/mem-qbe.o: in function `promote':\n(.text+0x590): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/ssa-qbe.o: in function `renblk':\n(.text+0x1402): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/load-qbe.o: in function `loadopt':\n(.text+0x234c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/copy-qbe.o: in function `narrowpars':\n(.text+0x107a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/fold-qbe.o: in function `opfold':\n(.text+0x120a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/gvn-qbe.o: in function `rcmp':\n(.text+0xb0a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/gcm-qbe.o: in function `isdivwl':\n(.text+0x3f8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/simpl-qbe.o: in function `ins':\n(.text+0x80c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/ifopt-qbe.o: in function `convert':\n(.text+0x7d2): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/live-qbe.o: in function `filllive':\n(.text+0x712): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/spill-qbe.o: in function `tmpuse':\n(.text+0x51e): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/rega-qbe.o: in function `rref':\n(.text+0x690): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/emit-qbe.o: in function `bshas':\n(.text+0x37e): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/amd64-sysv-qbe.o: in function `selcall':\n(.text+0x1c98): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/amd64-isel-qbe.o: in function `fixarg':\n(.text+0x71c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/amd64-emit-qbe.o: in function `slot':\n(.text+0x404): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/amd64-winabi-qbe.o: in function `lower_vastart':\n(.text+0x2142): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/arm64-abi-qbe.o: in function `selret':\n(.text+0xd08): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/arm64-isel-qbe.o: in function `fixarg':\n(.text+0x658): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/arm64-emit-qbe.o: in function `rname':\n(.text+0x5f8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/rv64-abi-qbe.o: in function `selcall':\n(.text+0x2100): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/qbe-bootstrap-riscv64/rv64-isel-qbe.o: in function `fixarg':\n(.text+0x7ce): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\ncollect2: error: ld returned 1 exit status\n"
+      },
+      "fixture_assembly_matches": {},
+      "self_ir_assembly_matches": 0,
+      "original_runner_passes": null
+    },
+    "qbe-corrected": {
+      "compile_seconds": {
+        "main": 1.2456161250011064,
+        "util": 0.011141458002384752,
+        "parse": 0.017751082952599972,
+        "abi": 0.006923666049260646,
+        "cfg": 0.010569749982096255,
+        "mem": 0.013143290998414159,
+        "ssa": 0.01096170797245577,
+        "alias": 0.008819333044812083,
+        "load": 0.012468083994463086,
+        "copy": 0.010655916994437575,
+        "fold": 0.007536791963502765,
+        "gvn": 0.011163458984810859,
+        "gcm": 0.007872958027292043,
+        "simpl": 0.00616516696754843,
+        "ifopt": 0.004947708977852017,
+        "live": 0.007768624986056238,
+        "spill": 0.00931666704127565,
+        "rega": 0.015118541021365672,
+        "emit": 0.007314792019315064,
+        "amd64-targ": 0.005537374992854893,
+        "amd64-sysv": 0.012249499966856092,
+        "amd64-isel": 0.014412459044251591,
+        "amd64-emit": 0.014072499994654208,
+        "amd64-winabi": 0.011672125023324043,
+        "arm64-targ": 0.006137250049505383,
+        "arm64-abi": 0.014902665978297591,
+        "arm64-isel": 0.008057124970946461,
+        "arm64-emit": 0.011771875026170164,
+        "rv64-targ": 0.005946042016148567,
+        "rv64-abi": 0.014091792050749063,
+        "rv64-isel": 0.00865475001046434,
+        "rv64-emit": 0.009532915952149779
+      },
+      "total_compile_seconds": 1.5622935000574216,
+      "link_flags": [
+        "-no-pie"
+      ],
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 249259\t  41714\t16912400\t17203373\t10680ad\t/work/qbe-bootstrap-riscv64/qbe-qbe-corrected",
+      "fixture_assembly_matches": {
+        "arm64": 76,
+        "arm64_apple": 76,
+        "amd64_sysv": 76,
+        "amd64_apple": 76,
+        "amd64_win": 75,
+        "rv64": 76
+      },
+      "self_ir_assembly_matches": 32,
+      "original_runner_passes": 58,
+      "original_runner_log_sha256": "f86ab64d9e88ef9fdd4405bff5488e395b1a9e8375cd80ad6025382bd7889d02"
+    }
+  },
+  "rejections": [
+    {
+      "target": "amd64_win",
+      "input": "tls.ssa",
+      "exit": -6,
+      "stderr": "amd64/emit.c: dying: extern/thread unsupported on amd64_win\n"
+    }
+  ],
+  "oracle_patch_sha256": "6fda32c5e68d3b09671836fbd7f07b926b3eeadb1e3a51129c504c3a028f83b6",
+  "notes": [
+    "QBE source and frontend IR are unmodified. GCC-header constant defines describe the selected LP64 target.",
+    "The original GCC-built QBE executable is the assembly comparison reference.",
+    "Original QBE backend self-compilation failures are retained separately from the exact test-only target-specific external-address correction.",
+    "Reproducing Windows assembly with compiled QBE does not implement a Windows target in LCB.",
+    "Original runner tests execute native ARM64 output. Other target outputs are byte comparisons only.",
+    "Workload runtime includes process startup and assembly output to /dev/null; local samples are not universal performance claims.",
+    "For emulated compiler executables, the native GCC reference timing is not a like-for-like performance comparison."
+  ],
+  "runtime": {
+    "reference": {
+      "seconds": [
+        0.1365405179967638,
+        0.13188709900714457,
+        0.12908460601465777,
+        0.13114403799409047,
+        0.12983241901383735
+      ],
+      "median_seconds": 0.13114403799409047
+    },
+    "baseline": {
+      "seconds": [
+        6.850141701987013,
+        6.800253633002285,
+        6.8574258600128815,
+        6.834532151988242,
+        6.964256150997244
+      ],
+      "median_seconds": 6.850141701987013
+    },
+    "optimized": {
+      "seconds": [
+        4.213283446995774,
+        4.087461054994492,
+        4.010747252003057,
+        3.946086320996983,
+        4.007575249008369
+      ],
+      "median_seconds": 4.010747252003057
+    },
+    "qbe-corrected": {
+      "seconds": [
+        2.4961105810070876,
+        2.542909150972264,
+        2.531527465005638,
+        2.510544349992415,
+        2.5223344639816787
+      ],
+      "median_seconds": 2.5223344639816787
+    }
+  }
+}

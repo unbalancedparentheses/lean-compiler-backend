@@ -196,4 +196,28 @@ oracle each reproduce 19 stage-one IR files and pass all 196 original cproc test
 
 `scripts/linux_targets.py` retains the original link rejection on RV64 and
 requires matching pointer results from both Lean modes. On x86-64 the original
-QBE pointer check passes; no correction is applied to that target.
+QBE pointer check passes; this unconditional-address regression needs no correction.
+
+
+## AMD64 external-address formation overwrites conditional flags
+
+QBE self-compilation for x86-64 exposed a separate pinned QBE 1.3 issue.
+Its generated compiler emits `_"Lfp2"` instead of `"Lfp2"` for Apple ARM64
+floating constants. Replacing only the backend-built `arm64/emit.c` object with
+our baseline object restores the exact original assembly output.
+
+The [reduced IR](../tests/regressions/qbe-amd64-extern-flags.ssa) chooses between
+a local symbol and an external symbol plus 140, based on an integer equality.
+The independent [C caller](../tests/regressions/qbe-amd64-extern-flags.c) checks
+both branches. Original QBE places an `addq $140` between `cmpl` and `cmov`,
+overwriting the equality flags. Our baseline, allocated and optimized outputs
+pass; original QBE returns the wrong pointer. Linux x86-64 and macOS x86-64
+runners retain this mismatch explicitly.
+
+The [test-only correction](../tests/upstream/qbe-1.3-amd64-extern-flags.json)
+uses a flag-preserving LEA plus constant materialization for the address addend.
+It snapshots the symbol constant before growing QBE's internal vectors. The
+bootstrap harness verifies the pinned source hash and applies the exact patch
+only to a separately named oracle copy; vendored sources and frontend IR remain
+unchanged. The reduced checks also cover positive/negative signed-32-bit addends.
+This addresses the measured oracle discrepancy without extending our proof claims.

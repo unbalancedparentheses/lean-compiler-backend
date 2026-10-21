@@ -109,6 +109,8 @@ def main():
     large_object_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from memory_promotion import exercise as memory_tests
     memory_tests(compiler,work,run,cc,'x86_64-macos',execute)
+    from extern_flags import exercise as flags_tests
+    flags_tests(compiler,work,run,cc,qbe,'x86_64-macos','amd64_apple',execute)
     from allocation import exercise as allocation_tests
     allocation_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from control_flow import exercise as cfg

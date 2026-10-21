@@ -347,3 +347,27 @@ shifted initial halfwords. The independent instruction matrix now covers 1,274
 functions and 10,192 cases per lowering mode, including a corrupted MOVN control.
 All 600 baseline/non-ARM fixture assemblies remain byte-identical; an additional
 eight-seed campaign passes 512 generated input cases across independent models.
+
+
+## QBE compiled for Linux x86-64 and RV64
+
+[The x86-64 report](qbe-x86_64.json) and [RV64 report](qbe-riscv64.json) compile
+QBE's 32 unchanged translation units through target-specific cproc IR. The
+resulting compiler executables run under QEMU user emulation. Each baseline and
+optimized executable reproduces 455 successful fixture assemblies across six
+QBE targets plus 32 self-IR assemblies, and matches the one upstream Windows/TLS
+rejection. Each also passes 58 original tests by generating native ARM64 output.
+The output tests do not establish native x86-64/RV64 execution or add Windows
+target support to our backend. Reference GCC-QBE runs natively, so its timing is
+not a like-for-like performance comparison with the emulated executables.
+
+The original x86-64 QBE-built executable diverges on Apple ARM64 floating labels;
+the report retains both assembly hashes. An independently reduced conditional
+external-address test exposes overwritten comparison flags. The separately named
+oracle correction passes six signed-addend cases and the full bootstrap. Original
+RV64 QBE fails to link external GOT addends; its existing separate correction
+passes the bootstrap. RV64 oracle executables require `-no-pie`, recorded per
+backend. Neither original failure counts as a successful comparison.
+
+Reproduce with `python3 scripts/qbe_bootstrap.py --target x86_64-linux` or
+`--target riscv64-linux`, using the documented Linux qualification container.

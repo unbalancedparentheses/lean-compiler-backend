@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Bootstrap QBE into Linux x86-64 and RV64 executables under QEMU, preserving
+  exact assembly reproduction and original runtime tests. Reduce and retain an
+  original QBE AMD64 CMP/CMOV flag-clobber defect; keep its separately corrected
+  oracle and the original RV64 link failure distinct from passing results.
+
 - Materialize ARM64 constants with shifted MOVZ/MOVN and only necessary MOVK
   halfwords in allocated functions. Preserve baseline/non-ARM output and check
   10,192 independent integer cases per mode, including MOVN corruption.
