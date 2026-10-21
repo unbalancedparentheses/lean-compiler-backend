@@ -701,8 +701,10 @@ Compiler identity `9500650d1e283b80bce7e70c69fbd7646ed492d32e96509a8a1db6c69c3d0
 adds exact-address load reuse and matching store-to-load forwarding inside one
 SSA block. Every write invalidates earlier facts; calls, variadic state, blits
 and allocation are barriers. It assumes no pointer disjointness and removes no
-stores. The independent C matrix checks 56,320 cases per mode across five targets,
+stores. The independent C matrix checks 95,232 cases per mode across five targets,
 including overlapping pointer writes, signed widths, FP bits, callbacks and loops.
+Both repeated-load and just-stored facts are seeded before mutation barriers;
+unit cases also cover variadic state and signedness/FP cache separation.
 The deleted-store control is required to fail on ARM64.
 
 [Zlib](zlib-memory-forward.json) retains the original static tests and all 12 exact
@@ -726,3 +728,9 @@ helpers, and 45 reference timeouts. The pointer profile remains separate.
 [Rebuilt cproc](cproc-memory-forward.json) reproduces all 19 stage-two IR files
 from 18 source units and passes 196/196 upstream tests for qualified backends.
 Original QBE's frontend crash remains separate from the corrected-QBE oracle.
+
+[cJSON on the same compiler](cjson-memory-forward.json) passes 153 original
+assertions across 18 executables and retains matching benchmark checksums.
+Only baseline `misc_tests` needs the documented 64 MiB stack retry. Optimized
+object text is 37,872 bytes; local medians are 0.2282 s optimized, 0.1834 s QBE
+and 0.1505 s GCC. These are bounded measurements, not optimization parity.

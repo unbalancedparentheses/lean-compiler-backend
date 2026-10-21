@@ -47,24 +47,29 @@ def inputs():
         ('result_call','%unused =l call $mutate_forward_result(l %q)'),
         ('indirect','call %fn(l %q)'),
         ('blit','blit %q,%p,8')]:
-        source.append(f'''export function l $barrier_{operation}(l %p,l %q,l %fn) {{
-@s
- %before =l loadl %p
- {body}
- %after =l loadl %p
- %r =l xor %before,%after
- ret %r
-}}
-''')
-        declarations.append(f'extern uint64_t barrier_{operation}(void *,void *,void (*)(void *));')
-        # Copies make the expected result independent of IR/codegen and avoid C alignment/alias UB.
-        action='memmove(expected,expected+offset,8);' if operation=='blit' else 'expected[offset]=123;'
-        offsets=[0,8] if operation=='blit' else list(range(9))
-        for offset in offsets:
-            checks.append(f'''memcpy(bytes,&seed,8);memcpy(bytes+8,&other,8);memcpy(expected,bytes,16);
- {{uint64_t before,after;memcpy(&before,expected,8);unsigned offset={offset};{action}memcpy(&after,expected,8);
- if(barrier_{operation}(bytes,bytes+offset,mutate_forward)!=(before^after))return {len(checks)+1};
- if(memcmp(bytes,expected,16))return {len(checks)+1};}}''')
+        for remembered in [False,True]:
+            prefix='stored_' if remembered else ''
+            initial_store='storel 17,%p' if remembered else ''
+            expected_store='{uint64_t initial=17;memcpy(expected,&initial,8);}' if remembered else ''
+            source.append(f'''export function l $barrier_{prefix}{operation}(l %p,l %q,l %fn) {{
+    @s
+     {initial_store}
+     %before =l loadl %p
+     {body}
+     %after =l loadl %p
+     %r =l xor %before,%after
+     ret %r
+    }}
+    ''')
+            declarations.append(f'extern uint64_t barrier_{prefix}{operation}(void *,void *,void (*)(void *));')
+            # Copies make the expected result independent of IR/codegen and avoid C alignment/alias UB.
+            action='memmove(expected,expected+offset,8);' if operation=='blit' else 'expected[offset]=123;'
+            offsets=[0,8] if operation=='blit' else list(range(9))
+            for offset in offsets:
+                checks.append(f'''memcpy(bytes,&seed,8);memcpy(bytes+8,&other,8);memcpy(expected,bytes,16);{expected_store}
+     {{uint64_t before,after;memcpy(&before,expected,8);unsigned offset={offset};{action}memcpy(&after,expected,8);
+     if(barrier_{prefix}{operation}(bytes,bytes+offset,mutate_forward)!=(before^after))return {len(checks)+1};
+     if(memcmp(bytes,expected,16))return {len(checks)+1};}}''')
     # Different access size/class and cross-block data must not accidentally reuse a load.
     source.append('''export function l $mixed_access(l %p) {
 @s

@@ -90,6 +90,9 @@ def exercise(compiler, work, run, cc, target, execute=True):
     text, c, functions, count = fixture()
     source, caller = case/'input.ssa', case/'caller.c'
     source.write_text(text);caller.write_text(c)
+    caller_object = case/'caller.o'
+    if execute:
+        result = run([cc,'-c',caller,'-o',caller_object],True);assert result.returncode==0,result.stderr
     for label, flags in [('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]:
         asm, exe = case/(label+'.s'), case/label
         result = run([compiler,source,'--target',target,*flags,'-o',asm]);assert result.returncode==0,result.stderr
@@ -103,28 +106,28 @@ def exercise(compiler, work, run, cc, target, execute=True):
             assert re.search(r'\borr w\d+, w\d+, #1431655765\b',output)
             assert re.search(r'\bmovz x\d+, #1, lsl #48',output)
         if execute:
-            result = run([cc,caller,asm,'-o',exe],True);assert result.returncode==0,result.stderr
+            result = run([cc,caller_object,asm,'-o',exe],True);assert result.returncode==0,result.stderr
             result = run([exe],True);assert result.returncode==0,(target,label,result.stderr)
         if execute and target.startswith('aarch64') and label=='allocated':
             damaged, n = re.subn(r'(\b(?:add|sub) [wx]\d+, [wx]\d+, )#4095\b',r'\g<1>#4094',asm.read_text(),count=1)
             assert n==1
             bad, badexe = case/'broken.s',case/'broken';bad.write_text(damaged)
-            result = run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
+            result = run([cc,caller_object,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
             result = run([badexe],True);assert result.returncode!=0,'wrong immediate escaped the independent oracle'
             damaged,n = re.subn(r'(\bcmp [wx]\d+, )#4095\b',r'\g<1>#4094',asm.read_text(),count=1)
             assert n==1
             bad.write_text(damaged)
-            result = run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
+            result = run([cc,caller_object,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
             result = run([badexe],True);assert result.returncode!=0,'wrong comparison escaped the independent oracle'
             damaged,n = re.subn(r'(\bmovn [wx]\d+, #)([0-9]+)',lambda m:m[1]+str(int(m[2])^1),asm.read_text(),count=1)
             assert n==1
             bad.write_text(damaged)
-            result = run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
+            result = run([cc,caller_object,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
             result = run([badexe],True);assert result.returncode!=0,'wrong MOVN escaped the independent oracle'
             damaged,n = re.subn(r'(\band [wx]\d+, [wx]\d+, )#4095\b',r'\g<1>#2047',asm.read_text(),count=1)
             assert n==1
             bad.write_text(damaged)
-            result = run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
+            result = run([cc,caller_object,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
             result = run([badexe],True);assert result.returncode!=0,'wrong logical immediate escaped the independent oracle'
     print(f'{target}: {functions} integer immediate/comparison/fallback functions, {count} independent cases per baseline/allocated/optimized mode; execution={execute}',flush=True)
 

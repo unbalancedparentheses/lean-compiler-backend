@@ -98,6 +98,20 @@ def run : IO Unit := do
     let original ← parse source
     require (memoryCount (Memory.forward original) == memoryCount original)
       "forwarding crossed a write/call/block boundary or incompatible access"
+  for barrier in #["call $touch(l %p)", "%v =l call $touch(l %p)",
+      "%v =l vaarg %p", "vastart %p", "%q =l alloc8 8", "blit %q,%p,8"] do
+    let parameters := if barrier == "vastart %p" then "l %p,l %q,..." else "l %p,l %q"
+    for initialStatement in #["storel 17,%p", "%a =l loadl %p"] do
+      let original ← parse ("function l $f(" ++ parameters ++ ") { @s " ++ initialStatement ++ " " ++ barrier ++
+        " %b =l loadl %p ret %b }")
+      require (memoryCount (Memory.forward original) == memoryCount original)
+        "memory barrier retained a stored-value or repeated-load fact"
+  for source in #[
+    "function l $f(l %p) { @s %a =l loadsb %p %b =l loadub %p ret %b }",
+    "function d $f(l %p) { @s %a =l loadl %p %b =d loadd %p ret %b }"] do
+    let original ← parse source
+    require (memoryCount (Memory.forward original) == memoryCount original)
+      "load cache merged distinct signedness or integer/FP classes"
   let forwardedDebug := Memory.forward {repeated with blocks := repeated.blocks.map fun b => {b with
     debugLocations := #[{instruction := 2, line := 9, column := 1}]}}
   require (forwardedDebug.blocks[0]!.debugLocations[0]!.instruction == 2) "forwarding moved debug positions"
