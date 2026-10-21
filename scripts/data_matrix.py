@@ -21,6 +21,11 @@ def cases(seed):
         ('caf\u00e9', 'caf\u00e9'.encode()),
         (r'\7\07\007X', bytes([7, 7, 7, 88])),
         ('', b''),
+        ('first\n# literal, { punctuation }\nlast', b'first\n# literal, { punctuation }\nlast'),
+        ('\n\n', b'\n\n'),
+        ('crlf\r\nnext', b'crlf\r\nnext'),
+        ('caf\u00e9\n\U0001f680', 'caf\u00e9\n\U0001f680'.encode()),
+        ('before\n' + r'\"quoted\"' + '\nafter', b'before\n"quoted"\nafter'),
     ]
     result = [(f'b "{text}", b 0', data + b'\0', 8) for text, data in strings]
     rng = random.Random(seed)
@@ -92,6 +97,8 @@ def main():
             (r'data $x = { b "\x01" }', 'unsupported string escape'),
             (r'data $x = { b "\777" }', 'exceeds one byte'),
             ('data $x = { b "unfinished }', 'unterminated data string'),
+            ('data $x = { b "unfinished\n# still inside the string\n}', 'unterminated data string'),
+            ('data $x = { b "a\nb" }\ninvalid\n', "line 3 near 'invalid'"),
         ]):
             bad = work/f'bad{i}.ssa'
             bad.write_text(text)
@@ -102,13 +109,21 @@ def main():
             shutil.copytree(ROOT/'third_party/qbe', oracle)
             run(['make', '-j2', f'CC={cc}'], cwd=oracle)
             qasm = work/'qbe.s'
-            run([oracle/'qbe', '-t', 'arm64_apple', '-o', qasm, source])
+            # QBE passes strings directly to the assembler: literal line breaks
+            # have assembler-specific behavior (Apple's assembler inserts space
+            # before a leading '#'). Keep Lean's input raw and encode only these
+            # bytes as escapes for the QBE reference; C checks every actual byte.
+            qsource = work/'qbe-reference.ssa'
+            qmatrix = [(fields.replace('\r', r'\r').replace('\n', r'\n'), expected, alignment)
+                       for fields, expected, alignment in matrix]
+            qsource.write_text(fixture(qmatrix)[0])
+            run([oracle/'qbe', '-t', 'arm64_apple', '-o', qasm, qsource])
             for label, assembly in [('lean', asm), ('qbe', qasm)]:
                 exe = work/label
                 run([cc, '-std=c11', '-O2', caller, assembly, '-o', exe])
                 assert run([exe]).strip() == 'data matrix passed'
     print(f'data matrix seed {options.seed}: {len(matrix)} objects, {sum(len(x[1]) for x in matrix)} exact bytes; '
-          'Python/Lean checks passed; ' + ('native Lean/QBE/C passed' if native_host() else 'native not measured'))
+          'Python/Lean checks passed; ' + ('native Lean/QBE/C passed (QBE multiline reference uses escaped line breaks)' if native_host() else 'native not measured'))
 
 
 if __name__ == '__main__':

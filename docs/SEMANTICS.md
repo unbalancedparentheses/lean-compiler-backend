@@ -110,8 +110,13 @@ Module data has packed little-endian integer fields, zero fill and explicit
 power-of-two alignment in 1..64 (default 8, matching the pinned QBE parser).
 Integer initializers truncate to their field width. Byte strings preserve UTF-8,
 common control escapes, escaped quotes/backslashes and one-to-three-digit octal
-byte escapes; they add no implicit terminator. Multiline strings and other escape
-forms currently reject explicitly. Long pointer initializers
+byte escapes; they add no implicit terminator. Literal line breaks inside quoted
+data are preserved, including CRLF bytes; comments and punctuation inside quotes
+remain data. Token diagnostics retain the opening line and subsequent source line
+numbers. Other escape forms reject explicitly. QBE passes raw strings to the
+assembler, whose literal-newline handling varies: the independent byte matrix
+keeps our input raw and uses escaped line breaks only in its QBE reference.
+Long pointer initializers
 resolve symbols plus signed addends; all objects are allocated before resolving
 references, so forward and self references work. Each evaluation starts with
 fresh initialized globals, whose contents persist through calls within that run.

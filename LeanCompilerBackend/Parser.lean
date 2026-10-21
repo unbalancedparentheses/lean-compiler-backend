@@ -19,36 +19,46 @@ private def separator (c : Char) : Bool :=
 /-- Preserve quoted strings before recognizing comments and punctuation. -/
 def tokenize (source : String) : Array Token := Id.run do
   let mut tokens := #[]
-  for (lineIndex, line) in source.splitOn "\n" |>.zipIdx |>.map (fun (s, i) => (i, s)) do
-    let mut current := ""
-    let mut quoted := false
-    let mut escaped := false
-    let mut comment := false
-    for c in line.toList do
-      if comment then continue
-      if quoted then
-        current := current.push c
-        if escaped then escaped := false
-        else if c == '\\' then escaped := true
-        else if c == '"' then
-          quoted := false
-          tokens := tokens.push ⟨current, lineIndex + 1⟩
-          current := ""
+  let mut current := ""
+  let mut quoted := false
+  let mut escaped := false
+  let mut comment := false
+  let mut line := 1
+  let mut tokenLine := 1
+  for c in source do
+    if comment then
+      if c == '\n' then
+        comment := false
+        line := line + 1
+      continue
+    if current.isEmpty then tokenLine := line
+    if quoted then
+      current := current.push c
+      if escaped then escaped := false
+      else if c == '\\' then escaped := true
       else if c == '"' then
-        quoted := true
-        current := current.push c
-      else if c == '#' then
-        comment := true
-      else if c == '+' && ((current.startsWith "s_") || (current.startsWith "d_")) &&
-          (current.endsWith "e" || current.endsWith "E" || current.endsWith "p" || current.endsWith "P" || current.endsWith "_") then
-        current := current.push c
-      else if c.isWhitespace || separator c then
-        if !current.isEmpty then
-          tokens := tokens.push ⟨current, lineIndex + 1⟩
-          current := ""
-        if separator c then tokens := tokens.push ⟨String.singleton c, lineIndex + 1⟩
-      else current := current.push c
-    if !current.isEmpty then tokens := tokens.push ⟨current, lineIndex + 1⟩
+        quoted := false
+        tokens := tokens.push ⟨current, tokenLine⟩
+        current := ""
+    else if c == '"' then
+      quoted := true
+      current := current.push c
+    else if c == '#' then
+      if !current.isEmpty then
+        tokens := tokens.push ⟨current, tokenLine⟩
+        current := ""
+      comment := true
+    else if c == '+' && ((current.startsWith "s_") || (current.startsWith "d_")) &&
+        (current.endsWith "e" || current.endsWith "E" || current.endsWith "p" || current.endsWith "P" || current.endsWith "_") then
+      current := current.push c
+    else if c.isWhitespace || separator c then
+      if !current.isEmpty then
+        tokens := tokens.push ⟨current, tokenLine⟩
+        current := ""
+      if separator c then tokens := tokens.push ⟨String.singleton c, line⟩
+    else current := current.push c
+    if c == '\n' then line := line + 1
+  if !current.isEmpty then tokens := tokens.push ⟨current, tokenLine⟩
   return tokens
 
 private structure Cursor where
@@ -452,7 +462,7 @@ private def parseDataString : P (Array UInt8) := do
   let token ← take
   let chars := token.toList.toArray
   if chars.size < 2 || chars[0]! != '"' || chars[chars.size - 1]! != '"' then
-    failAt "unterminated data string (multiline strings are not yet supported)"
+    failAt "unterminated data string"
   let mut result := #[]
   let mut index := 1
   for _ in [:chars.size] do

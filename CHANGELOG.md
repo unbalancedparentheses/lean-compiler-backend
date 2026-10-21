@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Preserve literal multiline data strings through lexing, with correct comment,
+  escape and source-line handling. Qualify 759 exact data bytes on all five
+  targets and preserve 750 existing fixture assemblies; QBE reference strings
+  use escaped line breaks to avoid assembler-specific raw-newline behavior.
+
 - Transfer ARM64 memory operands and scalar call results directly through assigned
   homes. Test address/result aliasing, signed narrow loads, FP call results and
   caller preservation against independent C memory oracles and full QBE bootstrap.
