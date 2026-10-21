@@ -77,7 +77,7 @@ def exercise(compiler,work,run,cc,qbe,target,qtarget,execute=True):
         for label,asm in [('lean',assembly),('qbe',qasm)]:
             exe=case/label;result=run([cc,caller,asm,'-o',exe],True);assert result.returncode==0,result.stderr
             result=run([exe],True)
-            if label=='qbe' and target=='x86_64-linux' and result.returncode==1:
+            if label=='qbe' and target.startswith('x86_64-') and result.returncode==1:
                 # QBE's empty leaf frame leaves rsp misaligned for alloc16 0.
                 probe=case/'qbe-empty-frame.c';probe.write_text('#include <stdio.h>\nextern unsigned long zero_static(void),zero_dynamic(unsigned long),zero_loop(unsigned long);int main(void){printf("%lu %lu %lu\\n",zero_static(),zero_dynamic(0),zero_loop(32));}\n')
                 result=run([cc,probe,asm,'-o',case/'probe'],True);assert result.returncode==0,result.stderr
@@ -87,7 +87,7 @@ def exercise(compiler,work,run,cc,qbe,target,qtarget,execute=True):
                 result=run([qbe,'-t',qtarget,'-o',corrected,reference],True);assert result.returncode==0,result.stderr
                 result=run([cc,caller,corrected,'-o',case/'qbe-reference'],True);assert result.returncode==0,result.stderr
                 result=run([case/'qbe-reference'],True)
-                print('x86_64-linux: isolated pinned QBE alloc16 0 leaf alignment failure; positive-size oracle workaround and original Lean input checked separately',flush=True)
+                print(f'{target}: isolated pinned QBE alloc16 0 leaf alignment failure; positive-size oracle workaround and original Lean input checked separately',flush=True)
             assert result.returncode==0,(label,result.returncode,result.stderr)
     print(f'{target}: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution={execute}',flush=True)
 

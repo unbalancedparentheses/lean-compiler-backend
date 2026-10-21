@@ -11,9 +11,21 @@ def exercise(compiler,work,run,cc,target):
     for shared in [False,True]:
         exe=case/('shared' if shared else 'static')
         if shared:
-            library=case/'liblcb_tls.so'
-            result=run([cc,'-fPIC','-shared',assembly,'-o',library],True);assert result.returncode==0,result.stderr
-            command=[cc,'-pthread',caller,library,'-Wl,-rpath,$ORIGIN','-o',exe]
+            darwin=target.endswith('-macos')
+            library=case/('liblcb_tls.dylib' if darwin else 'liblcb_tls.so')
+            flags=['-dynamiclib','-Wl,-undefined,dynamic_lookup'] if darwin else ['-fPIC','-shared']
+            dependencies=[];shared_caller=caller
+            if darwin:
+                # Mach-O needs a typed TLS definition at dylib link time;
+                # dynamic_lookup alone treats the symbol as ordinary data.
+                provider=case/'external.c';provider.write_text('#include <stdint.h>\n_Thread_local uint64_t external_tls=123;\n')
+                dependency=case/'libexternal_tls.dylib'
+                result=run([cc,'-dynamiclib',provider,'-o',dependency],True);assert result.returncode==0,result.stderr
+                dependencies=[dependency]
+                shared_caller=case/'shared-caller.c'
+                shared_caller.write_text(CALLER.replace('_Thread_local uint64_t external_tls=123;', 'extern _Thread_local uint64_t external_tls;'))
+            result=run([cc,*flags,assembly,*dependencies,'-o',library],True);assert result.returncode==0,result.stderr
+            command=[cc,'-pthread',shared_caller,library,*dependencies,*([] if darwin else ['-Wl,-rpath,$ORIGIN']),'-o',exe]
         else:command=[cc,'-pthread',caller,assembly,'-o',exe]
         result=run(command,True);assert result.returncode==0,result.stderr
         result=run([exe],True)

@@ -173,3 +173,19 @@ reports use separate paths from baseline reports. Each target also compares
 baseline/folded output with 256 independent arithmetic cases. The Linux optimized
 runs include their scalar, aggregate, variadic and threaded TLS qualification.
 These are test results, not a preservation proof or a full optimization port.
+
+
+## macOS x86-64
+
+`python3 scripts/macos_x86.py --require-execution` qualifies `amd64_apple`:
+75/76 fixtures emit, 58 executable drivers pass and 17 development fixtures
+assemble. These results were obtained through Rosetta on Apple ARM64; they are
+not native Intel qualification. `dark.ssa` remains rejected for its missing
+required aggregate argument.
+
+The runner also checks scalar/floating/subword/variadic C interoperation, 22
+aggregate layouts with guarded tails, eight-thread executable/shared TLS, quoted
+symbols, custom sections, common coalescing/alignment, DWARF line tables,
+independent arithmetic/CFG cases and a 4096-function call chain. Known pinned
+QBE narrow-extension, quoted-TLS and zero-allocation discrepancies remain explicit.
+Use `--optimize` for a separately reported optimized run.

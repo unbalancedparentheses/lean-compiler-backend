@@ -44,7 +44,7 @@ validated, coherent checkpoints frequently.
 ## Current compatibility gaps
 
 The requested Linux architectures now generate executable assembly: ARM64,
-x86-64 and RV64, alongside Apple ARM64. Each current target emits 75/76 retained
+x86-64 and RV64, alongside Apple ARM64 and x86-64. Each current target emits 75/76 retained
 upstream fixtures; the remaining fixture omits a required aggregate argument.
 This fixture count does not mean the full port is complete.
 
@@ -57,7 +57,7 @@ Next bounded work, before proof expansion:
    alias analysis, broader CFG transforms and the remaining QBE optimization passes.
 3. Implement liveness, spilling and register allocation with value-flow checks;
    retain the current stack baseline as a differential oracle.
-4. Complete unimplemented QBE ABI configurations (`amd64_apple`, `amd64_win`),
+4. Complete the remaining QBE ABI configuration (`amd64_win`),
    broaden boundary tests on existing targets and obtain native RV64 qualification.
 5. Run broader differential fuzzing and performance benchmarks, then resume
    proof expansion against the completed compatibility implementation.
@@ -239,7 +239,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   (58 executable and 17 assembly-only passes under QEMU), with native x86-64 CI
   passing at `6823743`. Linux RV64 scalar/aggregate/variadic/TLS lowering also
   reaches 75/76 fixtures (58 executable and 17 assembly-only passes under QEMU).
-  Native Linux ARM64 CI is enabled; native RV64 qualification remains.
+  macOS AMD64 now reaches 75/76 fixtures (58 executable and 17 assembly-only
+  passes through Rosetta), sharing SysV classification with Mach-O/TLV emission.
+  Native Linux ARM64 CI is enabled; native RV64 and Intel macOS qualification
+  remain, alongside the Windows AMD64 implementation.
   Coverage on one ISA or OS ABI does not certify another. 32-bit ARM/x86/RISC-V
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential

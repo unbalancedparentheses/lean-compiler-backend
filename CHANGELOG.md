@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add `--target x86_64-macos` with System V scalar/aggregate/variadic ABI,
+  Mach-O symbols/sections/common data and TLV TLS. Qualify original upstream
+  fixtures and independent C ABI/object/TLS cases through labelled Rosetta
+  execution; preserve Linux AMD64 output and first-path separation.
+
 - Raise the compatibility module limit from 64 to 4096 functions. Parse top-level
   definitions iteratively and index direct-call validation/void-result lookup.
   Execute a 4096-function forward-call chain on all four targets and check

@@ -88,7 +88,7 @@ def exercise(compiler,work,run,cc,qbe,target,qtarget):
             assert result.returncode==0,(batch,label,result.returncode,result.stderr)
         if batch==0:
             damaged=case/'damaged.s';original=assembly.read_text()
-            changed=(original.replace('movzbq 0(%r10), %r11','movq 0(%r10), %r11') if target=='x86_64-linux' else original.replace('lbu t1, 0(t2)','ld t1, 0(t2)'));assert changed!=original
+            changed=(original.replace('movzbq 0(%r10), %r11','movq 0(%r10), %r11') if target.startswith('x86_64-') else original.replace('lbu t1, 0(t2)','ld t1, 0(t2)'));assert changed!=original
             damaged.write_text(changed);exe=case/'damaged'
             result=run([cc,'-O0','-DLCB_TEST_GUARDS',caller,damaged,'-o',exe],True);assert result.returncode==0,result.stderr
             result=run([exe],True);assert result.returncode!=0,'aggregate overread corruption escaped guard pages'

@@ -535,3 +535,18 @@ The current quoted-name domain is nonempty, single-line names without control
 characters, bounded to 4096 characters. Temporaries, block labels and aggregate
 type names retain unquoted identifier syntax. The restricted first-path importer
 rejects quoted function names; these changes add no certification claims.
+
+
+## macOS AMD64 target
+
+`--target x86_64-macos` shares QBE's AMD64 System V scalar, aggregate and
+variadic classification. Mach-O emission uses Darwin global-name rules, local
+labels, custom sections, common alignment and TLS descriptors. TLS addresses
+load the TLV descriptor through `@TLVP`, invoke its resolver with the descriptor
+in RDI and preserve live integer/floating call arguments. The compiler emits
+assembly for an external assembler/linker; this target has no new proof claims.
+
+`scripts/macos_x86.py` distinguishes native Intel execution from Rosetta on ARM
+hosts and emission-only checks elsewhere. It compares original upstream fixtures
+and C scalar/aggregate/variadic harnesses with pinned QBE, and checks TLS, quoted
+symbols, Mach-O objects, independent optimization cases and large modules.

@@ -1,4 +1,4 @@
-/- Baseline Linux AMD64/System V lowering. ABI reference: pinned QBE amd64/sysv.c.
+/- Baseline Linux/macOS AMD64/System V lowering. ABI reference: pinned QBE amd64/sysv.c.
    Every SSA value has a stable frame slot; this is not register allocation. -/
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Assembly
@@ -18,6 +18,7 @@ private def reg (w : Width) (r : String) : String :=
 private def gp : Array String := #["rdi", "rsi", "rdx", "rcx", "r8", "r9"]
 
 private structure Context where
+  darwin : Bool
   slots : List (String × Nat)
   objects : List (String × Nat)
   types : Array AMD64ABI.Info
@@ -33,14 +34,17 @@ private def slot (c : Context) (name : String) : Except String String := do
   let some offset := c.slots.lookup name | throw s!"missing AMD64 stack slot %{name}"
   pure s!"-{offset}(%rbp)"
 
-/-- TLSDESC works for executable and shared-library TLS. Preserve live call arguments. -/
-private def threadAddress (w : Width) (destination name : String) : List String := Id.run do
+/-- ELF TLSDESC or Darwin TLV lookup, preserving live GP/FP call arguments. -/
+private def threadAddress (darwin : Bool) (w : Width) (destination name : String) : List String := Id.run do
   let saved := #["rax", "rcx", "rdx", "rsi", "rdi", "r8", "r9", "r10", "r11"]
   let mut lines := ["\tsubq $224, %rsp"]
   for i in [:saved.size] do lines := lines ++ [s!"\tmovq %{saved[i]!}, {i*8}(%rsp)"]
   for i in [:8] do lines := lines ++ [s!"\tmovdqu %xmm{i}, {80+i*16}(%rsp)"]
-  lines := lines ++ [s!"\tleaq {name}@TLSDESC(%rip), %rax", s!"\tcall *{name}@TLSCALL(%rax)",
-    "\taddq %fs:0, %rax", "\tmovq %rax, 208(%rsp)"]
+  let symbol := Assembly.symbolName darwin name
+  lines := lines ++ (if darwin then
+    [s!"\tmovq {symbol}@TLVP(%rip), %rdi", "\tcall *(%rdi)"]
+    else [s!"\tleaq {symbol}@TLSDESC(%rip), %rax", s!"\tcall *{symbol}@TLSCALL(%rax)", "\taddq %fs:0, %rax"])
+  lines := lines ++ ["\tmovq %rax, 208(%rsp)"]
   for i in [:saved.size] do lines := lines ++ [s!"\tmovq {i*8}(%rsp), %{saved[i]!}"]
   for i in [:8] do lines := lines ++ [s!"\tmovdqu {80+i*16}(%rsp), %xmm{i}"]
   lines := lines ++ [s!"\tmovq 208(%rsp), %{destination}", "\taddq $224, %rsp"]
@@ -51,10 +55,11 @@ private def load (c : Context) (w : Width) (r : String) : Operand → Except Str
   | .constant n => pure [s!"\tmov{if w == .long then "absq" else "l"} ${Semantics.constant w n}, {reg w r}"]
   | .temporary name => return [s!"\tmov{suffix w} {← slot c name}, {reg w r}"]
   | .symbol name =>
-    let address := if c.locals.contains name then s!"\tleaq {name}(%rip), %{r}"
-      else s!"\tmovq {name}@GOTPCREL(%rip), %{r}"
+    let symbol := Assembly.symbolName c.darwin name
+    let address := if c.locals.contains name then s!"\tleaq {symbol}(%rip), %{r}"
+      else s!"\tmovq {symbol}@GOTPCREL(%rip), %{r}"
     pure ([address] ++ if w == .word then [s!"\tmovl {reg .word r}, {reg .word r}"] else [])
-  | .threadSymbol name => pure (threadAddress w r name)
+  | .threadSymbol name => pure (threadAddress c.darwin w r name)
 
 private def extend (w : Width) : Unary → List String
   | .negate => [s!"\tneg{suffix w} {reg w "rax"}"]
@@ -142,7 +147,7 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
   if let .indirect address := target then lines := lines ++ (← load c .long "r11" address)
   if let some arg := args.find? (·.environment) then lines := lines ++ (← load c .long "rax" arg.value)
   else if args.any (·.variadic) then lines := lines ++ [s!"\tmovl ${p.nfp}, %eax"]
-  lines := lines ++ [match target with | .direct name => s!"\tcall {name}" | .indirect _ => "\tcall *%r11"]
+  lines := lines ++ [match target with | .direct name => s!"\tcall {Assembly.symbolName c.darwin name}" | .indirect _ => "\tcall *%r11"]
   if bytes != 0 then lines := lines ++ [s!"\taddq ${bytes}, %rsp"]
   if let some (destination, _) := result then
     let some info := resultInfo | throw "missing AMD64 result classification"
@@ -272,7 +277,7 @@ private def emitStatement (c : Context) : Statement → Except String (List Stri
     return (← load c .long "rax" list) ++ [s!"\tmovl ${c.gpUsed*8}, (%rax)", s!"\tmovl ${48+c.fpUsed*16}, 4(%rax)",
       s!"\tleaq {16+c.stackArgs}(%rbp), %rcx", "\tmovq %rcx, 8(%rax)", s!"\tleaq -{c.saveArea}(%rbp), %rcx", "\tmovq %rcx, 16(%rax)"]
 
-private def label (f : Function) (name : String) : String := s!".L_lcb_{f.name.length}_{Assembly.localName f.name}_{name}"
+private def label (darwin : Bool) (f : Function) (name : String) : String := s!"{if darwin then "L" else ".L"}_lcb_{f.name.length}_{Assembly.localName f.name}_{name}"
 private def edge (c : Context) (f : Function) (source target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw "missing edge target"
   let mut lines := []
@@ -284,9 +289,9 @@ private def edge (c : Context) (f : Function) (source target : String) : Except 
     lines := lines ++ [s!"\tmovq -{c.stage+i*8}(%rbp), %rax", s!"\tmovq %rax, {← slot c block.phis[i]!.destination}"]
   pure lines
 
-private def emitFunction (f : Function) (types : Array Info) (locals : List String) (fileId : Nat) : Except String String := do
+private def emitFunction (f : Function) (types : Array Info) (locals : List String) (fileId : Nat) (darwin : Bool) : Except String String := do
   validateFunction f true
-  Assembly.checkTargetSection false f.customSection
+  Assembly.checkTargetSection darwin f.customSection
   let resultInfo ← f.resultAggregate.mapM (AMD64ABI.find types)
   if f.variadic && f.parameters.any (·.environment) then throw "AMD64 System V does not support variadic environment functions"
   let params := f.parameters.map fun p => { width := p.width, value := Operand.temporary p.name, floating := p.floating, subword := p.subword, environment := p.environment, aggregate := p.aggregate : CallArgument }
@@ -308,10 +313,12 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
   let saveArea := align fixed + 176
   let frame := align (if f.variadic then saveArea else fixed)
   if frame > 1024*1024 then throw "AMD64 frame exceeds 1 MiB"
-  let c : Context := { slots := names.toList.zipIdx.map (fun ((n,_),i) => (n,(i+1)*8)), objects, types, resultPointer, locals, stage := (names.size+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
-  let mut lines := [f.customSection.map (Assembly.sectionDirective false) |>.getD ".text", s!".type {f.name}, @function", ".p2align 4"]
-  if f.exported then lines := lines ++ [s!".globl {f.name}"]
-  lines := lines ++ [s!"{f.name}:", "\tpushq %rbp", "\tmovq %rsp, %rbp"]
+  let c : Context := { darwin, slots := names.toList.zipIdx.map (fun ((n,_),i) => (n,(i+1)*8)), objects, types, resultPointer, locals, stage := (names.size+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
+  let symbol := Assembly.symbolName darwin f.name
+  let mut lines := [f.customSection.map (Assembly.sectionDirective darwin) |>.getD ".text", ".p2align 4"]
+  if !darwin then lines := lines ++ [s!".type {symbol}, @function"]
+  if f.exported then lines := lines ++ [s!".globl {symbol}"]
+  lines := lines ++ [s!"{symbol}:", "\tpushq %rbp", "\tmovq %rsp, %rbp"]
   if frame != 0 then lines := lines ++ [s!"\tsubq ${frame}, %rsp"]
   if resultInfo.any (·.memory) then lines := lines ++ [s!"\tmovq %rdi, -{resultPointer}(%rbp)"]
   if f.variadic then
@@ -342,7 +349,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
     if p.width == .word then lines := lines ++ ["\tmovl %eax, %eax"]
     lines := lines ++ [s!"\tmovq %rax, {← slot c p.name}"]
   for block in f.blocks do
-    lines := lines ++ [label f block.label ++ ":"]
+    lines := lines ++ [label darwin f block.label ++ ":"]
     let mut debugIndex := 0
     for i in [:block.instructions.size+1] do
       for _ in [:block.debugLocations.size] do
@@ -370,27 +377,27 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
           if f.resultFloating then lines := lines ++ [s!"\tmov{if width == .word then "d" else "q"} {reg width "rax"}, %xmm0"]
       lines := lines ++ ["\tleave", "\tret"]
     | .halt => lines := lines ++ ["\tud2"]
-    | .jump target => lines := lines ++ (← edge c f block.label target) ++ [s!"\tjmp {label f target}"]
+    | .jump target => lines := lines ++ (← edge c f block.label target) ++ [s!"\tjmp {label darwin f target}"]
     | .branch value yes no =>
-      let other := s!".L_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{block.label}"
+      let other := s!"{if darwin then "L" else ".L"}_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{block.label}"
       lines := lines ++ (← load c .word "rax" value) ++ ["\ttestl %eax, %eax", s!"\tjz {other}"] ++
-        (← edge c f block.label yes) ++ [s!"\tjmp {label f yes}", other ++ ":"] ++ (← edge c f block.label no) ++ [s!"\tjmp {label f no}"]
-  lines := lines ++ [s!".size {f.name}, .-{f.name}"]
+        (← edge c f block.label yes) ++ [s!"\tjmp {label darwin f yes}", other ++ ":"] ++ (← edge c f block.label no) ++ [s!"\tjmp {label darwin f no}"]
+  if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines
   pure (String.intercalate "\n" lines ++ "\n")
 
-def emitModule (m : Module) : Except String String := do
+def emitModule (m : Module) (darwin : Bool := false) : Except String String := do
   validateModule m
-  for data in m.data do Assembly.checkTargetSection false data.customSection
+  for data in m.data do Assembly.checkTargetSection darwin data.customSection
   let types ← AMD64ABI.classify m.types
   let locals := (m.functions.filter (!·.exported)).toList.map (·.name) ++
     (m.data.filter (fun d => !d.exported && !d.common)).toList.map (·.name)
-  let mut output := "# Generated by Lean Compiler Backend; Linux AMD64 System V\n"
+  let mut output := s!"# Generated by Lean Compiler Backend; {if darwin then "macOS" else "Linux"} AMD64 System V\n"
   let mut fileId := 1
   for f in m.functions do
-    output := output ++ (← emitFunction f types locals fileId)
+    output := output ++ (← emitFunction f types locals fileId darwin)
     if f.debugFile.isSome then fileId := fileId + 1
-  for data in m.data do output := output ++ Assembly.emitData false data
-  pure (output ++ ".section .note.GNU-stack,\"\",@progbits\n")
+  for data in m.data do output := output ++ Assembly.emitData darwin data
+  pure (output ++ if darwin then ".subsections_via_symbols\n" else ".section .note.GNU-stack,\"\",@progbits\n")
 
 end LeanCompilerBackend.AMD64

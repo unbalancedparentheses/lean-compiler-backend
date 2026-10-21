@@ -6,7 +6,7 @@ Counts describe inventory, not correctness or complete compatibility.
 
 - 87 public opcode names; 87 currently accept some forms.
 - 70 internal opcode names; no complete internal-operation port yet.
-- 6 upstream target/ABI configurations; 4 partial targets.
+- 6 upstream target/ABI configurations; 5 partial targets.
 - 37 compiler C/header modules; no complete module-for-module port yet.
 - 76 upstream SSA fixtures retained; partial qualification is tracked in [UPSTREAM_COVERAGE.md](UPSTREAM_COVERAGE.md).
 
@@ -128,7 +128,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 
 | Upstream name | Status |
 | --- | --- |
-| `amd64_apple` | not implemented |
+| `amd64_apple` | partial: macOS x86-64 System V scalar/floating/aggregate/variadic lowering, Mach-O data/sections, quoted symbols and TLV TLS; 75/76 emitted, 58 executable and 17 assembly-only fixtures passed through Rosetta; native Intel qualification remains |
 | `amd64_sysv` | partial: Linux x86-64 ELF scalar integer/floating operations, CFG/phi, memory, scalar/aggregate calls and returns, variadic entry, TLSDESC TLS and ELF data/sections; 75/76 emitted, 58 executable drivers and 17 assembly-only fixtures passed under QEMU; native Linux x86-64 CI passed at 6823743 |
 | `amd64_win` | not implemented |
 | `arm64` | partial: Linux ELF scalar/aggregate calls and returns, stack arguments, data, variadic functions and TLSDESC TLS; 75/76 upstream fixtures emit, 58 executable drivers and 17 assembly-only fixtures qualified on Linux ARM64; custom ELF sections/init arrays and common symbols implemented; remaining ISA targets and broader qualification remain |

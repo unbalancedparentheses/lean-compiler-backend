@@ -62,9 +62,9 @@ int main(void){
 def exercise(compiler,work,run,cc,qbe,target,qtarget,execute=True):
     case=Path(work)/'quoted-names';case.mkdir(exist_ok=True)
     source,assembly,caller=case/'input.ssa',case/'lean.s',case/'caller.c'
-    text=SOURCE.replace('$"','$"_') if target=='aarch64-macos' else SOURCE
+    text=SOURCE.replace('$"','$"_') if target.endswith('-macos') else SOURCE
     caller_text=CALLER
-    if target=='aarch64-macos':
+    if target.endswith('-macos'):
         text += '\nfunction l $identity() {\n@s\n ret 42\n}\nfunction l $"identity"() {\n@s\n ret 43\n}\nexport function l $names_identity() {\n@s\n %a =l call $identity()\n %b =l call $"identity"()\n %sum =l add %a, %b\n ret %sum\n}\n'
         caller_text='extern unsigned long names_identity(void);\n'+CALLER.replace('return !entry','return names_identity()!=85 || !entry')
     source.write_text(text);caller.write_text(caller_text)
@@ -78,18 +78,18 @@ def exercise(compiler,work,run,cc,qbe,target,qtarget,execute=True):
     if execute:
         # Pinned Apple QBE appends its TLS suffix outside the quoted name.
         # Keep the original Lean TLS input; rename only the QBE TLS reference.
-        if target=='aarch64-macos':
+        if target.endswith('-macos'):
             original=case/'qbe-original.s'
             result=run([qbe,'-t',qtarget,'-o',original,source],True);assert result.returncode==0,result.stderr
             result=run([cc,'-c',original,'-o',case/'qbe-original.o'],True)
             assert result.returncode!=0 and '$tlv$init' in result.stderr,result.stderr
-            print('aarch64-macos: reproduced pinned QBE quoted-TLS suffix assembly failure; original Lean input remains mandatory',flush=True)
+            print(f'{target}: reproduced pinned QBE quoted-TLS suffix assembly failure; original Lean input remains mandatory',flush=True)
         qsource=case/'qbe-input.ssa' 
-        qtext=text.replace('$"_thread with spaces"','$qbe_thread_reference') if target=='aarch64-macos' else text
+        qtext=text.replace('$"_thread with spaces"','$qbe_thread_reference') if target.endswith('-macos') else text
         qsource.write_text(qtext)
         qasm=case/'qbe.s';result=run([qbe,'-t',qtarget,'-o',qasm,qsource],True);assert result.returncode==0,result.stderr
         for label,asm in [('lean',assembly),('qbe',qasm)]:
-            exe=case/label;result=run([cc,caller,asm,*(['-Wl,-export_dynamic'] if target=='aarch64-macos' else ['-rdynamic','-ldl']),*(['-no-pie'] if qtarget=='rv64' and label=='qbe' else []),'-o',exe],True);assert result.returncode==0,result.stderr
+            exe=case/label;result=run([cc,caller,asm,*(['-Wl,-export_dynamic'] if target.endswith('-macos') else ['-rdynamic','-ldl']),*(['-no-pie'] if qtarget=='rv64' and label=='qbe' else []),'-o',exe],True);assert result.returncode==0,result.stderr
             result=run([exe],True);assert result.returncode==0,(label,result.returncode,result.stderr)
     print(f'{target}: quoted code/data/TLS/relocations and direct/indirect calls passed; execution={execute}',flush=True)
 
