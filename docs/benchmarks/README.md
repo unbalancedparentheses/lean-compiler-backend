@@ -48,3 +48,15 @@ local measurements with few repetitions, not general performance claims. The
 first QBE compile includes a cold-start outlier; raw samples are retained.
 This workload shows why stack reuse alone is insufficient: QBE's memory
 promotion, instruction selection and allocation produce much smaller code.
+
+
+## Callee-saved register checkpoint
+
+[Raw report](cjson-register-homes.json) records the next compiler identity. All
+153 assertions still pass, with the same baseline-only default-stack exception.
+All four parse/serialize checksums match. Median optimized runtime is 0.4005 s,
+versus 0.6630 s for our baseline, 0.1793 s for QBE and 0.1514 s for GCC in this run.
+Register homes materially improve this workload, but the result is still slower
+than QBE. Cross-run timing variation is visible; compare backends within the same
+report and retain the raw samples rather than treating the change as a precise
+universal speedup.
