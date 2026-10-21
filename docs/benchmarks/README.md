@@ -126,3 +126,38 @@ ABI IR. Resulting frontends execute under explicitly labeled QEMU user emulation
 The RV64 QBE executables use `-no-pie`, matching the existing target qualification;
 Lean output is linked with the compiler driver's default mode. Cross-target runs
 are correctness checks and are not native runtime performance measurements.
+
+## Seeded generated C through cproc
+
+[Raw Csmith report](csmith.json) records 16 attempted seeds from Csmith 2.3.0.
+Fourteen complete comparisons pass: GCC `-O0` and `-O2`, our baseline and optimized
+backend, and unchanged QBE 1.3 produce identical checksums on native ARM64 Linux.
+The qualified programs total 9,581 generated C lines and 133,700 QBE IR lines;
+the IR also includes Csmith's runtime helper functions. Seeds 20261028 and
+20261031 exceed the 15-second GCC `-O0` reference budget and remain explicitly
+unqualified, with backend comparison unmeasured for those seeds.
+
+The profile disables direct pointer generation, packed structs, bitfields and
+volatile accesses: cproc rejects some incompatible-pointer comparisons emitted
+by this Csmith version. Arrays, ordinary structs/unions, arithmetic, loops and
+calls remain enabled. Two floating-limit defines supply values expected by the
+GCC headers used by Csmith's runtime; generated C and IR are not patched. This
+comparison uses original QBE, without the separate bootstrap oracle corrections.
+
+The first run exposed a valid 4,704-byte local array rejected by our old 4 KiB
+constant-object bound. Compatibility admission now permits objects through 1 MiB,
+subject to the existing fixed-frame and interpreter budgets. Independent target
+tests cover entry/nonentry allocation, alignment, page offsets, calls and tails
+through 1,047,552 bytes on all five targets.
+
+Install `csmith` and `libcsmith-dev` in the Linux container, then run:
+
+```sh
+LCB_CC=cc python3 scripts/csmith_compare.py --seeds 16
+```
+
+Package versions, runtime-header hashes, source/IR hashes, compiler identity,
+generation options, per-backend checksums and unqualified seeds are retained in
+the report. Full generated sources, assembly and logs remain under
+`.build/linux-arm64/csmith/<seed>/`. These generated tests are additional evidence,
+not exhaustive C/QBE compatibility or semantic preservation proofs.
