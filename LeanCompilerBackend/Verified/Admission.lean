@@ -83,6 +83,7 @@ private def reachable (f : Function) : Array String := Id.run do
 /-- Import only the v1 profile into raw locally numbered syntax. The result is
     not proof-carrying and must not satisfy a certification request. -/
 def admit (f : Function) : Except AdmissionError Source.Function := do
+  if f.customSection.isSome then throw (.unsupported "custom sections")
   if f.resultAggregate.isSome || f.parameters.any (·.aggregate.isSome) then throw (.unsupported "aggregate function signatures")
   if f.resultSubword.isSome || f.parameters.any (·.subword.isSome) then throw (.unsupported "subword function signatures")
   if f.resultFloating || f.parameters.any (·.floating) then throw (.unsupported "floating function signatures")

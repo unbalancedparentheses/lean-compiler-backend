@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add validated ELF custom sections, init-array constructors and native Linux
+  ARM64 CI. Reject custom section placement in the restricted first-path importer.
+
 - Add Linux ARM64 variadic function entry, register-save va_list handling and
   TLSDESC TLS. Native coverage reaches 75/76 emitted, 58 executable drivers and
   17 assembly-only fixtures, plus mixed variadic and threaded/shared-library TLS

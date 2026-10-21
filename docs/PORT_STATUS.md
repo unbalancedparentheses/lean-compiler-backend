@@ -131,7 +131,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | `amd64_apple` | not implemented |
 | `amd64_sysv` | not implemented |
 | `amd64_win` | not implemented |
-| `arm64` | partial: Linux ELF scalar/aggregate calls and returns, stack arguments, data, variadic functions and TLSDESC TLS; 75/76 upstream fixtures emit, 58 executable drivers and 17 assembly-only fixtures qualified on Linux ARM64; ELF custom sections and broader qualification remain |
+| `arm64` | partial: Linux ELF scalar/aggregate calls and returns, stack arguments, data, variadic functions and TLSDESC TLS; 75/76 upstream fixtures emit, 58 executable drivers and 17 assembly-only fixtures qualified on Linux ARM64; custom ELF sections/init arrays and common symbols implemented; remaining ISA targets and broader qualification remain |
 | `arm64_apple` | partial: scalar/aggregate functions with control flow, memory, TLS and direct/indirect register/stack-argument calls |
 | `rv64` | not implemented |
 

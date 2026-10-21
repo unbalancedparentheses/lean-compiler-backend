@@ -120,5 +120,7 @@ execution inside a Linux VM, not x86 emulation or a proof.
 
 `scripts/linux_arm64.py` runs emission checks everywhere, native qualification
 on ARM64 Linux, or against an explicitly supplied Docker container. The retained
-`tests/upstream-linux-arm64-coverage.json` prevents emission regressions. Current
-Ubuntu x86 CI checks emission and models; it does not count as Linux ARM64 execution.
+`tests/upstream-linux-arm64-coverage.json` prevents emission regressions. Ubuntu x86 CI checks emission and models; it does not count as Linux ARM64
+execution. The new `ubuntu-24.04-arm` CI job runs the native Linux matrix, including
+TLS, variadics and ELF section/constructor tests; its first run is pending.
+The runner label is documented in [GitHub runner selection](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job).

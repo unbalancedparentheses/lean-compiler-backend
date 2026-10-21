@@ -123,6 +123,16 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
 private def checkSection (customSection : Option String) : Except String Unit := do
   let some customSection := customSection | pure ()
   let parts := customSection.splitOn ","
+  if customSection.startsWith "." then
+    if parts.length > 2 then throw "ELF section accepts a name and optional awx flags"
+    let name := parts[0]!
+    if name.utf8ByteSize > 128 || !name.toList.all (fun c =>
+        c.isAlphanum && c.toNat < 128 || c == '_' || c == '.' || c == '$') then
+      throw "ELF section requires at most 128 ASCII name characters"
+    if let some flags := parts[1]? then
+      if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x') then
+        throw "unsupported ELF section flags (accepted: a, w, x)"
+    return ()
   if parts.length < 2 || parts.length > 4 then throw "Apple section requires segment,section[,type[,attributes]]"
   for name in parts.take 2 do
     if name.isEmpty || name.utf8ByteSize > 16 || !name.toList.all (fun c =>

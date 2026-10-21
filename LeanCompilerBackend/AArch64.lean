@@ -497,6 +497,17 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
     lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ slotAccess "str" base r phi.width.bytes offset
   pure lines
 
+private def sectionDirective (darwin : Bool) (customSection : String) : String :=
+  if darwin then ".section " ++ customSection
+  else match customSection.splitOn "," with
+    | name :: flags :: _ => s!".section {name},\"{flags}\""
+    | _ => ".section " ++ customSection
+
+private def checkTargetSection (darwin : Bool) (customSection : Option String) : Except String Unit := do
+  if let some name := customSection then
+    if darwin == name.startsWith "." then
+      throw "custom section syntax does not match the selected object format"
+
 /-- Quote UTF-8 bytes using assembler octal escapes, including quotes and backslashes. -/
 private def debugFilename (name : String) : String :=
   "\"" ++ String.join (name.toUTF8.data.toList.map fun byte =>
@@ -505,7 +516,7 @@ private def debugFilename (name : String) : String :=
 
 def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) : Except String String := do
   validateFunction f true
-  if !darwin && f.customSection.isSome then throw "Linux custom sections are not yet implemented"
+  checkTargetSection darwin f.customSection
   let localNames := f.locals
   let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
     match statement with
@@ -564,7 +575,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   if frame > 1024 * 1024 then throw "stack frame exceeds the 1 MiB resource limit"
   let symbol := symbolName darwin f.name
   let mut lines := [s!"{if darwin then ";" else "//"} function {f.name}; AArch64 compatibility backend",
-    f.customSection.map (fun customSection => ".section " ++ customSection) |>.getD ".text"]
+    f.customSection.map (sectionDirective darwin) |>.getD ".text"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   if !darwin then lines := lines ++ [s!".type {symbol}, %function"]
   lines := lines ++ [".p2align 2", s!"{symbol}:"]
@@ -697,7 +708,7 @@ private def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run 
   let mut lines := if data.threadLocal then
     if darwin then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"]
     else [".section .tdata,\"awT\",%progbits", s!".type {data.name}, %tls_object"]
-    else [data.customSection.map (fun customSection => ".section " ++ customSection) |>.getD ".data"]
+    else [data.customSection.map (sectionDirective darwin) |>.getD ".data"]
   if data.exported then lines := lines ++ [s!".globl {symbolName darwin data.name}"]
   let initialSymbol := if darwin && data.threadLocal then s!"_{data.name}$tlv$init" else symbolName darwin data.name
   if darwin && data.threadLocal then
@@ -724,7 +735,7 @@ private def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run 
 
 def emitModule (module : Module) (darwin : Bool := true) : Except String String := do
   validateModule module
-  if !darwin && module.data.any (·.customSection.isSome) then throw "Linux custom sections are not yet implemented"
+  for data in module.data do checkTargetSection darwin data.customSection
   let types ← AggregateABI.classify module.types
   let localSymbols := (module.functions.filter (!·.exported)).toList.map (·.name) ++
     (module.data.filter (fun data => !data.exported && !data.common)).toList.map (·.name)

@@ -414,7 +414,10 @@ ABI representation. First-path jobs remain Apple-only.
 Linux TLS uses ELF TLSDESC relocations and `tpidr_el0`, preserving live argument
 and scratch registers around the resolver. Native tests cover private/exported
 TLS, external C TLS, eight concurrent threads, and executable/shared-library
-linkage. Custom ELF sections are currently rejected.
+linkage. Custom ELF sections accept dot-prefixed names and optional `a`, `w`,
+`x` flags; `.init_array` pointer definitions run native constructors. Section
+syntax is checked against the selected object format. First-path admission
+rejects custom sections rather than discarding their placement requirements.
 
 Private module symbols use direct PC-relative address formation. External or
 exported symbols use GOT relocations. This distinction matters: GNU assembler can

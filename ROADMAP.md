@@ -199,7 +199,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   assembler/linker qualification and certification scope separately per target.
   Linux ARM64 ELF now emits 75/76 upstream fixtures, with 58 executable drivers
   and 17 assembly-only fixtures passing on native Linux ARM64, including variadic
-  functions and TLS. ELF custom sections are next; AMD64 and RV64 remain unimplemented.
+  functions and TLS. Custom ELF sections and init-array constructors are implemented;
+  AMD64 and RV64 remain unimplemented. Native Linux ARM64 CI is now enabled.
   Coverage on one ISA or OS ABI does not certify another. 32-bit ARM/x86/RISC-V
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential

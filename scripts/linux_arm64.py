@@ -110,6 +110,8 @@ def main():
             result = run([exe], True); assert result.returncode == 0, (label, result.returncode, result.stderr)
         print('Linux variadics: mixed GP/FP exhaustion, dynamic frames, direct/indirect calls and C interoperation passed against QBE', flush=True)
 
+    from elf_sections import exercise as section_tests
+    section_tests(compiler, work, run, cc, qbe, native)
     baseline = json.loads((ROOT/'tests/upstream-linux-arm64-coverage.json').read_text())['emitted']
     emitted_names = {row['fixture'] for row in rows if row['emitted']}
     for missing in sorted(set(baseline) - emitted_names): failures.append((missing, 'emission regression'))
