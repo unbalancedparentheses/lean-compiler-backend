@@ -1,93 +1,357 @@
 {
   "baseline": "QBE 1.3",
   "operations": {
-    "add": ["w", "l", "s", "d"],
-    "sub": ["w", "l", "s", "d"],
-    "mul": ["w", "l", "s", "d"],
-    "and": ["w", "l"],
-    "or": ["w", "l"],
-    "xor": ["w", "l"],
-    "copy": ["w", "l", "s", "d"],
-    "shl": ["w", "l"],
-    "shr": ["w", "l"],
-    "sar": ["w", "l"],
-    "neg": ["w", "l", "s", "d"],
-    "div": ["w", "l", "s", "d"],
-    "udiv": ["w", "l"],
-    "rem": ["w", "l"],
-    "urem": ["w", "l"],
-    "extsb": ["w", "l"],
-    "extub": ["w", "l"],
-    "extsh": ["w", "l"],
-    "extuh": ["w", "l"],
-    "extsw": ["l"],
-    "extuw": ["l"],
-    "ceqw": ["w", "l"],
-    "cnew": ["w", "l"],
-    "cslew": ["w", "l"],
-    "csltw": ["w", "l"],
-    "csgew": ["w", "l"],
-    "csgtw": ["w", "l"],
-    "culew": ["w", "l"],
-    "cultw": ["w", "l"],
-    "cugew": ["w", "l"],
-    "cugtw": ["w", "l"],
-    "ceql": ["w", "l"],
-    "cnel": ["w", "l"],
-    "cslel": ["w", "l"],
-    "csltl": ["w", "l"],
-    "csgel": ["w", "l"],
-    "csgtl": ["w", "l"],
-    "culel": ["w", "l"],
-    "cultl": ["w", "l"],
-    "cugel": ["w", "l"],
-    "cugtl": ["w", "l"],
-    "loadsb": ["w", "l"],
-    "loadub": ["w", "l"],
-    "loadsh": ["w", "l"],
-    "loaduh": ["w", "l"],
-    "loadsw": ["w", "l"],
-    "loaduw": ["w", "l"],
-    "load": ["w", "l", "s", "d"],
-    "storeb": ["w value; no result"],
-    "storeh": ["w value; no result"],
-    "storew": ["w value; no result"],
-    "storel": ["l value; no result"],
-    "vaarg": ["w", "l", "s", "d"],
-    "vastart": ["long va_list address; no result"],
-    "alloc4": ["l (constant or runtime size)"],
-    "alloc8": ["l (constant or runtime size)"],
-    "alloc16": ["l (constant or runtime size)"],
-    "cast": ["w", "l", "s", "d"],
-    "ceqs": ["w", "l"],
-    "cnes": ["w", "l"],
-    "cles": ["w", "l"],
-    "clts": ["w", "l"],
-    "cges": ["w", "l"],
-    "cgts": ["w", "l"],
-    "cos": ["w", "l"],
-    "cuos": ["w", "l"],
-    "stores": ["s value; no result"],
-    "ceqd": ["w", "l"],
-    "cned": ["w", "l"],
-    "cled": ["w", "l"],
-    "cltd": ["w", "l"],
-    "cged": ["w", "l"],
-    "cgtd": ["w", "l"],
-    "cod": ["w", "l"],
-    "cuod": ["w", "l"],
-    "stored": ["d value; no result"],
-    "stosi": ["w", "l"],
-    "stoui": ["w", "l"],
-    "dtosi": ["w", "l"],
-    "dtoui": ["w", "l"],
-    "swtof": ["s", "d"],
-    "uwtof": ["s", "d"],
-    "sltof": ["s", "d"],
-    "ultof": ["s", "d"],
-    "exts": ["d"],
-    "truncd": ["s"],
-    "dbgloc": ["source line and optional column; preceding dbgfile required"]
+    "add": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "sub": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "mul": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "and": [
+      "w",
+      "l"
+    ],
+    "or": [
+      "w",
+      "l"
+    ],
+    "xor": [
+      "w",
+      "l"
+    ],
+    "copy": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "shl": [
+      "w",
+      "l"
+    ],
+    "shr": [
+      "w",
+      "l"
+    ],
+    "sar": [
+      "w",
+      "l"
+    ],
+    "neg": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "div": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "udiv": [
+      "w",
+      "l"
+    ],
+    "rem": [
+      "w",
+      "l"
+    ],
+    "urem": [
+      "w",
+      "l"
+    ],
+    "extsb": [
+      "w",
+      "l"
+    ],
+    "extub": [
+      "w",
+      "l"
+    ],
+    "extsh": [
+      "w",
+      "l"
+    ],
+    "extuh": [
+      "w",
+      "l"
+    ],
+    "extsw": [
+      "l"
+    ],
+    "extuw": [
+      "l"
+    ],
+    "ceqw": [
+      "w",
+      "l"
+    ],
+    "cnew": [
+      "w",
+      "l"
+    ],
+    "cslew": [
+      "w",
+      "l"
+    ],
+    "csltw": [
+      "w",
+      "l"
+    ],
+    "csgew": [
+      "w",
+      "l"
+    ],
+    "csgtw": [
+      "w",
+      "l"
+    ],
+    "culew": [
+      "w",
+      "l"
+    ],
+    "cultw": [
+      "w",
+      "l"
+    ],
+    "cugew": [
+      "w",
+      "l"
+    ],
+    "cugtw": [
+      "w",
+      "l"
+    ],
+    "ceql": [
+      "w",
+      "l"
+    ],
+    "cnel": [
+      "w",
+      "l"
+    ],
+    "cslel": [
+      "w",
+      "l"
+    ],
+    "csltl": [
+      "w",
+      "l"
+    ],
+    "csgel": [
+      "w",
+      "l"
+    ],
+    "csgtl": [
+      "w",
+      "l"
+    ],
+    "culel": [
+      "w",
+      "l"
+    ],
+    "cultl": [
+      "w",
+      "l"
+    ],
+    "cugel": [
+      "w",
+      "l"
+    ],
+    "cugtl": [
+      "w",
+      "l"
+    ],
+    "loadsb": [
+      "w",
+      "l"
+    ],
+    "loadub": [
+      "w",
+      "l"
+    ],
+    "loadsh": [
+      "w",
+      "l"
+    ],
+    "loaduh": [
+      "w",
+      "l"
+    ],
+    "loadsw": [
+      "w",
+      "l"
+    ],
+    "loaduw": [
+      "w",
+      "l"
+    ],
+    "load": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "storeb": [
+      "w value; no result"
+    ],
+    "storeh": [
+      "w value; no result"
+    ],
+    "storew": [
+      "w value; no result"
+    ],
+    "storel": [
+      "l value; no result"
+    ],
+    "vaarg": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "vastart": [
+      "long va_list address; no result"
+    ],
+    "alloc4": [
+      "l (constant or runtime size)"
+    ],
+    "alloc8": [
+      "l (constant or runtime size)"
+    ],
+    "alloc16": [
+      "l (constant or runtime size)"
+    ],
+    "cast": [
+      "w",
+      "l",
+      "s",
+      "d"
+    ],
+    "ceqs": [
+      "w",
+      "l"
+    ],
+    "cnes": [
+      "w",
+      "l"
+    ],
+    "cles": [
+      "w",
+      "l"
+    ],
+    "clts": [
+      "w",
+      "l"
+    ],
+    "cges": [
+      "w",
+      "l"
+    ],
+    "cgts": [
+      "w",
+      "l"
+    ],
+    "cos": [
+      "w",
+      "l"
+    ],
+    "cuos": [
+      "w",
+      "l"
+    ],
+    "stores": [
+      "s value; no result"
+    ],
+    "ceqd": [
+      "w",
+      "l"
+    ],
+    "cned": [
+      "w",
+      "l"
+    ],
+    "cled": [
+      "w",
+      "l"
+    ],
+    "cltd": [
+      "w",
+      "l"
+    ],
+    "cged": [
+      "w",
+      "l"
+    ],
+    "cgtd": [
+      "w",
+      "l"
+    ],
+    "cod": [
+      "w",
+      "l"
+    ],
+    "cuod": [
+      "w",
+      "l"
+    ],
+    "stored": [
+      "d value; no result"
+    ],
+    "stosi": [
+      "w",
+      "l"
+    ],
+    "stoui": [
+      "w",
+      "l"
+    ],
+    "dtosi": [
+      "w",
+      "l"
+    ],
+    "dtoui": [
+      "w",
+      "l"
+    ],
+    "swtof": [
+      "s",
+      "d"
+    ],
+    "uwtof": [
+      "s",
+      "d"
+    ],
+    "sltof": [
+      "s",
+      "d"
+    ],
+    "ultof": [
+      "s",
+      "d"
+    ],
+    "exts": [
+      "d"
+    ],
+    "truncd": [
+      "s"
+    ],
+    "dbgloc": [
+      "source line and optional column; preceding dbgfile required"
+    ]
   },
   "targets": {
     "amd64_apple": "partial: macOS x86-64 System V scalar/floating/aggregate/variadic lowering, Mach-O data/sections, quoted symbols and TLV TLS; 75/76 emitted, 58 executable and 17 assembly-only fixtures passed through Rosetta; native Intel qualification remains",
@@ -108,7 +372,7 @@
   "passes": {
     "parsing and validation": "partial: scalar integer/floating, control-flow, memory, TLS and scalar/aggregate-call input with SSA construction; full QBE syntax remains",
     "CFG, dominance and SSA construction": "partial: entry-unreachable pruning before SSA/dominance, indexed CFG and packed-set dominance, hash-indexed SSA construction with on-demand phis; up to 4096 blocks/16384 instructions; stable types and defined incoming values required",
-    "alias analysis and memory optimization": "partial: conservative promotion of initialized, nonescaping exact-width 4/8-byte entry objects to SSA; general alias analysis, load/store elimination and aggregate promotion remain",
+    "alias analysis and memory optimization": "partial: initialized nonescaping exact-width 1/2/4/8-byte entry objects promote to SSA; same-block exact-address load/store forwarding with conservative mutation barriers; general alias analysis, dead-store elimination and aggregate promotion remain",
     "copy elimination, folding, GVN, GCM and CFG simplification": "partial: opt-in bounded SSA constant/integer folding, same-width copy/trivial-phi propagation and conservative dead-definition removal, constant branches, unreachable-block/phi-edge cleanup and dominance-aware common integer expressions; full GVN, GCM and broader CFG/elimination remain",
     "ABI lowering": "partial: Apple/Linux ARM64, Apple/Linux AMD64 and Linux RV64/LP64D scalar and aggregate calls/results; target-specific GP/FP/stack classification, hidden returns, variadics, env and saved live values",
     "instruction selection and assembly emission": "partial: Apple/Linux ARM64 and AMD64, plus Linux RV64 scalar integer/floating, control flow, memory, TLS and scalar/aggregate-call lowering; large frame-slot addressing",
