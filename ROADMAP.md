@@ -133,8 +133,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   implemented and tested, including pointer initializers with addends and byte
   strings and IEEE floating constant initializers. Runtime-sized and non-entry
   allocations now pass native call/frame tests. Apple ARM64 TLS data/address access
-  is tested with concurrent C threads; remaining linkage forms and other target
-  TLS conventions remain.
+  is tested with concurrent C threads. Apple custom code/data sections and common
+  zero-fill definitions now pass native section/coalescing tests; quoted globals,
+  additional section forms and other target TLS conventions remain.
   Local single/double arithmetic, comparisons, casts, memory and phi values are
   implemented, including numeric conversions, scalar floating calls/returns and
   variadics. Float-to-integer interpretation rejects non-finite/out-of-range inputs.

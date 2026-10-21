@@ -594,7 +594,9 @@ private def parseDefinitions : Nat → P Module
       return { rest with types := #[type] ++ rest.types }
     let mut exported := false
     let mut threadLocal := false
-    for _ in [:3] do
+    let mut common := false
+    let mut customSection := none
+    for _ in [:5] do
       if (← peek) == some "export" then
         if exported then failAt "duplicate export linkage"
         discard take
@@ -603,16 +605,32 @@ private def parseDefinitions : Nat → P Module
         if threadLocal then failAt "duplicate thread linkage"
         discard take
         threadLocal := true
+      else if (← peek) == some "common" then
+        if common then failAt "duplicate common linkage"
+        discard take
+        common := true
+      else if (← peek) == some "section" then
+        if customSection.isSome then failAt "duplicate section linkage"
+        discard take
+        let bytes ← parseDataString
+        let some name := String.fromUTF8? ⟨bytes⟩ | failAt "section name must be UTF-8"
+        let flags ← if ((← peek).getD "").startsWith "\"" then do
+          let bytes ← parseDataString
+          let some flags := String.fromUTF8? ⟨bytes⟩ | failAt "section flags must be UTF-8"
+          pure ("," ++ flags)
+        else pure ""
+        customSection := some (name ++ flags)
       else break
     if (← peek) == some "data" then
       let data ← parseData exported threadLocal
       let rest ← parseDefinitions fuel
-      return { rest with data := #[data] ++ rest.data }
+      return { rest with data := #[{ data with common, customSection }] ++ rest.data }
     else
       if threadLocal then failAt "thread linkage requires data"
+      if common then failAt "common linkage requires data"
       let f ← parseFunction exported
       let rest ← parseDefinitions fuel
-      return { rest with functions := #[f] ++ rest.functions }
+      return { rest with functions := #[{ f with customSection }] ++ rest.functions }
 
 def parseModule (source : String) : Except String Module := do
   if source.utf8ByteSize > 8 * 1024 * 1024 then throw "input exceeds 8 MiB compatibility resource limit"

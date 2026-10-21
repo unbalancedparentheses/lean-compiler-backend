@@ -378,3 +378,21 @@ requirement that phis precede ordinary instructions. Native Apple ARM64 output
 contains `.file` and `.loc` directives; this provides line tables, not source-level
 variable descriptions or full debugger support. `scripts/debug_locations.py`
 checks emitted object-file line tables and execution against pinned QBE and C.
+
+## Apple sections and common data
+
+`section "__SEGMENT" "__section"` selects a Mach-O section for a function or data
+object. A combined comma-separated string and supported type/attribute suffixes
+are also accepted. Segment and section names are 1..16 ASCII name characters;
+validation rejects assembler delimiters, control characters and unknown types or
+attributes. Ordinary functions explicitly restore `.text` after custom code
+sections. Thread-local data retains its dedicated ABI sections and rejects custom
+sections or common linkage.
+
+`common data` accepts only `z` initializers and emits a linker-coalesced `.comm`
+symbol. On Darwin its alignment operand is log2(bytes), including align 64 -> 6.
+The interpreter models the declared zero-filled object; merging definitions from
+multiple translation units belongs to the native linker, tested independently.
+Common linkage is incompatible with a custom section and is data-only. The native
+matrix compares the shared two-string section syntax and common data with QBE,
+then independently checks Lean's 64-byte common alignment against C.

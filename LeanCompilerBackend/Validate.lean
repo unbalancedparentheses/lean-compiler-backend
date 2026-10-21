@@ -120,7 +120,25 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
     seenVariadic := seenVariadic || argument.variadic
     (if argument.floating then checkFloat else check) argument.width argument.value
 
+private def checkSection (customSection : Option String) : Except String Unit := do
+  let some customSection := customSection | pure ()
+  let parts := customSection.splitOn ","
+  if parts.length < 2 || parts.length > 4 then throw "Apple section requires segment,section[,type[,attributes]]"
+  for name in parts.take 2 do
+    if name.isEmpty || name.utf8ByteSize > 16 || !name.toList.all (fun c =>
+        c.isAlphanum && c.toNat < 128 || c == '_' || c == '.' || c == '$') then
+      throw "Apple section names must contain 1..16 ASCII name characters"
+  if let some kind := parts[2]? then
+    if !["regular", "cstring_literals", "4byte_literals", "8byte_literals", "16byte_literals",
+        "literal_pointers", "mod_init_funcs", "mod_term_funcs", "coalesced"].contains kind then
+      throw "unsupported Apple section type"
+  if let some attributes := parts[3]? then
+    for attr in attributes.splitOn "+" do
+      if !["pure_instructions", "some_instructions", "no_dead_strip", "live_support"].contains attr then
+        throw "unsupported Apple section attribute"
+
 def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
+  checkSection f.customSection
   if f.debugFile.any (·.contains '\x00') then throw "debug filename must not contain NUL"
   for block in f.blocks do
     let mut previous := 0
@@ -340,6 +358,13 @@ def validateModule (module : Module) : Except String Unit := do
     if !validName data.name then throw "unsupported data symbol name"
     if names.contains data.name then throw s!"duplicate module symbol ${data.name}"
     names := data.name :: names
+    checkSection data.customSection
+    if data.threadLocal && (data.customSection.isSome || data.common) then
+      throw "thread data cannot have custom section or common linkage"
+    if data.common then
+      if data.customSection.isSome then throw "common data cannot have custom section"
+      if !data.items.all (fun item => match item with | .zeroes _ => true | _ => false) then
+        throw "common data requires only zero-fill initializers"
     if data.alignment == 0 || data.alignment > 64 ||
         (data.alignment &&& (data.alignment - 1)) != 0 then
       throw "data alignment must be a power of two in 1..64"

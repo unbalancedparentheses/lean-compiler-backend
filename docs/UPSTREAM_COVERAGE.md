@@ -6,9 +6,9 @@ This is compatibility testing, not formal certification.
 2026-10-21 aggregate checkpoint: the all-fixture native scan passed at 71 emitted
 fixtures, then the original abi1/abi4 drivers passed with both backends after the
 unused-void-result normalization. The large-CFG extension additionally emits and assembles _bf99 and _bfmandel.
-Combined results are below. The full native Nix
-suite is being rerun for this checkpoint; aggregate tests and 147 theorem audits
-already pass. Ubuntu qualification builds/tests the compiler and models; it does
+Combined results are below. The full native Nix suite passed for aggregate commit `3f805da` (73/76 emitted,
+58 executable passes and 15 assembly-only fixtures); the large-CFG extension
+is undergoing full qualification. Targeted CFG tests and 147 theorem audits pass. Ubuntu qualification builds/tests the compiler and models; it does
 not imply a Linux assembly target.
 
 - 75 of 76 fixtures emit assembly.

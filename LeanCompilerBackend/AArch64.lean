@@ -527,7 +527,8 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   let frame := alignUp frameEnd 16
   if frame > 1024 * 1024 then throw "stack frame exceeds the 1 MiB resource limit"
   let symbol := "_" ++ f.name
-  let mut lines := [s!"; function {f.name}; target aarch64-macos; QBE integer SSA subset"]
+  let mut lines := [s!"; function {f.name}; target aarch64-macos; QBE integer SSA subset",
+    f.customSection.map (fun customSection => ".section " ++ customSection) |>.getD ".text"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   lines := lines ++ [".p2align 2", s!"{symbol}:"]
   lines := lines ++ adjustStack "sub" frame
@@ -647,7 +648,9 @@ def emit (program : Program) : Except String String := do
     ++ ".subsections_via_symbols\n"
 
 private def emitData (data : DataDefinition) : String := Id.run do
-  let mut lines := if data.threadLocal then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"] else [".data"]
+  if data.common then
+    return s!".comm _{data.name},{data.byteSize},{Nat.log2 data.alignment}\n"
+  let mut lines := if data.threadLocal then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"] else [data.customSection.map (fun customSection => ".section " ++ customSection) |>.getD ".data"]
   if data.exported then lines := lines ++ [s!".globl _{data.name}"]
   let initialSymbol := if data.threadLocal then s!"_{data.name}$tlv$init" else s!"_{data.name}"
   if data.threadLocal then

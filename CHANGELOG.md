@@ -5,6 +5,10 @@
 - Fix SSA cycle detection to permit loop live-ins after a join placeholder has
   been cached; retain rejection of cycles with no reaching definition.
 
+- Add Apple custom code/data sections and common zero-fill data, with section
+  validation, default text-section restoration, native common-symbol coalescing
+  and Darwin logarithmic alignment emission.
+
 - Added `dbgfile`/`dbgloc` parsing and source metadata preserved through SSA,
   with Apple ARM64 `.file`/`.loc` emission and native DWARF line-table checks.
   All 87 public QBE opcode names now accept some forms; this is not full

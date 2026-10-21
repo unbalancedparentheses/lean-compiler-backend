@@ -281,6 +281,7 @@ structure Function where
   variadic : Bool := false
   blocks : Array Block
   debugFile : Option String := none
+  customSection : Option String := none
   deriving Repr, Inhabited
 
 def Function.locals (f : Function) : Array (String × Width) :=
@@ -310,6 +311,8 @@ structure DataDefinition where
   exported : Bool := false
   alignment : Nat := 8
   threadLocal : Bool := false
+  common : Bool := false
+  customSection : Option String := none
   items : Array DataItem
   deriving Repr, Inhabited
 
