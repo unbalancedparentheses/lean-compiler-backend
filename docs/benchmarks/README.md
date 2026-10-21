@@ -430,3 +430,15 @@ These are emulated executions, not native x86-64/RV64 performance measurements.
 Use `python3 scripts/zlib_benchmark.py --target x86_64-linux` or
 `--target riscv64-linux` to reproduce. The default ARM64 path was rerun after
 adding these options and passed the same tests.
+
+
+## Final constant-materialization Csmith campaign
+
+[The additional 32-seed batch](csmith-final32.json), seeds 20261101–20261132,
+qualifies 23 programs and 235,171 IR lines including runtime helpers. GCC O0/O2,
+our baseline/optimized output and unchanged original QBE print identical checksums.
+Nine GCC O0 reference timeouts remain unqualified, with backend results unmeasured.
+Across five disjoint batches, **91 of 112 unique attempts** qualify,
+with **905,656 IR lines** and 21 retained reference timeouts. The generation
+profile and restrictions remain unchanged; this is corpus evidence, not a
+compatibility percentage.

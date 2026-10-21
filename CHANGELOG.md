@@ -68,8 +68,8 @@
 
 - Add reproducible Csmith/cproc comparisons against GCC O0/O2 and original QBE,
   retaining source/IR hashes and reference timeouts separately from passing seeds.
-  Sixty-eight programs (670,485 IR lines including runtime helpers) agree across
-  all five paths; twelve attempted seeds remain unqualified due to reference timeouts.
+  Ninety-one programs (905,656 IR lines including runtime helpers) agree across
+  all five paths; twenty-one attempted seeds remain unqualified due to reference timeouts.
 
 - Admit compatibility constant stack objects through 1 MiB instead of 4 KiB,
   covering a 4,704-byte Csmith-generated local array. Retain fixed-frame/interpreter
