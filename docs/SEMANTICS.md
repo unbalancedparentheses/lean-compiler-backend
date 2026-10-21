@@ -491,7 +491,7 @@ reuse the current stack address. Tests assert alignment and preservation of live
 nonempty objects, not equality or uniqueness of zero-sized allocation addresses.
 
 
-## Optional compatibility constant folding
+## Optional compatibility optimization
 
 `--optimize` enables at most eight monotone discovery sweeps over validated SSA.
 Facts record normalized bit patterns from copies, casts, defined integer unary/
@@ -501,10 +501,13 @@ and signed overflow are not folded; floating arithmetic/conversions are not
 folded. Runtime allocation operands retain their original form so propagation
 does not accidentally change the constant-size admission limit.
 
-The rewrite keeps every statement, phi, block, edge and debug instruction index.
-It propagates constant operands and replaces foldable operations with constant
-copies. It does not reorder memory, remove calls/traps, prune branches, eliminate
-dead definitions, allocate registers or claim formal preservation. The rewritten
+Same-width/class temporary copies are propagated before folding. A mark/sweep
+cleanup removes unused pure integer definitions and phis, including dead cycles.
+Calls, loads, divisions, allocations, conversions, floating operations, vaarg and
+symbol/TLS materialization remain conservative roots. Debug instruction indices
+are remapped to surviving positions, including the terminator. Blocks and edges
+remain unchanged. The pipeline does not reorder memory, remove potential traps,
+prune branches, allocate registers or claim formal preservation. The rewritten
 module is validated before target lowering. Default compilation and all
 first-path/certified job operations remain outside this optional pipeline.
 

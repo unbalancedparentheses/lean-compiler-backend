@@ -119,7 +119,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | parsing and validation | partial: scalar integer/floating, control-flow, memory, TLS and scalar/aggregate-call input with SSA construction; full QBE syntax remains |
 | CFG, dominance and SSA construction | partial: indexed CFG and packed-set dominance, hash-indexed SSA construction with on-demand phis; up to 4096 blocks/16384 instructions; stable types and defined incoming values required |
 | alias analysis and memory optimization | not implemented |
-| copy elimination, folding, GVN, GCM and CFG simplification | partial: opt-in bounded SSA constant propagation and defined integer folding; copy/dead-code elimination, GVN, GCM and CFG simplification remain |
+| copy elimination, folding, GVN, GCM and CFG simplification | partial: opt-in bounded SSA constant/integer folding, same-width copy propagation and conservative dead-definition removal; GVN, GCM, CFG simplification and broader elimination remain |
 | ABI lowering | partial: Apple/Linux ARM64, Linux AMD64/System V and Linux RV64/LP64D scalar and aggregate calls/results; target-specific GP/FP/stack classification, hidden returns, variadics, env and saved live values |
 | instruction selection and assembly emission | partial: Apple/Linux ARM64, Linux AMD64 and Linux RV64 scalar integer/floating, control flow, memory, TLS and scalar/aggregate-call lowering; large frame-slot addressing |
 | liveness, spilling and register allocation | not implemented; baseline gives every value a stack slot |

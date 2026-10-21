@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Extend `--optimize` with same-width copy propagation and conservative dead
+  definition/phi removal. Remap debug locations and retain potential effects and
+  traps. Validate with unit checks, independent arithmetic and optimized upstream/
+  ABI suites on Apple/Linux ARM64 and emulated AMD64/RV64.
+
 - Support exact assembler-quoted global names in functions, calls, data,
   relocations and TLS on all four targets. Preserve QBE macOS prefix semantics,
   encode internal block labels safely and keep quoted names outside first-path

@@ -227,6 +227,8 @@ must preserve the applicable correctness contract, and tested support remains
 distinct from proved support.
 
 Use `--optimize` with compatibility compilation to enable bounded constant
-propagation and integer folding. The default preserves the stack baseline.
-This initial pass retains statements, control flow and debug indices; it does
-not perform register allocation or expand the certified path.
+propagation, integer folding, same-width copy propagation and conservative
+dead-definition removal. The default preserves the stack baseline.
+The pipeline preserves control flow, remaps debug locations after removal and
+retains potentially effectful or trapping operations. It does not perform
+register allocation or expand the certified path.

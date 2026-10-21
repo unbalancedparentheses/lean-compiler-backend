@@ -1,6 +1,7 @@
 /- Optional compatibility-only integer constant propagation/folding.
    No floating folding, memory reordering, CFG changes or certified-path use. -/
 import LeanCompilerBackend.Semantics
+import LeanCompilerBackend.Optimize.Cleanup
 
 namespace LeanCompilerBackend.Optimize
 
@@ -78,7 +79,7 @@ def function (f : Function) : Function := Id.run do
 
 def module (m : Module) : Except String Module := do
   validateModule m
-  let result := {m with functions := m.functions.map function}
+  let result := {m with functions := m.functions.map (fun f => Cleanup.deadDefinitions (function (Cleanup.copies f)))}
   validateModule result
   pure result
 

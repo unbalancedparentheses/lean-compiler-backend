@@ -24,9 +24,8 @@ def run : IO Unit := do
     let expected := Semantics.evaluate m.functions[0]! #[x]
     let actual := Semantics.evaluate optimized.functions[0]! #[x]
     require (same actual expected) "constant folding changed word normalization or live parameter"
-  require (optimized.functions[0]!.blocks[0]!.instructions.take 3 |>.all fun s =>
-    match s with | .assign {operation := .copy (.constant _), ..} => true | _ => false)
-    "known integer chain was not folded"
+  require (optimized.functions[0]!.blocks[0]!.instructions.size == 1)
+    "dead constant chain was not eliminated"
   for source in #[
     "function w $f() { @s %x =w div -2147483648, -1 ret %x }",
     "function l $f() { @s %x =l udiv 17, 0 ret %x }"] do
@@ -42,8 +41,18 @@ def run : IO Unit := do
       "constant discovery invented a loop phi value"
   let debug ← parse "dbgfile \"fold.ssa\" function l $f() { @s dbgloc 7 %a =l add 1, 2 dbgloc 8 %b =l mul %a, 3 ret %b }"
   let folded ← optimize debug
-  require (folded.functions[0]!.blocks[0]!.debugLocations.size == 2 && folded.functions[0]!.blocks[0]!.instructions.size == 2)
-    "folding changed debug instruction indices"
+  require (folded.functions[0]!.blocks[0]!.debugLocations.size == 2 && folded.functions[0]!.blocks[0]!.instructions.isEmpty)
+    "cleanup failed to remap debug instruction indices"
+  let copies ← parse "function l $f(l %x) { @s %a =l copy %x %b =l copy %a ret %b }"
+  let cleaned ← optimize copies
+  require cleaned.functions[0]!.blocks[0]!.instructions.isEmpty "same-width copy chain retained"
+  require (same (Semantics.evaluate copies.functions[0]! #[42]) (Semantics.evaluate cleaned.functions[0]! #[42])) "copy propagation changed result"
+  let effects ← parse "function l $f(l %p) { @s %v =l load %p %a =l alloc16 8 %d =l div 1, 0 ret 42 }"
+  let cleaned ← optimize effects
+  require (cleaned.functions[0]!.blocks[0]!.instructions.size == 3) "dead cleanup removed memory/allocation/trap operations"
+  let narrow ← parse "function l $f(l %x) { @s %w =w copy %x %r =l extuw %w ret %r }"
+  let cleaned ← optimize narrow
+  require (same (Semantics.evaluate narrow.functions[0]! #[18446744073709551615]) (Semantics.evaluate cleaned.functions[0]! #[18446744073709551615])) "copy propagation removed word truncation"
   let large ← parse "function l $f() { @s %n =l copy 8192 %p =l alloc16 %n ret 42 }"
   discard (optimize large)
   IO.println "constant propagation: word normalization, defined-domain folding, cyclic phis, debug indices and runtime-size admission passed"

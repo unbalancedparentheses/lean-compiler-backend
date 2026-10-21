@@ -53,8 +53,8 @@ Next bounded work, before proof expansion:
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
    review implementation limits (64 functions/arguments, bounded object/frame
    sizes) against real frontend workloads. Add reduced cases for every gap.
-2. Extend the optional constant-folding pass with copy/dead-definition removal,
-   CFG simplification, alias analysis and the remaining QBE optimization passes.
+2. Extend the optional constant/copy/dead-definition pipeline with CFG
+   simplification, alias analysis and the remaining QBE optimization passes.
 3. Implement liveness, spilling and register allocation with value-flow checks;
    retain the current stack baseline as a differential oracle.
 4. Complete unimplemented QBE ABI configurations (`amd64_apple`, `amd64_win`),
@@ -208,9 +208,11 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   compare the indexed analysis with the preserved reducible validator; large
   native frame/phi tests cover scaled-offset boundaries. Optional `--optimize`
   now propagates known constants through SSA and folds defined integer operations,
-  retaining all statements, CFG edges and debug indices. Baseline/folded native
-  arithmetic checks and emulated AMD64/RV64 upstream/ABI suites pass. Next implement
-  copy/dead-code elimination, remaining analyses and optimization passes; this is not full P08 completion.
+  propagates same-width temporary copies and removes dead pure definitions,
+  remapping debug locations while retaining CFG edges and potential effects/traps.
+  Independent arithmetic and optimized upstream/ABI suites pass on all four targets
+  (AMD64/RV64 emulated). Next implement CFG simplification, remaining analyses and
+  optimization passes; this is not full P08 completion.
   State transformation conditions and invalidate stale analyses. Record proof status
   per pass; certified pipelines enable only covered transformations. Keep a simple
   baseline path for comparison and independently justified fallback.
