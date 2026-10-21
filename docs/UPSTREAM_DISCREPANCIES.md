@@ -41,7 +41,7 @@ invokes nor links either C compiler backend.
 
 The reduced control requires the original QBE result to differ and the Lean,
 corrected comparison and C results to agree. Generated overlap cases compare
-Python, Lean interpretation, Lean native code, corrected-QBE native code and
+Python, Lean interpretation, baseline and optimized Lean native code, corrected-QBE native code and
 separately generated native C references. Every original-QBE mismatch is recorded
 and explicitly reported as a mismatch, rather than counted as a match. An
 original-QBE mismatch outside the generated overlap cases still fails the gate.

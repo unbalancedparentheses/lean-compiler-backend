@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Run the independent byte-array memory oracle against optimized native output
+  as well as the baseline, including C-owned buffers and guard bytes. Retain
+  original-QBE overlap mismatches separately from the corrected comparison.
+
 - Add reproducible Csmith/cproc comparisons against GCC O0/O2 and original QBE,
   retaining source/IR hashes and reference timeouts separately from passing seeds.
   Forty-four programs (425,809 IR lines including runtime helpers) agree across

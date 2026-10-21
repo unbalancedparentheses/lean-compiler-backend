@@ -310,13 +310,13 @@ def external_memory(work, original, corrected):
                      + '\n'.join(declarations) + '\nint main(void) { unsigned char buffer[48];\n'
                      + '\n'.join(calls) + '\nreturn 0; }\n')
     lean_assembly = None
-    for label, oracle in [('lean', None), ('original', original), ('corrected', corrected)]:
+    for label, oracle in [('lean', None), ('lean-optimized', None), ('original', original), ('corrected', corrected)]:
         assembly = work/f'external-{label}.s'
-        run([LCB, source, '-o', assembly] if oracle is None else
+        run([LCB, source, *(['--optimize'] if label == 'lean-optimized' else []), '-o', assembly] if oracle is None else
             [oracle, '-t', 'arm64_apple', '-o', assembly, source])
         actual = compile_and_run(os.environ['LCB_CC'], assembly, cfile, work/f'external-{label}')
         assert actual == expected, ('external memory', label)
-        if oracle is None: lean_assembly = assembly
+        if label == 'lean': lean_assembly = assembly
     # Qualify the guard-byte checks by widening byte stores deliberately.
     corrupt = work/'external-corrupt.s'
     text = lean_assembly.read_text()
@@ -370,6 +370,8 @@ def main():
                     shutil.copy2(work/'case.json', report_directory/f'batch-{start}.json')
                 run([LCB, '--check', source])
                 run([LCB, source, '-o', asm])
+                optimized_asm = work/'lean-optimized.s'
+                run([LCB, source, '--optimize', '-o', optimized_asm])
                 for case in selected:
                     for a, b in arguments[:8]:
                         found = int(run([LCB, '--eval', source, case.name, a, b]))
@@ -380,7 +382,7 @@ def main():
                     run([qbe, '-t', 'arm64_apple', '-o', qasm, source])
                     corrected_asm = work/'qbe-corrected.s'
                     run([corrected, '-t', 'arm64_apple', '-o', corrected_asm, source])
-                    for label, assembly in [('lean', asm), ('qbe-corrected', corrected_asm), ('qbe-original', qasm)]:
+                    for label, assembly in [('lean', asm), ('lean-optimized', optimized_asm), ('qbe-corrected', corrected_asm), ('qbe-original', qasm)]:
                         actual = compile_and_run(os.environ['LCB_CC'], assembly, cfile, work/label)
                         (work/f'{label}-output.json').write_text(json.dumps(actual))
                         assert len(actual) == len(expected), (label, 'output count', len(actual), len(expected))
@@ -421,12 +423,12 @@ def main():
             raise
         if qbe:
             report = report_directory/'summary.json'
-            report.write_text(json.dumps({'seeds': seeds, 'regression': regression,
+            report.write_text(json.dumps({'seeds': seeds, 'lean_modes': ['baseline','optimized'], 'regression': regression,
                 'original_qbe_mismatches': original_mismatches,
                 'oracle_patch_sha256': hashlib.sha256((ROOT/'tests/upstream/qbe-1.3-loadopt-mask.json').read_bytes()).hexdigest()}, indent=2))
     print(f'memory: {len(cases)} functions ({len(seeds) * 8} generated), {interpreted} interpreter cases, '
           f'{rejected} rejection/undefined-domain controls; '
-          + (f'{native} native cases per Lean/corrected-QBE backend; {external_cases} C-owned-memory cases per backend; '
+          + (f'{native} native cases per Lean baseline/optimized/corrected-QBE backend; {external_cases} C-owned-memory cases per backend; '
              f'{c_reference_cases} C reference cases; '
              'signed-load corruption detected' if qbe else 'native not measured'))
     if qbe:
