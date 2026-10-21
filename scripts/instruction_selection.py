@@ -20,8 +20,18 @@ def fixture():
     sources, declarations, checks = [], [], []
     for width, bits in [('w',32), ('l',64)]:
         mask = (1<<bits)-1
+        logical=set()
+        for element in [2,4,8,16,32,64]:
+            if element>bits:continue
+            for ones in [1,element//2,element-1]:
+                for rotate in [0,1,element//2,element-1]:
+                    value=(1<<ones)-1
+                    value=((value>>rotate)|(value<<(element-rotate)))&((1<<element)-1)
+                    logical.add(sum(value<<offset for offset in range(0,bits,element)))
+        logical |= {value^1 for value in logical}
         for op in ['add','add_left','sub','shl','shr','sar','mul','mul_left','and','and_left','or','or_left','xor','xor_left']:
             algebra_constants = constants + [2, 4, 8, 1<<16, 1<<48, -(1<<31), -(1<<32), (1<<32)+1]
+            if op.removesuffix('_left') in ['and','or','xor']:algebra_constants += sorted(logical)
             for value in counts if op in ['shl','shr','sar'] else algebra_constants:
                 name = f'isel_{len(sources)}'
                 actual_op = op.removesuffix('_left')
@@ -89,6 +99,8 @@ def exercise(compiler, work, run, cc, target, execute=True):
             assert re.search(r'\b(?:lsl|lsr|asr) [wx]\d+, [wx]\d+, #31',output)
             assert re.search(r'\bcmn [wx]\d+, #4095',output)
             assert re.search(r'\bmovn [wx]\d+, #',output)
+            assert re.search(r'\band x\d+, x\d+, #6148914691236517205\b',output)
+            assert re.search(r'\borr w\d+, w\d+, #1431655765\b',output)
             assert re.search(r'\bmovz x\d+, #1, lsl #48',output)
         if execute:
             result = run([cc,caller,asm,'-o',exe],True);assert result.returncode==0,result.stderr
@@ -109,6 +121,11 @@ def exercise(compiler, work, run, cc, target, execute=True):
             bad.write_text(damaged)
             result = run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
             result = run([badexe],True);assert result.returncode!=0,'wrong MOVN escaped the independent oracle'
+            damaged,n = re.subn(r'(\band [wx]\d+, [wx]\d+, )#4095\b',r'\g<1>#2047',asm.read_text(),count=1)
+            assert n==1
+            bad.write_text(damaged)
+            result = run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
+            result = run([badexe],True);assert result.returncode!=0,'wrong logical immediate escaped the independent oracle'
     print(f'{target}: {functions} integer immediate/comparison/fallback functions, {count} independent cases per baseline/allocated/optimized mode; execution={execute}',flush=True)
 
 

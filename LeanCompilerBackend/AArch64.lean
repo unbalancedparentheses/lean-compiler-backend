@@ -99,6 +99,24 @@ private def compactImmediate (width : Width) (destination : Nat) (value : Int) :
       result := result ++ [s!"\tmovk {r}, #{chunk shift}, lsl #{shift}"]
   return result
 
+/-- A logical immediate repeats a power-of-two element containing one cyclic
+    run of ones and one of zeros. Zero and all-ones have no such encoding. -/
+def logicalImmediate (width : Width) (value : Int) : Bool := Id.run do
+  let bits := (Semantics.constant width value).toNat
+  if bits == 0 || bits == 2^width.bits-1 then return false
+  for size in #[2,4,8,16,32,64] do
+    if size > width.bits then break
+    let mask := 2^size-1
+    let element := bits &&& mask
+    if !(List.range (width.bits/size)).all (fun i => (bits >>> (i*size)) &&& mask == element) then
+      continue
+    let mut transitions := 0
+    for i in [:size] do
+      if (element >>> i) &&& 1 != (element >>> ((i+1)%size)) &&& 1 then
+        transitions := transitions+1
+    if transitions == 2 then return true
+  return false
+
 /-- Bounded immediate forms used only by the optional allocated path. The
     textual operand is independently assembled and exercised by target tests. -/
 private def binaryImmediate (width : Width) (op : Binary) (value : Int) : Option (String × String) := do
@@ -112,6 +130,10 @@ private def binaryImmediate (width : Width) (op : Binary) (value : Int) : Option
       else none
     let subtract := (op == .sub) != (signed < 0)
     return (if subtract then "sub" else "add", operand)
+  | .andBits | .orBits | .xorBits =>
+    if logicalImmediate width value then
+      return (mnemonic (select op), s!"#{Semantics.constant width value}")
+    none
   | .shiftLeft | .logicalRight | .arithmeticRight =>
     let amount := (Semantics.constant .word value).toNat % width.bits
     return (mnemonic (select op), s!"#{amount}")
@@ -453,7 +475,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     -- Stable GP homes can be read/written directly. Scratch registers remain
     -- reserved for constants and spilled operands; allocation already checks
     -- that overwriting a destination cannot destroy another live SSA value.
-    let (a, b) := if !slots.registers.isEmpty && op == .add then
+    let (a, b) := if !slots.registers.isEmpty && (op == .add || op == .andBits || op == .orBits || op == .xorBits) then
       match a with | .constant _ => (b, a) | _ => (a, b)
       else (a, b)
     let encoded := if slots.registers.isEmpty then none else

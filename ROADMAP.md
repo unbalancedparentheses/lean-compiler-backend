@@ -251,7 +251,7 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Independent symbolic home-flow checking now follows SSA identities through
   reachable joins, loops and parallel phi edges; machine effects remain separate.
   ARM64 integer/FP operations, comparisons, memory operands and scalar call
-  results now consume assigned GP homes directly; immediate arithmetic and compact
+  results now consume assigned GP homes directly; immediate arithmetic/logical masks and compact
   constant materialization reduce scratch transfers. Stationary ARM64 register
   phis avoid memory staging; acyclic GP phi transfers are scheduled directly
   without overwriting pending sources. Cycles and stack/symbol transfers retain

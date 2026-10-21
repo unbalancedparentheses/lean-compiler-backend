@@ -560,3 +560,22 @@ and original QBE. Eight GCC-reference timeouts remain unqualified. Across six
 disjoint batches this is **115 of 144 unique attempts**, **1,110,492 qualified
 IR lines** including runtime helpers, and 29 retained reference timeouts. The
 existing generator restrictions remain in force; this is not whole-C coverage.
+
+
+## ARM64 logical immediates
+
+Optional ARM64 lowering now recognizes repeated, rotated runs of one bits for
+AND/OR/XOR immediates, including commuted constants and 32-bit truncation.
+Zero/all-ones and nonencodable patterns retain register materialization.
+Independent enumeration checks all 1,302 word and 5,334 long encodings plus
+dense, negative, neighboring and random patterns: 190,980 unit cases. The
+expanded native matrix covers 3,106 functions/24,848 independent cases per
+lowering mode, with a wrong logical-mask corruption control.
+
+[The zlib report](zlib-logical.json) passes every unchanged upstream and gzip
+check. Optimized text is 145,466 bytes (147,226 before this selection change).
+Same-run median round trip is 0.0109 s optimized versus 0.00862 s original QBE;
+these samples do not establish a runtime improvement over the prior checkpoint.
+Native Apple/Linux ARM64 and another 32-seed/2,048-case differential campaign
+pass. The existing primitive selection proof does not certify these new
+immediate encodings or the assembly pipeline.
