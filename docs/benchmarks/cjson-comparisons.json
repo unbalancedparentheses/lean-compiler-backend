@@ -1,0 +1,546 @@
+{
+  "schema": 1,
+  "program": "cJSON 1.7.19",
+  "cjson_commit": "c859b25da02955fef659d658b8f324b5cde87be3",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "frontend_defines": [
+    "-D__DBL_EPSILON__=2.2204460492503131e-16",
+    "-DUNITY_LONG_WIDTH=64",
+    "-DUNITY_POINTER_WIDTH=64",
+    "-DUNITY_INT_WIDTH=32"
+  ],
+  "qbe_version": "1.3 (repository pinned source)",
+  "qbe_build_flags": "-std=c99 -O2",
+  "compiler_identity": "6b55f7b5d8bf34944f919309da1d9e31deb49630832afec80290e0221ccc39d8",
+  "compile_host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "execution": "Linux 36d787fe752f 7.2.9-orbstack-00391-g2b298d05fbd4 #1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+  "target": "aarch64-linux",
+  "ir_sha256": "75d9f87dcd7713c67eeb61052fba4c499feb3483370fded8c73ab655f13de84a",
+  "ir_bytes": 174676,
+  "ir_lines": 8319,
+  "ir_functions": 119,
+  "compile_seconds": {
+    "baseline": {
+      "samples": [
+        0.07072154199704528,
+        0.06964420800795779,
+        0.06907858297927305,
+        0.0684833750128746,
+        0.06661212496692315
+      ],
+      "median": 0.06907858297927305
+    },
+    "optimized": {
+      "samples": [
+        0.10979312501149252,
+        0.11960629199165851,
+        0.11270100000547245,
+        0.11259466700721532,
+        0.11074604099849239
+      ],
+      "median": 0.11259466700721532
+    },
+    "qbe": {
+      "samples": [
+        0.8094077089917846,
+        0.01856554194819182,
+        0.01885595900239423,
+        0.018213833041954786,
+        0.020374041981995106
+      ],
+      "median": 0.01885595900239423
+    }
+  },
+  "objects": {
+    "baseline": {
+      "file_bytes": 246760,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  94048\t    115\t     15\t  94178\t  16fe2\t/work/cjson-benchmark/cJSON-baseline.o",
+      "assembly_lines": 26530
+    },
+    "optimized": {
+      "file_bytes": 208280,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  55568\t    115\t     15\t  55698\t   d992\t/work/cjson-benchmark/cJSON-optimized.o",
+      "assembly_lines": 16910
+    },
+    "qbe": {
+      "file_bytes": 40864,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  26220\t    115\t     15\t  26350\t   66ee\t/work/cjson-benchmark/cJSON-qbe.o",
+      "assembly_lines": 7955
+    }
+  },
+  "tests": {
+    "parse_examples": {
+      "baseline": [
+        15,
+        0,
+        0
+      ],
+      "optimized": [
+        15,
+        0,
+        0
+      ],
+      "qbe": [
+        15,
+        0,
+        0
+      ],
+      "gcc": [
+        15,
+        0,
+        0
+      ]
+    },
+    "parse_number": {
+      "baseline": [
+        6,
+        0,
+        0
+      ],
+      "optimized": [
+        6,
+        0,
+        0
+      ],
+      "qbe": [
+        6,
+        0,
+        0
+      ],
+      "gcc": [
+        6,
+        0,
+        0
+      ]
+    },
+    "parse_hex4": {
+      "baseline": [
+        2,
+        0,
+        0
+      ],
+      "optimized": [
+        2,
+        0,
+        0
+      ],
+      "qbe": [
+        2,
+        0,
+        0
+      ],
+      "gcc": [
+        2,
+        0,
+        0
+      ]
+    },
+    "parse_string": {
+      "baseline": [
+        6,
+        0,
+        0
+      ],
+      "optimized": [
+        6,
+        0,
+        0
+      ],
+      "qbe": [
+        6,
+        0,
+        0
+      ],
+      "gcc": [
+        6,
+        0,
+        0
+      ]
+    },
+    "parse_array": {
+      "baseline": [
+        4,
+        0,
+        0
+      ],
+      "optimized": [
+        4,
+        0,
+        0
+      ],
+      "qbe": [
+        4,
+        0,
+        0
+      ],
+      "gcc": [
+        4,
+        0,
+        0
+      ]
+    },
+    "parse_object": {
+      "baseline": [
+        4,
+        0,
+        0
+      ],
+      "optimized": [
+        4,
+        0,
+        0
+      ],
+      "qbe": [
+        4,
+        0,
+        0
+      ],
+      "gcc": [
+        4,
+        0,
+        0
+      ]
+    },
+    "parse_value": {
+      "baseline": [
+        7,
+        0,
+        0
+      ],
+      "optimized": [
+        7,
+        0,
+        0
+      ],
+      "qbe": [
+        7,
+        0,
+        0
+      ],
+      "gcc": [
+        7,
+        0,
+        0
+      ]
+    },
+    "print_string": {
+      "baseline": [
+        3,
+        0,
+        0
+      ],
+      "optimized": [
+        3,
+        0,
+        0
+      ],
+      "qbe": [
+        3,
+        0,
+        0
+      ],
+      "gcc": [
+        3,
+        0,
+        0
+      ]
+    },
+    "print_number": {
+      "baseline": [
+        6,
+        0,
+        1
+      ],
+      "optimized": [
+        6,
+        0,
+        1
+      ],
+      "qbe": [
+        6,
+        0,
+        1
+      ],
+      "gcc": [
+        6,
+        0,
+        1
+      ]
+    },
+    "print_array": {
+      "baseline": [
+        3,
+        0,
+        0
+      ],
+      "optimized": [
+        3,
+        0,
+        0
+      ],
+      "qbe": [
+        3,
+        0,
+        0
+      ],
+      "gcc": [
+        3,
+        0,
+        0
+      ]
+    },
+    "print_object": {
+      "baseline": [
+        3,
+        0,
+        0
+      ],
+      "optimized": [
+        3,
+        0,
+        0
+      ],
+      "qbe": [
+        3,
+        0,
+        0
+      ],
+      "gcc": [
+        3,
+        0,
+        0
+      ]
+    },
+    "print_value": {
+      "baseline": [
+        7,
+        0,
+        0
+      ],
+      "optimized": [
+        7,
+        0,
+        0
+      ],
+      "qbe": [
+        7,
+        0,
+        0
+      ],
+      "gcc": [
+        7,
+        0,
+        0
+      ]
+    },
+    "misc_tests": {
+      "baseline": [
+        30,
+        0,
+        0
+      ],
+      "optimized": [
+        30,
+        0,
+        0
+      ],
+      "qbe": [
+        30,
+        0,
+        0
+      ],
+      "gcc": [
+        30,
+        0,
+        0
+      ]
+    },
+    "parse_with_opts": {
+      "baseline": [
+        6,
+        0,
+        0
+      ],
+      "optimized": [
+        6,
+        0,
+        0
+      ],
+      "qbe": [
+        6,
+        0,
+        0
+      ],
+      "gcc": [
+        6,
+        0,
+        0
+      ]
+    },
+    "compare_tests": {
+      "baseline": [
+        10,
+        0,
+        0
+      ],
+      "optimized": [
+        10,
+        0,
+        0
+      ],
+      "qbe": [
+        10,
+        0,
+        0
+      ],
+      "gcc": [
+        10,
+        0,
+        0
+      ]
+    },
+    "cjson_add": {
+      "baseline": [
+        31,
+        0,
+        0
+      ],
+      "optimized": [
+        31,
+        0,
+        0
+      ],
+      "qbe": [
+        31,
+        0,
+        0
+      ],
+      "gcc": [
+        31,
+        0,
+        0
+      ]
+    },
+    "readme_examples": {
+      "baseline": [
+        3,
+        0,
+        0
+      ],
+      "optimized": [
+        3,
+        0,
+        0
+      ],
+      "qbe": [
+        3,
+        0,
+        0
+      ],
+      "gcc": [
+        3,
+        0,
+        0
+      ]
+    },
+    "minify_tests": {
+      "baseline": [
+        7,
+        0,
+        0
+      ],
+      "optimized": [
+        7,
+        0,
+        0
+      ],
+      "qbe": [
+        7,
+        0,
+        0
+      ],
+      "gcc": [
+        7,
+        0,
+        0
+      ]
+    }
+  },
+  "runtime": {
+    "baseline": {
+      "seconds": [
+        1.955167907,
+        2.002264521,
+        1.961280662,
+        1.956107854,
+        1.977500744
+      ],
+      "median_seconds": 1.961280662,
+      "executable_bytes": 278448,
+      "iterations": 1000,
+      "input_bytes": 16488,
+      "output_bytes": 15583000,
+      "checksum": "342141b63f079083"
+    },
+    "optimized": {
+      "seconds": [
+        0.69404541,
+        0.746470731,
+        0.694789448,
+        0.934610976,
+        0.71659749
+      ],
+      "median_seconds": 0.71659749,
+      "executable_bytes": 212920,
+      "iterations": 1000,
+      "input_bytes": 16488,
+      "output_bytes": 15583000,
+      "checksum": "342141b63f079083"
+    },
+    "qbe": {
+      "seconds": [
+        0.360925051,
+        0.461407936,
+        0.56239657,
+        0.411145636,
+        0.425552629
+      ],
+      "median_seconds": 0.425552629,
+      "executable_bytes": 76784,
+      "iterations": 1000,
+      "input_bytes": 16488,
+      "output_bytes": 15583000,
+      "checksum": "342141b63f079083"
+    },
+    "gcc": {
+      "seconds": [
+        0.236807909,
+        0.304902472,
+        0.262330227,
+        0.314410534,
+        0.229834471
+      ],
+      "median_seconds": 0.262330227,
+      "executable_bytes": 75512,
+      "iterations": 1000,
+      "input_bytes": 16488,
+      "output_bytes": 15583000,
+      "checksum": "342141b63f079083"
+    }
+  },
+  "default_stack_failures": [
+    {
+      "test": "misc_tests",
+      "backend": "baseline",
+      "exit": 139
+    }
+  ],
+  "default_stack_kib": 8192,
+  "notes": [
+    "Both backends compile identical IR on the same host; frontend/assembler/linker time excluded.",
+    "Runtime timing occurs inside the native ARM64 Linux VM, excluding docker launch overhead.",
+    "Unity test support and benchmark driver use GCC; each test translation unit includes cJSON.c and goes through the compared backend.",
+    "GCC -O2 is an additional C-source correctness reference, not an identical-IR backend.",
+    "Defines supply cproc/GCC-header interoperability constants; upstream source and emitted IR are unchanged."
+  ]
+}

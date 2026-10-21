@@ -251,3 +251,20 @@ source/IR hashes, exact compiler identity, original failures, patch hash, native
 runner logs and all timing samples. SQLite and Lua were also probed, but cproc
 rejects their volatile stores before backend input; SQLite additionally requires
 unsupported long-double expressions. Those probes are not backend qualification.
+
+
+## Direct ARM64 comparison operands
+
+The [cJSON comparison-lowering report](cjson-comparisons.json) retains all 153
+assertions and checksums, with the baseline stack retry still explicit. Optimized
+text falls from 61,248 to 55,568 bytes. The [QBE rerun](qbe-comparisons.json)
+retains all 487 successful assembly reproductions, the expected Windows/TLS
+rejection and 58 original runtime tests per passing executable; optimized QBE
+text falls from 662,628 to 633,184 bytes. Original QBE's self-compilation failure
+remains separate from the corrected oracle.
+
+Host contention increased during these runs: the raw cJSON sample medians are
+baseline 1.9613 s, optimized 0.7166 s, QBE 0.4256 s and GCC 0.2623 s. QBE workload
+medians are reference 0.1196 s, baseline 0.8357 s, optimized 0.3185 s and corrected
+QBE 0.1925 s. These do not establish a runtime improvement over earlier runs;
+the code-size reduction and functional comparisons are the stable findings.

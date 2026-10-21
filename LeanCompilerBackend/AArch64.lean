@@ -441,9 +441,27 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
       lines := lines ++ [s!"\t{instruction} {r11}, {r9}, {r10}", s!"\tmsub {r9}, {r11}, {r10}, {r9}"]
     else lines := lines ++ [s!"\t{instruction} {r9}, {r9}, {r10}"]
   | .compare op width a b =>
-    lines := lines ++ (← load darwin localSymbols base slots width 9 a)
-    lines := lines ++ (← load darwin localSymbols base slots width 10 b)
-    lines := lines ++ [s!"\tcmp {register width 9}, {register width 10}", s!"\tcset w9, {condition op}"]
+    let left := match a with
+      | .temporary name => (slots.registers.lookup name).getD 9
+      | _ => 9
+    let right := match b with
+      | .temporary name => (slots.registers.lookup name).getD 10
+      | _ => 10
+    let destination := (slots.registers.lookup inst.destination).getD 9
+    let encoded := if slots.registers.isEmpty then none else
+      match b with | .constant value => binaryImmediate width .sub value | _ => none
+    if left == 9 then lines := lines ++ (← load darwin localSymbols base slots width 9 a)
+    if let some (instruction, operand) := encoded then
+      -- CMN adds a nonzero magnitude for an encodable negative constant;
+      -- zero uses CMP, preserving its distinct carry flag.
+      let comparison := if instruction == "add" then "cmn" else "cmp"
+      lines := lines ++ [s!"\t{comparison} {register width left}, {operand}"]
+    else
+      if right == 10 then lines := lines ++ (← load darwin localSymbols base slots width 10 b)
+      lines := lines ++ [s!"\tcmp {register width left}, {register width right}"]
+    -- A W write zero-extends, so both word and long boolean results are exact.
+    lines := lines ++ [s!"\tcset {register .word destination}, {condition op}"]
+    if destination != 9 then return lines
   | .allocate _ size =>
     if base == "x29" then
       lines := lines ++ (← load darwin localSymbols base slots .long 9 size)

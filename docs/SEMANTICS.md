@@ -650,7 +650,11 @@ add/sub operations also select unsigned 12-bit immediates (optionally shifted by
 12), flipping add/sub for representable negative equivalents after width
 normalization. Constant shifts select immediate counts modulo the result width.
 Unencodable constants retain register materialization; the stack baseline keeps
-its previous lowering.
+its previous lowering. Integer comparisons likewise read assigned homes and
+write boolean results with W-register CSET, including long results. Encodable
+negative constants use CMN with a nonzero magnitude; zero uses CMP so carry
+semantics remain correct. Both register and immediate comparison paths remain
+execution-tested rather than formally proved.
 
 This is conservative whole-range allocation, not full QBE allocation parity.
 It does not assign caller-saved or FP homes, split live ranges, coalesce moves,

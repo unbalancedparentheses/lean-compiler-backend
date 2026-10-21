@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Lower ARM64 integer comparisons directly on assigned homes, with CMP/CMN
+  immediates where encodable and zero-extended boolean results. Test signed and
+  unsigned predicates, mixed widths, carry boundaries and reversed operands:
+  9,680 independent cases per baseline/allocated/optimized mode.
+
 - Bootstrap unchanged QBE itself through cproc and our baseline/optimized backend:
   725 functions, 974 exact assembly reproductions across the two executables,
   matching reference rejections and 58 original ARM64 tests per executable.
