@@ -758,3 +758,9 @@ tests for qualified backends. Original ARM64 QBE's parser failure stays separate
 Optimized input-object text is 381,116 bytes (8,976 fewer), default-linked text
 410,012 bytes. Self-IR compile medians are 0.1914 s optimized, 0.1653 s corrected
 QBE and 0.1013 s GCC-built reference. Preservation proof scope is unchanged.
+
+[The disjoint Csmith batch](csmith-address-selection.json), seeds 20261261–20261292,
+qualifies 24/32 programs and 193,941 IR lines on this compiler. Eight GCC O0 reference
+timeouts stay unqualified. Ten disjoint default-profile batches now total
+**219/272 unique attempts**, **2,048,006 qualified IR lines** including runtime
+helpers, and 53 reference timeouts. The restricted pointer profile remains separate.
