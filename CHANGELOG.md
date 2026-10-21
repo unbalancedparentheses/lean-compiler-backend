@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Fix SSA cycle detection to permit loop live-ins after a join placeholder has
+  been cached; retain rejection of cycles with no reaching definition.
+
 - Added `dbgfile`/`dbgloc` parsing and source metadata preserved through SSA,
   with Apple ARM64 `.file`/`.loc` emission and native DWARF line-table checks.
   All 87 public QBE opcode names now accept some forms; this is not full

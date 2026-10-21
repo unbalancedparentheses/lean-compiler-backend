@@ -103,6 +103,22 @@ export function l $parameter(l %x) {
  ret %x
 }
 ''')
+    sources.append('''export function l $loop_livein(l %x,l %y) {
+@start
+ jmp @entry
+@entry
+ %condition =w copy 1
+ jnz %condition, @live, @dead1
+@live
+ %v =l add %x, %y
+ ret %v
+@dead1
+ %v =l add %x, %y
+ jmp @dead2
+@dead2
+ jnz %condition, @live, @dead1
+}
+''')
     return ''.join(sources),models
 
 
@@ -142,13 +158,14 @@ def main():
             for _ in range((limit&31)+1):
                 x=((x+3) if at_a else x*5)&MASK;at_a=not at_a
             cases.append(('irreducible',[seed,limit],x))
+    for seed in seeds:cases.append(('loop_livein',[seed,17],(seed+17)&MASK))
     cc=os.environ.get('LCB_CC','cc')
     with tempfile.TemporaryDirectory(prefix='lcb-ssa-') as directory:
         work=Path(directory);src=work/'input.ssa';asm=work/'lean.s';c=work/'caller.c';src.write_text(source)
         run([LCB,src,'-o',asm]);first=asm.read_text();run([LCB,src,'-o',asm]);assert first==asm.read_text(),'unstable SSA names'
         for name,args,wanted in cases:assert int(run([LCB,'--eval',src,name,*args]))==wanted,(name,args,wanted)
         decl=''.join(f'extern uint64_t mutable_{i}(uint64_t,uint32_t);\n' for i in range(len(models)))
-        decl+='extern uint64_t irreducible(uint64_t,uint32_t);\n'
+        decl+='extern uint64_t irreducible(uint64_t,uint32_t),loop_livein(uint64_t,uint64_t);\n'
         decl+='extern uint32_t explicit_phi(uint32_t);\nextern uint64_t parameter(uint64_t),floating_s(uint32_t),floating_d(uint32_t);\n'
         checks=''
         for name,args,wanted in cases:checks+=f'if({name}('+','.join(f'UINT64_C({x})' for x in args)+f')!=UINT64_C({wanted})) return 1;\n'
@@ -159,6 +176,7 @@ def main():
             'function w $f(w %c) { @s jnz %c, @a, @b @a %x =w copy 1 %x =w add %x, 1 jmp @j @b jmp @j @j ret %x }',
             'function w $f(w %a,w %a) { @s %a =w copy 1 ret %a }',
             'function w $f() { @s %x =w copy 1 %x =s copy s_1 ret 0 }',
+            'function w $f() { @s ret 0 @a %v =w add %x, 1 jmp @b @b jmp @a }',
         ]):
             bad=work/f'bad{i}.ssa';bad.write_text(text);reject([LCB,'--check',bad],'')
         if native_host():
@@ -167,6 +185,6 @@ def main():
             for label,assembly in [('lean',asm),('qbe',qasm)]:
                 exe=work/label;run([cc,'-O2',c,assembly,'-o',exe]);run([exe])
             damaged=work/'damaged.s';damaged.write_text(asm.read_text().replace('mul x9, x9, x10','add x9, x9, x10'));run([cc,'-O2',c,damaged,'-o',work/'damaged']);reject([work/'damaged'],'')
-        print(f'SSA construction: 21 functions, {len(cases)} Python/interpreter cases, deterministic renaming and admission controls; '+('native Lean/QBE and corruption passed' if native_host() else 'native execution unmeasured'))
+        print(f'SSA construction: 22 functions, {len(cases)} Python/interpreter cases, deterministic renaming and admission controls; '+('native Lean/QBE and corruption passed' if native_host() else 'native execution unmeasured'))
 
 if __name__=='__main__':main()

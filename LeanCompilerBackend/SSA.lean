@@ -63,7 +63,10 @@ private def readAt : Nat → String → String → Bool → M String
     let some (width, floating) := s.types[varName]?
       | throw s!"SSA construction: undefined temporary %{varName}"
     let name ← fresh
-    modify fun s => { s with cache := s.cache.insert (label, varName) name }
+    -- A join placeholder closes cycles through this block. Earlier single-edge
+    -- visits may now resolve through it, so only cycles since this progress are
+    -- undefined. Keeping those earlier visits would reject valid loop live-ins.
+    modify fun s => { s with cache := s.cache.insert (label, varName) name, visiting := {} }
     let incoming ← preds.mapM fun pred => do
       let label := s.plans[pred]!.block.label
       pure (label, Operand.temporary (← readAt fuel label varName true))
