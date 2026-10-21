@@ -507,3 +507,19 @@ copies. It does not reorder memory, remove calls/traps, prune branches, eliminat
 dead definitions, allocate registers or claim formal preservation. The rewritten
 module is validated before target lowering. Default compilation and all
 first-path/certified job operations remain outside this optional pipeline.
+
+
+## Quoted global names
+
+Quoted `$"name"` globals retain their assembler spelling, including escapes;
+these are not decoded like data strings. On Darwin, ordinary `$name` symbols
+receive the platform underscore, while quoted names are exact and receive no
+prefix. Consequently `$name` and `$"name"` may name different symbols. Functions,
+call targets, address constants, data relocations and TLS share these rules.
+Compiler-generated block/edge labels encode quoted names into safe identifiers,
+and Darwin TLS initialization suffixes are placed inside the quotes.
+
+The current quoted-name domain is nonempty, single-line names without control
+characters, bounded to 4096 characters. Temporaries, block labels and aggregate
+type names retain unquoted identifier syntax. The restricted first-path importer
+rejects quoted function names; these changes add no certification claims.

@@ -244,7 +244,7 @@ private def emitStatement (c : Context) : Statement → Except String (List Stri
   | .vaStart list => do
     return (← load c .long "t0" list) ++ address "t1" "s0" c.vaOffset ++ ["\tsd t1, 0(t0)"]
 
-private def label (f : Function) (name : String) : String := s!".L_lcb_{f.name.length}_{f.name}_{name}"
+private def label (f : Function) (name : String) : String := s!".L_lcb_{f.name.length}_{Assembly.localName f.name}_{name}"
 private def edge (c : Context) (f : Function) (src dst : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == dst) | throw "missing RV64 edge"
   let mut lines := []
@@ -336,7 +336,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
     | .halt => lines := lines ++ ["\tunimp"]
     | .jump dst => lines := lines ++ (← edge c f b.label dst) ++ [s!"\tj {label f dst}"]
     | .branch v yes no =>
-      let other := s!".L_lcb_edge_{f.name.length}_{f.name}_{b.label}"
+      let other := s!".L_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{b.label}"
       lines := lines ++ (← load c .word "t0" v) ++ [s!"\tbeqz t0, {other}"] ++ (← edge c f b.label yes) ++
         [s!"\tj {label f yes}", other ++ ":"] ++ (← edge c f b.label no) ++ [s!"\tj {label f no}"]
   lines := lines ++ [s!".size {f.name}, .-{f.name}"]

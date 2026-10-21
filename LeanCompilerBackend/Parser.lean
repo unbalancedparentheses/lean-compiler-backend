@@ -99,9 +99,13 @@ private def parseName (sigil : Char) : P String := do
   match chars with
   | first :: rest =>
     if first != sigil || rest.isEmpty then failAt s!"expected a {sigil}-prefixed name"
-    if !validIdentifier (String.ofList rest) then
+    let result := String.ofList rest
+    if sigil == '$' && result.startsWith "\"" then
+      if !validGlobalName result then failAt "invalid quoted global name"
+      return result
+    if !validIdentifier result then
       failAt "unsupported name: expected an unquoted ASCII QBE identifier"
-    return String.ofList rest
+    return result
   | [] => failAt "empty name"
 
 private def parseABIType : P (Width × Bool × Option Subword × Option String) := do

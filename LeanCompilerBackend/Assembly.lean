@@ -3,7 +3,21 @@ import LeanCompilerBackend.IR
 namespace LeanCompilerBackend.Assembly
 
 def symbolName (darwin : Bool) (name : String) : String :=
-  (if darwin then "_" else "") ++ name
+  if darwin then
+    if name.startsWith "\"" then name else "_" ++ name
+  else name
+
+/-- Add target-private suffixes inside global-symbol quotes. -/
+def symbolSuffix (name suffix : String) : String :=
+  if name.startsWith "\"" then String.ofList (name.toList.take (name.length-1)) ++ suffix ++ "\""
+  else name ++ suffix
+
+/-- Quoted function names must not become assembler syntax in internal labels.
+    The function-name length in each label keeps this encoding distinct from
+    ordinary identifiers with a coincidentally matching spelling. -/
+def localName (name : String) : String :=
+  if name.startsWith "\"" then "quoted_" ++ String.intercalate "_" (name.toUTF8.data.toList.map (fun b => toString b.toNat))
+  else name
 
 
 def sectionDirective (darwin : Bool) (customSection : String) : String :=
@@ -32,9 +46,9 @@ def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run do
     else [".section .tdata,\"awT\",%progbits", s!".type {data.name}, %tls_object"]
     else [data.customSection.map (sectionDirective darwin) |>.getD ".data"]
   if data.exported then lines := lines ++ [s!".globl {symbolName darwin data.name}"]
-  let initialSymbol := if darwin && data.threadLocal then s!"_{data.name}$tlv$init" else symbolName darwin data.name
+  let initialSymbol := if darwin && data.threadLocal then symbolSuffix (symbolName true data.name) "$tlv$init" else symbolName darwin data.name
   if darwin && data.threadLocal then
-    lines := lines ++ [s!"_{data.name}:", "\t.quad __tlv_bootstrap", "\t.quad 0", s!"\t.quad {initialSymbol}",
+    lines := lines ++ [s!"{symbolName true data.name}:", "\t.quad __tlv_bootstrap", "\t.quad 0", s!"\t.quad {initialSymbol}",
       ".section __DATA,__thread_data,thread_local_regular"]
   if !darwin then
     if !data.threadLocal then lines := lines ++ [s!".type {data.name}, %object"]

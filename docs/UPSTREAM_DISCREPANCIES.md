@@ -131,3 +131,13 @@ A separate QBE reference uses 16-byte allocations for the zero-sized constants;
 this preserves the tested alignment/live-object properties without claiming
 that original QBE passed. Zero-sized objects are never dereferenced in the
 native test; the interpreter separately rejects such accesses.
+
+
+## Darwin quoted TLS names
+
+`scripts/quoted_names.py` reproduces pinned QBE's assembly failure for a quoted
+thread-local name: it appends `$tlv$init` outside the closing quote. Lean puts this
+compiler-generated suffix inside the quote. The original Lean source must pass
+C lookup/call tests; the separate QBE reference renames only the TLS symbol to an
+ordinary identifier. Quoted functions/data and exact Darwin prefix behavior
+remain checked in both outputs. Vendored QBE is unchanged.

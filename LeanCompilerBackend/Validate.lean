@@ -77,7 +77,7 @@ private def checkOperand (definitions : Definitions) (doms : Dominators)
   | .constant _ => pure ()
   | .symbol name | .threadSymbol name =>
     if floating then throw "symbol address cannot have floating type"
-    if !validName name then throw "unsupported symbol name"
+    if !validGlobalName name then throw "unsupported symbol name"
   | .temporary name =>
     let some definition := definitions.find? name
       | throw s!"undefined temporary %{name}"
@@ -105,7 +105,7 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
     (checkFloat : Width → Operand → Except String Unit)
     (target : CallTarget) (arguments : Array CallArgument) : Except String Unit := do
   match target with
-  | .direct name => if !validName name then throw "unsupported direct call target"
+  | .direct name => if !validGlobalName name then throw "unsupported direct call target"
   | .indirect address => check .long address
   if arguments.size > maxIntegerArguments then
     throw s!"call exceeds the {maxIntegerArguments}-integer-argument resource limit"
@@ -163,7 +163,7 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
   if f.resultSubword.isSome && f.resultWidth.isNone then throw "void result cannot have subword type"
   if let some width := f.resultWidth then checkSubword width f.resultFloating f.resultSubword
   if f.resultFloating && f.resultWidth.isNone then throw "void result cannot have floating type"
-  if !validName f.name then throw "unsupported function name"
+  if !validGlobalName f.name then throw "unsupported function name"
   if f.parameters.size > maxIntegerArguments then
     throw s!"function exceeds the {maxIntegerArguments}-integer-parameter resource limit"
   for i in [:f.parameters.size] do
@@ -365,7 +365,7 @@ def validateModule (module : Module) : Except String Unit := do
   let mut names := module.functions.toList.map (·.name)
   let mut total := 0
   for data in module.data do
-    if !validName data.name then throw "unsupported data symbol name"
+    if !validGlobalName data.name then throw "unsupported data symbol name"
     if names.contains data.name then throw s!"duplicate module symbol ${data.name}"
     names := data.name :: names
     checkSection data.customSection
@@ -382,7 +382,7 @@ def validateModule (module : Module) : Except String Unit := do
     if total > 1024 * 1024 then throw "module data exceeds the 1 MiB resource limit"
     for item in data.items do
       if let .address name _ := item then
-        if !validName name then throw "unsupported data relocation symbol"
+        if !validGlobalName name then throw "unsupported data relocation symbol"
         if module.data.any (fun d => d.name == name && d.threadLocal) then
           throw "thread-local address cannot be a static data initializer"
   for data in module.data do

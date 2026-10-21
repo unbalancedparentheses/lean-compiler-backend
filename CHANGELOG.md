@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Support exact assembler-quoted global names in functions, calls, data,
+  relocations and TLS on all four targets. Preserve QBE macOS prefix semantics,
+  encode internal block labels safely and keep quoted names outside first-path
+  admission. Add native/emulated C dynamic-symbol lookup and QBE comparisons.
+
 - Add opt-in `--optimize` constant propagation and defined integer folding with
   post-pass validation. Preserve the default stack baseline, debug indices,
   effects, undefined-operation boundaries and certified-path separation.

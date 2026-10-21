@@ -50,7 +50,7 @@ This fixture count does not mean the full port is complete.
 
 Next bounded work, before proof expansion:
 
-1. Close remaining syntax/linkage coverage, especially quoted global names, and
+1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
    review implementation limits (64 functions/arguments, bounded object/frame
    sizes) against real frontend workloads. Add reduced cases for every gap.
 2. Extend the optional constant-folding pass with copy/dead-definition removal,

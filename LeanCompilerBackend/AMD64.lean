@@ -272,7 +272,7 @@ private def emitStatement (c : Context) : Statement → Except String (List Stri
     return (← load c .long "rax" list) ++ [s!"\tmovl ${c.gpUsed*8}, (%rax)", s!"\tmovl ${48+c.fpUsed*16}, 4(%rax)",
       s!"\tleaq {16+c.stackArgs}(%rbp), %rcx", "\tmovq %rcx, 8(%rax)", s!"\tleaq -{c.saveArea}(%rbp), %rcx", "\tmovq %rcx, 16(%rax)"]
 
-private def label (f : Function) (name : String) : String := s!".L_lcb_{f.name.length}_{f.name}_{name}"
+private def label (f : Function) (name : String) : String := s!".L_lcb_{f.name.length}_{Assembly.localName f.name}_{name}"
 private def edge (c : Context) (f : Function) (source target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw "missing edge target"
   let mut lines := []
@@ -372,7 +372,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
     | .halt => lines := lines ++ ["\tud2"]
     | .jump target => lines := lines ++ (← edge c f block.label target) ++ [s!"\tjmp {label f target}"]
     | .branch value yes no =>
-      let other := s!".L_lcb_edge_{f.name.length}_{f.name}_{block.label}"
+      let other := s!".L_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{block.label}"
       lines := lines ++ (← load c .word "rax" value) ++ ["\ttestl %eax, %eax", s!"\tjz {other}"] ++
         (← edge c f block.label yes) ++ [s!"\tjmp {label f yes}", other ++ ":"] ++ (← edge c f block.label no) ++ [s!"\tjmp {label f no}"]
   lines := lines ++ [s!".size {f.name}, .-{f.name}"]

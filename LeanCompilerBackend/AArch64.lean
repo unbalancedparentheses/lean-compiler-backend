@@ -89,7 +89,7 @@ private def threadAddress (darwin : Bool) (width : Width) (destination : Nat) (n
   for i in [:4] do
     lines := lines ++ [s!"\tstp d{2*i}, d{2*i+1}, [sp, #{160+16*i}]"]
   if darwin then
-    lines := lines ++ [s!"\tadrp x0, _{name}@TLVPPAGE", s!"\tldr x0, [x0, _{name}@TLVPPAGEOFF]",
+    lines := lines ++ [s!"\tadrp x0, {symbolName true name}@TLVPPAGE", s!"\tldr x0, [x0, {symbolName true name}@TLVPPAGEOFF]",
       "\tldr x1, [x0]", "\tblr x1"]
   else
     lines := lines ++ [s!"\tadrp x0, :tlsdesc:{name}", s!"\tldr x1, [x0, :tlsdesc_lo12:{name}]",
@@ -127,7 +127,7 @@ private def load (darwin : Bool) (localSymbols : List String) (base : String) (s
   | .symbol name =>
     -- GOT references work for both module-local and externally linked symbols.
     let r := register .long destination
-    return (if darwin then [s!"\tadrp {r}, _{name}@GOTPAGE", s!"\tldr {r}, [{r}, _{name}@GOTPAGEOFF]"]
+    return (if darwin then [s!"\tadrp {r}, {symbolName true name}@GOTPAGE", s!"\tldr {r}, [{r}, {symbolName true name}@GOTPAGEOFF]"]
       else if localSymbols.contains name then [s!"\tadrp {r}, {name}", s!"\tadd {r}, {r}, :lo12:{name}"]
       else [s!"\tadrp {r}, :got:{name}", s!"\tldr {r}, [{r}, :got_lo12:{name}]"])
       ++ (if width == .word then [s!"\tmov {register .word destination}, {register .word destination}"] else [])
@@ -474,10 +474,10 @@ private def emitStatement (darwin : Bool) (localSymbols : List String) (types : 
     pure (addressLines ++ valueLines ++ [s!"\t{instruction}, [x9]"])
 
 private def blockLabel (f : Function) (label : String) : String :=
-  s!"L_lcb_block_{f.name.length}_{f.name}_{label}"
+  s!"L_lcb_block_{f.name.length}_{localName f.name}_{label}"
 
 private def edgeLabel (f : Function) (label : String) : String :=
-  s!"L_lcb_edge_{f.name.length}_{f.name}_{label}"
+  s!"L_lcb_edge_{f.name.length}_{localName f.name}_{label}"
 
 /-- Phi lowering stages every source before changing any destination slot. -/
 private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (f : Function) (slots : List (String × Nat)) (stageBase : Nat)

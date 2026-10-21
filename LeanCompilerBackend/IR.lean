@@ -18,6 +18,21 @@ def validIdentifier (name : String) : Bool :=
     c.toNat < 128 && (c.isAlphanum || c == '_' || c == '.' || c == '$')) &&
     (name.toList.head!.isAlpha || name.toList.head! == '_' || name.toList.head! == '.')
 
+/-- Global symbols may use assembler-quoted QBE spelling. Keep escape spelling
+    intact: assembler symbol quoting differs from data-string escape decoding. -/
+def validGlobalName (name : String) : Bool := Id.run do
+  if validIdentifier name then return true
+  let chars := name.toList.toArray
+  if chars.size < 3 || chars.size > 4096 || chars[0]! != '"' || chars[chars.size-1]! != '"' then return false
+  let mut escaped := false
+  for i in [1:chars.size-1] do
+    let c := chars[i]!
+    if c.toNat < 32 || c.toNat == 127 then return false
+    if escaped then escaped := false
+    else if c == '\\' then escaped := true
+    else if c == '"' then return false
+  return !escaped
+
 inductive Width where
   | word | long
   deriving BEq, DecidableEq, Repr, Inhabited

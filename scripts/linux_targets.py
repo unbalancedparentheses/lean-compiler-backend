@@ -84,6 +84,8 @@ def main():
             riscv_tests(compiler,work,run,cc,qbe)
         from target_tls import exercise as tls_tests
         tls_tests(compiler,work,run,cc,args.target)
+    from quoted_names import exercise as quoted_tests
+    quoted_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
     from constant_fold import exercise as fold_tests
     if not args.optimize:fold_tests(compiler,work,run,cc,args.target,execute)
     from zero_alloc import exercise as zero_tests
