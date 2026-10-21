@@ -170,3 +170,22 @@ With this bounded oracle correction, the QBE-compiled cproc frontend reproduces
 do the baseline and optimized Lean-compiled frontends. The original QBE crash
 remains a recorded failure; corrected-oracle successes are reported separately.
 This is a tested comparison correction, not a proof or a claim about newer QBE.
+
+## RV64 external-symbol offsets fail GOT relocation linking
+
+The same reduced external-offset IR also exposes a pinned QBE 1.3 RV64 issue.
+Its emitted `la a0, external_bytes+32` creates an `R_RISCV_GOT_HI20` relocation
+whose addend is forbidden by the linker. The C driver therefore fails to link
+with the original QBE output. Both Lean modes link and return the correct pointer.
+
+The RV64 cproc self-compilation comparison records the original QBE frontend
+link failure separately. Its separately named oracle applies the exact
+[RV64 test-only correction](../tests/upstream/qbe-1.3-rv64-extern-offset.json),
+checking the pinned `rv64/isel.c` hash first. As in ARM64, long external symbol
+constants become a zero-addend address load plus a normal integer addition before
+allocation. Under QEMU RV64, our baseline, optimized backend and the corrected
+oracle each reproduce 19 stage-one IR files and pass all 196 original cproc tests.
+
+`scripts/linux_targets.py` retains the original link rejection on RV64 and
+requires matching pointer results from both Lean modes. On x86-64 the original
+QBE pointer check passes; no correction is applied to that target.

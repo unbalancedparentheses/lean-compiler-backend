@@ -107,3 +107,22 @@ LCB_CC=cc python3 scripts/cproc_bootstrap.py
 
 This is frontend self-compilation and functional bootstrap checking, not a
 bit-identical stage-two/stage-three executable bootstrap or a formal proof.
+
+### Linux x86-64 and RV64 bootstrap qualification
+
+The same runner supports `--target x86_64-linux` and `--target riscv64-linux`.
+It builds a native ARM64 stage-one cproc driver configured for the requested
+cross target, uses that target's headers/preprocessor and generates its target
+ABI IR. Resulting frontends execute under explicitly labeled QEMU user emulation.
+
+- [x86-64 report](cproc-bootstrap-x86_64.json): baseline, optimized and original
+  QBE each reproduce 19 IR files and pass 196/196 original tests. No oracle
+  correction is used on this target.
+- [RV64 report](cproc-bootstrap-riscv64.json): baseline and optimized frontends
+  reproduce 19 IR files and pass 196/196 tests. Original QBE fails to link because
+  its external-GOT relocation has a forbidden addend. A separately corrected
+  oracle passes the same reproduction and tests; the original failure is retained.
+
+The RV64 QBE executables use `-no-pie`, matching the existing target qualification;
+Lean output is linked with the compiler driver's default mode. Cross-target runs
+are correctness checks and are not native runtime performance measurements.

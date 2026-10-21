@@ -94,6 +94,8 @@ def main():
     quoted_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
     from module_scale import exercise as module_tests
     module_tests(compiler,work,run,cc,args.target,execute)
+    from extern_offsets import exercise as extern_offset_tests
+    extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
     from memory_promotion import exercise as memory_tests
     memory_tests(compiler,work,run,cc,args.target,execute)
     from allocation import exercise as allocation_tests

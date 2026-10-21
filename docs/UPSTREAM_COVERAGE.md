@@ -193,3 +193,13 @@ symbols, custom sections, common coalescing/alignment, DWARF line tables,
 independent arithmetic/CFG cases and a 4096-function call chain. Known pinned
 QBE narrow-extension, quoted-TLS and zero-allocation discrepancies remain explicit.
 Use `--optimize` for a separately reported optimized run.
+
+## Larger frontend qualification
+
+The [cproc self-compilation reports](benchmarks/README.md#cproc-frontend-self-compilation)
+add a separate workload beyond the 76 QBE fixtures. Our baseline and optimized
+backends compile the entire 18-unit frontend on Linux ARM64, x86-64 and RV64;
+each resulting frontend reproduces 19 stage-one IR files and passes 196 original
+cproc tests. ARM64 execution is native in the Linux VM; x86-64 and RV64 execute
+under QEMU. Original QBE successes and retained ARM64/RV64 external-GOT-offset
+failures are distinguished from separately corrected comparison oracles.
