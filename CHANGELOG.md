@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Added `dbgfile`/`dbgloc` parsing and source metadata preserved through SSA,
+  with Apple ARM64 `.file`/`.loc` emission and native DWARF line-table checks.
+  All 87 public QBE opcode names now accept some forms; this is not full
+  operation, syntax, target or semantic coverage.
+
 - Scale compatibility CFG/SSA validation with indexed edges, packed dominance
   sets and hashed lookups; preserve the reducible first-path validator and limits.
   Raise compatibility bounds to 4096 blocks/16384 instructions, parse iteratively,

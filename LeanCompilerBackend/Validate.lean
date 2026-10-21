@@ -121,6 +121,15 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
     (if argument.floating then checkFloat else check) argument.width argument.value
 
 def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
+  if f.debugFile.any (·.contains '\x00') then throw "debug filename must not contain NUL"
+  for block in f.blocks do
+    let mut previous := 0
+    for location in block.debugLocations do
+      if f.debugFile.isNone then throw "debug location requires a filename"
+      if location.instruction < previous || location.instruction > block.instructions.size then
+        throw "debug location instruction index is invalid"
+      if location.line >= 2^29 || location.column >= 2^29 then throw "debug location exceeds 29-bit QBE limit"
+      previous := location.instruction
   if f.resultAggregate.isSome && f.resultWidth.isNone then throw "void result cannot have aggregate type"
   if let some width := f.resultWidth then checkAggregate width f.resultFloating f.resultSubword f.resultAggregate
   if f.resultSubword.isSome && f.resultWidth.isNone then throw "void result cannot have subword type"

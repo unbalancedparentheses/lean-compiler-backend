@@ -255,11 +255,19 @@ def Terminator.successors : Terminator → List String
   | .branch _ yes no => [yes, no]
   | _ => []
 
+/-- Source location before an instruction index (size denotes the terminator). -/
+structure DebugLocation where
+  instruction : Nat
+  line : Nat
+  column : Nat := 0
+  deriving Repr, Inhabited
+
 structure Block where
   label : String
   phis : Array Phi
   instructions : Array Statement
   terminator : Terminator
+  debugLocations : Array DebugLocation := #[]
   deriving Repr, Inhabited
 
 structure Function where
@@ -272,6 +280,7 @@ structure Function where
   parameters : Array Parameter
   variadic : Bool := false
   blocks : Array Block
+  debugFile : Option String := none
   deriving Repr, Inhabited
 
 def Function.locals (f : Function) : Array (String × Width) :=

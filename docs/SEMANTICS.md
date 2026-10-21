@@ -361,3 +361,20 @@ program, large static/dynamic W/X frames, incoming stack arguments and cyclic ph
 transfers against native C and QBE. Corrupting a high frame-address component is
 detected. The retained _bf99 and _bfmandel development fixtures now emit and
 assemble; they remain assembly-only tests, matching upstream's test policy.
+
+## Debug source locations
+
+`dbgfile "path"` selects the source filename for subsequent functions. `dbgloc`
+records a nonnegative line and optional column (both below 2^29), before an
+instruction or terminator. A preceding filename is required. Filenames must be
+UTF-8 without NUL. They are quoted as octal UTF-8 bytes during assembly emission,
+so quotes and backslashes cannot introduce assembler directives.
+
+Locations are ordered block metadata, preserved by the current SSA renaming and
+unused-void-result normalization. They do not execute or consume interpreter
+steps. Future passes that insert, remove or reorder instructions must remap these
+indices. Debug locations before phi definitions are rejected, matching QBE's
+requirement that phis precede ordinary instructions. Native Apple ARM64 output
+contains `.file` and `.loc` directives; this provides line tables, not source-level
+variable descriptions or full debugger support. `scripts/debug_locations.py`
+checks emitted object-file line tables and execution against pinned QBE and C.

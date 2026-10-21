@@ -55,6 +55,7 @@ private structure Cursor where
   tokens : Array Token
   position : Nat := 0
   typeNames : List String := []
+  debugFile : Option String := none
 
 private abbrev P := StateT Cursor (Except String)
 
@@ -335,31 +336,43 @@ private def parseParameters : Nat → P (Array Parameter × Bool)
       return (#[{ name, width, environment, floating, subword, aggregate }] ++ rest, variadic)
     return (#[{ name, width, environment, floating, subword, aggregate }], false)
 
-private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi × Array Statement × Terminator) := do
+private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi × Array Statement × Terminator × Array DebugLocation) := do
   let mut phis := #[]
   let mut instructions := #[]
+  let mut debugLocations := #[]
   for _ in [:limit] do
-    if (← peek) == some "ret" then
+    if (← peek) == some "dbgloc" then
+      discard take
+      let some line := (← take).toNat? | failAt "expected nonnegative debug line"
+      let column ← if (← peek) == some "," then do
+        discard take
+        let some value := (← take).toNat? | failAt "expected nonnegative debug column"
+        pure value
+      else pure 0
+      if line >= 2^29 || column >= 2^29 then failAt "debug location exceeds 29-bit QBE limit"
+      if (← get).debugFile.isNone then failAt "dbgloc requires a preceding dbgfile"
+      debugLocations := debugLocations.push { instruction := instructions.size, line, column }
+    else if (← peek) == some "ret" then
       discard take
       let value ← if resultWidth.isSome then some <$> parseOperand else pure none
-      return (phis, instructions, .ret value)
+      return (phis, instructions, .ret value, debugLocations)
     else if (← peek) == some "jmp" then
       discard take
-      return (phis, instructions, .jump (← parseName '@'))
+      return (phis, instructions, .jump (← parseName '@'), debugLocations)
     else if (← peek) == some "jnz" then
       discard take
       let condition ← parseOperand
       expect ","
       let yes ← parseName '@'
       expect ","
-      return (phis, instructions, .branch condition yes (← parseName '@'))
+      return (phis, instructions, .branch condition yes (← parseName '@'), debugLocations)
     else if (← peek) == some "hlt" then
       discard take
-      return (phis, instructions, .halt)
+      return (phis, instructions, .halt, debugLocations)
     else if let some token := ← peek then
       if token.startsWith "@" then
         -- QBE permits fallthrough when the next label begins a new block.
-        return (phis, instructions, .jump (String.ofList token.toList.tail))
+        return (phis, instructions, .jump (String.ofList token.toList.tail), debugLocations)
       else
         let definition ← if let some width := storeWidth token then
           Sum.inr <$> parseStore width
@@ -379,7 +392,7 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
         else parseDefinition
         match definition with
         | .inl phi =>
-          if !instructions.isEmpty then failAt "phi definitions must precede ordinary instructions"
+          if !instructions.isEmpty || !debugLocations.isEmpty then failAt "phi definitions must precede ordinary instructions"
           phis := phis.push phi
         | .inr inst => instructions := instructions.push inst
     else failAt "expected block terminator"
@@ -390,8 +403,8 @@ private def parseBlocks (resultWidth : Option Width) (limit : Nat) : P (Array Bl
   let mut blocks := #[]
   for _ in [:limit] do
     let label ← parseName '@'
-    let (phis, instructions, terminator) ← parseBody resultWidth (maxCompatibilityInstructions + 1)
-    blocks := blocks.push { label, phis, instructions, terminator }
+    let (phis, instructions, terminator, debugLocations) ← parseBody resultWidth (maxCompatibilityInstructions + 1)
+    blocks := blocks.push { label, phis, instructions, terminator, debugLocations }
     if !((← peek).getD "").startsWith "@" then return blocks
   failAt "block parsing limit exceeded"
 
@@ -409,7 +422,7 @@ private def parseFunction (exported : Bool) : P Function := do
   expect "{"
   let blocks ← parseBlocks resultWidth (maxCompatibilityBlocks + 1)
   expect "}"
-  return { name, exported, resultWidth, resultFloating, resultSubword, resultAggregate, parameters, variadic, blocks }
+  return { name, exported, resultWidth, resultFloating, resultSubword, resultAggregate, parameters, variadic, blocks, debugFile := (← get).debugFile }
 
 private def parseDataInteger : P Int := do
   let token ← take
@@ -567,6 +580,13 @@ private def parseDefinitions : Nat → P Module
   | 0 => failAt "module definition parsing limit exceeded"
   | fuel + 1 => do
     if (← peek).isNone then return {}
+    if (← peek) == some "dbgfile" then
+      discard take
+      let bytes ← parseDataString
+      let some file := String.fromUTF8? ⟨bytes⟩ | failAt "debug filename must be UTF-8"
+      if file.contains '\x00' then failAt "debug filename must not contain NUL"
+      modify fun state => { state with debugFile := some file }
+      return ← parseDefinitions fuel
     if (← peek) == some "type" then
       let type ← parseAggregate
       modify fun state => { state with typeNames := type.name :: state.typeNames }
