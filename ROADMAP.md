@@ -41,6 +41,27 @@ features to the explicitly uncertified compatibility pipeline. Keep semantics an
 invariants documented so later verification remains feasible. Commit and push
 validated, coherent checkpoints frequently.
 
+## Current compatibility gaps
+
+The requested Linux architectures now generate executable assembly: ARM64,
+x86-64 and RV64, alongside Apple ARM64. Each current target emits 75/76 retained
+upstream fixtures; the remaining fixture omits a required aggregate argument.
+This fixture count does not mean the full port is complete.
+
+Next bounded work, before proof expansion:
+
+1. Close remaining syntax/linkage coverage, especially quoted global names, and
+   review implementation limits (64 functions/arguments, bounded object/frame
+   sizes) against real frontend workloads. Add reduced cases for every gap.
+2. Extend the optional constant-folding pass with copy/dead-definition removal,
+   CFG simplification, alias analysis and the remaining QBE optimization passes.
+3. Implement liveness, spilling and register allocation with value-flow checks;
+   retain the current stack baseline as a differential oracle.
+4. Complete unimplemented QBE ABI configurations (`amd64_apple`, `amd64_win`),
+   broaden boundary tests on existing targets and obtain native RV64 qualification.
+5. Run broader differential fuzzing and performance benchmarks, then resume
+   proof expansion against the completed compatibility implementation.
+
 ## Acceptance and reporting rules
 
 Every milestone reports **implemented**, **tested**, **proved**, and **remaining

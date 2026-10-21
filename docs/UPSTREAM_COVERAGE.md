@@ -161,3 +161,15 @@ failures and check the remaining QBE cases separately; all original C pressure
 checks remain mandatory for Lean. These are oracle limitations, not ignored
 compiler failures. Native Linux x86-64 and ARM64 CI passed at `6823743`;
 local cross-Clang also passed the full AMD64 matrices and TLS checks.
+
+## Optional optimized pipeline
+
+The same 75 accepted upstream fixtures pass with `--optimize`: 58 executable
+drivers plus 17 assembly-only fixtures on native Apple ARM64 and Linux ARM64,
+and under QEMU for Linux x86-64 and RV64. Run `scripts/upstream_suite.py
+--optimize --require-native`, `scripts/linux_arm64.py --optimize`, or
+`scripts/linux_targets.py --optimize --target TARGET` to reproduce. Optimized
+reports use separate paths from baseline reports. Each target also compares
+baseline/folded output with 256 independent arithmetic cases. The Linux optimized
+runs include their scalar, aggregate, variadic and threaded TLS qualification.
+These are test results, not a preservation proof or a full optimization port.

@@ -42,10 +42,13 @@ def main():
     assert extract('# >>> output\n#  *  #\n# <<<\n', 'output') == ' *  \n'
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--require-native', action='store_true')
+    parser.add_argument('--optimize', action='store_true')
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--write-baseline', action='store_true')
     parser.add_argument('--report', type=Path, default=ROOT/'.build/upstream-suite.json')
     options = parser.parse_args()
+    if options.optimize and options.report == ROOT/'.build/upstream-suite.json':
+        options.report = ROOT/'.build/upstream-suite-optimized.json'
     if options.require_native:
         assert native_host(), 'required native host unavailable'
     rows, failures = [], []
@@ -65,7 +68,7 @@ def main():
             case = work/source.stem
             case.mkdir()
             asm = case/'lean.s'
-            result = command([compiler, source, '-o', asm])
+            result = command([compiler, source, '-o', asm, *(['--optimize'] if options.optimize else [])])
             row = {'fixture': source.name, 'source_sha256': hashlib.sha256(source.read_bytes()).hexdigest(),
                    'emitted': result.returncode == 0, 'diagnostic': result.stderr.strip(),
                    'native': 'unsupported' if result.returncode else 'not measured'}

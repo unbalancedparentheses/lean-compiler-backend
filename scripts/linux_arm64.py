@@ -19,16 +19,21 @@ from upstream_suite import extract
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--docker-container')
+    ap.add_argument('--optimize', action='store_true')
     ap.add_argument('--require-native', action='store_true')
     ap.add_argument('--work', type=Path, default=ROOT/'.build/linux-arm64')
     args = ap.parse_args()
-    work = args.work.resolve(); work.mkdir(parents=True, exist_ok=True)
+    mount_root = args.work.resolve()
+    work = mount_root/'optimized-arm64' if args.optimize else mount_root
+    work.mkdir(parents=True, exist_ok=True)
     native = bool(args.docker_container) or (platform.system() == 'Linux' and platform.machine() in ['aarch64', 'arm64'])
     if args.require_native: assert native, 'Linux ARM64 execution unavailable'
     def run(command, inside=False):
         command = [str(x) for x in command]
+        if args.optimize and command[0] == str(compiler) and len(command)>1 and not command[1].startswith('--'):
+            command += ['--optimize']
         if inside and args.docker_container:
-            command = ['docker', 'exec', args.docker_container] + [x.replace(str(work), '/work') for x in command]
+            command = ['docker', 'exec', args.docker_container] + [x.replace(str(mount_root), '/work') for x in command]
         return subprocess.run(command, text=True, capture_output=True, timeout=120)
     compiler = work/'lcb-snapshot'
     shutil.copy2(LCB, compiler)
@@ -111,7 +116,7 @@ def main():
         print('Linux variadics: mixed GP/FP exhaustion, dynamic frames, direct/indirect calls and C interoperation passed against QBE', flush=True)
 
     from constant_fold import exercise as fold_tests
-    fold_tests(compiler,work,run,cc,'aarch64-linux',native)
+    if not args.optimize:fold_tests(compiler,work,run,cc,'aarch64-linux',native)
     from zero_alloc import exercise as zero_tests
     zero_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
     from elf_sections import exercise as section_tests
@@ -119,7 +124,7 @@ def main():
     baseline = json.loads((ROOT/'tests/upstream-linux-arm64-coverage.json').read_text())['emitted']
     emitted_names = {row['fixture'] for row in rows if row['emitted']}
     for missing in sorted(set(baseline) - emitted_names): failures.append((missing, 'emission regression'))
-    report = {'target': 'aarch64-linux', 'compiler_identity': compiler_identity, 'fixtures': rows, 'failures': failures}
+    report = {'target': 'aarch64-linux', 'optimized': args.optimize, 'compiler_identity': compiler_identity, 'fixtures': rows, 'failures': failures}
     (work/'report.json').write_text(json.dumps(report, indent=2)+'\n')
     emitted = sum(row['emitted'] for row in rows)
     executed = sum(row['native'] == 'passed' for row in rows)
