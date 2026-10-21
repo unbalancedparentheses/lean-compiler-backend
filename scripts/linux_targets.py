@@ -19,15 +19,19 @@ def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--target', choices=['x86_64-linux','riscv64-linux'], default='x86_64-linux')
     ap.add_argument('--docker-container')
+    ap.add_argument('--optimize',action='store_true',help='qualify optional constant propagation/folding')
     ap.add_argument('--require-execution', action='store_true')
     args=ap.parse_args()
     isa, qtarget = ('x86_64','amd64_sysv') if args.target=='x86_64-linux' else ('riscv64','rv64')
-    docker_root=ROOT/'.build/linux-arm64'; work=docker_root/isa; work.mkdir(parents=True,exist_ok=True)
+    docker_root=ROOT/'.build/linux-arm64'; work=docker_root/isa
+    if args.optimize:work=work/'optimized'
+    work.mkdir(parents=True,exist_ok=True)
     native=platform.system()=='Linux' and platform.machine() in ([isa,'amd64'] if isa=='x86_64' else [isa])
     execute=native or bool(args.docker_container)
     if args.require_execution:assert execute, 'target execution unavailable'
     def run(command,inside=False,executable=False):
         command=[str(x) for x in command]
+        if args.optimize and command[0]==str(compiler) and len(command)>1 and not command[1].startswith('--'):command+=['--optimize']
         if inside and args.docker_container:
             if executable or command[0].startswith(str(work)+"/"):command=[f'qemu-{isa}','-L',f'/usr/{isa}-linux-gnu']+command
             command=['docker','exec',args.docker_container]+[x.replace(str(docker_root),'/work') for x in command]
@@ -80,6 +84,8 @@ def main():
             riscv_tests(compiler,work,run,cc)
         from target_tls import exercise as tls_tests
         tls_tests(compiler,work,run,cc,args.target)
+    from constant_fold import exercise as fold_tests
+    if not args.optimize:fold_tests(compiler,work,run,cc,args.target,execute)
     from zero_alloc import exercise as zero_tests
     zero_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
     baseline=ROOT/f'tests/upstream-{isa}-coverage.json'
@@ -87,7 +93,7 @@ def main():
         missing=set(json.loads(baseline.read_text())['emitted'])-{x['fixture'] for x in rows if x['emitted']}
         failures.extend((x,'emission regression') for x in sorted(missing))
     mode='emulated' if args.docker_container else ('native' if native else 'not measured')
-    report={'target':args.target,'compiler_identity':identity,'execution_mode':mode,'fixtures':rows,'failures':failures}
+    report={'target':args.target,'optimized':args.optimize,'compiler_identity':identity,'execution_mode':mode,'fixtures':rows,'failures':failures}
     (work/'report.json').write_text(json.dumps(report,indent=2)+'\n')
     print(f'{args.target}: {sum(x["emitted"] for x in rows)}/76 emitted; {sum(x["execution"]=="passed" for x in rows)} executable drivers and {sum(x["execution"]=="assembled" for x in rows)} assembly-only passes per Lean/QBE backend; execution={mode}',flush=True)
     for failure in failures:print(str(failure)[:3000],flush=True)

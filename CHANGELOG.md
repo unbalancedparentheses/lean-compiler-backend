@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Add opt-in `--optimize` constant propagation and defined integer folding with
+  post-pass validation. Preserve the default stack baseline, debug indices,
+  effects, undefined-operation boundaries and certified-path separation.
+  Compare baseline/folded output against 256 independent arithmetic cases per
+  target and run optimized AMD64/RV64 upstream and ABI suites under QEMU.
+
 - Support zero-sized static and runtime stack allocations with alignment checks,
   live-object preservation and interpreter rejection of zero-object dereferences.
 

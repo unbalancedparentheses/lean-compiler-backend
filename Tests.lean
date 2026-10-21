@@ -1,5 +1,6 @@
 import LeanCompilerBackend
 import LeanCompilerBackend.CFG.Tests
+import LeanCompilerBackend.Optimize.Tests
 import LeanCompilerBackend.Verified.Tests
 import LeanCompilerBackend.Verified.JobTests
 import LeanCompilerBackend.Verified.CodecTests
@@ -22,6 +23,7 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
 
 def main : IO Unit := do
   CFG.Tests.run
+  Optimize.Tests.run
   Verified.Tests.run
   Verified.JobTests.run
   Verified.CodecTests.run

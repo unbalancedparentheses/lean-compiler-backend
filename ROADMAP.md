@@ -185,8 +185,11 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   The retained _bf99 fixture (266 blocks/2001 assignments) and _bfmandel fixture
   (2060 blocks/4581 assignments) emit and assemble. Exhaustive small-graph tests
   compare the indexed analysis with the preserved reducible validator; large
-  native frame/phi tests cover scaled-offset boundaries. Next implement remaining
-  analyses and optimization passes; this is not full P08 completion.
+  native frame/phi tests cover scaled-offset boundaries. Optional `--optimize`
+  now propagates known constants through SSA and folds defined integer operations,
+  retaining all statements, CFG edges and debug indices. Baseline/folded native
+  arithmetic checks and emulated AMD64/RV64 upstream/ABI suites pass. Next implement
+  copy/dead-code elimination, remaining analyses and optimization passes; this is not full P08 completion.
   State transformation conditions and invalidate stale analyses. Record proof status
   per pass; certified pipelines enable only covered transformations. Keep a simple
   baseline path for comparison and independently justified fallback.

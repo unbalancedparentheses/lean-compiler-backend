@@ -110,6 +110,8 @@ def main():
             result = run([exe], True); assert result.returncode == 0, (label, result.returncode, result.stderr)
         print('Linux variadics: mixed GP/FP exhaustion, dynamic frames, direct/indirect calls and C interoperation passed against QBE', flush=True)
 
+    from constant_fold import exercise as fold_tests
+    fold_tests(compiler,work,run,cc,'aarch64-linux',native)
     from zero_alloc import exercise as zero_tests
     zero_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
     from elf_sections import exercise as section_tests

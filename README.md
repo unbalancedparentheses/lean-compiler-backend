@@ -225,3 +225,8 @@ or semantics. The full-port milestone remains in place; future evolution may
 retain QBE support through an explicit import boundary. Performance improvements
 must preserve the applicable correctness contract, and tested support remains
 distinct from proved support.
+
+Use `--optimize` with compatibility compilation to enable bounded constant
+propagation and integer folding. The default preserves the stack baseline.
+This initial pass retains statements, control flow and debug indices; it does
+not perform register allocation or expand the certified path.

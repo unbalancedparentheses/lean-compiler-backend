@@ -489,3 +489,21 @@ identity between zero-sized objects is unspecified by the compatibility contract
 The abstract interpreter may assign distinct addresses while native targets may
 reuse the current stack address. Tests assert alignment and preservation of live
 nonempty objects, not equality or uniqueness of zero-sized allocation addresses.
+
+
+## Optional compatibility constant folding
+
+`--optimize` enables at most eight monotone discovery sweeps over validated SSA.
+Facts record normalized bit patterns from copies, casts, defined integer unary/
+binary/division/comparison operations, and phis whose incoming constants all
+agree. Unknown or unfinished chains remain unchanged. Undefined division by zero
+and signed overflow are not folded; floating arithmetic/conversions are not
+folded. Runtime allocation operands retain their original form so propagation
+does not accidentally change the constant-size admission limit.
+
+The rewrite keeps every statement, phi, block, edge and debug instruction index.
+It propagates constant operands and replaces foldable operations with constant
+copies. It does not reorder memory, remove calls/traps, prune branches, eliminate
+dead definitions, allocate registers or claim formal preservation. The rewritten
+module is validated before target lowering. Default compilation and all
+first-path/certified job operations remain outside this optional pipeline.

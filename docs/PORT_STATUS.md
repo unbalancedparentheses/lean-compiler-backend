@@ -119,7 +119,7 @@ Integer-parameter ABI tests and generated programs do not qualify the full upstr
 | parsing and validation | partial: scalar integer/floating, control-flow, memory, TLS and scalar/aggregate-call input with SSA construction; full QBE syntax remains |
 | CFG, dominance and SSA construction | partial: indexed CFG and packed-set dominance, hash-indexed SSA construction with on-demand phis; up to 4096 blocks/16384 instructions; stable types and defined incoming values required |
 | alias analysis and memory optimization | not implemented |
-| copy elimination, folding, GVN, GCM and CFG simplification | not implemented |
+| copy elimination, folding, GVN, GCM and CFG simplification | partial: opt-in bounded SSA constant propagation and defined integer folding; copy/dead-code elimination, GVN, GCM and CFG simplification remain |
 | ABI lowering | partial: Apple AArch64 scalar w/l/s/d register/stack arguments and results; independent GP/FP banks, direct/indirect calls, variadics, env and saved live values |
 | instruction selection and assembly emission | partial: Apple AArch64 scalar integer/floating, control flow, memory, TLS and scalar/aggregate-call subset; large frame-slot addressing |
 | liveness, spilling and register allocation | not implemented; baseline gives every value a stack slot |

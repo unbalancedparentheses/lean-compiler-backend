@@ -6,7 +6,7 @@ open LeanCompilerBackend
 private def usage : String :=
   "Lean Compiler Backend 0.1.0\n" ++
   "Usage:\n" ++
-  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|riscv64-linux]\n" ++
+  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|riscv64-linux] [--optimize]\n" ++
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --type-layout INPUT.ssa\n" ++
   "  lcb --first-path INPUT.ssa [-o OUTPUT.s] [--require-proof]\n" ++
@@ -202,10 +202,16 @@ private def run (args : List String) : IO UInt32 := do
     | .error message => throw (IO.userError message)
   | path :: rest =>
     if path.startsWith "-" then throw (IO.userError s!"unknown or incomplete command '{path}'")
-    let (output, selected) ← match compatibilityOptions rest with
+    let optimize := rest.contains "--optimize"
+    let (output, selected) ← match compatibilityOptions (rest.filter (· != "--optimize")) with
       | .ok value => pure value
       | .error message => throw (IO.userError message)
     let module ← loadModule path
+    let module ← if optimize then
+      match Optimize.module module with
+      | .ok optimized => pure optimized
+      | .error message => throw (IO.userError message)
+      else pure module
     let result := if selected == "x86_64-linux" then AMD64.emitModule module
       else if selected == "riscv64-linux" then RV64.emitModule module
       else AArch64.emitModule module (selected == "aarch64-macos")

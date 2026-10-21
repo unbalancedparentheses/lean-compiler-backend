@@ -86,6 +86,8 @@ def negatives(work):
         run([LCB, source, '--target', target])
     result = run([LCB, '--first-path', source, '--target', 'x86_64-linux'], success=False)
     assert 'unsupported target' in result.stderr
+    result = run([LCB, '--first-path', source, '--optimize'], success=False)
+    assert 'unknown or incomplete option' in result.stderr
     print(f'rejection controls: {len(cases) + 2}; implemented Linux target selection passed')
 
 
