@@ -240,6 +240,28 @@ private def discardUnusedVoidResults (voidNames : Std.HashSet String) (f : Funct
       | _ => statement }
   return { f with blocks }
 
+/-- QBE checks the local-name/type inventory before dead-block pruning.
+    Preserve rejection of undefined temporaries and conflicting mutable types,
+    including in regions with no path from entry. -/
+private def checkRawLocals (f : Function) : Except String Unit := do
+  let mut types : Std.HashMap String (Width × Bool) := {}
+  for p in f.parameters do types ← addType types p.name p.width p.floating
+  for b in f.blocks do
+    for p in b.phis do types ← addType types p.destination p.width p.floating
+    for s in b.instructions do
+      if let .assign i := s then types ← addType types i.destination i.width i.floating
+  let defined := fun v => match v with
+    | .temporary name => if types.contains name then pure () else throw s!"undefined temporary %{name}"
+    | _ => pure ()
+  for b in f.blocks do
+    for p in b.phis do
+      for (_, v) in p.incoming do defined v
+    for s in b.instructions do
+      for v in s.operands do defined v
+    match b.terminator with
+    | .ret (some v) | .branch v .. => defined v
+    | _ => pure ()
+
 /-- Normalize only the explicitly uncertified compatibility module. -/
 def constructModule (m : LeanCompilerBackend.Module) : Except String LeanCompilerBackend.Module := do
   let functions ← m.functions.mapM fun f => do
@@ -248,6 +270,7 @@ def constructModule (m : LeanCompilerBackend.Module) : Except String LeanCompile
     if f.blocks.size > maxCompatibilityBlocks then throw "function exceeds 4096-block limit"
     let count := f.blocks.foldl (fun n b => n + b.instructions.size + b.phis.size) 0
     if count > maxCompatibilityInstructions then throw "function exceeds 16384-instruction/phi limit"
+    checkRawLocals f
     let f ← CFG.pruneUnreachable f
     match construct f with
     | .ok result => pure result

@@ -665,6 +665,7 @@ Compatibility module admission removes blocks unreachable from the entry and
 their phi incoming edges before mutable SSA construction and dominance checking,
 as QBE's `fillcfg` does. Dead predecessors cannot impose spurious dominance or
 initialization requirements on reachable joins. Unknown jump targets and duplicate
-labels are still rejected before pruning, and raw block/instruction limits still
+labels, undefined local names and conflicting mutable types are still rejected
+before pruning, and raw block/instruction limits still
 apply. Constant branches are not folded at admission. The restricted first-path
 importer retains its original validation and does not invoke this normalization.
