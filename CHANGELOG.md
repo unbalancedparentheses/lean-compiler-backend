@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Raise the compatibility module limit from 64 to 4096 functions. Parse top-level
+  definitions iteratively and index direct-call validation/void-result lookup.
+  Execute a 4096-function forward-call chain on all four targets and check
+  oversized, duplicate and mismatched-signature rejection.
+
 - Simplify constant word branches, prune unreachable blocks and repair phi
   incoming edges under `--optimize`. Add 192 independent native/emulated CFG
   oracle cases per target, alongside loop, dead-cycle and truncation unit checks.

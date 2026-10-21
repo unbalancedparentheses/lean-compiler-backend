@@ -9,6 +9,7 @@ import Std
 namespace LeanCompilerBackend
 
 /-- Compatibility resource bounds are independent of the certified-profile plan. -/
+def maxCompatibilityFunctions : Nat := 4096
 def maxCompatibilityBlocks : Nat := 4096
 def maxCompatibilityInstructions : Nat := 16384
 

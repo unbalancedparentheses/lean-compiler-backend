@@ -46,7 +46,7 @@ Unquoted names follow QBE's ASCII grammar, including dots and embedded dollar
 signs, with a letter, underscore or dot first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
 
 Compatibility functions have at most 64 arguments, 16384 instructions/phi nodes
-and 4096 blocks; programs have at most 64 functions, 8 MiB of input and 500000
+and 4096 blocks; programs have at most 4096 functions, 16384 top-level parsing items, 8 MiB of input and 500000
 tokens. The restricted first-path profile retains 64 blocks and 480 definitions. Frames are 16-byte aligned,
 at most 1 MiB in the compatibility backend (4080 bytes in the restricted first
 proof profile). Large frame adjustments and allocation addresses use split

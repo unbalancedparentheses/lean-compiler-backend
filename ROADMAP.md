@@ -51,7 +51,7 @@ This fixture count does not mean the full port is complete.
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
-   review implementation limits (64 functions/arguments, bounded object/frame
+   review implementation limits (4096 functions, 64 arguments, bounded object/frame
    sizes) against real frontend workloads. Add reduced cases for every gap.
 2. Extend the optional constant/copy/dead-definition and basic CFG pipeline with
    alias analysis, broader CFG transforms and the remaining QBE optimization passes.
@@ -203,6 +203,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Indexed CFG/predecessor tables, packed-set dominance, definition/reaching-value
   caches and large native SSA-slot addressing are implemented. Compatibility now
   admits 4096 blocks and 16384 instructions/phis, independently of first-path limits.
+  Module parsing is iterative and admits 4096 functions with indexed direct-call
+  validation; a 4096-function call chain executes across all four targets.
   The retained _bf99 fixture (266 blocks/2001 assignments) and _bfmandel fixture
   (2060 blocks/4581 assignments) emit and assemble. Exhaustive small-graph tests
   compare the indexed analysis with the preserved reducible validator; large

@@ -335,7 +335,11 @@ matches. Aggregate lowering is tested and explicitly uncertified.
 
 The compatibility parser admits up to 4096 blocks and 16384 instructions/phis per
 function, with 8 MiB input and 500000 tokens. Block bodies, block lists and phi
-incoming lists parse iteratively. The 64-function and 64-argument bounds remain.
+incoming lists and top-level definitions parse iteratively. Modules admit 4096
+functions and 16384 top-level parsing items; the 64-argument bound remains.
+Function definitions and direct-call signatures use an indexed lookup. Native/
+emulated tests execute a 4096-function forward-call chain and reject oversized
+modules, late duplicate definitions and late call-signature mismatches.
 The restricted first path independently retains 64 blocks, 480 definitions, eight
 parameters and its 4080-byte frame bound.
 

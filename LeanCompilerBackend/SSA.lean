@@ -217,7 +217,7 @@ def construct (f : Function) : Except String Function := do
 /-- QBE fixtures may assign an unused scalar result from a defined void callee.
     Drop that dead result after SSA renaming; never manufacture a value that can
     be observed, and retain result-signature checks for every used temporary. -/
-private def discardUnusedVoidResults (program : Program) (f : Function) : Function := Id.run do
+private def discardUnusedVoidResults (voidNames : Std.HashSet String) (f : Function) : Function := Id.run do
   let mut used : List String := []
   for block in f.blocks do
     let terms := match block.terminator with
@@ -233,7 +233,7 @@ private def discardUnusedVoidResults (program : Program) (f : Function) : Functi
       | .assign inst => match inst.operation with
         | .call (.direct name) arguments =>
           if inst.callAggregate.isNone && !used.contains inst.destination &&
-              (program.find? (·.name == name)).any (·.resultWidth.isNone) then
+              voidNames.contains name then
             .callVoid (.direct name) arguments
           else statement
         | _ => statement
@@ -246,7 +246,8 @@ def constructModule (m : LeanCompilerBackend.Module) : Except String LeanCompile
     match construct f with
     | .ok result => pure result
     | .error error => throw s!"function ${f.name}: {error}"
-  let functions := functions.map (discardUnusedVoidResults functions)
+  let voidNames := functions.foldl (fun names f => if f.resultWidth.isNone then names.insert f.name else names) ({} : Std.HashSet String)
+  let functions := functions.map (discardUnusedVoidResults voidNames)
   let result := { m with functions }
   validateModule result
   pure result

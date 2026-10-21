@@ -580,22 +580,22 @@ private def parseAggregate : P AggregateType := do
     let fields ← parseAggregateFields
     return { name, alignment, variants := #[fields] }
 
-private def parseDefinitions : Nat → P Module
-  | 0 => failAt "module definition parsing limit exceeded"
-  | fuel + 1 => do
-    if (← peek).isNone then return {}
+private def parseDefinitions (fuel : Nat) : P Module := do
+  let mut result : Module := {}
+  for _ in [:fuel] do
+    if (← peek).isNone then return result
     if (← peek) == some "dbgfile" then
       discard take
       let bytes ← parseDataString
       let some file := String.fromUTF8? ⟨bytes⟩ | failAt "debug filename must be UTF-8"
       if file.contains '\x00' then failAt "debug filename must not contain NUL"
       modify fun state => { state with debugFile := some file }
-      return ← parseDefinitions fuel
+      continue
     if (← peek) == some "type" then
       let type ← parseAggregate
       modify fun state => { state with typeNames := type.name :: state.typeNames }
-      let rest ← parseDefinitions fuel
-      return { rest with types := #[type] ++ rest.types }
+      result := { result with types := result.types.push type }
+      continue
     let mut exported := false
     let mut threadLocal := false
     let mut common := false
@@ -627,21 +627,20 @@ private def parseDefinitions : Nat → P Module
       else break
     if (← peek) == some "data" then
       let data ← parseData exported threadLocal
-      let rest ← parseDefinitions fuel
-      return { rest with data := #[{ data with common, customSection }] ++ rest.data }
+      result := { result with data := result.data.push { data with common, customSection } }
     else
       if threadLocal then failAt "thread linkage requires data"
       if common then failAt "common linkage requires data"
       let f ← parseFunction exported
-      let rest ← parseDefinitions fuel
-      return { rest with functions := #[{ f with customSection }] ++ rest.functions }
+      result := { result with functions := result.functions.push { f with customSection } }
+  failAt "module definition parsing limit exceeded (16384)"
 
 def parseModule (source : String) : Except String Module := do
   if source.utf8ByteSize > 8 * 1024 * 1024 then throw "input exceeds 8 MiB compatibility resource limit"
   let tokens := tokenize source
   if tokens.isEmpty then throw "input contains no functions or data"
   if tokens.size > 500000 then throw "input exceeds 500000-token compatibility limit"
-  let (program, _) ← (parseDefinitions (min (tokens.size + 1) 1025)).run { tokens }
+  let (program, _) ← (parseDefinitions (min (tokens.size + 1) 16385)).run { tokens }
   discard (Aggregate.layouts program.types)
   return program
 

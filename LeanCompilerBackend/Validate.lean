@@ -320,11 +320,11 @@ def callResultMatches (callee : Function) (width : Option Width) (floating : Boo
 
 def validate (program : Program) : Except String Unit := do
   if program.isEmpty then throw "program contains no functions"
-  if program.size > 64 then throw "program exceeds initial 64-function limit"
-  let mut names : List String := []
+  if program.size > maxCompatibilityFunctions then throw s!"program exceeds {maxCompatibilityFunctions}-function limit"
+  let mut definitions : Std.HashMap String Function := {}
   for f in program do
-    if names.contains f.name then throw ("duplicate function $" ++ f.name)
-    names := f.name :: names
+    if definitions.contains f.name then throw ("duplicate function $" ++ f.name)
+    definitions := definitions.insert f.name f
     match validateFunction f true with
     | .ok () => pure ()
     | .error message => throw s!"function ${f.name}: {message}"
@@ -334,7 +334,7 @@ def validate (program : Program) : Except String Unit := do
     for block in f.blocks do
       for statement in block.instructions do
         if let some (.direct target, arguments, resultWidth) := statement.callSite then
-          if let some callee := program.find? (·.name == target) then
+          if let some callee := definitions[target]? then
             let arguments ← effectiveCallArguments callee arguments
             if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword statement.resultAggregate then
               throw s!"call ${target}: result type disagrees with its definition"

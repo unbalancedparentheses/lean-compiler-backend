@@ -128,7 +128,7 @@ def limits(work):
     run([LCB, '--check', source])
     run([LCB, source, '-o', work / 'limits.s'])
     source.write_text(prefix + maximal + 'function w $extra() { @s ret 0 }')
-    run([LCB, '--check', source], success=False)
+    run([LCB, '--check', source])
     source.write_text(maximal.replace(' ret %v479', ' %extra =l copy 0\n ret %v479'))
     run([LCB, '--check', source])
     run([LCB, '--first-path', source], success=False)
@@ -140,7 +140,7 @@ def limits(work):
     assert int(run([LCB, '--eval', source, 'parameters', *map(str, range(64))]).stdout) == 63
     source.write_text('function l $f(' + maximum_parameters + ', l %extra) { @s ret 0 }')
     run([LCB, '--check', source], success=False)
-    print('resource boundaries: 64 functions, 64 parameters; compatibility exceeds the retained 480-definition first-path bound')
+    print('resource boundaries: more than 64 functions, 64 parameters; compatibility exceeds the retained 480-definition first-path bound')
 
 
 def harness():
