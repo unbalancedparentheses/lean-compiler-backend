@@ -321,3 +321,14 @@ buffer cases and 2,208 C-oracle cases in baseline and optimized modes. Targeted
 controls cover address/result home aliasing, signed and unsigned narrow loads,
 FP call results and callee-save restoration. All 150 baseline ARM64 fixture
 assemblies remain byte-identical to the preceding compiler.
+
+
+## Csmith after direct memory lowering
+
+[The memory-home batch](csmith-memory-homes.json) tries seeds 20261085–20261100.
+Eleven programs (114,846 IR lines including runtime helpers) match GCC O0/O2,
+our baseline/optimized output and unchanged original QBE. Seeds 20261087, 20261088, 20261090, 20261091, 20261095
+exceed the GCC O0 reference budget and remain unqualified. The four independent
+batches now total **68 qualified programs out of 80 attempts**, 670,485 IR
+lines and twelve unqualified reference timeouts. The earlier rerun is not
+counted as additional unique programs. Generation restrictions remain unchanged.
