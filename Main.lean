@@ -1,5 +1,6 @@
 import LeanCompilerBackend
 import LeanCompilerBackend.Verified.Codec
+import LeanCompilerBackend.Liveness.Report
 
 open LeanCompilerBackend
 
@@ -8,6 +9,7 @@ private def usage : String :=
   "Usage:\n" ++
   "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|x86_64-macos|riscv64-linux] [--optimize]\n" ++
   "  lcb --check INPUT.ssa\n" ++
+  "  lcb --liveness INPUT.ssa\n" ++
   "  lcb --type-layout INPUT.ssa\n" ++
   "  lcb --first-path INPUT.ssa [-o OUTPUT.s] [--require-proof]\n" ++
   "  lcb --first-path-eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
@@ -113,6 +115,14 @@ private def run (args : List String) : IO UInt32 := do
       for (variant, index) in layout.variants.toList.zipIdx do
         for (field, fieldIndex) in variant.toList.zipIdx do
           IO.println s!"field {layout.name} {index} {fieldIndex} {field.offset} {field.stride} {field.field.count}"
+    return 0
+  | ["--liveness", path] =>
+    let module ← loadModule path
+    for f in module.functions do
+      let result ← match Liveness.analyze f with
+        | .ok result => pure result
+        | .error reason => throw (IO.userError s!"function ${f.name}: {reason}")
+      IO.println (Liveness.report f result).compress
     return 0
   | ["--check", path] =>
     let module ← loadModule path

@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Add packed-bitset SSA liveness and `--liveness` JSON diagnostics with
+  edge-specific phi operands and instruction boundaries. Check against independent
+  set and path oracles, original QBE fixtures and compatibility resource limits.
+  Register allocation, spilling and value-flow certification remain future work.
+
 - Eliminate identical pure integer expressions using dominance and reverse
   postorder, preserving result width/class and excluding memory, TLS, floating
   arithmetic and potentially trapping operations. Test out-of-order blocks,

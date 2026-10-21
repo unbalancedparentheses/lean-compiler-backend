@@ -237,3 +237,7 @@ preserves the stack baseline.
 The pipeline repairs phi edges, remaps debug locations after removal and
 retains potentially effectful or trapping operations. It does not perform
 register allocation or expand the certified path.
+
+Use `--liveness INPUT.ssa` to print diagnostic JSON for each SSA function,
+including block, instruction and phi-edge live sets. This analysis prepares
+register allocation; it does not change emitted assembly or add proof coverage.

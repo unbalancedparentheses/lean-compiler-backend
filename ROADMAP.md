@@ -223,7 +223,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   per pass; certified pipelines enable only covered transformations. Keep a simple
   baseline path for comparison and independently justified fallback.
 - [ ] P09 — Port liveness, spilling and register allocation together with value-flow
-  checking. Cover register aliases, call clobbers, saved registers, parallel copies,
+  checking. Packed-bitset SSA liveness now handles edge-specific parallel phi
+  uses, instruction boundaries, calls and disconnected cycles, with independent
+  set/path oracles and upstream fixture coverage. Allocation, spilling and
+  value-flow checking remain unimplemented. Cover register aliases, call clobbers, saved registers, parallel copies,
   spills/reloads and frame constraints. Test value-flow checking now; defer its
   soundness proof to certification. Structural checks alone do not establish
   certified correctness. Re-run the Concrete factorial

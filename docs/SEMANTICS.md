@@ -560,3 +560,21 @@ assembly for an external assembler/linker; this target has no new proof claims.
 hosts and emission-only checks elsewhere. It compares original upstream fixtures
 and C scalar/aggregate/variadic harnesses with pinned QBE, and checks TLS, quoted
 symbols, Mach-O objects, independent optimization cases and large modules.
+
+
+## SSA liveness diagnostics
+
+`--liveness` analyzes validated compatibility SSA without changing emitted code.
+Block `liveIn` is before parallel phi definitions; `liveOut` is the union of
+outgoing edge sets and excludes the block's own terminator uses. Each edge
+combines successor `liveIn` with only that predecessor's phi operands.
+Instruction `before` sets include an extra final boundary before the terminator;
+the first boundary is after phis. Reverse transfer kills the assigned value
+before adding its operands. Calls include arguments and indirect targets.
+
+A predecessor worklist computes the least fixed point using packed bitsets,
+including disconnected cycles. Independent ordinary-set fixed-point checks run
+on the accepted original QBE fixtures; small cases also use per-value forward
+path searches. Resource tests exercise 4096 blocks and 16384 definitions. These
+are logical SSA live sets, not physical-register clobber or interference checks.
+The JSON schema is diagnostic and neither a certificate nor a preservation proof.
