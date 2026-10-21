@@ -138,7 +138,7 @@ def main():
     from memory_promotion import exercise as memory_tests
     memory_tests(compiler,work,run,cc,'aarch64-linux',native)
     from allocation import exercise as allocation_tests
-    allocation_tests(compiler,work,run,cc,'aarch64-linux',native)
+    allocation_tests(compiler,work,run,cc,'aarch64-linux',native,optimized_only=args.optimize)
     from instruction_selection import exercise as selection_tests
     selection_tests(compiler,work,run,cc,'aarch64-linux',native)
     from control_flow import exercise as cfg_tests

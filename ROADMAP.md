@@ -248,7 +248,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   reachable joins, loops and parallel phi edges; machine effects remain separate.
   ARM64 integer/FP operations, comparisons, memory operands and scalar call
   results now consume assigned GP homes directly; immediate arithmetic and compact
-  constant materialization reduce scratch transfers. Wide shift counts, mixed-width
+  constant materialization reduce scratch transfers. Stationary ARM64 register
+  phis avoid memory staging, with word normalization delayed until all other
+  sources are staged; allocated fall-through edges omit redundant jumps.
+  Wide shift counts, mixed-width
   operations, signed loads and address/result aliasing have independent checks.
   Caller clobbers, callee saves, FP bit patterns and spill pressure have execution
   and corruption checks. Caller-saved/FP-bank allocation, live-range splitting,

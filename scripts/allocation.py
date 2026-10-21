@@ -88,6 +88,25 @@ def fixture(target):
         lines += [f'%negative ={kind} neg %sum24','ret %negative','}']
     lines += ['export function l $zero_extend(l %x) { @s %r =l extuw %x ret %r }',
               'export function l $copy_narrow(l %x) { @s %w =w copy %x %r =l extuw %w ret %r }']
+    lines += ['''export function l $phi_narrow(l %x) {
+@s
+ jmp @join
+@join
+ %n =w phi @s %x
+ %saved =l phi @s %x
+ %wide =l extuw %n
+ %r =l xor %saved,%wide
+ ret %r
+}
+export function l $phi_long(l %x) {
+@s
+ jmp @loop
+@loop
+ %v =l phi @s %x,@loop %v
+ jnz 0,@loop,@done
+@done
+ ret %v
+}''']
     lines += ['export function l $load_alias(l %p) { @s %r =l loadl %p ret %r }',
               'export function l $load_signed_alias(l %p) { @s %r =l loadsb %p ret %r }',
               'export function l $load_word_alias(l %p) { @s %r =l loaduw %p ret %r }',
@@ -173,6 +192,7 @@ export function l $dynamic(l %n,l %x) {
     probe += 'return ' + ' && '.join(f'k{i} == UINT64_C({0x123456789abc0000+i})' for i in range(len(saved))) + ';}\n'
     caller = '''#include <stdint.h>
 extern uint64_t pressure(uint64_t*), swap(uint64_t,uint64_t,unsigned), deadwrite(uint64_t,uint64_t), chain(uint64_t), dynamic(uint64_t,uint64_t), shift_mix(uint64_t,uint64_t);
+extern uint64_t phi_narrow(uint64_t),phi_long(uint64_t);
 extern double float_keep(double,double), float_bits(double), float_pressure_d(double*);
 extern float float_pressure_s(float*);
 extern uint64_t zero_extend(uint64_t),copy_narrow(uint64_t);
@@ -207,6 +227,7 @@ int main(void) {
  uint64_t values[]={0,17,UINT64_MAX,UINT64_C(0x8000000000000000),UINT64_C(0xf0123456789abcde)};
  for(unsigned j=0;j<5;j++)for(unsigned k=0;k<9;k++) {
   uint64_t x=values[j],n=counts[k];
+  if(phi_narrow(x)!=(x^(uint32_t)x)||phi_long(x)!=x)return 16;
   uint64_t expected=(x<<(n&63))^(x>>(n&63))^(uint64_t)((uint32_t)x<<(n&31));
   if(shift_mix(x,n)!=expected)return 10;
  }
@@ -229,6 +250,10 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
         assert result.returncode == 0, result.stderr
         if target.startswith('aarch64') and flags:
             assert re.search(r'\b(?:add|sub|mul|eor|and|orr) [wx](?:19|2[0-8]), [wx](?:19|2[0-8]),', assembly.read_text()), 'allocated integer operations did not use GP homes directly'
+            if label=='allocated' and not optimized_only:
+                text=assembly.read_text();prefix='_' if target.endswith('macos') else ''
+                body=text.split('\n'+prefix+'phi_long:\n',1)[1].split('\n'+prefix+'load_alias:\n',1)[0]
+                assert len(re.findall(r'\bstr\b',body))==1 and len(re.findall(r'\bldr\b',body))==1,'stationary long phi still stages through memory'
         if execute:
             result = run([cc, caller, assembly, '-o', case/label], True)
             assert result.returncode == 0, result.stderr
@@ -255,6 +280,22 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
                 assert result.returncode == 0, result.stderr
                 result = run([case/'broken-save'], True)
                 assert result.returncode != 0, 'callee-save corruption was not detected'
+                if target.startswith('aarch64') and not optimized_only:
+                    start=text.index('\n'+prefix+'phi_narrow:\n')
+                    end=text.index('\n'+prefix+'phi_long:\n',start)
+                    body=text[start:end]
+                    normalization=re.search(r'\tmov w(\d+), w\1\n',body)
+                    assert normalization,'stationary word phi lacks normalization'
+                    # Normalizing before staging the other long-valued phi must
+                    # lose high bits; the correct emitter defers this write.
+                    marker='L_lcb_block_10_phi_narrow_s:\n'
+                    assert marker in body
+                    damaged=text[:start]+body.replace(marker,marker+normalization[0],1)+text[end:]
+                    broken=case/'broken-phi-order.s';broken.write_text(damaged)
+                    result=run([cc,caller,broken,'-o',case/'broken-phi-order'],True)
+                    assert result.returncode==0,result.stderr
+                    result=run([case/'broken-phi-order'],True)
+                    assert result.returncode!=0,'early phi normalization escaped the independent oracle'
     print(f'{target}: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, phi swaps, dead writes, dynamic frames; execution={execute}', flush=True)
 
 

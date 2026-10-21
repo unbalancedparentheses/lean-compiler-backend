@@ -483,3 +483,27 @@ round trip: baseline 0.0651 s, optimized 0.0250 s, original QBE 0.00793 s,
 corrected QBE 0.00792 s and GCC 0.00383 s. This is useful progress, with a
 substantial performance gap still present; cross-run timings are not a controlled
 speedup measurement.
+
+
+## Stationary phi homes and fall-through edges
+
+ARM64 allocated/optimized output skips memory staging for a phi whose source
+already occupies its destination register. Word normalization remains delayed
+until other sources are staged, preserving parallel edges that also read the
+old long value. Unconditional fall-through jumps disappear, and conditional
+branches consume assigned word registers directly. Baseline and non-ARM code
+remain unchanged across 836 upstream fixture/mode/target comparisons.
+
+[zlib report](zlib-phi-homes.json): all upstream/static and gzip checks pass;
+optimized text is 183,294 bytes. Same-run median round trips are 0.0208 s
+optimized, 0.0652 s baseline, 0.00793 s original QBE, 0.00794 s corrected QBE
+and 0.00388 s GCC. [cJSON report](cjson-phi-homes.json): all 153 assertions and
+checksums pass, with the baseline-only deep-recursion stack retry retained.
+Optimized library text is 39,848 bytes; median runtime is 0.2171 s versus
+0.1760 s QBE and 0.1445 s GCC. These local samples are workload measurements,
+not optimization parity or preservation proofs.
+
+Native allocation checks include stationary long and narrowing word phis,
+parallel swaps, and an early-normalization corruption that must fail. Optimized
+Linux ARM64 execution and a fresh 32-seed/2,048-case Python/interpreter/native/QBE
+fuzz campaign pass alongside the independent CFG tests.

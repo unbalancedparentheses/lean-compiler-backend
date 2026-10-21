@@ -605,19 +605,33 @@ private def blockLabel (f : Function) (label : String) : String :=
 private def edgeLabel (f : Function) (label : String) : String :=
   s!"L_lcb_edge_{f.name.length}_{localName f.name}_{label}"
 
-/-- Phi lowering stages every source before changing any destination slot. -/
+/-- Phi lowering stages every moving source before changing destinations.
+    Allocation checks that all phi destinations have distinct homes. A source
+    already in its destination register needs no staging; word normalization is
+    delayed until the commit phase so other sources still see its old long bits. -/
 private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (f : Function) (slots : Homes) (stageBase : Nat)
     (predecessor target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw s!"unknown block @{target}"
   let mut lines := []
+  let mut stationary : Array (Option Nat) := #[]
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
     let some (_, value) := phi.incoming.find? (·.1 == predecessor)
       | throw s!"missing phi predecessor @{predecessor}"
+    let same := do
+      let .temporary source := value | none
+      let sourceHome ← slots.registers.lookup source
+      let destinationHome ← slots.registers.lookup phi.destination
+      if sourceHome == destinationHome then some sourceHome else none
+    stationary := stationary.push same
+    if same.isSome then continue
     lines := lines ++ (← load darwin localSymbols base slots phi.width 9 value)
     lines := lines ++ slotAccess "str" base (register phi.width 9) phi.width.bytes (stageBase + i * 8)
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
+    if let some home := stationary[i]! then
+      if phi.width == .word then lines := lines ++ [s!"\tmov w{home}, w{home}"]
+      continue
     let r := register phi.width 9
     lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ (← storeHome base slots phi.width r phi.destination)
   pure lines
@@ -747,7 +761,9 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           lines := lines ++ stackAddress "sp" 10 (frame + argumentOffset) ++ [s!"\t{instruction}, [x10]"]
         else lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
         lines := lines ++ (← storeHome base slots parameter.width (register parameter.width 9) parameter.name)
-  for block in f.blocks do
+  for blockIndex in [:f.blocks.size] do
+    let block := f.blocks[blockIndex]!
+    let next := (f.blocks[blockIndex+1]?).map (·.label)
     lines := lines ++ [blockLabel f block.label ++ ":"]
     let mut debugIndex := 0
     for instructionIndex in [:block.instructions.size + 1] do
@@ -788,15 +804,16 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
     | .halt => lines := lines ++ ["\tbrk #0"]
     | .jump target =>
       lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label target)
-      lines := lines ++ [s!"\tb {blockLabel f target}"]
+      if !allocate || next != some target then lines := lines ++ [s!"\tb {blockLabel f target}"]
     | .branch condition yes no =>
-      lines := lines ++ (← load darwin localSymbols base slots .word 9 condition)
+      let conditionHome := operandRegister slots 9 condition
+      if conditionHome == 9 then lines := lines ++ (← load darwin localSymbols base slots .word 9 condition)
       let otherwise := edgeLabel f block.label
-      lines := lines ++ [s!"\tcbz w9, {otherwise}"]
+      lines := lines ++ [s!"\tcbz w{conditionHome}, {otherwise}"]
       lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label yes)
       lines := lines ++ [s!"\tb {blockLabel f yes}", otherwise ++ ":"]
       lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label no)
-      lines := lines ++ [s!"\tb {blockLabel f no}"]
+      if !allocate || next != some no then lines := lines ++ [s!"\tb {blockLabel f no}"]
   if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   let file := match f.debugFile with
     | some name => s!".file {debugFileId} {debugFilename name}\n"
