@@ -64,6 +64,7 @@ def main():
         configure+=['--target='+isa+'-linux-gnu','--with-gcc-libdir='+libdir]
     docker(configure,cproc);docker(['make','-j4'],cproc)
     docker(['env','CC='+cc,'./configure','--static'],source);docker(['make','-j4'],source)
+    for name in ['Makefile','zconf.h']:sync(source/name,False)
     for path in pristine.rglob('*.c'):
         assert digest(path)==digest(source/path.relative_to(pristine)), 'upstream C source changed'
     compiler=work/'lcb-snapshot';shutil.copy2(args.compiler,compiler)

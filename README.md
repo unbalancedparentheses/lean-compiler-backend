@@ -163,11 +163,14 @@ and IEEE constant bit patterns are implemented. A separate restricted Concrete c
 it does not close full compatibility. Concrete's checked-overflow operations must lower
 to explicit checks; wrapping QBE arithmetic does not implement them by itself.
 
-The larger cproc self-compilation comparison compiles all 18 frontend source
-units through our backend, then checks byte-identical IR reproduction and the
-196 original frontend tests. The original QBE 1.3 ARM64 external-GOT-offset
-failure is retained separately from a corrected test oracle; see
-[real-program comparisons](docs/benchmarks/README.md).
+Larger-program qualification includes cproc self-compilation (18 frontend units,
+byte-identical IR reproduction and 196 original tests), QBE itself (32 units,
+725 functions and 487 exact successful assembly reproductions), and zlib with its
+original example/minigzip programs (17 units, 271 functions, upstream static tests
+and 12 exact gzip streams per qualified build). All three Linux targets have
+these workload checks; local x86-64/RV64 execution uses QEMU. Original upstream
+failures remain separate from corrected test oracles, and performance still trails
+QBE on the measured workloads. See [real-program comparisons](docs/benchmarks/README.md).
 
 [The port inventory](docs/PORT_STATUS.md) lists every upstream public/internal
 opcode, target/ABI and compiler source module, including unimplemented areas.
