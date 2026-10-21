@@ -90,7 +90,8 @@ before rebuilding; the checks reject stale source/build identities.
   smaller independent limits.
 - Integer byte/half/word/long loads and stores, including signed loads and
   unaligned accesses. Positive constant/runtime `alloc4`/`alloc8`/`alloc16`
-  allocations in any block; QBE's `loadw`/`loadl` and `alloc1`/`alloc2` aliases.
+  allocations in any block, with constant objects admitted through 1 MiB (subject
+  to fixed-frame limits); QBE's `loadw`/`loadl` and `alloc1`/`alloc2` aliases.
 - Effect-only `blit source, destination, count` copies, with constant byte counts
   in 0..4096. The source and destination spans must be disjoint or have identical
   addresses, as required by QBE. The byte-count cap is a compiler resource limit.

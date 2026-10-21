@@ -150,7 +150,7 @@ conversions, argument registers or ABI support.
 ## Runtime stack allocation
 
 Compatibility allocation accepts long size operands in any block. Constant sizes
-retain the 0..4096 per-object admission bound; runtime sizes are nonnegative and
+have a 0..1 MiB per-object admission bound; runtime sizes are nonnegative and
 limited by the interpreter's total 1 MiB live-memory budget. Zero-sized objects
 are aligned and grant no accessible bytes. Native code rounds allocation size to
 16-byte stack alignment, keeps each allocation until function return, and restores
@@ -348,7 +348,9 @@ work-list dominance fixed point over packed finite sets. The original list-based
 validator remains the reducible small-profile path used by existing kernel-checked
 examples. Both retain the previous conservative behavior for disconnected regions:
 predecessor-free nodes dominate only themselves; closed unreachable SCCs can retain
-vacuous dominators. Unreachable incoming edges are not silently removed. All 4096
+vacuous dominators when called directly. Compatibility module normalization now
+prunes unreachable blocks/phi edges before these analyses; the first-path importer
+retains its original behavior. All 4096
 four-node graphs compare the two algorithms, with node-deletion reachability as
 an additional oracle on fully reachable graphs. This is regression testing, not
 a soundness proof of the new analysis.

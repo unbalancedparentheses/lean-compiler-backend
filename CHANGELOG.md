@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Admit compatibility constant stack objects through 1 MiB instead of 4 KiB,
+  covering a 4,704-byte Csmith-generated local array. Retain fixed-frame/interpreter
+  budgets and the restricted validator bound; test entry/nonentry allocations,
+  alignment, calls and endpoint accesses through nearly 1 MiB on every target.
+
 - Prune unreachable compatibility blocks before SSA/dominance, preserving raw
   resource limits and repairing phi incoming edges. This admits unchanged cproc
   frontend IR with dead predecessors while keeping first-path admission separate.

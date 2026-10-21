@@ -66,6 +66,13 @@ def main : IO Unit := do
     "function l $f() { @s jmp @join @join %v =l phi @missing 0 ret %v }",
     "function l $f() { @s jmp @join @unused jmp @missing @join ret 1 }"] do
     require (isFailure (Parser.parseModule malformed >>= SSA.constructModule)) "unreachable pruning hid a malformed CFG"
+  let largeObject ← match Parser.parseModule "function l $large(l %x) { @s %p =l alloc16 4704 %q =l add %p,4696 storel %x,%q %r =l loadl %q ret %r }" >>= SSA.constructModule with
+    | .ok m => pure m.functions[0]! | .error e => throw (IO.userError e)
+  require (valueEquals (Semantics.evaluate largeObject #[123456789]) 123456789) "large constant object tail changed value"
+  require (isFailure (validateFunction largeObject)) "restricted validator allocation bound changed"
+  for size in #[4097,1048576] do
+    require (!isFailure (Parser.parseModule s!"function l $f() \{ @s %p =l alloc16 {size} ret 0 }" >>= SSA.constructModule)) "compatibility large allocation admission failed"
+  require (isFailure (Parser.parseModule "function l $f() { @s %p =l alloc16 1048577 ret 0 }" >>= SSA.constructModule)) "oversized constant allocation admitted"
   let aggregate ← match Parser.parseModule "type :record = { d } type :union = { { d } }" with
     | .ok m => pure m
     | .error e => throw (IO.userError e)

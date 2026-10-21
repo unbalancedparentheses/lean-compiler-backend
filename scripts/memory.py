@@ -250,7 +250,7 @@ def controls(work):
         ('function w $f() { @s %p =w alloc4 8 ret 0 }', 'long result'),
         ('function l $f(w %n) { @s %p =l alloc4 %n ret 0 }', 'w-to-l'),
         *[(f'function l $f() {{ @s %p =l alloc4 {size} ret 0 }}', 'constant size')
-          for size in (-1, 4097)],
+          for size in (-1, 1024*1024+1)],
         ('function l $f() { @s jmp @b @b %p =l alloc4 %missing ret 0 }', 'undefined temporary'),
         ('function w $f(w %p) { @s %v =w load %p ret %v }', 'w-to-l'),
         ('function w $f() { @s storew 0, %missing ret 0 }', 'undefined temporary'),

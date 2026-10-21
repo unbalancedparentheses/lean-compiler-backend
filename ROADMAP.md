@@ -159,7 +159,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   or overlap guards. Packed integer data, zero fill, alignment and global symbol references are now
   implemented and tested, including pointer initializers with addends and byte
   strings and IEEE floating constant initializers. Runtime-sized and non-entry
-  allocations now pass native call/frame tests. Apple ARM64 TLS data/address access
+  allocations now pass native call/frame tests. Constant-object admission extends
+  through 1 MiB after Csmith exposed a valid 4,704-byte local array; native/emulated
+  entry/nonentry tests cover tails, calls and page offsets near the bound. Apple ARM64 TLS data/address access
   is tested with concurrent C threads. Apple custom code/data sections and common
   zero-fill definitions now pass native section/coalescing tests; quoted globals,
   additional section forms and other target TLS conventions remain.
