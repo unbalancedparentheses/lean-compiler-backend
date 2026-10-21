@@ -507,3 +507,24 @@ Native allocation checks include stationary long and narrowing word phis,
 parallel swaps, and an early-normalization corruption that must fail. Optimized
 Linux ARM64 execution and a fresh 32-seed/2,048-case Python/interpreter/native/QBE
 fuzz campaign pass alongside the independent CFG tests.
+
+
+## Acyclic register phi scheduling
+
+The next ARM64 checkpoint schedules register phi copies when their destination
+is no longer needed by another pending source. Cycles and stack/symbol transfers
+keep simultaneous memory staging. The expanded independent matrix covers all
+2/3/4-value permutations plus rotations/reversals through 24 live values:
+79 functions and 5,372 cases per lowering mode, including spill/register edges.
+Native Apple ARM64 and baseline/optimized Linux ARM64 suites pass, together with
+another 32-seed/2,048-case differential campaign.
+
+[zlib report](zlib-phi-schedule.json) retains all unchanged tests and exact gzip
+comparisons. Optimized text is 175,374 bytes; same-run median round trip is
+0.0205 s versus 0.00790 s original QBE. [QBE self-compilation report](qbe-phi-schedule.json)
+retains 455 exact fixture assemblies, 32 self-IR assemblies and 58 original
+runtime tests for each qualified backend. Original QBE's parser failure remains
+separate. Optimized text is 467,972 bytes; median self-IR compilation is 0.2050 s
+versus 0.1634 s for corrected-QBE-built QBE and 0.0961 s for GCC-built QBE.
+No additional preservation proofs or full allocation-parity claims accompany
+these execution and size results.

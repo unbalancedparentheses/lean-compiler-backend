@@ -2,6 +2,7 @@
 """Independent allocation constraints and native pressure/parallel-copy cases."""
 import argparse
 import copy
+import itertools
 import json
 import os
 import re
@@ -10,6 +11,46 @@ import subprocess
 import tempfile
 from fuzz import ROOT, LCB, native_host, generate
 from liveness import CASES, check as check_liveness
+
+
+def phi_matrix():
+    """Parallel permutations, including dependencies across register/spill homes."""
+    sources, declarations, checks = [], [], []
+    permutations=[]
+    for size in [2,3,4]:
+        permutations.extend(itertools.permutations(range(size)))
+    for size in [8,12,24]:
+        permutations += [tuple((i+shift)%size for i in range(size)) for shift in range(size)]
+        permutations.append(tuple(reversed(range(size))))
+    for index, permutation in enumerate(permutations):
+        name=f'phi_permutation_{index}';size=len(permutation)
+        lines=[f'export function l ${name}(l %p,w %n) {{','@s']
+        for i in range(size):lines += [f'%p{i} =l add %p,{i*8}',f'%initial{i} =l loadl %p{i}']
+        lines += ['jmp @loop','@loop']
+        for i,source in enumerate(permutation):lines.append(f'%v{i} =l phi @s %initial{i},@loop %v{source}')
+        lines += ['%i =w phi @s 0,@loop %next','%next =w add %i,1','%more =w cultw %next,%n',
+                  'jnz %more,@loop,@done','@done','%hash0 =l copy 1469598103934665603']
+        for i in range(size):lines += [f'%mixed{i} =l xor %hash{i},%v{i}',f'%hash{i+1} =l mul %mixed{i},1099511628211']
+        lines += [f'ret %hash{size}','}'];sources.append('\n'.join(lines))
+        declarations.append(f'extern uint64_t {name}(uint64_t*,unsigned);')
+        checks.append('''{
+ uint64_t seed=UINT64_C(0xfeed123456789abc),input[24],values[24],next[24];
+ unsigned permutation[]={PERM};
+ for(unsigned trial=0;trial<4;trial++) {
+  for(unsigned i=0;i<SIZE;i++){seed^=seed<<13;seed^=seed>>7;seed^=seed<<17;input[i]=seed;}
+  for(unsigned n=1;n<=17;n++) {
+   for(unsigned i=0;i<SIZE;i++)values[i]=input[i];
+   for(unsigned step=1;step<n;step++) {
+    for(unsigned i=0;i<SIZE;i++)next[i]=values[permutation[i]];
+    for(unsigned i=0;i<SIZE;i++)values[i]=next[i];
+   }
+   uint64_t expected=UINT64_C(1469598103934665603);
+   for(unsigned i=0;i<SIZE;i++)expected=(expected^values[i])*UINT64_C(1099511628211);
+   if(NAME(input,n)!=expected)return 17;
+  }
+ }
+}'''.replace('PERM',','.join(map(str,permutation))).replace('SIZE',str(size)).replace('NAME',name))
+    return sources, declarations, checks
 
 
 def check(report):
@@ -233,7 +274,10 @@ int main(void) {
  }
  return 0;
 }'''
+    matrix,declarations,checks=phi_matrix();lines+=matrix
     caller = caller.replace('DESTROY',destroy_asm).replace('PROBE',probe)
+    caller = caller.replace('int main(void)', '\n'.join(declarations)+'\nint main(void)')
+    caller = caller.replace(' return 0;', '\n'.join(checks)+'\n return 0;')
     return '\n'.join(lines), caller
 
 
@@ -296,7 +340,8 @@ def exercise(compiler, work, run, cc, target, execute=True, optimized_only=False
                     assert result.returncode==0,result.stderr
                     result=run([case/'broken-phi-order'],True)
                     assert result.returncode!=0,'early phi normalization escaped the independent oracle'
-    print(f'{target}: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, phi swaps, dead writes, dynamic frames; execution={execute}', flush=True)
+    permutations=len(phi_matrix()[0])
+    print(f'{target}: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, {permutations} phi permutations/{permutations*68} cases, phi swaps, dead writes, dynamic frames; execution={execute}', flush=True)
 
 
 def main():

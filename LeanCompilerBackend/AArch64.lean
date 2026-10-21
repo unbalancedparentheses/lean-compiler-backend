@@ -605,33 +605,50 @@ private def blockLabel (f : Function) (label : String) : String :=
 private def edgeLabel (f : Function) (label : String) : String :=
   s!"L_lcb_edge_{f.name.length}_{localName f.name}_{label}"
 
-/-- Phi lowering stages every moving source before changing destinations.
-    Allocation checks that all phi destinations have distinct homes. A source
-    already in its destination register needs no staging; word normalization is
-    delayed until the commit phase so other sources still see its old long bits. -/
+/-- Schedule register phi copies only when their destination is no longer a
+    source of another pending copy. Stack/symbol transfers and remaining cycles
+    retain simultaneous staging. Distinct destinations are checked by allocation.
+    A narrowing self-copy waits for other users of its old long register bits. -/
 private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (f : Function) (slots : Homes) (stageBase : Nat)
     (predecessor target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw s!"unknown block @{target}"
   let mut lines := []
-  let mut stationary : Array (Option Nat) := #[]
+  let mut values : Array Operand := #[]
+  let mut sources : Array (Option Nat) := #[]
+  let mut destinations : Array (Option Nat) := #[]
+  let mut pending : Array Nat := #[]
+  let mut staged : Array Nat := #[]
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
     let some (_, value) := phi.incoming.find? (·.1 == predecessor)
       | throw s!"missing phi predecessor @{predecessor}"
-    let same := do
-      let .temporary source := value | none
-      let sourceHome ← slots.registers.lookup source
-      let destinationHome ← slots.registers.lookup phi.destination
-      if sourceHome == destinationHome then some sourceHome else none
-    stationary := stationary.push same
-    if same.isSome then continue
-    lines := lines ++ (← load darwin localSymbols base slots phi.width 9 value)
-    lines := lines ++ slotAccess "str" base (register phi.width 9) phi.width.bytes (stageBase + i * 8)
-  for i in [:block.phis.size] do
+    values := values.push value
+    sources := sources.push (match value with
+      | .temporary name => slots.registers.lookup name | _ => none)
+    let destination := slots.registers.lookup phi.destination
+    destinations := destinations.push destination
+    let direct := match value with | .temporary _ | .constant _ => true | _ => false
+    if destination.isSome && direct then pending := pending.push i
+    else
+      lines := lines ++ (← load darwin localSymbols base slots phi.width 9 value)
+      lines := lines ++ slotAccess "str" base (register phi.width 9) phi.width.bytes (stageBase + i * 8)
+      staged := staged.push i
+  -- At most ten phi destinations can occupy the ARM64 callee-saved bank.
+  for _ in [:pending.size] do
+    let ready := pending.find? fun i =>
+      pending.all fun j => i == j || sources[j]! != destinations[i]!
+    let some i := ready | break
+    lines := lines ++ (← load darwin localSymbols base slots block.phis[i]!.width
+      destinations[i]!.get! values[i]!)
+    pending := pending.filter (· != i)
+  -- A dependency cycle must snapshot all its old values before any commit.
+  for i in pending do
     let phi := block.phis[i]!
-    if let some home := stationary[i]! then
-      if phi.width == .word then lines := lines ++ [s!"\tmov w{home}, w{home}"]
-      continue
+    lines := lines ++ (← load darwin localSymbols base slots phi.width 9 values[i]!)
+    lines := lines ++ slotAccess "str" base (register phi.width 9) phi.width.bytes (stageBase + i * 8)
+    staged := staged.push i
+  for i in staged do
+    let phi := block.phis[i]!
     let r := register phi.width 9
     lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ (← storeHome base slots phi.width r phi.destination)
   pure lines
