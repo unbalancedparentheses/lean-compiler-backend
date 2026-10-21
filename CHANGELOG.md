@@ -5,6 +5,8 @@
 - Compile zlib plus its original example/minigzip programs through identical cproc
   IR. All five builds pass upstream static tests and twelve exact gzip/round-trip
   cases. Publish the compression performance gap as well as functional matches.
+  Requalify both other Linux targets under QEMU with target-specific frontend IR
+  and GCC references, retaining original RV64 QBE link failure separately.
 
 - Bootstrap QBE into Linux x86-64 and RV64 executables under QEMU, preserving
   exact assembly reproduction and original runtime tests. Reduce and retain an

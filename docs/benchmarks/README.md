@@ -413,3 +413,20 @@ data in its text figure, so section placement matters when interpreting raw size
 Local timing and emulation distinctions remain important; these are not universal
 performance ratios. Reproduce with `python3 scripts/zlib_benchmark.py` in the
 Linux ARM64 qualification environment.
+
+
+### zlib on the other Linux targets
+
+The [x86-64 report](zlib-x86_64.json) and [RV64 report](zlib-riscv64.json) compile
+the same 17 C units using target-specific cproc configurations and GCC sysroots.
+Each executable runs under QEMU, including each target's GCC reference. Our
+baseline/optimized builds pass the original static recipe and all twelve exact
+gzip/round-trip cases on both targets. Original and separately corrected QBE
+both pass on x86-64. Original RV64 QBE fails GOT-addend linking; the report keeps
+that failure and qualifies the separately corrected copy. RV64 QBE copies use
+`-no-pie`, explicitly recorded per backend.
+
+These are emulated executions, not native x86-64/RV64 performance measurements.
+Use `python3 scripts/zlib_benchmark.py --target x86_64-linux` or
+`--target riscv64-linux` to reproduce. The default ARM64 path was rerun after
+adding these options and passed the same tests.

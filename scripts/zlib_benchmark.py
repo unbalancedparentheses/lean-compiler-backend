@@ -2,7 +2,7 @@
 """Compile pinned zlib and its original example/minigzip programs through cproc.
 
 Runs the upstream static test recipe and deterministic gzip/round-trip comparisons
-inside the native ARM64 Linux qualification container. Upstream configure generates
+inside the ARM64 Linux qualification container (cross targets use QEMU). Upstream configure generates
 Makefile/zconf.h; C sources and frontend IR are never patched.
 """
 import argparse
@@ -30,8 +30,13 @@ def main():
     ap.add_argument('--docker-container',default='lcb-parity-linux')
     ap.add_argument('--compiler',type=Path,default=ROOT/'.lake/build/bin/lcb')
     ap.add_argument('--report',type=Path)
+    ap.add_argument('--target',choices=['aarch64-linux','x86_64-linux','riscv64-linux'],default='aarch64-linux')
     args=ap.parse_args()
-    base=ROOT/'.build/linux-arm64';work=base/'zlib-benchmark';work.mkdir(exist_ok=True)
+    isa,qtarget={'aarch64-linux':('aarch64','arm64'),'x86_64-linux':('x86_64','amd64_sysv'),
+                 'riscv64-linux':('riscv64','rv64')}[args.target]
+    arm=isa=='aarch64';cc='gcc' if arm else isa+'-linux-gnu-gcc'
+    execution_prefix=[] if arm else ['qemu-'+isa,'-L','/usr/'+isa+'-linux-gnu']
+    base=ROOT/'.build/linux-arm64';work=base/('zlib-benchmark' if arm else 'zlib-benchmark-'+isa);work.mkdir(exist_ok=True)
     source,cproc=work/'zlib',work/'cproc'
     pristine=work/'upstream-zlib'
     fetch(pristine,'https://github.com/madler/zlib.git',ZLIB)
@@ -53,12 +58,16 @@ def main():
     assert docker(['uname','-m']).stdout.strip()=='aarch64'
     for path in source.rglob('*'):
         if path.is_file():sync(path)
-    docker(['./configure'],cproc);docker(['make','-j4'],cproc)
-    docker(['./configure','--static'],source);docker(['make','-j4'],source)
+    configure=['./configure']
+    if not arm:
+        libdir=str(Path(docker([cc,'-print-file-name=crtbegin.o']).stdout.strip()).parent)
+        configure+=['--target='+isa+'-linux-gnu','--with-gcc-libdir='+libdir]
+    docker(configure,cproc);docker(['make','-j4'],cproc)
+    docker(['env','CC='+cc,'./configure','--static'],source);docker(['make','-j4'],source)
     for path in pristine.rglob('*.c'):
         assert digest(path)==digest(source/path.relative_to(pristine)), 'upstream C source changed'
     compiler=work/'lcb-snapshot';shutil.copy2(args.compiler,compiler)
-    patch_path=ROOT/'tests/upstream/qbe-1.3-arm64-extern-offset.json';patch=json.loads(patch_path.read_text())
+    patch_path=ROOT/('tests/upstream/qbe-1.3-amd64-extern-flags.json' if isa=='x86_64' else 'tests/upstream/qbe-1.3-'+('arm64' if arm else 'rv64')+'-extern-offset.json');patch=json.loads(patch_path.read_text())
     lock=json.loads((ROOT/'upstream-lock.json').read_text());oracles={}
     for label in ['qbe','qbe-corrected']:
         oracle=work/(label+'-host')
@@ -71,10 +80,10 @@ def main():
             (oracle/patch['source']).write_text(text.replace(patch['before'],patch['after']))
         command(['make','-j4',f'CC={os.environ.get("LCB_CC","cc")}','CFLAGS=-std=c99 -O2'],cwd=oracle)
         oracles[label]=oracle/'qbe'
-    report={'schema':1,'program':'zlib 1.3.1 library, example and minigzip','target':'aarch64-linux',
+    report={'schema':1,'program':'zlib 1.3.1 library, example and minigzip','target':args.target,'execution_mode':'native ARM64 Linux VM' if arm else 'QEMU user emulation',
         'execution':docker(['uname','-a']).stdout.strip(),'compile_host':platform.platform(),
         'zlib_commit':ZLIB,'cproc_commit':CPROC,'compiler_identity':command([compiler,'--build-identity']).stdout.strip(),
-        'frontend_defines':DEFINES,'configure':['./configure','--static'],
+        'frontend_defines':DEFINES,'configure':['env','CC='+cc,'./configure','--static'],
         'gcc_reference_flags':re.search(r'^CFLAGS=(.*)$',(source/'Makefile').read_text(),re.M)[1],
         'configuration_hashes':{n:digest(source/n) for n in ['Makefile','zconf.h']},
         'source_hashes':{str(p.relative_to(source)):digest(p) for p in source.rglob('*') if p.is_file() and p.suffix in ['.c','.h'] and '.git' not in p.parts},
@@ -95,22 +104,34 @@ def main():
         report['translation_units'][name]={'sha256':digest(ir),'lines':len(text.splitlines()),'bytes':ir.stat().st_size,'functions':len(re.findall(r'^(?:export )?function\b',text,re.M))}
     reference=work/'gcc';reference.mkdir(exist_ok=True)
     for name in ['example','minigzip']:
-        docker(['gcc',*[inside(source/(unit+'.o')) for unit in UNITS],inside(source/(name+'.o')),'-o',inside(reference/name)])
+        docker([cc,*[inside(source/(unit+'.o')) for unit in UNITS],inside(source/(name+'.o')),'-o',inside(reference/name)])
     for label in ['baseline','optimized','qbe','qbe-corrected','gcc']:
         case=work/label;case.mkdir(exist_ok=True);timings={};objects={}
+        link_flags=['-no-pie'] if isa=='riscv64' and label.startswith('qbe') else []
+        link_failure=None
         if label!='gcc':
             for name in UNITS+['test/example','test/minigzip']:
                 stem=name.replace('/','-');ir=work/'ir'/(stem+'.ssa');asm,obj=case/(stem+'.s'),case/(stem+'.o')
-                cmd=[oracles[label],'-t','arm64','-o',asm,ir] if label.startswith('qbe') else [compiler,ir,'--target','aarch64-linux',*(['--optimize'] if label=='optimized' else []),'-o',asm]
+                cmd=[oracles[label],'-t',qtarget,'-o',asm,ir] if label.startswith('qbe') else [compiler,ir,'--target',args.target,*(['--optimize'] if label=='optimized' else []),'-o',asm]
                 start=time.perf_counter();command(cmd);timings[name]=time.perf_counter()-start
-                sync(asm);docker(['gcc','-c',inside(asm),'-o',inside(obj)]);objects[name]=obj
+                sync(asm);docker([cc,'-c',inside(asm),'-o',inside(obj)]);objects[name]=obj
             for name in ['example','minigzip']:
-                docker(['gcc',*[inside(objects[n]) for n in UNITS],inside(objects['test/'+name]),'-o',inside(case/name)])
-        entry={'compile_seconds':timings,'total_compile_seconds':sum(timings.values()),
+                linked=docker([cc,*link_flags,*[inside(objects[n]) for n in UNITS],inside(objects['test/'+name]),'-o',inside(case/name)],check=False)
+                if linked.returncode:
+                    assert label=='qbe',(label,linked.stderr)
+                    link_failure={'phase':'link','exit':linked.returncode,'stderr':linked.stderr}
+                    break
+        if link_failure:
+            report['backends'][label]={'failure':link_failure,'link_flags':link_flags,
+                'compile_seconds':timings,'total_compile_seconds':sum(timings.values()),
+                'upstream_teststatic':{'exit':None,'status':'unmeasured due to link failure'}}
+            print(f'zlib {label}: original link failure retained',flush=True)
+            continue
+        entry={'link_flags':link_flags,'compile_seconds':timings,'total_compile_seconds':sum(timings.values()),
             'minigzip_size':docker(['size',inside(case/'minigzip')]).stdout.strip()}
         report['backends'][label]=entry
         before={name:docker(['sha256sum',inside(case/name)]).stdout.split()[0] for name in ['example','minigzip']}
-        tested=docker(['make','-s','-f',inside(source/'Makefile'),'-o','static','teststatic'],case,check=False)
+        tested=docker(['make','QEMU_RUN='+' '.join(execution_prefix),'-s','-f',inside(source/'Makefile'),'-o','static','teststatic'],case,check=False)
         for name in before:assert docker(['sha256sum',inside(case/name)]).stdout.split()[0]==before[name], 'test recipe rebuilt executable'
         entry['upstream_teststatic']={'exit':tested.returncode,'stdout':tested.stdout,'stderr':tested.stderr}
         if tested.returncode:
@@ -123,11 +144,11 @@ def main():
     labels=[label for label,entry in report['backends'].items() if entry['upstream_teststatic']['exit']==0]
     probe.write_text('''from pathlib import Path
 import gzip,hashlib,json,random,statistics,subprocess,time
-root=Path('/work/zlib-benchmark');rng=random.Random(20261021)
+root=Path(WORKPATH);rng=random.Random(20261021)
 payloads=[b'',bytes(range(256))*32,rng.randbytes(65536),(b'compiler-backend-zlib\\x00'*8192+rng.randbytes(4096))*8]
 result={'payloads':[{'bytes':len(p),'sha256':hashlib.sha256(p).hexdigest()} for p in payloads],'backends':{}}
 def run(label,args,data):
- p=subprocess.run([str(root/label/'minigzip'),*args],input=data,capture_output=True)
+ p=subprocess.run([*PREFIX,str(root/label/'minigzip'),*args],input=data,capture_output=True)
  assert p.returncode==0,(label,args,p.returncode,p.stderr)
  return p.stdout
 for label in LABELS:
@@ -147,7 +168,7 @@ for label in LABELS:
   samples.append(time.monotonic()-start)
  result['backends'][label]={'gzip_checks':checks,'round_trip_seconds':samples,'median_seconds':statistics.median(samples)}
 (root/'probe.json').write_text(json.dumps(result,indent=2)+'\\n')
-'''.replace('LABELS',repr(labels)))
+'''.replace('LABELS',repr(labels)).replace('WORKPATH',repr(inside(work))).replace('PREFIX',repr(execution_prefix)))
     sync(probe);docker(['python3',inside(probe)]);sync(work/'probe.json',False)
     report['payload_tests']=json.loads((work/'probe.json').read_text())
     destination=args.report or work/'report.json';destination.parent.mkdir(parents=True,exist_ok=True)

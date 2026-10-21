@@ -283,7 +283,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   on Apple ARM64 and deliberately omits a required argument). CI prevents emission
   regressions and tests newly accepted fixtures; see [coverage](docs/UPSTREAM_COVERAGE.md).
   Larger workloads include cJSON (153 assertions across 18 executables), zlib
-  (271 functions, original static test recipe and 12 exact gzip streams per build), cproc
+  (271 functions, original static recipe and 12 exact gzip streams per qualified
+  build on all three Linux targets; x86-64/RV64 use QEMU), cproc
   frontend self-compilation (19 reproduced IR files and 196 tests on each Linux
   target), QBE self-compilation (487 exact successful assembly reproductions and
   58 original ARM64-output tests per baseline/optimized executable on all three
