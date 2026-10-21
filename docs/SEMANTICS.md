@@ -527,8 +527,20 @@ Four bounded fold/CFG rounds replace constant branches using normalized 32-bit
 conditions, remove blocks unreachable from entry and filter phi incoming edges
 to the remaining predecessors. Later rounds can discover constants in pruned
 phis. Dynamic edges and reachable loops remain; unreachable effects/traps can
-be removed. The pipeline does not reorder memory, remove reachable potential
-traps, allocate registers or claim formal preservation.
+be removed. These SSA transformations do not reorder memory, remove reachable
+potential traps or claim formal preservation. Physical allocation follows separately.
+
+Width-aware identities preserve word truncation even for long inputs. Modular
+multiplication by a single-bit constant becomes a left shift. Unsigned division
+and remainder by a normalized nonzero power of two become logical shifts and
+masks; division by one copies at the result width, and remainder by one is zero.
+Normalized-zero divisors and signed operations retain their original handling.
+
+Repeated addresses of module-defined, non-TLS data can share an entry definition
+when referenced at least three times. Only address materialization moves: loads
+still observe mutations across calls. External and TLS resolution stays in its
+original blocks, including interpreter refusal boundaries. Fresh names avoid
+local collisions, and entry debug indices shift with the inserted definitions.
 
 After CFG cleanup, common-expression elimination traverses reachable blocks in
 reverse postorder and reuses only an identical definition that dominates the
@@ -631,7 +643,14 @@ rejects typed bare returns. No arbitrary zero result is synthesized.
 ## Conservative physical homes
 
 The optional allocator assigns the first colors to dedicated callee-saved GP
-registers: AArch64 x19–x28, AMD64 rbx/r12–r15, and RV64 s1–s11. Remaining colors
+registers: AArch64 x19–x28, AMD64 rbx/r12–r15, and RV64 s1–s11. When spilling is
+needed, static read/write counts rank color groups before home assignment.
+Natural-loop weights multiply by eight per nesting level, saturating at three;
+multiple backedges to one header count once. Phi inputs use predecessor weights.
+Unreachable regions and irreducible cycles without a dominating header receive
+no inferred weight; graphs above 512 blocks retain uniform counts. This only
+permutes existing colors, and both independent allocation checks rerun afterward.
+Remaining colors
 use reusable eight-byte spill slots. These banks are disjoint from lowering's
 argument, result, scratch, frame and platform-reserved registers. Used registers
 are saved before parameter writes and restored on every return, including bare
@@ -640,8 +659,10 @@ frame regions. Dynamic frames access them through their stable frame base.
 
 Floating values use their raw bits in these GP homes, with existing transfers
 to/from FP scratch/argument banks. Word reads preserve target normalization;
-callee saves always preserve all 64 bits. Parallel phis still stage every source
-before committing any destination. Calls and TLS helpers preserve these homes by
+callee saves always preserve all 64 bits. ARM64 schedules acyclic GP phi copies
+when their destination is no longer needed by another pending source. Narrowing
+self-copies wait for old long-value consumers. Cycles, stack/symbol transfers and
+other target paths retain simultaneous staging. Calls and TLS helpers preserve homes by
 the target ABI; independent tests deliberately clobber the caller-saved GP/FP
 banks, verify every assigned callee-saved register and detect removed restores.
 
@@ -654,6 +675,8 @@ is tested but does not yet have a semantic preservation proof. Allocated integer
 add/sub operations also select unsigned 12-bit immediates (optionally shifted by
 12), flipping add/sub for representable negative equivalents after width
 normalization. Constant shifts select immediate counts modulo the result width.
+AND/OR/XOR recognize nonzero, non-all-ones logical immediates formed by repeated
+rotated runs of bits, including commuted constants and word normalization.
 Within functions with assigned GP homes, constants choose a zero or all-ones
 initial fill (MOVZ/MOVN), start at a useful halfword and use MOVK only for the
 remaining differing halfwords. Word-width normalization precedes selection.
@@ -683,15 +706,18 @@ The source/home checkers and execution tests do not constitute a proof.
 
 ## Conservative scalar stack promotion
 
-The optional optimizer promotes only entry-block allocations of exactly four or
-eight bytes whose uses are direct scalar loads/stores of the full width and a
-single integer/floating class. Any address escape, arithmetic, partial access,
+The optional optimizer promotes only entry-block allocations of exactly one,
+two, four or eight bytes whose uses are direct full-object scalar loads/stores.
+Four/eight-byte objects require a single matching integer/floating class;
+byte/halfword objects use a canonical word integer value. Any address escape, arithmetic, partial access,
 class reinterpretation or unreachable use keeps the object in memory. A forward
 must-initialization analysis intersects predecessor facts and requires every load
 to follow a store on every reachable path. It never supplies an initial value.
 
-Eligible stores become assignments to a fresh mutable temporary; loads become
-copies. Existing SSA construction inserts merge phis, and the result must pass
+Eligible stores become assignments to a fresh mutable temporary. Byte/halfword
+stores truncate explicitly, and narrow loads use their declared signed/unsigned
+extension and result width; full-width loads become copies. Existing SSA
+construction inserts merge phis, and the result must pass
 validation. Resource or validation failure retains the original function. Debug
 instruction positions are remapped. Same-width temporary copies and trivial
 phis are propagated; a phi must have an external temporary seed, and all non-self

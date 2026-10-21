@@ -126,7 +126,7 @@ before rebuilding; the checks reject stale source/build identities.
   with large native frame-slot addressing. The restricted proof profile keeps its
   smaller independent limits.
 - Integer byte/half/word/long loads and stores, including signed loads and
-  unaligned accesses. Positive constant/runtime `alloc4`/`alloc8`/`alloc16`
+  unaligned accesses. Nonnegative constant/runtime `alloc4`/`alloc8`/`alloc16`
   allocations in any block, with constant objects admitted through 1 MiB (subject
   to fixed-frame limits); QBE's `loadw`/`loadl` and `alloc1`/`alloc2` aliases.
 - Effect-only `blit source, destination, count` copies, with constant byte counts
@@ -135,7 +135,7 @@ before rebuilding; the checks reject stale source/build identities.
 - Direct and indirect calls with up to 64 typed scalar arguments and a scalar or void result,
   including recursion and external C symbols. Internal signatures are checked;
   external definitions must honor the declared ABI. Non-leaf frames save the
-  return address and keep live values in stack slots across calls.
+  return address and preserve live values across calls.
 - Single/double arithmetic, comparisons, casts, numeric conversions, memory, phi values
   and scalar calls/returns.
 - Apple ARM64 thread-local data and addresses, including external TLS and C threads.
@@ -197,10 +197,11 @@ validation; the restricted first path still requires original SSA input.
 The memory interpreter uses abstract byte-addressed objects and rejects external,
 out-of-bounds and uninitialized accesses. This is a testing model, not native
 runtime memory-safety enforcement. Native checks also exercise actual C-owned
-memory. Allocations accept constants in 0..4096 bytes or runtime sizes in any block.
+memory. Allocations accept constants in 0..1 MiB or runtime sizes in any block, subject
+to the total fixed-frame limit.
 The compatibility backend limits fixed frames to 1 MiB; the interpreter limits
-allocated memory to 1 MiB. Native runtime allocation assumes a valid positive
-size and sufficient stack space. Memory fuzzing found a
+allocated memory to 1 MiB. Native runtime allocation assumes a valid nonnegative
+size and sufficient stack space. Zero-sized allocations retain requested alignment. Memory fuzzing found a
 [QBE 1.3 load-forwarding discrepancy](docs/UPSTREAM_DISCREPANCIES.md). Original
 QBE mismatches are retained and reported separately from a declared corrected
 test comparison; native C references corroborate generated overlap cases.

@@ -9,7 +9,8 @@ remain the priority; broader certification is deferred.
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
 `09245df713c4bb399c36e1e239c2c3551fc01b9bf120798effb5735d5b752b9c`.
-Check Git for the exact latest implementation/documentation checkpoint. Work is
+Implementation checkpoint: `a66cde8`; the next checkpoint `1255f21` adds current-
+identity Csmith evidence. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
 
 ## Changes in the latest window
@@ -61,13 +62,14 @@ The full gate passed after allocation ranking and host-native CLI changes
 (`.build/ranked-full-check.log`, `.build/host-default-full-check.log`). The common-address full run passed
 (`.build/symbol-hoist-full-check.log`). The loop-weight full run also passes
 (`.build/loop-priority-full-check.log`). Current unsigned-strength full validation
-is running in `.build/unsigned-final-full-check.log`; verify completion before
-claiming a pass. All five target suites pass, including 216 unsigned division/
+completed successfully in `.build/unsigned-final-full-check.log`, including the
+proof audit, native Apple ARM64 and Rosetta suites and final differential fuzz. All five target suites pass, including 216 unsigned division/
 remainder functions and 2,592 independent cases per mode. Fresh differential
 fuzz seeds 20261333–20261364 pass: 256 functions / 2,048 input cases. The earlier
 `.build/unsigned-strength-full-check.log` was stopped during a size investigation
-and is not a completed gate; the final source identity matches the original
-independently qualified candidate.
+and is not a completed gate. The rebuilt final executable is byte-identical
+to the independently qualified all-target/32-seed candidate (SHA-256
+`5723d0ed232061cab4155dcaa120c1c729efb7f72a21b02404033236692fd7f4`).
 Existing proof audits remain unchanged in scope.
 
 Latest published reports in `docs/benchmarks`:
@@ -127,11 +129,12 @@ and separately corrected oracle copies remain distinct; vendored QBE is unchange
 See [benchmarks/README.md](benchmarks/README.md) and
 [UPSTREAM_DISCREPANCIES.md](UPSTREAM_DISCREPANCIES.md).
 
-CI was all green through `8c31976`. `a721ee7` exposed three old Apple-specific
-refusal controls under the new Linux default; `72389df` fixes their targets and
-all three CI jobs pass. Both native Linux jobs pass the common-address and
-loop-weight checkpoints; their macOS jobs and newer checkpoints remain in progress
-at 22:55 UTC. Check exact latest statuses before reporting completion.
+CI is fully green through `9aec75e`, including both native Linux targets and
+macOS. Final compiler `a66cde8` (run `39689969001`) has Linux x86-64 green; Linux
+ARM64 and macOS are still running as of 23:05 UTC. Later benchmark/documentation
+commits have the same compiler identity and their own pending CI runs. Inspect
+exact run statuses rather than inferring their completion. The earlier host-
+default failure at `a721ee7` was fixed by `72389df`; no known failure remains open.
 
 ## Next work
 

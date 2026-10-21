@@ -577,5 +577,10 @@
     "Default linking retains GCC Cortex-A53 erratum workarounds. The diagnostic relink disables only 843419 to isolate layout effects; it is not a qualified runtime build or a recommended production flag.",
     "Object text falls 448 bytes; default linked text grows 7752 bytes. Disabling the workaround only for diagnosis restores a 448-byte linked reduction, isolating 8200 bytes of additional layout-dependent workaround overhead.",
     "Default-linked runtime qualification remains in qbe-unsigned-strength.json. No speedup is inferred from this diagnostic."
-  ]
+  ],
+  "toolchain": {
+    "gcc": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+    "ld": "GNU ld (GNU Binutils for Ubuntu) 2.42",
+    "as": "GNU assembler (GNU Binutils for Ubuntu) 2.42"
+  }
 }
