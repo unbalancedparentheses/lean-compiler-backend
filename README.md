@@ -50,10 +50,44 @@ lake build lcb lcb-tests
 bash scripts/check.sh
 ```
 
-On an ARM64 Mac, `nix flake check` requires native execution and comparison with
-the retained QBE 1.3 source. Other hosts build the compiler, check proofs and run
-parser/interpreter tests; they report native execution as **not measured**.
-The only implemented output target remains AArch64 macOS.
+CI builds and checks proofs on Apple ARM64, Linux ARM64 and Linux x86-64,
+including native target execution and comparison with retained QBE 1.3.
+Development runners also qualify Linux RV64 under QEMU and macOS x86-64 through
+Rosetta; reports distinguish native, emulated and unmeasured execution.
+
+## QBE-style command-line use
+
+Compatibility compilation accepts options before or after inputs, stdin (`-` or
+no input in a pipeline), stdout (`-o -`) and multiple independent input modules:
+
+```sh
+nix run . -- -t arm64 -o linux.s < examples/arithmetic.ssa
+nix run . -- --optimize -t amd64_sysv first.ssa second.ssa -o combined.s
+```
+
+| QBE target alias | Existing target name |
+|---|---|
+| `arm64_apple` | `aarch64-macos` |
+| `arm64` | `aarch64-linux` |
+| `amd64_sysv` | `x86_64-linux` |
+| `amd64_apple` | `x86_64-macos` |
+| `rv64` | `riscv64-linux` |
+
+Use `-t` or `--target`; the default remains `aarch64-macos`. Attached `-tTARGET`
+and `-oPATH` forms work, and `--` marks remaining arguments as input paths.
+`-h`/`--help` and an interactive invocation without arguments show help. These
+options support frontend pipeline conventions; Windows AMD64 and QBE's internal
+`-d` debugging interface remain unsupported. First-path/job commands retain
+their separate options and proof boundary.
+
+With cproc and an ARM64 Linux assembler/linker, the retained C pipeline smoke
+program prints `pipeline 42 2.5`:
+
+```sh
+cproc -emit-qbe -o - tests/regressions/frontend-pipeline.c | lcb --optimize -t arm64 -o pipeline.s
+cc pipeline.s -o pipeline
+./pipeline
+```
 
 ## First-path foundations
 
@@ -77,7 +111,7 @@ before rebuilding; the checks reject stale source/build identities.
 
 ## Current scope
 
-- `w`/`l` integer and void functions, up to 64 integer arguments and 64 basic blocks.
+- Scalar `w`/`l`/`s`/`d` and void functions with up to 64 typed arguments.
 - Integer arithmetic/bitwise operations, masked shifts, signed/unsigned
   division and remainder, negation, all integer comparisons and byte/half/word extensions.
 - Defined 32/64-bit modular arithmetic, including narrowing `l` operands to `w`.

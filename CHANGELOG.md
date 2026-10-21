@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Accept QBE-style `-t` target aliases, leading/trailing options, stdin/stdout
+  pipelines, attached options and multiple input modules. Keep interactive help,
+  explicit unsupported-target/debug errors and separate first-path options.
+  Check 135 protocol equivalences, native multi-module linking and unchanged
+  output for 750 existing target/mode fixture compilations.
+
 - Lower ARM64 integer comparisons directly on assigned homes, with CMP/CMN
   immediates where encodable and zero-extended boolean results. Test signed and
   unsigned predicates, mixed widths, carry boundaries and reversed operands:

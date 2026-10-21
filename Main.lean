@@ -7,7 +7,9 @@ open LeanCompilerBackend
 private def usage : String :=
   "Lean Compiler Backend 0.1.0\n" ++
   "Usage:\n" ++
-  "  lcb INPUT.ssa [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|x86_64-macos|riscv64-linux] [--optimize] [--allocate]\n" ++
+  "  lcb [OPTIONS] INPUT.ssa ... [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|x86_64-macos|riscv64-linux] [--optimize] [--allocate]\n" ++
+  "  lcb -t arm64_apple|arm64|amd64_sysv|amd64_apple|rv64 [-o OUTPUT.s] [INPUT.ssa|- ...]\n" ++
+  "  Compatibility options may precede/follow inputs; missing input or - reads stdin; -o - writes stdout. Default target: aarch64-macos.\n" ++
   "  lcb --check INPUT.ssa\n" ++
   "  lcb --liveness INPUT.ssa\n" ++
   "  lcb --allocation INPUT.ssa\n" ++
@@ -24,7 +26,7 @@ private def usage : String :=
   "Compatibility subset: QBE scalar w/l/s/d values, SSA construction, control flow, direct/indirect scalar calls, variadics, data/symbols and stack allocation. Floating CLI arguments/results use raw IEEE bits.\n"
 
 private def loadModule (path : String) (constructSSA : Bool := true) : IO LeanCompilerBackend.Module := do
-  let source ← IO.FS.readFile path
+  let source ← if path == "-" then (← IO.getStdin).readToEnd else IO.FS.readFile path
   let parsed := Parser.parseModule source >>= fun m =>
     if constructSSA then SSA.constructModule m else validateModule m *> pure m
   match parsed with
@@ -47,19 +49,47 @@ private def options : List String → Except String (Option String)
   | "--target" :: target :: _ => .error s!"unsupported target '{target}'; supported: aarch64-macos"
   | option :: _ => .error s!"unknown or incomplete option '{option}'"
 
-private def compatibilityOptions (args : List String) : Except String (Option String × String) := do
-  let rec strip : List String → Option String → Except String (List String × String)
-    | [], target => pure ([], target.getD "aarch64-macos")
-    | "--target" :: value :: rest, target => do
-      if target.isSome then throw "target specified more than once"
-      if !["aarch64-macos", "aarch64-linux", "x86_64-linux", "x86_64-macos", "riscv64-linux"].contains value then
-        throw s!"unsupported target '{value}'; supported: aarch64-macos, aarch64-linux, x86_64-linux, x86_64-macos, riscv64-linux"
-      strip rest (some value)
-    | arg :: rest, target => do
-      let (rest, selected) ← strip rest target
-      pure (arg :: rest, selected)
-  let (rest, selected) ← strip args none
-  pure (← options rest, selected)
+private structure CompatibilityOptions where
+  output : Option String := none
+  target : Option String := none
+  inputs : List String := []
+  optimize : Bool := false
+  allocate : Bool := false
+
+private def compatibilityTarget : String → Except String String
+  | "aarch64-macos" | "arm64_apple" => pure "aarch64-macos"
+  | "aarch64-linux" | "arm64" => pure "aarch64-linux"
+  | "x86_64-linux" | "amd64_sysv" => pure "x86_64-linux"
+  | "x86_64-macos" | "amd64_apple" => pure "x86_64-macos"
+  | "riscv64-linux" | "rv64" => pure "riscv64-linux"
+  | value => throw s!"unsupported target '{value}'; supported: aarch64-macos, aarch64-linux, x86_64-linux, x86_64-macos, riscv64-linux (QBE aliases: arm64_apple, arm64, amd64_sysv, amd64_apple, rv64)"
+
+private def compatibilityOptions (args : List String) : Except String CompatibilityOptions := do
+  let rec parse : List String → CompatibilityOptions → Except String CompatibilityOptions
+    | [], result => pure result
+    | "--" :: rest, result => pure { result with inputs := result.inputs ++ rest }
+    | "--optimize" :: rest, result => parse rest { result with optimize := true }
+    | "--allocate" :: rest, result => parse rest { result with allocate := true }
+    | "-o" :: path :: rest, result => do
+      if result.output.isSome then throw "output specified more than once"
+      parse rest { result with output := some path }
+    | "--target" :: value :: rest, result
+    | "-t" :: value :: rest, result => do
+      if result.target.isSome then throw "target specified more than once"
+      let target ← compatibilityTarget value
+      parse rest { result with target := some target }
+    | arg :: rest, result => do
+      if arg.startsWith "-o" && arg.length > 2 then
+        if result.output.isSome then throw "output specified more than once"
+        parse rest { result with output := some (arg.drop 2).toString }
+      else if arg.startsWith "-t" && arg.length > 2 then
+        if result.target.isSome then throw "target specified more than once"
+        let target ← compatibilityTarget (arg.drop 2).toString
+        parse rest { result with target := some target }
+      else if arg == "-" || !arg.startsWith "-" then
+        parse rest { result with inputs := result.inputs ++ [arg] }
+      else throw s!"unknown or incomplete option '{arg}'"
+  parse args {}
 
 private def firstPathOptions (args : List String) : Except String (Option String × Verified.EvidenceRequest) := do
   let requested := if args.contains "--require-proof" then .kernelTypedAssembly else .none
@@ -102,10 +132,14 @@ private def argument (text : String) : Except String UInt64 := do
   return (BitVec.ofInt 64 n).toNat.toUInt64
 
 private def run (args : List String) : IO UInt32 := do
+  if args.isEmpty then
+    if ← (← IO.getStdin).isTty then
+      IO.print usage
+      return 0
   match args with
   | ["--version"] => IO.println "lean-compiler-backend 0.1.0 (experimental)"; return 0
   | ["--build-identity"] => IO.println Verified.compilerBuildIdentity; return 0
-  | [] | ["--help"] => IO.print usage; return 0
+  | ["--help"] | ["-h"] => IO.print usage; return 0
   | ["--type-layout", path] =>
     let module ← loadModule path
     let layouts ← match Aggregate.layouts module.types with
@@ -225,27 +259,31 @@ private def run (args : List String) : IO UInt32 := do
     | .ok (some value) => IO.println value; return 0
     | .ok none => IO.println "void"; return 0
     | .error message => throw (IO.userError message)
-  | path :: rest =>
-    if path.startsWith "-" then throw (IO.userError s!"unknown or incomplete command '{path}'")
-    let optimize := rest.contains "--optimize"
-    let allocate := optimize || rest.contains "--allocate"
-    let (output, selected) ← match compatibilityOptions (rest.filter (fun x => x != "--optimize" && x != "--allocate")) with
+  | _ =>
+    let settings ← match compatibilityOptions args with
       | .ok value => pure value
       | .error message => throw (IO.userError message)
-    let module ← loadModule path
-    let module ← if optimize then
-      match Optimize.module module with
-      | .ok optimized => pure optimized
-      | .error message => throw (IO.userError message)
-      else pure module
-    let result := if selected == "x86_64-linux" || selected == "x86_64-macos" then AMD64.emitModule module (selected == "x86_64-macos") allocate
-      else if selected == "riscv64-linux" then RV64.emitModule module allocate
-      else AArch64.emitModule module (selected == "aarch64-macos") allocate
-    let assembly ← match result with
-      | .ok text => pure text
-      | .error message => throw (IO.userError message)
-    match output with
-    | some target => IO.FS.writeFile target assembly
+    let selected := settings.target.getD "aarch64-macos"
+    let allocate := settings.optimize || settings.allocate
+    let inputs := if settings.inputs.isEmpty then ["-"] else settings.inputs
+    let mut fragments : List String := []
+    for path in inputs do
+      let module ← loadModule path
+      let module ← if settings.optimize then
+        match Optimize.module module with
+        | .ok optimized => pure optimized
+        | .error message => throw (IO.userError message)
+        else pure module
+      let result := if selected == "x86_64-linux" || selected == "x86_64-macos" then AMD64.emitModule module (selected == "x86_64-macos") allocate
+        else if selected == "riscv64-linux" then RV64.emitModule module allocate
+        else AArch64.emitModule module (selected == "aarch64-macos") allocate
+      let assembly ← match result with
+        | .ok text => pure text
+        | .error message => throw (IO.userError message)
+      fragments := fragments ++ [assembly]
+    let assembly := String.join fragments
+    match settings.output with
+    | some target => if target == "-" then IO.print assembly else IO.FS.writeFile target assembly
     | none => IO.print assembly
     return 0
 

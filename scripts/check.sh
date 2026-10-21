@@ -2,6 +2,7 @@
 set -euo pipefail
 python3 scripts/build_identity.py --check-binary
 .lake/build/bin/lcb-tests
+python3 scripts/cli_protocol.py "$@"
 python3 scripts/port_inventory.py
 audit=$(lake env lean scripts/ProofAudit.lean)
 printf '%s\n' "$audit"
