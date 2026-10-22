@@ -1,0 +1,75 @@
+{
+  "target": "x86_64-linux",
+  "compiler_identity": "aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c",
+  "compiler_sha256": "0576045090a93d4ab05fe63eb36cbb8fb9aa653962a19d4a03bff7fc56d65b17",
+  "source_sha256": "bbe73127c5131a45d728ba0d8d3de536a2a46c6129c7b7f87df9315b3a3fd561",
+  "caller_sha256": "b50c27ed64920db85ac06e2b482e3a3fdbcded14996dbbfadafc0ba2d2fd28a4",
+  "emitted_checks_per_mode": 5628,
+  "executed_checks_per_mode": 5628,
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "modes": {
+    "baseline": {
+      "emission": "passed",
+      "execution": "passed",
+      "assembly_sha256": "85fc53af7b752b586155ce501d61df76306a172f3863b62ffc5e72766790ca2b"
+    },
+    "allocated": {
+      "emission": "passed",
+      "execution": "passed",
+      "assembly_sha256": "0c2164aa4b860a957ebcfa8a0f975561e593d18d80037bb42ab02900edbb31f4"
+    },
+    "optimized": {
+      "emission": "passed",
+      "execution": "passed",
+      "assembly_sha256": "945a9fdb3aec2add32d0886617a654771bb939cd58681801da2149a6027f991d"
+    },
+    "qbe": {
+      "emission": "passed",
+      "execution": "passed",
+      "assembly_sha256": "965ee7960657a6dce3ab1ffda06947dd96266b19ee51c4c989784f84badceb1a"
+    }
+  },
+  "undefined_guards": [
+    {
+      "name": "guard_div_w_zero",
+      "exit": 1,
+      "diagnostic": "error: undefined QBE integer division/remainder by zero\n"
+    },
+    {
+      "name": "guard_div_w_minus",
+      "exit": 1,
+      "diagnostic": "error: undefined QBE signed division/remainder overflow\n"
+    },
+    {
+      "name": "guard_rem_w_zero",
+      "exit": 1,
+      "diagnostic": "error: undefined QBE integer division/remainder by zero\n"
+    },
+    {
+      "name": "guard_rem_w_minus",
+      "exit": 1,
+      "diagnostic": "error: undefined QBE signed division/remainder overflow\n"
+    },
+    {
+      "name": "guard_div_l_zero",
+      "exit": 1,
+      "diagnostic": "error: undefined QBE integer division/remainder by zero\n"
+    },
+    {
+      "name": "guard_div_l_minus",
+      "exit": 1,
+      "diagnostic": "error: undefined QBE signed division/remainder overflow\n"
+    },
+    {
+      "name": "guard_rem_l_zero",
+      "exit": 1,
+      "diagnostic": "error: undefined QBE integer division/remainder by zero\n"
+    },
+    {
+      "name": "guard_rem_l_minus",
+      "exit": 1,
+      "diagnostic": "error: undefined QBE signed division/remainder overflow\n"
+    }
+  ],
+  "negative_control": "detected"
+}

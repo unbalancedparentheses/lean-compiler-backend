@@ -1,0 +1,452 @@
+{
+  "compiler_identity": "aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c",
+  "script_sha256": "6ffdcc29c32ae730393c9aa6c46fa42c96b475bf9488c30213f2de58bc46f717",
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "guard_div_w_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "guard_div_w_minus",
+        "2147483648"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "guard_rem_w_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "guard_rem_w_minus",
+        "2147483648"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "guard_div_l_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "guard_div_l_minus",
+        "9223372036854775808"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "guard_rem_l_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "guard_rem_l_minus",
+        "9223372036854775808"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "-c",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/caller.c",
+        "-o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/caller.o"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/caller.o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/baseline.s",
+        "-o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/baseline"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/baseline"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/caller.o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/allocated.s",
+        "-o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/allocated"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/allocated"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/caller.o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/optimized.s",
+        "-o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/optimized"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/optimized"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/caller.o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/bad.s",
+        "-o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/bad"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/bad"
+      ],
+      "inside": true,
+      "exit": 1
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/tmp/qbe/qbe",
+        "-t",
+        "rv64",
+        "-o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/qbe.s",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/caller.o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/qbe.s",
+        "-o",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/qbe"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/signed-one-wrapper-riscv64/signed-division-one/qbe"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "guard_div_w_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "guard_div_w_minus",
+        "2147483648"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "guard_rem_w_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "guard_rem_w_minus",
+        "2147483648"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "guard_div_l_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "guard_div_l_minus",
+        "9223372036854775808"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "guard_rem_l_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "guard_rem_l_minus",
+        "9223372036854775808"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0
+    }
+  ]
+}

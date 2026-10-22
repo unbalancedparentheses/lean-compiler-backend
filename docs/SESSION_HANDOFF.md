@@ -17,7 +17,16 @@ cproc rejects three required volatile stores before any backend invocation.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`de27b459436dbfc15e827f17fbfa30948b2192b598035c40ac5debd2952f33f9`.
+`aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c`.
+
+[Signed division/remainder by normalized +1](benchmarks/signed-division-one/README.md)
+now becomes a width-preserving copy/zero in optimized code. All five target
+matrices and original-QBE comparisons pass; zero/-1 guards and side effects
+remain. The ordinary emission corpus is entirely unchanged; actual zlib/libyaml
+sites shrink, with executable comparisons passing. No new proof is claimed.
+The previous de27 compiler completed the full host gate successfully (Apple ARM
+native, Apple x86 Rosetta, Linux wrappers emission-only); 147 audit reports remain
+unchanged. CI through f38c2b1 is fully green; later checkpoints are pending.
 
 [ARM64 empty branch layout](benchmarks/arm-branch-layout/README.md) now removes
 empty conditional trampolines under a conservative expanded-assembly range bound.

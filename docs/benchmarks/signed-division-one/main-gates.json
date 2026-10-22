@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "compiler_identity": "aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c",
+  "logs": {
+    ".build/signed-one-main-units.log": {
+      "sha256": "70cc838e898e6ec08f2623db6094cc0a56c0410b1b1001548a7382b7f50c78e6",
+      "last_lines": [
+        "function-job, typed-lowering, binding and mutation checks passed",
+        "canonical job/artifact replay, dependency identities and SHA-256 checks passed",
+        "unit checks passed"
+      ]
+    },
+    ".build/signed-one-main-proof-audit.log": {
+      "sha256": "c555a9f334c34e0fbd082393488a072028ef92d77aec14bc7ba5c40e70fafad8",
+      "last_lines": [
+        "'LeanCompilerBackend.Verified.instruction_length' depends on axioms: [propext]",
+        "'LeanCompilerBackend.Verified.source_instruction_invert' depends on axioms: [propext, Quot.sound]",
+        "'LeanCompilerBackend.Verified.simulate_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]"
+      ]
+    },
+    ".build/signed-one-main-arm.log": {
+      "sha256": "678a88a41ecaa8dc7b1718302697ca7617765721f57f32953aa97e70f80f91be",
+      "last_lines": [
+        "ELF sections: target-specific syntax, named code/data, init-array constructors and common alignment passed; native=True",
+        "Linux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True",
+        "Actual compiler emission modes: {'baseline': 47, 'allocated': 37, 'optimized': 134}"
+      ]
+    },
+    ".build/signed-one-main-x86-execution.log": {
+      "sha256": "64307649d22c9a2ffe49f2acd76522d688af106cd4a1f3175cd3310c3cd25bff",
+      "last_lines": [
+        "x86_64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True",
+        "x86_64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 57, 'allocated': 45, 'optimized': 142}"
+      ]
+    },
+    ".build/signed-one-main-rv-execution.log": {
+      "sha256": "bc6d49e9e0ab9bfaf5044d96eb96064a061ad18e49ebdc261e7c30a14ded5d58",
+      "last_lines": [
+        "riscv64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True",
+        "riscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 46, 'allocated': 36, 'optimized': 135}"
+      ]
+    },
+    ".build/signed-one-main-macx86-execution.log": {
+      "sha256": "776581c2cd1307d5d3b72908e6d6812b3546a8c4f4523f795035326a3dcf61fd",
+      "last_lines": [
+        "x86_64-macos: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=True",
+        "x86_64-macos: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True",
+        "Actual compiler emission modes: {'baseline': 56, 'allocated': 45, 'optimized': 144}"
+      ]
+    },
+    ".build/signed-one-main-apple-final.log": {
+      "sha256": "3bfbd257ca717a37322ce466d4dcae185c77f607d433c9fef2456297e1efff9a",
+      "last_lines": [
+        "aarch64-macos 5628 checks per mode passed; execution True"
+      ]
+    },
+    ".build/signed-one-main-emission.log": {
+      "sha256": "e86f4e2e6875c494b64f4e8e32e7757881c828871319e5df1f94177aa0407797",
+      "last_lines": [
+        "riscv64-linux 5628 checks per mode passed; execution False",
+        "{'target': 'riscv64-linux', 'compiler_identity': 'aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c', 'compiler_sha256': '0576045090a93d4ab05fe63eb36cbb8fb9aa653962a19d4a03bff7fc56d65b17', 'source_sha256': '1b3421d5ef0741309a2b9f14f57ada4ba8fb85052d27f792b1632c6062a9c9f2', 'caller_sha256': '7a1f9a59c83bce11d84a2bb08d4f3ab79f1a24ffa54249d03c31af93fa74073a', 'emitted_checks_per_mode': 9728, 'executed_checks_per_mode': 0, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}",
+        "Emission-only target helpers passed with missing tools and an execution guard"
+      ]
+    }
+  },
+  "notes": [
+    "All listed commands completed exit 0.",
+    "Initial unsupported wrapper CLI flags and missing local QBE path were preflight errors; corrected invocations are listed here.",
+    "147 proof-audit reports are byte-identical to the preceding checkpoint.",
+    "Linux ARM and Apple ARM native; Linux x86/RV QEMU, Apple x86 Rosetta."
+  ]
+}

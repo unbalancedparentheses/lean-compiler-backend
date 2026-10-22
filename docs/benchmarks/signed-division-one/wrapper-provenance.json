@@ -1,0 +1,49 @@
+{
+  "compiler_identity": "aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c",
+  "script_sha256": "6ffdcc29c32ae730393c9aa6c46fa42c96b475bf9488c30213f2de58bc46f717",
+  "patch_sha256": "56055e63f519331536c0b54438ba3e4c0550a5e91ff8ae051b2b31a520e850aa",
+  "targets": [
+    {
+      "target": "aarch64-linux",
+      "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-aarch64/signed-division-one/report.json",
+      "wrapper_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-aarch64/wrapper-report.json",
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+      "emission_only_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-aarch64/emission-only/signed-division-one/report.json"
+    },
+    {
+      "target": "x86_64-linux",
+      "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-x86_64/signed-division-one/report.json",
+      "wrapper_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-x86_64/wrapper-report.json",
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+      "emission_only_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-x86_64/emission-only/signed-division-one/report.json"
+    },
+    {
+      "target": "riscv64-linux",
+      "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/signed-division-one/report.json",
+      "wrapper_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/wrapper-report.json",
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+      "emission_only_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-wrapper-riscv64/emission-only/signed-division-one/report.json"
+    },
+    {
+      "target": "aarch64-macos",
+      "report": "/tmp/lcb-signed-one-review/.build/review/wrapper-aarch64-macos/signed-division-one/report.json",
+      "wrapper_report": "/tmp/lcb-signed-one-review/.build/review/wrapper-aarch64-macos/wrapper-report.json",
+      "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+      "emission_only_report": "/tmp/lcb-signed-one-review/.build/review/wrapper-aarch64-macos/emission-only/signed-division-one/report.json"
+    },
+    {
+      "target": "x86_64-macos",
+      "report": "/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/report.json",
+      "wrapper_report": "/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/wrapper-report.json",
+      "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+      "emission_only_report": "/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/report.json"
+    }
+  ],
+  "standalone_cli_rosetta_report": "/tmp/lcb-signed-one-review/.build/review/cli-current-macos-x86/signed-division-one/report.json",
+  "notes": [
+    "Guest-only /tmp/qbe/qbe emitted and hashed through run(...,True) on Linux.",
+    "Both macOS targets use Path cc arguments; x86 Path is actual cc wrapper.",
+    "All five emission-only profiles reject any inside call and pass missing CC/QBE paths.",
+    "No compiler source changes or rebuild."
+  ]
+}

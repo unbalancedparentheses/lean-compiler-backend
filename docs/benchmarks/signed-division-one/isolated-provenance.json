@@ -1,0 +1,120 @@
+{
+  "status": "passed isolated qualification",
+  "base_commit": "e291353",
+  "before_identity": "de27b459436dbfc15e827f17fbfa30948b2192b598035c40ac5debd2952f33f9",
+  "after_identity": "aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c",
+  "before_sha256": "44ed601fdd77181a71dcced3cb7e7d56a6bf5604bdac60ea6ba8392c13d05e62",
+  "after_sha256": "0576045090a93d4ab05fe63eb36cbb8fb9aa653962a19d4a03bff7fc56d65b17",
+  "patches": [
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/signed-division-one.patch",
+      "sha256": "0ad4d6a7bd7392dd84d8008cc36da6ac591eba4f816f602010f76b735fb306d2"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/signed-division-one-tests.patch",
+      "sha256": "4bc0519eaf54b5e6d0106fd71bb0a81c94c0a786a1b9863f85bac6c7cb54e898"
+    }
+  ],
+  "reports": [
+    {
+      "path": "/tmp/lcb-signed-one-review/.build/review/apple-current/signed-division-one/report.json",
+      "sha256": "5d5e6ffac55d0e5efa70d17ebb7691f62bc65efaf73ad8569969d460ec206a08"
+    },
+    {
+      "path": "/tmp/lcb-signed-one-review/.build/review/apple-x86-current/signed-division-one/report.json",
+      "sha256": "b389ba5347663331c3af24e708005938dd12fbc28a9b87f8364ea591714de859"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-final-review-aarch64/signed-division-one/report.json",
+      "sha256": "96fd34576d5625498012aaccce5bba5dcfcbea50d7216f2c431feaf13644cc35"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-final-review-x86_64/signed-division-one/report.json",
+      "sha256": "fed8de502f19a1bb68658a69c6ff2a23fcafe841f1b9e4830261acaa022c3ba1"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-final-review-riscv64/signed-division-one/report.json",
+      "sha256": "d4c4aa1a39870a191002c590866a579b61b430608fb6c20b3f4aa717984fd8c2"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-zlib-review/report.json",
+      "sha256": "cf541a9f7d8c26199df2eda2f31e3a4db42b2e3cae1bb7aabb1bdcf6ad2e2407"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-zlib-review/execution-report.json",
+      "sha256": "5277105b9130e6c6fafd09fbcd67d78f8108a1a326d8180d907640ada4f53b06"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/signed-one-zlib-review/execution-payload-report.json",
+      "sha256": "8394263566d209ca56af66c7208f0e7e01734d1f4bc6b6e74fe98c41d158381d"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/signed-one-libyaml-size.json",
+      "sha256": "86c4d5edf3bbc98fbbf5e5a579af24dad0207d1649dc5e2758a82ce4f08a5645"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/libyaml-replay-signed-one-arm.json",
+      "sha256": "79f66781eca1294bc097f25f25294ed6b25dcb787e62e36a1f05141189954b8c"
+    }
+  ],
+  "units": {
+    "path": "/tmp/lcb-signed-one-review/.build/review/units.log",
+    "sha256": "3b7e433c7b66dbc177481e5752644dc81ecd99015e1265e803b82aaf4078e659"
+  },
+  "harness": {
+    "path": "/tmp/lcb-signed-one-review/scripts/signed_division_one.py",
+    "sha256": "91f74f92bdb2a50e6036686c62e74bf9d8fd3a029b223a4996120be85c57b391"
+  },
+  "qbe_provenance_manifest": {
+    "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/snapshots.json",
+    "sha256": "63204a7512f0ed038e221152ef88a06d5d53cf95db78d031f63c552e81786e86"
+  },
+  "pinned_qbe_source_hashes_reverified": true,
+  "zlib_totals": {
+    "baseline": {
+      "units": 17,
+      "before_text_bytes": 416468,
+      "after_text_bytes": 416468,
+      "removed_signed_divisions": 0
+    },
+    "allocated": {
+      "units": 17,
+      "before_text_bytes": 170016,
+      "after_text_bytes": 170016,
+      "removed_signed_divisions": 0
+    },
+    "optimized": {
+      "units": 17,
+      "before_text_bytes": 124156,
+      "after_text_bytes": 124044,
+      "removed_signed_divisions": 14
+    }
+  },
+  "libyaml_totals": {
+    "baseline": {
+      "units": 21,
+      "before_text_bytes": 890976,
+      "after_text_bytes": 890976,
+      "removed_signed_divisions": 0
+    },
+    "allocated": {
+      "units": 21,
+      "before_text_bytes": 355076,
+      "after_text_bytes": 355076,
+      "removed_signed_divisions": 0
+    },
+    "optimized": {
+      "units": 21,
+      "before_text_bytes": 270108,
+      "after_text_bytes": 269592,
+      "removed_signed_divisions": 63
+    }
+  },
+  "semantics": "Only normalized signed divisor+1 folds. Division retains result-width copy; remainder becomes result-width zero. Original call/effects remain. Zero/-1/8 guard operations retained; undefined cases checked by interpreter and not executed natively.",
+  "limitations": [
+    "No runtime speed measurement.",
+    "Unit/interpreter/C/executable evidence is not a preservation proof.",
+    "Libyaml original/corrected QBE results remain historical only; the new independent scalar matrix freshly ran unchanged QBE on all five targets.",
+    "Initial scalar reports counted four intentionally skipped undefined C combinations as case slots; only final-current reports with5628 executed checks are used here."
+  ]
+}

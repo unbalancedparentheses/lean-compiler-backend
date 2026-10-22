@@ -66,6 +66,11 @@ now removes redundant trampolines under a conservative expanded-size bound, redu
 optimized zlib text another 6.4% on both ARM targets. Native independent-C/QBE and
 large-function fallback tests pass; no timing or new proof claim is made.
 
+Signed division/remainder by normalized +1 now reduces to a width-preserving
+copy/zero; other signed divisors and trap guards remain. The independent five-target
+matrix and zlib/libyaml qualification are recorded in
+[the measured slice](docs/benchmarks/signed-division-one/README.md).
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and

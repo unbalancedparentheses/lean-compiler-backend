@@ -152,6 +152,8 @@ def main():
     arm_load_extension_tests(compiler,work,run,cc,'aarch64-linux',native)
     from arm_branch_layout import exercise as arm_branch_tests
     arm_branch_tests(compiler,work,run,cc,'aarch64-linux',native,qbe,'arm64')
+    from signed_division_one import exercise as signed_one_tests
+    signed_one_tests(compiler,work,run,cc,'aarch64-linux',native,qbe,'arm64')
     from unsigned_strength import exercise as unsigned_tests
     unsigned_tests(compiler,work,run,cc,'aarch64-linux',native)
     from module_scale import exercise as module_tests

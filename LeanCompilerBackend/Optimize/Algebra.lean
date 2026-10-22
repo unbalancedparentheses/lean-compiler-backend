@@ -11,10 +11,13 @@ private def constant (width : Width) : Operand → Option UInt64
     This pass neither folds floating operations nor removes effectful definitions.
     Multiplication is modular, so every single-bit multiplier is a left shift,
     including the signed high bit. Unsigned division/remainder by a nonzero
-    power of two becomes a logical shift/mask; signed and zero divisors stay.
+    power of two becomes a logical shift/mask. Signed division/remainder by +1
+    becomes a width-preserving copy/zero; other signed and zero divisors stay.
     Shift counts have QBE's modulo-width meaning. -/
 def operation (width : Width) (operation : Operation) : Operation := Id.run do
   if let .divide op a b := operation then
+    if (op == .signedDiv || op == .signedRem) && constant width b == some 1 then
+      return if op == .signedDiv then .copy a else .copy (.constant 0)
     if op == .unsignedDiv || op == .unsignedRem then
       if let some n := constant width b then
         for bit in [:width.bits] do

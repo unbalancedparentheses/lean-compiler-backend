@@ -1,0 +1,398 @@
+{
+  "compiler_identity": "aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c",
+  "script_sha256": "6ffdcc29c32ae730393c9aa6c46fa42c96b475bf9488c30213f2de58bc46f717",
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "guard_div_w_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "guard_div_w_minus",
+        "2147483648"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "guard_rem_w_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "guard_rem_w_minus",
+        "2147483648"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "guard_div_l_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "guard_div_l_minus",
+        "9223372036854775808"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "guard_rem_l_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "guard_rem_l_minus",
+        "9223372036854775808"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/cc",
+        "-O2",
+        "-c",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/caller.c",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/caller.o"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/cc",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/caller.o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/baseline.s",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/baseline"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/baseline"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/cc",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/caller.o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/allocated.s",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/allocated"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/allocated"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/cc",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/caller.o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/optimized.s",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/optimized"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/optimized"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/cc",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/caller.o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/bad.s",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/bad"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/bad"
+      ],
+      "inside": true,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/qbe.s",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/cc",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/caller.o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/qbe.s",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/qbe"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/signed-division-one/qbe"
+      ],
+      "inside": true,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "guard_div_w_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "guard_div_w_minus",
+        "2147483648"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "guard_rem_w_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "guard_rem_w_minus",
+        "2147483648"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "guard_div_l_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "guard_div_l_minus",
+        "9223372036854775808"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "guard_rem_l_zero",
+        "7"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "--eval",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "guard_rem_l_minus",
+        "9223372036854775808"
+      ],
+      "inside": false,
+      "exit": 1
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-signed-one-review/.build/review/candidate",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/private/tmp/lcb-signed-one-review/.build/review/wrapper-x86_64-macos/emission-only/signed-division-one/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0
+    }
+  ]
+}
