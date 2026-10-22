@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "target": "x86_64-linux",
+  "mode": "optimized",
+  "compiler_identity": "59bd88b6aa90e73f6a5d3778ed871c36931d6b367b3d1a3dd3a6467bc32f94dc",
+  "compiler_sha256": "7897a897dcef6ed29217fdb2a676abe2519e75d75706e54c92cc2bd9cc8a0a4e",
+  "harness_sha256": "90ed47dacfcc1227b5b37c2cd5959a2c07dcdb66b669f1d6aafcc6f3e8d2fdcd",
+  "reference_report_sha256": "788da1eaa74aa13527c534e2e05266f0e05ee786c44d0fca1ef68463ad57372c",
+  "reference_compiler_identity": "11be972e96d4fc9de4c6df28cd1fe7f5ddf5c728ff01348bd6d1398eef1748b4",
+  "reference_execution": "Reuses recorded GCC O0/O2 and unchanged QBE checksums; does not rerun those reference executables.",
+  "execution_mode": "QEMU user emulation",
+  "cases": [
+    {
+      "seed": 20271000,
+      "ir_sha256": "edcd4aa9adaf0ff3a602ac478cc7c5123f75b363ab7dea8bc03d0bf6803eb5f2",
+      "assembly_sha256": "9d007cd7c724673bb19d3df454eea6565f0b602e2bf6df2473b5cec72c10e49b",
+      "ir_lines": 2541,
+      "checksum": "checksum = EDEEDF82"
+    },
+    {
+      "seed": 20271005,
+      "ir_sha256": "f953b6a2e8eb998ed3d399e597a3adba62a46d7a82b10bc2079e1b1d2a00fd5b",
+      "assembly_sha256": "fec6364b2b836e5e999aab71328ad6d713124095b3a2f9f03ffba15baa5fd9d3",
+      "ir_lines": 2652,
+      "checksum": "checksum = 12ABDD27"
+    },
+    {
+      "seed": 20271008,
+      "ir_sha256": "832d0e7438e2dd322c6e8cd62cb8a2804184bd52b9c2d83bb2ec8915162d668a",
+      "assembly_sha256": "3aa1fe7dc049d446fd4d1d268aca782a85fe1660be5ce8d58e08d782e5de6984",
+      "ir_lines": 7233,
+      "checksum": "checksum = 5BD8102"
+    },
+    {
+      "seed": 20271019,
+      "ir_sha256": "1ea879421e6f07700076c6788a7d56bf4f8db143b214e1d700dad917fde601dc",
+      "assembly_sha256": "abc81083e8d48bc663845d3a0ba09e9b5cb98a7fb7b866e056db9cfe6baa047d",
+      "ir_lines": 5593,
+      "checksum": "checksum = 8D37521D"
+    },
+    {
+      "seed": 20271020,
+      "ir_sha256": "edec68fac9382bf34d0e71f3754cdfb2958245e114b62d3be394a2b08b72dd6d",
+      "assembly_sha256": "d6315bcaa8ed3342804fde69c5e8e00b448e24bf077287a1082639cd6f3f5d04",
+      "ir_lines": 14787,
+      "checksum": "checksum = 8ABDFCD3"
+    },
+    {
+      "seed": 20271021,
+      "ir_sha256": "2afa6f3475365f073be514cd728f8a4bb672d5f23da09f44af4d96d89daaae5a",
+      "assembly_sha256": "9fcb10e1d9f3cbc057f618fedb5db3d951116f09092302b456a2a07cc33b68a6",
+      "ir_lines": 2522,
+      "checksum": "checksum = FFFFFFFF"
+    },
+    {
+      "seed": 20271027,
+      "ir_sha256": "64a96851e96c0ca3c7f48133a9532a018899c0fb85e5cff3dc850cf56f002432",
+      "assembly_sha256": "66b1b3bb3f53518f8d4111487cd661e7ac55ed0ed374e10073af15e15ce8bc59",
+      "ir_lines": 2639,
+      "checksum": "checksum = 7FAACABD"
+    },
+    {
+      "seed": 20271030,
+      "ir_sha256": "472b906c04f9a4db4d5a4270a7573764a21b656e200d9f652514e8de7e97780a",
+      "assembly_sha256": "80b035775842df45aa108750e1555ac3e702c8ae0278dc704bd6004d9bff7185",
+      "ir_lines": 2568,
+      "checksum": "checksum = 31339B96"
+    },
+    {
+      "seed": 20271042,
+      "ir_sha256": "2c0877147213bd1fbb103e0c99958b035218329fe87883377f57ae7466a4c2f1",
+      "assembly_sha256": "d9fcc523ca8b769d7804636914ef3a013677fc3899dd544debea72fd8529c503",
+      "ir_lines": 2519,
+      "checksum": "checksum = 0"
+    },
+    {
+      "seed": 20271047,
+      "ir_sha256": "085e72aca1c4084d0d4347a0ea2418ffb1d87483018c7a541dce2c16bf6baca0",
+      "assembly_sha256": "3c9b39420e17a2c8436ee2cf23cd1305c0a3905a6d3d99fedfa0dda9673c1b1b",
+      "ir_lines": 2541,
+      "checksum": "checksum = B7C46711"
+    },
+    {
+      "seed": 20271049,
+      "ir_sha256": "7f3635b680143fbf14848b49a57eab7ca6abd6db1ff00be39cfbfdd72314631b",
+      "assembly_sha256": "a7799a3f6dd81260aff27e03ff380eaea958d0df52aa8cec22a7155f443e76c4",
+      "ir_lines": 2521,
+      "checksum": "checksum = 4FA23C34"
+    }
+  ],
+  "excluded_reference_attempts": 53,
+  "notes": [
+    "Replay of existing seeds, not additional unique random programs.",
+    "Only common-reference qualified cases are replayed.",
+    "LCB executables use default link flags."
+  ],
+  "negative_control": {
+    "seed": 20271000,
+    "status": "detected",
+    "exit": 1,
+    "stdout": "checksum = EDEEDF82\n",
+    "stderr": ""
+  },
+  "cases_passed": 11
+}
