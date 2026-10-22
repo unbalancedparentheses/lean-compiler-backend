@@ -1,0 +1,57 @@
+diff --git a/scripts/check.sh b/scripts/check.sh
+index 90b1e57..577d353 100644
+--- a/scripts/check.sh
++++ b/scripts/check.sh
+@@ -247,5 +247,6 @@ python3 scripts/branch_fallthrough.py
+ python3 scripts/rv_result_normalization.py
+ python3 scripts/amd_leaf_bank.py --compiler .lake/build/bin/lcb --work .build/native-amd-leaf
+ python3 scripts/amd_word_normalization.py
++python3 scripts/amd_folded_loads.py
+ python3 scripts/amd_immediates.py
+ python3 scripts/emission_only.py
+diff --git a/scripts/emission_only.py b/scripts/emission_only.py
+index 83980ec..fb870ce 100644
+--- a/scripts/emission_only.py
++++ b/scripts/emission_only.py
+@@ -26,6 +26,7 @@ from arm_load_extensions import exercise as arm_extensions
+ from rv_result_normalization import exercise as rv_normalization
+ from amd_immediates import exercise as immediates
+ from amd_word_normalization import exercise as normalization
++from amd_folded_loads import exercise as amd_folded
+ from empty_variadic_calls import exercise as empty_variadic
+ from unused_environment_variadic import exercise as environment_variadic
+ 
+@@ -47,6 +48,7 @@ def main():
+             leaf = amd_leaf_bank(LCB,case,run,cc,target,False)
+             assert leaf['executed_checks'] == 0
+             normalization(LCB, case, run, cc, target, False, qbe, qtarget)
++            amd_folded(LCB, case, run, cc, target, False, qbe=qbe)
+             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
+             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
+         for target in ['aarch64-linux', 'aarch64-macos']:
+diff --git a/scripts/linux_targets.py b/scripts/linux_targets.py
+index 6b3f8f8..7afffa6 100644
+--- a/scripts/linux_targets.py
++++ b/scripts/linux_targets.py
+@@ -165,6 +165,8 @@ def main():
+         amd_leaf_tests(compiler,work,run,cc,args.target,execute)
+         from amd_word_normalization import exercise as amd_word_tests
+         amd_word_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
++        from amd_folded_loads import exercise as amd_folded_tests
++        amd_folded_tests(compiler,work,run,cc,args.target,execute,qbe=qbe)
+         from amd_immediates import exercise as amd_immediate_tests
+         amd_immediate_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
+         from empty_variadic_calls import exercise as empty_variadic_tests
+diff --git a/scripts/macos_x86.py b/scripts/macos_x86.py
+index 5ead174..b8258b9 100644
+--- a/scripts/macos_x86.py
++++ b/scripts/macos_x86.py
+@@ -154,6 +154,8 @@ def main():
+     amd_leaf_tests(compiler,work,run,cc,'x86_64-macos',execute)
+     from amd_word_normalization import exercise as amd_word_tests
+     amd_word_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
++    from amd_folded_loads import exercise as amd_folded_tests
++    amd_folded_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe=qbe)
+     from amd_immediates import exercise as amd_immediate_tests
+     amd_immediate_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
+     from empty_variadic_calls import exercise as empty_variadic_tests

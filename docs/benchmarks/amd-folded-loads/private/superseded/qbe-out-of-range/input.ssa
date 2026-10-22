@@ -1,0 +1,1346 @@
+dbgfile "folded-loads.c"
+export data $saved_address = { l 0 }
+export function l $loadsb_w_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadsb %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsb_w_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =w loadsb %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsb_w_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =w loadsb %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsb_w_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =w loadsb %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsb_w_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =w loadsb %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsb_w_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadsb %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsb_w_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =w loadsb %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsb_w_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =w loadsb %a
+ %wide =l extuw %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadsb_l_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadsb %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsb_l_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =l loadsb %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsb_l_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =l loadsb %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsb_l_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =l loadsb %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsb_l_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =l loadsb %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsb_l_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadsb %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsb_l_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =l loadsb %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsb_l_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =l loadsb %a
+ %wide =l copy %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadub_w_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadub %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadub_w_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =w loadub %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadub_w_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =w loadub %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadub_w_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =w loadub %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadub_w_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =w loadub %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadub_w_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadub %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadub_w_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =w loadub %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadub_w_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =w loadub %a
+ %wide =l extuw %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadub_l_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadub %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadub_l_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =l loadub %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadub_l_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =l loadub %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadub_l_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =l loadub %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadub_l_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =l loadub %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadub_l_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadub %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadub_l_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =l loadub %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadub_l_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =l loadub %a
+ %wide =l copy %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadsh_w_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadsh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsh_w_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =w loadsh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsh_w_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =w loadsh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsh_w_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =w loadsh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsh_w_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =w loadsh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsh_w_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadsh %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsh_w_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =w loadsh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsh_w_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =w loadsh %a
+ %wide =l extuw %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadsh_l_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadsh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsh_l_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =l loadsh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsh_l_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =l loadsh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsh_l_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =l loadsh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsh_l_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =l loadsh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsh_l_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadsh %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsh_l_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =l loadsh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsh_l_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =l loadsh %a
+ %wide =l copy %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loaduh_w_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loaduh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduh_w_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =w loaduh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduh_w_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =w loaduh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduh_w_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =w loaduh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduh_w_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =w loaduh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduh_w_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loaduh %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduh_w_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =w loaduh %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduh_w_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =w loaduh %a
+ %wide =l extuw %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loaduh_l_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loaduh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduh_l_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =l loaduh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduh_l_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =l loaduh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduh_l_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =l loaduh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduh_l_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =l loaduh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduh_l_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loaduh %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduh_l_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =l loaduh %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduh_l_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =l loaduh %a
+ %wide =l copy %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadsw_w_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadsw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsw_w_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =w loadsw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsw_w_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =w loadsw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsw_w_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =w loadsw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsw_w_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =w loadsw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsw_w_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadsw %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsw_w_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =w loadsw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadsw_w_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =w loadsw %a
+ %wide =l extuw %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadsw_l_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadsw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsw_l_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =l loadsw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsw_l_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =l loadsw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsw_l_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =l loadsw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsw_l_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =l loadsw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsw_l_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadsw %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsw_l_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =l loadsw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadsw_l_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =l loadsw %a
+ %wide =l copy %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loaduw_w_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loaduw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduw_w_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =w loaduw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduw_w_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =w loaduw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduw_w_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =w loaduw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduw_w_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =w loaduw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduw_w_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loaduw %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduw_w_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =w loaduw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loaduw_w_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =w loaduw %a
+ %wide =l extuw %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loaduw_l_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loaduw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduw_l_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =l loaduw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduw_l_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =l loaduw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduw_l_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =l loaduw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduw_l_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =l loaduw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduw_l_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loaduw %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduw_l_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =l loaduw %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loaduw_l_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =l loaduw %a
+ %wide =l copy %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadw_w_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadw_w_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =w loadw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadw_w_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =w loadw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadw_w_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =w loadw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadw_w_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =w loadw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadw_w_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =w loadw %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadw_w_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =w loadw %a
+ %wide =l extuw %v
+ ret %wide
+}
+export function l $loadw_w_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =w loadw %a
+ %wide =l extuw %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loads_w_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =s loads %a
+ %bits =w cast %v
+ %wide =l extuw %bits
+ ret %wide
+}
+export function l $loads_w_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =s loads %a
+ %bits =w cast %v
+ %wide =l extuw %bits
+ ret %wide
+}
+export function l $loads_w_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =s loads %a
+ %bits =w cast %v
+ %wide =l extuw %bits
+ ret %wide
+}
+export function l $loads_w_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =s loads %a
+ %bits =w cast %v
+ %wide =l extuw %bits
+ ret %wide
+}
+export function l $loads_w_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =s loads %a
+ %bits =w cast %v
+ %wide =l extuw %bits
+ ret %wide
+}
+export function l $loads_w_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =s loads %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %bits =w cast %v
+ %wide =l extuw %bits
+ ret %wide
+}
+export function l $loads_w_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =s loads %a
+ %bits =w cast %v
+ %wide =l extuw %bits
+ ret %wide
+}
+export function l $loads_w_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =s loads %a
+ %bits =w cast %v
+ %wide =l extuw %bits
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadl_l_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadl %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadl_l_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =l loadl %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadl_l_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =l loadl %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadl_l_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =l loadl %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadl_l_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =l loadl %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadl_l_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =l loadl %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadl_l_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =l loadl %a
+ %wide =l copy %v
+ ret %wide
+}
+export function l $loadl_l_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =l loadl %a
+ %wide =l copy %v
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}
+export function l $loadd_l_fold(l %p) {
+@s
+ %a =l add %p, 17
+ %v =d loadd %a
+ %bits =l cast %v
+ %wide =l copy %bits
+ ret %wide
+}
+export function l $loadd_l_negative(l %p) {
+@s
+ %a =l add %p, -17
+ %v =d loadd %a
+ %bits =l cast %v
+ %wide =l copy %bits
+ ret %wide
+}
+export function l $loadd_l_max(l %p) {
+@s
+ %a =l add %p, 2147483647
+ %v =d loadd %a
+ %bits =l cast %v
+ %wide =l copy %bits
+ ret %wide
+}
+export function l $loadd_l_min(l %p) {
+@s
+ %a =l add %p, -2147483648
+ %v =d loadd %a
+ %bits =l cast %v
+ %wide =l copy %bits
+ ret %wide
+}
+export function l $loadd_l_fallback(l %p) {
+@s
+ %a =l add %p, 2147483648
+ %v =d loadd %a
+ %bits =l cast %v
+ %wide =l copy %bits
+ ret %wide
+}
+export function l $loadd_l_shared(l %p) {
+@s
+ %a =l add %p, 17
+ %v =d loadd %a
+ %other =l copy %a
+ storel %other, $saved_address
+ %bits =l cast %v
+ %wide =l copy %bits
+ ret %wide
+}
+export function l $loadd_l_debug(l %p) {
+@s
+ %a =l add %p, 17
+ dbgloc 23
+ %v =d loadd %a
+ %bits =l cast %v
+ %wide =l copy %bits
+ ret %wide
+}
+export function l $loadd_l_pressure(l %p, l %x0, l %x1, l %x2, l %x3, l %x4, l %x5, l %x6, l %x7, l %x8, l %x9, l %x10, l %x11, l %x12, l %x13, l %x14, l %x15, l %x16, l %x17, l %x18, l %x19, l %x20, l %x21, l %x22, l %x23) {
+@s
+ %a =l add %p, 17
+ %v =d loadd %a
+ %bits =l cast %v
+ %wide =l copy %bits
+ %sum0 =l add %wide, %x0
+ %sum1 =l add %sum0, %x1
+ %sum2 =l add %sum1, %x2
+ %sum3 =l add %sum2, %x3
+ %sum4 =l add %sum3, %x4
+ %sum5 =l add %sum4, %x5
+ %sum6 =l add %sum5, %x6
+ %sum7 =l add %sum6, %x7
+ %sum8 =l add %sum7, %x8
+ %sum9 =l add %sum8, %x9
+ %sum10 =l add %sum9, %x10
+ %sum11 =l add %sum10, %x11
+ %sum12 =l add %sum11, %x12
+ %sum13 =l add %sum12, %x13
+ %sum14 =l add %sum13, %x14
+ %sum15 =l add %sum14, %x15
+ %sum16 =l add %sum15, %x16
+ %sum17 =l add %sum16, %x17
+ %sum18 =l add %sum17, %x18
+ %sum19 =l add %sum18, %x19
+ %sum20 =l add %sum19, %x20
+ %sum21 =l add %sum20, %x21
+ %sum22 =l add %sum21, %x22
+ %sum23 =l add %sum22, %x23
+ ret %sum23
+}

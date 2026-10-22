@@ -382,10 +382,11 @@ private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
       | .unsignedWord => "movl" | .plain => "mov" ++ s
     let destination := if kind == .unsignedByte || kind == .unsignedHalf || kind == .unsignedWord then "%eax" else reg w "rax"
     let lines ← load c .long "rax" pointer
-    -- Preserve the original load opcode and word-result normalization,
-    -- including floating values represented by their raw integer bits.
+    -- Every word-result load above writes EAX, which already clears RAX's
+    -- upper half, including raw single-precision floating bits. Keep the
+    -- original signed/unsigned opcode and long-result behavior unchanged.
     return some (lines ++ [s!"\t{instruction} {offset}(%rax), {destination}"] ++
-      (if w == .word then ["\tmovl %eax, %eax"] else []) ++ (← store c inst.destination))
+      (← store c inst.destination))
   | .store width value _ =>
     let (s, r) := match width with | .byte => ("b", "%al") | .half => ("w", "%ax") | .word => ("l", "%eax") | .long => ("q", "%rax")
     -- Materializing the value preserves r10, including TLS resolution.

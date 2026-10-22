@@ -1,0 +1,251 @@
+{
+  "x86_64-linux": {
+    "identity": "7e441df0ab15b5f01676b409a3908f811bb785659f782e45da83b672aab1d90c",
+    "compiler_sha256": "552230762ff198f19903257bc8116dc5440686f5075d3ebf89a6d7b8c75f628c",
+    "helper_sha256": "cc07876e4bc2614d7fc8478bc3a10501115f9581a7960575f8713a05628dfc63",
+    "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+    "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+    "target": "x86_64-linux",
+    "functions": 128,
+    "checks_per_execution": 2048,
+    "rows": [
+      {
+        "label": "baseline",
+        "assembly_sha256": "7131da1f03199ba5ed7c0b54d7565f21d0387dfb5948d4440ecb2c81db023e5b",
+        "execution": "not-run"
+      },
+      {
+        "label": "allocated",
+        "assembly_sha256": "c526a68ec3d9a41a41e0116f1ff1c85b7c79f9879109fec03e81600d114ed32b",
+        "execution": "not-run"
+      },
+      {
+        "label": "optimized",
+        "assembly_sha256": "5e2e8933fbdb5d0b11b0f185d6aa8f9c3f7df0414a551312ea3fe05b5521ae84",
+        "execution": "not-run"
+      }
+    ],
+    "commands": [
+      {
+        "command": [
+          "/tmp/lcb-amd-folded-normalization/after",
+          "--build-identity"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "7e441df0ab15b5f01676b409a3908f811bb785659f782e45da83b672aab1d90c\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/tmp/lcb-amd-folded-normalization/after",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-linux/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-linux/amd-folded-loads/baseline.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/tmp/lcb-amd-folded-normalization/after",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-linux/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-linux",
+          "--allocate",
+          "-o",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-linux/amd-folded-loads/allocated.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/tmp/lcb-amd-folded-normalization/after",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-linux/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-linux",
+          "--optimize",
+          "-o",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-linux/amd-folded-loads/optimized.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  },
+  "x86_64-macos": {
+    "identity": "7e441df0ab15b5f01676b409a3908f811bb785659f782e45da83b672aab1d90c",
+    "compiler_sha256": "552230762ff198f19903257bc8116dc5440686f5075d3ebf89a6d7b8c75f628c",
+    "helper_sha256": "cc07876e4bc2614d7fc8478bc3a10501115f9581a7960575f8713a05628dfc63",
+    "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+    "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+    "target": "x86_64-macos",
+    "functions": 128,
+    "checks_per_execution": 2048,
+    "rows": [
+      {
+        "label": "baseline",
+        "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+        "execution": "not-run"
+      },
+      {
+        "label": "allocated",
+        "assembly_sha256": "3a3e2745f93b1b4bf8caf11b79b32e0e057637621f055720cbd2000f1d2014ce",
+        "execution": "not-run"
+      },
+      {
+        "label": "optimized",
+        "assembly_sha256": "b0f123306b197aa3dfed3c0753c7900378183cfaa0ba1fcb79f538163dd96773",
+        "execution": "not-run"
+      }
+    ],
+    "commands": [
+      {
+        "command": [
+          "/tmp/lcb-amd-folded-normalization/after",
+          "--build-identity"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "7e441df0ab15b5f01676b409a3908f811bb785659f782e45da83b672aab1d90c\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/tmp/lcb-amd-folded-normalization/after",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-macos/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-macos/amd-folded-loads/baseline.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/tmp/lcb-amd-folded-normalization/after",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-macos/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-macos",
+          "--allocate",
+          "-o",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-macos/amd-folded-loads/allocated.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/tmp/lcb-amd-folded-normalization/after",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-macos/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-macos",
+          "--optimize",
+          "-o",
+          "/tmp/lcb-amd-folded-normalization/.build/emission-v4/x86_64-macos/amd-folded-loads/optimized.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  },
+  "default_cli": {
+    "identity": "7e441df0ab15b5f01676b409a3908f811bb785659f782e45da83b672aab1d90c",
+    "compiler_sha256": "552230762ff198f19903257bc8116dc5440686f5075d3ebf89a6d7b8c75f628c",
+    "helper_sha256": "cc07876e4bc2614d7fc8478bc3a10501115f9581a7960575f8713a05628dfc63",
+    "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+    "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+    "target": "x86_64-linux",
+    "functions": 128,
+    "checks_per_execution": 2048,
+    "rows": [
+      {
+        "label": "baseline",
+        "assembly_sha256": "7131da1f03199ba5ed7c0b54d7565f21d0387dfb5948d4440ecb2c81db023e5b",
+        "execution": "not-run"
+      },
+      {
+        "label": "allocated",
+        "assembly_sha256": "c526a68ec3d9a41a41e0116f1ff1c85b7c79f9879109fec03e81600d114ed32b",
+        "execution": "not-run"
+      },
+      {
+        "label": "optimized",
+        "assembly_sha256": "5e2e8933fbdb5d0b11b0f185d6aa8f9c3f7df0414a551312ea3fe05b5521ae84",
+        "execution": "not-run"
+      }
+    ],
+    "commands": [
+      {
+        "command": [
+          "/private/tmp/lcb-amd-folded-normalization/after",
+          "--build-identity"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "7e441df0ab15b5f01676b409a3908f811bb785659f782e45da83b672aab1d90c\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/private/tmp/lcb-amd-folded-normalization/after",
+          "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/amd-folded-loads-yrhhfwbr/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/amd-folded-loads-yrhhfwbr/amd-folded-loads/baseline.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/private/tmp/lcb-amd-folded-normalization/after",
+          "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/amd-folded-loads-yrhhfwbr/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-linux",
+          "--allocate",
+          "-o",
+          "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/amd-folded-loads-yrhhfwbr/amd-folded-loads/allocated.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          "/private/tmp/lcb-amd-folded-normalization/after",
+          "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/amd-folded-loads-yrhhfwbr/amd-folded-loads/input.ssa",
+          "--target",
+          "x86_64-linux",
+          "--optimize",
+          "-o",
+          "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/amd-folded-loads-yrhhfwbr/amd-folded-loads/optimized.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      }
+    ]
+  }
+}

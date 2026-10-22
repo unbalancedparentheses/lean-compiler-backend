@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/private/tmp/lcb-amd-folded-normalization/scripts/amd_folded_loads.py", line 81, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/private/tmp/lcb-amd-folded-normalization/scripts/amd_folded_loads.py", line 80, in main
+    with tempfile.TemporaryDirectory(prefix='amd-folded-loads-') as tmp:print(json.dumps(exercise(args.compiler.resolve(),Path(tmp),run,shlex.split(args.cc),target,execute,args.before,args.qbe),indent=2))
+                                                                                         ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/lcb-amd-folded-normalization/scripts/amd_folded_loads.py", line 60, in exercise
+    call([path,'-t','amd64_apple' if target.endswith('macos') else 'amd64_sysv','-o',asm,active_src],True) if flags is None else call([path,src,'--target',target,*flags,'-o',asm])
+                                                                                                                                 ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/private/tmp/lcb-amd-folded-normalization/scripts/amd_folded_loads.py", line 51, in call
+    r=run(list(map(str,cmd)),inside);commands.append({'command':list(map(str,cmd)),'inside':inside,'exit':r.returncode,'stdout':r.stdout,'stderr':r.stderr})
+  File "/private/tmp/lcb-amd-folded-normalization/scripts/amd_folded_loads.py", line 79, in run
+    return subprocess.run(cmd,capture_output=True,text=True,timeout=240)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/subprocess.py", line 554, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/subprocess.py", line 1991, in _execute_child
+    raise child_exception_type(errno_num, err_msg, err_filename)
+FileNotFoundError: [Errno 2] No such file or directory: 'before'

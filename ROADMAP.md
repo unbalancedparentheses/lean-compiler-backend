@@ -22,6 +22,11 @@ matrices, corpus audit and fresh zlib/Lua/QBE/cproc qualification. All three pin
 also passes. Static savings are measured; timings under background
 load are diagnostic only. Proof scope remains unchanged.
 
+[AMD64 folded loads](docs/benchmarks/amd-folded-loads/README.md) omit redundant
+word normalization. Both AMD targets pass private independent tests; zlib loses
+1,745 optimized text bytes per target. Fresh main units and unchanged proof
+audit pass on the exact qualified source; combined replay/full gates follow.
+
 ## Active execution order
 
 1. Close remaining language, resource-limit and ABI gaps (P05–P07) with real

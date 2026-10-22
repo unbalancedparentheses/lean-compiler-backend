@@ -1,0 +1,376 @@
+{
+  "identity": "7e441df0ab15b5f01676b409a3908f811bb785659f782e45da83b672aab1d90c",
+  "compiler_sha256": "552230762ff198f19903257bc8116dc5440686f5075d3ebf89a6d7b8c75f628c",
+  "helper_sha256": "2859caa8a2c1f43a0cc9761c4de3ae14a9b51904d001212442b4fd1db5672127",
+  "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+  "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+  "target": "x86_64-macos",
+  "functions": 128,
+  "checks_per_execution": 2048,
+  "rows": [
+    {
+      "label": "before-baseline",
+      "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+      "execution": "passed"
+    },
+    {
+      "label": "before-allocated",
+      "assembly_sha256": "8d2d74d88ac75d585cc02cf77813c0a5818418f5a090f3388e9d2a205ff5ce61",
+      "execution": "passed"
+    },
+    {
+      "label": "before-optimized",
+      "assembly_sha256": "c29bdb5cadb4b57e3f6551757d612d87eb2e43e2bc3de6ab20a65a50eea4f7ed",
+      "execution": "passed"
+    },
+    {
+      "label": "baseline",
+      "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+      "execution": "passed",
+      "removed_normalizations": 0
+    },
+    {
+      "label": "allocated",
+      "assembly_sha256": "3a3e2745f93b1b4bf8caf11b79b32e0e057637621f055720cbd2000f1d2014ce",
+      "execution": "passed",
+      "removed_normalizations": 48
+    },
+    {
+      "label": "optimized",
+      "assembly_sha256": "b0f123306b197aa3dfed3c0753c7900378183cfaa0ba1fcb79f538163dd96773",
+      "execution": "passed",
+      "removed_normalizations": 48
+    },
+    {
+      "label": "qbe",
+      "assembly_sha256": "a2fae5b6c082816c5133389638b486620180a2c103a5af51f2e3478d13113fcc",
+      "execution": "passed"
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-amd-folded-normalization/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "7e441df0ab15b5f01676b409a3908f811bb785659f782e45da83b672aab1d90c\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-amd-folded-normalization/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/clang",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-amd-folded-normalization/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/clang",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-amd-folded-normalization/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/clang",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/before-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-amd-folded-normalization/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/clang",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-amd-folded-normalization/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/clang",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-amd-folded-normalization/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/clang",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/qbe-legal.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/clang",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/qbe-legal.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/usr/bin/clang",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/wrong-sign.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/wrong-sign"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-loads-private-v3/x86_64-macos/amd-folded-loads/wrong-sign"
+      ],
+      "inside": true,
+      "exit": 17,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7\n",
+      "stderr": ""
+    }
+  ],
+  "qbe_scope": {
+    "description": "unchanged QBE legal signed32 displacement subset; out-of-range fallback C/LCB only after retained QBE assembly refusal",
+    "source_sha256": "a3283503976a964ec03f20267a86d24278191a6be798acadf91e94991cfc8a22",
+    "caller_sha256": "436619c8f6d5fc31afde93652498534e852fd88c54f3e59250a7540a6b8e7972",
+    "checks": 1792
+  },
+  "wrong_signedness_detected": true,
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+}

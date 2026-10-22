@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/private/tmp/lcb-amd-folded-normalization/scripts/emission_equivalence.py", line 75, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/private/tmp/lcb-amd-folded-normalization/scripts/emission_equivalence.py", line 26, in main
+    work=Path(tempfile.mkdtemp(prefix='emission-equivalence-',dir=ROOT/'.build'))
+              ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/tempfile.py", line 385, in mkdtemp
+    _os.mkdir(file, 0o700)
+    ~~~~~~~~~^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/private/tmp/lcb-amd-folded-normalization/.build/emission-equivalence-qhhr2b_n'

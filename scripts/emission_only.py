@@ -26,6 +26,7 @@ from arm_load_extensions import exercise as arm_extensions
 from rv_result_normalization import exercise as rv_normalization
 from amd_immediates import exercise as immediates
 from amd_word_normalization import exercise as normalization
+from amd_folded_loads import exercise as amd_folded
 from empty_variadic_calls import exercise as empty_variadic
 from unused_environment_variadic import exercise as environment_variadic
 
@@ -47,6 +48,7 @@ def main():
             leaf = amd_leaf_bank(LCB,case,run,cc,target,False)
             assert leaf['executed_checks'] == 0
             normalization(LCB, case, run, cc, target, False, qbe, qtarget)
+            amd_folded(LCB, case, run, cc, target, False, qbe=qbe)
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
         for target in ['aarch64-linux', 'aarch64-macos']:

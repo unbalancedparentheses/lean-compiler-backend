@@ -165,6 +165,8 @@ def main():
         amd_leaf_tests(compiler,work,run,cc,args.target,execute)
         from amd_word_normalization import exercise as amd_word_tests
         amd_word_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
+        from amd_folded_loads import exercise as amd_folded_tests
+        amd_folded_tests(compiler,work,run,cc,args.target,execute,qbe=qbe)
         from amd_immediates import exercise as amd_immediate_tests
         amd_immediate_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
         from empty_variadic_calls import exercise as empty_variadic_tests

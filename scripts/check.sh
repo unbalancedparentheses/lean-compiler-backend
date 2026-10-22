@@ -247,5 +247,6 @@ python3 scripts/branch_fallthrough.py
 python3 scripts/rv_result_normalization.py
 python3 scripts/amd_leaf_bank.py --compiler .lake/build/bin/lcb --work .build/native-amd-leaf
 python3 scripts/amd_word_normalization.py
+python3 scripts/amd_folded_loads.py
 python3 scripts/amd_immediates.py
 python3 scripts/emission_only.py

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/tmp/lcb-amd-folded-normalization/qualify-zlib.py", line 34, in <module>
+    p=work/'x86_64-linux-gnu-gcc'/n;paths[p]=sha(p)
+                                             ~~~^^^
+  File "/tmp/lcb-amd-folded-normalization/qualify-zlib.py", line 6, in sha
+    def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
+                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark-x86_64/x86_64-linux-gnu-gcc/example'

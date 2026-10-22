@@ -6,6 +6,12 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[AMD64 folded loads](benchmarks/amd-folded-loads/README.md) remove redundant EAX
+self-copies after word loads. Integrated identity `7e441df0` exactly matches the
+qualified private candidate; fresh main build, units and 147 unchanged audit
+statements pass. Both AMD matrices, zlib and corpus delta audit pass privately.
+Combined-main replay and full gates are next; no runtime speed claim.
+
 [ELF assembler profiles](benchmarks/elf-section-assembler-profiles/README.md) correct
 the GNU-only section-name expectation that failed both Linux Clang CI jobs.
 Six GNU/LLVM profiles pass on all three Linux targets using committed identity4b41;
