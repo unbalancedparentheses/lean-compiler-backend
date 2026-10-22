@@ -28,10 +28,12 @@ def main():
     work.mkdir(parents=True, exist_ok=True)
     native = bool(args.docker_container) or (platform.system() == 'Linux' and platform.machine() in ['aarch64', 'arm64'])
     if args.require_native: assert native, 'Linux ARM64 execution unavailable'
+    emission_modes = {'baseline': 0, 'allocated': 0, 'optimized': 0}
     def run(command, inside=False):
         command = [str(x) for x in command]
-        if args.optimize and command[0] == str(compiler) and len(command)>1 and not command[1].startswith('--'):
-            command += ['--optimize']
+        if command[0] == str(compiler) and '-o' in command:
+            mode = 'optimized' if '--optimize' in command else ('allocated' if '--allocate' in command else 'baseline')
+            emission_modes[mode] += 1
         if inside and args.docker_container:
             from docker_sync import sources
             sources(command, mount_root, args.docker_container)
@@ -41,6 +43,11 @@ def main():
             from docker_sync import host_file
             host_file(command[command.index('-o')+1], mount_root, args.docker_container)
         return result
+    def selected_run(command, *positional, **keywords):
+        command = list(map(str, command))
+        if args.optimize and command[0] == str(compiler) and '-o' in command:
+            command += ['--optimize']
+        return run(command, *positional, **keywords)
     compiler = work/'lcb-snapshot'
     shutil.copy2(LCB, compiler)
     compiler_identity = run([compiler, '--build-identity']).stdout.strip()
@@ -56,7 +63,7 @@ def main():
         case = work/fixture.stem; case.mkdir(exist_ok=True)
         source, assembly = case/'input.ssa', case/'lean.s'
         shutil.copy2(fixture, source)
-        result = run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
+        result = selected_run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
         row = {'fixture': fixture.name, 'emitted': result.returncode == 0, 'diagnostic': result.stderr.strip(), 'native': 'unmeasured'}
         rows.append(row)
         if result.returncode:
@@ -91,7 +98,7 @@ def main():
         case = work/'tls-interop'; case.mkdir(exist_ok=True)
         source, assembly, caller = case/'input.ssa', case/'lean.s', case/'caller.c'
         source.write_text(tls_source); caller.write_text(tls_caller)
-        result = run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
+        result = selected_run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
         assert result.returncode == 0, result.stderr
         for shared in [False, True]:
             exe = case/('shared' if shared else 'static')
@@ -111,7 +118,7 @@ def main():
         case = work/'variadic-interop'; case.mkdir(exist_ok=True)
         source, assembly, caller = case/'input.ssa', case/'lean.s', case/'caller.c'
         source.write_text(source_text); caller.write_text(caller_text)
-        result = run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
+        result = selected_run([compiler, source, '--target', 'aarch64-linux', '-o', assembly])
         assert result.returncode == 0, result.stderr
         qasm = case/'qbe.s'; result = run([qbe, '-t', 'arm64', '-o', qasm, source], True)
         assert result.returncode == 0, result.stderr
@@ -123,14 +130,16 @@ def main():
 
     if native:
         from target_scalar import exercise as scalar_tests
-        scalar_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',32)
+        scalar_tests(compiler,work, selected_run,cc,qbe,'aarch64-linux','arm64',32)
 
     from quoted_names import exercise as quoted_tests
-    quoted_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
+    quoted_tests(compiler,work, selected_run,cc,qbe,'aarch64-linux','arm64',native)
     from global_addresses import exercise as global_address_tests
     global_address_tests(compiler,work,run,cc,'aarch64-linux',native)
     from large_blit import exercise as large_blit_tests
     large_blit_tests(compiler,work,run,cc,'aarch64-linux',native,qbe if native else None,'arm64')
+    from blit_guard_pages import exercise as guard_page_tests
+    guard_page_tests(compiler,work,run,cc,'aarch64-linux',native)
     from address_selection import exercise as address_selection_tests
     address_selection_tests(compiler,work,run,cc,'aarch64-linux',native)
     from branch_selection import exercise as branch_selection_tests
@@ -140,7 +149,7 @@ def main():
     from unsigned_strength import exercise as unsigned_tests
     unsigned_tests(compiler,work,run,cc,'aarch64-linux',native)
     from module_scale import exercise as module_tests
-    module_tests(compiler,work,run,cc,'aarch64-linux',native)
+    module_tests(compiler,work, selected_run,cc,'aarch64-linux',native)
     from extern_offsets import exercise as extern_offset_tests
     extern_offset_tests(compiler,work,run,cc,qbe,native)
     from large_data import exercise as large_data_tests
@@ -158,9 +167,9 @@ def main():
     from constant_fold import exercise as fold_tests
     if not args.optimize:fold_tests(compiler,work,run,cc,'aarch64-linux',native)
     from zero_alloc import exercise as zero_tests
-    zero_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
+    zero_tests(compiler,work, selected_run,cc,qbe,'aarch64-linux','arm64',native)
     from elf_sections import exercise as section_tests
-    section_tests(compiler, work, run, cc, qbe, native)
+    section_tests(compiler, work, selected_run, cc, qbe, native)
     baseline = json.loads((ROOT/'tests/upstream-linux-arm64-coverage.json').read_text())['emitted']
     emitted_names = {row['fixture'] for row in rows if row['emitted']}
     for missing in sorted(set(baseline) - emitted_names): failures.append((missing, 'emission regression'))
@@ -172,6 +181,11 @@ def main():
     print(f'Linux ARM64: {emitted}/{len(rows)} emitted; {executed} original executable drivers and {assembled} assembly-only fixtures passed per Lean/QBE backend; native={native}', flush=True)
     for failure in failures: print(failure, flush=True)
     assert not failures, f'{len(failures)} Linux ARM64 failures'
+
+    assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
+    print('Actual compiler emission modes:', emission_modes, flush=True)
+    report['emission_mode_counts'] = emission_modes
+    (work/'report.json').write_text(json.dumps(report, indent=2)+'\n')
 
 
 if __name__ == '__main__': main()

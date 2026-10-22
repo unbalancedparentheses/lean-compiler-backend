@@ -29,9 +29,12 @@ def main():
     native=platform.system()=='Linux' and platform.machine() in ([isa,'amd64'] if isa=='x86_64' else [isa])
     execute=native or bool(args.docker_container)
     if args.require_execution:assert execute, 'target execution unavailable'
+    emission_modes = {'baseline': 0, 'allocated': 0, 'optimized': 0}
     def run(command,inside=False,executable=False):
         command=[str(x) for x in command]
-        if args.optimize and command[0]==str(compiler) and len(command)>1 and not command[1].startswith('--'):command+=['--optimize']
+        if command[0] == str(compiler) and '-o' in command:
+            mode = 'optimized' if '--optimize' in command else ('allocated' if '--allocate' in command else 'baseline')
+            emission_modes[mode] += 1
         if inside and args.docker_container:
             from docker_sync import sources
             sources(command,docker_root,args.docker_container)
@@ -42,6 +45,11 @@ def main():
             from docker_sync import host_file
             host_file(command[command.index('-o')+1],docker_root,args.docker_container)
         return result
+    def selected_run(command, *positional, **keywords):
+        command = list(map(str, command))
+        if args.optimize and command[0] == str(compiler) and '-o' in command:
+            command += ['--optimize']
+        return run(command, *positional, **keywords)
     compiler=work/'lcb-snapshot';shutil.copy2(LCB,compiler)
     identity=run([compiler,'--build-identity']).stdout.strip()
     cc=os.environ.get('LCB_CROSS_CC',f'{isa}-linux-gnu-gcc') if args.docker_container else os.environ.get('LCB_CC','cc')
@@ -55,7 +63,7 @@ def main():
     for fixture in sorted((ROOT/'third_party/qbe/test').glob('*.ssa')):
         case=work/fixture.stem;case.mkdir(exist_ok=True)
         source,assembly=case/'input.ssa',case/'lean.s';shutil.copy2(fixture,source)
-        result=run([compiler,source,'--target',args.target,'-o',assembly])
+        result=selected_run([compiler,source,'--target',args.target,'-o',assembly])
         row={'fixture':fixture.name,'emitted':result.returncode==0,'diagnostic':result.stderr.strip(),'execution':'unmeasured'};rows.append(row)
         if result.returncode:
             if 'not yet implemented' not in result.stderr and fixture.name!='dark.ssa':failures.append((fixture.name,'unexpected rejection',result.stderr))
@@ -82,20 +90,22 @@ def main():
         row['execution']=statuses[0] if len(statuses)==2 and len(set(statuses))==1 else 'failed'
     if execute:
         from target_scalar import exercise
-        exercise(compiler,work,run,cc,qbe,args.target,qtarget,24 if isa=='x86_64' else 8)
+        exercise(compiler,work, selected_run,cc,qbe,args.target,qtarget,24 if isa=='x86_64' else 8)
         from target_aggregate import exercise as aggregate_tests
-        aggregate_tests(compiler,work,run,cc,qbe,args.target,qtarget)
+        aggregate_tests(compiler,work, selected_run,cc,qbe,args.target,qtarget)
         if isa=='riscv64':
             from riscv_abi import exercise as riscv_tests
-            riscv_tests(compiler,work,run,cc,qbe)
+            riscv_tests(compiler,work, selected_run,cc,qbe)
         from target_tls import exercise as tls_tests
-        tls_tests(compiler,work,run,cc,args.target)
+        tls_tests(compiler,work, selected_run,cc,args.target)
     from quoted_names import exercise as quoted_tests
-    quoted_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
+    quoted_tests(compiler,work, selected_run,cc,qbe,args.target,qtarget,execute)
     from global_addresses import exercise as global_address_tests
     global_address_tests(compiler,work,run,cc,args.target,execute)
     from large_blit import exercise as large_blit_tests
     large_blit_tests(compiler,work,run,cc,args.target,execute,qbe if execute else None,qtarget)
+    from blit_guard_pages import exercise as guard_page_tests
+    guard_page_tests(compiler,work,run,cc,args.target,execute)
     from address_selection import exercise as address_selection_tests
     address_selection_tests(compiler,work,run,cc,args.target,execute)
     from branch_selection import exercise as branch_selection_tests
@@ -105,7 +115,7 @@ def main():
     from unsigned_strength import exercise as unsigned_tests
     unsigned_tests(compiler,work,run,cc,args.target,execute)
     from module_scale import exercise as module_tests
-    module_tests(compiler,work,run,cc,args.target,execute)
+    module_tests(compiler,work, selected_run,cc,args.target,execute)
     from extern_offsets import exercise as extern_offset_tests
     extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
     from large_data import exercise as large_data_tests
@@ -124,7 +134,7 @@ def main():
     from constant_fold import exercise as fold_tests
     if not args.optimize:fold_tests(compiler,work,run,cc,args.target,execute)
     from zero_alloc import exercise as zero_tests
-    zero_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
+    zero_tests(compiler,work, selected_run,cc,qbe,args.target,qtarget,execute)
     baseline=ROOT/f'tests/upstream-{isa}-coverage.json'
     if baseline.exists():
         missing=set(json.loads(baseline.read_text())['emitted'])-{x['fixture'] for x in rows if x['emitted']}
@@ -135,6 +145,11 @@ def main():
     print(f'{args.target}: {sum(x["emitted"] for x in rows)}/76 emitted; {sum(x["execution"]=="passed" for x in rows)} executable drivers and {sum(x["execution"]=="assembled" for x in rows)} assembly-only passes per Lean/QBE backend; execution={mode}',flush=True)
     for failure in failures:print(str(failure)[:3000],flush=True)
     assert not failures, f'{len(failures)} target failures'
+
+    assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
+    print('Actual compiler emission modes:', emission_modes, flush=True)
+    report['emission_mode_counts'] = emission_modes
+    (work/'report.json').write_text(json.dumps(report, indent=2)+'\n')
 
 
 if __name__=='__main__':main()

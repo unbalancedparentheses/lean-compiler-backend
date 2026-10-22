@@ -33,13 +33,18 @@ Csmith seeds 20261293–20261324 qualify 27/32, 225,632 IR lines, with five
 reference timeouts excluded. Eleven disjoint default-profile batches total
 246/304 attempts, 2,273,638 qualified IR lines and 58 reference timeouts. No proof
 coverage is enlarged. The full local regression gate passed in `.build/branch-selection-full-check.log`.
-The optimized target suites passed; corrected mode coverage is the next checkpoint.
+The optimized target suites passed; corrected mode coverage is recorded below.
 
 The target runners' global optimization flag was found to override individual
 helper mode requests. Earlier optimized target invocations therefore did not
 independently distinguish helper baseline/allocated modes; standalone/default
-runs were unaffected. The runner correction will preserve each matrix's explicit
+runs were unaffected. The runner correction preserves each matrix's explicit
 mode while retaining optimized upstream fixtures and single-mode ABI helpers.
+Actual compiler commands are counted by mode and each target suite requires
+nonzero baseline, allocated and optimized counts. Guard-page copy tests add
+27 sizes and 162 start/end boundary cases per mode; deliberately widening a
+one-byte tail read faults as required. They passed native Apple/Linux ARM64,
+Linux x86/RV QEMU and macOS x86 Rosetta with explicitly distinct mode flags.
 
 ## Active window: conservative memory forwarding
 

@@ -22,12 +22,19 @@ def main():
     if args.optimize:
         work = work/'optimized'
     work.mkdir(parents=True, exist_ok=True)
+    def selected_run(command, *positional, **keywords):
+        command = list(map(str, command))
+        if args.optimize and command[0] == str(compiler) and '-o' in command:
+            command += ['--optimize']
+        return run(command, *positional, **keywords)
     compiler = work/'lcb-snapshot'
     shutil.copy2(args.compiler, compiler)
+    emission_modes = {'baseline': 0, 'allocated': 0, 'optimized': 0}
     def run(command, inside=False):
         command = list(map(str, command))
-        if args.optimize and command[0] == str(compiler) and len(command) > 1 and not command[1].startswith('--'):
-            command += ['--optimize']
+        if command[0] == str(compiler) and '-o' in command:
+            mode = 'optimized' if '--optimize' in command else ('allocated' if '--allocate' in command else 'baseline')
+            emission_modes[mode] += 1
         return subprocess.run(command, text=True, capture_output=True, timeout=120)
     darwin = platform.system() == 'Darwin'
     native = darwin and platform.machine() == 'x86_64'
@@ -49,7 +56,7 @@ def main():
         case = work/fixture.stem
         case.mkdir(exist_ok=True)
         assembly = case/'lean.s'
-        result = run([compiler, fixture, '--target', 'x86_64-macos', '-o', assembly])
+        result = selected_run([compiler, fixture, '--target', 'x86_64-macos', '-o', assembly])
         row = {'fixture': fixture.name, 'emitted': result.returncode == 0, 'diagnostic': result.stderr.strip(), 'execution': 'unmeasured'}
         rows.append(row)
         if result.returncode:
@@ -96,11 +103,11 @@ def main():
         from target_scalar import exercise as scalar
         from target_aggregate import exercise as aggregate
         from target_tls import exercise as tls
-        scalar(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple', 24)
-        aggregate(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple')
-        tls(compiler, work, run, cc, 'x86_64-macos')
+        scalar(compiler, work, selected_run, cc, qbe, 'x86_64-macos', 'amd64_apple', 24)
+        aggregate(compiler, work, selected_run, cc, qbe, 'x86_64-macos', 'amd64_apple')
+        tls(compiler, work, selected_run, cc, 'x86_64-macos')
         from macho_objects import exercise as objects
-        objects(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple')
+        objects(compiler, work, selected_run, cc, qbe, 'x86_64-macos', 'amd64_apple')
     from quoted_names import exercise as quoted
     from zero_alloc import exercise as zero
     from large_data import exercise as large_data_tests
@@ -116,6 +123,8 @@ def main():
     from control_flow import exercise as cfg
     from large_blit import exercise as large_blit_tests
     large_blit_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe if execute else None,'amd64_apple')
+    from blit_guard_pages import exercise as guard_page_tests
+    guard_page_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from address_selection import exercise as address_selection_tests
     address_selection_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from branch_selection import exercise as branch_selection_tests
@@ -127,13 +136,18 @@ def main():
     from global_addresses import exercise as global_addresses
     global_addresses(compiler, work, run, cc, 'x86_64-macos', execute)
     from module_scale import exercise as modules
-    quoted(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple', execute)
-    zero(compiler, work, run, cc, qbe, 'x86_64-macos', 'amd64_apple', execute)
+    quoted(compiler, work, selected_run, cc, qbe, 'x86_64-macos', 'amd64_apple', execute)
+    zero(compiler, work, selected_run, cc, qbe, 'x86_64-macos', 'amd64_apple', execute)
     cfg(compiler, work, run, cc, 'x86_64-macos', execute, optimized_only=args.optimize)
-    modules(compiler, work, run, cc, 'x86_64-macos', execute)
+    modules(compiler, work, selected_run, cc, 'x86_64-macos', execute)
     if not args.optimize:
         from constant_fold import exercise as fold
         fold(compiler, work, run, cc, 'x86_64-macos', execute)
+
+    assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
+    print('Actual compiler emission modes:', emission_modes, flush=True)
+    report['emission_mode_counts'] = emission_modes
+    (work/'report.json').write_text(json.dumps(report, indent=2)+'\n')
 
 
 if __name__ == '__main__':

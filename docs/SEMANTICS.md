@@ -784,7 +784,10 @@ unused unresolved symbol references do not create linker dependencies. Larger
 copies do not relax aggregate-call size bounds. Independent byte/guard checks
 cover alignment, reversed disjoint buffers, identical spans, repeated loops,
 live pointer/value returns, the 1 MiB bound and an omitted-loop-store control.
-These execution tests do not constitute memory or machine preservation proofs.
+Protected-page tests additionally place source and destination extents against
+inaccessible start/end pages and detect a deliberately widened tail read, which
+ordinary byte comparisons alone cannot catch. These execution tests do not
+constitute memory or machine preservation proofs.
 
 ## Adjacent integer comparison branches
 
