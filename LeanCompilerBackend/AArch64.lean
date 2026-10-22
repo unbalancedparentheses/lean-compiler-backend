@@ -5,7 +5,8 @@
   and width-specific registers are additional references. See docs/UPSTREAM.md
   and the retained upstream licenses in third_party/.
 -/
-import LeanCompilerBackend.Semantics
+import LeanCompilerBackend.AArch64.ALU
+import LeanCompilerBackend.AArch64.ABI
 import LeanCompilerBackend.AggregateABI
 import LeanCompilerBackend.Selection
 import LeanCompilerBackend.Allocation
@@ -14,53 +15,6 @@ import LeanCompilerBackend.Assembly
 namespace LeanCompilerBackend.AArch64
 
 open Assembly
-
-inductive ALU where
-  | add | sub | mul | and_ | orr | eor
-  | lsl | lsr | asr
-  deriving DecidableEq, Repr
-
-def select (op : Binary) : ALU :=
-  match op with
-  | .add => .add
-  | .sub => .sub
-  | .mul => .mul
-  | .andBits => .and_
-  | .orBits => .orr
-  | .xorBits => .eor
-  | .shiftLeft => .lsl
-  | .logicalRight => .lsr
-  | .arithmeticRight => .asr
-
-def mnemonic : ALU → String
-  | .add => "add"
-  | .sub => "sub"
-  | .mul => "mul"
-  | .and_ => "and"
-  | .orr => "orr"
-  | .eor => "eor"
-  | .lsl => "lsl"
-  | .lsr => "lsr"
-  | .asr => "asr"
-
-/-- An abstract target ALU specification; not a decoder for emitted bytes. -/
-def evaluateALU (width : Width) (op : ALU) (a b : UInt64) : UInt64 :=
-  Semantics.normalize width <| match op with
-  | .add => a + b
-  | .sub => a - b
-  | .mul => a * b
-  | .and_ => a &&& b
-  | .orr => a ||| b
-  | .eor => a ^^^ b
-  | .lsl => a <<< (b &&& (width.bits - 1).toUInt64)
-  | .lsr => a >>> (b &&& (width.bits - 1).toUInt64)
-  | .asr => Semantics.constant width (Semantics.signedBits width.bits a / (2 ^ (b.toNat % width.bits) : Int))
-
-/-- Only the primitive opcode-selection relation is proved here. Stack lowering,
-    parsing, assembly rendering and assembler/linker behavior are separate gaps. -/
-theorem select_preserves (width : Width) (op : Binary) (a b : UInt64) :
-    evaluateALU width (select op) a b = Semantics.binary width op a b := by
-  cases op <;> rfl
 
 private def register (width : Width) (n : Nat) : String :=
   (if width == .word then "w" else "x") ++ toString n
@@ -280,41 +234,6 @@ private def memoryLoad (width : Width) (destination : Nat) : LoadKind → String
   | .signedWord => if width == .long then s!"ldrsw x{destination}" else s!"ldr w{destination}"
   | .unsignedWord => s!"ldr w{destination}"
   | .plain => s!"ldr {register width destination}"
-
-/-- Apple ARM64 packs non-variadic stack scalars at their natural size/alignment.
-    In particular consecutive words occupy four bytes each, not eight. This
-    follows QBE 1.3 arm64/abi.c argsclass/selcall/selpar. -/
-inductive ArgumentLocation where
-  | register (index : Nat)
-  | floatRegister (index : Nat)
-  | stack (offset : Nat)
-  deriving Repr, Inhabited
-
-structure ArgumentLayout where
-  locations : Array ArgumentLocation
-  stackBytes : Nat
-  stackUsedBytes : Nat
-
-def argumentLayout (widths : Array Width) (variadicFrom : Nat := widths.size)
-    (environment : Bool := false) (floating : Array Bool := #[]) (subwords : Array (Option Subword) := #[]) : ArgumentLayout := Id.run do
-  let mut locations := #[]
-  let mut offset := 0
-  let mut gp := 0
-  let mut fp := 0
-  for i in [:widths.size] do
-    if environment && i == 0 then locations := locations.push (.register 9)
-    else if (floating[i]?).getD false && fp < 8 && i < variadicFrom then
-      locations := locations.push (.floatRegister fp)
-      fp := fp + 1
-    else if !((floating[i]?).getD false) && gp < 8 && i < variadicFrom then
-      locations := locations.push (.register gp)
-      gp := gp + 1
-    else
-      let bytes := if i >= variadicFrom then 8 else (((subwords[i]?).getD none).map (·.bytes)).getD widths[i]!.bytes
-      offset := alignUp offset bytes
-      locations := locations.push (.stack offset)
-      offset := offset + bytes
-  return { locations, stackBytes := alignUp offset 16, stackUsedBytes := offset }
 
 /-- Split frame adjustments into the two legal AArch64 immediate scales. -/
 private def adjustStack (op : String) (bytes : Nat) : List String := Id.run do

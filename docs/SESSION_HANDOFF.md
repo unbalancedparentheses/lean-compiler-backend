@@ -6,6 +6,18 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+The user subsequently requested an updated README and safe code organization.
+README and the design pipeline now reflect current capabilities, target scope and
+proof limits; generated port inventory no longer reports completed features as
+missing. The [AArch64 extraction](refactors/aarch64-modules/README.md) moves
+unchanged ALU/proof and scalar-layout helpers behind the stable public facade.
+New identity `c1178a9e4b10ea5d318ef8e6b5d498ea0c85e677d5d58eddcc29f1ed383effd9`
+passes build, units, 147 identical audit statements, 1,305 identical corpus
+assemblies/15 identical refusals, 192 identical zlib/mixed-Lua assemblies and
+focused native ABI/scaled-load/floating-variadic tests. Exact moved-body and
+inverse-facade reconstruction pass. Full gates below remain bound to pre-extraction
+e095ed59; no wholesale rerun or new proof/performance claim. Refactor CI is pending.
+
 A [fresh five-label ARM zlib build](benchmarks/arm-scaled-load/combined-correctness/README.md)
 passes all fifteen correctness profiles per label on combined e095ed59 versus
 retained-TLS predecessor, fresh GCC, original QBE and corrected QBE. All source

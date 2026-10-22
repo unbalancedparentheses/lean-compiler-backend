@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "before_commit": "b8c8c18",
+  "before_identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+  "after_identity": "c1178a9e4b10ea5d318ef8e6b5d498ea0c85e677d5d58eddcc29f1ed383effd9",
+  "binary_sha256": {
+    "before": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+    "after": "2616b2a44caa5d02016f8d93b9f657ac96746fede1e085123af5cff58f043228"
+  },
+  "checks": {
+    "lake_build": "passed",
+    "units": "passed",
+    "exact_proof_audit_statements_unchanged": 147,
+    "corpus_identical_assemblies": 1305,
+    "corpus_identical_refusals": 15,
+    "workload_identical_assemblies": 192,
+    "native_apple_arm_aggregate_abi": "passed",
+    "native_apple_arm_scaled_loads": "passed",
+    "native_apple_arm_floating_variadics": "passed"
+  },
+  "test_helper_sha256": {
+    "scripts/emission_equivalence.py": "0454caa0b32922d7ec7d6cc40a180187e86da4b1e46a5118333dfa4989c895de",
+    "scripts/aggregate_abi.py": "6e5ae8f9bd2b9aa875632cb19253d3fbbd331b984cb86502e634120e922f207c",
+    "scripts/arm_scaled_load.py": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+    "scripts/float_variadic.py": "0aa053a61a7b3d91107577177a26b8766634eb5d695882d2c85d9cb04514d0da",
+    "scripts/ProofAudit.lean": "4dfbd506446d55c69813d08c82fd54c12288fcb0f8f853022f7c5aa295af337e"
+  },
+  "limits": [
+    "Pure extraction; no intended algorithm changes. Exact moved-body/remainder check plus finite assembly equality and native tests, not a universal preservation theorem.",
+    "No full Linux/host gate rerun on this new source identity; those passed immediately before extraction.",
+    "Retained workload IR is compiled freshly by both snapshots; frontends and workload runtimes were not rerun.",
+    "No performance or expanded proof claim."
+  ]
+}

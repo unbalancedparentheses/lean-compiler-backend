@@ -168,6 +168,7 @@ external effects are not portability guarantees.
 |---|---|
 | `Main.lean` | Command-line entry point |
 | `LeanCompilerBackend/` | IR, parser, validation, SSA, semantics and target backends |
+| `LeanCompilerBackend/AArch64/ALU.lean`, `AArch64/ABI.lean` | Primitive ALU model/proof and scalar layout helper; `AArch64.lean` remains the public emitter facade |
 | `LeanCompilerBackend/Optimize/` | Optimization passes and focused tests |
 | `LeanCompilerBackend/Verified/` | Restricted typed path, replay and proofs |
 | `Tests.lean` and module `Tests.lean` files | Lean unit/regression tests |

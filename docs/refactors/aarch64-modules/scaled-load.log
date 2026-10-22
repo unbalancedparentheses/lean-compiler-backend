@@ -1,0 +1,65 @@
+{
+  "target": "aarch64-macos",
+  "identity": "c1178a9e4b10ea5d318ef8e6b5d498ea0c85e677d5d58eddcc29f1ed383effd9",
+  "compiler_sha256": "2616b2a44caa5d02016f8d93b9f657ac96746fede1e085123af5cff58f043228",
+  "helper_sha256": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+  "profiles": {
+    "legal": {
+      "source_sha256": "d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325",
+      "caller_sha256": "8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395",
+      "backends": {
+        "baseline": {
+          "assembly_sha256": "be84146c51dee6dea600b49ca066f9485410c5165220cdd7360527da40cf0159",
+          "execution": "passed"
+        },
+        "allocated": {
+          "assembly_sha256": "5942c887732732f3423e8e5489994f18fc99198af4da0bceea1d32e55387d847",
+          "execution": "passed",
+          "scaled_loads": 82
+        },
+        "optimized": {
+          "assembly_sha256": "8302039493b105e8c78d4eb6e8099f2e206dc8f42a18401250fe307cb5bd7304",
+          "execution": "passed"
+        },
+        "qbe": {
+          "assembly_sha256": "bb9b8b8bdb6a4d292e8ff62fac443817eed6d42824f545252fc0e90726cb78f6",
+          "execution": "passed"
+        }
+      },
+      "functions": 202,
+      "original_qbe_scope": "unchanged source"
+    },
+    "large_shift_counts": {
+      "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+      "caller_sha256": "911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2",
+      "backends": {
+        "baseline": {
+          "assembly_sha256": "1140ca65195b2bec74138e432894a0caa42e3034a02508d896de498749be0c41",
+          "execution": "passed"
+        },
+        "allocated": {
+          "assembly_sha256": "ddb3471dc7e58949a0d15e8f404d7aaf9f5e6955a6992cbcb2ffc44b8b90fbf6",
+          "execution": "passed",
+          "scaled_loads": 45
+        },
+        "optimized": {
+          "assembly_sha256": "661617e3e8fb760baa568b1fd01f111766d32243f1a38d29459a8a8e3df880e0",
+          "execution": "passed"
+        }
+      },
+      "functions": 45,
+      "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+    }
+  },
+  "controls": {
+    "wrong_scale": {
+      "detected": true,
+      "exit": -10
+    },
+    "guard_overread": {
+      "detected": true,
+      "exit": -10
+    }
+  },
+  "qbe_sha256": "75ca8249c643589bc9008e5024c431f3d426e91895535e6c9f79a40561ee38a7"
+}
