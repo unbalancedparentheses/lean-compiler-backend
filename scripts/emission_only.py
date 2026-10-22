@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from branch_fallthrough import exercise as fallthrough
 from signed_division_one import exercise as signed_one
 from arm_branch_layout import exercise as arm_branches
 from arm_load_extensions import exercise as arm_extensions
@@ -39,6 +40,9 @@ def main():
         for target in ['aarch64-linux','aarch64-macos','x86_64-linux','x86_64-macos','riscv64-linux']:
             signed = signed_one(LCB,work/target,run,cc,target,False,qbe,'missing-target')
             assert signed['executed_checks_per_mode'] == 0 and signed['qbe_sha256'] is None
+        for target in ['x86_64-linux','x86_64-macos','riscv64-linux']:
+            branch = fallthrough(LCB,work/target,run,cc,target,False,qbe)
+            assert branch['c_checks_per_mode'] == 0 and not branch['wrong_target_detected']
         rv = rv_normalization(LCB, work, run, cc, execute=False)
         assert rv['executed_checks_per_mode'] == 0 and rv['negative_control'] == 'not-run'
         assert all(v['execution'] == 'not-run' for v in rv['modes'].values())

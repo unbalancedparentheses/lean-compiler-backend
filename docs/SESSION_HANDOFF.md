@@ -17,7 +17,13 @@ cproc rejects three required volatile stores before any backend invocation.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c`.
+`7958046aa99bf6a1d836e954f5f022dfc8e62384a8e58013fdf529eb5808e282`.
+
+[AMD64/RV64 fallthrough](benchmarks/branch-fallthrough/README.md) omits jumps to
+the immediately following block after preserving phi transfers. All three full
+target gates and independent C/QBE matrices pass; strict diff admits only jump
+deletions. Zlib saves 4,012 AMD64 / 4,176 RV64 text bytes with GCC/Python executable
+comparisons passing. CI through 7ef289c is green; newer runs are pending.
 
 [Signed division/remainder by normalized +1](benchmarks/signed-division-one/README.md)
 now becomes a width-preserving copy/zero in optimized code. All five target

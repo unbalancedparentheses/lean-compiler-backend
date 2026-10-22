@@ -1,0 +1,23 @@
+{
+  "status": "passed",
+  "compilers": {
+    "before": {
+      "identity": "aa0f26deadbcf877fe7102d5f81ffa565a67129ea0b6e6551453d5511305fe1c",
+      "sha256": "0576045090a93d4ab05fe63eb36cbb8fb9aa653962a19d4a03bff7fc56d65b17"
+    },
+    "after": {
+      "identity": "7958046aa99bf6a1d836e954f5f022dfc8e62384a8e58013fdf529eb5808e282",
+      "sha256": "babdcbf27176740f28f82589c9c8eee5643531c1f54987b9eeb09912d5568c13"
+    }
+  },
+  "cases": 1320,
+  "unchanged_assemblies": 999,
+  "matching_refusals": 15,
+  "expected_changed_assemblies": {
+    "x86_64-macos": 102,
+    "x86_64-linux": 102,
+    "riscv64-linux": 102
+  },
+  "removed_jumps": 5523,
+  "note": "Only allocated/optimized AMD64/RV64 jumps to the next label may be deleted; every other byte preserved. Raw exact comparison reports intended differences. Not a semantic proof."
+}

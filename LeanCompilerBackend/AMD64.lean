@@ -470,7 +470,9 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
     if p.width == .word then lines := lines ++ ["\tmovl %eax, %eax"]
     lines := lines ++ (← store c p.name)
   let uses := if allocate then Selection.useCounts f else {}
-  for block in f.blocks do
+  for blockIndex in [:f.blocks.size] do
+    let block := f.blocks[blockIndex]!
+    let next := (f.blocks[blockIndex+1]?).map (·.label)
     let branchCompare := if allocate then Selection.branchComparison uses block else none
     lines := lines ++ [label darwin f block.label ++ ":"]
     let mut debugIndex := 0
@@ -515,14 +517,17 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
       for i in [:homes.registers] do lines := lines ++ [s!"\tmovq -{savedBase+i*8}(%rbp), %{savedGP[i]!}"]
       lines := lines ++ ["\tleave", "\tret"]
     | .halt => lines := lines ++ ["\tud2"]
-    | .jump target => lines := lines ++ (← edge c f block.label target) ++ [s!"\tjmp {label darwin f target}"]
+    | .jump target =>
+      lines := lines ++ (← edge c f block.label target)
+      if !allocate || next != some target then lines := lines ++ [s!"\tjmp {label darwin f target}"]
     | .branch value yes no =>
       let other := s!"{if darwin then "L" else ".L"}_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{block.label}"
       if let some (op, _, _, _) := branchCompare then
         lines := lines ++ [s!"\tj{inverseCondition op} {other}"]
       else
         lines := lines ++ (← load c .word "rax" value) ++ ["\ttestl %eax, %eax", s!"\tjz {other}"]
-      lines := lines ++ (← edge c f block.label yes) ++ [s!"\tjmp {label darwin f yes}", other ++ ":"] ++ (← edge c f block.label no) ++ [s!"\tjmp {label darwin f no}"]
+      lines := lines ++ (← edge c f block.label yes) ++ [s!"\tjmp {label darwin f yes}", other ++ ":"] ++ (← edge c f block.label no)
+      if !allocate || next != some no then lines := lines ++ [s!"\tjmp {label darwin f no}"]
   if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines
   pure (String.intercalate "\n" lines.toList ++ "\n")

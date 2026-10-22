@@ -140,6 +140,8 @@ def main():
     dynamic_outgoing_tests(compiler,work,run,cc,args.target,execute)
     from unused_environment import exercise as unused_environment_tests
     unused_environment_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
+    from branch_fallthrough import exercise as fallthrough_tests
+    fallthrough_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
     from signed_division_one import exercise as signed_one_tests
     signed_one_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
     if args.target == 'x86_64-linux':

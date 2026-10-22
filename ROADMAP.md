@@ -71,6 +71,11 @@ copy/zero; other signed divisors and trap guards remain. The independent five-ta
 matrix and zlib/libyaml qualification are recorded in
 [the measured slice](docs/benchmarks/signed-division-one/README.md).
 
+AMD64/RV64 [structured fallthrough](docs/benchmarks/branch-fallthrough/README.md)
+now omits next-block jumps after phi transfers. All affected target gates and
+independent matrices pass; optimized zlib text shrinks further with byte-exact
+stream comparisons. Conditional branch reach and target selection are unchanged.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and

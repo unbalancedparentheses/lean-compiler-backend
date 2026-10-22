@@ -1,0 +1,48 @@
+{
+  "status": "passed",
+  "compiler_identity": "7958046aa99bf6a1d836e954f5f022dfc8e62384a8e58013fdf529eb5808e282",
+  "logs": {
+    ".build/fallthrough-main-units.log": {
+      "sha256": "70cc838e898e6ec08f2623db6094cc0a56c0410b1b1001548a7382b7f50c78e6",
+      "last_lines": [
+        "canonical job/artifact replay, dependency identities and SHA-256 checks passed",
+        "unit checks passed"
+      ]
+    },
+    ".build/fallthrough-main-proof-audit.log": {
+      "sha256": "c555a9f334c34e0fbd082393488a072028ef92d77aec14bc7ba5c40e70fafad8",
+      "last_lines": [
+        "'LeanCompilerBackend.Verified.source_instruction_invert' depends on axioms: [propext, Quot.sound]",
+        "'LeanCompilerBackend.Verified.simulate_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]"
+      ]
+    },
+    ".build/fallthrough-main-x86.log": {
+      "sha256": "8429ad3bc2394da7a5eff3ac7d5f06364d15aa145e97d9d991232aa20435ed1e",
+      "last_lines": [
+        "x86_64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 58, 'allocated': 46, 'optimized': 143}"
+      ]
+    },
+    ".build/fallthrough-main-rv.log": {
+      "sha256": "fef63440c7885ade7ebc7b13b0c987d680beb1523a7233b1970b55f4ebd614a9",
+      "last_lines": [
+        "riscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 47, 'allocated': 37, 'optimized': 136}"
+      ]
+    },
+    ".build/fallthrough-main-macx86.log": {
+      "sha256": "33f9811f5588d5bf43f4cb3bb9350f5e431caf4949430671694147e1623121e5",
+      "last_lines": [
+        "x86_64-macos: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True",
+        "Actual compiler emission modes: {'baseline': 57, 'allocated': 46, 'optimized': 145}"
+      ]
+    },
+    ".build/fallthrough-main-emission.log": {
+      "sha256": "731c020f386cb61a73c59260fdc675bcd1b8008f0e37a01913945486795da9d5",
+      "last_lines": [
+        "{'target': 'riscv64-linux', 'compiler_identity': '7958046aa99bf6a1d836e954f5f022dfc8e62384a8e58013fdf529eb5808e282', 'compiler_sha256': 'babdcbf27176740f28f82589c9c8eee5643531c1f54987b9eeb09912d5568c13', 'source_sha256': '1b3421d5ef0741309a2b9f14f57ada4ba8fb85052d27f792b1632c6062a9c9f2', 'caller_sha256': '7a1f9a59c83bce11d84a2bb08d4f3ab79f1a24ffa54249d03c31af93fa74073a', 'emitted_checks_per_mode': 9728, 'executed_checks_per_mode': 0, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}",
+        "Emission-only target helpers passed with missing tools and an execution guard"
+      ]
+    }
+  }
+}

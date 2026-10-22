@@ -427,7 +427,9 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
     if let some k := p.subword then lines := lines ++ extend .word k.extension
     lines := lines ++ norm p.width "t0" ++ (← store c p.name)
   let uses := if allocate then Selection.useCounts f else {}
-  for b in f.blocks do
+  for blockIndex in [:f.blocks.size] do
+    let b := f.blocks[blockIndex]!
+    let next := (f.blocks[blockIndex+1]?).map (·.label)
     let branchCompare := if allocate then Selection.branchComparison uses b else none
     lines := lines ++ [label f b.label ++ ":"]
     let mut debugIndex := 0
@@ -472,7 +474,9 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
       for i in [:homes.registers] do lines := lines ++ memory "ld" savedGP[i]! "s0" (-((savedBase+i*8) : Int))
       lines := lines ++ memory "ld" "ra" "s0" (-((header-8) : Int)) ++ memory "ld" "t0" "s0" (-(header : Int)) ++ ["\tmv sp, s0", "\tmv s0, t0", "\tret"]
     | .halt => lines := lines ++ ["\tunimp"]
-    | .jump dst => lines := lines ++ (← edge c f b.label dst) ++ [s!"\tj {label f dst}"]
+    | .jump dst =>
+      lines := lines ++ (← edge c f b.label dst)
+      if !allocate || next != some dst then lines := lines ++ [s!"\tj {label f dst}"]
     | .branch v yes no =>
       let other := s!".L_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{b.label}"
       if let some (op, _, _, _) := branchCompare then
@@ -480,7 +484,8 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
       else
         lines := lines ++ (← load c .word "t0" v) ++ [s!"\tbeqz t0, {other}"]
       lines := lines ++ (← edge c f b.label yes) ++
-        [s!"\tj {label f yes}", other ++ ":"] ++ (← edge c f b.label no) ++ [s!"\tj {label f no}"]
+        [s!"\tj {label f yes}", other ++ ":"] ++ (← edge c f b.label no)
+      if !allocate || next != some no then lines := lines ++ [s!"\tj {label f no}"]
   lines := lines ++ [s!".size {f.name}, .-{f.name}"]
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines
   pure (String.intercalate "\n" lines.toList ++ "\n")

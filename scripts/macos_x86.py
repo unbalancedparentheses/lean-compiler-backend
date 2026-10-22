@@ -130,6 +130,8 @@ def main():
     dynamic_outgoing_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from unused_environment import exercise as unused_environment_tests
     unused_environment_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
+    from branch_fallthrough import exercise as fallthrough_tests
+    fallthrough_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
     from signed_division_one import exercise as signed_one_tests
     signed_one_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
     from amd_word_normalization import exercise as amd_word_tests
