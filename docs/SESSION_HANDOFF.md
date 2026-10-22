@@ -10,7 +10,8 @@ deferred at the user’s request and is not a current completion blocker.
 the GNU-only section-name expectation that failed both Linux Clang CI jobs.
 Six GNU/LLVM profiles pass on all three Linux targets using committed identity4b41;
 LLVM preserves quoted escapes literally and original QBE keeps two extra raw
-spellings. Exact header/symbol/runtime checks remain; a CI rerun is pending.
+spellings. Exact header/symbol/runtime checks remain. All three CI runners passed on
+`a32fc5c` (run39777689834); newer scaled-source CI remains separate.
 [ARM scaled loads](benchmarks/arm-scaled-load/README.md) are integrated on identity
 `210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5`.
 All three complete Linux gates, native ARM matrices/high-spill checks, units,
