@@ -17,7 +17,7 @@ Fresh build/units and 147 unchanged audit statements pass. Separate TLS/R matric
 pass all three Linux targets against unchanged QBE; Apple refusal/emission
 behavior is preserved. Ten emission-only controls, two CLI checks, nine combined
 flag-context refusals, source/snapshot/guest provenance barriers and all three
-complete Linux gates pass. Full host/Rosetta qualification is running. All 1,305
+complete Linux gates and the full host/Rosetta gate pass. All 1,305
 corpus assemblies, 15 refusals and 240 zlib/Lua/cproc workload assemblies remain
 identical; the workload bridge reuses prior exact-output runtime qualification.
 
