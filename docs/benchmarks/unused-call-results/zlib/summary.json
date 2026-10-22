@@ -1,0 +1,90 @@
+{
+  "aarch64-linux": {
+    "baseline": {
+      "before": 416468,
+      "after": 416468,
+      "delta": 0,
+      "crc32": {
+        "before": 15452,
+        "after": 15452
+      },
+      "changed": {}
+    },
+    "allocated": {
+      "before": 166340,
+      "after": 166340,
+      "delta": 0,
+      "crc32": {
+        "before": 7536,
+        "after": 7536
+      },
+      "changed": {}
+    },
+    "optimized": {
+      "before": 115792,
+      "after": 115196,
+      "delta": -596,
+      "crc32": {
+        "before": 4300,
+        "after": 4300
+      },
+      "changed": {
+        "compress": -4,
+        "deflate": -108,
+        "gzlib": -16,
+        "gzread": -28,
+        "gzwrite": -28,
+        "infback": -4,
+        "inflate": -48,
+        "test-example": -300,
+        "test-minigzip": -52,
+        "trees": -4,
+        "uncompr": -4
+      }
+    }
+  },
+  "aarch64-macos": {
+    "baseline": {
+      "before": 416772,
+      "after": 416772,
+      "delta": 0,
+      "crc32": {
+        "before": 15452,
+        "after": 15452
+      },
+      "changed": {}
+    },
+    "allocated": {
+      "before": 166644,
+      "after": 166644,
+      "delta": 0,
+      "crc32": {
+        "before": 7536,
+        "after": 7536
+      },
+      "changed": {}
+    },
+    "optimized": {
+      "before": 116096,
+      "after": 115500,
+      "delta": -596,
+      "crc32": {
+        "before": 4300,
+        "after": 4300
+      },
+      "changed": {
+        "compress": -4,
+        "deflate": -108,
+        "gzlib": -16,
+        "gzread": -28,
+        "gzwrite": -28,
+        "infback": -4,
+        "inflate": -48,
+        "test-example": -300,
+        "test-minigzip": -52,
+        "trees": -4,
+        "uncompr": -4
+      }
+    }
+  }
+}

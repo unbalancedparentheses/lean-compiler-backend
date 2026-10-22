@@ -6,8 +6,20 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Unused scalar return captures](benchmarks/unused-call-results/README.md) are now
+removed on compiler identity `77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb9125dae6129eb1a4`.
+Calls and all operands remain; live results and aggregate hidden storage remain.
+Fresh units, all 147 audit statements, 10,080 independent five-target C groups,
+five dropped-call controls, emission-only checks and all three full Linux gates
+pass. Full host/Rosetta qualification is running. The original RV QBE signed
+subword result discrepancy remains explicit; the reduced reference omits only
+64 returned-value comparisons and retains every call/effect check. All 132
+zlib/mixed-Lua workload assemblies match the privately executed candidate;
+private workload identities and two failed Lua harness attempts are preserved.
+Optimized ARM text drops 596 bytes for zlib and 1,596 for mixed Lua; no speed claim.
+
 [Typed custom sections](benchmarks/section-names/README.md) now preserve the two
-QBE section fields on combined main identity `f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6`.
+QBE section fields, first qualified on combined scalar/section identity `f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6`.
 Bounded ELF bare/hyphen/literal-comma names and optional awx flags pass all five
 target matrices (252 independent C checks each), existing linkage/ELF helpers,
 five emission-only controls, fresh units and all 147 proof-audit statements.

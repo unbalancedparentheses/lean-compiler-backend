@@ -1,0 +1,46 @@
+riscv64-linux: QBE subword reference uses explicit narrow extensions; Lean input and independent C ABI checks remain unchanged
+riscv64-linux: generated mixed scalar ABI/subword/variadic matrices and independent C floating/conversion oracles passed against QBE
+riscv64-linux: isolated pinned QBE exact-capacity aggregate discrepancy in batch 2; full Lean/C checks passed
+riscv64-linux: isolated pinned QBE exact-capacity aggregate discrepancy in batch 3; full Lean/C checks passed
+riscv64-linux: isolated pinned QBE exact-capacity aggregate discrepancy in batch 4; full Lean/C checks passed
+riscv64-linux: 22 aggregate layouts, protected tails/corruption, by-value copies, callbacks and GP/FP pressure passed; C-only padding/nested/rollback edges passed
+riscv64-linux: reduced exact-FP-capacity fixture passes Lean/C and reproduces pinned QBE failure
+riscv64-linux: exact FP capacity, split GP/stack aggregates and aligned variadic pairs passed independent C checks
+riscv64-linux: eight-thread C TLS, live mixed arguments, external TLS and executable/shared-library interoperation passed
+riscv64-linux: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=True
+riscv64-linux: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=True
+original QBE RV64 default-PIE link failed; retrying unchanged reference assembly with -no-pie: /usr/lib/gcc-cross/riscv64-linux-gnu/13/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccBqNJYK.o: relocation R_RISCV_HI20 against `a local symbol' can not be used when making a shared object; recompile with -fPIC
+collect2: error: ld returned 1 exit status
+
+riscv64-linux: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=True; original-QBE=through 65537 bytes
+riscv64-linux: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=True
+riscv64-linux: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=True
+riscv64-linux: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=True
+riscv64-linux: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=True
+riscv64-linux: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=True
+riscv64-linux: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=True
+riscv64-linux: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True
+riscv64-linux: external symbol +32 matches C in baseline/optimized; original QBE discrepancy retained; execution=True
+riscv64-linux: bounded integer bit patterns: 169 byte checks, 22 value checks, 24 interpreter checks, 13 refusals; execution=True
+riscv64-linux: hexadecimal strings and annotation order: 6/6 executable profiles; 314-byte and 25-annotation suites; 5 negative parses; execution=True
+riscv64-linux: 18 interpreter relocation checks; 18/36 link/execution profiles qualified; failures retained separately
+riscv64-linux: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=True
+riscv64-linux: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=True
+riscv64-linux: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=True
+riscv64-linux: 2560 independent sparse-prefix cases per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}
+riscv64-linux: 600 independent C cases per mode; modes={'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}; corruption=detected
+riscv64-linux: dynamic outgoing 529 args (515 HFAs), 80 calls/mode; TLS=True; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}; originalQBE=None
+riscv64-linux: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed
+{'target': 'riscv64-linux', 'modes': {'baseline': {'status': 'passed', 'jump_to_next_label': 44}, 'allocated': {'status': 'passed', 'jump_to_next_label': 0}, 'optimized': {'status': 'passed', 'jump_to_next_label': 0}}, 'c_checks_per_mode': 12168, 'wrong_target_detected': True, 'original_qbe': 'passed', 'qbe_link_flags': ['-no-pie']}
+riscv64-linux 5628 checks per mode passed; execution True
+riscv64-linux: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=True; original QBE profiles=4
+riscv64-linux: original QBE exclusions [(65, True, False), (1024, True, False), (1024, False, True)]; signed-byte outbound-call defect and, on RV, large positive aggregate-frame offset defect
+riscv64-linux: 9216 independent load/cast bit cases per mode, structural checks and 2 detected corruption controls; execution=True
+{'target': 'riscv64-linux', 'functions': 576, 'seeds': 190, 'checks_per_mode': 109440, 'modes': {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}, 'wrong_immediate_detected': True, 'qbe_profile': 'all arithmetic/bitwise constants; only 0 <= constant shift < width', 'qbe_functions': 393}
+{'target': 'riscv64-linux', 'compiler_identity': '77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb9125dae6129eb1a4', 'compiler_sha256': '21abb9e4d654af91be51748abcb16f72b08a7265557f6f576461a573bf1681cb', 'source_sha256': '1b3421d5ef0741309a2b9f14f57ada4ba8fb85052d27f792b1632c6062a9c9f2', 'caller_sha256': '7a1f9a59c83bce11d84a2bb08d4f3ab79f1a24ffa54249d03c31af93fa74073a', 'emitted_checks_per_mode': 9728, 'executed_checks_per_mode': 9728, 'modes': {'baseline': {'structural': 'passed', 'execution': 'passed'}, 'allocated': {'structural': 'passed', 'execution': 'passed'}, 'optimized': {'structural': 'passed', 'execution': 'passed'}}, 'negative_control': 'detected'}
+riscv64-linux: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=True
+riscv64-linux: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=True
+riscv64-linux: baseline/folded assembly and 256 independent integer-oracle cases; execution=True
+riscv64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True
+riscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated
+Actual compiler emission modes: {'baseline': 171, 'allocated': 44, 'optimized': 52}

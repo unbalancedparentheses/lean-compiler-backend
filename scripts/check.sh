@@ -203,6 +203,7 @@ python3 scripts/linkage.py "$@"
 python3 scripts/upstream_development.py
 python3 scripts/symbol_address_pressure.py
 python3 scripts/scalar_result_discard.py
+python3 scripts/unused_call_results.py
 python3 scripts/upstream_suite.py "$@"
 python3 scripts/linux_arm64.py
 python3 scripts/linux_targets.py

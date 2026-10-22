@@ -48,6 +48,13 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Unused scalar call results](docs/benchmarks/unused-call-results/README.md) now
+lose their return capture while retaining calls, arguments, effects and aggregate
+return storage. Fresh five-target C matrices and all three Linux gates pass;
+actual-main workload assemblies match the executed zlib/mixed-Lua candidate,
+reducing optimized ARM text by 596/1,596 bytes respectively. No runtime-speed
+or new proof claim is made; the original RV QBE signed-return exception stays explicit.
+
 [Effect-only scalar calls](docs/benchmarks/scalar-result-discard/README.md) can
 now discard a same-module scalar result, matching original QBE while retaining
 aggregate-result storage guards. Fresh five-target C/original-QBE matrices,

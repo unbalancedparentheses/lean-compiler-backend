@@ -1,0 +1,52 @@
+diff --git a/LeanCompilerBackend/Optimize/Cleanup.lean b/LeanCompilerBackend/Optimize/Cleanup.lean
+index d91e190..4ecd778 100644
+--- a/LeanCompilerBackend/Optimize/Cleanup.lean
++++ b/LeanCompilerBackend/Optimize/Cleanup.lean
+@@ -92,13 +92,21 @@ private def removable (i : Instruction) : Bool :=
+   !symbols i.operation && match i.operation with
+   | .copy _ | .cast _ | .unary .. | .binary .. | .compare .. => true
+   | _ => false
++-- A scalar result has no ABI storage obligation. Aggregate results still need
++-- their destination even when unused, because it may supply hidden return storage.
++private def effectOnlyCall (i : Instruction) : Option Statement :=
++  if i.callAggregate.isSome then none else
++  match i.operation with
++  | .call target args variadic => some (.callVoid target args variadic)
++  | _ => none
+ private def terminatorUses : Terminator → List String
+   | .ret (some v) | .branch v .. => temporary v
+   | _ => []
+ 
+ /-- Mark from effects/returns, then sweep pure dead definitions. Potentially
+     trapping division, loads, conversions, allocation, vaarg, calls, floating
+-    operations and symbol/TLS materialization are deliberately retained. -/
++    operations and symbol/TLS materialization are deliberately retained. Unused scalar
++    call results are discarded while retaining the call and every operand. -/
+ def deadDefinitions (f : Function) : Function := Id.run do
+   let mut dependencies : Std.HashMap String (List String) := {}
+   let mut pending : List String := []
+@@ -112,7 +120,9 @@ def deadDefinitions (f : Function) : Function := Id.run do
+       match s with
+       | .assign i =>
+         dependencies := dependencies.insert i.destination (i.operation.operands.flatMap temporary)
+-        if !removable i then pending := i.destination :: pending
++        if (effectOnlyCall i).isSome then
++          pending := i.operation.operands.flatMap temporary ++ pending
++        else if !removable i then pending := i.destination :: pending
+       | _ => pending := s.operands.flatMap temporary ++ pending
+   let mut live : Std.HashSet String := {}
+   -- Each definition expands at most once. Parameters need no expansion.
+@@ -126,8 +136,11 @@ def deadDefinitions (f : Function) : Function := Id.run do
+     let mut instructions := #[]
+     let mut before : Array Nat := #[0]
+     for s in b.instructions do
+-      let keep := match s with | .assign i => live.contains i.destination | _ => true
+-      if keep then instructions := instructions.push s
++      match s with
++      | .assign i =>
++        if live.contains i.destination then instructions := instructions.push s
++        else if let some call := effectOnlyCall i then instructions := instructions.push call
++      | _ => instructions := instructions.push s
+       before := before.push instructions.size
+     return {b with
+       phis := b.phis.filter (fun p => live.contains p.destination)

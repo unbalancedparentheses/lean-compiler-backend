@@ -1,0 +1,11 @@
+gcc-O0 passed probe +2 reduced suiteprofiles
+gcc-O2 passed probe +2 reduced suiteprofiles
+qbe-original passed probe +2 reduced suiteprofiles
+qbe-corrected passed probe +2 reduced suiteprofiles
+before passed probe +2 reduced suiteprofiles
+after passed probe +2 reduced suiteprofiles
+Traceback (most recent call last):
+  File "/work/unused-call-results-lua-review/execute.py", line 18, in <module>
+    for path,h in initial.items():assert sha(path)==h,path
+                                         ^^^^^^^^^^^^
+AssertionError: /work/unused-call-results-lua-review/gcc-O0/user.stdout

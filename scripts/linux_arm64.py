@@ -225,6 +225,9 @@ def main():
     from scalar_result_discard import exercise as scalar_discard
     scalar_discard(compiler,work,run,cc,'aarch64-linux',native,qbe)
 
+    from unused_call_results import exercise as unused_results
+    unused_results(compiler,work,run,cc,'aarch64-linux',native,qbe)
+
     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
     print('Actual compiler emission modes:', emission_modes, flush=True)
     report['emission_mode_counts'] = emission_modes

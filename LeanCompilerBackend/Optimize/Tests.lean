@@ -79,7 +79,30 @@ private def symbolPlacement : IO Unit := do
         require ((Semantics.evaluateModule {original with functions := #[output]} "f" #[limit]).toOption == some expected)
           "bounded address hoisting changed branch or loop values"
 
+private def discardedCallResults : IO Unit := do
+  let source ← parse "dbgfile \"calls.c\" function l $effect(l %p,l %x,...) { @s %old =l loadl %p %next =l add %old,%x storel %next,%p ret 99 } function l $root(l %x) { @s %p =l alloc8 8 storel 0,%p %fn =l copy $effect %arg =l add %x,1 dbgloc 10 %unused =l call %fn(l %p,l %arg,...) dbgloc 11 %dead =l add %unused,3 dbgloc 12 %result =l loadl %p ret %result }"
+  let cleaned := {source with functions := source.functions.map Cleanup.deadDefinitions}
+  require (markerCounts cleaned == (1,1,1)) "unused scalar call result was retained or variadic marker lost"
+  let body := cleaned.functions[1]!.blocks[0]!
+  require (body.instructions.size == 6 && body.debugLocations.map (·.instruction) == #[4,5,5])
+    "discarded call changed call position or dead-definition debug remapping"
+  require (match body.instructions[4]! with
+    | .callVoid (.indirect (.temporary "fn")) args true => args.size == 2
+    | _ => false) "indirect call target or operands lost"
+  for x in (#[0,1,4294967295,18446744073709551615] : Array UInt64) do
+    for m in #[source,cleaned] do
+      let .ok result := Semantics.evaluateModule m "root" #[x]
+        | throw (IO.userError "discarded-result effect interpreter failed")
+      require (result == some (x+1)) "discarding a result changed a call's visible memory effect"
+  let retained ← parse "function l $f(l %p,l %fn) { @s %a =l call %fn() %b =l call %fn(l %a) storel %b,%p %c =l call %fn() jnz %c,@yes,@no @yes %d =l call %fn() ret %d @no ret 0 }"
+  require (markerCounts {retained with functions := retained.functions.map Cleanup.deadDefinitions} == (4,0,0))
+    "live call result feeding call/store/branch/return was discarded"
+  let aggregate ← parse "type :big = { l 4 } function :big $make() { @s %p =l alloc8 32 ret %p } function $root() { @s %unused =:big call $make() ret }"
+  require (markerCounts {aggregate with functions := aggregate.functions.map Cleanup.deadDefinitions} == (1,0,0))
+    "unused aggregate call lost required return storage"
+
 def run : IO Unit := do
+  discardedCallResults
   symbolPlacement
   -- A marker without anonymous arguments must survive every call reconstruction.
   let marked ← parse "function $sink(l %x,...) { @s ret } export function l $root(l %fn,l %x) { @s %arg =l copy %x %unused =l call $sink(l %arg,...) %a =l add %x,1 %b =l add %x,1 %r =l call %fn(l %a,...) %copy =l copy %r jnz 1,@yes,@no @yes call %fn(l %b,...) ret %copy @no ret 0 }"

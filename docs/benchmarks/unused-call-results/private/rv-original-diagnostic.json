@@ -1,0 +1,22 @@
+{
+  "command": [
+    "docker",
+    "exec",
+    "lcb-parity-linux",
+    "qemu-riscv64",
+    "-L",
+    "/usr/riscv64-linux-gnu",
+    "/work/unused-call-results-rv-original-failure/riscv64-linux/unused-call-results/diagnostic-qbe"
+  ],
+  "exit": 44,
+  "stdout": "",
+  "stderr": "",
+  "mapping": "40..47 map to w/l/s/d/sb/ub/sh/uh used-result checks;44 isolates signed byte",
+  "files": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-rv-original-failure/riscv64-linux/unused-call-results/calls.ssa": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-rv-original-failure/riscv64-linux/unused-call-results/qbe.s": "39417c7c0fdd5297262a24a85359680e2760e2fb33cc4e2090a0d7dc52b4d1da",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-rv-original-failure/riscv64-linux/unused-call-results/caller.c": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-rv-original-failure/riscv64-linux/unused-call-results/diagnostic-caller.c": "c60d817823a4bc2ffe8fd8a5803c388dd74b29a5f9dcf569b40f5f8a27b95a97",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-rv-original-failure/riscv64-linux/unused-call-results/diagnostic-qbe": "f14f9a193b2a6fd9acef7f5a62375bfb44139cddfbf264af68f74cfcc27dc67a"
+  }
+}

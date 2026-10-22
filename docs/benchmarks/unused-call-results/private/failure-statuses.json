@@ -1,0 +1,20 @@
+{
+  "mutation_preflight": {
+    "status": "harness_failed_before_qualification",
+    "reason": "Mutation searched ARM function comments; AMD emitter uses labels. Replaced with target-neutral function-label search.",
+    "log_sha256": "421dd52da3021080ffd8dfc6edf520bd5a8b6297b82cd0035670dbee0ad0e8f0",
+    "ir_sha256": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+    "caller_sha256": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802"
+  },
+  "rv_original_fullfixture": {
+    "status": "failed_known_upstream_subword_return_extension",
+    "original_exit": 4,
+    "diagnostic_exit": 44,
+    "ir_sha256": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+    "caller_sha256": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802",
+    "assembly_sha256": "39417c7c0fdd5297262a24a85359680e2760e2fb33cc4e2090a0d7dc52b4d1da",
+    "executable_sha256": "097b51679ee47c57808570869a7e880a1a58cff74dca5735f61461587b1081e3",
+    "log_sha256": "8665c61a74280fa17e0e2b8bc3a925ffab2b33b37044694b5705784a21efc207",
+    "reference": "docs/UPSTREAM_DISCREPANCIES.md: Linux scalar and aggregate ABI discrepancies"
+  }
+}

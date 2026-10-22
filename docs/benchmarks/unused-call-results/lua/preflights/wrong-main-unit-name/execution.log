@@ -1,0 +1,16 @@
+gcc-O0 passed probe +2 reduced suiteprofiles
+gcc-O2 passed probe +2 reduced suiteprofiles
+qbe-original passed probe +2 reduced suiteprofiles
+qbe-corrected passed probe +2 reduced suiteprofiles
+before passed probe +2 reduced suiteprofiles
+after passed probe +2 reduced suiteprofiles
+Traceback (most recent call last):
+  File "/work/unused-call-results-lua-review/execute.py", line 16, in <module>
+    c=w/'wrong-main.c';c.write_text('int main(void){return 0;}\n');objects=[w/'after'/(u+'.o') for u in r['units'] if u!='lua.c'];exe=w/'wrong-main';p=subprocess.run(['gcc',str(c),*map(str,objects),'-lm','-ldl','-o',str(exe)],capture_output=True,text=True);assert p.returncode==0,p.stderr
+                                                                                                                                                                                                                                                                        ^^^^^^^^^^^^^^^
+AssertionError: /usr/bin/ld: /work/unused-call-results-lua-review/after/lua.o: in function `main':
+(.text+0x1ed4): multiple definition of `main'; /tmp/ccvmC8Y8.o:wrong-main.c:(.text+0x0): first defined here
+/usr/bin/ld: /work/unused-call-results-lua-review/after/loslib.o: in function `L_lcb_block_10_os_tmpname_body.11':
+(.text+0x25c): warning: the use of `tmpnam' is dangerous, better use `mkstemp'
+collect2: error: ld returned 1 exit status
+

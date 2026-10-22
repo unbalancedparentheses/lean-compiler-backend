@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "compiler_before": "60ffdd4c56bf26efa0eb8593923ccb094808ab4d91e6739d03bb360bea99c8bf",
+  "compiler_after": "38c41af96aa44370a765c606e7730dfd0b379d8957f501179b41f9ae75c6e6f5",
+  "text_before": 275288,
+  "text_after": 273692,
+  "text_delta": -1596,
+  "host_guest_bound_files": 329,
+  "pre_post_inputs": 209,
+  "report_sha256": "827cf74fb39a81d956b99a2a1d90a161fd795a0660db938c4891b990121f7239",
+  "execution_sha256": "7c6ae0c276af572802644c48e6060be00be82b51057c52da0106327973ce3eab",
+  "scope": "Fresh before/after optimized mixed Lua,30LCB units+3identicalGCC volatile units; reused unchanged GCC O0/O2 and original/corrected QBE executable references freshly executed.6probes+12reduced upstream invocations; notfullLua or timing qualification.",
+  "preflights": [
+    "wrong-main-unit-name",
+    "output-binding-overreach"
+  ],
+  "notes": [
+    "Both failed harness attempts retained unqualified; final attempt freshly reran all6probes and12suiteprofiles and wrong-main control before successful postvalidation.",
+    "Original andcorrectedQBE/GCC executable references reused from prior qualifiedmixedLua build, independentlyhashchecked and freshly executed; notfreshreferencebuilds.",
+    "33productionunits:30LCB/cprocIR,3unchangedsharedGCCvolatileunits. Tests retainofficial _U andsoft/port exclusions; nofullLua orperformanceclaim."
+  ]
+}

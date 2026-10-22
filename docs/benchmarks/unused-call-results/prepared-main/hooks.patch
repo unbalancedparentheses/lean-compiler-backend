@@ -1,0 +1,46 @@
+--- a/scripts/check.sh
++++ b/scripts/check.sh
+@@ -203,6 +203,7 @@
+ python3 scripts/upstream_development.py
+ python3 scripts/symbol_address_pressure.py
+ python3 scripts/scalar_result_discard.py
++python3 scripts/unused_call_results.py
+ python3 scripts/upstream_suite.py "$@"
+ python3 scripts/linux_arm64.py
+ python3 scripts/linux_targets.py
+--- a/scripts/linux_arm64.py
++++ b/scripts/linux_arm64.py
+@@ -225,6 +225,9 @@
+     from scalar_result_discard import exercise as scalar_discard
+     scalar_discard(compiler,work,run,cc,'aarch64-linux',native,qbe)
+ 
++    from unused_call_results import exercise as unused_results
++    unused_results(compiler,work,run,cc,'aarch64-linux',native,qbe)
++
+     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
+     print('Actual compiler emission modes:', emission_modes, flush=True)
+     report['emission_mode_counts'] = emission_modes
+--- a/scripts/linux_targets.py
++++ b/scripts/linux_targets.py
+@@ -197,6 +197,9 @@
+     from scalar_result_discard import exercise as scalar_discard
+     scalar_discard(compiler,work,run,cc,args.target,execute,qbe)
+ 
++    from unused_call_results import exercise as unused_results
++    unused_results(compiler,work,run,cc,args.target,execute,qbe)
++
+     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
+     print('Actual compiler emission modes:', emission_modes, flush=True)
+     report['emission_mode_counts'] = emission_modes
+--- a/scripts/macos_x86.py
++++ b/scripts/macos_x86.py
+@@ -187,6 +187,9 @@
+     from scalar_result_discard import exercise as scalar_discard
+     scalar_discard(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+ 
++    from unused_call_results import exercise as unused_results
++    unused_results(compiler,work,run,cc,'x86_64-macos',execute,qbe)
++
+     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
+     print('Actual compiler emission modes:', emission_modes, flush=True)
+     report['emission_mode_counts'] = emission_modes

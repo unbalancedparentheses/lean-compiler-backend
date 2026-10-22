@@ -1,0 +1,15 @@
+aarch64-macos passed
+aarch64-linux passed
+x86_64-macos passed
+x86_64-linux passed
+Traceback (most recent call last):
+  File "/tmp/lcb-unused-call-results-run.py", line 22, in <module>
+    reports[target]=exercise(compiler,case,run,cc,target,True,qbe);(out/'reports.json').write_text(json.dumps(reports,indent=2)+'\n');print(target,'passed',flush=True)
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-dead-call-results/scripts/unused_call_results.py", line 73, in exercise
+    exe=d/label;checked([cc,'-O2',*(['-no-pie'] if target=='riscv64-linux' and label=='qbe' else []),c,asm,'-o',exe],True);checked([exe],True);row['execution']='passed'
+                                                                                                                           ~~~~~~~^^^^^^^^^^^^
+  File "/tmp/lcb-dead-call-results/scripts/unused_call_results.py", line 57, in checked
+    p=run(list(map(str,cmd)),inside);assert p.returncode==0,(cmd,p.returncode,p.stdout,p.stderr);return p
+                                            ^^^^^^^^^^^^^^^
+AssertionError: ([PosixPath('/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-review/riscv64-linux/unused-call-results/qbe')], 4, '', '')

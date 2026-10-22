@@ -1,0 +1,217 @@
+{
+  "aarch64-macos": {
+    "target": "aarch64-macos",
+    "compiler_identity": "77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb9125dae6129eb1a4",
+    "compiler_sha256": "21abb9e4d654af91be51748abcb16f72b08a7265557f6f576461a573bf1681cb",
+    "source_sha256": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+    "caller_sha256": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802",
+    "checks_per_backend": 0,
+    "scalar_abi_types": [
+      "w",
+      "l",
+      "s",
+      "d",
+      "sb",
+      "ub",
+      "sh",
+      "uh"
+    ],
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "77d7b8a43b68524c068abe2e03109b879dd46eff8050554f945d1a59f1a7c731",
+        "execution": "not-run"
+      },
+      "allocated": {
+        "assembly_sha256": "f1fbaab83b2051809daaafd02c0d2de5be434a3d344e0418dbf8cbfab3f0cf64",
+        "execution": "not-run"
+      },
+      "optimized": {
+        "assembly_sha256": "dae452a5e31197a3e611551a0c71b1bca276919cd7a6c775e8ca39c1e5766c0b",
+        "execution": "not-run"
+      }
+    },
+    "negative_controls": {
+      "aggregate": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-macos/unused-call-results/aggregate.ssa: call $f: result type disagrees with its definition",
+      "used_void": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-macos/unused-call-results/used_void.ssa: call $f: result type disagrees with its definition",
+      "used_float_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-macos/unused-call-results/used_float_mismatch.ssa: call $f: result type disagrees with its definition",
+      "argument_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-macos/unused-call-results/argument_mismatch.ssa: call $f: argument type disagrees with its definition",
+      "used_environment": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-macos/unused-call-results/used_environment.ssa: missing environment argument: callee reads its environment parameter",
+      "aggregate_indirect_interpreter": "error: indirect call signature disagrees with target definition; result not evaluated"
+    },
+    "original_qbe": "not-run",
+    "scope": "Assigned unused scalar calls retain effects; used results and aggregate return storage preserved. Unknown native external/indirect signatures remain ABI assumptions.",
+    "interpreter_checks": 8
+  },
+  "aarch64-linux": {
+    "target": "aarch64-linux",
+    "compiler_identity": "77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb9125dae6129eb1a4",
+    "compiler_sha256": "21abb9e4d654af91be51748abcb16f72b08a7265557f6f576461a573bf1681cb",
+    "source_sha256": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+    "caller_sha256": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802",
+    "checks_per_backend": 0,
+    "scalar_abi_types": [
+      "w",
+      "l",
+      "s",
+      "d",
+      "sb",
+      "ub",
+      "sh",
+      "uh"
+    ],
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "3adffd2b646484b96d4f419aeaced72f28c7d921f6e8dc80138bed06f0dbb66a",
+        "execution": "not-run"
+      },
+      "allocated": {
+        "assembly_sha256": "85a27f5c904bcb940050e4eaf4e2237f86cf319380639017b6cb59bfa6e935c3",
+        "execution": "not-run"
+      },
+      "optimized": {
+        "assembly_sha256": "2dcb561b311fceb38228054146eb0b95011fe3207f898701e7abecb3a944abed",
+        "execution": "not-run"
+      }
+    },
+    "negative_controls": {
+      "aggregate": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-linux/unused-call-results/aggregate.ssa: call $f: result type disagrees with its definition",
+      "used_void": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-linux/unused-call-results/used_void.ssa: call $f: result type disagrees with its definition",
+      "used_float_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-linux/unused-call-results/used_float_mismatch.ssa: call $f: result type disagrees with its definition",
+      "argument_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-linux/unused-call-results/argument_mismatch.ssa: call $f: argument type disagrees with its definition",
+      "used_environment": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/aarch64-linux/unused-call-results/used_environment.ssa: missing environment argument: callee reads its environment parameter",
+      "aggregate_indirect_interpreter": "error: indirect call signature disagrees with target definition; result not evaluated"
+    },
+    "original_qbe": "not-run",
+    "scope": "Assigned unused scalar calls retain effects; used results and aggregate return storage preserved. Unknown native external/indirect signatures remain ABI assumptions.",
+    "interpreter_checks": 8
+  },
+  "x86_64-macos": {
+    "target": "x86_64-macos",
+    "compiler_identity": "77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb9125dae6129eb1a4",
+    "compiler_sha256": "21abb9e4d654af91be51748abcb16f72b08a7265557f6f576461a573bf1681cb",
+    "source_sha256": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+    "caller_sha256": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802",
+    "checks_per_backend": 0,
+    "scalar_abi_types": [
+      "w",
+      "l",
+      "s",
+      "d",
+      "sb",
+      "ub",
+      "sh",
+      "uh"
+    ],
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "92860736c10a614df7a1fffc440e3f77bd7b1c71641edb35a5ee376c6ffa0df3",
+        "execution": "not-run"
+      },
+      "allocated": {
+        "assembly_sha256": "59996f64c241b797d8de2652075397de745d0e706bea8e579e2cf408548660ed",
+        "execution": "not-run"
+      },
+      "optimized": {
+        "assembly_sha256": "c178beeb295498a713fa8f43bee974246204da80a6b68bc7cb8aa16ed3745d02",
+        "execution": "not-run"
+      }
+    },
+    "negative_controls": {
+      "aggregate": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-macos/unused-call-results/aggregate.ssa: call $f: result type disagrees with its definition",
+      "used_void": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-macos/unused-call-results/used_void.ssa: call $f: result type disagrees with its definition",
+      "used_float_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-macos/unused-call-results/used_float_mismatch.ssa: call $f: result type disagrees with its definition",
+      "argument_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-macos/unused-call-results/argument_mismatch.ssa: call $f: argument type disagrees with its definition",
+      "used_environment": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-macos/unused-call-results/used_environment.ssa: missing environment argument: callee reads its environment parameter",
+      "aggregate_indirect_interpreter": "error: indirect call signature disagrees with target definition; result not evaluated"
+    },
+    "original_qbe": "not-run",
+    "scope": "Assigned unused scalar calls retain effects; used results and aggregate return storage preserved. Unknown native external/indirect signatures remain ABI assumptions.",
+    "interpreter_checks": 8
+  },
+  "x86_64-linux": {
+    "target": "x86_64-linux",
+    "compiler_identity": "77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb9125dae6129eb1a4",
+    "compiler_sha256": "21abb9e4d654af91be51748abcb16f72b08a7265557f6f576461a573bf1681cb",
+    "source_sha256": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+    "caller_sha256": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802",
+    "checks_per_backend": 0,
+    "scalar_abi_types": [
+      "w",
+      "l",
+      "s",
+      "d",
+      "sb",
+      "ub",
+      "sh",
+      "uh"
+    ],
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "4029f06bddc3b1110635f38fe15a53686dc306818b7a9ab60a846d8b708f3f0f",
+        "execution": "not-run"
+      },
+      "allocated": {
+        "assembly_sha256": "cd7a95d8766a2980729606072ca9bb813c7301b9c569fb52317e666c5d5eee68",
+        "execution": "not-run"
+      },
+      "optimized": {
+        "assembly_sha256": "aeb02d848e425d378dbeb21b0f4fd610c001f5d8aa787746c0e8b8e8b531e802",
+        "execution": "not-run"
+      }
+    },
+    "negative_controls": {
+      "aggregate": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-linux/unused-call-results/aggregate.ssa: call $f: result type disagrees with its definition",
+      "used_void": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-linux/unused-call-results/used_void.ssa: call $f: result type disagrees with its definition",
+      "used_float_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-linux/unused-call-results/used_float_mismatch.ssa: call $f: result type disagrees with its definition",
+      "argument_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-linux/unused-call-results/argument_mismatch.ssa: call $f: argument type disagrees with its definition",
+      "used_environment": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/x86_64-linux/unused-call-results/used_environment.ssa: missing environment argument: callee reads its environment parameter",
+      "aggregate_indirect_interpreter": "error: indirect call signature disagrees with target definition; result not evaluated"
+    },
+    "original_qbe": "not-run",
+    "scope": "Assigned unused scalar calls retain effects; used results and aggregate return storage preserved. Unknown native external/indirect signatures remain ABI assumptions.",
+    "interpreter_checks": 8
+  },
+  "riscv64-linux": {
+    "target": "riscv64-linux",
+    "compiler_identity": "77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb9125dae6129eb1a4",
+    "compiler_sha256": "21abb9e4d654af91be51748abcb16f72b08a7265557f6f576461a573bf1681cb",
+    "source_sha256": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+    "caller_sha256": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802",
+    "checks_per_backend": 0,
+    "scalar_abi_types": [
+      "w",
+      "l",
+      "s",
+      "d",
+      "sb",
+      "ub",
+      "sh",
+      "uh"
+    ],
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "396c153383cdb0e5a0c02e9ff7e22d76c896bf2a95f352bb38ed64c6d8cd27f9",
+        "execution": "not-run"
+      },
+      "allocated": {
+        "assembly_sha256": "4465eed44c92dbcc85d059a6eb2adcb12e44ca75b19108b8d986220c24fa05c4",
+        "execution": "not-run"
+      },
+      "optimized": {
+        "assembly_sha256": "87ae04808769131f50ab773fa57dcc8b1a341f27387e4205d4ccab4c2577e503",
+        "execution": "not-run"
+      }
+    },
+    "negative_controls": {
+      "aggregate": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/riscv64-linux/unused-call-results/aggregate.ssa: call $f: result type disagrees with its definition",
+      "used_void": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/riscv64-linux/unused-call-results/used_void.ssa: call $f: result type disagrees with its definition",
+      "used_float_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/riscv64-linux/unused-call-results/used_float_mismatch.ssa: call $f: result type disagrees with its definition",
+      "argument_mismatch": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/riscv64-linux/unused-call-results/argument_mismatch.ssa: call $f: argument type disagrees with its definition",
+      "used_environment": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/unused-call-results-main-review/emission/riscv64-linux/unused-call-results/used_environment.ssa: missing environment argument: callee reads its environment parameter",
+      "aggregate_indirect_interpreter": "error: indirect call signature disagrees with target definition; result not evaluated"
+    },
+    "original_qbe": "not-run",
+    "scope": "Assigned unused scalar calls retain effects; used results and aggregate return storage preserved. Unknown native external/indirect signatures remain ABI assumptions.",
+    "interpreter_checks": 8
+  }
+}

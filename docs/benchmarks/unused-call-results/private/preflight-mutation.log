@@ -1,0 +1,10 @@
+aarch64-macos passed
+aarch64-linux passed
+Traceback (most recent call last):
+  File "/tmp/lcb-unused-call-results-run.py", line 22, in <module>
+    reports[target]=exercise(compiler,case,run,cc,target,True,qbe);(out/'reports.json').write_text(json.dumps(reports,indent=2)+'\n');print(target,'passed',flush=True)
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-dead-call-results/scripts/unused_call_results.py", line 75, in exercise
+    original=(d/'optimized.s').read_text();match=re.search(r'(?:;|//) function probe_w;[\s\S]*?(?=(?:;|//) function |\Z)',original);assert match
+                                                                                                                                           ^^^^^
+AssertionError
