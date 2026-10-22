@@ -51,7 +51,7 @@ def inputs():
  %v ={width} cast %bits
  %address =l add %p,{offset}
  store{width} %v,%address
- %q =l sub %address,{offset}
+ %q =l add %p,0
  %again =l add %q,{offset}
  %loaded ={width} load{width} %again
  %result ={integer} cast %loaded
@@ -61,6 +61,65 @@ def inputs():
             declarations.append(f'extern {ctype} {name}(void *,{ctype});')
             checks.append(f'''memcpy(expected,bytes,sizeof(bytes));memcpy(expected+512+({offset}),&seed,sizeof({ctype}));
  if({name}(p,({ctype})seed)!=({ctype})seed)return 3;if(memcmp(bytes,expected,sizeof(bytes)))return 4;''')
+
+    for count in [12,24]:
+        for mode in ['load','store']:
+            for offset in [-256,32760]:
+                name=f'offset_pressure_{count}_{mode}_{abs(offset)}'
+                params=','.join(['l %p','l %value']+[f'l %x{i}' for i in range(count)])
+                instructions=[f'%address =l add %p,{offset}']
+                instructions.append('%loaded =l loadl %address' if mode=='load' else 'storel %value,%address')
+                instructions.extend(['jmp @loop','@loop','%iteration =w phi @s 0,@loop %next','%total =l phi @s 0,@loop %newtotal'])
+                previous='0'
+                for i in range(count):
+                    instructions.extend([f'%a{i} =l add %x{i},{i}',f'%b{i} =l xor %x{i},81985529216486895',
+                        f'%c{i} =l xor %a{i},%b{i}',f'%sum{i} =l add {previous},%c{i}'])
+                    previous=f'%sum{i}'
+                instructions.extend([f'%newtotal =l add %total,{previous}','%next =w add %iteration,1','%more =w cultw %next,3','jnz %more,@loop,@done','@done'])
+                instructions.append('%result =l add %newtotal,'+('%loaded' if mode=='load' else '%value'))
+                instructions.append('%withPointer =l xor %result,%p')
+                source.append('export function l $'+name+f'({params}) {{\n@s\n'+'\n'.join(instructions)+'\n ret %withPointer\n}\n')
+                declarations.append(f'extern uint64_t {name}(void *,uint64_t,'+','.join(['uint64_t']*count)+');')
+                values=','.join(f'seed+UINT64_C({i*17})' for i in range(count))
+                expected='{uint64_t sum=0;for(unsigned j=0;j<COUNT;j++){uint64_t x=seed+j*UINT64_C(17);sum+=(x+j)^(x^UINT64_C(81985529216486895));}sum*=3;uint64_t memory;memcpy(&memory,p+(OFFSET),8);'
+                expected=expected.replace('COUNT',str(count)).replace('OFFSET',str(offset))
+                if mode=='store':
+                    expected+=f'memcpy(expected,bytes,sizeof(bytes));memcpy(expected+512+({offset}),&seed,8);'
+                expected+=f'if({name}(p,seed,{values})!=((sum+'+('memory' if mode=='load' else 'seed')+')^(uintptr_t)p))return 10;'
+                if mode=='store':expected+='if(memcmp(bytes,expected,sizeof(bytes)))return 11;'
+                checks.append(expected+'}')
+    source.append('''export function l $offset_phi(l %p,w %choice) {
+@s
+ %address =l add %p,16
+ %v =l loadl %address
+ jnz %choice,@left,@right
+@left
+ jmp @join
+@right
+ jmp @join
+@join
+ %out =l phi @left %address,@right %p
+ ret %out
+}
+export function l $offset_separated(l %p,l %x) {
+@s
+ %address =l add %p,16
+ %other =l add %x,1
+ %loaded =l loadl %address
+ %result =l add %other,%loaded
+ ret %result
+}
+export function w $offset_wrapped(l %p) {
+@s
+ %address =l add %p,18446744073709551615
+ %loaded =w loadub %address
+ ret %loaded
+}
+''')
+    declarations.extend(['extern uintptr_t offset_phi(void *,unsigned);','extern uint64_t offset_separated(void *,uint64_t);','extern uint32_t offset_wrapped(void *);'])
+    checks.extend(['if(offset_phi(p,0)!=(uintptr_t)p||offset_phi(p,1)!=(uintptr_t)(p+16))return 12;',
+        '{uint64_t v;memcpy(&v,p+16,8);if(offset_separated(p,seed)!=seed+1+v)return 13;}',
+        'if(offset_wrapped(p)!=(unsigned char)p[-1])return 14;'])
     source.append('''export function l $offset_shared(l %p,l %value) {
 @s
  %address =l add %p,16
@@ -118,6 +177,10 @@ def exercise(compiler,work,run,cc,target,execute=True):
             assert re.search(r'\bldur(?:sb|b|sh|h|sw)? [wx]\d+, \[x\d+, #-256\]',output)
             assert re.search(r'\bldr x\d+, \[x\d+, #32760\]',output)
             assert re.search(r'\bstrb w\d+, \[x\d+, #4095\]',output)
+            assert re.search(r'\bldur x9, \[x9, #-256\]',output),'pressure fixture must exercise a spilled base and result'
+            assert re.search(r'\bstur x10, \[x9, #-256\]',output),'pressure fixture must exercise spilled base and stored value'
+            assert re.search(r'\bldur x9, \[x9, #-256\]',output),'pressure fixture must exercise a spilled base and result'
+            assert re.search(r'\bstur x10, \[x9, #-256\]',output),'pressure fixture must exercise spilled base and stored value'
         if execute:
             result=run([cc,caller,asm,'-o',exe],True);assert result.returncode==0,result.stderr
             result=run([exe],True);assert result.returncode==0,(target,label,result.returncode,result.stderr)
