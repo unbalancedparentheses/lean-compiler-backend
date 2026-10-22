@@ -1,0 +1,996 @@
+{
+  "status": "passed",
+  "backends": {
+    "gcc": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    },
+    "phi": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    },
+    "indexed": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    },
+    "crc32-only": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    },
+    "deflate-only": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    },
+    "trees-only": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    },
+    "deflate-trees": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    },
+    "qbe-original": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    },
+    "qbe-corrected": {
+      "status": "passed",
+      "checks": [
+        {
+          "payload": "empty.bin",
+          "level": 1,
+          "crc32": 0,
+          "compressed_sha256": "09d469dfeeaf4c436fd3f80ba7e168bcc34e5050993b5da3c8416fbae680f18f",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 6,
+          "crc32": 0,
+          "compressed_sha256": "aca503def43dc086a5aaa5c3d6f86bcbbc2aa6a80007ddea4a81bce2b376fceb",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "empty.bin",
+          "level": 9,
+          "crc32": 0,
+          "compressed_sha256": "b171e283c6145acf2b923098dbbc40ffc39b4f1db0212928f9869747376c4ac8",
+          "compressed_bytes": 8
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 1,
+          "crc32": 2727420034,
+          "compressed_sha256": "e0dabee4edb844515e5bfdb01c1e889d193d0a267143ecb2de4f007958113c1d",
+          "compressed_bytes": 321
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 6,
+          "crc32": 2727420034,
+          "compressed_sha256": "774ae882496f0d1ebafad00957d5a7bbb7df6e96f975b8184ac6ce65aa217f7b",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "byte-range.bin",
+          "level": 9,
+          "crc32": 2727420034,
+          "compressed_sha256": "390761cdaea5e5fbaa4bf56d38e0de804530f99690ef3981d0b4b3d9a6a404b6",
+          "compressed_bytes": 315
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 1,
+          "crc32": 190682323,
+          "compressed_sha256": "859b644d6617c54d367e1952ded4b4ad8471c4c462f831e5ce22a07023b8d2ad",
+          "compressed_bytes": 1632
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 6,
+          "crc32": 190682323,
+          "compressed_sha256": "65a34189b32e8c24aa4bad2b795dd1b3884de091264efa565bd01d4f11e28634",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "repeated.bin",
+          "level": 9,
+          "crc32": 190682323,
+          "compressed_sha256": "805ac72fafda244950d70829c1f83935c24370989eb28ae035f56552d84e012d",
+          "compressed_bytes": 842
+        },
+        {
+          "payload": "random.bin",
+          "level": 1,
+          "crc32": 3938088612,
+          "compressed_sha256": "4d28601c4b9b3fcce0393211e2bd9589d5524d2bbb429d5231e6a86c11698e3e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 6,
+          "crc32": 3938088612,
+          "compressed_sha256": "cefc82a854eb474a4094dc90dea359a9f1727aea293b229c777da9cec814564e",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "random.bin",
+          "level": 9,
+          "crc32": 3938088612,
+          "compressed_sha256": "7e517d2f563bd6afd00f547a57ae9a45464f1d8eae81762203c92f043b7baa26",
+          "compressed_bytes": 262230
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 1,
+          "crc32": 209668102,
+          "compressed_sha256": "67a7e3dcc908fece5ab2376f0f8e6507bb2c45c8dee9925694330b76986f0eaf",
+          "compressed_bytes": 34415
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 6,
+          "crc32": 209668102,
+          "compressed_sha256": "f228ac168730c95982be11a8c229d9ddce28e36b15161c3343d21162e388f44e",
+          "compressed_bytes": 33672
+        },
+        {
+          "payload": "mixed.bin",
+          "level": 9,
+          "crc32": 209668102,
+          "compressed_sha256": "954c1186847220ba5058dc44528468937a3a14f6070e42d871e253893cb5c3f3",
+          "compressed_bytes": 33659
+        }
+      ]
+    }
+  },
+  "negative_control": "wrong CRC detected"
+}

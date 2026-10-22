@@ -36,6 +36,12 @@ five corruption controls. All three Linux gates, fresh strict units, emission
 checks and unchanged 147-report audit pass. Full host gate is still running at
 this checkpoint. Fresh zlib replay passes; all 102 assembly pairs are unchanged.
 
+[Indexed-load diagnostics](benchmarks/arm-indexed-load/diagnostics/README.txt)
+now retain two targeted object-hybrid windows. Both reproduce the slowdown;
+deflate-only is about 6.1–6.3% slower, trees-only near parity. Layout/cache controls
+also shift, so this is localization evidence, not an instruction-level causal
+proof. Two function-body mixtures pass correctness/provenance but remain untimed.
+
 ## Repository and current compiler
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.

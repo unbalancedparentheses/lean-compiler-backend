@@ -15,8 +15,12 @@ change; the first window has substantial variability. These results include a
 possible regression and do not establish a general speedup. Two additional 500 ms windows also pass all provenance checks. Across all four
 windows mixed-compression medians are 3.6–4.6% slower, with two intervals excluding
 parity and two overlapping it. Longer batches did not eliminate variability.
-The regression signal remains unresolved; changed-unit diagnostic builds are
-being prepared. Repeated/mixed CRC medians improve with intervals below parity
+[Object-level diagnostics](diagnostics/README.txt) reproduce the mixed-compression
+slowdown in two targeted windows and localize its largest signal to `deflate.o`.
+Deflate-only is about 6.1–6.3% slower; trees-only stays near parity. Layout/cache
+controls shift about 2%, so this does not prove individual-instruction latency.
+Two exact function-body mixtures are correctness-qualified but not yet timed.
+The regression remains unresolved. Repeated/mixed CRC medians improve with intervals below parity
 in all four windows. All raw windows, separate protocols and summaries are retained.
 
 Object size is not a runtime-speed claim. No new preservation proof or full QBE compatibility claim is made.

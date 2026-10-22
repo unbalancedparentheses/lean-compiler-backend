@@ -1,0 +1,1760 @@
+{
+  "protocol": "Private mixed-compression-only9rounds500ms GCC calibration,warmups2,otherAPIloops1; descriptive paired bootstrap intervals, no multiple-comparison correction.",
+  "caveat": "CRC-only preserves measured compression code but may change linked layout and CRC-warmup cache preconditioning. Diagnostic mixtures have no single compiler identity.",
+  "windows": {
+    "window1": {
+      "timing_sha256": "17f889158ff3dc5a2318f33b838877ec2d5ac468fa8883fa792694f7024a3134",
+      "summary": {
+        "gcc": {
+          "compress_ns": {
+            "n": 9,
+            "median": 505542542,
+            "min": 491002167,
+            "max": 644229167,
+            "mad": 10521125,
+            "cv": 0.09206232812804979
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 412351.176182708,
+            "min": 400491.16394779773,
+            "max": 525472.4037520392,
+            "mad": 8581.668026101135,
+            "cv": 0.0920623281280498
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 0.513048093963565,
+              "min": 0.48757815116367836,
+              "max": 0.5351377452919401,
+              "mad": 0.009390904912572773,
+              "cv": 0.028489342192191073,
+              "median_bootstrap95": [
+                0.4995341633291698,
+                0.5210979893005712
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 0.4828326387523109,
+              "min": 0.4574787980769748,
+              "max": 0.54116927367011,
+              "mad": 0.011049623420418986,
+              "cv": 0.0508018210673021,
+              "median_bootstrap95": [
+                0.47197802135424943,
+                0.503713926931761
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 0.516119396659004,
+              "min": 0.46059943458576824,
+              "max": 0.6521958475422391,
+              "mad": 0.006611671595511348,
+              "cv": 0.09869803863715856,
+              "median_bootstrap95": [
+                0.502524253878909,
+                0.5469778882014291
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.4417750164770114,
+              "min": 0.4077216056396958,
+              "max": 0.5575217768341265,
+              "mad": 0.003887238287741457,
+              "cv": 0.09328045290059687,
+              "median_bootstrap95": [
+                0.4290227576902766,
+                0.44865709749563576
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.4423558018232231,
+              "min": 0.3836707163817026,
+              "max": 0.5723560133563792,
+              "mad": 0.005694452920663784,
+              "cv": 0.11027597494212668,
+              "median_bootstrap95": [
+                0.4366613489025593,
+                0.4522633966875618
+              ]
+            }
+          }
+        },
+        "phi": {
+          "compress_ns": {
+            "n": 9,
+            "median": 979719793,
+            "min": 971162375,
+            "max": 1236291792,
+            "mad": 8557418,
+            "cv": 0.08363770847016731
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 799118.9176182708,
+            "min": 792138.9681892333,
+            "max": 1008394.6101141925,
+            "mad": 6979.949429037515,
+            "cv": 0.08363770847016729
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 0.9566374267512355,
+              "min": 0.8796614987316108,
+              "max": 1.0385172938327376,
+              "mad": 0.011367436115985008,
+              "cv": 0.044307811872683886,
+              "median_bootstrap95": [
+                0.9224486463431398,
+                0.9680048628672205
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.018873424158239,
+              "min": 0.8856620036727381,
+              "max": 1.2515800500739416,
+              "mad": 0.012887666287722865,
+              "cv": 0.09308321117554912,
+              "median_bootstrap95": [
+                0.9873869936692112,
+                1.062283015733911
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 1.9491350065731203,
+              "min": 1.8686777540882635,
+              "max": 2.050953262801768,
+              "mad": 0.036342460519593,
+              "cv": 0.028551686767840194,
+              "median_bootstrap95": [
+                1.9190248677455486,
+                2.0018650843326737
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8781303447623969,
+              "min": 0.7839860561623807,
+              "max": 1.0698981540543728,
+              "mad": 0.017051195117637086,
+              "cv": 0.08792440290041904,
+              "median_bootstrap95": [
+                0.8383955373039038,
+                0.8808528450049655
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.8793195088357144,
+              "min": 0.7377398882974504,
+              "max": 1.0983654228345952,
+              "mad": 0.012338239839373322,
+              "cv": 0.10862706420177622,
+              "median_bootstrap95": [
+                0.8160708313992779,
+                0.9178157722976574
+              ]
+            }
+          }
+        },
+        "indexed": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1037782668,
+            "min": 1016920000,
+            "max": 1190439292,
+            "mad": 20862668,
+            "cv": 0.055207214110266925
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 846478.5220228385,
+            "min": 829461.6639477977,
+            "max": 970994.528548124,
+            "mad": 17016.858075040742,
+            "cv": 0.05520721411026693
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0453281170443278,
+              "min": 0.96291126391301,
+              "max": 1.13680091881014,
+              "mad": 0.012275455471936425,
+              "cv": 0.04402507034432876,
+              "median_bootstrap95": [
+                1.0330526615723914,
+                1.0840711880973501
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0689405711940052,
+              "min": 1.0068213795303982,
+              "max": 1.2051605279050073,
+              "mad": 0.02715135505993138,
+              "cv": 0.05192314584814337,
+              "median_bootstrap95": [
+                1.0417892161340738,
+                1.1027022453150306
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.071111022204511,
+              "min": 1.847850660881363,
+              "max": 2.185893650598735,
+              "mad": 0.04763170469343647,
+              "cv": 0.048738828381924844,
+              "median_bootstrap95": [
+                1.9852538247080702,
+                2.1523989166917152
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9089888475299739,
+              "min": 0.8906982187856325,
+              "max": 1.0302169837786923,
+              "mad": 0.008878601405686193,
+              "cv": 0.04831029688564532,
+              "median_bootstrap95": [
+                0.8912360689797324,
+                0.9146667719020956
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9161679768921916,
+              "min": 0.8386633828594318,
+              "max": 1.0576284375400076,
+              "mad": 0.023701437446820184,
+              "cv": 0.06563983360945097,
+              "median_bootstrap95": [
+                0.8669808027219595,
+                0.948152026405215
+              ]
+            }
+          }
+        },
+        "crc32-only": {
+          "compress_ns": {
+            "n": 9,
+            "median": 976052625,
+            "min": 951334459,
+            "max": 1120417500,
+            "mad": 12886000,
+            "cv": 0.05259732047890423
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 796127.7528548124,
+            "min": 775966.116639478,
+            "max": 913880.5057096248,
+            "mad": 10510.603588907048,
+            "cv": 0.05259732047890425
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 0.98147618368412,
+              "min": 0.7989900445767903,
+              "max": 1.129098906640587,
+              "mad": 0.012573674553250203,
+              "cv": 0.08698782796433842,
+              "median_bootstrap95": [
+                0.9413687173649475,
+                1.0127741264688102
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 0.9355057025134721,
+              "min": 0.8297649788931866,
+              "max": 0.9932248364316818,
+              "mad": 0.024353246058183786,
+              "cv": 0.04948483867928964,
+              "median_bootstrap95": [
+                0.9068631212538344,
+                0.9598589485716559
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 1.9375361718108262,
+              "min": 1.5332817646239851,
+              "max": 2.1710838635729806,
+              "mad": 0.024506584074317717,
+              "cv": 0.08819029494360307,
+              "median_bootstrap95": [
+                1.8282274687340592,
+                1.9899537032912356
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8556759810139996,
+              "min": 0.8202472296840162,
+              "max": 0.8851977988344097,
+              "mad": 0.010547303370693317,
+              "cv": 0.024369531307125217,
+              "median_bootstrap95": [
+                0.8283156293270634,
+                0.8729053447249937
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.8630311557710719,
+              "min": 0.7984057749564941,
+              "max": 0.8790796336110184,
+              "mad": 0.014551882381146464,
+              "cv": 0.030639947893384215,
+              "median_bootstrap95": [
+                0.8329813012618,
+                0.8789985402029645
+              ]
+            }
+          }
+        },
+        "deflate-only": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1050051625,
+            "min": 1033657459,
+            "max": 1163032584,
+            "mad": 16394166,
+            "cv": 0.0497203706986481
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 856485.8278955955,
+            "min": 843113.751223491,
+            "max": 948639.9543230017,
+            "mad": 13372.07667210442,
+            "cv": 0.049720370698648104
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0609730548742227,
+              "min": 0.9407427854216475,
+              "max": 1.1654292017227725,
+              "mad": 0.04823488269500342,
+              "cv": 0.06400561521404263,
+              "median_bootstrap95": [
+                1.0127381721792192,
+                1.142350904816312
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0149665330672737,
+              "min": 0.9769776517087609,
+              "max": 1.053760045796668,
+              "mad": 0.010506515840793984,
+              "cv": 0.0257376028201574,
+              "median_bootstrap95": [
+                0.9803354754807446,
+                1.0480383576804928
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0809972493593263,
+              "min": 1.0321763619365103,
+              "max": 1.1774149024847247,
+              "mad": 0.03453097562067575,
+              "cv": 0.04739362507100783,
+              "median_bootstrap95": [
+                1.0464662737386505,
+                1.1619835685232554
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.0806221580259625,
+              "min": 1.8053087993763561,
+              "max": 2.268111981025761,
+              "mad": 0.024577224933176378,
+              "cv": 0.06289922405332134,
+              "median_bootstrap95": [
+                2.0534441265620837,
+                2.240941443761822
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9151425394770969,
+              "min": 0.891114014049991,
+              "max": 1.0064989695625897,
+              "mad": 0.014578708286790754,
+              "cv": 0.04426552794774828,
+              "median_bootstrap95": [
+                0.9134660034209164,
+                1.0049344676038732
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9295070676339879,
+              "min": 0.8597836090975449,
+              "max": 1.0332793472882427,
+              "mad": 0.009579879129527402,
+              "cv": 0.052484433490012986,
+              "median_bootstrap95": [
+                0.9086291366252377,
+                0.9903968370967647
+              ]
+            }
+          }
+        },
+        "trees-only": {
+          "compress_ns": {
+            "n": 9,
+            "median": 984116625,
+            "min": 977402001,
+            "max": 1016190251,
+            "mad": 6714624,
+            "cv": 0.014426113355549284
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 802705.2406199021,
+            "min": 797228.3858075041,
+            "max": 828866.4363784665,
+            "mad": 5476.854812398087,
+            "cv": 0.014426113355549287
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0059755324380302,
+              "min": 0.7905916769202331,
+              "max": 1.0402799705871273,
+              "mad": 0.01673993130371998,
+              "cv": 0.07639037080793526,
+              "median_bootstrap95": [
+                0.9678298230528819,
+                1.0282374095100066
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 0.9552102805769833,
+              "min": 0.8210431288418863,
+              "max": 0.9791937005060871,
+              "mad": 0.00819670718999932,
+              "cv": 0.05333598726715758,
+              "median_bootstrap95": [
+                0.8884924770594687,
+                0.9634069877669826
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0249617353545433,
+              "min": 0.894553221455395,
+              "max": 1.0632965931782157,
+              "mad": 0.024404072915612307,
+              "cv": 0.04847040709104885,
+              "median_bootstrap95": [
+                0.9894887705878667,
+                1.0459088966044687
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 1.9607821260309983,
+              "min": 1.5171650882425818,
+              "max": 2.0415422074039014,
+              "mad": 0.019534084058620893,
+              "cv": 0.08092223446548354,
+              "median_bootstrap95": [
+                1.9421500642090348,
+                1.9953228312330442
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8666518912398131,
+              "min": 0.7918565425725459,
+              "max": 0.9045479890108538,
+              "mad": 0.01454446828893452,
+              "cv": 0.03590681083679204,
+              "median_bootstrap95": [
+                0.8458525757477086,
+                0.8721660848868839
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.879488724672711,
+              "min": 0.74514610645585,
+              "max": 0.891462574126496,
+              "mad": 0.008800751825274955,
+              "cv": 0.05316601991901224,
+              "median_bootstrap95": [
+                0.8489421404850533,
+                0.888289476497986
+              ]
+            }
+          }
+        },
+        "deflate-trees": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1037115834,
+            "min": 1021569418,
+            "max": 1257782584,
+            "mad": 8841750,
+            "cv": 0.06974428802821094
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 845934.6117455139,
+            "min": 833254.0114192496,
+            "max": 1025923.8042414356,
+            "mad": 7211.867862969055,
+            "cv": 0.06974428802821096
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.049559365184735,
+              "min": 0.9962573120658255,
+              "max": 1.0858389339887677,
+              "mad": 0.01753995085871174,
+              "cv": 0.026696102035488233,
+              "median_bootstrap95": [
+                1.0173832683667934,
+                1.0757975554231354
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0045720587656846,
+              "min": 0.919379788860275,
+              "max": 1.056570118654988,
+              "mad": 0.034222828500251046,
+              "cv": 0.042538684579979474,
+              "median_bootstrap95": [
+                0.9643819227467451,
+                1.0387948872659356
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0738278303025288,
+              "min": 0.9256512273326684,
+              "max": 1.2733366019669017,
+              "mad": 0.008409188805062584,
+              "cv": 0.08157098887894478,
+              "median_bootstrap95": [
+                1.058307221908245,
+                1.0907093276932132
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.0563687816806593,
+              "min": 1.9523837920241198,
+              "max": 2.153601564012019,
+              "mad": 0.027507688269764685,
+              "cv": 0.029011543164322112,
+              "median_bootstrap95": [
+                1.9940647532931903,
+                2.083876469950424
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.918848682134251,
+              "min": 0.8193844289232479,
+              "max": 1.088496480791437,
+              "mad": 0.024197377703377154,
+              "cv": 0.0783609871313878,
+              "median_bootstrap95": [
+                0.8766124125363041,
+                0.9446904782382616
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9203567507217811,
+              "min": 0.7710501638581484,
+              "max": 1.1174586037445355,
+              "mad": 0.02205559268938706,
+              "cv": 0.09747307701400107,
+              "median_bootstrap95": [
+                0.8708286260291764,
+                0.9424123434111682
+              ]
+            }
+          }
+        },
+        "qbe-original": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1135538542,
+            "min": 1111792875,
+            "max": 1265725583,
+            "mad": 21850209,
+            "cv": 0.04086799637440326
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 926214.1451876019,
+            "min": 906845.7381729201,
+            "max": 1032402.5962479608,
+            "mad": 17822.356443719356,
+            "cv": 0.040867996374403255
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.1387831043130372,
+              "min": 0.9346684039134994,
+              "max": 1.2755328900809917,
+              "mad": 0.022550322948036605,
+              "cv": 0.07867985877624886,
+              "median_bootstrap95": [
+                1.1352634048589159,
+                1.1927544404825683
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.1001235083547327,
+              "min": 0.9706693014632114,
+              "max": 1.1227147185310287,
+              "mad": 0.010851513100494037,
+              "cv": 0.044748313455231635,
+              "median_bootstrap95": [
+                1.0485858329739777,
+                1.122037173770108
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.168666670782289,
+              "min": 1.1296910151796093,
+              "max": 1.2191446234877623,
+              "mad": 0.014585094840624091,
+              "cv": 0.024591727847894408,
+              "median_bootstrap95": [
+                1.1545092932383212,
+                1.2072692637858538
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.2635956373780974,
+              "min": 1.7936519102060462,
+              "max": 2.4526539338798288,
+              "mad": 0.019743955283414216,
+              "cv": 0.07998206227720198,
+              "median_bootstrap95": [
+                2.2288736890197693,
+                2.330878682016043
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.0070732627808228,
+              "min": 0.9410114918480749,
+              "max": 1.0430843337425542,
+              "mad": 0.019534193893764096,
+              "cv": 0.030894832247333564,
+              "median_bootstrap95": [
+                0.9733721078997901,
+                1.0266074566745869
+              ]
+            }
+          }
+        },
+        "qbe-corrected": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1125574209,
+            "min": 1109971125,
+            "max": 1345069209,
+            "mad": 6609750,
+            "cv": 0.06586382694192043
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 918086.6305057097,
+            "min": 905359.808319739,
+            "max": 1097120.072593801,
+            "mad": 5391.313213703106,
+            "cv": 0.06586382694192042
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.1372430498261954,
+              "min": 0.9104438096924613,
+              "max": 1.3554912996609023,
+              "mad": 0.01618440675270838,
+              "cv": 0.10227609986052381,
+              "median_bootstrap95": [
+                1.1307847665109538,
+                1.2253838288587615
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0915028959996853,
+              "min": 0.9455116414285828,
+              "max": 1.1923735081773683,
+              "mad": 0.027525300023464983,
+              "cv": 0.06276952101172015,
+              "median_bootstrap95": [
+                1.0639775959762203,
+                1.1534280769082954
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.1587067202765742,
+              "min": 1.1375533703269565,
+              "max": 1.252495950513999,
+              "mad": 0.01921341135217336,
+              "cv": 0.03181075778348976,
+              "median_bootstrap95": [
+                1.1376583171220007,
+                1.1732504840478666
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.260623678673092,
+              "min": 1.7471643114848292,
+              "max": 2.6064016806670485,
+              "mad": 0.029480546290379994,
+              "cv": 0.0980461676723125,
+              "median_bootstrap95": [
+                2.2111008923652347,
+                2.290104224963472
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9929764168683304,
+              "min": 0.9586952537308571,
+              "max": 1.0626862781835706,
+              "mad": 0.018894265508135222,
+              "cv": 0.03157014153276366,
+              "median_bootstrap95": [
+                0.9740821513601952,
+                1.0273563335995561
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        }
+      },
+      "calibration": {
+        "first": {
+          "compress_ns": 407666,
+          "uncompress_ns": 157833,
+          "crc32_ns": 22542,
+          "loops": [
+            1,
+            1,
+            1
+          ],
+          "cpu": 0,
+          "sink": 209546126
+        },
+        "loops": [
+          1226,
+          1,
+          1
+        ],
+        "second": {
+          "compress_ns": 493045667,
+          "uncompress_ns": 165666,
+          "crc32_ns": 22792,
+          "loops": [
+            1226,
+            1,
+            1
+          ],
+          "cpu": 0,
+          "sink": 209577990
+        }
+      },
+      "environment": {
+        "uname": {
+          "system": "Linux",
+          "node": "36d787fe752f",
+          "release": "7.2.9-orbstack-00391-g2b298d05fbd4",
+          "version": "#1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026",
+          "machine": "aarch64",
+          "processor": "aarch64"
+        },
+        "loadavg_before": "0.02 0.15 0.39 1/454 1533306\n",
+        "cpuinfo": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 6\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 7\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 8\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 9\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 10\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 11\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 12\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 13\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 14\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 15\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 16\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 17\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+        "loadavg_after": "0.80 0.38 0.45 1/454 1533398\n"
+      }
+    },
+    "window2": {
+      "timing_sha256": "9ec2d4c33ffe836575d521596bdc7ce0aff7798c24bf7972cb58653c546bc866",
+      "summary": {
+        "gcc": {
+          "compress_ns": {
+            "n": 9,
+            "median": 487100792,
+            "min": 484552542,
+            "max": 490321083,
+            "mad": 1666875,
+            "cv": 0.004026126328036297
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 403229.1324503311,
+            "min": 401119.6539735099,
+            "max": 405894.93625827815,
+            "mad": 1379.8634105960373,
+            "cv": 0.004026126328036299
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 0.5041175970617094,
+              "min": 0.49930734598851984,
+              "max": 0.50981085274131,
+              "mad": 0.0023998916024735584,
+              "cv": 0.006855533984093281,
+              "median_bootstrap95": [
+                0.5016403563952015,
+                0.5092639371559412
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 0.48213037802000347,
+              "min": 0.47702582130975935,
+              "max": 0.48557728539180256,
+              "mad": 0.0029795114566932845,
+              "cv": 0.006540958487490085,
+              "median_bootstrap95": [
+                0.4788822367889134,
+                0.4853348719095134
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 0.5144420794448249,
+              "min": 0.511876478431944,
+              "max": 0.5177000506038482,
+              "mad": 0.0022712314660793265,
+              "cv": 0.004304156218636827,
+              "median_bootstrap95": [
+                0.5124034186881845,
+                0.5174042227595097
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.4454906887374708,
+              "min": 0.44059508008911635,
+              "max": 0.44722363094019413,
+              "mad": 0.0007706068784955056,
+              "cv": 0.0043310046797552255,
+              "median_bootstrap95": [
+                0.4443819638119804,
+                0.4462612956159663
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.4421083248992678,
+              "min": 0.43360450094412845,
+              "max": 0.44564651980314307,
+              "mad": 0.0029758938955297687,
+              "cv": 0.008917320063391503,
+              "median_bootstrap95": [
+                0.43830812092571303,
+                0.4450842187947976
+              ]
+            }
+          }
+        },
+        "phi": {
+          "compress_ns": {
+            "n": 9,
+            "median": 965331917,
+            "min": 956480042,
+            "max": 982002542,
+            "mad": 2629292,
+            "cv": 0.008252630579483458
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 799115.8253311259,
+            "min": 791788.1142384106,
+            "max": 812916.011589404,
+            "mad": 2176.5662251656177,
+            "cv": 0.008252630579483455
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 0.9582035112852546,
+              "min": 0.9417125260908348,
+              "max": 0.9713056327139827,
+              "mad": 0.009626166854846963,
+              "cv": 0.010783443461089873,
+              "median_bootstrap95": [
+                0.9456450014293538,
+                0.9678296781401016
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0214557344834185,
+              "min": 1.009957235184833,
+              "max": 1.0298885315158302,
+              "mad": 0.003560574900281832,
+              "cv": 0.005846605132868815,
+              "median_bootstrap95": [
+                1.0148944848415236,
+                1.0251731374361015
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 1.9836641407254607,
+              "min": 1.9615117932913513,
+              "max": 2.0027744595269628,
+              "mad": 0.009488560721805817,
+              "cv": 0.006837032893451838,
+              "median_bootstrap95": [
+                1.963618326451007,
+                1.993460030181825
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8845059721068754,
+              "min": 0.8734826628267294,
+              "max": 0.893760725135069,
+              "mad": 0.004655255515403134,
+              "cv": 0.007713609218792885,
+              "median_bootstrap95": [
+                0.8739926609528426,
+                0.8890701874918306
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.873956599440611,
+              "min": 0.8643732415390575,
+              "max": 0.8886338894283641,
+              "mad": 0.004500497371515144,
+              "cv": 0.008162119610233753,
+              "median_bootstrap95": [
+                0.8694561020690958,
+                0.8823247042744063
+              ]
+            }
+          }
+        },
+        "indexed": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1010933334,
+            "min": 1000423501,
+            "max": 1018530208,
+            "mad": 3018084,
+            "cv": 0.0057648604571645294
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 836865.3427152318,
+            "min": 828165.1498344371,
+            "max": 843154.1456953642,
+            "mad": 2498.4139072848484,
+            "cv": 0.005764860457164537
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0436196363533286,
+              "min": 1.0295420579471373,
+              "max": 1.0618951880688299,
+              "mad": 0.010379984184652802,
+              "cv": 0.010793947169093456,
+              "median_bootstrap95": [
+                1.0332396521686757,
+                1.0574792850260806
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.066686283157434,
+              "min": 1.0554588616680873,
+              "max": 1.0835964735899246,
+              "mad": 0.003312516806505572,
+              "cv": 0.007986058845339249,
+              "median_bootstrap95": [
+                1.0604650422603625,
+                1.077711569850808
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.074127757945404,
+              "min": 2.0594044039624304,
+              "max": 2.0963225790468156,
+              "mad": 0.01273914952364752,
+              "cv": 0.006558263307213861,
+              "median_bootstrap95": [
+                2.0613886084217565,
+                2.0881960598609344
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9240046034166042,
+              "min": 0.908237679022376,
+              "max": 0.935346742984877,
+              "mad": 0.0041673143780932564,
+              "cv": 0.008750366957332962,
+              "median_bootstrap95": [
+                0.9156192755397796,
+                0.9281719177946974
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9148859632836467,
+              "min": 0.9030066128165356,
+              "max": 0.9330400974369472,
+              "mad": 0.009434752874150742,
+              "cv": 0.011933480120024076,
+              "median_bootstrap95": [
+                0.9035233674550105,
+                0.9282460198992785
+              ]
+            }
+          }
+        },
+        "crc32-only": {
+          "compress_ns": {
+            "n": 9,
+            "median": 945646583,
+            "min": 939953417,
+            "max": 957889459,
+            "mad": 1533876,
+            "cv": 0.005385745997672977
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 782820.0190397351,
+            "min": 778107.1332781457,
+            "max": 792954.8501655629,
+            "mad": 1269.7649006622378,
+            "cv": 0.005385745997672992
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 0.9789949444120852,
+              "min": 0.9709788675170127,
+              "max": 0.9901409338554709,
+              "mad": 0.0034007115737235694,
+              "cv": 0.005866471090501238,
+              "median_bootstrap95": [
+                0.9755942328383617,
+                0.9853241050532958
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 0.9374827592607267,
+              "min": 0.9228527633418998,
+              "max": 0.9474552124367613,
+              "mad": 0.002902271849244187,
+              "cv": 0.007954528619928094,
+              "median_bootstrap95": [
+                0.9278920519879303,
+                0.9429825219589678
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 1.9438534287070353,
+              "min": 1.9316204408973778,
+              "max": 1.9535963110931536,
+              "mad": 0.008544275867294004,
+              "cv": 0.004306246754064983,
+              "median_bootstrap95": [
+                1.932724852276286,
+                1.9515872914355694
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8632683637939558,
+              "min": 0.8564522571026796,
+              "max": 0.8718144208990031,
+              "mad": 0.004391216840355483,
+              "cv": 0.005986327259683318,
+              "median_bootstrap95": [
+                0.8583772848653402,
+                0.8676595806343113
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.8610586322284821,
+              "min": 0.8462170335518235,
+              "max": 0.8668134746983185,
+              "mad": 0.005754842469836374,
+              "cv": 0.008517854149869112,
+              "median_bootstrap95": [
+                0.8485933891838638,
+                0.8635615251500527
+              ]
+            }
+          }
+        },
+        "deflate-only": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1021242584,
+            "min": 1009862417,
+            "max": 1037697792,
+            "mad": 6470666,
+            "cv": 0.008401478084384587
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 845399.4900662252,
+            "min": 835978.8220198676,
+            "max": 859021.3509933775,
+            "mad": 5356.511589403963,
+            "cv": 0.00840147808438459
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0629234248047175,
+              "min": 1.037110434486024,
+              "max": 1.0739524094486537,
+              "mad": 0.005004831194184156,
+              "cv": 0.010060147265363268,
+              "median_bootstrap95": [
+                1.0489868738022814,
+                1.0642401432082271
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0113544364032303,
+              "min": 0.9976225143044555,
+              "max": 1.0295486569927381,
+              "mad": 0.005236692191059156,
+              "cv": 0.009042745780932934,
+              "median_bootstrap95": [
+                1.0056697190677462,
+                1.0192913117074904
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0843838124510636,
+              "min": 1.0632177579897557,
+              "max": 1.0955650342444407,
+              "mad": 0.005564564880640832,
+              "cv": 0.00949763490928085,
+              "median_bootstrap95": [
+                1.0704704454169522,
+                1.0899483773317045
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.094617937908703,
+              "min": 2.07709828989752,
+              "max": 2.121520188000582,
+              "mad": 0.013780292255413329,
+              "cv": 0.008027818819120673,
+              "median_bootstrap95": [
+                2.0808376456532898,
+                2.120257038304451
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9334343918151646,
+              "min": 0.9168068291390595,
+              "max": 0.9457666345420674,
+              "mad": 0.006505817843789452,
+              "cv": 0.009597278853458485,
+              "median_bootstrap95": [
+                0.9269285739713752,
+                0.9424366263927625
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9270395177663298,
+              "min": 0.9120480384177782,
+              "max": 0.9387857302987764,
+              "mad": 0.005428038602273699,
+              "cv": 0.008778153319880584,
+              "median_bootstrap95": [
+                0.9199007023608861,
+                0.9346790721921264
+              ]
+            }
+          }
+        },
+        "trees-only": {
+          "compress_ns": {
+            "n": 9,
+            "median": 969623834,
+            "min": 944674876,
+            "max": 985822250,
+            "mad": 6591084,
+            "cv": 0.01329818115198705
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 802668.7367549669,
+            "min": 782015.6258278146,
+            "max": 816078.0215231788,
+            "mad": 5456.1953642384615,
+            "cv": 0.013298181151987061
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0046018840013877,
+              "min": 0.9776171231133127,
+              "max": 1.013662479758255,
+              "mad": 0.007888279708370138,
+              "cv": 0.01455455373984276,
+              "median_bootstrap95": [
+                0.9812738133959071,
+                1.0124901637097579
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 0.954578654416646,
+              "min": 0.9415549864376941,
+              "max": 0.9780804983355496,
+              "mad": 0.005013636099046259,
+              "cv": 0.011605010079805344,
+              "median_bootstrap95": [
+                0.9495650183175998,
+                0.9652074866063184
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.0261563552860635,
+              "min": 1.0013706008488126,
+              "max": 1.0407966514013567,
+              "mad": 0.011339874168039277,
+              "cv": 0.015150669421174533,
+              "median_bootstrap95": [
+                1.0022268133133303,
+                1.0374962294541028
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 1.9883109084627728,
+              "min": 1.9465176758663882,
+              "max": 2.014263285701999,
+              "mad": 0.01882627266434911,
+              "cv": 0.012477712117173098,
+              "median_bootstrap95": [
+                1.95290533300233,
+                2.007137181127122
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.88419277948807,
+              "min": 0.857626111293232,
+              "max": 0.8984868222974773,
+              "mad": 0.010436990629855591,
+              "cv": 0.014668712835614281,
+              "median_bootstrap95": [
+                0.8737557888582144,
+                0.8955535965007487
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.8773643982140109,
+              "min": 0.8531745048576828,
+              "max": 0.8933450842759573,
+              "mad": 0.008719438429049542,
+              "cv": 0.014208372028182975,
+              "median_bootstrap95": [
+                0.8633957054605069,
+                0.8860838366430605
+              ]
+            }
+          }
+        },
+        "deflate-trees": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1018208251,
+            "min": 1014357417,
+            "max": 1025001959,
+            "mad": 1996124,
+            "cv": 0.0033185724657373962
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 842887.625,
+            "min": 839699.8485099338,
+            "max": 848511.5554635761,
+            "mad": 1652.420529801282,
+            "cv": 0.003318572465737375
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.0544508744343113,
+              "min": 1.042558952968576,
+              "max": 1.0634403807037303,
+              "mad": 0.005278629263676393,
+              "cv": 0.006435415624257237,
+              "median_bootstrap95": [
+                1.049928241420193,
+                1.0620457361606692
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0061588294604598,
+              "min": 1.000141773023864,
+              "max": 1.0197725003263394,
+              "mad": 0.00601705643659578,
+              "cv": 0.0066738658282519655,
+              "median_bootstrap95": [
+                1.00228712018721,
+                1.016952525522359
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.077864360278919,
+              "min": 1.068803432776892,
+              "max": 1.0860747889594617,
+              "mad": 0.003835053599473337,
+              "cv": 0.0051834859650202545,
+              "median_bootstrap95": [
+                1.0713765686753718,
+                1.0821612178128772
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.0881910206378804,
+              "min": 2.0832152364939476,
+              "max": 2.1021474153544877,
+              "mad": 0.004975784143932849,
+              "cv": 0.003394823041145045,
+              "median_bootstrap95": [
+                2.08666570992264,
+                2.1011171207362573
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9317982458012527,
+              "min": 0.9261958088272395,
+              "max": 0.9374859934027988,
+              "mad": 0.002397298061344366,
+              "cv": 0.003986940231340362,
+              "median_bootstrap95": [
+                0.9276785376653954,
+                0.9341955438625971
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9225322816386399,
+              "min": 0.9104355554720357,
+              "max": 0.9351740722792716,
+              "mad": 0.0042174261714729155,
+              "cv": 0.007596642001104238,
+              "median_bootstrap95": [
+                0.918314855467167,
+                0.9283776201444093
+              ]
+            }
+          }
+        },
+        "qbe-original": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1097154209,
+            "min": 1088933292,
+            "max": 1101499667,
+            "mad": 4345458,
+            "cv": 0.004269004945588639
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 908240.2392384106,
+            "min": 901434.844370861,
+            "max": 911837.4726821192,
+            "mad": 3597.2334437086247,
+            "cv": 0.004269004945588661
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.130574616266321,
+              "min": 1.1188676922997212,
+              "max": 1.1448424136591793,
+              "mad": 0.005981825801469887,
+              "cv": 0.00771028633608738,
+              "median_bootstrap95": [
+                1.1247705907461762,
+                1.1441743674480995
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0822456904461242,
+              "min": 1.0691222346151563,
+              "max": 1.1010333782632722,
+              "mad": 0.004859076147381458,
+              "cv": 0.00877389862116952,
+              "median_bootstrap95": [
+                1.0773866142987427,
+                1.0921569987814814
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.1583883319957724,
+              "min": 1.1470331024907958,
+              "max": 1.1676074080100305,
+              "mad": 0.005862592270821754,
+              "cv": 0.005988530464983144,
+              "median_bootstrap95": [
+                1.1500617641068644,
+                1.1649888896545966
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.2447158274710954,
+              "min": 2.236017801424556,
+              "max": 2.269657663444032,
+              "mad": 0.003876189743341474,
+              "cv": 0.00435665968912726,
+              "median_bootstrap95": [
+                2.240839637727754,
+                2.2511011654129347
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9931490910288839,
+              "min": 0.9760875974036215,
+              "max": 1.0007535826804543,
+              "mad": 0.0016602945799141233,
+              "cv": 0.007608144284125012,
+              "median_bootstrap95": [
+                0.9830006806393353,
+                0.9975339139573322
+              ]
+            }
+          }
+        },
+        "qbe-corrected": {
+          "compress_ns": {
+            "n": 9,
+            "median": 1105069876,
+            "min": 1091625334,
+            "max": 1117498875,
+            "mad": 8309001,
+            "cv": 0.007990829935640358
+          },
+          "ns_per_call": {
+            "n": 9,
+            "median": 914792.9437086093,
+            "min": 903663.3559602649,
+            "max": 925081.8501655629,
+            "mad": 6878.312086092774,
+            "cv": 0.007990829935640358
+          },
+          "paired_ratios": {
+            "phi": {
+              "n": 9,
+              "median": 1.144221578783277,
+              "min": 1.1253228263028263,
+              "max": 1.1569076319616889,
+              "mad": 0.005922744340387531,
+              "cv": 0.008134061345342006,
+              "median_bootstrap95": [
+                1.1333696032260208,
+                1.1501443231236645
+              ]
+            },
+            "indexed": {
+              "n": 9,
+              "median": 1.0930323998095541,
+              "min": 1.0717653000626566,
+              "max": 1.107411602314778,
+              "mad": 0.011389338770643631,
+              "cv": 0.011881990106327846,
+              "median_bootstrap95": [
+                1.0773006062643904,
+                1.106778237309721
+              ]
+            },
+            "crc32-only": {
+              "n": 9,
+              "median": 1.161361099663942,
+              "min": 1.1536507324693297,
+              "max": 1.1817299349348995,
+              "mad": 0.0077103671946123775,
+              "cv": 0.008532642661411594,
+              "median_bootstrap95": [
+                1.1579950830095629,
+                1.178420681501834
+              ]
+            },
+            "gcc": {
+              "n": 9,
+              "median": 2.261889097491763,
+              "min": 2.243930908383921,
+              "max": 2.306249122927932,
+              "mad": 0.015123299531531131,
+              "cv": 0.008976343438610448,
+              "median_bootstrap95": [
+                2.246765797960232,
+                2.2815000504393708
+              ]
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.006898167690028,
+              "min": 0.9992469847787745,
+              "max": 1.0244982137463738,
+              "mad": 0.0016804702433703689,
+              "cv": 0.007666324762941615,
+              "median_bootstrap95": [
+                1.0024721826578151,
+                1.0172932935810466
+              ]
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.0,
+              "min": 1.0,
+              "max": 1.0,
+              "mad": 0.0,
+              "cv": 0.0,
+              "median_bootstrap95": [
+                1.0,
+                1.0
+              ]
+            }
+          }
+        }
+      },
+      "calibration": {
+        "first": {
+          "compress_ns": 413666,
+          "uncompress_ns": 158250,
+          "crc32_ns": 22833,
+          "loops": [
+            1,
+            1,
+            1
+          ],
+          "cpu": 0,
+          "sink": 209546126
+        },
+        "loops": [
+          1208,
+          1,
+          1
+        ],
+        "second": {
+          "compress_ns": 490831250,
+          "uncompress_ns": 162417,
+          "crc32_ns": 22792,
+          "loops": [
+            1208,
+            1,
+            1
+          ],
+          "cpu": 0,
+          "sink": 209577990
+        }
+      },
+      "environment": {
+        "uname": {
+          "system": "Linux",
+          "node": "36d787fe752f",
+          "release": "7.2.9-orbstack-00391-g2b298d05fbd4",
+          "version": "#1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026",
+          "machine": "aarch64",
+          "processor": "aarch64"
+        },
+        "loadavg_before": "0.74 0.38 0.45 1/454 1533469\n",
+        "cpuinfo": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 6\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 7\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 8\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 9\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 10\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 11\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 12\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 13\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 14\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 15\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 16\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 17\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+        "loadavg_after": "0.94 0.54 0.50 1/453 1533561\n"
+      }
+    }
+  }
+}

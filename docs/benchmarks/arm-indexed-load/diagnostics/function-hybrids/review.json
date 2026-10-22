@@ -1,0 +1,21 @@
+{
+  "status": "correctness qualified; untimed",
+  "relocation_check": "All four deflate objects have identical relocation type+symbol multisets. Relocation offsets and section-relative addends may differ with layout and are retained raw, not asserted identical.",
+  "symbol_check": "All four objects have identical nm type+name multisets, ignoring addresses.",
+  "body_boundary": "Exact function comment through matching .size line, including labels/debug directives, swapped; other33 functions match chosen base assembly byte for byte. Original assemblies independently re-emitted from immutable snapshots and matched retained source.",
+  "all_other_library_objects": "phi for both new function diagnostics; compare phi and deflate-only controls.",
+  "structural_sites": {
+    "deflate_total": 32,
+    "byte": 23,
+    "half": 9,
+    "longest_match_byte": 6,
+    "longest_match_half": 1,
+    "word_or_long": 0
+  },
+  "notes": [
+    "Width-only narrow exclusion removes all32 deflate folds; it cannot distinguish longest_match or isolate individual dependency chains.",
+    "No compiler source change or function-name heuristic proposed.",
+    "8 labels x15 correctness profiles passed;1089 host/guest bound files verified before/after.",
+    "No timing ran."
+  ]
+}
