@@ -48,6 +48,12 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Global-address lifetime control](docs/benchmarks/symbol-address-placement/README.md)
+now avoids entry-wide lifetimes for disjoint straight-line uses and limits large
+CFG hoists. The stress profile drops 502 spills to zero; independent five-target
+execution, all three Linux gates and fresh zlib non-regression pass. This remains
+a bounded heuristic; general CFG placement and live-range splitting are open.
+
 ARM [typed phi identities](docs/benchmarks/arm-phi-identity/README.md) now remove
 same-width same-home copies, with both native ARM matrices and the full Linux
 ARM gate passing. Two qualified zlib windows show about 25% lower CRC32 elapsed

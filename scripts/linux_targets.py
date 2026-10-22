@@ -189,6 +189,9 @@ def main():
     from upstream_development import exercise as development_tests
     development_tests(compiler,work,run,cc,args.target,execute,qbe)
 
+    from symbol_address_pressure import exercise as symbol_pressure
+    symbol_pressure(compiler,work,run,cc,args.target,execute,qbe)
+
     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
     print('Actual compiler emission modes:', emission_modes, flush=True)
     report['emission_mode_counts'] = emission_modes

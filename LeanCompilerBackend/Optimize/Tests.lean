@@ -39,7 +39,48 @@ private def markerCounts (m : Module) : Nat × Nat × Nat := Id.run do
   return (calls,markers,voids)
 
 
+private def symbolPlacement : IO Unit := do
+  let m ← parse "data $left = { l 5 } data $right = { l 7 } dbgfile \"placement.c\" function l $f(l %lcb.symbol.0) { @s dbgloc 10 dbgloc 11 %pre =l add %lcb.symbol.0,1 dbgloc 12 %a =l add $left,$right dbgloc 13 %b =l add $left,$right dbgloc 14 %c =l add $left,$right %r =l xor %a,%pre %out =l add %r,%b %final =l add %out,%c dbgloc 15 ret %final }"
+  let f := m.functions[0]!
+  let placed := Symbols.hoist (m.data.map (·.name)) f
+  require (placed.blocks[0]!.debugLocations.map (·.instruction) == #[0,0,3,4,5,9])
+    "first-use address placement lost repeated/trailing debug positions"
+  let addressAt := fun (index : Nat) (symbol : String) => match placed.blocks[0]!.instructions[index]? with
+    | some (.assign {operation := .copy (.symbol name), ..}) => name == symbol
+    | _ => false
+  require (addressAt 1 "left" && addressAt 2 "right")
+    "multiple address copies were not inserted at first original use"
+  for value in (#[0,1,4294967295,18446744073709551615] : Array UInt64) do
+    let .ok expected := Semantics.evaluateModule m "f" #[value]
+      | throw (IO.userError "symbol placement source evaluation failed")
+    require ((Semantics.evaluateModule {m with functions := #[placed]} "f" #[value]).toOption == some expected)
+      "first-use address placement changed values or captured a local name"
+  for count in [8,9] do
+    let mut data := ""
+    let mut body := ""
+    for i in [:count] do
+      data := data ++ "data $g" ++ toString i ++ " = { l 0 }\n"
+      for j in [:3] do
+        body := body ++ " %v" ++ toString i ++ "." ++ toString j ++ " =l add $g" ++ toString i ++ "," ++ toString j ++ "\n"
+    for loop in [false,true] do
+      let shape := if loop then
+        "function w $f(w %limit) { @s jmp @loop @loop %i =w phi @s 0,@loop %next " ++ body ++ " %next =w add %i,1 %c =w cultw %next,%limit jnz %c,@loop,@done @done ret %next }"
+      else "function w $f(w %limit) { @s jnz %limit,@yes,@no @yes " ++ body ++ " ret 0 @no ret 1 }"
+      let original ← parse (data ++ shape)
+      let input := original.functions[0]!
+      let output := Symbols.hoist (original.data.map (·.name)) input
+      if count == 8 then
+        require (output.blocks[0]!.instructions.size == 8) "eight-address CFG hoisting boundary changed"
+      else
+        require (reprStr output == reprStr input) "nine-address CFG fallback changed the original function"
+      for limit in (#[0,1,4] : Array UInt64) do
+        let .ok expected := Semantics.evaluateModule original "f" #[limit]
+          | throw (IO.userError "bounded symbol hoisting source evaluation failed")
+        require ((Semantics.evaluateModule {original with functions := #[output]} "f" #[limit]).toOption == some expected)
+          "bounded address hoisting changed branch or loop values"
+
 def run : IO Unit := do
+  symbolPlacement
   -- A marker without anonymous arguments must survive every call reconstruction.
   let marked ← parse "function $sink(l %x,...) { @s ret } export function l $root(l %fn,l %x) { @s %arg =l copy %x %unused =l call $sink(l %arg,...) %a =l add %x,1 %b =l add %x,1 %r =l call %fn(l %a,...) %copy =l copy %r jnz 1,@yes,@no @yes call %fn(l %b,...) ret %copy @no ret 0 }"
   require (markerCounts marked == (3,3,2)) "SSA lost empty marker or unused-result void conversion"

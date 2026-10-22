@@ -1,0 +1,37 @@
+Linux TLS: eight concurrent C threads, external TLS, mixed live arguments and executable/shared-library linkage passed
+Linux variadics: mixed GP/FP exhaustion, dynamic frames, direct/indirect calls and C interoperation passed against QBE
+aarch64-linux: QBE subword reference uses explicit narrow extensions; Lean input and independent C ABI checks remain unchanged
+aarch64-linux: generated mixed scalar ABI/subword/variadic matrices and independent C floating/conversion oracles passed against QBE
+aarch64-linux: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=True
+aarch64-linux: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=True
+aarch64-linux: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=True; original-QBE=through 65537 bytes
+aarch64-linux: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=True
+aarch64-linux: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=True
+aarch64-linux: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=True
+aarch64-linux: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=True
+aarch64-linux: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=True
+{'compiler_identity': '240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd', 'compiler_sha256': 'a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5', 'source_sha256': '62fdc4aa4626263f14d229b7d5e2bfe6490f672b07a01eb0104f54bdbaabb037', 'caller_sha256': '3be2ad20bab41adf40ef37c6c82d5d339c3f5c2657e590f60d21875c6831db77', 'target': 'aarch64-linux', 'checks_per_mode': 10496, 'emitted_checks_per_mode': 10496, 'modes': {'baseline': {'structural': 'passed', 'execution': 'passed'}, 'allocated': {'structural': 'passed', 'execution': 'passed'}, 'optimized': {'structural': 'passed', 'execution': 'passed'}}, 'negative_control': {'status': 'detected', 'exit': 139}}
+{'target': 'aarch64-linux', 'modes': {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}, 'c_checks_per_mode': 11661, 'wrong_target_detected': True, 'original_qbe': 'passed', 'large_expanded_function': {'baseline': {'status': 'passed', 'physical_lines': 330027}, 'allocated': {'status': 'passed', 'physical_lines': 275032}, 'optimized': {'status': 'passed', 'physical_lines': 275032}}}
+aarch64-linux 5628 checks per mode passed; execution True
+aarch64-linux: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=True
+aarch64-linux: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True
+aarch64-linux: external symbol +32 matches C in baseline/optimized; original QBE discrepancy retained; execution=True
+aarch64-linux: bounded integer bit patterns: 169 byte checks, 22 value checks, 24 interpreter checks, 13 refusals; execution=True
+aarch64-linux: hexadecimal strings and annotation order: 6/6 executable profiles; 314-byte and 25-annotation suites; 5 negative parses; execution=True
+aarch64-linux: 18 interpreter relocation checks; 18/36 link/execution profiles qualified; failures retained separately
+aarch64-linux: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=True
+aarch64-linux: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=True
+aarch64-linux: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=True
+aarch64-linux: 2560 independent sparse-prefix cases per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}
+aarch64-linux: 600 independent C cases per mode; modes={'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}; corruption=detected
+aarch64-linux: dynamic outgoing 529 args (515 HFAs), 80 calls/mode; TLS=True; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}; originalQBE=None
+aarch64-linux: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed
+aarch64-linux: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=True; original QBE profiles=7
+aarch64-linux: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=True
+aarch64-linux: 3106 integer immediate/comparison/fallback functions, 24848 independent cases per baseline/allocated/optimized mode; execution=True
+aarch64-linux: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=True
+aarch64-linux: baseline/folded assembly and 256 independent integer-oracle cases; execution=True
+aarch64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True
+ELF sections: target-specific syntax, named code/data, init-array constructors and common alignment passed; native=True
+Linux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True
+Actual compiler emission modes: {'baseline': 148, 'allocated': 45, 'optimized': 50}

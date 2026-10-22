@@ -27,11 +27,20 @@ sieve callers on all five targets, all three LCB modes and original QBE. All
 58 original upstream drivers; original underscore fixtures are deliberately
 excluded by QBE's normal suite glob.
 
+[Global-address placement](benchmarks/symbol-address-placement/README.md) now
+introduces repeated addresses at first use in straight-line functions and caps
+entry hoisting elsewhere at eight addresses. The 512-global disjoint-use stress
+case drops from 515 live values / 502 spills to 4 / 0; this is not a universal
+pressure bound. All five independent target matrices pass 8,320 C checks and
+five corruption controls. All three Linux gates, fresh strict units, emission
+checks and unchanged 147-report audit pass. Full host gate is still running at
+this checkpoint. Fresh zlib replay passes; all 102 assembly pairs are unchanged.
+
 ## Repository and current compiler
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4`.
+`240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd`.
 
 [ARM leaf registers](benchmarks/arm-leaf-bank/README.md) admit x16/x17/x8 only
 for bounded call/TLS-free functions. Both native ARM independent ABI matrices,
@@ -69,7 +78,7 @@ regression, with substantial first-window noise. Two longer 500 ms windows also
 pass provenance; all four mixed-compression medians remain 3.6–4.6% slower (two
 intervals exclude parity). CRC improves, but no general speedup claim is made.
 Diagnostic object combinations will investigate the regression.
-CI through 7fd745c is green; 03b2991 and bbea3aa remain in progress.
+CI through bbea3aa is green; 1d23647 and 86979e1 remain in progress.
 
 [ARM typed extuw](benchmarks/arm-extuw/README.md) omits same-home unsigned
 word extensions only for declared word sources. Both native ARM matrices, full

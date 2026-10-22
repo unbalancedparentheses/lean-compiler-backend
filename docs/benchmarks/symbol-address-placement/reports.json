@@ -1,0 +1,522 @@
+{
+  "aarch64-macos": {
+    "target": "aarch64-macos",
+    "scope": "Seeded independent uint64 C oracle; CFG cap is profitability heuristic, not pressure bound. No timing claim.",
+    "compiler_identity": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+    "compiler_sha256": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+    "ir_sha256": "a5a6e03ba69111089eac184704a5022a3e72c26781603948a91b6e67d9f09581",
+    "caller_sha256": "b8fc030e7f0c0c4e53c9d1c439a850ca6844dbd117534e2b19b61148436da860",
+    "cases": [
+      [
+        "single8",
+        8,
+        "single"
+      ],
+      [
+        "single9",
+        9,
+        "single"
+      ],
+      [
+        "single16",
+        16,
+        "single"
+      ],
+      [
+        "single64",
+        64,
+        "single"
+      ],
+      [
+        "single512",
+        512,
+        "single"
+      ],
+      [
+        "branch8",
+        8,
+        "branch"
+      ],
+      [
+        "branch9",
+        9,
+        "branch"
+      ],
+      [
+        "loop8",
+        8,
+        "loop"
+      ],
+      [
+        "loop9",
+        9,
+        "loop"
+      ],
+      [
+        "overlap16",
+        16,
+        "overlap"
+      ],
+      [
+        "effect16",
+        16,
+        "effect"
+      ],
+      [
+        "multi16",
+        16,
+        "multi"
+      ],
+      [
+        "word16",
+        16,
+        "word"
+      ]
+    ],
+    "checks_per_backend": 416,
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "04d081b02fd92faa599078b1c7ea1b880e1db30e32b148bad24f2e57753d9ec1",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "allocated": {
+        "assembly_sha256": "47cfe5cba9d2f5bb32c4b9900f73eafb0cc3970fc0e860ce0d02bb89e84757c8",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "optimized": {
+        "assembly_sha256": "8d55169614e3af0e131be9c2cccf52e9a661b885a6f532f1120b059ca64e1a74",
+        "execution": "passed"
+      },
+      "qbe": {
+        "assembly_sha256": "6080586a0f7e89c2515e836a5e59a1e91e407561a1d68fab26d38851cdb42c59",
+        "execution": "passed"
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1,
+      "ir_sha256": "ad329590fc3d2799bed1a48a6509d7976bf3fed94c2460c693bd1b9130e94821"
+    },
+    "before_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "before_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "original_qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+  },
+  "aarch64-linux": {
+    "target": "aarch64-linux",
+    "scope": "Seeded independent uint64 C oracle; CFG cap is profitability heuristic, not pressure bound. No timing claim.",
+    "compiler_identity": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+    "compiler_sha256": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+    "ir_sha256": "a5a6e03ba69111089eac184704a5022a3e72c26781603948a91b6e67d9f09581",
+    "caller_sha256": "b8fc030e7f0c0c4e53c9d1c439a850ca6844dbd117534e2b19b61148436da860",
+    "cases": [
+      [
+        "single8",
+        8,
+        "single"
+      ],
+      [
+        "single9",
+        9,
+        "single"
+      ],
+      [
+        "single16",
+        16,
+        "single"
+      ],
+      [
+        "single64",
+        64,
+        "single"
+      ],
+      [
+        "single512",
+        512,
+        "single"
+      ],
+      [
+        "branch8",
+        8,
+        "branch"
+      ],
+      [
+        "branch9",
+        9,
+        "branch"
+      ],
+      [
+        "loop8",
+        8,
+        "loop"
+      ],
+      [
+        "loop9",
+        9,
+        "loop"
+      ],
+      [
+        "overlap16",
+        16,
+        "overlap"
+      ],
+      [
+        "effect16",
+        16,
+        "effect"
+      ],
+      [
+        "multi16",
+        16,
+        "multi"
+      ],
+      [
+        "word16",
+        16,
+        "word"
+      ]
+    ],
+    "checks_per_backend": 416,
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "f5cc38efd7afe3e92db275516ef5a1894964f38b3988b7715a7b8b832c2e43b6",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "allocated": {
+        "assembly_sha256": "3e98fa598b199bb554016652850434064df526dde678b4b5ea21a98d21f3d80f",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "optimized": {
+        "assembly_sha256": "9fc3a999a0b0d350bade05ee3eddf2e7568d7cb4371e8dca2a7d0a803cdcdfcd",
+        "execution": "passed"
+      },
+      "qbe": {
+        "assembly_sha256": "760674a2f81e7805e2d62039433b0367a35a4db4f16f8b3409de38084b493ebf",
+        "execution": "passed"
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1,
+      "ir_sha256": "ad329590fc3d2799bed1a48a6509d7976bf3fed94c2460c693bd1b9130e94821"
+    },
+    "before_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "before_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "original_qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+  },
+  "x86_64-macos": {
+    "target": "x86_64-macos",
+    "scope": "Seeded independent uint64 C oracle; CFG cap is profitability heuristic, not pressure bound. No timing claim.",
+    "compiler_identity": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+    "compiler_sha256": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+    "ir_sha256": "a5a6e03ba69111089eac184704a5022a3e72c26781603948a91b6e67d9f09581",
+    "caller_sha256": "b8fc030e7f0c0c4e53c9d1c439a850ca6844dbd117534e2b19b61148436da860",
+    "cases": [
+      [
+        "single8",
+        8,
+        "single"
+      ],
+      [
+        "single9",
+        9,
+        "single"
+      ],
+      [
+        "single16",
+        16,
+        "single"
+      ],
+      [
+        "single64",
+        64,
+        "single"
+      ],
+      [
+        "single512",
+        512,
+        "single"
+      ],
+      [
+        "branch8",
+        8,
+        "branch"
+      ],
+      [
+        "branch9",
+        9,
+        "branch"
+      ],
+      [
+        "loop8",
+        8,
+        "loop"
+      ],
+      [
+        "loop9",
+        9,
+        "loop"
+      ],
+      [
+        "overlap16",
+        16,
+        "overlap"
+      ],
+      [
+        "effect16",
+        16,
+        "effect"
+      ],
+      [
+        "multi16",
+        16,
+        "multi"
+      ],
+      [
+        "word16",
+        16,
+        "word"
+      ]
+    ],
+    "checks_per_backend": 416,
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "2a7e71c7effa456883f1ca76a8a54697aae9f7227bf44423a45b8cdaa186ee68",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "allocated": {
+        "assembly_sha256": "ff537abf63d791ce62c4e2deed9b3f63682e9f4152a65a0b614259e745a4d19a",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "optimized": {
+        "assembly_sha256": "e8cfec18253ed793efea2c2bde9711ab997d090b06f5c98cef47d66903cc070d",
+        "execution": "passed"
+      },
+      "qbe": {
+        "assembly_sha256": "58e29f82990168fcef117ff507809ecdf060352af54a4f2606921689b7a71ec4",
+        "execution": "passed"
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1,
+      "ir_sha256": "ad329590fc3d2799bed1a48a6509d7976bf3fed94c2460c693bd1b9130e94821"
+    },
+    "before_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "before_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "original_qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+  },
+  "x86_64-linux": {
+    "target": "x86_64-linux",
+    "scope": "Seeded independent uint64 C oracle; CFG cap is profitability heuristic, not pressure bound. No timing claim.",
+    "compiler_identity": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+    "compiler_sha256": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+    "ir_sha256": "a5a6e03ba69111089eac184704a5022a3e72c26781603948a91b6e67d9f09581",
+    "caller_sha256": "b8fc030e7f0c0c4e53c9d1c439a850ca6844dbd117534e2b19b61148436da860",
+    "cases": [
+      [
+        "single8",
+        8,
+        "single"
+      ],
+      [
+        "single9",
+        9,
+        "single"
+      ],
+      [
+        "single16",
+        16,
+        "single"
+      ],
+      [
+        "single64",
+        64,
+        "single"
+      ],
+      [
+        "single512",
+        512,
+        "single"
+      ],
+      [
+        "branch8",
+        8,
+        "branch"
+      ],
+      [
+        "branch9",
+        9,
+        "branch"
+      ],
+      [
+        "loop8",
+        8,
+        "loop"
+      ],
+      [
+        "loop9",
+        9,
+        "loop"
+      ],
+      [
+        "overlap16",
+        16,
+        "overlap"
+      ],
+      [
+        "effect16",
+        16,
+        "effect"
+      ],
+      [
+        "multi16",
+        16,
+        "multi"
+      ],
+      [
+        "word16",
+        16,
+        "word"
+      ]
+    ],
+    "checks_per_backend": 416,
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "4e23156b45b6c59b5fa04e897514bebb31f25e4c190372d3f78b5b12ce6413fc",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "allocated": {
+        "assembly_sha256": "ba73c4574192fcb391faae54c0eaace2d1dbcf3884e6a6e7a9180966770291b2",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "optimized": {
+        "assembly_sha256": "52517e600214969d9bfd11d83fe30a75ee2f7c65adc3e3745e467556f3f24a50",
+        "execution": "passed"
+      },
+      "qbe": {
+        "assembly_sha256": "e4c7cd817009c272f2a0dbecc013cdafcd1d1c2584955201a43d1b2d546ec1bf",
+        "execution": "passed"
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1,
+      "ir_sha256": "ad329590fc3d2799bed1a48a6509d7976bf3fed94c2460c693bd1b9130e94821"
+    },
+    "before_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "before_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "original_qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+  },
+  "riscv64-linux": {
+    "target": "riscv64-linux",
+    "scope": "Seeded independent uint64 C oracle; CFG cap is profitability heuristic, not pressure bound. No timing claim.",
+    "compiler_identity": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+    "compiler_sha256": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+    "ir_sha256": "a5a6e03ba69111089eac184704a5022a3e72c26781603948a91b6e67d9f09581",
+    "caller_sha256": "b8fc030e7f0c0c4e53c9d1c439a850ca6844dbd117534e2b19b61148436da860",
+    "cases": [
+      [
+        "single8",
+        8,
+        "single"
+      ],
+      [
+        "single9",
+        9,
+        "single"
+      ],
+      [
+        "single16",
+        16,
+        "single"
+      ],
+      [
+        "single64",
+        64,
+        "single"
+      ],
+      [
+        "single512",
+        512,
+        "single"
+      ],
+      [
+        "branch8",
+        8,
+        "branch"
+      ],
+      [
+        "branch9",
+        9,
+        "branch"
+      ],
+      [
+        "loop8",
+        8,
+        "loop"
+      ],
+      [
+        "loop9",
+        9,
+        "loop"
+      ],
+      [
+        "overlap16",
+        16,
+        "overlap"
+      ],
+      [
+        "effect16",
+        16,
+        "effect"
+      ],
+      [
+        "multi16",
+        16,
+        "multi"
+      ],
+      [
+        "word16",
+        16,
+        "word"
+      ]
+    ],
+    "checks_per_backend": 416,
+    "backends": {
+      "baseline": {
+        "assembly_sha256": "73fa47d8eadd3eab04c357b89be5b6bf8aa08cc9598754ce08f39be0f2c70cdd",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "allocated": {
+        "assembly_sha256": "5982de84961675ac696d66aaa6ae68a638cc4bb48e30f8e74bfd98781c387375",
+        "execution": "passed",
+        "before_byte_identical": true
+      },
+      "optimized": {
+        "assembly_sha256": "97fcc539808475d5ffdadbca85ba02cb1c56a2e08917c1fe550e7cd4aef0419a",
+        "execution": "passed"
+      },
+      "qbe": {
+        "assembly_sha256": "c82f4c5dcf5725017e268531d23494943f6bb685a01b72e2647cfc458377e0f2",
+        "execution": "passed"
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1,
+      "ir_sha256": "ad329590fc3d2799bed1a48a6509d7976bf3fed94c2460c693bd1b9130e94821"
+    },
+    "before_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "before_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "original_qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+  }
+}

@@ -1,0 +1,13 @@
+✖ [144/148] Building LeanCompilerBackend.Optimize.Tests (881ms)
+trace: .> LEAN_PATH=/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/lib/lean /Users/unbalancedparen/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Tests.lean -o /Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/lib/lean/LeanCompilerBackend/Optimize/Tests.olean -i /Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/lib/lean/LeanCompilerBackend/Optimize/Tests.ilean -c /Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/ir/LeanCompilerBackend/Optimize/Tests.c --setup /Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/ir/LeanCompilerBackend/Optimize/Tests.setup.json --json
+error: LeanCompilerBackend/Optimize/Tests.lean:56:13: failed to synthesize instance of type class
+  BEq (Except String (Option UInt64))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+error: LeanCompilerBackend/Optimize/Tests.lean:79:17: failed to synthesize instance of type class
+  BEq (Except String (Option UInt64))
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+Some required targets logged failures:
+- LeanCompilerBackend.Optimize.Tests
+error: build failed

@@ -1,0 +1,10 @@
+✖ [144/148] Building LeanCompilerBackend.Optimize.Tests (945ms)
+trace: .> LEAN_PATH=/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/lib/lean /Users/unbalancedparen/.elan/toolchains/leanprover--lean4---v4.34.1/bin/lean /Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Tests.lean -o /Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/lib/lean/LeanCompilerBackend/Optimize/Tests.olean -i /Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/lib/lean/LeanCompilerBackend/Optimize/Tests.ilean -c /Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/ir/LeanCompilerBackend/Optimize/Tests.c --setup /Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/ir/LeanCompilerBackend/Optimize/Tests.setup.json --json
+error: LeanCompilerBackend/Optimize/Tests.lean:49:12: Invalid dotted identifier notation: The expected type of `.assign`
+  ?m.143
+is not of the form `C ...` or `... → C ...` where C is a constant
+error: LeanCompilerBackend/Optimize/Tests.lean:49:4: Invalid pattern(s): `name` is an explicit pattern variable, but it only occurs in positions that are inaccessible to pattern matching:
+  some ?m.144
+Some required targets logged failures:
+- LeanCompilerBackend.Optimize.Tests
+error: build failed
