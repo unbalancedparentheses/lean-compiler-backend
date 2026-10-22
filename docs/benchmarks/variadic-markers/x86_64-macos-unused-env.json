@@ -1,0 +1,47 @@
+{
+  "target": "x86_64-macos",
+  "compiler_identity": "57fc5bc6422b27e130dec860ce564e399dbda062f4b48041c7fb4b0b8e1b6577",
+  "source_sha256": "db93cb12bc8c557294749ab6061d1a3cc3b3ec2e88290d9e5e87cbfde1b0de3b",
+  "caller_sha256": "ca8923fa01546e919fe6245abd6197345191f75a56c0a0dcbe048983596e9038",
+  "signatures": [
+    [
+      1,
+      0
+    ],
+    [
+      6,
+      0
+    ],
+    [
+      7,
+      0
+    ],
+    [
+      1,
+      8
+    ],
+    [
+      1,
+      9
+    ],
+    [
+      6,
+      8
+    ],
+    [
+      7,
+      9
+    ]
+  ],
+  "modes": {
+    "baseline": "passed",
+    "allocated": "passed",
+    "optimized": "passed",
+    "qbe": "register-only signature passed (45 calls); unchanged full input fails known overflow-pointer discrepancy"
+  },
+  "interpreter_cases": 126,
+  "c_calls_per_mode": 315,
+  "explicit_environment_calls": "rejected in all LCB modes and original QBE",
+  "used_environment_definitions": "rejected in all LCB modes",
+  "corruption_detected": true
+}

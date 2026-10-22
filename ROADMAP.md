@@ -198,7 +198,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   pass independent C checks in all three lowering modes on the five targets; original
   QBE comparisons exclude explicitly recorded narrow-call/large-address failures.
   Calls can omit unused environment parameters; signature checks and interpretation
-  remove only an unused binding and reject missing used environments.
+  remove only an unused binding and reject missing used environments. Explicit
+  empty variadic tails survive SSA/optimization and set AMD64 AL correctly.
+  AMD64 variadic definitions accept unused environment parameters; used
+  environments and explicit variadic-environment calls remain unsupported there.
   Function tables, native C callbacks, env arguments and integer/floating variadics
   (vastart/vaarg) are also tested. Subword ABI arguments/results and packed byte/short stack slots are tested;
   Apple ARM64 aggregate arguments/results now include GP/FP registers, stack fallback,

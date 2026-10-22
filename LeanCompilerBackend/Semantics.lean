@@ -177,7 +177,7 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
       | some bits => constant inst.width (signedBits bits value)
       | none => normalize inst.width value
     pure (extended, state)
-  | .call target arguments =>
+  | .call target arguments _ =>
     let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width) inst.floating inst.callSubword inst.callAggregate
     let values ← arguments.mapM fun argument => do
       let value ← operand state.symbols locals argument.width argument.value
@@ -207,7 +207,7 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let address ← operand state.symbols locals .long address
       let memory ← state.memory.write address width.bytes value
       state := { state with memory }
-    | .callVoid target arguments =>
+    | .callVoid target arguments _ =>
       let target ← resolveCallTarget state.functions state.symbols locals target arguments none false none none
       let values ← arguments.mapM fun argument => do
         let value ← operand state.symbols locals argument.width argument.value

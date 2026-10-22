@@ -571,7 +571,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     if addressHome == 9 then lines := lines ++ (← load darwin localSymbols base slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width resultHome kind}, [x{addressHome}]"]
     if resultHome != 9 then return lines
-  | .call target arguments =>
+  | .call target arguments _ =>
     -- Stable homes are stack slots or callee-saved registers, outside argument
     -- and scratch banks. Permutations and call clobbers preserve their values.
     lines := lines ++ (← emitCall darwin localSymbols types base slots allocations target arguments (inst.callAggregate.map (inst.destination, ·)))
@@ -592,7 +592,7 @@ private def emitStatement (darwin : Bool) (localSymbols : List String) (types : 
     (varargs : VariadicFrame) (statement : Statement) : Except String (List String) := do
   match statement with
   | .assign inst => emitInstruction darwin localSymbols types base slots allocations inst
-  | .callVoid target arguments => emitCall darwin localSymbols types base slots allocations target arguments
+  | .callVoid target arguments _ => emitCall darwin localSymbols types base slots allocations target arguments
   | .vaStart list => do
     let mut lines := (← load darwin localSymbols base slots .long 9 list) ++
       stackAddress base 10 varargs.stackOffset ++ ["\tstr x10, [x9]"]

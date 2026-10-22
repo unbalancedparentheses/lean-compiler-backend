@@ -126,6 +126,10 @@ def main():
     dynamic_outgoing_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from unused_environment import exercise as unused_environment_tests
     unused_environment_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
+    from empty_variadic_calls import exercise as empty_variadic_tests
+    from unused_environment_variadic import exercise as unused_env_variadic_tests
+    empty_variadic_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
+    unused_env_variadic_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
     from argument_limits import exercise as argument_limit_tests, original_qbe_profiles
     argument_limit_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple',original_qbe_profiles('x86_64-macos'))
     from extern_flags import exercise as flags_tests

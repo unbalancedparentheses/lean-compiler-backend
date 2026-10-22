@@ -217,6 +217,23 @@ five supported targets, alongside interpreter cases and used-environment/signatu
 refusal controls. Apple x86-64 uses Rosetta and Linux x86-64/RV64 use QEMU in local
 qualification; only the original-QBE RV64 reference uses `-no-pie`.
 
+### Empty variadic tails and AMD64 environments
+
+Call IR retains an explicit `...` marker even with no anonymous arguments. SSA
+and optimization preserve it for value and effect-only calls. AMD64 emits the
+ABI FP-register count in AL, including named floating arguments. ARM/RV keep
+their existing per-argument classification; their environment registers do not
+conflict with variadic metadata.
+
+AMD64 variadic definitions may omit a syntactically unused environment binding
+from the native ABI view, using the same retained-SSA criterion described above.
+Definitions that read the environment and calls that explicitly combine an
+environment with a variadic marker remain rejected on AMD64, including empty
+tails. The interpreter keeps argument semantics and does not model AL.
+Independent assembly AL probes and C variadic callees check these boundaries.
+Pinned QBE has a separate environment/overflow-pointer offset defect; successful
+register-only comparison and failing full inputs are recorded separately.
+
 ### Floating SSA execution profile
 
 Compatibility SSA distinguishes integer and floating values even when they share

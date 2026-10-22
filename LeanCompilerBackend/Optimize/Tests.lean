@@ -1,6 +1,9 @@
 import LeanCompilerBackend.Optimize
 import LeanCompilerBackend.Parser
 import LeanCompilerBackend.SSA
+import LeanCompilerBackend.AMD64
+import LeanCompilerBackend.AArch64
+import LeanCompilerBackend.RV64
 
 namespace LeanCompilerBackend.Optimize.Tests
 
@@ -17,7 +20,57 @@ private def optimize (m : Module) : IO Module :=
   | .ok m => pure m
   | .error e => throw (IO.userError e)
 
+private def markerCounts (m : Module) : Nat × Nat × Nat := Id.run do
+  let mut calls := 0
+  let mut markers := 0
+  let mut voids := 0
+  for f in m.functions do
+    for b in f.blocks do
+      for s in b.instructions do
+        match s with
+        | .assign {operation := .call _ _ marker, ..} =>
+          calls := calls + 1
+          if marker then markers := markers + 1
+        | .callVoid _ _ marker =>
+          calls := calls + 1
+          voids := voids + 1
+          if marker then markers := markers + 1
+        | _ => pure ()
+  return (calls,markers,voids)
+
+
 def run : IO Unit := do
+  -- A marker without anonymous arguments must survive every call reconstruction.
+  let marked ← parse "function $sink(l %x,...) { @s ret } export function l $root(l %fn,l %x) { @s %arg =l copy %x %unused =l call $sink(l %arg,...) %a =l add %x,1 %b =l add %x,1 %r =l call %fn(l %a,...) %copy =l copy %r jnz 1,@yes,@no @yes call %fn(l %b,...) ret %copy @no ret 0 }"
+  require (markerCounts marked == (3,3,2)) "SSA lost empty marker or unused-result void conversion"
+  let stages := #[marked,
+    {marked with functions := marked.functions.map Cleanup.copies},
+    {marked with functions := marked.functions.map Cleanup.deadDefinitions}]
+  for stage in stages do
+    require (markerCounts stage == (3,3,2)) "cleanup lost empty call marker"
+  for stage in [marked.functions.mapM ControlFlow.simplify, marked.functions.mapM Common.eliminate] do
+    match stage with
+    | .ok fs => require (markerCounts {marked with functions := fs} == (3,3,2)) "CFG/Common lost empty call marker"
+    | .error e => throw (IO.userError e)
+  require (markerCounts (← optimize marked) == (3,3,2)) "full optimizer lost empty call marker"
+  let namedFP ← parse "function l $f(d %x,...) { @s %bits =l cast %x ret %bits } export function l $root() { @s %r =l call $f(d d_1.5,...) ret %r }"
+  let namedFP ← optimize namedFP
+  match Semantics.evaluateModule namedFP "root" #[] with
+  | .ok value => require (value == some 4609434218613702656) "empty-tail named FP call changed semantics"
+  | .error e => throw (IO.userError e)
+  match AMD64.emitModule namedFP with
+  | .ok assembly => require (assembly.contains "movl $1, %eax") "empty-tail named FP call omitted AL count"
+  | .error e => throw (IO.userError e)
+  -- x9/t5 environment registers do not overlap variadic metadata on ARM/RV.
+  for tail in ["", ",l 33"] do
+    let env ← parse ("export function l $root() { @s %r =l call $external(env 9,d d_1.5,..." ++ tail ++ ") ret %r }")
+    for emitted in [AArch64.emitModule env true, AArch64.emitModule env false, RV64.emitModule env] do
+      match emitted with
+      | .ok _ => pure ()
+      | .error e => throw (IO.userError e)
+    match AMD64.emitModule env with
+    | .ok _ => throw (IO.userError "AMD64 accepted environment plus variadic marker")
+    | .error e => require (e.contains "variadic environment calls") "unexpected AMD64 environment refusal"
   let globals ← parse "data $table = { l 5 } dbgfile \"addresses.c\" function l $f(l %lcb.symbol.0) { @s dbgloc 7 %a =l loadl $table %b =l loadl $table %c =l loadl $table %ab =l add %a,%b %abc =l add %ab,%c %r =l add %abc,%lcb.symbol.0 ret %r }"
   let shared ← optimize globals
   let symbolUses := shared.functions[0]!.blocks.foldl (fun n b => n +

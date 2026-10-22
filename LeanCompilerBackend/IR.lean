@@ -184,7 +184,8 @@ inductive Operation where
   | allocate (alignment : StackAlignment) (size : Operand)
   | load (kind : LoadKind) (address : Operand)
   | vaArg (list : Operand)
-  | call (target : CallTarget) (arguments : Array CallArgument)
+  /-- The explicit marker survives even when there are no anonymous arguments. -/
+  | call (target : CallTarget) (arguments : Array CallArgument) (variadic : Bool := false)
   deriving Repr, Inhabited
 
 def CallTarget.operands : CallTarget → List Operand
@@ -195,7 +196,7 @@ def Operation.operands : Operation → List Operand
   | .allocate _ x | .load _ x | .vaArg x => [x]
   | .binary _ x y | .floatBinary _ x y | .divide _ x y
   | .compare _ _ x y | .floatCompare _ _ x y => [x, y]
-  | .call target args => target.operands ++ args.toList.map (·.value)
+  | .call target args _ => target.operands ++ args.toList.map (·.value)
 
 structure Instruction where
   destination : String
@@ -211,7 +212,8 @@ inductive Statement where
   | assign (instruction : Instruction)
   | storeFloat (width : Width) (value address : Operand)
   | store (width : MemoryWidth) (value address : Operand)
-  | callVoid (target : CallTarget) (arguments : Array CallArgument)
+  /-- Like `Operation.call`, retain a trailing empty variadic marker. -/
+  | callVoid (target : CallTarget) (arguments : Array CallArgument) (variadic : Bool := false)
   | vaStart (list : Operand)
   | blit (source destination : Operand) (bytes : Nat)
   deriving Repr, Inhabited
@@ -221,8 +223,8 @@ def Statement.definition : Statement → Option (String × Width)
   | .storeFloat .. | .store .. | .callVoid .. | .blit .. | .vaStart .. => none
 
 def Statement.callSite : Statement → Option (CallTarget × Array CallArgument × Option Width)
-  | .assign { width, operation := .call target arguments, .. } => some (target, arguments, some width)
-  | .callVoid target arguments => some (target, arguments, none)
+  | .assign { width, operation := .call target arguments _, .. } => some (target, arguments, some width)
+  | .callVoid target arguments _ => some (target, arguments, none)
   | _ => none
 
 def Statement.resultFloating : Statement → Bool
@@ -240,7 +242,7 @@ def Statement.resultAggregate : Statement → Option String
 def Statement.operands : Statement → List Operand
   | .assign inst => inst.operation.operands
   | .store _ value address | .storeFloat _ value address => [value, address]
-  | .callVoid target args => target.operands ++ args.toList.map (·.value)
+  | .callVoid target args _ => target.operands ++ args.toList.map (·.value)
   | .vaStart value => [value]
   | .blit source destination _ => [source, destination]
 

@@ -36,7 +36,7 @@ private def operation (facts : Facts) : Operation → Operation
   | .convert op v => .convert op (operand facts v)
   | .load kind v => .load kind (operand facts v)
   | .vaArg v => .vaArg (operand facts v)
-  | .call fn args => .call (target facts fn) (args.map fun a => {a with value := operand facts a.value})
+  | .call fn args variadic => .call (target facts fn) (args.map fun a => {a with value := operand facts a.value}) variadic
   -- Retain the runtime-size admission boundary even when its value is known.
   | .allocate a v => .allocate a v
 private def constantResult (facts : Facts) (i : Instruction) : Option UInt64 := do
@@ -54,7 +54,7 @@ private def statement (facts : Facts) : Statement → Statement
     .assign {i with operation := op.getD (Algebra.operation i.width (operation facts i.operation))}
   | .store w v p => .store w (operand facts v) (operand facts p)
   | .storeFloat w v p => .storeFloat w (operand facts v) (operand facts p)
-  | .callVoid fn args => .callVoid (target facts fn) (args.map fun a => {a with value := operand facts a.value})
+  | .callVoid fn args variadic => .callVoid (target facts fn) (args.map fun a => {a with value := operand facts a.value}) variadic
   | .vaStart v => .vaStart (operand facts v)
   | .blit a b n => .blit (operand facts a) (operand facts b) n
 private def terminator (facts : Facts) : Terminator → Terminator

@@ -286,3 +286,11 @@ compilation failure. No vendored QBE source is changed or corrected oracle used.
 The retained IR hash is
 `cf029c85e59c76e32cc03ce97dc73799d28d872f800e60e495685f0a20da27ce`.
 This is an observed upstream assertion, not a proof about every generated input.
+
+## AMD64 environment flag and variadic overflow offset
+
+Pinned QBE aliases its environment flag with the low bit of the encoded variadic
+overflow offset. A definition with an unused environment parameter reads stack
+varargs one byte late. The [reduced input and qualification](benchmarks/variadic-markers/README.md)
+retain unchanged original failures, independent C checks, and a separately passing
+register-only signature. Removing the environment is a diagnostic control only.

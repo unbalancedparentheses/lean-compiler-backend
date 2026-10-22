@@ -115,7 +115,7 @@ private def operation (map : Operand → M Operand) : Operation → M Operation
   | .allocate alignment x => return .allocate alignment (← map x)
   | .load kind x => return .load kind (← map x)
   | .vaArg x => return .vaArg (← map x)
-  | .call callee args => return .call (← target map callee) (← arguments map args)
+  | .call callee args variadic => return .call (← target map callee) (← arguments map args) variadic
 
 private def rewriteBlock (plan : Plan) : M Block := do
   let initial ← get
@@ -141,7 +141,7 @@ private def rewriteBlock (plan : Plan) : M Block := do
         pure (.assign { inst with destination := name, operation := op })
       | .store width x address => pure (.store width (← map x) (← map address))
       | .storeFloat width x address => pure (.storeFloat width (← map x) (← map address))
-      | .callVoid callee args => pure (.callVoid (← target map callee) (← arguments map args))
+      | .callVoid callee args variadic => pure (.callVoid (← target map callee) (← arguments map args) variadic)
       | .vaStart x => pure (.vaStart (← map x))
       | .blit x y size => pure (.blit (← map x) (← map y) size)
     instructions := instructions.push statement
@@ -241,10 +241,10 @@ private def discardUnusedVoidResults (voidNames : Std.HashSet String) (f : Funct
     { block with instructions := block.instructions.map fun statement =>
       match statement with
       | .assign inst => match inst.operation with
-        | .call (.direct name) arguments =>
+        | .call (.direct name) arguments variadic =>
           if inst.callAggregate.isNone && !used.contains inst.destination &&
               voidNames.contains name then
-            .callVoid (.direct name) arguments
+            .callVoid (.direct name) arguments variadic
           else statement
         | _ => statement
       | _ => statement }

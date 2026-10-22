@@ -226,7 +226,7 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
       | .store width value address =>
         check width.valueWidth value
         check .long address
-      | .callVoid target arguments => checkCallArguments check checkFloat target arguments
+      | .callVoid target arguments _ => checkCallArguments check checkFloat target arguments
       | .vaStart list =>
         if !f.variadic then throw "vastart requires a variadic function"
         check .long list
@@ -282,7 +282,7 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
           check width b
         | .load _ address => check .long address
         | .vaArg list => check .long list
-        | .call target arguments =>
+        | .call target arguments _ =>
           checkCallArguments check checkFloat target arguments
         | .allocate _ size =>
           if inst.width != .long then throw "stack allocation requires a long result"

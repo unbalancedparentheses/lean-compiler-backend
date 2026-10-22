@@ -127,9 +127,9 @@ private def returnChunks (info : Info) : Array (Bool × String × Nat) := Id.run
     | .empty => pure ()
   return chunks
 
-private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgument) (result : Option (String × String) := none) : Except String (List String) := do
+private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgument) (result : Option (String × String) := none) (variadicCall : Bool := false) : Except String (List String) := do
   let resultInfo ← result.mapM (fun (_, name) => AMD64ABI.find c.types name)
-  let p ← plan c.types args (resultInfo.any (·.memory))
+  let p ← plan c.types args (resultInfo.any (·.memory)) variadicCall
   let bytes := align p.stackBytes
   if bytes > 1024 * 1024 then throw "AMD64 outgoing argument area exceeds 1 MiB"
   let mut lines := if bytes != 0 then [s!"\tsubq ${bytes}, %rsp"] else []
@@ -160,7 +160,7 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
     if resultInfo.any (·.memory) then lines := lines ++ (← objectAddress c destination "rdi")
   if let .indirect address := target then lines := lines ++ (← load c .long "r11" address)
   if let some arg := args.find? (·.environment) then lines := lines ++ (← load c .long "rax" arg.value)
-  else if args.any (·.variadic) then lines := lines ++ [s!"\tmovl ${p.nfp}, %eax"]
+  else if variadicCall || args.any (·.variadic) then lines := lines ++ [s!"\tmovl ${p.nfp}, %eax"]
   lines := lines ++ [match target with | .direct name => s!"\tcall {Assembly.symbolName c.darwin name}" | .indirect _ => "\tcall *%r11"]
   if bytes != 0 then lines := lines ++ [s!"\taddq ${bytes}, %rsp"]
   if let some (destination, _) := result then
@@ -264,8 +264,8 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       | .unsignedWord => "movl" | .plain => "mov" ++ s
     let destination := if kind == .unsignedByte || kind == .unsignedHalf || kind == .unsignedWord then "%eax" else a
     lines := lines ++ [s!"\t{instruction} (%rax), {destination}"]
-  | .call target args =>
-    lines := ← emitCall c target args (inst.callAggregate.map (inst.destination, ·))
+  | .call target args variadic =>
+    lines := ← emitCall c target args (inst.callAggregate.map (inst.destination, ·)) variadic
     if inst.floating then lines := lines ++ [s!"\tmov{if w == .word then "d" else "q"} %xmm0, {a}"]
     if let some kind := inst.callSubword then lines := lines ++ extend .word kind.extension
   | .vaArg list =>
@@ -281,7 +281,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
 
 private def emitStatement (c : Context) : Statement → Except String (List String)
   | .assign inst => emitInstruction c inst
-  | .callVoid target args => emitCall c target args
+  | .callVoid target args variadic => emitCall c target args none variadic
   | .storeFloat width value address => do
     return (← load c .long "r10" address) ++ (← load c width "rax" value) ++ [s!"\tmov{suffix width} {reg width "rax"}, (%r10)"]
   | .store width value address => do
@@ -365,8 +365,16 @@ private def edge (c : Context) (f : Function) (source target : String) : Except 
 private def emitFunction (f : Function) (types : Array Info) (locals : List String) (fileId : Nat) (darwin : Bool) (allocate : Bool) : Except String String := do
   validateFunction f true
   Assembly.checkTargetSection darwin f.customSection
+  -- RAX carries the environment while AL carries the variadic FP count.
+  -- An unused environment needs no binding, so ordinary variadic callers can
+  -- use this definition. Keep used environments and explicit variadic env
+  -- call sites outside the supported AMD64 ABI domain.
+  let f ← if f.variadic && f.parameters.any (·.environment) then
+      match calleeForEnvironment f false with
+      | .ok ordinary => pure ordinary
+      | .error _ => throw "AMD64 System V does not support variadic functions with a used environment parameter"
+    else pure f
   let resultInfo ← f.resultAggregate.mapM (AMD64ABI.find types)
-  if f.variadic && f.parameters.any (·.environment) then throw "AMD64 System V does not support variadic environment functions"
   let params := f.parameters.map fun p => { width := p.width, value := Operand.temporary p.name, floating := p.floating, subword := p.subword, environment := p.environment, aggregate := p.aggregate : CallArgument }
   let incoming ← plan types params (resultInfo.any (·.memory))
   let homes ← if allocate then Allocation.allocate f savedGP.size else pure (Allocation.baseline f)

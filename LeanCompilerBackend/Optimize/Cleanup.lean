@@ -18,12 +18,12 @@ def mapOperation (map : Operand → Operand) : Operation → Operation
   | .allocate a v => .allocate a (map v)
   | .load k v => .load k (map v)
   | .vaArg v => .vaArg (map v)
-  | .call target args => .call (mapTarget map target) (args.map fun a => {a with value := map a.value})
+  | .call target args variadic => .call (mapTarget map target) (args.map fun a => {a with value := map a.value}) variadic
 private def mapStatement (map : Operand → Operand) : Statement → Statement
   | .assign i => .assign {i with operation := mapOperation map i.operation}
   | .store w v p => .store w (map v) (map p)
   | .storeFloat w v p => .storeFloat w (map v) (map p)
-  | .callVoid target args => .callVoid (mapTarget map target) (args.map fun a => {a with value := map a.value})
+  | .callVoid target args variadic => .callVoid (mapTarget map target) (args.map fun a => {a with value := map a.value}) variadic
   | .vaStart v => .vaStart (map v)
   | .blit a b n => .blit (map a) (map b) n
 private def mapTerminator (map : Operand → Operand) : Terminator → Terminator

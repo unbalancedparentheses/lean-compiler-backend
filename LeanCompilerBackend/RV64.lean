@@ -247,7 +247,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       | .signedByte => "lb" | .unsignedByte => "lbu" | .signedHalf => "lh" | .unsignedHalf => "lhu"
       | .signedWord => "lw" | .unsignedWord => "lwu" | .plain => if w == Width.word then "lwu" else "ld"
     lines := lines ++ [s!"\t{op} t0, 0(t0)"]
-  | .call target args =>
+  | .call target args _ =>
     lines := ← emitCall c target args (inst.callAggregate.map (inst.destination, ·))
     if inst.floating then lines := lines ++ fromFloat w "t0" "fa0"
     else
@@ -268,7 +268,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
 
 private def emitStatement (c : Context) : Statement → Except String (List String)
   | .assign i => emitInstruction c i
-  | .callVoid t args => emitCall c t args
+  | .callVoid t args _ => emitCall c t args
   | .storeFloat w value ptr => do
     return (← load c .long "t1" ptr) ++ (← load c w "t0" value) ++ [s!"\t{if w == .word then "sw" else "sd"} t0, 0(t1)"]
   | .store w value ptr => do

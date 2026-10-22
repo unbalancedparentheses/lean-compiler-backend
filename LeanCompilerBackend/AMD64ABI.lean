@@ -65,9 +65,9 @@ structure Plan where
 
 private def align (n a : Nat) : Nat := (n+a-1)/a*a
 
-def plan (types : Array Info) (args : Array CallArgument) (memoryResult : Bool := false) : Except String Plan := do
+def plan (types : Array Info) (args : Array CallArgument) (memoryResult : Bool := false) (variadicCall : Bool := false) : Except String Plan := do
   let mut p : Plan := { ngp := if memoryResult then 1 else 0 }
-  if args.any (·.environment) && args.any (·.variadic) then
+  if args.any (·.environment) && (variadicCall || args.any (·.variadic)) then
     throw "AMD64 System V does not support variadic environment calls"
   for arg in args do
     if let some name := arg.aggregate then

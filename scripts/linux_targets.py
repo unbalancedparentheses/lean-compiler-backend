@@ -136,6 +136,11 @@ def main():
     dynamic_outgoing_tests(compiler,work,run,cc,args.target,execute)
     from unused_environment import exercise as unused_environment_tests
     unused_environment_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
+    if args.target == 'x86_64-linux':
+        from empty_variadic_calls import exercise as empty_variadic_tests
+        from unused_environment_variadic import exercise as unused_env_variadic_tests
+        empty_variadic_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
+        unused_env_variadic_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
     from argument_limits import exercise as argument_limit_tests, original_qbe_profiles
     argument_limit_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget,original_qbe_profiles(args.target))
     if args.target == 'riscv64-linux':

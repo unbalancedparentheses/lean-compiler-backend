@@ -1,0 +1,7 @@
+export function l $target(env %unused, l %a, l %b, l %c, l %d, l %e, l %f, ...) {
+@start
+ %ap =l alloc8 24
+ vastart %ap
+ %v =l vaarg %ap
+ ret %v
+}

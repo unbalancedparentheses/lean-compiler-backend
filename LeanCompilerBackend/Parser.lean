@@ -186,14 +186,14 @@ private def comparisonName (name : String) : Option (Comparison × Width) := Id.
     if name == stem ++ "l" then return some (op, .long)
   return none
 
-private def parseArguments : Nat → Bool → P (Array CallArgument)
+private def parseArguments : Nat → Bool → P (Array CallArgument × Bool)
   | 0, _ => failAt "call argument parsing limit exceeded"
   | fuel + 1, variadic => do
-    if (← peek) == some ")" then return #[]
+    if (← peek) == some ")" then return (#[], variadic)
     if (← peek) == some "..." then
       if variadic then failAt "duplicate variadic call marker"
       discard take
-      if (← peek) == some ")" then return #[]
+      if (← peek) == some ")" then return (#[], true)
       expect ","
       if (← peek) == some ")" then failAt "trailing comma in call arguments"
       return ← parseArguments fuel true
@@ -203,17 +203,18 @@ private def parseArguments : Nat → Bool → P (Array CallArgument)
     if (← peek) == some "," then
       discard take
       if (← peek) == some ")" then failAt "trailing comma in call arguments"
-      return #[{ width, value, variadic, environment, floating, subword, aggregate }] ++ (← parseArguments fuel variadic)
-    return #[{ width, value, variadic, environment, floating, subword, aggregate }]
+      let (rest, marker) ← parseArguments fuel variadic
+      return (#[{ width, value, variadic, environment, floating, subword, aggregate }] ++ rest, marker)
+    return (#[{ width, value, variadic, environment, floating, subword, aggregate }], variadic)
 
-private def parseCall : P (CallTarget × Array CallArgument) := do
+private def parseCall : P (CallTarget × Array CallArgument × Bool) := do
   let target ← if ((← peek).getD "").startsWith "$" then
       CallTarget.direct <$> parseName '$'
     else CallTarget.indirect <$> parseOperand
   expect "("
-  let arguments ← parseArguments (maxIntegerArguments + 3) false
+  let (arguments, variadic) ← parseArguments (maxIntegerArguments + 3) false
   expect ")"
-  pure (target, arguments)
+  pure (target, arguments, variadic)
 
 private def floatComparisonName (name : String) : Option (FloatComparison × Width) := Id.run do
   let names : List (String × FloatComparison) := [("ceq", .eq), ("cne", .ne),
@@ -250,8 +251,8 @@ private def parseOperation (floating : Bool) (name : String) : P Operation := do
   else if name == "vaarg" then
     pure (.vaArg (← parseOperand))
   else if name == "call" then do
-    let (target, arguments) ← parseCall
-    pure (.call target arguments)
+    let (target, arguments, variadic) ← parseCall
+    pure (.call target arguments variadic)
   else if ["alloc1", "alloc2", "alloc4", "alloc8", "alloc16"].contains name then
     -- QBE parse.c maps alloc1/alloc2 aliases to alloc4 (stronger alignment).
     let alignment := if ["alloc1", "alloc2", "alloc4"].contains name then StackAlignment.four
@@ -409,8 +410,8 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
         else if token == "blit" then Sum.inr <$> parseBlit
         else if token == "call" then do
           discard take
-          let (target, arguments) ← parseCall
-          pure (.inr (.callVoid target arguments))
+          let (target, arguments, variadic) ← parseCall
+          pure (.inr (.callVoid target arguments variadic))
         else parseDefinition
         match definition with
         | .inl phi =>

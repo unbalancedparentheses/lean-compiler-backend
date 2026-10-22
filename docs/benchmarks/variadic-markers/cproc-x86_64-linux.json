@@ -1,0 +1,297 @@
+{
+  "schema": 1,
+  "program": "cproc frontend self-compilation",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "cjson_commit": "c859b25da02955fef659d658b8f324b5cde87be3",
+  "compiler_identity": "57fc5bc6422b27e130dec860ce564e399dbda062f4b48041c7fb4b0b8e1b6577",
+  "qbe_version": "1.3 (repository pinned source)",
+  "qbe_build_flags": "-std=c99 -O2",
+  "target": "x86_64-linux",
+  "execution_mode": "QEMU user emulation",
+  "frontend_defines": [
+    "-D__DBL_EPSILON__=2.2204460492503131e-16",
+    "-DUNITY_LONG_WIDTH=64",
+    "-DUNITY_POINTER_WIDTH=64",
+    "-DUNITY_INT_WIDTH=32"
+  ],
+  "compile_host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "execution": "Linux 36d787fe752f 7.2.9-orbstack-00391-g2b298d05fbd4 #1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+  "translation_units": {
+    "attr": {
+      "sha256": "0e9d1373780703b6b7f30915c6ca223d71b337d9c6a2565c14d6d794ffa684e2",
+      "bytes": 12042,
+      "lines": 518,
+      "functions": 6
+    },
+    "decl": {
+      "sha256": "251bb65a9690de6d87aeb8b702da974488cc0432393740be6980e47e850e76ca",
+      "bytes": 127511,
+      "lines": 5283,
+      "functions": 26
+    },
+    "eval": {
+      "sha256": "6c614d8ceabcb5f94ab1bd458f8f847f55a62b5dd23ddb133324768f05dd77dc",
+      "bytes": 40188,
+      "lines": 1781,
+      "functions": 4
+    },
+    "expr": {
+      "sha256": "860c3eb3381aa161f946768c2bc9969914627c30a36c1964bcdab9a5367a3e3d",
+      "bytes": 149194,
+      "lines": 6252,
+      "functions": 42
+    },
+    "init": {
+      "sha256": "9fa01b8b75176aacc0e9a7b101096bf6995102d076793d845d324bc04244ab66",
+      "bytes": 32017,
+      "lines": 1448,
+      "functions": 14
+    },
+    "main": {
+      "sha256": "62daee6a1508d0f3ab7f8ecb1b0e11674bcb9e8fc17e1fe595c1be6706d313ef",
+      "bytes": 9627,
+      "lines": 439,
+      "functions": 8
+    },
+    "map": {
+      "sha256": "a07ae13b3b534074c3135b7e9027ef8793bf9e1b66a195910b455efe67990f34",
+      "bytes": 12868,
+      "lines": 642,
+      "functions": 14
+    },
+    "pp": {
+      "sha256": "2dd5e6f1e633eb929562f18c9db1cd9ce440f49bc8a3ab2bd87d97ef9986b9af",
+      "bytes": 51274,
+      "lines": 2304,
+      "functions": 29
+    },
+    "scan": {
+      "sha256": "1b5549566ccdc4579e64dbfaf6f52b9b83091cc590318f01017252dc425dfc16",
+      "bytes": 38457,
+      "lines": 1810,
+      "functions": 25
+    },
+    "scope": {
+      "sha256": "92bd2b0477de201765318c306207c8f1a7fbffe5fa9f4b8417dc4b5cb89b51aa",
+      "bytes": 9642,
+      "lines": 427,
+      "functions": 13
+    },
+    "stmt": {
+      "sha256": "8758a2b63e6b13de82db65756ca333e060bc4f68e3011acf8b18a2bfe460d285",
+      "bytes": 28790,
+      "lines": 1141,
+      "functions": 9
+    },
+    "targ": {
+      "sha256": "78541f4a6eb73b173af677a1b4730d1a35858f838305eb5734d26ace74377540",
+      "bytes": 2276,
+      "lines": 84,
+      "functions": 1
+    },
+    "token": {
+      "sha256": "65dc6d7dc9fac81ffa6def91196676a0018c40f33e2e3fd9eeaff5062b8e590d",
+      "bytes": 17900,
+      "lines": 740,
+      "functions": 14
+    },
+    "tree": {
+      "sha256": "531e9df9c7b89f8997245dc3f8c37a716afa8c04ef6a875f0f7d0c1e1dd4b6e4",
+      "bytes": 7840,
+      "lines": 380,
+      "functions": 4
+    },
+    "type": {
+      "sha256": "c9399d8af2d9cd064fe4118bc8ea807dd45838c7e54fe80e4fa4f16b754bab53",
+      "bytes": 27149,
+      "lines": 1197,
+      "functions": 13
+    },
+    "utf": {
+      "sha256": "2eac4d5e5eaf3089110ca67fcf306ebd041a9d7281c3401ec645ff7485ab224b",
+      "bytes": 6676,
+      "lines": 332,
+      "functions": 3
+    },
+    "util": {
+      "sha256": "a473be5127fa41e127bc27d100f9464ccb7b0dfa37ed4b620155611124ef305f",
+      "bytes": 12566,
+      "lines": 632,
+      "functions": 21
+    },
+    "qbe": {
+      "sha256": "4488ee2463de20f8e6cd48ca37ec581169bbbe8335124c7d3b97669072aa0686",
+      "bytes": 178160,
+      "lines": 7462,
+      "functions": 47
+    }
+  },
+  "backends": {
+    "baseline": {
+      "compile_seconds": {
+        "attr": 0.023087750014383346,
+        "decl": 0.049560624989680946,
+        "eval": 0.032930208020843565,
+        "expr": 0.050170583999715745,
+        "init": 0.02789699996355921,
+        "main": 0.02558691700687632,
+        "map": 0.02390295802615583,
+        "pp": 0.031918207998387516,
+        "scan": 0.02779887500219047,
+        "scope": 0.023393500014208257,
+        "stmt": 0.027237291040364653,
+        "targ": 0.023164917016401887,
+        "token": 0.024986542004626244,
+        "tree": 0.02323420805623755,
+        "type": 0.02839337504701689,
+        "utf": 0.024373874999582767,
+        "util": 0.024862875055987388,
+        "qbe": 0.05801037501078099
+      },
+      "total_compile_seconds": 0.5505100832669996,
+      "executable_bytes": 555616,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 511274\t  20400\t    528\t 532202\t  81eea\t/work/cproc-bootstrap-x86_64/cproc-baseline",
+      "reproduced_ir": {
+        "attr": "0e9d1373780703b6b7f30915c6ca223d71b337d9c6a2565c14d6d794ffa684e2",
+        "decl": "251bb65a9690de6d87aeb8b702da974488cc0432393740be6980e47e850e76ca",
+        "eval": "6c614d8ceabcb5f94ab1bd458f8f847f55a62b5dd23ddb133324768f05dd77dc",
+        "expr": "860c3eb3381aa161f946768c2bc9969914627c30a36c1964bcdab9a5367a3e3d",
+        "init": "9fa01b8b75176aacc0e9a7b101096bf6995102d076793d845d324bc04244ab66",
+        "main": "62daee6a1508d0f3ab7f8ecb1b0e11674bcb9e8fc17e1fe595c1be6706d313ef",
+        "map": "a07ae13b3b534074c3135b7e9027ef8793bf9e1b66a195910b455efe67990f34",
+        "pp": "2dd5e6f1e633eb929562f18c9db1cd9ce440f49bc8a3ab2bd87d97ef9986b9af",
+        "scan": "1b5549566ccdc4579e64dbfaf6f52b9b83091cc590318f01017252dc425dfc16",
+        "scope": "92bd2b0477de201765318c306207c8f1a7fbffe5fa9f4b8417dc4b5cb89b51aa",
+        "stmt": "8758a2b63e6b13de82db65756ca333e060bc4f68e3011acf8b18a2bfe460d285",
+        "targ": "78541f4a6eb73b173af677a1b4730d1a35858f838305eb5734d26ace74377540",
+        "token": "65dc6d7dc9fac81ffa6def91196676a0018c40f33e2e3fd9eeaff5062b8e590d",
+        "tree": "531e9df9c7b89f8997245dc3f8c37a716afa8c04ef6a875f0f7d0c1e1dd4b6e4",
+        "type": "c9399d8af2d9cd064fe4118bc8ea807dd45838c7e54fe80e4fa4f16b754bab53",
+        "utf": "2eac4d5e5eaf3089110ca67fcf306ebd041a9d7281c3401ec645ff7485ab224b",
+        "util": "a473be5127fa41e127bc27d100f9464ccb7b0dfa37ed4b620155611124ef305f",
+        "qbe": "4488ee2463de20f8e6cd48ca37ec581169bbbe8335124c7d3b97669072aa0686",
+        "cJSON": "f3efd12a49906082312859896e2b2e97577d2f2756b9d0b779df1254ca015494"
+      },
+      "upstream_tests_passed": 196,
+      "upstream_tests_total": 196
+    },
+    "optimized": {
+      "compile_seconds": {
+        "attr": 0.025946500012651086,
+        "decl": 0.09571224998217076,
+        "eval": 0.03984183300053701,
+        "expr": 0.09322054102085531,
+        "init": 0.03582266700686887,
+        "main": 0.025936750054825097,
+        "map": 0.026654165994841605,
+        "pp": 0.043039458978455514,
+        "scan": 0.037229042034596205,
+        "scope": 0.0251958750304766,
+        "stmt": 0.03195591695839539,
+        "targ": 0.020820458012167364,
+        "token": 0.027621624991297722,
+        "tree": 0.0243730410002172,
+        "type": 0.031142458028625697,
+        "utf": 0.02368887496413663,
+        "util": 0.026089082995895296,
+        "qbe": 0.12508987495675683
+      },
+      "total_compile_seconds": 0.7593804150237702,
+      "executable_bytes": 268912,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 226926\t  20400\t    528\t 247854\t  3c82e\t/work/cproc-bootstrap-x86_64/cproc-optimized",
+      "reproduced_ir": {
+        "attr": "0e9d1373780703b6b7f30915c6ca223d71b337d9c6a2565c14d6d794ffa684e2",
+        "decl": "251bb65a9690de6d87aeb8b702da974488cc0432393740be6980e47e850e76ca",
+        "eval": "6c614d8ceabcb5f94ab1bd458f8f847f55a62b5dd23ddb133324768f05dd77dc",
+        "expr": "860c3eb3381aa161f946768c2bc9969914627c30a36c1964bcdab9a5367a3e3d",
+        "init": "9fa01b8b75176aacc0e9a7b101096bf6995102d076793d845d324bc04244ab66",
+        "main": "62daee6a1508d0f3ab7f8ecb1b0e11674bcb9e8fc17e1fe595c1be6706d313ef",
+        "map": "a07ae13b3b534074c3135b7e9027ef8793bf9e1b66a195910b455efe67990f34",
+        "pp": "2dd5e6f1e633eb929562f18c9db1cd9ce440f49bc8a3ab2bd87d97ef9986b9af",
+        "scan": "1b5549566ccdc4579e64dbfaf6f52b9b83091cc590318f01017252dc425dfc16",
+        "scope": "92bd2b0477de201765318c306207c8f1a7fbffe5fa9f4b8417dc4b5cb89b51aa",
+        "stmt": "8758a2b63e6b13de82db65756ca333e060bc4f68e3011acf8b18a2bfe460d285",
+        "targ": "78541f4a6eb73b173af677a1b4730d1a35858f838305eb5734d26ace74377540",
+        "token": "65dc6d7dc9fac81ffa6def91196676a0018c40f33e2e3fd9eeaff5062b8e590d",
+        "tree": "531e9df9c7b89f8997245dc3f8c37a716afa8c04ef6a875f0f7d0c1e1dd4b6e4",
+        "type": "c9399d8af2d9cd064fe4118bc8ea807dd45838c7e54fe80e4fa4f16b754bab53",
+        "utf": "2eac4d5e5eaf3089110ca67fcf306ebd041a9d7281c3401ec645ff7485ab224b",
+        "util": "a473be5127fa41e127bc27d100f9464ccb7b0dfa37ed4b620155611124ef305f",
+        "qbe": "4488ee2463de20f8e6cd48ca37ec581169bbbe8335124c7d3b97669072aa0686",
+        "cJSON": "f3efd12a49906082312859896e2b2e97577d2f2756b9d0b779df1254ca015494"
+      },
+      "upstream_tests_passed": 196,
+      "upstream_tests_total": 196
+    },
+    "qbe": {
+      "compile_seconds": {
+        "attr": 0.004349666996859014,
+        "decl": 0.011078375042416155,
+        "eval": 0.005217958998400718,
+        "expr": 0.014255916990805417,
+        "init": 0.005174249992705882,
+        "main": 0.004040915984660387,
+        "map": 0.003965415991842747,
+        "pp": 0.007503041997551918,
+        "scan": 0.006099582999013364,
+        "scope": 0.004669165995437652,
+        "stmt": 0.005476541991811246,
+        "targ": 0.0035933330073021352,
+        "token": 0.004999249998945743,
+        "tree": 0.004330750030931085,
+        "type": 0.004942916973959655,
+        "utf": 0.004002417030278593,
+        "util": 0.004546959011349827,
+        "qbe": 0.014485334046185017
+      },
+      "total_compile_seconds": 0.11273179308045655,
+      "executable_bytes": 137808,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  94989\t  20448\t    528\t 115965\t  1c4fd\t/work/cproc-bootstrap-x86_64/cproc-qbe",
+      "reproduced_ir": {
+        "attr": "0e9d1373780703b6b7f30915c6ca223d71b337d9c6a2565c14d6d794ffa684e2",
+        "decl": "251bb65a9690de6d87aeb8b702da974488cc0432393740be6980e47e850e76ca",
+        "eval": "6c614d8ceabcb5f94ab1bd458f8f847f55a62b5dd23ddb133324768f05dd77dc",
+        "expr": "860c3eb3381aa161f946768c2bc9969914627c30a36c1964bcdab9a5367a3e3d",
+        "init": "9fa01b8b75176aacc0e9a7b101096bf6995102d076793d845d324bc04244ab66",
+        "main": "62daee6a1508d0f3ab7f8ecb1b0e11674bcb9e8fc17e1fe595c1be6706d313ef",
+        "map": "a07ae13b3b534074c3135b7e9027ef8793bf9e1b66a195910b455efe67990f34",
+        "pp": "2dd5e6f1e633eb929562f18c9db1cd9ce440f49bc8a3ab2bd87d97ef9986b9af",
+        "scan": "1b5549566ccdc4579e64dbfaf6f52b9b83091cc590318f01017252dc425dfc16",
+        "scope": "92bd2b0477de201765318c306207c8f1a7fbffe5fa9f4b8417dc4b5cb89b51aa",
+        "stmt": "8758a2b63e6b13de82db65756ca333e060bc4f68e3011acf8b18a2bfe460d285",
+        "targ": "78541f4a6eb73b173af677a1b4730d1a35858f838305eb5734d26ace74377540",
+        "token": "65dc6d7dc9fac81ffa6def91196676a0018c40f33e2e3fd9eeaff5062b8e590d",
+        "tree": "531e9df9c7b89f8997245dc3f8c37a716afa8c04ef6a875f0f7d0c1e1dd4b6e4",
+        "type": "c9399d8af2d9cd064fe4118bc8ea807dd45838c7e54fe80e4fa4f16b754bab53",
+        "utf": "2eac4d5e5eaf3089110ca67fcf306ebd041a9d7281c3401ec645ff7485ab224b",
+        "util": "a473be5127fa41e127bc27d100f9464ccb7b0dfa37ed4b620155611124ef305f",
+        "qbe": "4488ee2463de20f8e6cd48ca37ec581169bbbe8335124c7d3b97669072aa0686",
+        "cJSON": "f3efd12a49906082312859896e2b2e97577d2f2756b9d0b779df1254ca015494"
+      },
+      "upstream_tests_passed": 196,
+      "upstream_tests_total": 196
+    }
+  },
+  "oracle_patch_sha256": null,
+  "notes": [
+    "Unmodified pinned program sources and identical stage-one IR for all backends.",
+    "Stage-one frontend uses GCC; GCC links stage-two frontend objects with system libc.",
+    "Backend compile times exclude preprocessing, assembler and linker.",
+    "Successful stage-two frontends reproduce all frontend source units and cJSON byte-for-byte.",
+    "Original cproc tests compare IR, preprocessing and diagnostic outputs."
+  ],
+  "extern_offset_regression": {
+    "baseline": {
+      "exit": 0,
+      "matches_c_pointer": true
+    },
+    "optimized": {
+      "exit": 0,
+      "matches_c_pointer": true
+    },
+    "qbe": {
+      "exit": 0,
+      "matches_c_pointer": true
+    }
+  }
+}

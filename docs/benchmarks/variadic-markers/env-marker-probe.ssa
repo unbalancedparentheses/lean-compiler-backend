@@ -1,0 +1,34 @@
+function l $f(env %env,d %named,...) {
+@s
+ %ap =l alloc8 32
+ vastart %ap
+ %tail =l vaarg %ap
+ %d =d vaarg %ap
+ %bits =l cast %named
+ %dbits =l cast %d
+ %a =l add %env,%bits
+ %b =l add %a,%tail
+ %r =l add %b,%dbits
+ ret %r
+}
+function l $empty(env %env,d %named,...) {
+@s
+ %bits =l cast %named
+ %r =l add %env,%bits
+ ret %r
+}
+export function l $root() {
+@s
+ %fn =l copy $f
+ %a =l call $f(env 9,d d_1.5,...,l 33,d d_2.5)
+ %b =l call %fn(env 9,d d_1.5,...,l 33,d d_2.5)
+ %emptyfn =l copy $empty
+ %c =l call $empty(env 9,d d_1.5,...)
+ %d =l call %emptyfn(env 9,d d_1.5,...)
+ %ab =l xor %a,%b
+ %cd =l xor %c,%d
+ %ok =l or %ab,%cd
+ %sum =l add %a,%c
+ %r =l add %ok,%sum
+ ret %r
+}

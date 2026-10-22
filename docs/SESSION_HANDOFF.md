@@ -10,7 +10,15 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`e1a329371ac31cb3af1d7ef3bf7f1fce81c72b11e2445525ab4520f74335aef9`.
+`57fc5bc6422b27e130dec860ce564e399dbda062f4b48041c7fb4b0b8e1b6577`.
+
+Explicit variadic markers now survive empty anonymous tails through SSA and
+optimization; AMD64 initializes AL even when only named FP arguments are present.
+Unused environment bindings are removed from AMD64 variadic definition ABI views.
+Used environments and explicit variadic-environment calls remain rejected there.
+See [marker and C-ABI qualification](benchmarks/variadic-markers/README.md);
+original QBE overflow-pointer failures are separate from successful register-only
+comparisons. Existing proof-audit reports remain unchanged.
 
 Symbol initializers now retain `b/h/w/l/s/d` storage widths and addends. The
 [relocation qualification](benchmarks/data-relocations/README.md) records packed
@@ -24,8 +32,8 @@ an environment value. Known used-environment omissions remain errors; native
 unresolved indirect/external ABI assumptions are unchanged. The
 [retained suite](benchmarks/unused-environment/README.md) passes interpreter,
 independent C and unchanged QBE comparisons on all five targets, with full target
-gates, unchanged ordinary assembly and proof-audit results. Native AMD64
-variadic environment definitions remain a separate limitation at this checkpoint.
+gates, unchanged ordinary assembly and proof-audit results. AMD64
+variadic definitions with a used environment remain a separate limitation.
 
 The [fresh overnight Csmith batch](benchmarks/csmith-overnight/README.md) qualifies
 50 of 64 new seeds per Linux target against GCC O0/O2 and unchanged QBE, with 14
