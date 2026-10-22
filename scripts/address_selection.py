@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent byte-level checks for ARM64/RV64 constant-offset memory selection."""
+"""Independent byte-level checks for ARM64/AMD64/RV64 constant-offset memory selection."""
 import argparse
 import os
 from pathlib import Path
@@ -61,6 +61,23 @@ def inputs():
             declarations.append(f'extern {ctype} {name}(void *,{ctype});')
             checks.append(f'''memcpy(expected,bytes,sizeof(bytes));memcpy(expected+4096+({offset}),&seed,sizeof({ctype}));
  if({name}(p,({ctype})seed)!=({ctype})seed)return 3;if(memcmp(bytes,expected,sizeof(bytes)))return 4;''')
+
+    # Exercise signed32 displacement boundaries without allocating huge objects.
+    # The caller biases an integer address; only the final address is accessed.
+    for index,offset in enumerate([-2147483649,-2147483648,2147483647,2147483648]):
+        for mode in ['load','store']:
+            name=f'offset_wide_{mode}_{index}'
+            if mode=='load':
+                body=' %v =l loadl %address\n ret %v'
+                header=f'export function l ${name}(l %p)'
+                declarations.append(f'extern uint64_t {name}(uintptr_t);')
+                checks.append(f'{{uint64_t v;memcpy(&v,p,8);if({name}((uintptr_t)p-UINT64_C({offset%(1<<64)}))!=v)return 15;}}')
+            else:
+                body=' storel %value,%address\n ret'
+                header=f'export function ${name}(l %p,l %value)'
+                declarations.append(f'extern void {name}(uintptr_t,uint64_t);')
+                checks.append(f'memcpy(expected,bytes,sizeof(bytes));memcpy(expected+4096,&seed,8);{name}((uintptr_t)p-UINT64_C({offset%(1<<64)}),seed);if(memcmp(bytes,expected,sizeof(bytes)))return 16;')
+            source.append(header+' {\n@s\n'+f' %address =l add %p,{offset}\n'+body+'\n}\n')
 
     for count in [12,24]:
         for mode in ['load','store']:
@@ -179,6 +196,34 @@ def exercise(compiler,work,run,cc,target,execute=True):
             assert re.search(r'\bstrb w\d+, \[x\d+, #4095\]',output)
             assert re.search(r'\bldur x9, \[x9, #-256\]',output),'pressure fixture must exercise a spilled base and result'
             assert re.search(r'\bstur x10, \[x9, #-256\]',output),'pressure fixture must exercise spilled base and stored value'
+        if target.startswith('x86_64') and label=='allocated':
+            output=asm.read_text()
+            def body(name):
+                symbol=('_' if target.endswith('macos') else '')+name
+                return output.split('\n'+symbol+':\n',1)[1].split('\n.globl ',1)[0]
+            for offset in [-2048,2047,32768]:
+                index=OFFSETS.index(offset)
+                assert f'\tmovq {offset}(%rax), %rax' in body(f'offset_load_l_l_{index}')
+                assert f'\tmovq %rax, {offset}(%r10)' in body(f'offset_store_l_{index}')
+                for precision,suffix,register in [('s','l','eax'),('d','q','rax')]:
+                    selected=body(f'offset_float_{precision}_{index}')
+                    assert f'\tmov{suffix} {offset}(%rax), %{register}' in selected
+                    assert f'\tmov{suffix} %{register}, {offset}(%r10)' in selected
+            for index,offset in [(1,-2147483648),(2,2147483647)]:
+                assert f'\tmovq {offset}(%rax), %rax' in body(f'offset_wide_load_{index}')
+                assert f'\tmovq %rax, {offset}(%r10)' in body(f'offset_wide_store_{index}')
+            for index in [0,3]:
+                assert '\tmovq (%rax), %rax' in body(f'offset_wide_load_{index}')
+                assert '\tmovq %rax, (%r10)' in body(f'offset_wide_store_{index}')
+            for name in ['offset_phi','offset_separated']:
+                assert '\tmovq (%rax), %rax' in body(name)
+                assert '\tmovq 16(%rax), %rax' not in body(name)
+            for name in ['offset_shared','offset_value']:
+                assert '\tmovq %rax, (%r10)' in body(name)
+                assert '\tmovq %rax, 16(%r10)' not in body(name)
+            assert '\tmovzbl -1(%rax), %eax' in body('offset_wrapped')
+            assert re.search(r'\tmovq -\d+\(%rbp\), %rax\n\tmovq -2048\(%rax\), %rax',body('offset_pressure_24_load_2048'))
+            assert re.search(r'\tmovq -\d+\(%rbp\), %r10\n\tmovq -\d+\(%rbp\), %rax\n\tmovq %rax, -2048\(%r10\)',body('offset_pressure_24_store_2048'))
         if target.startswith('riscv64') and label=='allocated':
             output=asm.read_text()
             def body(name):
@@ -213,6 +258,13 @@ def exercise(compiler,work,run,cc,target,execute=True):
                 bad,badexe=case/'wrong-offset.s',case/'wrong-offset';bad.write_text(damaged)
                 result=run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
                 result=run([badexe],True);assert result.returncode!=0,'wrong memory offset escaped independent byte oracle'
+            if target.startswith('x86_64') and label=='allocated':
+                original=asm.read_text()
+                damaged=original.replace('\tmovsbl -2048(%rax), %eax','\tmovsbl -2047(%rax), %eax',1)
+                assert damaged!=original
+                bad,badexe=case/'wrong-offset.s',case/'wrong-offset';bad.write_text(damaged)
+                result=run([cc,caller,bad,'-o',badexe],True);assert result.returncode==0,result.stderr
+                result=run([badexe],True);assert result.returncode!=0,'wrong AMD64 memory offset escaped byte oracle'
             if target.startswith('riscv64') and label=='allocated':
                 original=asm.read_text()
                 damaged=original.replace('\tlb t0, -2048(t0)','\tlb t0, -2047(t0)',1)

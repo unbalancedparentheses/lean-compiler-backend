@@ -67,7 +67,7 @@ Next bounded work, before proof expansion:
    copies while retaining the loads and all intervening effects.
 3. Extend implemented liveness, reusable spills and callee-saved allocation with
    caller-saved/FP banks, splitting/coalescing and machine value-flow checks;
-   retain the current stack baseline as a differential oracle. ARM64 and RV64 select
+   retain the current stack baseline as a differential oracle. ARM64, AMD64 and RV64 select
    adjacent sole-use address offsets; ARM64, AMD64 and RV64 select final sole-use
    integer comparisons directly into conditional branches without extending operand
    lifetimes.

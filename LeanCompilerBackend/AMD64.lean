@@ -303,6 +303,52 @@ private def emitStatement (c : Context) : Statement → Except String (List Stri
     return (← load c .long "rax" list) ++ [s!"\tmovl ${c.gpUsed*8}, (%rax)", s!"\tmovl ${48+c.fpUsed*16}, 4(%rax)",
       s!"\tleaq {16+c.stackArgs}(%rbp), %rcx", "\tmovq %rcx, 8(%rax)", s!"\tleaq -{c.saveArea}(%rbp), %rcx", "\tmovq %rcx, 16(%rax)"]
 
+/-- Fuse only an adjacent long address definition with its sole SSA use.
+    The original allocation remains valid: no instruction between the base use
+    and memory access can replace its home. AMD64 displacements are signed32. -/
+private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
+    (first second : Statement) : Except String (Option (List String)) := do
+  let .assign address := first | return none
+  if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
+  let pair := match address.operation with
+    | .binary .add pointer (.constant n) | .binary .add (.constant n) pointer => some (pointer, n)
+    | .binary .sub pointer (.constant n) => some (pointer, -n)
+    | _ => none
+  let some (pointer, rawOffset) := pair | return none
+  let access := match second with
+    | .assign {operation := .load _ (.temporary name), ..} => some name
+    | .store _ _ (.temporary name) | .storeFloat _ _ (.temporary name) => some name
+    | _ => none
+  if access != some address.destination then return none
+  let offset := Semantics.signedBits 64 (Semantics.constant .long rawOffset)
+  if offset < -2147483648 || offset > 2147483647 then return none
+  match second with
+  | .assign inst =>
+    let .load kind _ := inst.operation | return none
+    let w := inst.width
+    let s := suffix w
+    let instruction := match kind with
+      | .signedByte => s!"movsb{s}" | .unsignedByte => "movzbl"
+      | .signedHalf => s!"movsw{s}" | .unsignedHalf => "movzwl"
+      | .signedWord => if w == Width.long then "movslq" else "movl"
+      | .unsignedWord => "movl" | .plain => "mov" ++ s
+    let destination := if kind == .unsignedByte || kind == .unsignedHalf || kind == .unsignedWord then "%eax" else reg w "rax"
+    let lines ← load c .long "rax" pointer
+    -- Preserve the original load opcode and word-result normalization,
+    -- including floating values represented by their raw integer bits.
+    return some (lines ++ [s!"\t{instruction} {offset}(%rax), {destination}"] ++
+      (if w == .word then ["\tmovl %eax, %eax"] else []) ++ (← store c inst.destination))
+  | .store width value _ =>
+    let (s, r) := match width with | .byte => ("b", "%al") | .half => ("w", "%ax") | .word => ("l", "%eax") | .long => ("q", "%rax")
+    -- Materializing the value preserves r10, including TLS resolution.
+    -- Allocated homes remain the original callee-saved registers or spills.
+    return some ((← load c .long "r10" pointer) ++ (← load c width.valueWidth "rax" value) ++
+      [s!"\tmov{s} {r}, {offset}(%r10)"])
+  | .storeFloat width value _ =>
+    return some ((← load c .long "r10" pointer) ++ (← load c width "rax" value) ++
+      [s!"\tmov{suffix width} {reg width "rax"}, {offset}(%r10)"])
+  | _ => return none
+
 private def label (darwin : Bool) (f : Function) (name : String) : String := s!"{if darwin then "L" else ".L"}_lcb_{f.name.length}_{Assembly.localName f.name}_{name}"
 private def edge (c : Context) (f : Function) (source target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw "missing edge target"
@@ -382,6 +428,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
     let branchCompare := if allocate then Selection.branchComparison uses block else none
     lines := lines ++ [label darwin f block.label ++ ":"]
     let mut debugIndex := 0
+    let mut pendingMemory : Option (List String) := none
     for i in [:block.instructions.size+1] do
       for _ in [:block.debugLocations.size] do
         if let some loc := block.debugLocations[debugIndex]? then
@@ -390,10 +437,19 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
           debugIndex := debugIndex + 1
         else break
       if let some inst := block.instructions[i]? then
-        if let some (_, width, x, y) := branchCompare then
-          if i+1 == block.instructions.size then lines := lines ++ (← comparisonFlags c width x y)
-          else lines := lines ++ (← emitStatement c inst)
-        else lines := lines ++ (← emitStatement c inst)
+        if let some selected := pendingMemory then
+          -- Emit the fused access after the memory statement's debug location.
+          lines := lines ++ selected
+          pendingMemory := none
+        else
+          if allocate then
+            if let some next := block.instructions[i+1]? then
+              pendingMemory ← adjacentMemory c uses inst next
+          if pendingMemory.isNone then
+            if let some (_, width, x, y) := branchCompare then
+              if i+1 == block.instructions.size then lines := lines ++ (← comparisonFlags c width x y)
+              else lines := lines ++ (← emitStatement c inst)
+            else lines := lines ++ (← emitStatement c inst)
     match block.terminator with
     | .ret value =>
       if let some value := value then

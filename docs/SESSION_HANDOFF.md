@@ -8,12 +8,37 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`713187d9555826e5cf62fb2ffb9061a9ff31c084e836e67e0728577d2259d69a`.
+`b91946119f838a456702633aa0a30cd84e63603186498a1a241d7ce3b8ab0ac1`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
 caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
+
+## AMD64 adjacent memory offsets
+
+AMD64 also folds adjacent sole-use constant address calculations into signed32
+load/store displacements, preserving original allocation, word normalization,
+FP bits, TLS scratch values and debug locations. Linux x86/QEMU and macOS
+x86/Rosetta suites pass 14,944 independent memory cases per mode, signed32 endpoint
+and just-outside fallback tests, spill/shared/phi exclusions and wrong-offset
+corruption. Native Apple ARM64 runs the same expanded byte-level oracle. The
+full local gate passed in `.build/amd-adjacent-full-check.log`.
+
+`zlib-amd-adjacent.json` retains all qualified upstream/12-stream checks;
+optimized text is 240,395 bytes, 15,763 below the preceding x86 branch result.
+`qbe-amd-adjacent.json` retains 455 fixture/32 self-IR reproductions and 58 original
+ARM64 runtime tests; optimized object text is 596,476 bytes (35,685 fewer), linked
+text 618,329. Original QBE's x86 self-compilation mismatch remains separately
+unqualified, with the corrected oracle passing.
+
+Fresh x86 Csmith seeds 20265032–20265063 yielded 23 common matches / 225,101 IR
+lines, eight GCC O0 timeouts, and one baseline admission refusal at the existing
+16,384-instruction bound (seed 20265033). The interrupted first batch and remaining
+30-seed continuation are both retained in `csmith-amd-adjacent-refusal.json` and
+`csmith-amd-adjacent-rest.json`; the refused program is not a pass. A separate
+resource-cap/scaling experiment is investigating this real-program gap and the
+previous 65,537-byte scalar-expanded structure refusal. No new proof scope.
 
 ## RV64 adjacent memory offsets and cross-target generated C
 
