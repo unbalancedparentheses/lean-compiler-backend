@@ -1,0 +1,1664 @@
+{
+  "before_identity": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+  "after_identity": "43e76b2aa4e5e3a02a9c91400934c1198626f355c86b61fb601fc35972b30e32",
+  "compiler_hashes": {
+    "before": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+    "after": "b291549be8d8dee46ba581929cdaadd3fc90bb4cbf97304b79b7118a5a9ee8fe"
+  },
+  "binding_sha256": "d163a0ffad13f7c1a3ee48e8f2a5893c46e9bf1652a2319c3d8429ded7590468",
+  "zlib_commit": "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf",
+  "frontend_defines": [
+    "-D__CHAR_BIT__=8",
+    "-D__SCHAR_MAX__=127",
+    "-D__SHRT_MAX__=32767",
+    "-D__LONG_MAX__=9223372036854775807L",
+    "-D_LARGEFILE64_SOURCE=1",
+    "-DHAVE_HIDDEN"
+  ],
+  "configuration_hashes": {
+    "Makefile": "061a2b8c97141b92fc95da232fe5b3e46aa2ebe7874431bc6e3458211849729c",
+    "zconf.h": "44e543ff4514c7a9a01d648019c2c9a81d1105cbfa3c77f1faf6cd86eafa8abd"
+  },
+  "source_hashes": {
+    "zutil.h": "dddb2dc7a1dc339ecf2c8e089b366f08bb731c0839c7110240d17ce731bb4fea",
+    "inftrees.h": "0a0fcaf2ae2fae57426bdc06637270e9bba974f35202cadbdba479d946e6409d",
+    "inflate.c": "34c998ce0037c0537c04b03b276f680b945f9b2c9d1e01b287605bd6879f7fd2",
+    "compress.c": "86f802c16a965e7a28737e3730b4e576c5ba40981753967e3e30916f4dc1b4b1",
+    "deflate.c": "3b956337350f94c34987750f785587ef33d9c89ceaebb7c2afb189c956360cbe",
+    "inffixed.h": "237ba710f090e432b62ebf963bee8b302867e9691406b2d3f8ee89ee7bfef9b0",
+    "gzread.c": "72e481aca07b0b85a9783237b85dc67ff3a4c1d19878d0cec69f58d38634867b",
+    "trees.h": "bb0a9d3ca88ee00c81adb7c636e73b97085f6ef1b52d6d58edbe2b6dc3adeb4d",
+    "inffast.h": "05cc5dc9ff1da7b8b52a4bd8bda0d8a5c236a2f39efe84b941516ea13857e6c5",
+    "crc32.c": "8fd16f0a7714d51c89c2eb37eb98ec15e8a4dc57ba343e7b7398b19144039fda",
+    "infback.c": "62df9a6dd3eef126f1d81d0ad7a534504610dec44482b0a472b61c93cbab6554",
+    "zutil.c": "8ced40d8c88588811edd2bdb35b7439983d5e1f8e9e32b8a3b244731f3c317b7",
+    "deflate.h": "48baf016326d8d5e3e32ac8153cc7e22f854b8e6834830b167b998a7fb1e7989",
+    "gzguts.h": "716fa648aca1bb06c219d7b97ad4846d8479206143bc39557bfd8283f5783e04",
+    "zlib.h": "8a5579af72ea4f427ff00a4150f0ccb3fc5c1e4379f726e101133b1ab9fc600c",
+    "gzlib.c": "042c2be8ec67ad525a2812e508de7381c6766dde903acf5ae6ac4fa6b541946d",
+    "inflate.h": "e8d4a51b07694bf48cb91979c19974cf6a5ab0b8a09d26ec0d14df349230673e",
+    "inftrees.c": "5d4f335221d2dc76f17abd2577d92c2d7baf68fa6d7f23373b360830493d1563",
+    "uncompr.c": "04dca5e31b3b8a17d1806426f66f0c539f4184d657e149d40be07070c6227b52",
+    "gzwrite.c": "469b1e58932ea11bdda2a153f6655f7b3c13254240fae157181b49ed1bc93b47",
+    "trees.c": "f63c68c16c05fcd196050529d1a0e7657960e4136b9987d90a6ac3e58a964b0f",
+    "gzclose.c": "35ea6e991a63095f797d8c4cc25817fac7a7155c2ba7dcdbbf648f7871c7ea40",
+    "crc32.h": "9a2223575183ac2ee8a247f20bf3ac066e8bd0140369556bdbdffc777435749e",
+    "inffast.c": "e6ef64ce5dc0a4cd5c7ad08ceeb2b2a698b8447f6bd156057caeb2edab68c0cb",
+    "adler32.c": "9cd1443a24ff2a3053961695bd432035c58347386a420d3388232376ebabe211",
+    "zconf.h": "44e543ff4514c7a9a01d648019c2c9a81d1105cbfa3c77f1faf6cd86eafa8abd",
+    "test/infcover.c": "13a0d18d8bca440c4617d88c2236913f53eedebc50e469be472edd4280c697e5",
+    "test/example.c": "b7aeca68f7585e29ca6572542e0ecbd9c3c9370035ae15152008b3efbd4f84ac",
+    "test/minigzip.c": "57e4a1b9bb1bdb59ac9e5ac1dc9132183e8740cec2f6b5c5f2476aac08a2375f",
+    "examples/gznorm.c": "e5a8f5c3b107f27212f7d5fbfcf072a337a1b4ea32929ae31c168997438a5cc0",
+    "examples/fitblk.c": "bec64da6fc0c9a2a37a96722e8b88ca09059148e5be5ecbb486bdba5339e228a",
+    "examples/enough.c": "c14a257c60bbe0d65bb54746dd97774a1853ef9e3f78db118a27d8bc0d26d738",
+    "examples/gzlog.h": "681f280437f867820bf39880e2f4fc641d402879e399ba2e6a31d73feefe8edc",
+    "examples/gzjoin.c": "90b9d6c39a5fc91cf1cc9b96b025a508a8015dc502cd9374c754b44078593f57",
+    "examples/gun.c": "3bfd36b06284ba97d6105b8a6a5d18b2b34b75b3a1285f16d018680fb174915f",
+    "examples/zran.h": "913158e13f6177224074cfa9b497438545054ac0d54ab13a6ad4182df8d2ee99",
+    "examples/zpipe.c": "68140a82582ede938159630bca0fb13a93b4bf1cb2e85b08943c26242cf8f3a6",
+    "examples/gzlog.c": "d9a2f9871e7f1724f9f9359fd4851dc0eac7af10d8234bab66327badb33d1a38",
+    "examples/zran.c": "f4bc94b710841b8412aee04c42ea522bd1687343d65f0c0d92b4dd5801d03956",
+    "examples/gzappend.c": "6de91c8305e37560117bff44136abff72b16b028c0bda0bbac7ea07e4988b0ce",
+    "contrib/minizip/unzip.c": "10881ab576f49fe0825a21f77e322ece6ee88d34ed66fb3a3ce7a22f4b6cd2d9",
+    "contrib/minizip/zip.c": "213f853d71266ebe8d8335740cfe94b0731009d8fb3f7e6ae01a627398732ec8",
+    "contrib/minizip/iowin32.h": "4feed64c3c5f5cff2d8a0431233766b61d4e06a9f232482cb41272ed1ca487df",
+    "contrib/minizip/ioapi.c": "6dff11ded396f5e3147c632a639423e80ced6705bf7bf75d21cda0c571fdf86b",
+    "contrib/minizip/mztools.c": "3d6027270a2b6ed5ca19a339d7488f682c69798e3977d2278d379b7f14f17b63",
+    "contrib/minizip/crypt.h": "5c978923cff1e80f76baf437eed699d5b4ad1bf515008d669475d3dd0d89ef70",
+    "contrib/minizip/zip.h": "99ad45c0b546b5fd0ee3d0819ff057840a892a3d6dbacc85b757a35a43047398",
+    "contrib/minizip/unzip.h": "2ff9df0b1da7499adc806bc0ec098ef1c7b9d361a8fd5b08a98299a1a4e88399",
+    "contrib/minizip/mztools.h": "6f82c52279e8f79165f4446be652e5741a49992ac58632470335aa34c564072a",
+    "contrib/minizip/ioapi.h": "6d2f2c3520dfc3061ea9128a1afb843f5cfe8d7317adcefe3a45884bc06e06a1",
+    "contrib/minizip/iowin32.c": "882383d1ee9df8c5f236411734b51e96f5e29c38496d4e531f2beb3d07f682ef",
+    "contrib/minizip/minizip.c": "6d7d7daffc713ba15a9768143471902c5bfd661a19287172f3870bc9ed2d5665",
+    "contrib/minizip/miniunz.c": "c60f2c68be981464ff02dfbe01da2a8e66692416bdda2144fc75df3420b4107f",
+    "contrib/infback9/inffix9.h": "84a2ba4727767c18af6505f0e81d9c814489c8b9ed330a25dad433db72997e43",
+    "contrib/infback9/inftree9.c": "9e739f5735d3cd77ca1b0d46d2a43371acf2afd64c9c0889e737da369ccd92d0",
+    "contrib/infback9/infback9.h": "c89d926607c1afa1830c17f807de368d2f1afe2d1e7df426763f6d4bf5950379",
+    "contrib/infback9/inflate9.h": "32a907676cc36e27d0fdc0d99adb83a0b23f20ab61896269216d40fecf08d349",
+    "contrib/infback9/infback9.c": "c236f4e5ef216f5ebc66f95ccbf9d399a19ad3838444065308b8d859cb42dc74",
+    "contrib/infback9/inftree9.h": "4ecd9db884bf43e33fbd34273c814029022477e1597676129f9c98e09d8cef56",
+    "contrib/testzlib/testzlib.c": "753dbb39c5d2f0fffac0406c1c94fd1da7b0251d679e4d137b0708901dfd61d8",
+    "contrib/iostream/zfstream.h": "4369c35e66f63f52ca4a5e1759bf720507ccabb8f3f132e2f18e68686c812401",
+    "contrib/blast/blast.c": "1ab3e479d342bfc144167b808fb00142264bc50f24a110ca88cc774e351c218e",
+    "contrib/blast/blast.h": "9c1c422b76311d4cb06863ffc056668b6240f3dd998bc02e89ee590d482bfdc2",
+    "contrib/untgz/untgz.c": "f96c1e8529eb10d723b4547aa965741d72a46f2b1d5c9a2c193bd3f5e2c2a45e",
+    "contrib/puff/puff.h": "969b7be2a930db0cdcb19b0e5b29ae6741f5a8f663b6dba6d647e12ec60cfa8e",
+    "contrib/puff/pufftest.c": "d24e31c1d277d07c268f34e9490050c6b53c68b128da3efbb1d05fc5b31004f7",
+    "contrib/puff/puff.c": "5b9d75aeb5baf3575415bc6ade3f2a02e50b6b971b3f8b4fda2b03543bc6e52f",
+    "contrib/iostream3/zfstream.h": "d89587b446f928351565d099decd006a06b7a420cb1ff8ee9bb82e4d8c7235dd",
+    "contrib/iostream2/zstream.h": "d0343e0c57ff58008b6f29643d289c72713aa2d653fe3dcd2e939fc77e7e20b6"
+  },
+  "reference_executable_hashes": {
+    "example": "fe6d3510271a76afea799833870b9a5738bf0fe0d32de1dbee3a388fda3f60fc",
+    "minigzip": "4398e3ff5d1997de38558c0d04030a8ce5421b6506d7927d8eae68074744d6c8"
+  },
+  "targets": {
+    "aarch64-linux": {
+      "baseline": {
+        "before": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "2c9a6eefff07504f556c28511b84d75fb7041ac0e71ccbcb61c573e23c7a3cb4",
+            "object_sha256": "8b7f954868d18e653253ef88334907e01595fef6a340fee5944350d62d58b115",
+            "text_bytes": 11612,
+            "instructions": 2903
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "470941c72a0e97c2f99224c24896996e453f4a99685cf2de1f91b6f0946c75f5",
+            "object_sha256": "7e834ccf61dfaecf525db71078449dec82e138504ecd7904dc57904278b58043",
+            "text_bytes": 3148,
+            "instructions": 787
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "771bacbbc1efc8a9171201fb56af6ecc40e124b90e2ae442818ea0be5bd6bd72",
+            "object_sha256": "0014b65ec16db02b6b284116f58f2ad33fc54b1c75d438d365eea469d0f53af1",
+            "text_bytes": 15452,
+            "instructions": 3863
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "502705c6a1974b357958702d1956469e363c09c1a774c840e6ff5e804dc7a66f",
+            "object_sha256": "e83bd3e7bc41c300fc218419839821b0427072f659482319669f92aae38fce26",
+            "text_bytes": 106456,
+            "instructions": 26614
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "1915164204135bb2b735a4b94a7997e58e9bb0f9f374d65f8883c192586e44b2",
+            "object_sha256": "619fc66f9d38e6048b811bb7cf3d03b6c6384ee0ea20433b8b7e08b51d6f9b0e",
+            "text_bytes": 1496,
+            "instructions": 374
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "09523acfd6c650a09ea16fb9a0e968c3b17acec40757b3bdde7101a4132257e7",
+            "object_sha256": "112da9a748a513ae3d664f5e3f2ed58263fa5e664c4e1348afe7c4f7c4a3b156",
+            "text_bytes": 16960,
+            "instructions": 4240
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "2e696307b30527f324c210f600aa586423ff3b94337030ebd0370b48c6f1db27",
+            "object_sha256": "9e70456d188696ba23a906c32acc3ff40432e4c96ecb28dbdc1d9c2bf0013d15",
+            "text_bytes": 22544,
+            "instructions": 5636
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "2ecf85dc2a527ca1e915684346032b18d461e814bea9c6357babe5724edbd7f7",
+            "object_sha256": "8be703c42bc8d1104abc6f42b0f582905d55ed9aafb0521a3478d3c33e3c93bf",
+            "text_bytes": 20824,
+            "instructions": 5206
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "92ad38dd9ad54add2ffa51d147454c90446f9de5e3df3b74a778eafde6328f8b",
+            "object_sha256": "19b85a1a1a7fdcfa8ef005046b8f3e7dca93f1879cd5c6321b4a04f7d20c6b9e",
+            "text_bytes": 30072,
+            "instructions": 7518
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "b8fcdf6cae4253a096ea21e50c4599b578777f355f3ab5209c616e134840c7ab",
+            "object_sha256": "c93a8f76fe1c63d423f2abdef76def1fbe0df7445125f6459db199c788a4f858",
+            "text_bytes": 11500,
+            "instructions": 2875
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "4855176798ce7d7841811624d7444603e1795ed0c40361dcdcbb210ddb7688ed",
+            "object_sha256": "f378ce330e76c3b1b1b6b572f2ec5496aa9b37dfa7ed56ad956bd2ca1561eac2",
+            "text_bytes": 69512,
+            "instructions": 17378
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "3bd5ae1a9b659f696acd9ce876b1ad2af2279bcc065c3aee8fe062b859988e2d",
+            "object_sha256": "33b0e08434cda1e6838ee7d44fc8dc4dc5cd332c271d85f82facf67b7a283e87",
+            "text_bytes": 9180,
+            "instructions": 2295
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "fabe2f739b5cdacaebb1d05363b587d3bdcec17198e2fbc39bc6856f0d0f3340",
+            "object_sha256": "88ef739c5620dacf7b49e152d59c1733de13bbd71f4305bd2f2b5d81dca2abd3",
+            "text_bytes": 17580,
+            "instructions": 4395
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "36b1be35ad3a2f8313401a82afdcbcabc5f557fe8afcf44b58902d8a84379186",
+            "object_sha256": "4b5042059da11eaf3a64f881030005354354b152558d41361e240154da2eda82",
+            "text_bytes": 8288,
+            "instructions": 2072
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "0d2f40b0fadffcfc314e1e0d439fc4a1365efab9362f2b53783eff5b709758f7",
+            "object_sha256": "9ed113197b9b0668ca1da08e46fbecbfdd4589c69f749be065db7ef6a9c4924a",
+            "text_bytes": 64720,
+            "instructions": 16180
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "8c8156c33c9328c0548e786117a780d190f154b395bfd74efac0361fa11f3df1",
+            "object_sha256": "44fab6e72c7b15aa66bebf005bb19a4ce95b520c40d6c5e014db04045367a78d",
+            "text_bytes": 3552,
+            "instructions": 888
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "db0216753c45f087345de07a5c223c85e83e249f27714d55202845b791b00c7d",
+            "object_sha256": "499880c5643dca46f9f1062fdb43036b87e90bdaad8acb5658ad4961f243adad",
+            "text_bytes": 3572,
+            "instructions": 893
+          }
+        },
+        "after": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "2c9a6eefff07504f556c28511b84d75fb7041ac0e71ccbcb61c573e23c7a3cb4",
+            "object_sha256": "8b7f954868d18e653253ef88334907e01595fef6a340fee5944350d62d58b115",
+            "text_bytes": 11612,
+            "instructions": 2903
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "470941c72a0e97c2f99224c24896996e453f4a99685cf2de1f91b6f0946c75f5",
+            "object_sha256": "7e834ccf61dfaecf525db71078449dec82e138504ecd7904dc57904278b58043",
+            "text_bytes": 3148,
+            "instructions": 787
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "771bacbbc1efc8a9171201fb56af6ecc40e124b90e2ae442818ea0be5bd6bd72",
+            "object_sha256": "0014b65ec16db02b6b284116f58f2ad33fc54b1c75d438d365eea469d0f53af1",
+            "text_bytes": 15452,
+            "instructions": 3863
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "502705c6a1974b357958702d1956469e363c09c1a774c840e6ff5e804dc7a66f",
+            "object_sha256": "e83bd3e7bc41c300fc218419839821b0427072f659482319669f92aae38fce26",
+            "text_bytes": 106456,
+            "instructions": 26614
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "1915164204135bb2b735a4b94a7997e58e9bb0f9f374d65f8883c192586e44b2",
+            "object_sha256": "619fc66f9d38e6048b811bb7cf3d03b6c6384ee0ea20433b8b7e08b51d6f9b0e",
+            "text_bytes": 1496,
+            "instructions": 374
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "09523acfd6c650a09ea16fb9a0e968c3b17acec40757b3bdde7101a4132257e7",
+            "object_sha256": "112da9a748a513ae3d664f5e3f2ed58263fa5e664c4e1348afe7c4f7c4a3b156",
+            "text_bytes": 16960,
+            "instructions": 4240
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "2e696307b30527f324c210f600aa586423ff3b94337030ebd0370b48c6f1db27",
+            "object_sha256": "9e70456d188696ba23a906c32acc3ff40432e4c96ecb28dbdc1d9c2bf0013d15",
+            "text_bytes": 22544,
+            "instructions": 5636
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "2ecf85dc2a527ca1e915684346032b18d461e814bea9c6357babe5724edbd7f7",
+            "object_sha256": "8be703c42bc8d1104abc6f42b0f582905d55ed9aafb0521a3478d3c33e3c93bf",
+            "text_bytes": 20824,
+            "instructions": 5206
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "92ad38dd9ad54add2ffa51d147454c90446f9de5e3df3b74a778eafde6328f8b",
+            "object_sha256": "19b85a1a1a7fdcfa8ef005046b8f3e7dca93f1879cd5c6321b4a04f7d20c6b9e",
+            "text_bytes": 30072,
+            "instructions": 7518
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "b8fcdf6cae4253a096ea21e50c4599b578777f355f3ab5209c616e134840c7ab",
+            "object_sha256": "c93a8f76fe1c63d423f2abdef76def1fbe0df7445125f6459db199c788a4f858",
+            "text_bytes": 11500,
+            "instructions": 2875
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "4855176798ce7d7841811624d7444603e1795ed0c40361dcdcbb210ddb7688ed",
+            "object_sha256": "f378ce330e76c3b1b1b6b572f2ec5496aa9b37dfa7ed56ad956bd2ca1561eac2",
+            "text_bytes": 69512,
+            "instructions": 17378
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "3bd5ae1a9b659f696acd9ce876b1ad2af2279bcc065c3aee8fe062b859988e2d",
+            "object_sha256": "33b0e08434cda1e6838ee7d44fc8dc4dc5cd332c271d85f82facf67b7a283e87",
+            "text_bytes": 9180,
+            "instructions": 2295
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "fabe2f739b5cdacaebb1d05363b587d3bdcec17198e2fbc39bc6856f0d0f3340",
+            "object_sha256": "88ef739c5620dacf7b49e152d59c1733de13bbd71f4305bd2f2b5d81dca2abd3",
+            "text_bytes": 17580,
+            "instructions": 4395
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "36b1be35ad3a2f8313401a82afdcbcabc5f557fe8afcf44b58902d8a84379186",
+            "object_sha256": "4b5042059da11eaf3a64f881030005354354b152558d41361e240154da2eda82",
+            "text_bytes": 8288,
+            "instructions": 2072
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "0d2f40b0fadffcfc314e1e0d439fc4a1365efab9362f2b53783eff5b709758f7",
+            "object_sha256": "9ed113197b9b0668ca1da08e46fbecbfdd4589c69f749be065db7ef6a9c4924a",
+            "text_bytes": 64720,
+            "instructions": 16180
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "8c8156c33c9328c0548e786117a780d190f154b395bfd74efac0361fa11f3df1",
+            "object_sha256": "44fab6e72c7b15aa66bebf005bb19a4ce95b520c40d6c5e014db04045367a78d",
+            "text_bytes": 3552,
+            "instructions": 888
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "db0216753c45f087345de07a5c223c85e83e249f27714d55202845b791b00c7d",
+            "object_sha256": "499880c5643dca46f9f1062fdb43036b87e90bdaad8acb5658ad4961f243adad",
+            "text_bytes": 3572,
+            "instructions": 893
+          }
+        }
+      },
+      "allocated": {
+        "before": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "c2ec87f8af519d9e60f0e15d8293564d1bd71e73007804b778ffd5722a8597a6",
+            "object_sha256": "297fb8c8c9defc7013b2b2920fde5c7e58cc13fe95e9d71ea4377b7abee0c54f",
+            "text_bytes": 4456,
+            "instructions": 1114
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "37c45f2f995e4826e2f13805abcc32ff0ac171d6acd37d9924459e07fb527f70",
+            "object_sha256": "863c90534bcc52aad7b60c18a5d49e5744db4c6d694e59bd1734f990849030e0",
+            "text_bytes": 1512,
+            "instructions": 378
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "7f18f8d9332bc9163148612a835c6fc0de2f437bc714ab18dcb37646d7a02ae9",
+            "object_sha256": "072e355c2c16bbc1c3a08e35b2bdbf88f233f217460486a46743ce9fd9311f1a",
+            "text_bytes": 7536,
+            "instructions": 1884
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "71d39148da6aec4c4dcd555049eb8bd3ab36b451ba9acd12fe43ab0c1dc5df69",
+            "object_sha256": "22c2b0389c67b2fef429747ba0c537e94e1b0ee2a19a6f10512d94997960d47f",
+            "text_bytes": 36780,
+            "instructions": 9195
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "13bc6b3e3c727bc502c5bddfc9cb882c5f7af3951da4cd0b90d8f97926d7f257",
+            "object_sha256": "582ef572965767f936ba5a7f4224f46b12f5a025c017c1075d8237246dc7e97d",
+            "text_bytes": 728,
+            "instructions": 182
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "a8a3c16b23d93379680c2fff0c9eb2d190bc114bcd5935ec297ac41c8950114e",
+            "object_sha256": "da087c85e90a2517708446e6d2689731b4a9cb14aff26da2cf0bd1a3da192ad9",
+            "text_bytes": 8120,
+            "instructions": 2030
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "ea3a6a71083f22098ab040517ad6cb749effe0e2027627ef660e384168842c01",
+            "object_sha256": "20afd403c07e5ea37561fd8473867a23ff41b6f965a64ead088bcb733cc9bbb6",
+            "text_bytes": 10356,
+            "instructions": 2589
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "2af29f8e5c66d44e234a962e2cfdce013466e3d4153a795416febc58662c65ef",
+            "object_sha256": "7fc07f64831461923fec6a673b5d057f12c79a3d3b7979aa1b7a576abcab3bb1",
+            "text_bytes": 10456,
+            "instructions": 2614
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "f931183e3fcd344d9e068668e852c0ae581e9cc59151fa33a5bd367180709dec",
+            "object_sha256": "e772ef6476927929727f778cd4bb8aaaf62a639c8361aa0cc6589cf888a60691",
+            "text_bytes": 11396,
+            "instructions": 2849
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "ecb9c7e01b58b9de1e9999285dbf5d577015ce95ee09b7273c733114133550e4",
+            "object_sha256": "092e08b6b2d51889b0b58822a6bd1ca22c60b38bb9892e318c580b480441dd34",
+            "text_bytes": 4156,
+            "instructions": 1039
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "14ed5128e1231adb0c921c1fed178b117a3c67a8ec136946e59310dedad6489c",
+            "object_sha256": "acaf95d3c772f3bc428ed3dcfad07e74c19510212cd07a630ac3ae3a792a44bf",
+            "text_bytes": 25348,
+            "instructions": 6337
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "0aa7d0a68763cfd7b86b473879de276e79d8ecbf3810339df2e60b4eb29c43aa",
+            "object_sha256": "44a64c75811e9c1ec3a115b711bc6804afb5e9930d577310070548a958ae178e",
+            "text_bytes": 4240,
+            "instructions": 1060
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "68a2ed97306b6066a7f8a17b40984e9295b270a46b7dbd8b41822c811acb9ccd",
+            "object_sha256": "5d95a0b9768ce745798f466ad49a114ba01c602090ec5b64c04f008c84b8f664",
+            "text_bytes": 10548,
+            "instructions": 2637
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "0d0a940f8336da54052614e8e6ccc664274210f75469629ea3dfe92113878066",
+            "object_sha256": "76d08f12d6bdc1c7ab96fb09242191a512cd67d7103e9fd354caedf1e885c20c",
+            "text_bytes": 4768,
+            "instructions": 1192
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "686b98380cdedfcadff4924373d41a1d2840dc9a16f12442d3ac3895a3716015",
+            "object_sha256": "0ade4d1618aaa2605f6adecf02de05e00acfde81b62131997901159168bc333f",
+            "text_bytes": 22656,
+            "instructions": 5664
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "12d4517cfb6365c8f88e6b8a6f6900f8a8a050b9e8a2f71b4d0906dd01cacbdc",
+            "object_sha256": "7c5b4fe4e297da02e7e9ce19017aef17e824979f99ccbcdf1ed808b1956c718e",
+            "text_bytes": 1560,
+            "instructions": 390
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "f0b7a0442c3b9d2c187b4ab1c3eb767ee0a6a2b60f4b576e48df93d8001d7261",
+            "object_sha256": "f2f9bce51f224f74917d1a376a0655c80b32cf0db6258ee9ceb452ea4e27eca2",
+            "text_bytes": 1724,
+            "instructions": 431
+          }
+        },
+        "after": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "c2ec87f8af519d9e60f0e15d8293564d1bd71e73007804b778ffd5722a8597a6",
+            "object_sha256": "297fb8c8c9defc7013b2b2920fde5c7e58cc13fe95e9d71ea4377b7abee0c54f",
+            "text_bytes": 4456,
+            "instructions": 1114
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "37c45f2f995e4826e2f13805abcc32ff0ac171d6acd37d9924459e07fb527f70",
+            "object_sha256": "863c90534bcc52aad7b60c18a5d49e5744db4c6d694e59bd1734f990849030e0",
+            "text_bytes": 1512,
+            "instructions": 378
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "7f18f8d9332bc9163148612a835c6fc0de2f437bc714ab18dcb37646d7a02ae9",
+            "object_sha256": "072e355c2c16bbc1c3a08e35b2bdbf88f233f217460486a46743ce9fd9311f1a",
+            "text_bytes": 7536,
+            "instructions": 1884
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "7b58cf5454fef7d414bb90bbff2535e488e8fd05fda9b0189b3a7448283083c3",
+            "object_sha256": "5239409d1eeb52c48022adee47f4f18c50d5947907f78f5e2f31d94c2677114f",
+            "text_bytes": 36808,
+            "instructions": 9202
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "13bc6b3e3c727bc502c5bddfc9cb882c5f7af3951da4cd0b90d8f97926d7f257",
+            "object_sha256": "582ef572965767f936ba5a7f4224f46b12f5a025c017c1075d8237246dc7e97d",
+            "text_bytes": 728,
+            "instructions": 182
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "a8a3c16b23d93379680c2fff0c9eb2d190bc114bcd5935ec297ac41c8950114e",
+            "object_sha256": "da087c85e90a2517708446e6d2689731b4a9cb14aff26da2cf0bd1a3da192ad9",
+            "text_bytes": 8120,
+            "instructions": 2030
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "ea3a6a71083f22098ab040517ad6cb749effe0e2027627ef660e384168842c01",
+            "object_sha256": "20afd403c07e5ea37561fd8473867a23ff41b6f965a64ead088bcb733cc9bbb6",
+            "text_bytes": 10356,
+            "instructions": 2589
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "2af29f8e5c66d44e234a962e2cfdce013466e3d4153a795416febc58662c65ef",
+            "object_sha256": "7fc07f64831461923fec6a673b5d057f12c79a3d3b7979aa1b7a576abcab3bb1",
+            "text_bytes": 10456,
+            "instructions": 2614
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "03b48c8933da1c7595930aaa41c76d15cf89917d2baf7524ebb0f839e801425a",
+            "object_sha256": "4ac17478ee5b8a95781f66037ee961505077771b8af0f5c3674beefee97d749d",
+            "text_bytes": 11404,
+            "instructions": 2851
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "ecb9c7e01b58b9de1e9999285dbf5d577015ce95ee09b7273c733114133550e4",
+            "object_sha256": "092e08b6b2d51889b0b58822a6bd1ca22c60b38bb9892e318c580b480441dd34",
+            "text_bytes": 4156,
+            "instructions": 1039
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "9d2316ac02d95863fd561aedbdd121ea84245900e7107adad92f254f76ec820b",
+            "object_sha256": "4c329163e76110394e76a9c062cdeeaee0a54c6eaccaf7dad79324a2209552a8",
+            "text_bytes": 25356,
+            "instructions": 6339
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "357c0ba3c45f6832606106c7d4c49323efa6e09b91a409f3d4c47cebc065a0f4",
+            "object_sha256": "802a0667c7773f337bda371ac9e5ccc80a0340fd3f19a811d8904cc6f806e142",
+            "text_bytes": 4320,
+            "instructions": 1080
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "68a2ed97306b6066a7f8a17b40984e9295b270a46b7dbd8b41822c811acb9ccd",
+            "object_sha256": "5d95a0b9768ce745798f466ad49a114ba01c602090ec5b64c04f008c84b8f664",
+            "text_bytes": 10548,
+            "instructions": 2637
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "0d0a940f8336da54052614e8e6ccc664274210f75469629ea3dfe92113878066",
+            "object_sha256": "76d08f12d6bdc1c7ab96fb09242191a512cd67d7103e9fd354caedf1e885c20c",
+            "text_bytes": 4768,
+            "instructions": 1192
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "c2f9168fead2a5d7e6a1172e0f938a1e2b6278e29465f65aceda9131b2c7fa88",
+            "object_sha256": "b20e6aef9bf72bf8b12b1e538dfe337d0afcf85c42e7ad2ce50430e0184e1653",
+            "text_bytes": 22668,
+            "instructions": 5667
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "12d4517cfb6365c8f88e6b8a6f6900f8a8a050b9e8a2f71b4d0906dd01cacbdc",
+            "object_sha256": "7c5b4fe4e297da02e7e9ce19017aef17e824979f99ccbcdf1ed808b1956c718e",
+            "text_bytes": 1560,
+            "instructions": 390
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "f0b7a0442c3b9d2c187b4ab1c3eb767ee0a6a2b60f4b576e48df93d8001d7261",
+            "object_sha256": "f2f9bce51f224f74917d1a376a0655c80b32cf0db6258ee9ceb452ea4e27eca2",
+            "text_bytes": 1724,
+            "instructions": 431
+          }
+        }
+      },
+      "optimized": {
+        "before": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "53d3f50330f663e92d5d4fe11270df38a7c6633410d5687c3e7d6bf76e8891be",
+            "object_sha256": "8939608d6c1107ba8c245b5ced13263306c0e6bf967eb977b7ceb06a76e4b27b",
+            "text_bytes": 2008,
+            "instructions": 502
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "c88ebc0be98fc89b06b5b6bc61578067efff83bd12a66a02670dbc5e9a101fa9",
+            "object_sha256": "8260e853fe01150073d7b314a49c501f9673c146f8067530457011fdcfa1dcdd",
+            "text_bytes": 1036,
+            "instructions": 259
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "b5ce26f4ac3e8405646fae05815ecb9ebec5447d1d036606c20bdc9f275e46a1",
+            "object_sha256": "5c4fbcc5efc4485a647d5426134e5e11c44efa193c20962839f9ada2ba2bcf5e",
+            "text_bytes": 4300,
+            "instructions": 1075
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "5b3593fd7986486d708295fe26c6be554c64d8a100a14b8b87f63ddf8a83e96e",
+            "object_sha256": "455d9571b5924dd53fd005021adb1c556739cfd314519a6dfa096bcf0036a575",
+            "text_bytes": 24248,
+            "instructions": 6062
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "dc3fbde846ac7e456ce20acb18b55bc3b8d511cf8c3555ee9006e0c169b07c50",
+            "object_sha256": "835b3c0f749ba5d91eba54d5e47023267d586e81e46529b22000b2d9ffe3c142",
+            "text_bytes": 520,
+            "instructions": 130
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "fe72938a1fa7be1d1bc9143a2412f9036c28427743bd2e340dcb0dad4fef7cd0",
+            "object_sha256": "d0aea0198a77f184aee11faacb4f85d1d6aff0836bdcde469c3825fd5b955be1",
+            "text_bytes": 5640,
+            "instructions": 1410
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "1ac7bb6e919038802a28bf5d7144fd913bc2b4f7490c6749a9f45b2e002a2948",
+            "object_sha256": "1590b655d8d95b955885bbcf96c8b4a301662ae0b89f4299e624d6ed9ce5589a",
+            "text_bytes": 7212,
+            "instructions": 1803
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "e7c6899ce8b9aac0d4b86e212e9ed285d50d051875dd7acb14e56f1a0117dd4a",
+            "object_sha256": "6770a55a91312017e20f96d21160f616eb5fb5a3be599972d0b9f71981c3f4a7",
+            "text_bytes": 6972,
+            "instructions": 1743
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "cb65a51c69a9c3da938d43fb64c5e4cec39952d412d5c9cbe0e27ee46e72216f",
+            "object_sha256": "a9d9567106a9c303767fa9c81e08009b5b88fdd0c46cb3adcb9412f25fc25400",
+            "text_bytes": 9332,
+            "instructions": 2333
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "8078b873964a66785a4a3e98740a6f96b3f2ab9c23874023543b1b764f08e13b",
+            "object_sha256": "bb1a71a748e1f8223535086f8e734c1fbe58213484fe5de6343b770fc5f15eb0",
+            "text_bytes": 3312,
+            "instructions": 828
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "4c99889f2c01db143b3bcbf142151f0b82254732788c7ddf1aff080646d59beb",
+            "object_sha256": "ba4649ba3ba998d380fa9b8a7b998b71dedbd44768340962c453ea84868c035e",
+            "text_bytes": 21040,
+            "instructions": 5260
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "67239a64c72f9fecb1a21d1d5e79f75a716b1f422b083f611dab334d2c9ce78e",
+            "object_sha256": "5decf669b7c85736014ed04f849a92d88190e2abd7ec45f33a4a6750bb8d9ad8",
+            "text_bytes": 3012,
+            "instructions": 753
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "3956a481a09e2412052eb8a1181f6383a14cff2e897f049b7cf9ad3e6e5e845c",
+            "object_sha256": "d4a49c07971641b2dc2352aa3f0c049231a2485eea2528fad7749177ba4bdfed",
+            "text_bytes": 8624,
+            "instructions": 2156
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "23e0d87555d07620dd39efce1c378ebc5fbf8c4849de1970858721395ba64e0e",
+            "object_sha256": "7e82a8741b87ad88d76f81d12970e04ee64fdcfd440cfc65634db78d828c4e4e",
+            "text_bytes": 3528,
+            "instructions": 882
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "3dbcbd6df5271e7ca5eb8a15f231037a3a83f1adab8d44cb0a8bc0ac4242cd59",
+            "object_sha256": "b7d108710d3931e0c2355ed4fd71e3536c6d83b2d39ad518b4e0160fd581bcad",
+            "text_bytes": 13144,
+            "instructions": 3286
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "a19d0777ed0270eaac9e05c7086c6f814a42a0054a670f6bbb8bdaa8530f5c55",
+            "object_sha256": "3dc66f42c8c872b0ef1a87005803d59539e26909b09708ad1d09e7096304e2fa",
+            "text_bytes": 1172,
+            "instructions": 293
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "6110194321bca31b876b5345cbe5e3bb92e650ae4d46a876e5b5ca2feb7951c2",
+            "object_sha256": "b7dc16025db33d17e558a9858a0ae3700153afa9b0d3d68898cce131e88cca2a",
+            "text_bytes": 692,
+            "instructions": 173
+          }
+        },
+        "after": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "53d3f50330f663e92d5d4fe11270df38a7c6633410d5687c3e7d6bf76e8891be",
+            "object_sha256": "8939608d6c1107ba8c245b5ced13263306c0e6bf967eb977b7ceb06a76e4b27b",
+            "text_bytes": 2008,
+            "instructions": 502
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "c88ebc0be98fc89b06b5b6bc61578067efff83bd12a66a02670dbc5e9a101fa9",
+            "object_sha256": "8260e853fe01150073d7b314a49c501f9673c146f8067530457011fdcfa1dcdd",
+            "text_bytes": 1036,
+            "instructions": 259
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "b5ce26f4ac3e8405646fae05815ecb9ebec5447d1d036606c20bdc9f275e46a1",
+            "object_sha256": "5c4fbcc5efc4485a647d5426134e5e11c44efa193c20962839f9ada2ba2bcf5e",
+            "text_bytes": 4300,
+            "instructions": 1075
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "39b382614ced780875bf07b8b07bf07971c7bba203dea817432e1597d7c2240a",
+            "object_sha256": "9269759ebeb2bf9fd24a035c10853118f5af45e2db83e96496c4d75174135fb1",
+            "text_bytes": 24284,
+            "instructions": 6071
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "dc3fbde846ac7e456ce20acb18b55bc3b8d511cf8c3555ee9006e0c169b07c50",
+            "object_sha256": "835b3c0f749ba5d91eba54d5e47023267d586e81e46529b22000b2d9ffe3c142",
+            "text_bytes": 520,
+            "instructions": 130
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "fe72938a1fa7be1d1bc9143a2412f9036c28427743bd2e340dcb0dad4fef7cd0",
+            "object_sha256": "d0aea0198a77f184aee11faacb4f85d1d6aff0836bdcde469c3825fd5b955be1",
+            "text_bytes": 5640,
+            "instructions": 1410
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "1ac7bb6e919038802a28bf5d7144fd913bc2b4f7490c6749a9f45b2e002a2948",
+            "object_sha256": "1590b655d8d95b955885bbcf96c8b4a301662ae0b89f4299e624d6ed9ce5589a",
+            "text_bytes": 7212,
+            "instructions": 1803
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "e7c6899ce8b9aac0d4b86e212e9ed285d50d051875dd7acb14e56f1a0117dd4a",
+            "object_sha256": "6770a55a91312017e20f96d21160f616eb5fb5a3be599972d0b9f71981c3f4a7",
+            "text_bytes": 6972,
+            "instructions": 1743
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "c48043cda48d7d17c20f4f3de79f5339ee8f093f007e502eb430d552d30d0f8b",
+            "object_sha256": "7e6e5881c4cdd466edacde326873612c8245cf352f20a91b3236971b18b22a2a",
+            "text_bytes": 9336,
+            "instructions": 2334
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "8078b873964a66785a4a3e98740a6f96b3f2ab9c23874023543b1b764f08e13b",
+            "object_sha256": "bb1a71a748e1f8223535086f8e734c1fbe58213484fe5de6343b770fc5f15eb0",
+            "text_bytes": 3312,
+            "instructions": 828
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "1075569d66c071522583cb443df73c210441cbcf5b37b6bf6871c49483325796",
+            "object_sha256": "c7fed3bce295b603bbc97ca470a7e815b01618e09ac2f80ed67b8938a213eb53",
+            "text_bytes": 21044,
+            "instructions": 5261
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "00760ca74f8d4ac76fe890cb15d02440efaa5496b9dc817bfcb0c2248bc8c801",
+            "object_sha256": "853779d8c1042d18ccb9e5f3c058d1f01d15b2456e716e2ed8f8eaff8a31ab13",
+            "text_bytes": 3084,
+            "instructions": 771
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "3956a481a09e2412052eb8a1181f6383a14cff2e897f049b7cf9ad3e6e5e845c",
+            "object_sha256": "d4a49c07971641b2dc2352aa3f0c049231a2485eea2528fad7749177ba4bdfed",
+            "text_bytes": 8624,
+            "instructions": 2156
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "23e0d87555d07620dd39efce1c378ebc5fbf8c4849de1970858721395ba64e0e",
+            "object_sha256": "7e82a8741b87ad88d76f81d12970e04ee64fdcfd440cfc65634db78d828c4e4e",
+            "text_bytes": 3528,
+            "instructions": 882
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "f0efd2da645ba6080ba905a299144056228e1cdc9cdb4867371708cafd4091bc",
+            "object_sha256": "36bda089ec0776dc8f264d9d74be7f0d0b2ebd61fe94ec14b1c82b531ab6f1c4",
+            "text_bytes": 13256,
+            "instructions": 3314
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "a19d0777ed0270eaac9e05c7086c6f814a42a0054a670f6bbb8bdaa8530f5c55",
+            "object_sha256": "3dc66f42c8c872b0ef1a87005803d59539e26909b09708ad1d09e7096304e2fa",
+            "text_bytes": 1172,
+            "instructions": 293
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "6110194321bca31b876b5345cbe5e3bb92e650ae4d46a876e5b5ca2feb7951c2",
+            "object_sha256": "b7dc16025db33d17e558a9858a0ae3700153afa9b0d3d68898cce131e88cca2a",
+            "text_bytes": 692,
+            "instructions": 173
+          }
+        }
+      }
+    },
+    "aarch64-macos": {
+      "baseline": {
+        "before": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "57adc7731bf8ed41cb9b78bec00e7b8daaeb0655e5ac24983d4f18553d97b58b",
+            "object_sha256": "2144eef954974401cf2f3c3e811dde262e821782944e9c1710174a7aaccff9e7",
+            "text_bytes": 11612,
+            "instructions": 2903
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "5c090975339d21db09d551dfc2048e9d5b7bbf63ddcbd6f8664a71e4f8365176",
+            "object_sha256": "0b37ab7ae37a0e3734a0b5e71186859a2609186e87b048dc0f95797e7c7619a5",
+            "text_bytes": 3148,
+            "instructions": 787
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "ac3fb97d27f51295a15d97fdc329caaf258f5cdd44d2046eb6cb1f73aa7bae71",
+            "object_sha256": "354f198570250435cf7474a7c0ccc68b73988996f8509bf6d6542b46df20506b",
+            "text_bytes": 15452,
+            "instructions": 3863
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "312c8b6158518b7ddd8517dabb01dd8e02d44a32498775ed70a5f4b7981aa41c",
+            "object_sha256": "2a8e8bc507da67801fd957b06fc1c5037c1131f10bfed0052147e73d97f3c5fd",
+            "text_bytes": 106456,
+            "instructions": 26614
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "9328f2d28ccea6fef747aca45bacbfe16b10c06c7ced9adddb18f0a3736680ca",
+            "object_sha256": "b485d2d17d78c80b0d8a5eca5640651989f7a4b82e28adaa5dec276998c29255",
+            "text_bytes": 1496,
+            "instructions": 374
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "be6fdfd2fb863d3091b050839499d515029b850a3340aa665dbc8efd3960d01c",
+            "object_sha256": "4f309794d86103d7c75826eeb805fd4a1f997780bbba1e36da2925a4d086d05d",
+            "text_bytes": 16984,
+            "instructions": 4246
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "9f607ff9bbd339e888a5c6d30889625efe53867061b8de9b3da763944fb1652e",
+            "object_sha256": "bda67ab56fb2b0705a726482c3e8a2574db4c5122589442beb6658546ce3bcfa",
+            "text_bytes": 22544,
+            "instructions": 5636
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "f770b0b293d4ccabe21967d0f7b3fdbecec167766871c54bb43059860430b0d1",
+            "object_sha256": "dfb9337dc3337ab2ad7c6fcc40d7c0f0e65bce49ccc6ea49027f895201163014",
+            "text_bytes": 20720,
+            "instructions": 5180
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "185e19a00480a358d8ee8b149865e7df9c7817f4ee28b906bb51a66da022a114",
+            "object_sha256": "0793b534057309f2f0c81169b8632cb5e89361c65a7aedc5bfb4306775132b3d",
+            "text_bytes": 30072,
+            "instructions": 7518
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "2a3c41bbec22c466ea431ce4a0f9a3ee11a20a3184d5be348d5501c5b9fd31ba",
+            "object_sha256": "88cc16bd2d59b153f3d2e4e3ed23d98260c8cf58c7b354cde7881b89746cfadc",
+            "text_bytes": 11500,
+            "instructions": 2875
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "f25a0e4ece962892fb0f9f74b856b83856d1e02362488f69acc3ba2e88705995",
+            "object_sha256": "0175beccffeeb842eb5d66f60f41bce489a1cfaf82e0ad7bc507dfd771263e4e",
+            "text_bytes": 69512,
+            "instructions": 17378
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "87fae6c6e58f4aa2b2ab4bab1e422e2b2d8ef0220c0fe1473cc3ddaca1040b88",
+            "object_sha256": "5f63395e9443bb87d4560993fdba2afe6e0a8f0a7ad900802ef8184a0ba6e8f3",
+            "text_bytes": 9180,
+            "instructions": 2295
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "62b33dfc040f7ccd0cb072e558dfa61e98cd6d4d9f2009645bf6a184c9867550",
+            "object_sha256": "1d8b81d522134def4f881f63c04a81350df98d6efc138a859ef8d6353aa67f61",
+            "text_bytes": 17904,
+            "instructions": 4476
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "781a2ff07bc25ca1e0bf18816a16edba05ae8b54aa812e03a2c3ab63884f0180",
+            "object_sha256": "4da1e35429e50ee4d406099f5426a80c0ef3ec5e04f52f9bc8b011a8c5fbae7d",
+            "text_bytes": 8348,
+            "instructions": 2087
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "6115f0e786f5f5b34c962dfdfed101215f2f51aa230672fc5238be9c8f0ddb6a",
+            "object_sha256": "80ac09b55fa6139aa946b28111926d7c8685370134396cb1fb6090b421a7d2f7",
+            "text_bytes": 64720,
+            "instructions": 16180
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "3524a930ab4655ab4f3711fd9ac8ec4bb88ceec93c39febb2022bfaad997e015",
+            "object_sha256": "211dc46a8ccb321db5e2e878a6db23de188d91a6e03b2c6033b97b68c4960f97",
+            "text_bytes": 3552,
+            "instructions": 888
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "b08cb70c6387356635de6958b675b27da8edcbfaa1d6c9a83c084b3c3890eebc",
+            "object_sha256": "1235c744748999ee2af6278de4da4e8f372d312e5ff8cae4c1c71eebcdcc28e4",
+            "text_bytes": 3572,
+            "instructions": 893
+          }
+        },
+        "after": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "57adc7731bf8ed41cb9b78bec00e7b8daaeb0655e5ac24983d4f18553d97b58b",
+            "object_sha256": "2144eef954974401cf2f3c3e811dde262e821782944e9c1710174a7aaccff9e7",
+            "text_bytes": 11612,
+            "instructions": 2903
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "5c090975339d21db09d551dfc2048e9d5b7bbf63ddcbd6f8664a71e4f8365176",
+            "object_sha256": "0b37ab7ae37a0e3734a0b5e71186859a2609186e87b048dc0f95797e7c7619a5",
+            "text_bytes": 3148,
+            "instructions": 787
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "ac3fb97d27f51295a15d97fdc329caaf258f5cdd44d2046eb6cb1f73aa7bae71",
+            "object_sha256": "354f198570250435cf7474a7c0ccc68b73988996f8509bf6d6542b46df20506b",
+            "text_bytes": 15452,
+            "instructions": 3863
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "312c8b6158518b7ddd8517dabb01dd8e02d44a32498775ed70a5f4b7981aa41c",
+            "object_sha256": "2a8e8bc507da67801fd957b06fc1c5037c1131f10bfed0052147e73d97f3c5fd",
+            "text_bytes": 106456,
+            "instructions": 26614
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "9328f2d28ccea6fef747aca45bacbfe16b10c06c7ced9adddb18f0a3736680ca",
+            "object_sha256": "b485d2d17d78c80b0d8a5eca5640651989f7a4b82e28adaa5dec276998c29255",
+            "text_bytes": 1496,
+            "instructions": 374
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "be6fdfd2fb863d3091b050839499d515029b850a3340aa665dbc8efd3960d01c",
+            "object_sha256": "4f309794d86103d7c75826eeb805fd4a1f997780bbba1e36da2925a4d086d05d",
+            "text_bytes": 16984,
+            "instructions": 4246
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "9f607ff9bbd339e888a5c6d30889625efe53867061b8de9b3da763944fb1652e",
+            "object_sha256": "bda67ab56fb2b0705a726482c3e8a2574db4c5122589442beb6658546ce3bcfa",
+            "text_bytes": 22544,
+            "instructions": 5636
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "f770b0b293d4ccabe21967d0f7b3fdbecec167766871c54bb43059860430b0d1",
+            "object_sha256": "dfb9337dc3337ab2ad7c6fcc40d7c0f0e65bce49ccc6ea49027f895201163014",
+            "text_bytes": 20720,
+            "instructions": 5180
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "185e19a00480a358d8ee8b149865e7df9c7817f4ee28b906bb51a66da022a114",
+            "object_sha256": "0793b534057309f2f0c81169b8632cb5e89361c65a7aedc5bfb4306775132b3d",
+            "text_bytes": 30072,
+            "instructions": 7518
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "2a3c41bbec22c466ea431ce4a0f9a3ee11a20a3184d5be348d5501c5b9fd31ba",
+            "object_sha256": "88cc16bd2d59b153f3d2e4e3ed23d98260c8cf58c7b354cde7881b89746cfadc",
+            "text_bytes": 11500,
+            "instructions": 2875
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "f25a0e4ece962892fb0f9f74b856b83856d1e02362488f69acc3ba2e88705995",
+            "object_sha256": "0175beccffeeb842eb5d66f60f41bce489a1cfaf82e0ad7bc507dfd771263e4e",
+            "text_bytes": 69512,
+            "instructions": 17378
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "87fae6c6e58f4aa2b2ab4bab1e422e2b2d8ef0220c0fe1473cc3ddaca1040b88",
+            "object_sha256": "5f63395e9443bb87d4560993fdba2afe6e0a8f0a7ad900802ef8184a0ba6e8f3",
+            "text_bytes": 9180,
+            "instructions": 2295
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "62b33dfc040f7ccd0cb072e558dfa61e98cd6d4d9f2009645bf6a184c9867550",
+            "object_sha256": "1d8b81d522134def4f881f63c04a81350df98d6efc138a859ef8d6353aa67f61",
+            "text_bytes": 17904,
+            "instructions": 4476
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "781a2ff07bc25ca1e0bf18816a16edba05ae8b54aa812e03a2c3ab63884f0180",
+            "object_sha256": "4da1e35429e50ee4d406099f5426a80c0ef3ec5e04f52f9bc8b011a8c5fbae7d",
+            "text_bytes": 8348,
+            "instructions": 2087
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "6115f0e786f5f5b34c962dfdfed101215f2f51aa230672fc5238be9c8f0ddb6a",
+            "object_sha256": "80ac09b55fa6139aa946b28111926d7c8685370134396cb1fb6090b421a7d2f7",
+            "text_bytes": 64720,
+            "instructions": 16180
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "3524a930ab4655ab4f3711fd9ac8ec4bb88ceec93c39febb2022bfaad997e015",
+            "object_sha256": "211dc46a8ccb321db5e2e878a6db23de188d91a6e03b2c6033b97b68c4960f97",
+            "text_bytes": 3552,
+            "instructions": 888
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "b08cb70c6387356635de6958b675b27da8edcbfaa1d6c9a83c084b3c3890eebc",
+            "object_sha256": "1235c744748999ee2af6278de4da4e8f372d312e5ff8cae4c1c71eebcdcc28e4",
+            "text_bytes": 3572,
+            "instructions": 893
+          }
+        }
+      },
+      "allocated": {
+        "before": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "80cb09ac783773c42898e6ba47ba3988b0dbd8b2f469c897c7550005d60ea471",
+            "object_sha256": "0081886e39f601be4c82807000de2233f96de422a7b8b8929efb177d484fd498",
+            "text_bytes": 4456,
+            "instructions": 1114
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "7ceff36ec45186924570f977e9159c357e00983ce6fb25a6a4bbeddb61c853e3",
+            "object_sha256": "3fccf3f3fae6b71bd8c51c0c71b2440512c131b417b16ed4e8a105e3f01901be",
+            "text_bytes": 1512,
+            "instructions": 378
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "84359af737b5154d0597587436916f62ca9bd23088ceeccf1541e9e3e83921c4",
+            "object_sha256": "6f9837d5de5708d883928ca948dbab241294e09fe93f4e475e56bddd75bd9f6c",
+            "text_bytes": 7536,
+            "instructions": 1884
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "a215054305007d747fd17ba178839195e5fae6cb4c4e60413e2519d1ae490c31",
+            "object_sha256": "0081af37cdb0283e75c9a4588e32555d8a232fd7eebdb5ec45215e0f92f5adee",
+            "text_bytes": 36780,
+            "instructions": 9195
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "b4479f1754530b4d0de18f50d961c53bb6df3100fefb436f5ff0da1af35ae128",
+            "object_sha256": "451c0583f0d0c4047cbf9df5cb366c113d03622f49ab79dc57f21886649dd94f",
+            "text_bytes": 728,
+            "instructions": 182
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "3948a7a382072bb2d170f426e5fb9b44e5c4da87822f4dda5a3781ceae5ce6d2",
+            "object_sha256": "72b7be81a3b16bb407815a902a3bd30fbdbd4416009c5949a20e19d053b9a1f9",
+            "text_bytes": 8144,
+            "instructions": 2036
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "2258c8282d1b039c101c4a90187fae9a876460f86309ee9a5418162ff4cb2bd3",
+            "object_sha256": "2a1f992a1044b1551e8a4a27eb6a4cc29e7316b10d493bd2483053317fd53b2e",
+            "text_bytes": 10356,
+            "instructions": 2589
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "54c128ee9269d373015d73209d5d6db59f082e4912aa44cd610bdf9161aa318a",
+            "object_sha256": "54f140909fa23038d55f550074023c3abdb1f85e487501ecb05e92c317c50d86",
+            "text_bytes": 10352,
+            "instructions": 2588
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "d7bdeeb9dd8c167473ab6e523b4cad0eb3efeebef45e51c8f1ee3e48bfaaf319",
+            "object_sha256": "efe5433981f7f7f77fd87acf4e781b20ec3eca03e7c6bec413107452df78526f",
+            "text_bytes": 11396,
+            "instructions": 2849
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "2d80557216671da6bef6391d35953bfebea8c50dad3d90fa81932efc40eb884a",
+            "object_sha256": "c59cc491c369e7f616970e1f10c4d3dd7f504070512b1a87b578b25a6e8beba7",
+            "text_bytes": 4156,
+            "instructions": 1039
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "8f6921196b607f05718434868c9e0fbc3a3cb7d8b3cbd116bd219ca40fb41a1d",
+            "object_sha256": "6e04d8671cbdeabb67b23f42adefd80fb1667a21533a747ef2629592a0375725",
+            "text_bytes": 25348,
+            "instructions": 6337
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "a30a6d97e96db2cabd81221edd04c144b4d6ada5f68311e979e5a5ada874a570",
+            "object_sha256": "fd8d4e3561e0b8e333ff7401ee61e287fcfa387c09ec55b9ea67bdf21783b8cf",
+            "text_bytes": 4240,
+            "instructions": 1060
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "232d085f6aa495771763fb5d3838833177dc2cfd6b6e56e164a9f6efec8d44a4",
+            "object_sha256": "b3c2d5a9e3fa437f6f68e5241ce4ee9d0cebaafa8decae7712edc2b5e714d58e",
+            "text_bytes": 10872,
+            "instructions": 2718
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "56d94fa6220660e983eb4d826b3175468fe1006d766f84d20206b80aa096095f",
+            "object_sha256": "486c5dcf4f6e51bfd428ad1fc0cb48bd6caaa0b39361a851aca10c1b22bd0c62",
+            "text_bytes": 4828,
+            "instructions": 1207
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "460c841e391313c525e2b2b69e30353d577eb3259631327eac038060d75f6f0b",
+            "object_sha256": "9515843c9e43e96b71bcb34c1370fdc2e6a6791ed3553795856cbdd98f020b82",
+            "text_bytes": 22656,
+            "instructions": 5664
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "8af11f1cc3e7a1d7f57a450ed3a11a0c4bf5b6788a5c86acea0bc0f319e99f6f",
+            "object_sha256": "07818f3f320bd18289d3855185fefc06be03046ad0f05ac7abed0a3415ca1ad7",
+            "text_bytes": 1560,
+            "instructions": 390
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "c10cd110c4d25435013ad416d36fe9aa2cecfb127f05a5b778f99b18eba1d69a",
+            "object_sha256": "f35bbcee2f17f126d58c572cb04815b6a79ad549169ff1eb054364d3632dd5cb",
+            "text_bytes": 1724,
+            "instructions": 431
+          }
+        },
+        "after": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "80cb09ac783773c42898e6ba47ba3988b0dbd8b2f469c897c7550005d60ea471",
+            "object_sha256": "0081886e39f601be4c82807000de2233f96de422a7b8b8929efb177d484fd498",
+            "text_bytes": 4456,
+            "instructions": 1114
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "7ceff36ec45186924570f977e9159c357e00983ce6fb25a6a4bbeddb61c853e3",
+            "object_sha256": "3fccf3f3fae6b71bd8c51c0c71b2440512c131b417b16ed4e8a105e3f01901be",
+            "text_bytes": 1512,
+            "instructions": 378
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "84359af737b5154d0597587436916f62ca9bd23088ceeccf1541e9e3e83921c4",
+            "object_sha256": "6f9837d5de5708d883928ca948dbab241294e09fe93f4e475e56bddd75bd9f6c",
+            "text_bytes": 7536,
+            "instructions": 1884
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "8c3e28d141dbe0354979804ca75f56f4bd6369bc7495fbc990ff8fe0cef63fa1",
+            "object_sha256": "a424d0cb10819e14cfe411c95b41e8fdde2f7a9b91af2cbfee6433e1e6c295bc",
+            "text_bytes": 36808,
+            "instructions": 9202
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "b4479f1754530b4d0de18f50d961c53bb6df3100fefb436f5ff0da1af35ae128",
+            "object_sha256": "451c0583f0d0c4047cbf9df5cb366c113d03622f49ab79dc57f21886649dd94f",
+            "text_bytes": 728,
+            "instructions": 182
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "3948a7a382072bb2d170f426e5fb9b44e5c4da87822f4dda5a3781ceae5ce6d2",
+            "object_sha256": "72b7be81a3b16bb407815a902a3bd30fbdbd4416009c5949a20e19d053b9a1f9",
+            "text_bytes": 8144,
+            "instructions": 2036
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "2258c8282d1b039c101c4a90187fae9a876460f86309ee9a5418162ff4cb2bd3",
+            "object_sha256": "2a1f992a1044b1551e8a4a27eb6a4cc29e7316b10d493bd2483053317fd53b2e",
+            "text_bytes": 10356,
+            "instructions": 2589
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "54c128ee9269d373015d73209d5d6db59f082e4912aa44cd610bdf9161aa318a",
+            "object_sha256": "54f140909fa23038d55f550074023c3abdb1f85e487501ecb05e92c317c50d86",
+            "text_bytes": 10352,
+            "instructions": 2588
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "9a82ea68fd5041aa0dc0dfaab98363d7bc1c01a15d58302451934c4d03a99228",
+            "object_sha256": "4edb728aaf4da490180dfca2ebd1d157710074f090c0bb5f82a510ed0c5ad29e",
+            "text_bytes": 11404,
+            "instructions": 2851
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "2d80557216671da6bef6391d35953bfebea8c50dad3d90fa81932efc40eb884a",
+            "object_sha256": "c59cc491c369e7f616970e1f10c4d3dd7f504070512b1a87b578b25a6e8beba7",
+            "text_bytes": 4156,
+            "instructions": 1039
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "604990784e0326ea74c9c649516cd0c25f47e03584bff3b105f43794ed22e15c",
+            "object_sha256": "4120dff5c3ed9681d7504449155e28336cddfe26a459c9fdd9cfec4594c0c518",
+            "text_bytes": 25356,
+            "instructions": 6339
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "3e33267634157f3d7a0d3e4dc5af89c770d4f6312cc10de25ddf3baf957a250a",
+            "object_sha256": "2d5ccebfc657dbfadea53c205edeae054bc0d8f4b0005c122fad25f00ecb078a",
+            "text_bytes": 4320,
+            "instructions": 1080
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "232d085f6aa495771763fb5d3838833177dc2cfd6b6e56e164a9f6efec8d44a4",
+            "object_sha256": "b3c2d5a9e3fa437f6f68e5241ce4ee9d0cebaafa8decae7712edc2b5e714d58e",
+            "text_bytes": 10872,
+            "instructions": 2718
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "56d94fa6220660e983eb4d826b3175468fe1006d766f84d20206b80aa096095f",
+            "object_sha256": "486c5dcf4f6e51bfd428ad1fc0cb48bd6caaa0b39361a851aca10c1b22bd0c62",
+            "text_bytes": 4828,
+            "instructions": 1207
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "7ac933ea34a72a1e3170784a834027d7c7927153ff37d8998372edb33585e168",
+            "object_sha256": "9ed360fae10cace62864f02e895d83e4199298ea02055df945708a23cb08d241",
+            "text_bytes": 22668,
+            "instructions": 5667
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "8af11f1cc3e7a1d7f57a450ed3a11a0c4bf5b6788a5c86acea0bc0f319e99f6f",
+            "object_sha256": "07818f3f320bd18289d3855185fefc06be03046ad0f05ac7abed0a3415ca1ad7",
+            "text_bytes": 1560,
+            "instructions": 390
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "c10cd110c4d25435013ad416d36fe9aa2cecfb127f05a5b778f99b18eba1d69a",
+            "object_sha256": "f35bbcee2f17f126d58c572cb04815b6a79ad549169ff1eb054364d3632dd5cb",
+            "text_bytes": 1724,
+            "instructions": 431
+          }
+        }
+      },
+      "optimized": {
+        "before": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "bb6e273a3f42cb511345e03f29714aa75da1ad521865e35e166a1976250eea7c",
+            "object_sha256": "19c31b8f5d882de0cf4b5e61e603256efd3bdff021d95307e6d1e08597043863",
+            "text_bytes": 2008,
+            "instructions": 502
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "b84d097f94b7820fae91bca9f157c5a5a8119f5c1edf61f9c8d2795a5c47aed7",
+            "object_sha256": "1c6c8eed7663f3080557c5e026eb7b7f241269c7b9e4fb529c8ffbae303129c4",
+            "text_bytes": 1036,
+            "instructions": 259
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "29935b0239cf48bd7f74db4be467a4df7d8613e7780f3c331945b9c275e3e619",
+            "object_sha256": "3808b87d5c2da5734a13139b2c267ce62a3381eb4ce8f9088b23fd6a7e7468cb",
+            "text_bytes": 4300,
+            "instructions": 1075
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "a3aeaea50942a263ac1ef0a2fd034b1de3101ebdbf0b344bea54b32f2a37a380",
+            "object_sha256": "ed80ad7a0c147cae3d8d7efa77598ceadf6303edb90a5f8317ed9bce536a9123",
+            "text_bytes": 24248,
+            "instructions": 6062
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "285f2f131fc0067f7502a947d17ec27b4babae09bbc93a02ca13b50297bca1b3",
+            "object_sha256": "5214bda144d13d4e754b47e37cc115910ce7021674f1186e9a6dea7d1348786d",
+            "text_bytes": 520,
+            "instructions": 130
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "96c514bdb1733f1b3515b1fff07ae68fdd20e9e38f40dd36453b543ebb4b1923",
+            "object_sha256": "85d9a24000f49d953d669f70a9fd678cc777f58c069ec0647e3c4df86c8e49cb",
+            "text_bytes": 5664,
+            "instructions": 1416
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "2cd7b7ff9f06187febca51bf0d2a02f1de6acab834a8c3f5a3013bdb46b2d32c",
+            "object_sha256": "f5f36e77d5bd17148ce2f4f640612eff3b96f039a74219ce14476af77b2ed1ec",
+            "text_bytes": 7212,
+            "instructions": 1803
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "6e4919bdace565c1dee2e67d36d316512648d6e5e64347982d380822474af2ac",
+            "object_sha256": "241914752231d56cbf0822bdfe18ae9e3170c923f6113fcb8611dce75e5f324e",
+            "text_bytes": 6868,
+            "instructions": 1717
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "3ab840145eeb081e9079260b8a7f155bf4d18044c38fdb83c46315ee34146001",
+            "object_sha256": "af4a62e6babe84b3e204a79d0a2542f57db3b8856910d8699efb09b85b4f7e97",
+            "text_bytes": 9332,
+            "instructions": 2333
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "1d155016e8ed1abbea8c18f676f4bd3f724427d1c94ad613c5b7d7f68501ae0a",
+            "object_sha256": "f8eada926cef8adf126f4e74a226d11c5d439da31e52020387e821f51b066c5a",
+            "text_bytes": 3312,
+            "instructions": 828
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "6b88731674307668fe6d0e86e898b3bc6addb3f15b53012b0eaa56f0c1db59ba",
+            "object_sha256": "85e57739fc4c4097af97b273e1957a9817d083c1d521609a174394fbfb146c6f",
+            "text_bytes": 21040,
+            "instructions": 5260
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "b9f57ba6fea7e59b55af163e5980586aa7febcd7bef559b242639d05cad43b19",
+            "object_sha256": "217892943ebe13d9c41e609cfbd3bdecd1f5cc98a0334d8419a00c3b55b680c5",
+            "text_bytes": 3012,
+            "instructions": 753
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "d055d68a46179de872ebb658974364a6457d9a4793b8e4cbbded89d88b368cd1",
+            "object_sha256": "6b222c3c832864c24c84f8930a876e25ea0de946993fdfa1f4312faa57a17e7a",
+            "text_bytes": 8948,
+            "instructions": 2237
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "f3637ad8a045ace62a3b81d31f11bd5590db1d37ab80cfe8e1ea82ad70fb6c95",
+            "object_sha256": "9a44834c7b9444c182cd5dc6e4627c2972cd1be9511ae825462d7a8db60d6b74",
+            "text_bytes": 3588,
+            "instructions": 897
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "6b59d84908b04f2d414feeaccf80979ba1511a50a847bc9a9abd9d865f5f7b8a",
+            "object_sha256": "0e7b2f0bbb5bca7a029acddf37e6f3949ce0417268262e29c10c52ec0720003a",
+            "text_bytes": 13144,
+            "instructions": 3286
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "2450a5fd507673fbd67e9b7ee78a6c59c30b123a42aeba855694b117733fd49c",
+            "object_sha256": "bf0db6211da92dd9d562d87b6ce3f165bc308229e8fdfe53e333c15741ed089e",
+            "text_bytes": 1172,
+            "instructions": 293
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "242a1524c69412ee67bedaf70340437456d60b183826d1dc4afd87ff33095631",
+            "object_sha256": "40e267d25579435c5a4e5ad8f33cea5ca9697a64abaf702d43df4ee4faf11d08",
+            "text_bytes": 692,
+            "instructions": 173
+          }
+        },
+        "after": {
+          "adler32": {
+            "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+            "assembly_sha256": "bb6e273a3f42cb511345e03f29714aa75da1ad521865e35e166a1976250eea7c",
+            "object_sha256": "19c31b8f5d882de0cf4b5e61e603256efd3bdff021d95307e6d1e08597043863",
+            "text_bytes": 2008,
+            "instructions": 502
+          },
+          "compress": {
+            "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+            "assembly_sha256": "b84d097f94b7820fae91bca9f157c5a5a8119f5c1edf61f9c8d2795a5c47aed7",
+            "object_sha256": "1c6c8eed7663f3080557c5e026eb7b7f241269c7b9e4fb529c8ffbae303129c4",
+            "text_bytes": 1036,
+            "instructions": 259
+          },
+          "crc32": {
+            "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+            "assembly_sha256": "29935b0239cf48bd7f74db4be467a4df7d8613e7780f3c331945b9c275e3e619",
+            "object_sha256": "3808b87d5c2da5734a13139b2c267ce62a3381eb4ce8f9088b23fd6a7e7468cb",
+            "text_bytes": 4300,
+            "instructions": 1075
+          },
+          "deflate": {
+            "ir_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+            "assembly_sha256": "48c90449665328c3aac3227671d71d9254f29e5e0517f9d46930021115b9b253",
+            "object_sha256": "e8aa05d1190a73d74188e236124da8ec9f46fea828181bfb822b974131f711c8",
+            "text_bytes": 24284,
+            "instructions": 6071
+          },
+          "gzclose": {
+            "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+            "assembly_sha256": "285f2f131fc0067f7502a947d17ec27b4babae09bbc93a02ca13b50297bca1b3",
+            "object_sha256": "5214bda144d13d4e754b47e37cc115910ce7021674f1186e9a6dea7d1348786d",
+            "text_bytes": 520,
+            "instructions": 130
+          },
+          "gzlib": {
+            "ir_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+            "assembly_sha256": "96c514bdb1733f1b3515b1fff07ae68fdd20e9e38f40dd36453b543ebb4b1923",
+            "object_sha256": "85d9a24000f49d953d669f70a9fd678cc777f58c069ec0647e3c4df86c8e49cb",
+            "text_bytes": 5664,
+            "instructions": 1416
+          },
+          "gzread": {
+            "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+            "assembly_sha256": "2cd7b7ff9f06187febca51bf0d2a02f1de6acab834a8c3f5a3013bdb46b2d32c",
+            "object_sha256": "f5f36e77d5bd17148ce2f4f640612eff3b96f039a74219ce14476af77b2ed1ec",
+            "text_bytes": 7212,
+            "instructions": 1803
+          },
+          "gzwrite": {
+            "ir_sha256": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+            "assembly_sha256": "6e4919bdace565c1dee2e67d36d316512648d6e5e64347982d380822474af2ac",
+            "object_sha256": "241914752231d56cbf0822bdfe18ae9e3170c923f6113fcb8611dce75e5f324e",
+            "text_bytes": 6868,
+            "instructions": 1717
+          },
+          "infback": {
+            "ir_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+            "assembly_sha256": "baf98fa51fa6600be6032d536eff4877f141b2c70d5078cfab7e139f751b82ec",
+            "object_sha256": "f9b2f76e41a293de5431e3a81c44a3f3cc168de5313ed5a9cb21ae3bea8ef4ba",
+            "text_bytes": 9336,
+            "instructions": 2334
+          },
+          "inffast": {
+            "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+            "assembly_sha256": "1d155016e8ed1abbea8c18f676f4bd3f724427d1c94ad613c5b7d7f68501ae0a",
+            "object_sha256": "f8eada926cef8adf126f4e74a226d11c5d439da31e52020387e821f51b066c5a",
+            "text_bytes": 3312,
+            "instructions": 828
+          },
+          "inflate": {
+            "ir_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+            "assembly_sha256": "90a5fc3c31b1e6bdcb04dfe56bc95d003e8ebab1eb709ad7f6bb6a91380c8ea1",
+            "object_sha256": "6260bd7e171aec14aa5ab2aa366da51d732aa2931b2c5cfdac7f3fbb763e469a",
+            "text_bytes": 21044,
+            "instructions": 5261
+          },
+          "inftrees": {
+            "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+            "assembly_sha256": "2a6600778a2c1b1b76cc388fcb2b0869ea0172caf2485d48a5309a4a8fae27ec",
+            "object_sha256": "bd14f6000db85b3926fd5cfe603c89102a3842ba55ffc98f9a989446c5b29e11",
+            "text_bytes": 3084,
+            "instructions": 771
+          },
+          "test-example": {
+            "ir_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+            "assembly_sha256": "d055d68a46179de872ebb658974364a6457d9a4793b8e4cbbded89d88b368cd1",
+            "object_sha256": "6b222c3c832864c24c84f8930a876e25ea0de946993fdfa1f4312faa57a17e7a",
+            "text_bytes": 8948,
+            "instructions": 2237
+          },
+          "test-minigzip": {
+            "ir_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+            "assembly_sha256": "f3637ad8a045ace62a3b81d31f11bd5590db1d37ab80cfe8e1ea82ad70fb6c95",
+            "object_sha256": "9a44834c7b9444c182cd5dc6e4627c2972cd1be9511ae825462d7a8db60d6b74",
+            "text_bytes": 3588,
+            "instructions": 897
+          },
+          "trees": {
+            "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+            "assembly_sha256": "3cdb56125f971f1756f02a5228c7c1790f9c3ffbe31781c2677f9dbeaaf031ed",
+            "object_sha256": "ad488ca76668f40bfd8e8f163ad3fb2983e8f5149c11ed3832495759bb7acfc5",
+            "text_bytes": 13256,
+            "instructions": 3314
+          },
+          "uncompr": {
+            "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+            "assembly_sha256": "2450a5fd507673fbd67e9b7ee78a6c59c30b123a42aeba855694b117733fd49c",
+            "object_sha256": "bf0db6211da92dd9d562d87b6ce3f165bc308229e8fdfe53e333c15741ed089e",
+            "text_bytes": 1172,
+            "instructions": 293
+          },
+          "zutil": {
+            "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+            "assembly_sha256": "242a1524c69412ee67bedaf70340437456d60b183826d1dc4afd87ff33095631",
+            "object_sha256": "40e267d25579435c5a4e5ad8f33cea5ca9697a64abaf702d43df4ee4faf11d08",
+            "text_bytes": 692,
+            "instructions": 173
+          }
+        }
+      }
+    }
+  },
+  "baseline_identical": 34,
+  "allocated_identical": 0,
+  "input_postvalidation": "passed",
+  "bound_inputs": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/zlib-cse-profit-arm.json": "d163a0ffad13f7c1a3ee48e8f2a5893c46e9bf1652a2319c3d8429ded7590468",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/zutil.h": "dddb2dc7a1dc339ecf2c8e089b366f08bb731c0839c7110240d17ce731bb4fea",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/inftrees.h": "0a0fcaf2ae2fae57426bdc06637270e9bba974f35202cadbdba479d946e6409d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/inflate.c": "34c998ce0037c0537c04b03b276f680b945f9b2c9d1e01b287605bd6879f7fd2",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/compress.c": "86f802c16a965e7a28737e3730b4e576c5ba40981753967e3e30916f4dc1b4b1",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/deflate.c": "3b956337350f94c34987750f785587ef33d9c89ceaebb7c2afb189c956360cbe",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/inffixed.h": "237ba710f090e432b62ebf963bee8b302867e9691406b2d3f8ee89ee7bfef9b0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/gzread.c": "72e481aca07b0b85a9783237b85dc67ff3a4c1d19878d0cec69f58d38634867b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/trees.h": "bb0a9d3ca88ee00c81adb7c636e73b97085f6ef1b52d6d58edbe2b6dc3adeb4d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/inffast.h": "05cc5dc9ff1da7b8b52a4bd8bda0d8a5c236a2f39efe84b941516ea13857e6c5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/crc32.c": "8fd16f0a7714d51c89c2eb37eb98ec15e8a4dc57ba343e7b7398b19144039fda",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/infback.c": "62df9a6dd3eef126f1d81d0ad7a534504610dec44482b0a472b61c93cbab6554",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/zutil.c": "8ced40d8c88588811edd2bdb35b7439983d5e1f8e9e32b8a3b244731f3c317b7",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/deflate.h": "48baf016326d8d5e3e32ac8153cc7e22f854b8e6834830b167b998a7fb1e7989",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/gzguts.h": "716fa648aca1bb06c219d7b97ad4846d8479206143bc39557bfd8283f5783e04",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/zlib.h": "8a5579af72ea4f427ff00a4150f0ccb3fc5c1e4379f726e101133b1ab9fc600c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/gzlib.c": "042c2be8ec67ad525a2812e508de7381c6766dde903acf5ae6ac4fa6b541946d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/inflate.h": "e8d4a51b07694bf48cb91979c19974cf6a5ab0b8a09d26ec0d14df349230673e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/inftrees.c": "5d4f335221d2dc76f17abd2577d92c2d7baf68fa6d7f23373b360830493d1563",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/uncompr.c": "04dca5e31b3b8a17d1806426f66f0c539f4184d657e149d40be07070c6227b52",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/gzwrite.c": "469b1e58932ea11bdda2a153f6655f7b3c13254240fae157181b49ed1bc93b47",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/trees.c": "f63c68c16c05fcd196050529d1a0e7657960e4136b9987d90a6ac3e58a964b0f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/gzclose.c": "35ea6e991a63095f797d8c4cc25817fac7a7155c2ba7dcdbbf648f7871c7ea40",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/crc32.h": "9a2223575183ac2ee8a247f20bf3ac066e8bd0140369556bdbdffc777435749e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/inffast.c": "e6ef64ce5dc0a4cd5c7ad08ceeb2b2a698b8447f6bd156057caeb2edab68c0cb",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/adler32.c": "9cd1443a24ff2a3053961695bd432035c58347386a420d3388232376ebabe211",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/zconf.h": "44e543ff4514c7a9a01d648019c2c9a81d1105cbfa3c77f1faf6cd86eafa8abd",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/test/infcover.c": "13a0d18d8bca440c4617d88c2236913f53eedebc50e469be472edd4280c697e5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/test/example.c": "b7aeca68f7585e29ca6572542e0ecbd9c3c9370035ae15152008b3efbd4f84ac",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/test/minigzip.c": "57e4a1b9bb1bdb59ac9e5ac1dc9132183e8740cec2f6b5c5f2476aac08a2375f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/gznorm.c": "e5a8f5c3b107f27212f7d5fbfcf072a337a1b4ea32929ae31c168997438a5cc0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/fitblk.c": "bec64da6fc0c9a2a37a96722e8b88ca09059148e5be5ecbb486bdba5339e228a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/enough.c": "c14a257c60bbe0d65bb54746dd97774a1853ef9e3f78db118a27d8bc0d26d738",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/gzlog.h": "681f280437f867820bf39880e2f4fc641d402879e399ba2e6a31d73feefe8edc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/gzjoin.c": "90b9d6c39a5fc91cf1cc9b96b025a508a8015dc502cd9374c754b44078593f57",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/gun.c": "3bfd36b06284ba97d6105b8a6a5d18b2b34b75b3a1285f16d018680fb174915f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/zran.h": "913158e13f6177224074cfa9b497438545054ac0d54ab13a6ad4182df8d2ee99",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/zpipe.c": "68140a82582ede938159630bca0fb13a93b4bf1cb2e85b08943c26242cf8f3a6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/gzlog.c": "d9a2f9871e7f1724f9f9359fd4851dc0eac7af10d8234bab66327badb33d1a38",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/zran.c": "f4bc94b710841b8412aee04c42ea522bd1687343d65f0c0d92b4dd5801d03956",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/examples/gzappend.c": "6de91c8305e37560117bff44136abff72b16b028c0bda0bbac7ea07e4988b0ce",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/unzip.c": "10881ab576f49fe0825a21f77e322ece6ee88d34ed66fb3a3ce7a22f4b6cd2d9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/zip.c": "213f853d71266ebe8d8335740cfe94b0731009d8fb3f7e6ae01a627398732ec8",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/iowin32.h": "4feed64c3c5f5cff2d8a0431233766b61d4e06a9f232482cb41272ed1ca487df",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/ioapi.c": "6dff11ded396f5e3147c632a639423e80ced6705bf7bf75d21cda0c571fdf86b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/mztools.c": "3d6027270a2b6ed5ca19a339d7488f682c69798e3977d2278d379b7f14f17b63",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/crypt.h": "5c978923cff1e80f76baf437eed699d5b4ad1bf515008d669475d3dd0d89ef70",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/zip.h": "99ad45c0b546b5fd0ee3d0819ff057840a892a3d6dbacc85b757a35a43047398",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/unzip.h": "2ff9df0b1da7499adc806bc0ec098ef1c7b9d361a8fd5b08a98299a1a4e88399",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/mztools.h": "6f82c52279e8f79165f4446be652e5741a49992ac58632470335aa34c564072a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/ioapi.h": "6d2f2c3520dfc3061ea9128a1afb843f5cfe8d7317adcefe3a45884bc06e06a1",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/iowin32.c": "882383d1ee9df8c5f236411734b51e96f5e29c38496d4e531f2beb3d07f682ef",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/minizip.c": "6d7d7daffc713ba15a9768143471902c5bfd661a19287172f3870bc9ed2d5665",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/minizip/miniunz.c": "c60f2c68be981464ff02dfbe01da2a8e66692416bdda2144fc75df3420b4107f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/infback9/inffix9.h": "84a2ba4727767c18af6505f0e81d9c814489c8b9ed330a25dad433db72997e43",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/infback9/inftree9.c": "9e739f5735d3cd77ca1b0d46d2a43371acf2afd64c9c0889e737da369ccd92d0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/infback9/infback9.h": "c89d926607c1afa1830c17f807de368d2f1afe2d1e7df426763f6d4bf5950379",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/infback9/inflate9.h": "32a907676cc36e27d0fdc0d99adb83a0b23f20ab61896269216d40fecf08d349",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/infback9/infback9.c": "c236f4e5ef216f5ebc66f95ccbf9d399a19ad3838444065308b8d859cb42dc74",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/infback9/inftree9.h": "4ecd9db884bf43e33fbd34273c814029022477e1597676129f9c98e09d8cef56",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/testzlib/testzlib.c": "753dbb39c5d2f0fffac0406c1c94fd1da7b0251d679e4d137b0708901dfd61d8",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/iostream/zfstream.h": "4369c35e66f63f52ca4a5e1759bf720507ccabb8f3f132e2f18e68686c812401",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/blast/blast.c": "1ab3e479d342bfc144167b808fb00142264bc50f24a110ca88cc774e351c218e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/blast/blast.h": "9c1c422b76311d4cb06863ffc056668b6240f3dd998bc02e89ee590d482bfdc2",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/untgz/untgz.c": "f96c1e8529eb10d723b4547aa965741d72a46f2b1d5c9a2c193bd3f5e2c2a45e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/puff/puff.h": "969b7be2a930db0cdcb19b0e5b29ae6741f5a8f663b6dba6d647e12ec60cfa8e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/puff/pufftest.c": "d24e31c1d277d07c268f34e9490050c6b53c68b128da3efbb1d05fc5b31004f7",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/puff/puff.c": "5b9d75aeb5baf3575415bc6ade3f2a02e50b6b971b3f8b4fda2b03543bc6e52f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/iostream3/zfstream.h": "d89587b446f928351565d099decd006a06b7a420cb1ff8ee9bb82e4d8c7235dd",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/contrib/iostream2/zstream.h": "d0343e0c57ff58008b6f29643d289c72713aa2d653fe3dcd2e939fc77e7e20b6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/zlib/Makefile": "061a2b8c97141b92fc95da232fe5b3e46aa2ebe7874431bc6e3458211849729c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/adler32.ssa": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/crc32.ssa": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/deflate.ssa": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/infback.ssa": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/inffast.ssa": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/inflate.ssa": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/inftrees.ssa": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/trees.ssa": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/zutil.ssa": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/compress.ssa": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/uncompr.ssa": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/gzclose.ssa": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/gzlib.ssa": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/gzread.ssa": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/gzwrite.ssa": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/test-example.ssa": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/ir/test-minigzip.ssa": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-symbol-placement": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+    "/tmp/lcb-arm-half-fallback/.lake/build/bin/lcb": "b291549be8d8dee46ba581929cdaadd3fc90bb4cbf97304b79b7118a5a9ee8fe",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/gcc/example": "fe6d3510271a76afea799833870b9a5738bf0fe0d32de1dbee3a388fda3f60fc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-benchmark/gcc/minigzip": "4398e3ff5d1997de38558c0d04030a8ce5421b6506d7927d8eae68074744d6c8"
+  }
+}

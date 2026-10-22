@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "compiler_before": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+  "compiler_after": "9300e16d335de96d8240cce276f163afc04fcf1f64c99e9fa617894e6734fc87",
+  "baseline_assemblies_identical": 34,
+  "allocated_assemblies_identical": 0,
+  "optimized_assemblies_identical": 26,
+  "assemblies_and_objects": 204,
+  "object_report_guest_host_checks": 408,
+  "execution_report_guest_host_sha256": "ce6b8aedc2b04d00dc04ad60a3184af60cd75efe3e26da39fc27b3e83e7f7cf9",
+  "postvalidation": "Original source/configuration/IR/binary/reference paths and immutable compiler copies unchanged; all reported object and assembly hashes equal host files and guest execution binding.",
+  "execution": "6 native ARM Linux upstream example executions and72 exact GCC-compressed profiles with Python decompression and own-backend decompression; Apple ARM objects assembled only.",
+  "timing": "Not run. No runtime performance claim.",
+  "commands": [
+    "python3 /tmp/qualify-arm-byte-fallback-zlib.py",
+    "docker exec lcb-parity-linux python3 /work/arm-byte-fallback-zlib-review/execute.py",
+    "python3 /tmp/finalize-arm-byte-fallback-zlib.py"
+  ],
+  "script_sha256": "64a0c3ac39ebcd113b0f31fa0af26b0f2c3f7810040a04dc5d76fc0f28a5940a",
+  "probe_sha256": "69b7aee8e23316e4ce033f715958917d3465aae245f89ec9f3529376f182fdb5",
+  "scope": "Fresh ARM byte-fallback indexed-load qualification; no new QBE execution."
+}

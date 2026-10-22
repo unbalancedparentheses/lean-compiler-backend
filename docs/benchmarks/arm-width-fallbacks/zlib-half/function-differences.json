@@ -1,0 +1,704 @@
+{
+  "aarch64-linux": {
+    "baseline": {},
+    "allocated": {
+      "deflate": {
+        "fill_window": {
+          "before": {
+            "instructions": 404,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 405,
+            "narrow_indexed": 3,
+            "wide_indexed": 0
+          }
+        },
+        "deflateSetDictionary": {
+          "before": {
+            "instructions": 319,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 320,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          }
+        },
+        "longest_match": {
+          "before": {
+            "instructions": 373,
+            "narrow_indexed": 7,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 374,
+            "narrow_indexed": 6,
+            "wide_indexed": 0
+          }
+        },
+        "deflate_fast": {
+          "before": {
+            "instructions": 699,
+            "narrow_indexed": 7,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 701,
+            "narrow_indexed": 5,
+            "wide_indexed": 0
+          }
+        },
+        "deflate_slow": {
+          "before": {
+            "instructions": 890,
+            "narrow_indexed": 6,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 892,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "infback": {
+        "inflateBack": {
+          "before": {
+            "instructions": 2458,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 2460,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "inflate": {
+        "inflate": {
+          "before": {
+            "instructions": 4010,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 4012,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "inftrees": {
+        "inflate_table": {
+          "before": {
+            "instructions": 928,
+            "narrow_indexed": 18,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 948,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "trees": {
+        "gen_codes": {
+          "before": {
+            "instructions": 124,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 125,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "gen_bitlen": {
+          "before": {
+            "instructions": 431,
+            "narrow_indexed": 2,
+            "wide_indexed": 4
+          },
+          "after": {
+            "instructions": 433,
+            "narrow_indexed": 0,
+            "wide_indexed": 4
+          }
+        }
+      }
+    },
+    "optimized": {
+      "deflate": {
+        "fill_window": {
+          "before": {
+            "instructions": 220,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 221,
+            "narrow_indexed": 3,
+            "wide_indexed": 0
+          }
+        },
+        "deflateSetDictionary": {
+          "before": {
+            "instructions": 203,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 204,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          }
+        },
+        "lm_init": {
+          "before": {
+            "instructions": 76,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 77,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "deflateParams": {
+          "before": {
+            "instructions": 182,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 183,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "longest_match": {
+          "before": {
+            "instructions": 232,
+            "narrow_indexed": 7,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 233,
+            "narrow_indexed": 6,
+            "wide_indexed": 0
+          }
+        },
+        "deflate_fast": {
+          "before": {
+            "instructions": 476,
+            "narrow_indexed": 7,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 478,
+            "narrow_indexed": 5,
+            "wide_indexed": 0
+          }
+        },
+        "deflate_slow": {
+          "before": {
+            "instructions": 601,
+            "narrow_indexed": 6,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 603,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "infback": {
+        "inflateBack": {
+          "before": {
+            "instructions": 2058,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 2059,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "inflate": {
+        "inflate": {
+          "before": {
+            "instructions": 3713,
+            "narrow_indexed": 3,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 3714,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "inftrees": {
+        "inflate_table": {
+          "before": {
+            "instructions": 657,
+            "narrow_indexed": 18,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 675,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "trees": {
+        "gen_codes": {
+          "before": {
+            "instructions": 68,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 69,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "pqdownheap": {
+          "before": {
+            "instructions": 161,
+            "narrow_indexed": 12,
+            "wide_indexed": 11
+          },
+          "after": {
+            "instructions": 169,
+            "narrow_indexed": 4,
+            "wide_indexed": 11
+          }
+        },
+        "gen_bitlen": {
+          "before": {
+            "instructions": 241,
+            "narrow_indexed": 4,
+            "wide_indexed": 4
+          },
+          "after": {
+            "instructions": 245,
+            "narrow_indexed": 0,
+            "wide_indexed": 4
+          }
+        },
+        "build_tree": {
+          "before": {
+            "instructions": 243,
+            "narrow_indexed": 7,
+            "wide_indexed": 1
+          },
+          "after": {
+            "instructions": 246,
+            "narrow_indexed": 4,
+            "wide_indexed": 1
+          }
+        },
+        "send_tree": {
+          "before": {
+            "instructions": 587,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 591,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "compress_block": {
+          "before": {
+            "instructions": 472,
+            "narrow_indexed": 9,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 478,
+            "narrow_indexed": 3,
+            "wide_indexed": 0
+          }
+        },
+        "detect_data_type": {
+          "before": {
+            "instructions": 76,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 78,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      }
+    }
+  },
+  "aarch64-macos": {
+    "baseline": {},
+    "allocated": {
+      "deflate": {
+        "fill_window": {
+          "before": {
+            "instructions": 404,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 405,
+            "narrow_indexed": 3,
+            "wide_indexed": 0
+          }
+        },
+        "deflateSetDictionary": {
+          "before": {
+            "instructions": 319,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 320,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          }
+        },
+        "longest_match": {
+          "before": {
+            "instructions": 373,
+            "narrow_indexed": 7,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 374,
+            "narrow_indexed": 6,
+            "wide_indexed": 0
+          }
+        },
+        "deflate_fast": {
+          "before": {
+            "instructions": 699,
+            "narrow_indexed": 7,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 701,
+            "narrow_indexed": 5,
+            "wide_indexed": 0
+          }
+        },
+        "deflate_slow": {
+          "before": {
+            "instructions": 890,
+            "narrow_indexed": 6,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 892,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "infback": {
+        "inflateBack": {
+          "before": {
+            "instructions": 2458,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 2460,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "inflate": {
+        "inflate": {
+          "before": {
+            "instructions": 4010,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 4012,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "inftrees": {
+        "inflate_table": {
+          "before": {
+            "instructions": 928,
+            "narrow_indexed": 18,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 948,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "trees": {
+        "gen_codes": {
+          "before": {
+            "instructions": 124,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 125,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "gen_bitlen": {
+          "before": {
+            "instructions": 431,
+            "narrow_indexed": 2,
+            "wide_indexed": 4
+          },
+          "after": {
+            "instructions": 433,
+            "narrow_indexed": 0,
+            "wide_indexed": 4
+          }
+        }
+      }
+    },
+    "optimized": {
+      "deflate": {
+        "fill_window": {
+          "before": {
+            "instructions": 220,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 221,
+            "narrow_indexed": 3,
+            "wide_indexed": 0
+          }
+        },
+        "deflateSetDictionary": {
+          "before": {
+            "instructions": 203,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 204,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          }
+        },
+        "lm_init": {
+          "before": {
+            "instructions": 76,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 77,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "deflateParams": {
+          "before": {
+            "instructions": 182,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 183,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "longest_match": {
+          "before": {
+            "instructions": 232,
+            "narrow_indexed": 7,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 233,
+            "narrow_indexed": 6,
+            "wide_indexed": 0
+          }
+        },
+        "deflate_fast": {
+          "before": {
+            "instructions": 476,
+            "narrow_indexed": 7,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 478,
+            "narrow_indexed": 5,
+            "wide_indexed": 0
+          }
+        },
+        "deflate_slow": {
+          "before": {
+            "instructions": 601,
+            "narrow_indexed": 6,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 603,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "infback": {
+        "inflateBack": {
+          "before": {
+            "instructions": 2058,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 2059,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "inflate": {
+        "inflate": {
+          "before": {
+            "instructions": 3713,
+            "narrow_indexed": 3,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 3714,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "inftrees": {
+        "inflate_table": {
+          "before": {
+            "instructions": 657,
+            "narrow_indexed": 18,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 675,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      },
+      "trees": {
+        "gen_codes": {
+          "before": {
+            "instructions": 68,
+            "narrow_indexed": 1,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 69,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "pqdownheap": {
+          "before": {
+            "instructions": 161,
+            "narrow_indexed": 12,
+            "wide_indexed": 11
+          },
+          "after": {
+            "instructions": 169,
+            "narrow_indexed": 4,
+            "wide_indexed": 11
+          }
+        },
+        "gen_bitlen": {
+          "before": {
+            "instructions": 241,
+            "narrow_indexed": 4,
+            "wide_indexed": 4
+          },
+          "after": {
+            "instructions": 245,
+            "narrow_indexed": 0,
+            "wide_indexed": 4
+          }
+        },
+        "build_tree": {
+          "before": {
+            "instructions": 243,
+            "narrow_indexed": 7,
+            "wide_indexed": 1
+          },
+          "after": {
+            "instructions": 246,
+            "narrow_indexed": 4,
+            "wide_indexed": 1
+          }
+        },
+        "send_tree": {
+          "before": {
+            "instructions": 587,
+            "narrow_indexed": 4,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 591,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        },
+        "compress_block": {
+          "before": {
+            "instructions": 472,
+            "narrow_indexed": 9,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 478,
+            "narrow_indexed": 3,
+            "wide_indexed": 0
+          }
+        },
+        "detect_data_type": {
+          "before": {
+            "instructions": 76,
+            "narrow_indexed": 2,
+            "wide_indexed": 0
+          },
+          "after": {
+            "instructions": 78,
+            "narrow_indexed": 0,
+            "wide_indexed": 0
+          }
+        }
+      }
+    }
+  }
+}
