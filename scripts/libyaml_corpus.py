@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import time
 
 PIN = '6ad3d2c62885d82fc349026c136ef560838fdf3d'
 REQUIRED = ['gcc-O0', 'gcc-O2', 'baseline', 'allocated', 'optimized', 'qbe-corrected']
@@ -33,7 +34,7 @@ def guest(config_path):
     def save(): output.write_text(json.dumps(report, indent=2)+'\n')
     def run(label, data):
         try:
-            p = subprocess.run([*prefix, str(work/label/'run-parser-test-suite')],
+            p = subprocess.run([*prefix, config['executable_paths'][label]],
                                input=data, capture_output=True, timeout=10)
             return p.returncode, p.stdout, p.stderr
         except subprocess.TimeoutExpired as e:
@@ -41,7 +42,7 @@ def guest(config_path):
     save()
     try:
         for label, expected in config['executables'].items():
-            assert sha(work/label/'run-parser-test-suite') == expected, ('executable mismatch', label)
+            assert sha(config['executable_paths'][label]) == expected, ('executable mismatch', label)
         for name, expected in report['payload_manifest'].items():
             assert sha(corpus/name) == expected['sha256'], ('payload mismatch', name)
         for label in REQUIRED:
@@ -68,7 +69,9 @@ def guest(config_path):
             save(); print(config['target'], label, entry['status'], entry['matched'], entry['mismatched'], flush=True)
         assert all(report['backends'][n]['status'] == 'passed' for n in REQUIRED)
         for label, expected in config['executables'].items():
-            assert sha(work/label/'run-parser-test-suite') == expected, ('executable changed', label)
+            assert sha(config['executable_paths'][label]) == expected, ('executable changed', label)
+        for name, expected in report['payload_manifest'].items():
+            assert sha(corpus/name) == expected['sha256'], ('payload changed', name)
         report['status'] = 'passed' if all(e['status'] == 'passed' for e in report['backends'].values()) else 'lcb_passed_with_original_qbe_failure'
     except BaseException as e:
         report.update(status='failed', diagnostic=repr(e)); save(); raise
@@ -78,6 +81,7 @@ def guest(config_path):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--reference', type=Path)
+    ap.add_argument('--replay-report', type=Path, help='Use freshly compiled LCB executables from a bound libyaml_replay report')
     ap.add_argument('--corpus', type=Path, default=ROOT/'.build/linux-arm64/yaml-test-suite-data')
     ap.add_argument('--output-dir', type=Path, default=ROOT/'.build/linux-arm64/libyaml-corpus')
     ap.add_argument('--docker-container', default='lcb-parity-linux')
@@ -101,15 +105,49 @@ def main():
         assert ref['backends'][label]['status'] == 'built'
         assert ref['backends'][label]['execution_status'] == 'passed'
     labels = REQUIRED + (['qbe'] if ref['backends']['qbe']['status'] == 'built' else [])
-    executables = {n: sha(work/n/'run-parser-test-suite') for n in labels}
+    paths = {n: work/n/'run-parser-test-suite' for n in labels}
+    provenance_files = {a.reference.resolve(): ref_hash, work/'lcb-snapshot': ref['compiler_sha256']}
+    for name, digest in ref['source_hashes'].items(): provenance_files[work/'source'/name] = digest
+    for name, entry in ref['translation_units'].items(): provenance_files[work/'ir'/(name+'.ssa')] = entry['sha256']
+    compiler_record = ref
+    if a.replay_report:
+        replay_hash = sha(a.replay_report)
+        replay = json.loads(a.replay_report.read_text())
+        assert replay['status'] == 'passed' and replay['bindings_checked_after_execution']
+        assert replay['reference_report_sha256'] == ref_hash, 'replay reference mismatch'
+        assert Path(replay['reference_work']).resolve() == work.resolve()
+        assert replay['target'] == target
+        assert replay['source_hashes'] == ref['source_hashes']
+        assert replay['translation_units'] == ref['translation_units']
+        assert sha(replay['harness_snapshot']) == replay['harness_sha256']
+        replay_work = Path(replay['work'])
+        snapshot = replay_work/'lcb-snapshot'
+        assert sha(snapshot) == replay['compiler_sha256'], 'replay compiler mismatch'
+        provenance_files.update({a.replay_report.resolve(): replay_hash,
+                                snapshot: replay['compiler_sha256'],
+                                Path(replay['harness_snapshot']): replay['harness_sha256']})
+        for label in ['baseline', 'allocated', 'optimized']:
+            entry = replay['backends'][label]
+            assert entry['status'] == entry['execution']['status'] == 'passed'
+            paths[label] = replay_work/label/'run-parser-test-suite'
+            assert sha(paths[label]) == entry['executable_sha256']['run-parser-test-suite'], 'replay executable mismatch'
+            assert entry['execution']['checks'] == ref['execution']['backends'][label]['checks']
+        for label in ['gcc-O0', 'gcc-O2']:
+            assert sha(paths[label]) == replay['reference_executable_sha256'][str(paths[label])]
+        compiler_record = replay
+    executables = {n: sha(paths[n]) for n in labels}
     manifest = {str(p.relative_to(a.corpus)): {'sha256': sha(p), 'bytes': p.stat().st_size}
                 for p in sorted(a.corpus.rglob('in.yaml'))}
     assert manifest
+    for name, entry in manifest.items(): provenance_files[a.corpus/name] = entry['sha256']
+    for path in (work/'fixtures').glob('*.yaml'): provenance_files[path] = sha(path)
     a.output_dir.mkdir(parents=True, exist_ok=True)
     report = {'schema': 1, 'status': 'running', 'target': target, 'corpus_commit': PIN,
               'reference_sha256': ref_hash, 'reference_report': str(a.reference),
-              'compiler_identity': ref['compiler_identity'], 'compiler_sha256': ref['compiler_sha256'],
+              'compiler_identity': compiler_record['compiler_identity'], 'compiler_sha256': compiler_record['compiler_sha256'],
+              'replay_report_sha256': sha(a.replay_report) if a.replay_report else None,
               'harness_sha256': sha(__file__), 'payload_manifest': manifest, 'input_count': len(manifest),
+              'executable_paths': {n: str(p) for n,p in paths.items()},
               'executables_sha256': executables, 'original_qbe_reference_status': ref['backends']['qbe'],
               'notes': ['Exact parser event stdout, error stderr, and exit comparison with GCC O0/O2.',
                         'Not YAML specification conformance; libyaml 0.2.5 may disagree with suite goldens.',
@@ -120,14 +158,23 @@ def main():
     config = {'target': target, 'work': inside(work), 'corpus': inside(a.corpus),
               'output': inside(a.output_dir/(target+'.json')), 'report': report,
               'prefix': [] if isa == 'aarch64' else ['qemu-'+isa, '-L', '/usr/'+isa+'-linux-gnu'],
-              'executables': executables,
+              'executables': executables, 'executable_paths': {n: inside(p) for n, p in paths.items()},
               'preflight': {n: {k: v for k, v in ref['execution']['backends'][n]['checks'].items() if k.endswith('-parse')} for n in REQUIRED}}
     assert all(len(v) == 7 for v in config['preflight'].values())
     script = a.output_dir/'libyaml_corpus.py'; script.write_bytes(Path(__file__).read_bytes())
     cfg = a.output_dir/(target+'-config.json'); cfg.write_text(json.dumps(config))
     for p in [script, cfg]: host_file(p, base, a.docker_container)
     subprocess.run(['docker', 'exec', a.docker_container, 'python3', inside(script), '--guest', inside(cfg)], check=True)
-    assert sha(a.reference) == ref_hash, 'reference changed during replay'
+    output = a.output_dir/(target+'.json')
+    guest_digest = subprocess.check_output(['docker', 'exec', a.docker_container, 'sha256sum', inside(output)], text=True).split()[0]
+    for _ in range(100):
+        if output.exists() and sha(output) == guest_digest: break
+        time.sleep(.05)
+    else: raise AssertionError('guest corpus report did not synchronize')
+    result = json.loads(output.read_text())
+    assert result['status'] in ['passed', 'lcb_passed_with_original_qbe_failure']
+    for path, digest in provenance_files.items():
+        assert sha(path) == digest, ('provenance changed during replay', str(path))
 
 
 if __name__ == '__main__': main()

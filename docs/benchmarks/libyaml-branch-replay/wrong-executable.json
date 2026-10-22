@@ -1,0 +1,6 @@
+{
+  "status": "detected",
+  "mutation": "wrong recorded optimized parser executable hash",
+  "exit": 1,
+  "stderr": "Traceback (most recent call last):\n  File \"/Users/unbalancedparen/projects/lean-compiler-backend/scripts/libyaml_corpus.py\", line 180, in <module>\n    if __name__ == '__main__': main()\n                               ~~~~^^\n  File \"/Users/unbalancedparen/projects/lean-compiler-backend/scripts/libyaml_corpus.py\", line 133, in main\n    assert sha(paths[label]) == entry['executable_sha256']['run-parser-test-suite'], 'replay executable mismatch'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: replay executable mismatch\n"
+}

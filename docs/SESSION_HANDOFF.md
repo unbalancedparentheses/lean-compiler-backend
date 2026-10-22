@@ -18,6 +18,7 @@ Both native ARM matrices, original QBE, >1 MiB fallback, complete Linux ARM gate
 unit suite and unchanged 147-report audit pass. Optimized zlib text shrinks another
 8,480 bytes per ARM target (~6.4%); executable comparisons pass, timing unmeasured.
 CI through e07d3da is fully green; newer checkpoints remain pending.
+The new ARM compiler also passes [libyaml driver and 402-input corpus replay](benchmarks/libyaml-branch-replay/README.md) in all three modes, against bound GCC references.
 
 [ARM64 same-register unsigned load extensions](benchmarks/arm-load-extensions/README.md)
 now avoid redundant instructions in allocated/optimized code, preserving baseline
