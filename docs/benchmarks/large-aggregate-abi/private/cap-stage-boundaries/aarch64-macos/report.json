@@ -1,0 +1,285 @@
+{
+  "target": "aarch64-macos",
+  "results": [
+    {
+      "size": 1048575,
+      "mode": "baseline",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575.ssa",
+            "--target",
+            "aarch64-macos",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-baseline.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: arm64 function not 4-byte aligned: _into1048575 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/1048575-thunk-bf295f.o\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 883
+    },
+    {
+      "size": 1048575,
+      "mode": "allocated",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575.ssa",
+            "--target",
+            "aarch64-macos",
+            "--allocate",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-allocated.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: arm64 function not 4-byte aligned: _into1048575 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/1048575-thunk-88cf89.o\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 911
+    },
+    {
+      "size": 1048575,
+      "mode": "optimized",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575.ssa",
+            "--target",
+            "aarch64-macos",
+            "--optimize",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-optimized.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: arm64 function not 4-byte aligned: _into1048575 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/1048575-thunk-e63a66.o\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048575-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 911
+    },
+    {
+      "size": 1048576,
+      "mode": "baseline",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576.ssa",
+            "--target",
+            "aarch64-macos",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-baseline.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: arm64 function not 4-byte aligned: _into1048576 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/1048576-thunk-9ba9a9.o\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 553
+    },
+    {
+      "size": 1048576,
+      "mode": "allocated",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576.ssa",
+            "--target",
+            "aarch64-macos",
+            "--allocate",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-allocated.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: arm64 function not 4-byte aligned: _into1048576 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/1048576-thunk-59aa03.o\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 581
+    },
+    {
+      "size": 1048576,
+      "mode": "optimized",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576.ssa",
+            "--target",
+            "aarch64-macos",
+            "--optimize",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-optimized.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: arm64 function not 4-byte aligned: _into1048576 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/1048576-thunk-6f1f27.o\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/1048576-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 581
+    },
+    {
+      "refusal": "one-past",
+      "stderr": "error: /tmp/lcb-large-aggregate/.build/aggregate-copy/cap-aarch64-macos/boundary/one-past.ssa: aggregate repetition limit exceeded (1048576)\n"
+    },
+    {
+      "refusal": "frame",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "outgoing",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    }
+  ]
+}

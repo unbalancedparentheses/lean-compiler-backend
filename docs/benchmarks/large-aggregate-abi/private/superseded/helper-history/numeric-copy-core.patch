@@ -1,0 +1,70 @@
+diff --git a/LeanCompilerBackend/AArch64.lean b/LeanCompilerBackend/AArch64.lean
+index 42fbed6..c8f5310 100644
+--- a/LeanCompilerBackend/AArch64.lean
++++ b/LeanCompilerBackend/AArch64.lean
+@@ -345,8 +345,19 @@ private def writeFragment (source offset bytes : Nat) : List String := Id.run do
+     if i + 1 < bytes then lines := lines ++ ["\tlsr x13, x13, #8"]
+   return lines
+ 
+-/-- Copy exact bytes from x12 to x13, using x14 only. -/
++/-- Copy exact bytes forward from x12 to x13, preserving both bases.
++    Large copies additionally use reserved x15. Numeric labels stay inside one
++    contiguous helper chunk and cannot collide with user symbol names. -/
+ private def copyAggregate (bytes : Nat) : List String := Id.run do
++  if bytes > 128 then
++    let full := bytes / 8 * 8
++    let mut lines := compactImmediate .long 15 (bytes / 8) ++
++      ["8:", "\tldr x14, [x12], #8", "\tstr x14, [x13], #8",
++       "\tsub x15, x15, #1", "\tcbnz x15, 8b"]
++    for i in [:bytes-full] do
++      lines := lines ++ [s!"\tldrb w14, [x12, #{i}]", s!"\tstrb w14, [x13, #{i}]"]
++    return lines ++ compactImmediate .long 15 full ++
++      ["\tsub x12, x12, x15", "\tsub x13, x13, x15"]
+   let mut lines := []
+   let mut offset := 0
+   for size in [8, 4, 2, 1] do
+diff --git a/LeanCompilerBackend/AMD64.lean b/LeanCompilerBackend/AMD64.lean
+index b08d00f..0fb648b 100644
+--- a/LeanCompilerBackend/AMD64.lean
++++ b/LeanCompilerBackend/AMD64.lean
+@@ -107,8 +107,19 @@ private def writeFragment (source : String) (offset bytes : Nat) : List String :
+     if i+1 < bytes then lines := lines ++ ["\tshrq $8, %r11"]
+   return lines
+ 
+-/-- Copy from r10 to r11 without touching argument registers. -/
++/-- Copy forward from r10 to r11, preserving bases and ABI argument registers.
++    Large copies use reserved caller-saved XMM15 as raw data scratch. -/
+ private def copyBytes (bytes : Nat) : List String := Id.run do
++  if bytes > 128 then
++    -- XMM15 is caller-saved, outside XMM0..7 arguments, and never an allocated home.
++    -- RAX is already scratch here; emitCall sets AL/environment only after copies.
++    let full := bytes / 8 * 8
++    let mut lines := ["\txorq %rax, %rax", "8:",
++      "\tmovq (%r10,%rax), %xmm15", "\tmovq %xmm15, (%r11,%rax)",
++      "\taddq $8, %rax", s!"\tcmpq ${full}, %rax", "\tjb 8b"]
++    for i in [full:bytes] do
++      lines := lines ++ [s!"\tmovb {i}(%r10), %al", s!"\tmovb %al, {i}(%r11)"]
++    return lines
+   let mut lines := []
+   for i in [:bytes/8] do
+     lines := lines ++ [s!"\tmovq {i*8}(%r10), %rax", s!"\tmovq %rax, {i*8}(%r11)"]
+diff --git a/LeanCompilerBackend/RV64.lean b/LeanCompilerBackend/RV64.lean
+index 6fa8011..91d23e6 100644
+--- a/LeanCompilerBackend/RV64.lean
++++ b/LeanCompilerBackend/RV64.lean
+@@ -94,6 +94,15 @@ private def writeFragment (r : String) (offset bytes : Nat) : List String := Id.
+     if i+1 < bytes then lines := lines ++ ["\tsrli t1, t1, 8"]
+   return lines
+ private def copyBytes (bytes : Nat) : List String := Id.run do
++  if bytes > 128 then
++    -- Preserve t2/t3 bases; t0/t1/t6 are reserved scratch, not ABI argument homes.
++    let full := bytes / 8 * 8
++    let mut lines := [s!"\tli t1, {bytes/8}", "8:", "\tld t0, 0(t2)",
++      "\tsd t0, 0(t3)", "\taddi t2, t2, 8", "\taddi t3, t3, 8",
++      "\taddi t1, t1, -1", "\tbnez t1, 8b"]
++    for i in [:bytes-full] do
++      lines := lines ++ [s!"\tlbu t0, {i}(t2)", s!"\tsb t0, {i}(t3)"]
++    return lines ++ [s!"\tli t6, {full}", "\tsub t2, t2, t6", "\tsub t3, t3, t6"]
+   let mut lines := []
+   for i in [:bytes/8] do lines := lines ++ memory "ld" "t0" "t2" (i*8) ++ memory "sd" "t0" "t3" (i*8)
+   for i in [bytes/8*8:bytes] do lines := lines ++ memory "lbu" "t0" "t2" i ++ memory "sb" "t0" "t3" i

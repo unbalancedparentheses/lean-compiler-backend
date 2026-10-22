@@ -48,6 +48,8 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Large aggregate ABI copies](docs/benchmarks/large-aggregate-abi/README.md) now use compact exact loops above 128 bytes and admit object layouts through 1 MiB. All five target matrices and three full Linux gates pass; frame/outgoing-area limits still apply. Original QBE comparison reaches 65,537 bytes, while maximum-size guard tests use independent C. No partial-overlap or new proof claim.
+
 [Unused scalar call results](docs/benchmarks/unused-call-results/README.md) now
 lose their return capture while retaining calls, arguments, effects and aggregate
 return storage. Fresh five-target C matrices and all three Linux gates pass;

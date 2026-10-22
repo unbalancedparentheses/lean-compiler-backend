@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/run-final.py", line 18, in <module>
+    test.exercise(compiler,work,run,cc,target,qbe=qbe)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-large-aggregate/scripts/large_aggregate_abi.py", line 120, in exercise
+    report=dict(target=target,compiler_identity=identity.stdout.strip(),compiler_sha256=sha(compiler),harness_sha256=sha(__file__),source_sha256=sha(source),caller_sha256=sha(caller),thunk_sha256=sha(thunk),sizes=list(sizes),results=reports,boundaries=boundaries,qbe_sha256=qbe_sha256,original_qbe_scope='mixed ABI matrix through65537 only; maximum boundaries independent C only',executed_matrix_modes=sum(r['execution']=='passed' for r in reports),executed_maximum_modes=sum(r.get('execution')=='passed' for r in boundaries),control=control,commands=calls,note='Numeric local loop labels; exact forward copies preserve bases. Guarded hidden-return thunk is ABI-specific; ordinary C by-value calls and return echo independently exercise C ABI. Same-address and disjoint copies only; no memmove claim for partial overlaps.')
+                                                                                                                                                                                                    ~~~^^^^^^^
+  File "/tmp/lcb-large-aggregate/scripts/large_aggregate_abi.py", line 69, in <lambda>
+    sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();calls=[];reports=[]
+                                ~~~~~~~~~~~~~~~~~~^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '.text\n.globl _into1048576\n_into1048576:\n mov x8, x0\n mov x0, x1\n b _fromptr1048576\n'

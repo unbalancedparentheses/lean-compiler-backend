@@ -94,6 +94,15 @@ private def writeFragment (r : String) (offset bytes : Nat) : List String := Id.
     if i+1 < bytes then lines := lines ++ ["\tsrli t1, t1, 8"]
   return lines
 private def copyBytes (bytes : Nat) : List String := Id.run do
+  if bytes > 128 then
+    -- Preserve t2/t3 bases; t0/t1/t6 are reserved scratch, not ABI argument homes.
+    let full := bytes / 8 * 8
+    let mut lines := [s!"\tli t1, {bytes/8}", "8:", "\tld t0, 0(t2)",
+      "\tsd t0, 0(t3)", "\taddi t2, t2, 8", "\taddi t3, t3, 8",
+      "\taddi t1, t1, -1", "\tbnez t1, 8b"]
+    for i in [:bytes-full] do
+      lines := lines ++ [s!"\tlbu t0, {i}(t2)", s!"\tsb t0, {i}(t3)"]
+    return lines ++ [s!"\tli t6, {full}", "\tsub t2, t2, t6", "\tsub t3, t3, t6"]
   let mut lines := []
   for i in [:bytes/8] do lines := lines ++ memory "ld" "t0" "t2" (i*8) ++ memory "sd" "t0" "t3" (i*8)
   for i in [bytes/8*8:bytes] do lines := lines ++ memory "lbu" "t0" "t2" i ++ memory "sb" "t0" "t3" i

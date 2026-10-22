@@ -1,0 +1,439 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "69c2f3b37185628b32e4fa7b25c16a924fce22bd94410fb4c2d44a1e0b3c090a",
+  "compiler_sha256": "c726ae1588d7f54c1325adc4c9580d6cbcf180a570cd4a02928e7075819f58d4",
+  "harness_sha256": "df3db7e87754c499a2793027eb7fe0b1a558b409852a832facbbdd8f1e7c6f41",
+  "source_sha256": "18cc3544caf53fa430e7da90aa60290432cedd626ceb20e004b6b0916f60ec62",
+  "caller_sha256": "86f365c701fa64fdc65560a2b4456b24bed8da08b4d072f93d8a84e1d7a1ffdd",
+  "thunk_sha256": "9fc1d63b389f3a481f547b2279bd81ea9c2d6a2dc424a75abff84dae48c13205",
+  "sizes": [
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    255,
+    256,
+    257,
+    4095,
+    4096,
+    4097,
+    32767,
+    32768,
+    32769,
+    65535,
+    65536,
+    65537
+  ],
+  "results": [
+    {
+      "label": "baseline",
+      "execution": "not-run"
+    },
+    {
+      "label": "allocated",
+      "execution": "not-run"
+    },
+    {
+      "label": "optimized",
+      "execution": "not-run"
+    }
+  ],
+  "boundaries": [
+    {
+      "size": 1048575,
+      "mode": "baseline",
+      "source_sha256": "a2434b7830cc0c6437f031733d60c7df9b74930acbc4857314d1b8717b8636fd",
+      "caller_sha256": "b4d9a60c20c81ba55929352e7cd1c7672299f9109fb2b0400b4182907ec39ee1",
+      "thunk_sha256": "7b540a75acaf1c7b31a033a749bc2859dbfcb7c4c2255a472ee755a32ed1a19c",
+      "assembly_sha256": "7cfea48f22b6dd96b74d75cc11648a959e7fd2005f7d8e6bd14763cca470ed5d",
+      "execution": "not-run"
+    },
+    {
+      "size": 1048575,
+      "mode": "allocated",
+      "source_sha256": "a2434b7830cc0c6437f031733d60c7df9b74930acbc4857314d1b8717b8636fd",
+      "caller_sha256": "b4d9a60c20c81ba55929352e7cd1c7672299f9109fb2b0400b4182907ec39ee1",
+      "thunk_sha256": "7b540a75acaf1c7b31a033a749bc2859dbfcb7c4c2255a472ee755a32ed1a19c",
+      "assembly_sha256": "31c2dd41c8acc8c40db76ffb6f99332dfaeab19133c6a694ae6c2540e04b3d42",
+      "execution": "not-run"
+    },
+    {
+      "size": 1048575,
+      "mode": "optimized",
+      "source_sha256": "a2434b7830cc0c6437f031733d60c7df9b74930acbc4857314d1b8717b8636fd",
+      "caller_sha256": "b4d9a60c20c81ba55929352e7cd1c7672299f9109fb2b0400b4182907ec39ee1",
+      "thunk_sha256": "7b540a75acaf1c7b31a033a749bc2859dbfcb7c4c2255a472ee755a32ed1a19c",
+      "assembly_sha256": "31c2dd41c8acc8c40db76ffb6f99332dfaeab19133c6a694ae6c2540e04b3d42",
+      "execution": "not-run"
+    },
+    {
+      "size": 1048576,
+      "mode": "baseline",
+      "source_sha256": "7fbbff2d305034ce768ea88eda89cc6b71198f1d6582a9c323d73501625933df",
+      "caller_sha256": "01bac7c84adb5cece293c4bc297e6872eccdb0625fd9a0f54eb709450f42d781",
+      "thunk_sha256": "65108554ec29618730e1350351c6aea9343f3bbeb2dd8150c559621b3db86c6d",
+      "assembly_sha256": "3973166e51d76208d2c545576d480be12cfd7eeed53b8f2e2cf12fa2f4b654a1",
+      "execution": "not-run"
+    },
+    {
+      "size": 1048576,
+      "mode": "allocated",
+      "source_sha256": "7fbbff2d305034ce768ea88eda89cc6b71198f1d6582a9c323d73501625933df",
+      "caller_sha256": "01bac7c84adb5cece293c4bc297e6872eccdb0625fd9a0f54eb709450f42d781",
+      "thunk_sha256": "65108554ec29618730e1350351c6aea9343f3bbeb2dd8150c559621b3db86c6d",
+      "assembly_sha256": "db9a67a7079eb11e89b81f6949ed1d43e6506f9a412b807c68b9637809f44aff",
+      "execution": "not-run"
+    },
+    {
+      "size": 1048576,
+      "mode": "optimized",
+      "source_sha256": "7fbbff2d305034ce768ea88eda89cc6b71198f1d6582a9c323d73501625933df",
+      "caller_sha256": "01bac7c84adb5cece293c4bc297e6872eccdb0625fd9a0f54eb709450f42d781",
+      "thunk_sha256": "65108554ec29618730e1350351c6aea9343f3bbeb2dd8150c559621b3db86c6d",
+      "assembly_sha256": "db9a67a7079eb11e89b81f6949ed1d43e6506f9a412b807c68b9637809f44aff",
+      "execution": "not-run"
+    },
+    {
+      "refusal": "one-past",
+      "mode": "baseline",
+      "source_sha256": "10b87e0365bc1cd9b02791f374cacb2b4cd1ba2d6688437b946ce52c617ef960",
+      "stderr": "error: .build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "refusal": "one-past",
+      "mode": "allocated",
+      "source_sha256": "10b87e0365bc1cd9b02791f374cacb2b4cd1ba2d6688437b946ce52c617ef960",
+      "stderr": "error: .build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "refusal": "one-past",
+      "mode": "optimized",
+      "source_sha256": "10b87e0365bc1cd9b02791f374cacb2b4cd1ba2d6688437b946ce52c617ef960",
+      "stderr": "error: .build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "refusal": "frame",
+      "mode": "baseline",
+      "source_sha256": "0d6f193a7b3687d66ec97f42730c476dc0301b5cb8a99a184b911f16be81a339",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "frame",
+      "mode": "allocated",
+      "source_sha256": "0d6f193a7b3687d66ec97f42730c476dc0301b5cb8a99a184b911f16be81a339",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "frame",
+      "mode": "optimized",
+      "source_sha256": "0d6f193a7b3687d66ec97f42730c476dc0301b5cb8a99a184b911f16be81a339",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "outgoing",
+      "mode": "baseline",
+      "source_sha256": "a97c7b4bfcf7873a50a75335da22753e8063868adc567064798d49f4a8ecf412",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "outgoing",
+      "mode": "allocated",
+      "source_sha256": "a97c7b4bfcf7873a50a75335da22753e8063868adc567064798d49f4a8ecf412",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "outgoing",
+      "mode": "optimized",
+      "source_sha256": "a97c7b4bfcf7873a50a75335da22753e8063868adc567064798d49f4a8ecf412",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    }
+  ],
+  "qbe_sha256": null,
+  "original_qbe_scope": "mixed ABI matrix through65537 only; maximum boundaries independent C only",
+  "executed_matrix_modes": 0,
+  "executed_maximum_modes": 0,
+  "control": "not-run",
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "69c2f3b37185628b32e4fa7b25c16a924fce22bd94410fb4c2d44a1e0b3c090a\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048575.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048575-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048575.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048575-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048575.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048575-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048576.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048576-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048576.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048576-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048576.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/1048576-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: .build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: .build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: .build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/frame.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/frame-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/frame.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/frame-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/frame.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/frame-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/outgoing.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/outgoing-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/outgoing.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/outgoing-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/outgoing.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        ".build/aggregate-copy/final-emission-v3/aarch64-macos/large-aggregate-abi/boundary/outgoing-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    }
+  ],
+  "note": "Numeric local loop labels; exact forward copies preserve bases. Guarded hidden-return thunk is ABI-specific; ordinary C by-value calls and return echo independently exercise C ABI. Same-address and disjoint copies only; no memmove claim for partial overlaps."
+}

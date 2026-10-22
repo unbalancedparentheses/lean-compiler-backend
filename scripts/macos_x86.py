@@ -112,6 +112,8 @@ def main():
     from zero_alloc import exercise as zero
     from section_names import exercise as section_name_tests
     section_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+    from large_aggregate_abi import exercise as aggregate_copy_tests
+    aggregate_copy_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
     from integer_patterns import exercise as integer_pattern_tests
     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],'x86_64-macos',execute)
     from syntax_edges import exercise as syntax_edge_tests

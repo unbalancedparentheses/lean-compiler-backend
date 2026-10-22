@@ -122,6 +122,8 @@ def main():
     extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
     from section_names import exercise as section_name_tests
     section_name_tests(compiler,work,run,cc,args.target,execute,qbe)
+    from large_aggregate_abi import exercise as aggregate_copy_tests
+    aggregate_copy_tests(compiler,work,run,cc,args.target,execute,qbe)
     from integer_patterns import exercise as integer_pattern_tests
     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],args.target,execute)
     from syntax_edges import exercise as syntax_edge_tests

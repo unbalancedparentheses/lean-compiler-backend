@@ -1,0 +1,47 @@
+{
+  "status": "passed",
+  "snapshot_bindings": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/qbe-host": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/large_aggregate_abi.py": "df3db7e87754c499a2793027eb7fe0b1a558b409852a832facbbdd8f1e7c6f41",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb": "a35e0917d35b5100ecd0486c652eff6bd1e4c6b0fd80640a6c7301214746e048",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/data_relocations.py": "5e6a09f2721bce9c72b5eced4013afeaf3413ac2d78b838852ff748432f0d3a9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/fuzz.py": "8b8f49c12f52eb4f62492e22f9cf9238ffadda908c16ac2f8f2642d3cb5db485",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/docker_sync.py": "fb12daba92aa4b24d3fb4e727181b5c62849012ab3c834fc268ea76e8bd3ac34"
+  },
+  "emission": [
+    {
+      "target": "aarch64-macos",
+      "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/emission-only/aarch64-macos/large-aggregate-abi/report.json"
+    },
+    {
+      "target": "x86_64-macos",
+      "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/emission-only/x86_64-macos/large-aggregate-abi/report.json"
+    },
+    {
+      "target": "aarch64-linux",
+      "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/emission-only/aarch64-linux/large-aggregate-abi/report.json"
+    },
+    {
+      "target": "x86_64-linux",
+      "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/emission-only/x86_64-linux/large-aggregate-abi/report.json"
+    },
+    {
+      "target": "riscv64-linux",
+      "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/emission-only/riscv64-linux/large-aggregate-abi/report.json"
+    }
+  ],
+  "native_cli": {
+    "command": [
+      "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/bin/python3",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/large_aggregate_abi.py",
+      "--compiler",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+      "--work",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/native-cli",
+      "--require-native"
+    ],
+    "exit": 0,
+    "stdout": "aarch64-macos aggregate ABI matrix passed [127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 255, 256, 257, 4095, 4096, 4097, 32767, 32768, 32769, 65535, 65536, 65537]\n",
+    "stderr": ""
+  }
+}

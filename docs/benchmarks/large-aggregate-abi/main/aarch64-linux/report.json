@@ -1,0 +1,726 @@
+{
+  "target": "aarch64-linux",
+  "compiler_identity": "a23afe3b4889b9da79c50d5ddf5b7e3e4affe2ba26d1e2c5072ed14c73cbdaaa",
+  "compiler_sha256": "a35e0917d35b5100ecd0486c652eff6bd1e4c6b0fd80640a6c7301214746e048",
+  "harness_sha256": "df3db7e87754c499a2793027eb7fe0b1a558b409852a832facbbdd8f1e7c6f41",
+  "source_sha256": "18cc3544caf53fa430e7da90aa60290432cedd626ceb20e004b6b0916f60ec62",
+  "caller_sha256": "86f365c701fa64fdc65560a2b4456b24bed8da08b4d072f93d8a84e1d7a1ffdd",
+  "thunk_sha256": "fbdb037a770d35e3c945b1f537b61dd87046856df16dfaabfa9a3cafb0adae85",
+  "sizes": [
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    255,
+    256,
+    257,
+    4095,
+    4096,
+    4097,
+    32767,
+    32768,
+    32769,
+    65535,
+    65536,
+    65537
+  ],
+  "results": [
+    {
+      "label": "baseline",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "allocated",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "optimized",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "qbe",
+      "execution": "passed",
+      "exit": 0
+    }
+  ],
+  "boundaries": [
+    {
+      "size": 1048575,
+      "mode": "baseline",
+      "source_sha256": "a2434b7830cc0c6437f031733d60c7df9b74930acbc4857314d1b8717b8636fd",
+      "caller_sha256": "b4d9a60c20c81ba55929352e7cd1c7672299f9109fb2b0400b4182907ec39ee1",
+      "thunk_sha256": "6aa54f5ce43464ef60f530532e4fcb3c57072c4bb004c4e6448855b6d9d832ca",
+      "assembly_sha256": "c9a8878dd58316203d07c38eecb209c4fa4dde7197919e4f1ba608a3e81f821e",
+      "execution": "passed"
+    },
+    {
+      "size": 1048575,
+      "mode": "allocated",
+      "source_sha256": "a2434b7830cc0c6437f031733d60c7df9b74930acbc4857314d1b8717b8636fd",
+      "caller_sha256": "b4d9a60c20c81ba55929352e7cd1c7672299f9109fb2b0400b4182907ec39ee1",
+      "thunk_sha256": "6aa54f5ce43464ef60f530532e4fcb3c57072c4bb004c4e6448855b6d9d832ca",
+      "assembly_sha256": "3f8051873941f96b1d37eb977c2b296658a39a01f92d53ca953eb93dcff2811e",
+      "execution": "passed"
+    },
+    {
+      "size": 1048575,
+      "mode": "optimized",
+      "source_sha256": "a2434b7830cc0c6437f031733d60c7df9b74930acbc4857314d1b8717b8636fd",
+      "caller_sha256": "b4d9a60c20c81ba55929352e7cd1c7672299f9109fb2b0400b4182907ec39ee1",
+      "thunk_sha256": "6aa54f5ce43464ef60f530532e4fcb3c57072c4bb004c4e6448855b6d9d832ca",
+      "assembly_sha256": "3f8051873941f96b1d37eb977c2b296658a39a01f92d53ca953eb93dcff2811e",
+      "execution": "passed"
+    },
+    {
+      "size": 1048576,
+      "mode": "baseline",
+      "source_sha256": "7fbbff2d305034ce768ea88eda89cc6b71198f1d6582a9c323d73501625933df",
+      "caller_sha256": "01bac7c84adb5cece293c4bc297e6872eccdb0625fd9a0f54eb709450f42d781",
+      "thunk_sha256": "07c30e6e8e7427350cbe3bc2de8990b51fbc40737888cc68bd433bb678169ad5",
+      "assembly_sha256": "8ebef27d969653e05b92905cd84ba608516c529de37b1d55567ee24f08954d3d",
+      "execution": "passed"
+    },
+    {
+      "size": 1048576,
+      "mode": "allocated",
+      "source_sha256": "7fbbff2d305034ce768ea88eda89cc6b71198f1d6582a9c323d73501625933df",
+      "caller_sha256": "01bac7c84adb5cece293c4bc297e6872eccdb0625fd9a0f54eb709450f42d781",
+      "thunk_sha256": "07c30e6e8e7427350cbe3bc2de8990b51fbc40737888cc68bd433bb678169ad5",
+      "assembly_sha256": "43cbad4c6acc2043fc9e45c6ecd45279668aa044c910fedf1e62f5904029c46d",
+      "execution": "passed"
+    },
+    {
+      "size": 1048576,
+      "mode": "optimized",
+      "source_sha256": "7fbbff2d305034ce768ea88eda89cc6b71198f1d6582a9c323d73501625933df",
+      "caller_sha256": "01bac7c84adb5cece293c4bc297e6872eccdb0625fd9a0f54eb709450f42d781",
+      "thunk_sha256": "07c30e6e8e7427350cbe3bc2de8990b51fbc40737888cc68bd433bb678169ad5",
+      "assembly_sha256": "43cbad4c6acc2043fc9e45c6ecd45279668aa044c910fedf1e62f5904029c46d",
+      "execution": "passed"
+    },
+    {
+      "refusal": "one-past",
+      "mode": "baseline",
+      "source_sha256": "10b87e0365bc1cd9b02791f374cacb2b4cd1ba2d6688437b946ce52c617ef960",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "refusal": "one-past",
+      "mode": "allocated",
+      "source_sha256": "10b87e0365bc1cd9b02791f374cacb2b4cd1ba2d6688437b946ce52c617ef960",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "refusal": "one-past",
+      "mode": "optimized",
+      "source_sha256": "10b87e0365bc1cd9b02791f374cacb2b4cd1ba2d6688437b946ce52c617ef960",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "refusal": "frame",
+      "mode": "baseline",
+      "source_sha256": "0d6f193a7b3687d66ec97f42730c476dc0301b5cb8a99a184b911f16be81a339",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "frame",
+      "mode": "allocated",
+      "source_sha256": "0d6f193a7b3687d66ec97f42730c476dc0301b5cb8a99a184b911f16be81a339",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "frame",
+      "mode": "optimized",
+      "source_sha256": "0d6f193a7b3687d66ec97f42730c476dc0301b5cb8a99a184b911f16be81a339",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "outgoing",
+      "mode": "baseline",
+      "source_sha256": "a97c7b4bfcf7873a50a75335da22753e8063868adc567064798d49f4a8ecf412",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "outgoing",
+      "mode": "allocated",
+      "source_sha256": "a97c7b4bfcf7873a50a75335da22753e8063868adc567064798d49f4a8ecf412",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "refusal": "outgoing",
+      "mode": "optimized",
+      "source_sha256": "a97c7b4bfcf7873a50a75335da22753e8063868adc567064798d49f4a8ecf412",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    }
+  ],
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "original_qbe_scope": "mixed ABI matrix through65537 only; maximum boundaries independent C only",
+  "executed_matrix_modes": 4,
+  "executed_maximum_modes": 6,
+  "control": "zeroed ABI copy detected",
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "a23afe3b4889b9da79c50d5ddf5b7e3e4affe2ba26d1e2c5072ed14c73cbdaaa\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/return-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/return-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/return-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/return-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/return-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/wrong.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/wrong"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/wrong"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "size=129 check=1\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048575-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-thunk.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/1048576-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/one-past.ssa: aggregate size limit exceeded (1 MiB)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/frame.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/frame-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/frame.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/frame-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/frame.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/frame-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: stack frame exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/outgoing.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/outgoing-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/outgoing.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/outgoing-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/outgoing.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-main-review/aarch64-linux/large-aggregate-abi/boundary/outgoing-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: outgoing argument area exceeds the 1 MiB resource limit\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": ""
+    }
+  ],
+  "note": "Numeric local loop labels; exact forward copies preserve bases. Guarded hidden-return thunk is ABI-specific; ordinary C by-value calls and return echo independently exercise C ABI. Same-address and disjoint copies only; no memmove claim for partial overlaps."
+}

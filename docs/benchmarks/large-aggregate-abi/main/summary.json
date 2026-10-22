@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "identity": "a23afe3b4889b9da79c50d5ddf5b7e3e4affe2ba26d1e2c5072ed14c73cbdaaa",
+  "compiler_sha256": "a35e0917d35b5100ecd0486c652eff6bd1e4c6b0fd80640a6c7301214746e048",
+  "helper_sha256": "df3db7e87754c499a2793027eb7fe0b1a558b409852a832facbbdd8f1e7c6f41",
+  "targets": [
+    {
+      "target": "aarch64-macos",
+      "matrix_modes": 4,
+      "sizes": 22,
+      "maximum_executions": 6,
+      "resource_refusals": 9,
+      "negative_control": "zeroed ABI copy detected",
+      "guest_bound_files": 0,
+      "host_bound_files": 35,
+      "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+    },
+    {
+      "target": "x86_64-macos",
+      "matrix_modes": 4,
+      "sizes": 22,
+      "maximum_executions": 6,
+      "resource_refusals": 9,
+      "negative_control": "zeroed ABI copy detected",
+      "guest_bound_files": 0,
+      "host_bound_files": 35,
+      "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+    },
+    {
+      "target": "aarch64-linux",
+      "matrix_modes": 4,
+      "sizes": 22,
+      "maximum_executions": 6,
+      "resource_refusals": 9,
+      "negative_control": "zeroed ABI copy detected",
+      "guest_bound_files": 35,
+      "host_bound_files": 35,
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "target": "x86_64-linux",
+      "matrix_modes": 4,
+      "sizes": 22,
+      "maximum_executions": 6,
+      "resource_refusals": 9,
+      "negative_control": "zeroed ABI copy detected",
+      "guest_bound_files": 35,
+      "host_bound_files": 35,
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "target": "riscv64-linux",
+      "matrix_modes": 4,
+      "sizes": 22,
+      "maximum_executions": 6,
+      "resource_refusals": 9,
+      "negative_control": "zeroed ABI copy detected",
+      "guest_bound_files": 35,
+      "host_bound_files": 35,
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    }
+  ]
+}

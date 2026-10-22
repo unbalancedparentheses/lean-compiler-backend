@@ -1,0 +1,25 @@
+type :big = { b 4097 }
+export function l $inspect(:big %p) {
+@entry
+ %mid =l add %p, 2048
+ %end =l add %p, 4096
+ %a =l loadub %p
+ %b =l loadub %mid
+ %c =l loadub %end
+ %x =l add %a, %b
+ %r =l add %x, %c
+ storeb 99, %p
+ storeb 100, %mid
+ storeb 101, %end
+ ret %r
+}
+export function :big $make(l %seed) {
+@entry
+ %p =l alloc8 4097
+ blit $zeros, %p, 4097
+ %end =l add %p, 4096
+ storeb %seed, %p
+ storeb 173, %end
+ ret %p
+}
+data $zeros = { z 4097 }

@@ -1,0 +1,551 @@
+{
+  "scope": "Assembly source lines and UTF-8 bytes only; no object size or runtime claim. Same valid4096-byte mixed-ABI fixture before/copy-only after, no cap change.",
+  "helper_sha256": "df3db7e87754c499a2793027eb7fe0b1a558b409852a832facbbdd8f1e7c6f41",
+  "rows": [
+    {
+      "target": "aarch64-macos",
+      "mode": "baseline",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "0bfc9fbb06e9292699d7dc7365cdaf3dfd15bc4f8a0c4385df319de38e8f2175",
+          "assembly_text_bytes": 317466,
+          "assembly_lines": 14114,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/aarch64-macos.ssa",
+            "--target",
+            "aarch64-macos",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-macos-baseline-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "14f5d12e342eab5eb8f81ce0bbb08f7c85cd57199ff4b9fe8f31034fe7fa6626",
+          "assembly_text_bytes": 16828,
+          "assembly_lines": 919,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/aarch64-macos.ssa",
+            "--target",
+            "aarch64-macos",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-macos-baseline-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "56f0a243f94385bdd26a790caf79f21821fb04df51556d59d880117efdf34a75",
+          "assembly_text_bytes": 313474,
+          "assembly_lines": 13927,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/aarch64-macos.ssa",
+            "--target",
+            "aarch64-macos",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-macos-allocated-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "652aa4a1319e2f1ddb35500df2666297592539f9aa020e28b909242e4208c801",
+          "assembly_text_bytes": 12836,
+          "assembly_lines": 732,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/aarch64-macos.ssa",
+            "--target",
+            "aarch64-macos",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-macos-allocated-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "56f0a243f94385bdd26a790caf79f21821fb04df51556d59d880117efdf34a75",
+          "assembly_text_bytes": 313474,
+          "assembly_lines": 13927,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/aarch64-macos.ssa",
+            "--target",
+            "aarch64-macos",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-macos-optimized-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "652aa4a1319e2f1ddb35500df2666297592539f9aa020e28b909242e4208c801",
+          "assembly_text_bytes": 12836,
+          "assembly_lines": 732,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/aarch64-macos.ssa",
+            "--target",
+            "aarch64-macos",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-macos-optimized-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "x86_64-macos",
+      "mode": "baseline",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "3fcbe85fe18533c8a15e325b89304aaaab49fd12312ce1228f2d08af36f77c89",
+          "assembly_text_bytes": 319780,
+          "assembly_lines": 14208,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/x86_64-macos.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-macos-baseline-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "f0fac372419687727a086caf61f95c9fa75e067583cd19971f81139f6b7bbae5",
+          "assembly_text_bytes": 18700,
+          "assembly_lines": 987,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/x86_64-macos.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-macos-baseline-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "14daabed1a11df8653b55670203027678313184753bebb0a93114385cfa0f4f8",
+          "assembly_text_bytes": 319415,
+          "assembly_lines": 14256,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/x86_64-macos.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-macos-allocated-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "a01a4dc8577c5253782043d4b4971d8cb55c46be03e29c1cc942561ad8ec6a1f",
+          "assembly_text_bytes": 18335,
+          "assembly_lines": 1035,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/x86_64-macos.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-macos-allocated-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "14daabed1a11df8653b55670203027678313184753bebb0a93114385cfa0f4f8",
+          "assembly_text_bytes": 319415,
+          "assembly_lines": 14256,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/x86_64-macos.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-macos-optimized-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "a01a4dc8577c5253782043d4b4971d8cb55c46be03e29c1cc942561ad8ec6a1f",
+          "assembly_text_bytes": 18335,
+          "assembly_lines": 1035,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/x86_64-macos.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-macos-optimized-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "aarch64-linux",
+      "mode": "baseline",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "15dcd82611040bbad2ffc621c35f3205f97d209e84c402d093632493f163d588",
+          "assembly_text_bytes": 320046,
+          "assembly_lines": 14266,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/aarch64-linux.ssa",
+            "--target",
+            "aarch64-linux",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-linux-baseline-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "e7261910162a26b068f6aaed194891437e5e6f0a66b969d6b2e0faf116efe28c",
+          "assembly_text_bytes": 19408,
+          "assembly_lines": 1071,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/aarch64-linux.ssa",
+            "--target",
+            "aarch64-linux",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-linux-baseline-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "5253f0cc7f9c8990034dd8cf397bfef38d7c0416692de1dfe9b7eb902e14328c",
+          "assembly_text_bytes": 316056,
+          "assembly_lines": 14079,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/aarch64-linux.ssa",
+            "--target",
+            "aarch64-linux",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-linux-allocated-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "531254474dc3baab5be6290854f42979a0dbc1f1c57898e26e30bdc10b9a4895",
+          "assembly_text_bytes": 15418,
+          "assembly_lines": 884,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/aarch64-linux.ssa",
+            "--target",
+            "aarch64-linux",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-linux-allocated-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "5253f0cc7f9c8990034dd8cf397bfef38d7c0416692de1dfe9b7eb902e14328c",
+          "assembly_text_bytes": 316056,
+          "assembly_lines": 14079,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/aarch64-linux.ssa",
+            "--target",
+            "aarch64-linux",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-linux-optimized-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "531254474dc3baab5be6290854f42979a0dbc1f1c57898e26e30bdc10b9a4895",
+          "assembly_text_bytes": 15418,
+          "assembly_lines": 884,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/aarch64-linux.ssa",
+            "--target",
+            "aarch64-linux",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/aarch64-linux-optimized-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "x86_64-linux",
+      "mode": "baseline",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "41eaaa8582b0be71223ad06c424d6f62eeec4913277833a08f07033a69958079",
+          "assembly_text_bytes": 320454,
+          "assembly_lines": 14230,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/x86_64-linux.ssa",
+            "--target",
+            "x86_64-linux",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-linux-baseline-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "b3ab87dbbac03a0b1e24a5e2e95b0e97d7cbdb1537a04a80b5113beee62ea0c3",
+          "assembly_text_bytes": 19374,
+          "assembly_lines": 1009,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/x86_64-linux.ssa",
+            "--target",
+            "x86_64-linux",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-linux-baseline-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "a94f6b2d77c43d68229e16bd9563a95358aae8ed41ec38c08630600fbf0c5c10",
+          "assembly_text_bytes": 320089,
+          "assembly_lines": 14278,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/x86_64-linux.ssa",
+            "--target",
+            "x86_64-linux",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-linux-allocated-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "f3acc77a7c48954610190ff5460bc5c745cfa43712524973c9297053cbef600c",
+          "assembly_text_bytes": 19009,
+          "assembly_lines": 1057,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/x86_64-linux.ssa",
+            "--target",
+            "x86_64-linux",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-linux-allocated-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "a94f6b2d77c43d68229e16bd9563a95358aae8ed41ec38c08630600fbf0c5c10",
+          "assembly_text_bytes": 320089,
+          "assembly_lines": 14278,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/x86_64-linux.ssa",
+            "--target",
+            "x86_64-linux",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-linux-optimized-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "f3acc77a7c48954610190ff5460bc5c745cfa43712524973c9297053cbef600c",
+          "assembly_text_bytes": 19009,
+          "assembly_lines": 1057,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/x86_64-linux.ssa",
+            "--target",
+            "x86_64-linux",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/x86_64-linux-optimized-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "riscv64-linux",
+      "mode": "baseline",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "4ca8a0d4b3bbb4a736a1fcf2484e5cda3b28e2a39aeb60f8b5d97a69ac088ff4",
+          "assembly_text_bytes": 409832,
+          "assembly_lines": 27512,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/riscv64-linux.ssa",
+            "--target",
+            "riscv64-linux",
+            "-o",
+            ".build/aggregate-copy/size-4096/riscv64-linux-baseline-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "f12b6d54e2ecc6298b3c73cefb780393933d0c90de40aaa8553c5817223da1ff",
+          "assembly_text_bytes": 16062,
+          "assembly_lines": 1031,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/riscv64-linux.ssa",
+            "--target",
+            "riscv64-linux",
+            "-o",
+            ".build/aggregate-copy/size-4096/riscv64-linux-baseline-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "riscv64-linux",
+      "mode": "allocated",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "980c03b393f07fb61d831b504922511a349e5a72deb517659e8c530681bdbb33",
+          "assembly_text_bytes": 409515,
+          "assembly_lines": 27596,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/riscv64-linux.ssa",
+            "--target",
+            "riscv64-linux",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/riscv64-linux-allocated-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "2f6aeab64d40542e330f79f7b74f8f8c1669494d8c733a36c3d3379686ea4c13",
+          "assembly_text_bytes": 15745,
+          "assembly_lines": 1115,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/riscv64-linux.ssa",
+            "--target",
+            "riscv64-linux",
+            "--allocate",
+            "-o",
+            ".build/aggregate-copy/size-4096/riscv64-linux-allocated-numeric-copy-only.s"
+          ]
+        }
+      }
+    },
+    {
+      "target": "riscv64-linux",
+      "mode": "optimized",
+      "source_sha256": "6670a741aeeafe18c3b2c83341ef4a332c3fcf178b27db53ec91dd03fd64d9a6",
+      "outputs": {
+        "before": {
+          "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+          "assembly_sha256": "980c03b393f07fb61d831b504922511a349e5a72deb517659e8c530681bdbb33",
+          "assembly_text_bytes": 409515,
+          "assembly_lines": 27596,
+          "command": [
+            ".build/aggregate-copy/before",
+            ".build/aggregate-copy/size-4096/riscv64-linux.ssa",
+            "--target",
+            "riscv64-linux",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/riscv64-linux-optimized-before.s"
+          ]
+        },
+        "numeric-copy-only": {
+          "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+          "assembly_sha256": "2f6aeab64d40542e330f79f7b74f8f8c1669494d8c733a36c3d3379686ea4c13",
+          "assembly_text_bytes": 15745,
+          "assembly_lines": 1115,
+          "command": [
+            ".build/aggregate-copy/numeric-copy-only",
+            ".build/aggregate-copy/size-4096/riscv64-linux.ssa",
+            "--target",
+            "riscv64-linux",
+            "--optimize",
+            "-o",
+            ".build/aggregate-copy/size-4096/riscv64-linux-optimized-numeric-copy-only.s"
+          ]
+        }
+      }
+    }
+  ]
+}

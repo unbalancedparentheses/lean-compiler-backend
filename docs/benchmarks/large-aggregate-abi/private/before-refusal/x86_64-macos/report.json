@@ -1,0 +1,100 @@
+{
+  "target": "x86_64-macos",
+  "status": "original-QBE/C passed; all LCB modes refused",
+  "link_profile": "default",
+  "source_sha256": "08a63f261d2da5e07480d45cbf180c89f50b85c3f9e722593cdb4e2f9c69f204",
+  "caller_sha256": "5b6dc9923954d753c5a83add59b34dbf9b4bae8bb26c47583721e358b69a106b",
+  "assembly_sha256": "4107c9ab9eda30a8bad0aac0d1cf64bd9af8d5b44ee35d8e4019ceba480098a6",
+  "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+  "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "runs": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/baseline.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: AMD64 aggregate exceeds 4096-byte resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/allocated.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: AMD64 aggregate exceeds 4096-byte resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/optimized.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: AMD64 aggregate exceeds 4096-byte resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/input.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/qbe"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aggregate-gap-audit/x86_64-macos/qbe"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "--build-identity"
+      ],
+      "exit": 0,
+      "stdout": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6\n",
+      "stderr": ""
+    }
+  ]
+}

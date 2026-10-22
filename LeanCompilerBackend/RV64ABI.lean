@@ -44,7 +44,7 @@ def classify (types : Array AggregateType) : Except String (Array Info) := do
 def find (types : Array Info) (name : String) : Except String Info := do
   let some info := types.find? (·.layout.name == name) | throw s!"undefined aggregate :{name}"
   if info.layout.alignment > 16 then throw "RV64 aggregate alignment above 16 not yet implemented"
-  if info.layout.size > 4096 then throw "RV64 aggregate exceeds 4096-byte resource limit"
+  if info.layout.size > 1048576 then throw "RV64 aggregate exceeds 1048576-byte resource limit"
   pure info
 
 def integerFields (info : Info) : Array Field := Id.run do

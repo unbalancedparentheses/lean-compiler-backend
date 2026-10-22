@@ -6,6 +6,16 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Large aggregate copying](benchmarks/large-aggregate-abi/README.md) is now integrated
+on identity `a23afe3b4889b9da79c50d5ddf5b7e3e4affe2ba26d1e2c5072ed14c73cbdaaa`.
+Fresh build/units and all 147 unchanged proof-audit statements pass. All five
+independent matrices, 30 maximum-copy executions, 45 resource refusals, five
+corruption controls and all three complete Linux gates pass. Full host/Rosetta
+qualification is running. The corpus keeps 1,305 identical assemblies and 15
+identical refusals; all 132 zlib/Lua workload assemblies remain identical to
+previously executed output. The 1 MiB object bound does not remove frame/outgoing
+area limits; original-QBE comparison stops at 65,537 bytes, larger guards use C.
+
 [Unused scalar return captures](benchmarks/unused-call-results/README.md) are now
 removed on compiler identity `77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb9125dae6129eb1a4`.
 Calls and all operands remain; live results and aggregate hidden storage remain.

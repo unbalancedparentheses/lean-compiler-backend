@@ -1,0 +1,230 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "44f1e3ae9f87c9bda640b49b7c4da90f05422a7c1b25d8fc49a82c905d7d79fc",
+  "compiler_sha256": "ff478db6880ff5d91b0f3556a8e6bbd685c2b3e579172068f28caa741edc4326",
+  "harness_sha256": "b3b4af0d3b0ebb499bba9cd4cc69ae14f4c93bf0f4299d73a2a152eee328aaa1",
+  "source_sha256": "8b7af89e0a6dd226f0ba27c76c707d900894b03ab04eb1a0cf443f28f146939c",
+  "caller_sha256": "e3b0479088f5bbe0b22963401d85bb9e75b442a786e5f81a08d3959dd8623599",
+  "thunk_sha256": "b32324b9be5243ad10a37f92ca92892680a595c3e8d2e65c8646e05daabb285b",
+  "sizes": [
+    127,
+    128,
+    129,
+    135,
+    136,
+    255,
+    256,
+    257,
+    4095,
+    4096
+  ],
+  "results": [
+    {
+      "label": "baseline",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "allocated",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "optimized",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "qbe",
+      "execution": "passed",
+      "exit": 0
+    }
+  ],
+  "control": "zeroed ABI copy detected",
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/numeric-copy-only",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "44f1e3ae9f87c9bda640b49b7c4da90f05422a7c1b25d8fc49a82c905d7d79fc\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/numeric-copy-only",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/caller.c",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/return-thunk.s",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/baseline.s",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: arm64 function not 4-byte aligned: _into127 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into128 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into129 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into135 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into136 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into255 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into256 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into257 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into4095 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\nld: warning: arm64 function not 4-byte aligned: _into4096 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-2196d1.o\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/numeric-copy-only",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/caller.c",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/return-thunk.s",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/allocated.s",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: arm64 function not 4-byte aligned: _into127 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into128 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into129 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into135 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into136 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into255 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into256 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into257 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into4095 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\nld: warning: arm64 function not 4-byte aligned: _into4096 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-1d3544.o\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/numeric-copy-only",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/caller.c",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/return-thunk.s",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/optimized.s",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: arm64 function not 4-byte aligned: _into127 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into128 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into129 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into135 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into136 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into255 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into256 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into257 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into4095 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\nld: warning: arm64 function not 4-byte aligned: _into4096 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-6e7b44.o\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/qbe.s",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/caller.c",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/return-thunk.s",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/qbe.s",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: arm64 function not 4-byte aligned: _into127 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into128 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into129 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into135 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into136 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into255 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into256 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into257 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into4095 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\nld: warning: arm64 function not 4-byte aligned: _into4096 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-90fc10.o\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/caller.c",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/return-thunk.s",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/wrong.s",
+        "-o",
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/wrong"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: arm64 function not 4-byte aligned: _into127 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into128 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into129 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into135 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into136 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into255 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into256 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into257 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into4095 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\nld: warning: arm64 function not 4-byte aligned: _into4096 from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/return-thunk-95e6ff.o\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-large-aggregate/.build/aggregate-copy/native-collisions/large-aggregate-abi/wrong"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "size=129 check=1\n"
+    }
+  ],
+  "note": "Numeric local loop labels; exact forward copies preserve bases. Guarded hidden-return thunk is ABI-specific; ordinary C by-value calls and return echo independently exercise C ABI. Same-address and disjoint copies only; no memmove claim for partial overlaps."
+}

@@ -1,0 +1,102 @@
+{
+  "target": "aarch64-linux",
+  "status": "original-QBE/C passed; all LCB modes refused",
+  "link_profile": "default",
+  "source_sha256": "08a63f261d2da5e07480d45cbf180c89f50b85c3f9e722593cdb4e2f9c69f204",
+  "caller_sha256": "5b6dc9923954d753c5a83add59b34dbf9b4bae8bb26c47583721e358b69a106b",
+  "assembly_sha256": "c8ca602ad628d60fdbfa1e4a3ed2277c874942d17abfe2fc0943c4a9ea916b3c",
+  "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+  "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "runs": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-gap-aarch64-linux/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-gap-aarch64-linux/baseline.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: aggregate ABI size exceeds the 4096-byte resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-gap-aarch64-linux/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-gap-aarch64-linux/allocated.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: aggregate ABI size exceeds the 4096-byte resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-gap-aarch64-linux/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-gap-aarch64-linux/optimized.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: aggregate ABI size exceeds the 4096-byte resource limit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-gap-aarch64-linux/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-gap-aarch64-linux/input.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "/work/aggregate-gap-aarch64-linux/caller.c",
+        "/work/aggregate-gap-aarch64-linux/qbe.s",
+        "-o",
+        "/work/aggregate-gap-aarch64-linux/qbe"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/aggregate-gap-aarch64-linux/qbe"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "--build-identity"
+      ],
+      "exit": 0,
+      "stdout": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6\n",
+      "stderr": ""
+    }
+  ]
+}

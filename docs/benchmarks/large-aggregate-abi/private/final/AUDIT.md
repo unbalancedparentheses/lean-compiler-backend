@@ -1,0 +1,13 @@
+# Private bounded aggregate-copy candidate
+
+Base f48b2ca; main untouched. Copy-only snapshot identity44f1e3ae9f87c9bda640b49b7c4da90f05422a7c1b25d8fc49a82c905d7d79fc. Cap candidate69c2f3b37185628b32e4fa7b25c16a924fce22bd94410fb4c2d44a1e0b3c090a.
+
+Copy-only changes three emitter helper bodies. Copies <=128 retain original bytes (15 target/mode assembly comparisons). Larger copies iterate complete8-byte chunks followed by exact byte tails; no overread or overwrite padding. Existing forward-copy semantics preserved; disjoint and same-address tested, no memmove contract for partial overlaps.
+
+ARM bases x12/x13 restored; x14 data and x15 count/address scratch are outside homes and ABI argument registers. Large-frame address helpers run before copy. Hidden x8 result pointer is captured before parameter copying; env x9 likewise preserved. AMD bases r10/r11 unchanged, RAX existing scratch; new XMM15 scratch is caller-saved, outside argument XMM0..7 and GP storage homes. Calls set variadic AL and environment after argument copies. RV restores t2/t3, uses reserved t0/t1/t6; a0 hidden result and t5 environment are not clobbered. Numeric local8 labels are self-contained contiguous chunks. Named/global numeric symbols and repeated copies are executed controls; no new context label plumbing.
+
+Cap-only patch changes three ABI size checks from4096 to1048576. Existing layout, frame and outgoing limits remain. Exact maximum object return is feasible with tiny frame; a maximum by-value parameter can exceed private frame overhead and is deliberately still refused. Two maximum outgoing objects are refused. No first-path/proof contract change or machine-proof claim.
+
+Independent ordinary C calls verify all input bytes, private parameter mutation, alias arguments, hidden aggregate returns,8FP raw values and6GP values, variadic AL/staging and explicit environment. ABI-specific assembly thunk additionally supplies guarded hidden-result pointers. Guarded source/destination at both page boundaries verifies exact extent and same-pointer copying. Wrong-store mutation must fail. Misaligned odd-size end-guard addresses exercise unaligned copying. Original QBE unchanged is a separate executable reference; RV fallback link profile is explicitly reference-only-no-PIE when default link fails. Maximum1MiB fixture is independent C/guard qualification only, not a new original-QBE qualification.
+
+Named-loop first candidate7746990 was superseded before C qualification due global-name collision risk. Its old unit/build logs remain separate. Final numeric and cap candidates were each freshly built with lcb-tests and executed successfully.

@@ -1,0 +1,51 @@
+diff --git a/scripts/check.sh b/scripts/check.sh
+index 4542806..5e55e55 100644
+--- a/scripts/check.sh
++++ b/scripts/check.sh
+@@ -184,6 +184,7 @@ python3 scripts/data.py "$@"
+ python3 scripts/syntax_edges.py "$@"
+ python3 scripts/integer_patterns.py "$@"
+ python3 scripts/section_names.py "$@"
++python3 scripts/large_aggregate_abi.py "$@"
+ python3 scripts/data_relocations.py "$@"
+ python3 scripts/data_matrix.py "$@"
+ python3 scripts/float_constants.py "$@"
+diff --git a/scripts/linux_arm64.py b/scripts/linux_arm64.py
+index 8ac8036..dd81187 100644
+--- a/scripts/linux_arm64.py
++++ b/scripts/linux_arm64.py
+@@ -170,6 +170,8 @@ def main():
+     extern_offset_tests(compiler,work,run,cc,qbe,native)
+     from section_names import exercise as section_name_tests
+     section_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
++    from large_aggregate_abi import exercise as aggregate_copy_tests
++    aggregate_copy_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
+     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],'aarch64-linux',native)
+     from syntax_edges import exercise as syntax_edge_tests
+diff --git a/scripts/linux_targets.py b/scripts/linux_targets.py
+index 50cafc0..6f68e6d 100644
+--- a/scripts/linux_targets.py
++++ b/scripts/linux_targets.py
+@@ -122,6 +122,8 @@ def main():
+     extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
+     from section_names import exercise as section_name_tests
+     section_name_tests(compiler,work,run,cc,args.target,execute,qbe)
++    from large_aggregate_abi import exercise as aggregate_copy_tests
++    aggregate_copy_tests(compiler,work,run,cc,args.target,execute,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
+     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],args.target,execute)
+     from syntax_edges import exercise as syntax_edge_tests
+diff --git a/scripts/macos_x86.py b/scripts/macos_x86.py
+index 624f851..31fa47b 100644
+--- a/scripts/macos_x86.py
++++ b/scripts/macos_x86.py
+@@ -112,6 +112,8 @@ def main():
+     from zero_alloc import exercise as zero
+     from section_names import exercise as section_name_tests
+     section_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
++    from large_aggregate_abi import exercise as aggregate_copy_tests
++    aggregate_copy_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
+     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],'x86_64-macos',execute)
+     from syntax_edges import exercise as syntax_edge_tests

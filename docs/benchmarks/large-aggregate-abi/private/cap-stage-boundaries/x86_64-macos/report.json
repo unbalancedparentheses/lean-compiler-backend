@@ -1,0 +1,297 @@
+{
+  "target": "x86_64-macos",
+  "results": [
+    {
+      "size": 1048575,
+      "mode": "baseline",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-baseline.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 814
+    },
+    {
+      "size": 1048575,
+      "mode": "allocated",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-allocated.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 848
+    },
+    {
+      "size": 1048575,
+      "mode": "optimized",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-optimized.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048575-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 848
+    },
+    {
+      "size": 1048576,
+      "mode": "baseline",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-baseline.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 464
+    },
+    {
+      "size": 1048576,
+      "mode": "allocated",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-allocated.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 498
+    },
+    {
+      "size": 1048576,
+      "mode": "optimized",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576.c",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-thunk.s",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-optimized.s",
+            "-o",
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/1048576-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 498
+    },
+    {
+      "refusal": "one-past",
+      "stderr": "error: /tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/boundary/one-past.ssa: aggregate repetition limit exceeded (1048576)\n"
+    },
+    {
+      "refusal": "frame",
+      "stderr": "error: AMD64 frame exceeds 1 MiB\n"
+    },
+    {
+      "refusal": "outgoing",
+      "stderr": "error: AMD64 outgoing argument area exceeds 1 MiB\n"
+    }
+  ]
+}

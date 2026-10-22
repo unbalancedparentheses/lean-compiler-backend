@@ -107,8 +107,19 @@ private def writeFragment (source : String) (offset bytes : Nat) : List String :
     if i+1 < bytes then lines := lines ++ ["\tshrq $8, %r11"]
   return lines
 
-/-- Copy from r10 to r11 without touching argument registers. -/
+/-- Copy forward from r10 to r11, preserving bases and ABI argument registers.
+    Large copies use reserved caller-saved XMM15 as raw data scratch. -/
 private def copyBytes (bytes : Nat) : List String := Id.run do
+  if bytes > 128 then
+    -- XMM15 is caller-saved, outside XMM0..7 arguments, and never an allocated home.
+    -- RAX is already scratch here; emitCall sets AL/environment only after copies.
+    let full := bytes / 8 * 8
+    let mut lines := ["\txorq %rax, %rax", "8:",
+      "\tmovq (%r10,%rax), %xmm15", "\tmovq %xmm15, (%r11,%rax)",
+      "\taddq $8, %rax", s!"\tcmpq ${full}, %rax", "\tjb 8b"]
+    for i in [full:bytes] do
+      lines := lines ++ [s!"\tmovb {i}(%r10), %al", s!"\tmovb %al, {i}(%r11)"]
+    return lines
   let mut lines := []
   for i in [:bytes/8] do
     lines := lines ++ [s!"\tmovq {i*8}(%r10), %rax", s!"\tmovq %rax, {i*8}(%r11)"]

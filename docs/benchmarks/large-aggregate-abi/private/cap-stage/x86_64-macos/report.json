@@ -1,0 +1,238 @@
+{
+  "target": "x86_64-macos",
+  "compiler_identity": "69c2f3b37185628b32e4fa7b25c16a924fce22bd94410fb4c2d44a1e0b3c090a",
+  "compiler_sha256": "c726ae1588d7f54c1325adc4c9580d6cbcf180a570cd4a02928e7075819f58d4",
+  "harness_sha256": "b3b4af0d3b0ebb499bba9cd4cc69ae14f4c93bf0f4299d73a2a152eee328aaa1",
+  "source_sha256": "42238aa017321700b316f1da21f638bf54684727f827d22b9af01689b7259b18",
+  "caller_sha256": "0f6658f80ce70244521753fc23231083ef3963c049d8a2b727fc8191d75d3195",
+  "thunk_sha256": "244abdde7198385becee249ada2cb71f2354e652bce89ef91ba3739bd3f8f383",
+  "sizes": [
+    129,
+    4097,
+    32767,
+    32768,
+    32769,
+    65535,
+    65536,
+    65537
+  ],
+  "results": [
+    {
+      "label": "baseline",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "allocated",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "optimized",
+      "execution": "passed",
+      "exit": 0
+    },
+    {
+      "label": "qbe",
+      "execution": "passed",
+      "exit": 0
+    }
+  ],
+  "control": "zeroed ABI copy detected",
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "69c2f3b37185628b32e4fa7b25c16a924fce22bd94410fb4c2d44a1e0b3c090a\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/caller.c",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/return-thunk.s",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/baseline.s",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/caller.c",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/return-thunk.s",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/allocated.s",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/caller.c",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/return-thunk.s",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/optimized.s",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/qbe.s",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/caller.c",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/return-thunk.s",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/qbe.s",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/caller.c",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/return-thunk.s",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/wrong.s",
+        "-o",
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/wrong"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-x86_64-macos/large-aggregate-abi/wrong"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "size=129 check=1\n"
+    }
+  ],
+  "note": "Numeric local loop labels; exact forward copies preserve bases. Guarded hidden-return thunk is ABI-specific; ordinary C by-value calls and return echo independently exercise C ABI. Same-address and disjoint copies only; no memmove claim for partial overlaps."
+}

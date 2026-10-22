@@ -1,0 +1,285 @@
+{
+  "target": "riscv64-linux",
+  "results": [
+    {
+      "size": 1048575,
+      "mode": "baseline",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575.ssa",
+            "--target",
+            "riscv64-linux",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "riscv64-linux-gnu-gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-thunk.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-baseline.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 837
+    },
+    {
+      "size": 1048575,
+      "mode": "allocated",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575.ssa",
+            "--target",
+            "riscv64-linux",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "riscv64-linux-gnu-gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-thunk.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-allocated.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 859
+    },
+    {
+      "size": 1048575,
+      "mode": "optimized",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575.ssa",
+            "--target",
+            "riscv64-linux",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "riscv64-linux-gnu-gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-thunk.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-optimized.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048575-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 859
+    },
+    {
+      "size": 1048576,
+      "mode": "baseline",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576.ssa",
+            "--target",
+            "riscv64-linux",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "riscv64-linux-gnu-gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-thunk.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-baseline.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 634
+    },
+    {
+      "size": 1048576,
+      "mode": "allocated",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576.ssa",
+            "--target",
+            "riscv64-linux",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "riscv64-linux-gnu-gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-thunk.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-allocated.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 656
+    },
+    {
+      "size": 1048576,
+      "mode": "optimized",
+      "commands": [
+        {
+          "command": [
+            "/tmp/lcb-large-aggregate/.build/aggregate-copy/cap-candidate",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576.ssa",
+            "--target",
+            "riscv64-linux",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "riscv64-linux-gnu-gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-thunk.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-optimized.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/1048576-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "assembly_bytes": 656
+    },
+    {
+      "refusal": "one-past",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-copy-cap-riscv64-linux/boundary/one-past.ssa: aggregate repetition limit exceeded (1048576)\n"
+    },
+    {
+      "refusal": "frame",
+      "stderr": "error: RV64 frame exceeds 1 MiB\n"
+    },
+    {
+      "refusal": "outgoing",
+      "stderr": "error: RV64 outgoing argument area exceeds 1 MiB\n"
+    }
+  ]
+}

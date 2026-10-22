@@ -1,0 +1,711 @@
+type :big127 = { b 127 }
+export function l $incoming127(:big127 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 63
+ %e =l add %p, 126
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out127(l %p) {
+@s
+ %r =l call $sink127(:big127 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout127(l %p) {
+@s
+ %r =l call $variadic127(:big127 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout127(l %p) {
+@s
+ %r =l call $aliases127(:big127 %p, :big127 %p)
+ ret %r
+}
+function l $environment127(env %env, :big127 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout127(l %p) {
+@s
+ %r =l call $environment127(env 1311768467463790320, :big127 %p)
+ ret %r
+}
+export function :big127 $echo127(:big127 %p) {
+@s
+ ret %p
+}
+export function :big127 $fromptr127(l %p) {
+@s
+ ret %p
+}
+type :big128 = { b 128 }
+export function l $incoming128(:big128 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 64
+ %e =l add %p, 127
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out128(l %p) {
+@s
+ %r =l call $sink128(:big128 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout128(l %p) {
+@s
+ %r =l call $variadic128(:big128 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout128(l %p) {
+@s
+ %r =l call $aliases128(:big128 %p, :big128 %p)
+ ret %r
+}
+function l $environment128(env %env, :big128 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout128(l %p) {
+@s
+ %r =l call $environment128(env 1311768467463790320, :big128 %p)
+ ret %r
+}
+export function :big128 $echo128(:big128 %p) {
+@s
+ ret %p
+}
+export function :big128 $fromptr128(l %p) {
+@s
+ ret %p
+}
+type :big129 = { b 129 }
+export function l $incoming129(:big129 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 64
+ %e =l add %p, 128
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out129(l %p) {
+@s
+ %r =l call $sink129(:big129 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout129(l %p) {
+@s
+ %r =l call $variadic129(:big129 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout129(l %p) {
+@s
+ %r =l call $aliases129(:big129 %p, :big129 %p)
+ ret %r
+}
+function l $environment129(env %env, :big129 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout129(l %p) {
+@s
+ %r =l call $environment129(env 1311768467463790320, :big129 %p)
+ ret %r
+}
+export function :big129 $echo129(:big129 %p) {
+@s
+ ret %p
+}
+export function :big129 $fromptr129(l %p) {
+@s
+ ret %p
+}
+type :big135 = { b 135 }
+export function l $incoming135(:big135 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 67
+ %e =l add %p, 134
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out135(l %p) {
+@s
+ %r =l call $sink135(:big135 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout135(l %p) {
+@s
+ %r =l call $variadic135(:big135 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout135(l %p) {
+@s
+ %r =l call $aliases135(:big135 %p, :big135 %p)
+ ret %r
+}
+function l $environment135(env %env, :big135 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout135(l %p) {
+@s
+ %r =l call $environment135(env 1311768467463790320, :big135 %p)
+ ret %r
+}
+export function :big135 $echo135(:big135 %p) {
+@s
+ ret %p
+}
+export function :big135 $fromptr135(l %p) {
+@s
+ ret %p
+}
+type :big136 = { b 136 }
+export function l $incoming136(:big136 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 68
+ %e =l add %p, 135
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out136(l %p) {
+@s
+ %r =l call $sink136(:big136 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout136(l %p) {
+@s
+ %r =l call $variadic136(:big136 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout136(l %p) {
+@s
+ %r =l call $aliases136(:big136 %p, :big136 %p)
+ ret %r
+}
+function l $environment136(env %env, :big136 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout136(l %p) {
+@s
+ %r =l call $environment136(env 1311768467463790320, :big136 %p)
+ ret %r
+}
+export function :big136 $echo136(:big136 %p) {
+@s
+ ret %p
+}
+export function :big136 $fromptr136(l %p) {
+@s
+ ret %p
+}
+type :big255 = { b 255 }
+export function l $incoming255(:big255 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 127
+ %e =l add %p, 254
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out255(l %p) {
+@s
+ %r =l call $sink255(:big255 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout255(l %p) {
+@s
+ %r =l call $variadic255(:big255 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout255(l %p) {
+@s
+ %r =l call $aliases255(:big255 %p, :big255 %p)
+ ret %r
+}
+function l $environment255(env %env, :big255 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout255(l %p) {
+@s
+ %r =l call $environment255(env 1311768467463790320, :big255 %p)
+ ret %r
+}
+export function :big255 $echo255(:big255 %p) {
+@s
+ ret %p
+}
+export function :big255 $fromptr255(l %p) {
+@s
+ ret %p
+}
+type :big256 = { b 256 }
+export function l $incoming256(:big256 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 128
+ %e =l add %p, 255
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out256(l %p) {
+@s
+ %r =l call $sink256(:big256 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout256(l %p) {
+@s
+ %r =l call $variadic256(:big256 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout256(l %p) {
+@s
+ %r =l call $aliases256(:big256 %p, :big256 %p)
+ ret %r
+}
+function l $environment256(env %env, :big256 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout256(l %p) {
+@s
+ %r =l call $environment256(env 1311768467463790320, :big256 %p)
+ ret %r
+}
+export function :big256 $echo256(:big256 %p) {
+@s
+ ret %p
+}
+export function :big256 $fromptr256(l %p) {
+@s
+ ret %p
+}
+type :big257 = { b 257 }
+export function l $incoming257(:big257 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 128
+ %e =l add %p, 256
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out257(l %p) {
+@s
+ %r =l call $sink257(:big257 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout257(l %p) {
+@s
+ %r =l call $variadic257(:big257 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout257(l %p) {
+@s
+ %r =l call $aliases257(:big257 %p, :big257 %p)
+ ret %r
+}
+function l $environment257(env %env, :big257 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout257(l %p) {
+@s
+ %r =l call $environment257(env 1311768467463790320, :big257 %p)
+ ret %r
+}
+export function :big257 $echo257(:big257 %p) {
+@s
+ ret %p
+}
+export function :big257 $fromptr257(l %p) {
+@s
+ ret %p
+}
+type :big4095 = { b 4095 }
+export function l $incoming4095(:big4095 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 2047
+ %e =l add %p, 4094
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out4095(l %p) {
+@s
+ %r =l call $sink4095(:big4095 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout4095(l %p) {
+@s
+ %r =l call $variadic4095(:big4095 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout4095(l %p) {
+@s
+ %r =l call $aliases4095(:big4095 %p, :big4095 %p)
+ ret %r
+}
+function l $environment4095(env %env, :big4095 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout4095(l %p) {
+@s
+ %r =l call $environment4095(env 1311768467463790320, :big4095 %p)
+ ret %r
+}
+export function :big4095 $echo4095(:big4095 %p) {
+@s
+ ret %p
+}
+export function :big4095 $fromptr4095(l %p) {
+@s
+ ret %p
+}
+type :big4096 = { b 4096 }
+export function l $incoming4096(:big4096 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 2048
+ %e =l add %p, 4095
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out4096(l %p) {
+@s
+ %r =l call $sink4096(:big4096 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout4096(l %p) {
+@s
+ %r =l call $variadic4096(:big4096 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout4096(l %p) {
+@s
+ %r =l call $aliases4096(:big4096 %p, :big4096 %p)
+ ret %r
+}
+function l $environment4096(env %env, :big4096 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout4096(l %p) {
+@s
+ %r =l call $environment4096(env 1311768467463790320, :big4096 %p)
+ ret %r
+}
+export function :big4096 $echo4096(:big4096 %p) {
+@s
+ ret %p
+}
+export function :big4096 $fromptr4096(l %p) {
+@s
+ ret %p
+}
+data $L_lcb_aggregate_copy_1_f_param0 = { l 37 }
+data $"8" = { l 41 }
+export function l $f(:big129 %p) {
+@entry
+ %a =l loadl $L_lcb_aggregate_copy_1_f_param0
+ %b =l loadl $"8"
+ %c =l loadub %p
+ %d =l add %a, %b
+ %r =l add %d, %c
+ ret %r
+}

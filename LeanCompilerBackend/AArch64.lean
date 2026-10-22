@@ -345,8 +345,19 @@ private def writeFragment (source offset bytes : Nat) : List String := Id.run do
     if i + 1 < bytes then lines := lines ++ ["\tlsr x13, x13, #8"]
   return lines
 
-/-- Copy exact bytes from x12 to x13, using x14 only. -/
+/-- Copy exact bytes forward from x12 to x13, preserving both bases.
+    Large copies additionally use reserved x15. Numeric labels stay inside one
+    contiguous helper chunk and cannot collide with user symbol names. -/
 private def copyAggregate (bytes : Nat) : List String := Id.run do
+  if bytes > 128 then
+    let full := bytes / 8 * 8
+    let mut lines := compactImmediate .long 15 (bytes / 8) ++
+      ["8:", "\tldr x14, [x12], #8", "\tstr x14, [x13], #8",
+       "\tsub x15, x15, #1", "\tcbnz x15, 8b"]
+    for i in [:bytes-full] do
+      lines := lines ++ [s!"\tldrb w14, [x12, #{i}]", s!"\tstrb w14, [x13, #{i}]"]
+    return lines ++ compactImmediate .long 15 full ++
+      ["\tsub x12, x12, x15", "\tsub x13, x13, x15"]
   let mut lines := []
   let mut offset := 0
   for size in [8, 4, 2, 1] do

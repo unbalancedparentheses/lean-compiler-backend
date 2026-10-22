@@ -1,0 +1,161 @@
+type :big4096 = { b 4096 }
+export function l $incoming4096(:big4096 %p, d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 2048
+ %e =l add %p, 4095
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $out4096(l %p) {
+@s
+ %r =l call $sink4096(:big4096 %p, d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $varout4096(l %p) {
+@s
+ %r =l call $variadic4096(:big4096 %p, ..., d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257)
+ ret %r
+}
+export function l $aliasout4096(l %p) {
+@s
+ %r =l call $aliases4096(:big4096 %p, :big4096 %p)
+ ret %r
+}
+function l $environment4096(env %env, :big4096 %p) {
+@s
+ %a =l loadub %p
+ %r =l add %env, %a
+ ret %r
+}
+export function l $envout4096(l %p) {
+@s
+ %r =l call $environment4096(env 1311768467463790320, :big4096 %p)
+ ret %r
+}
+export function :big4096 $echo4096(:big4096 %p) {
+@s
+ ret %p
+}
+export function :big4096 $fromptr4096(l %p) {
+@s
+ ret %p
+}
+export function l $varin4096(:big4096 %p, ...) {
+@entry
+ %ap =l alloc8 32
+ vastart %ap
+ %f0 =d vaarg %ap
+ %f1 =d vaarg %ap
+ %f2 =d vaarg %ap
+ %f3 =d vaarg %ap
+ %f4 =d vaarg %ap
+ %f5 =d vaarg %ap
+ %f6 =d vaarg %ap
+ %f7 =d vaarg %ap
+ %g0 =l vaarg %ap
+ %g1 =l vaarg %ap
+ %g2 =l vaarg %ap
+ %g3 =l vaarg %ap
+ %g4 =l vaarg %ap
+ %g5 =l vaarg %ap
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 2048
+ %e =l add %p, 4095
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $prefixin4096(d %f0, d %f1, d %f2, d %f3, d %f4, d %f5, d %f6, d %f7, l %g0, l %g1, l %g2, l %g3, l %g4, l %g5, :big4096 %p) {
+@entry
+ %u0 =l cast %f0
+ %u1 =l cast %f1
+ %u2 =l cast %f2
+ %u3 =l cast %f3
+ %u4 =l cast %f4
+ %u5 =l cast %f5
+ %u6 =l cast %f6
+ %u7 =l cast %f7
+ %x1 =l xor %u0, %u1
+ %x2 =l xor %x1, %u2
+ %x3 =l xor %x2, %u3
+ %x4 =l xor %x3, %u4
+ %x5 =l xor %x4, %u5
+ %x6 =l xor %x5, %u6
+ %x7 =l xor %x6, %u7
+ %s0 =l add %x7, %g0
+ %s1 =l add %s0, %g1
+ %s2 =l add %s1, %g2
+ %s3 =l add %s2, %g3
+ %s4 =l add %s3, %g4
+ %s5 =l add %s4, %g5
+ %m =l add %p, 2048
+ %e =l add %p, 4095
+ %a =l loadub %p
+ %b =l loadub %m
+ %c =l loadub %e
+ %r0 =l add %s5, %a
+ %r1 =l add %r0, %b
+ %r =l add %r1, %c
+ storeb 99, %p
+ storeb 101, %e
+ ret %r
+}
+export function l $prefixout4096(l %p) {
+@entry
+ %r =l call $prefixsink4096(d 4608308318706860032, d 9223372036854775808, d 9221140253039434428, d 9218868437227405312, d 18442240474082181120, d 1, d 4614256656552045848, d 13826050856027422720, l 17, l 23, l 9223372036854775808, l 18446744073709551615, l 131, l 257, :big4096 %p)
+ ret %r
+}

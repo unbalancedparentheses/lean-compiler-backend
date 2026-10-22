@@ -64,7 +64,7 @@ def classify (types : Array AggregateType) : Except String (Array TypeInfo) := d
 def find (types : Array TypeInfo) (name : String) : Except String TypeInfo := do
   let some info := types.find? (·.layout.name == name) | throw s!"undefined aggregate type :{name}"
   if info.layout.alignment > 8 then throw "aggregate ABI alignments larger than 8 are not supported"
-  if info.layout.size > 4096 then throw "aggregate ABI size exceeds the 4096-byte resource limit"
+  if info.layout.size > 1048576 then throw "aggregate ABI size exceeds the 1048576-byte resource limit"
   pure info
 
 inductive Location where
