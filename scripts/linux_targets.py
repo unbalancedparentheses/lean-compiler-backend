@@ -120,6 +120,8 @@ def main():
     module_tests(compiler,work, selected_run,cc,args.target,execute)
     from extern_offsets import exercise as extern_offset_tests
     extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
+    from syntax_edges import exercise as syntax_edge_tests
+    syntax_edge_tests(compiler,work/"syntax-edges",run,[cc],args.target,execute)
     from data_relocations import exercise as data_relocation_tests
     data_relocation_tests(compiler,work/"data-relocations",run,[cc],args.target,execute)
     from large_data import exercise as large_data_tests
@@ -146,6 +148,8 @@ def main():
     if args.target == 'riscv64-linux':
         from rv_load_normalization import exercise as rv_load_tests
         rv_load_tests(compiler,work,run,cc,execute=execute)
+        from rv_immediates import exercise as rv_immediate_tests
+        rv_immediate_tests(compiler,work,run,cc,execute=execute,qbe=qbe,qtarget=qtarget)
     if args.target == 'x86_64-linux':
         from extern_flags import exercise as flags_tests
         flags_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)

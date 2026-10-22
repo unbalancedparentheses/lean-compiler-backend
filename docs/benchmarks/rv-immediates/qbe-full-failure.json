@@ -1,0 +1,21 @@
+{
+  "qbe_command": [
+    "/tmp/qbe/qbe",
+    "-t",
+    "rv64",
+    "-o",
+    "/work/rv-immediate-current-matrix/riscv64-linux/rv-immediates/full-qbe.s",
+    "/work/rv-immediate-current-matrix/riscv64-linux/rv-immediates/full-qbe-input.ssa"
+  ],
+  "assembler_command": [
+    "riscv64-linux-gnu-gcc",
+    "-c",
+    "/work/rv-immediate-current-matrix/riscv64-linux/rv-immediates/full-qbe.s",
+    "-o",
+    "/work/rv-immediate-current-matrix/riscv64-linux/rv-immediates/full-qbe.o"
+  ],
+  "assembler_exit": 1,
+  "input_sha256": "75c97f71a23c32b3190b2b405da05ac67c258c43c260229d60771fd13f1daf10",
+  "qbe_binary_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "qualification": "Untouched original QBE full input does not assemble due to unmasked shift immediates; successful differential checks use explicit393-function legal-shift profile."
+}

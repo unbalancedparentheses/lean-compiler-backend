@@ -121,7 +121,7 @@ Target suites and larger-program results are bounded evidence, not a compatibili
 | alias analysis and memory optimization | partial: initialized nonescaping exact-width 1/2/4/8-byte entry objects promote to SSA; same-block exact-address load/store forwarding with conservative mutation barriers; general alias analysis, dead-store elimination and aggregate promotion remain |
 | copy elimination, folding, GVN, GCM and CFG simplification | partial: opt-in bounded SSA constant/integer folding, same-width copy/trivial-phi propagation and conservative dead-definition removal, constant branches, unreachable-block/phi-edge cleanup and dominance-aware common integer expressions; full GVN, GCM and broader CFG/elimination remain |
 | ABI lowering | partial: Apple/Linux ARM64, Apple/Linux AMD64 and Linux RV64/LP64D scalar and aggregate calls/results; target-specific GP/FP/stack classification, hidden returns, variadics, env and saved live values |
-| instruction selection and assembly emission | partial: Apple/Linux ARM64 and AMD64, plus Linux RV64 scalar integer/floating, control flow, memory, TLS and scalar/aggregate-call lowering; large frame-slot addressing |
+| instruction selection and assembly emission | partial: Apple/Linux ARM64 and AMD64, plus Linux RV64 scalar integer/floating, control flow, memory, TLS and scalar/aggregate-call lowering; large frame-slot addressing; RV64 encodable arithmetic/bitwise immediates and modulo-width immediate shifts |
 | liveness, spilling and register allocation | liveness, checked callee-saved GP allocation and reusable spills implemented; caller-saved/FP-bank allocation, splitting/coalescing and machine value-flow checking remain; default baseline keeps unique slots |
 
 ## Targets and ABIs

@@ -220,3 +220,5 @@ python3 scripts/empty_variadic_calls.py
 python3 scripts/unused_environment_variadic.py
 python3 scripts/stack_args.py "$@"
 python3 scripts/fuzz.py --optimize "$@"
+
+python3 scripts/rv_immediates.py

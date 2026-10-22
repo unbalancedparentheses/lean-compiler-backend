@@ -296,6 +296,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Allocated fall-through edges omit redundant jumps.
   Wide shift counts, mixed-width
   operations, signed loads and address/result aliasing have independent checks.
+  RV64 arithmetic/bitwise constants use encodable immediate instructions and
+  constant shifts retain modulo-width semantics; independent C and zlib checks
+  qualify a 6,696-byte reduction across 17 optimized zlib objects.
   RV64 zero-extending loads omit redundant word-mask pairs; signed loads and
   general word copies retain required normalization, with independent bit cases.
   Caller clobbers, callee saves, FP bit patterns and spill pressure have execution

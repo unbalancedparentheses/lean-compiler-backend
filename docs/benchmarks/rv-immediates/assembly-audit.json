@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "compilers": {
+    "before": {
+      "identity": "821344c8800eb9e481a9a8275385296a4730a68dfd23e55085f36481c113c588",
+      "sha256": "4d1eee17db02ce48dada974eb44ecfea32ad850403cde62d33fbfa0d3ba6d570"
+    },
+    "after": {
+      "identity": "41d5798117ef24c3cc3dd249da3dfdd7def1bff5e8fdfacf575b919eb5516d4b",
+      "sha256": "30fa8453728f5004be989de39c0c059b7ba4ff0945b7c93dc8db809cf7a79da5"
+    }
+  },
+  "cases": 1320,
+  "unchanged_assemblies": 1177,
+  "matching_refusals": 15,
+  "expected_changed_assemblies": {
+    "riscv64-linux": 128
+  },
+  "immediate_replacements": 11628,
+  "raw_report": "assembly-comparison-raw.json",
+  "note": "Raw exact-equivalence gate intentionally reports changed assembly. Separate audit accepts only exact constant-load/register-operation replacement by corresponding encodable immediate, preserving all other bytes. Not a semantic proof."
+}

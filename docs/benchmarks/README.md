@@ -887,3 +887,9 @@ identities and the distinction between unique programs and target/mode replays.
 [Five-target qualification](data-relocations/README.md) retains packed interpreter
 checks and independent native address checks for every QBE initializer width,
 with default/non-PIE profiles and linker failures kept separate.
+
+## RV64 immediate selection
+
+[Current-identity measurements](rv-immediates/README.md) record a 2.52% reduction
+in summed zlib object text, independent C bit-pattern checks and exact zlib stream
+comparisons. Runtime speed was not measured.

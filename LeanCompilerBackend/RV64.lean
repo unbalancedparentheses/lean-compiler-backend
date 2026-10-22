@@ -186,6 +186,27 @@ private def loadNorm (w : Width) (kind : LoadKind) : List String :=
   | .unsignedByte | .unsignedHalf | .unsignedWord | .plain => []
   | .signedByte | .signedHalf | .signedWord => norm w "t0"
 
+/-- RV64 immediates preserve the existing final word normalization. Interpret
+    arithmetic/logical constants modulo the operand width before testing signed
+    12-bit encodability; shift counts are masked exactly as register shifts are. -/
+private def binaryImmediate (w : Width) (op : Binary) (n : Int) : Option String := do
+  let ws := if w == .word then "w" else ""
+  let value := Semantics.signedBits w.bits (Semantics.constant w n)
+  let shift := (Semantics.constant (op.rhsWidth w) n).toNat % w.bits
+  let (mnemonic, immediate) ← match op with
+    | .add => some ("addi" ++ ws, value)
+    | .sub => some ("addi" ++ ws, -value)
+    | .andBits => some ("andi", value)
+    | .orBits => some ("ori", value)
+    | .xorBits => some ("xori", value)
+    | .shiftLeft => return s!"\tslli{ws} t0, t0, {shift}"
+    | .logicalRight => return s!"\tsrli{ws} t0, t0, {shift}"
+    | .arithmeticRight => return s!"\tsrai{ws} t0, t0, {shift}"
+    | .mul => none
+  if -2048 ≤ immediate && immediate ≤ 2047 then
+    some s!"\t{mnemonic} t0, t0, {immediate}"
+  else none
+
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
   let w := inst.width
   let ws := if w == .word then "w" else ""
@@ -194,12 +215,19 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
   | .copy x | .cast x => lines := ← load c w "t0" x
   | .unary op x => lines := (← load c (op.inputWidth w) "t0" x) ++ extend w op
   | .binary op x y =>
-    lines := (← load c w "t0" x) ++ (← load c (op.rhsWidth w) "t1" y)
-    let mnemonic := match op with
-      | .add => "add"++ws | .sub => "sub"++ws | .mul => "mul"++ws
-      | .andBits => "and" | .orBits => "or" | .xorBits => "xor"
-      | .shiftLeft => "sll"++ws | .logicalRight => "srl"++ws | .arithmeticRight => "sra"++ws
-    lines := lines ++ [s!"\t{mnemonic} t0, t0, t1"]
+    let immediate := match y with
+      | .constant n => binaryImmediate w op n
+      | _ => none
+    lines := ← load c w "t0" x
+    if let some instruction := immediate then
+      lines := lines ++ [instruction]
+    else
+      lines := lines ++ (← load c (op.rhsWidth w) "t1" y)
+      let mnemonic := match op with
+        | .add => "add"++ws | .sub => "sub"++ws | .mul => "mul"++ws
+        | .andBits => "and" | .orBits => "or" | .xorBits => "xor"
+        | .shiftLeft => "sll"++ws | .logicalRight => "srl"++ws | .arithmeticRight => "sra"++ws
+      lines := lines ++ [s!"\t{mnemonic} t0, t0, t1"]
   | .divide op x y =>
     lines := (← load c w "t0" x) ++ (← load c w "t1" y)
     let mnemonic := match op with | .signedDiv => "div" | .unsignedDiv => "divu" | .signedRem => "rem" | .unsignedRem => "remu"

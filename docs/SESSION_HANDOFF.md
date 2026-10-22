@@ -10,7 +10,14 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`821344c8800eb9e481a9a8275385296a4730a68dfd23e55085f36481c113c588`.
+`41d5798117ef24c3cc3dd249da3dfdd7def1bff5e8fdfacf575b919eb5516d4b`.
+
+RV64 now selects encodable arithmetic/bitwise immediates and modulo-width
+immediate shifts. The [current-identity qualification](benchmarks/rv-immediates/README.md)
+passes 109,440 independent C cases per mode and the full RV gate. Zlib object
+text drops by 6,696 bytes (2.52%); exact stream/roundtrip checks pass, with no
+runtime speedup claim. Four other targets retain byte-identical corpus assembly.
+The earlier marker checkpoint full Rosetta gate also completed successfully.
 
 Hexadecimal data-string escapes and either/repeated extern/thread annotation
 order now pass [five-target independent byte/TLS checks](benchmarks/syntax-edges/README.md).

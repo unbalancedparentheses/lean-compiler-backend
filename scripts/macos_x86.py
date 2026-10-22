@@ -110,6 +110,8 @@ def main():
         objects(compiler, work, selected_run, cc, qbe, 'x86_64-macos', 'amd64_apple')
     from quoted_names import exercise as quoted
     from zero_alloc import exercise as zero
+    from syntax_edges import exercise as syntax_edge_tests
+    syntax_edge_tests(compiler,work/"syntax-edges",run,[cc],'x86_64-macos',execute)
     from data_relocations import exercise as data_relocation_tests
     data_relocation_tests(compiler,work/"data-relocations",run,[cc],'x86_64-macos',execute)
     from large_data import exercise as large_data_tests

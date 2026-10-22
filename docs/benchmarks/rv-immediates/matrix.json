@@ -1,0 +1,15 @@
+{
+  "target": "riscv64-linux",
+  "functions": 576,
+  "seeds": 190,
+  "checks_per_mode": 109440,
+  "modes": {
+    "baseline": "passed",
+    "allocated": "passed",
+    "optimized": "passed",
+    "qbe": "passed"
+  },
+  "wrong_immediate_detected": true,
+  "qbe_profile": "all arithmetic/bitwise constants; only 0 <= constant shift < width",
+  "qbe_functions": 393
+}
