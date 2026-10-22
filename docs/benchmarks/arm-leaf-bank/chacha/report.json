@@ -1,0 +1,69 @@
+{
+  "compiler_sha256": "1f513bdf3933c6a2c4da3e7290621dc1834777d02f31aab103ab41c9b74ae692",
+  "source_sha256": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+  "caller_sha256": "c1b4d8bcbdb8e23c5f91c9c83e53cf61937ebfed82d10bf9d7c2c68596f73f07",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "status": "passed",
+  "targets": {
+    "aarch64-macos": {
+      "baseline": {
+        "status": "passed",
+        "checks": 1536,
+        "assembly_sha256": "35dd3b0405360ca9aaacb79fe33adf7082657681eaa80f8b788b2b73c93b3903",
+        "executable_sha256": "28aca93b446c2fcb1b311e0683adba0b387f18ef2eb6b211dc9399024cec2ddf"
+      },
+      "allocated": {
+        "status": "passed",
+        "checks": 1536,
+        "assembly_sha256": "f46555279fd9e4f500ba8347f01261ed3526e18d32739b92d157223efc49d2cf",
+        "executable_sha256": "30509e2699c897ee7263d5b700c21820db1b8c41f3e06ae6767d3ad170b06bda"
+      },
+      "optimized": {
+        "status": "passed",
+        "checks": 1536,
+        "assembly_sha256": "1f0f54a05d42b57a1415e485091cbdabc8300b33b3597f38660f1ad719b35cb2",
+        "executable_sha256": "a56e08cef2615e5df5f7d7cb5923645a79903b1e846dd4399b344f84ad9d5797"
+      },
+      "qbe": {
+        "status": "passed",
+        "checks": 1536,
+        "assembly_sha256": "f0456abba1c4e925b2febc4e643dc63c65a0b2ca5de2f835a206a4ad045db765",
+        "executable_sha256": "b95d954d8b2cad6e3e7a1da100cb2bc042f84f735f423b84274843ef043f8570"
+      },
+      "wrong_add": {
+        "exit": 1,
+        "status": "detected"
+      }
+    },
+    "aarch64-linux": {
+      "baseline": {
+        "status": "passed",
+        "checks": 1536,
+        "assembly_sha256": "78b80ad623a38f91bbdf813079109914ad9d059c188217781bed6c061feb7eb5",
+        "executable_sha256": "14277c4a7e881d5849c6b589bdaf37ed785292819c4f60263e7a8b190215f3a3"
+      },
+      "allocated": {
+        "status": "passed",
+        "checks": 1536,
+        "assembly_sha256": "ca440f36efeee9cbfd0b07c9c836a1e18364e42d37cdd0b71b4e539cb051bde3",
+        "executable_sha256": "213f1d23ed83d18acb9d47df2894fde89800f1e3f72ee13c119db80414639863"
+      },
+      "optimized": {
+        "status": "passed",
+        "checks": 1536,
+        "assembly_sha256": "637a62e45d8a08ea8d872e2960c88abe23e326235273f80691b81a467fd771c0",
+        "executable_sha256": "a5fa41797ad1e6caf6428b5c71b2ead19b4d8e0e3923d3888e0fac621359f3e8"
+      },
+      "qbe": {
+        "status": "passed",
+        "checks": 1536,
+        "assembly_sha256": "0fe587a24dfa7486cdd0cc2cf88252c165a44215051e92447f5419a44ffc0213",
+        "executable_sha256": "b2614f371b3f6ed3a5afd2430cca141be45e5b204a53fb1b525fe636c81bf7ad"
+      },
+      "wrong_add": {
+        "exit": 1,
+        "status": "detected"
+      }
+    }
+  }
+}

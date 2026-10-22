@@ -6,7 +6,7 @@ namespace LeanCompilerBackend.Allocation
 
 structure Plan where
   names : Array String
-  /-- Colors below registerCount are callee-saved registers; the rest are slots. -/
+  /-- Colors below registerCount are target-admitted physical registers; the rest are slots. -/
   colors : Array Nat
   colorCount : Nat
   registerCount : Nat
@@ -164,7 +164,7 @@ private def prioritize (f : Function) (live : Liveness.Result) (colors : Array N
   for i in [:order.size] do rank := rank.set! order[i]! i
   return colors.map (fun c => rank[c]!)
 
-/-- Deterministic greedy coloring. Call-preserved homes avoid call clobbers;
+/-- Deterministic greedy coloring. Targets must admit stable physical homes;
     excess colors spill to reusable eight-byte slots. No live-range splitting. -/
 def allocate (f : Function) (registerCount : Nat := 0) : Except String Plan := do
   let live ← Liveness.analyze f

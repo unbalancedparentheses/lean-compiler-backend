@@ -1,4 +1,5 @@
 import LeanCompilerBackend.AArch64
+import LeanCompilerBackend.Parser
 
 namespace LeanCompilerBackend.AArch64.Tests
 
@@ -18,6 +19,31 @@ private def encodings (width : Width) : Std.HashSet Nat := Id.run do
   return result
 
 def run : IO Unit := do
+  let bank := #[19,20,21,22,23,24,25,26,27,28,16,17,8]
+  let tests := [
+    ("@s\n %a =l add %x,1\n ret %a",true),
+    ("@s\n call $other()\n ret %x",false),
+    ("@s\n %a =l call %x()\n ret %a",false),
+    ("@s\n %a =l copy thread $slot\n ret %a",false),
+    ("@s\n storel thread $slot,%x\n ret %x",false),
+    ("@s\n ret thread $slot",false),
+    ("@s\n jnz thread $slot,@yes,@no\n@yes\n ret %x\n@no\n ret %x",false),
+    ("@s\n jmp @join\n@join\n %a =l phi @s thread $slot\n ret %a",false),
+    ("@s\n ret %x\n@unreachable\n call $other()\n ret %x",false)]
+  for (body,expected) in tests do
+    let m ← match Parser.parseModule ("function l $bank(l %x) {\n"++body++"\n}\n") with
+      | .ok m => pure m | .error e => throw (IO.userError e)
+    let f := m.functions[0]!
+    unless (checkPhysicalBank f bank).isOk == expected do throw (IO.userError s!"ARM leaf-bank eligibility differs for {body}")
+    unless !(checkPhysicalBank f #[19,20,21,22,23,24,25,26,27,28,15,17,8]).isOk do
+      throw (IO.userError "ARM scratch-bank mutation accepted")
+  unless leafBranchesLocal ["L_a:","\tb L_a","1:","\tb.ne 1b"] do
+    throw (IO.userError "ARM local branch rejected")
+  for lines in [["L_a:","\tb external"],["L_a:","\tbl L_a"],["L_a:","\tblr x16"],
+      [".text","L_a:",".section other","L_b:","\tb L_a"],
+      ["L_a:",".space 100"],List.replicate 230401 "\tnop"] do
+    unless !leafBranchesLocal lines do throw (IO.userError "ARM unsafe branch/size mutation accepted")
+  IO.println "ARM physical banks: call/TLS/scratch/local-branch/size mutation controls passed"
   let edge := "L_lcb_edge_1_f_start"
   let shape := fun branch yes no =>
     [branch ++ " " ++ edge, "\tb " ++ yes, edge ++ ":", "\tb " ++ no, yes ++ ":", "\tret"]

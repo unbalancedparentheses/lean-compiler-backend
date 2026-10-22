@@ -748,7 +748,7 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
       lines := lines ++ (← load darwin localSymbols base slots phi.width 9 value)
       lines := lines ++ slotAccess "str" base (register phi.width 9) phi.width.bytes (stageBase + i * 8)
       staged := staged.push i
-  -- At most ten phi destinations can occupy the ARM64 callee-saved bank.
+  -- The finite physical bank bounds register phi destinations.
   for _ in [:pending.size] do
     let ready := pending.find? fun i =>
       pending.all fun j => i == j || sources[j]! != destinations[i]!
@@ -809,10 +809,67 @@ def compactEmptyBranches (lines : List String) : List String := Id.run do
     output := output.push input[i]!
   return output.toList
 
-def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String := do
+/-- Target-local physical-bank admission, independent of graph coloring and
+    symbolic home flow. All blocks count, including unreachable instructions. -/
+def leafBankEligible (f : Function) : Bool :=
+  let tls := fun v => match v with | Operand.threadSymbol _ => true | _ => false
+  !(f.blocks.any fun b =>
+    b.instructions.any (fun s => s.callSite.isSome || s.operands.any tls) ||
+    b.phis.any (fun p => p.incoming.any (fun (_,v) => tls v)) ||
+    match b.terminator with
+    | .ret (some v) | .branch v .. => tls v
+    | _ => false)
+
+private def savedBank : Array Nat := #[19,20,21,22,23,24,25,26,27,28]
+private def leafBank : Array Nat := savedBank ++ #[16,17,8]
+
+/-- A finite explicit bank contract prevents reserving scratch/platform registers
+    or silently using caller-clobbered homes in a function with callouts. -/
+def checkPhysicalBank (f : Function) (bank : Array Nat) : Except String Unit := do
+  if bank == savedBank then return ()
+  if bank != leafBank then throw "ARM64 physical register bank is not supported"
+  if !leafBankEligible f then throw "ARM64 caller-saved bank requires a call-free TLS-free function"
+
+/-- IP0/IP1 cannot survive linker veneers. Accept only bounded functions whose
+    branches name labels defined in this same emitted function; no call or
+    indirect branch is admitted. The assembler can resolve these displacements
+    within one section, without long-branch relocations. The overall size bound
+    covers conditional B/CBZ reach; emitted TBZ/TBNZ instructions only skip their
+    short, fixed local variadic-access sequences. -/
+def leafBranchesLocal (lines : List String) : Bool := Id.run do
+  let physical := lines.flatMap (·.splitOn "\n")
+  if physical.length * 4 + 16 > 900 * 1024 then return false
+  let mut labels : Std.HashSet String := {}
+  let mut sections := 0
+  for line in physical do
+    let text := line.trimAscii.toString
+    if text == ".text" || text.startsWith ".section " then
+      sections := sections + 1
+      if sections > 1 then return false
+    if text.startsWith "." && !(text == ".text" || text == ".p2align 2" ||
+        text.startsWith ".section " || text.startsWith ".globl " ||
+        text.startsWith ".type " || text.startsWith ".loc ") then return false
+    if text.endsWith ":" then labels := labels.insert (text.dropEnd 1).toString
+  for line in physical do
+    let text := line.trimAscii.toString
+    let words := ((text.replace "\t" " ").splitOn " ").filter (· != "")
+    let op := words.headD ""
+    if op == "bl" || op == "blr" || op == "br" then return false
+    if op == "b" || op.startsWith "b." || op == "cbz" || op == "cbnz" ||
+        op == "tbz" || op == "tbnz" then
+      let target := words.getLast!
+      let numeric := (target.endsWith "b" || target.endsWith "f") &&
+        !(target.dropEnd 1).isEmpty && (target.dropEnd 1).toString.toList.all Char.isDigit
+      if !(labels.contains target || (numeric && labels.contains (target.dropEnd 1).toString)) then return false
+  return true
+
+private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String (Option String) := do
   validateFunction f true
   checkTargetSection darwin f.customSection
-  let homes ← if allocate then Allocation.allocate f 10 else pure (Allocation.baseline f)
+  let bank := if extra then leafBank else savedBank
+  checkPhysicalBank f bank
+  let homes ← if allocate then Allocation.allocate f bank.size else pure (Allocation.baseline f)
+  let saved := bank.extract 0 (min homes.registers savedBank.size)
   let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
     match statement with
     | .assign { operation := .allocate _ size, .. } =>
@@ -835,13 +892,13 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   -- Lookup-only tables preserve layout order; reversing retains List.lookup first-match behavior.
   let slots : Homes := {
     stack := Std.HashMap.ofList ((homes.homes.filterMap (fun (name,i) => if i >= homes.registerCount then some (name,outgoing+(i-homes.registerCount)*8) else none)).reverse)
-    registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (name,i) => if i < homes.registerCount then some (name,19+i) else none)).reverse)
+    registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (name,i) => if i < homes.registerCount then some (name,bank[i]!) else none)).reverse)
     widths := Std.HashMap.ofList f.locals.toList }
   let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
   let stageBase := outgoing + homes.spills * 8
   let mut frameEnd := outgoing + (homes.spills + maxPhis) * 8
   let savedBase := frameEnd
-  frameEnd := frameEnd+homes.registers*8
+  frameEnd := frameEnd+saved.size*8
   let hasCalls := f.blocks.any fun block => block.instructions.any (·.callSite.isSome)
   let returnAddress := frameEnd
   if hasCalls && !dynamic then frameEnd := frameEnd + 8
@@ -884,7 +941,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   if dynamic then
     lines := lines ++ ["\tstp x29, x30, [sp]", "\tmov x29, sp"]
   else if hasCalls then lines := lines ++ slotAccess "str" "sp" "x30" 8 returnAddress
-  for i in [:homes.registers] do lines := lines ++ slotAccess "str" base s!"x{19+i}" 8 (savedBase+i*8)
+  for i in [:saved.size] do lines := lines ++ slotAccess "str" base s!"x{saved[i]!}" 8 (savedBase+i*8)
   let incoming ← AggregateABI.plan types (parametersAsArguments f) darwin
   if !darwin && f.variadic then
     -- Save the argument banks before any user code or incoming-object copies.
@@ -997,7 +1054,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           lines := lines ++ (← load darwin localSymbols base slots width 0 value)
           if let some kind := f.resultSubword then lines := lines ++ [extendSubword kind 0]
           if f.resultFloating then lines := lines ++ [s!"\tfmov {floatRegister width 0}, {register width 0}"]
-      for i in [:homes.registers] do lines := lines ++ slotAccess "ldr" base s!"x{19+i}" 8 (savedBase+i*8)
+      for i in [:saved.size] do lines := lines ++ slotAccess "ldr" base s!"x{saved[i]!}" 8 (savedBase+i*8)
       if dynamic then lines := lines ++ ["\tmov sp, x29", "\tldp x29, x30, [sp]"]
       else if hasCalls then lines := lines ++ slotAccess "ldr" "sp" "x30" 8 returnAddress
       lines := lines ++ adjustStack "add" frame
@@ -1019,11 +1076,20 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
       lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label no)
       if !allocate || next != some no then lines := lines ++ [s!"\tb {blockLabel f no}"]
   if allocate then lines := Assembly.LineBuffer.ofList (compactEmptyBranches lines.toList)
+  if extra && !leafBranchesLocal lines.toList then return none
   if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   let file := match f.debugFile with
     | some name => s!".file {debugFileId} {debugFilename name}\n"
     | none => ""
-  pure (file ++ String.intercalate "\n" (lines ++ [""]).toList)
+  pure (some (file ++ String.intercalate "\n" (lines ++ [""]).toList))
+
+def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String := do
+  if allocate && leafBankEligible f then
+    if let some text ← emitFunctionUsingBank true f types debugFileId darwin localSymbols allocate then
+      return text
+  let some text ← emitFunctionUsingBank false f types debugFileId darwin localSymbols allocate
+    | throw "ARM64 baseline bank unexpectedly declined emission"
+  return text
 
 private def emitFunctions (program : Program) (types : Array AggregateABI.TypeInfo := #[]) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String (List String) := do
   let mut fileId := 1

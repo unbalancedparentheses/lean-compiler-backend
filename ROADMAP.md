@@ -81,6 +81,13 @@ now omit same-home conversions only for declared word sources. Both native ARM
 matrices and the complete Linux ARM gate pass, alongside zlib/libyaml/LZ4 executable
 comparisons. The documented word-producer invariant still needs formal coverage.
 
+ARM64 [bounded leaf allocation](docs/benchmarks/arm-leaf-bank/README.md) adds
+x16/x17/x8 only to call/TLS-free functions with bounded local branches. Both
+native ARM matrices and full host/Linux ARM gates pass. General caller-saved
+allocation across calls, FP banks and machine-level proofs remain open.
+[In-process zlib measurements](docs/benchmarks/zlib-inprocess/README.md) now
+separate API execution from startup/I/O; CRC remains a measured optimization gap.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and

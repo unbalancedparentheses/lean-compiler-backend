@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "compiler_identity": "15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c",
+  "full_host": "native Apple ARM, Apple x86 Rosetta, Linux wrappers emission-only",
+  "full_linux_arm": "native Docker Linux ARM",
+  "proof_audit": "147 reports byte-identical to prior checkpoint",
+  "emission_corpus": "raw exact comparator exit1 for8expected differences; scope audit passed",
+  "logs": {
+    ".build/arm-leaf-full-host.log": {
+      "exit_code": 0,
+      "sha256": "648813c713d0bbaf5c782d8e15a7be41c3b11b6c7deb1495b5a1a02d8e52acef",
+      "last_lines": [
+        "{'target': 'riscv64-linux', 'compiler_identity': '15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c', 'compiler_sha256': '1f513bdf3933c6a2c4da3e7290621dc1834777d02f31aab103ab41c9b74ae692', 'source_sha256': '1b3421d5ef0741309a2b9f14f57ada4ba8fb85052d27f792b1632c6062a9c9f2', 'caller_sha256': '7a1f9a59c83bce11d84a2bb08d4f3ab79f1a24ffa54249d03c31af93fa74073a', 'emitted_checks_per_mode': 9728, 'executed_checks_per_mode': 0, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}",
+        "Emission-only target helpers passed with missing tools and an execution guard"
+      ]
+    },
+    ".build/arm-leaf-main-linux.log": {
+      "exit_code": 0,
+      "sha256": "79afce4156b6d84c734d1c46bf35ee5badff5042e0c0406eeeeabd4d7f6fabf9",
+      "last_lines": [
+        "Linux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True",
+        "Actual compiler emission modes: {'baseline': 49, 'allocated': 39, 'optimized': 136}"
+      ]
+    },
+    ".build/arm-leaf-main-proof-audit.log": {
+      "exit_code": 0,
+      "sha256": "c555a9f334c34e0fbd082393488a072028ef92d77aec14bc7ba5c40e70fafad8",
+      "last_lines": [
+        "'LeanCompilerBackend.Verified.source_instruction_invert' depends on axioms: [propext, Quot.sound]",
+        "'LeanCompilerBackend.Verified.simulate_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]"
+      ]
+    },
+    ".build/chacha-double-round-run.log": {
+      "exit_code": 0,
+      "sha256": "148f6a443104d6fb6162e29dbc81295a10f07af7760c60d45be934e534ded74a",
+      "last_lines": [
+        "  }",
+        "}"
+      ]
+    }
+  }
+}

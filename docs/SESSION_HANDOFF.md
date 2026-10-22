@@ -19,7 +19,25 @@ cproc rejects three required volatile stores before any backend invocation.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`5ce9e7a3011f06f269e630fb6685db716de6a9d5850c99f4dedc6df83dcfc8fa`.
+`15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c`.
+
+[ARM leaf registers](benchmarks/arm-leaf-bank/README.md) admit x16/x17/x8 only
+for bounded call/TLS-free functions. Both native ARM independent ABI matrices,
+full native Linux ARM gate and full host gate pass; baseline and non-ARM corpus
+output stay identical. The 147-report proof audit is unchanged. Optimized zlib
+text shrinks another 1,196 bytes. The retained assembly-only _chacha20 fixture
+now has independent executable caller coverage on both ARM targets; it executes
+one double-round, as dictated by its original counter, not the full cipher.
+
+[Paired in-process zlib timings](benchmarks/zlib-inprocess/README.md) are committed
+with 485-file provenance checks, five fresh compiler/oracle builds, exact
+correctness profiles and two quiet windows. The leaf change reduces random-data
+compression time about 9% and mixed-data compression about 2% on these inputs;
+seven other API/payload comparisons show no demonstrated change. CRC remains
+about 1.72x original QBE / 3.95x GCC time. Typed identity-phi elimination targets
+observed redundant CRC loop transfers next; restricted AMD leaf registers are
+also under independent qualification. Neither experimental next change is in
+this compiler identity. CI through 76d03e6 is green; later runs remain pending.
 
 [ARM typed extuw](benchmarks/arm-extuw/README.md) omits same-home unsigned
 word extensions only for declared word sources. Both native ARM matrices, full

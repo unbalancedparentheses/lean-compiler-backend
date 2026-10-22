@@ -1,0 +1,703 @@
+{
+  "identity": "15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c",
+  "rows": [
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/adler32.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "2c9a6eefff07504f556c28511b84d75fb7041ac0e71ccbcb61c573e23c7a3cb4",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/adler32.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/adler32-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/adler32.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "c0445c91da66a9fc9cdf17bf685de5aeafe61e830e91eb0494a9dd73f30f93d4",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/adler32.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/adler32-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/adler32.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "ed9aeaf13165dfa3e49d613cf953eb7661fa7c7fface0993181e76b9e1a6a1ca",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/adler32.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/adler32-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/compress.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "470941c72a0e97c2f99224c24896996e453f4a99685cf2de1f91b6f0946c75f5",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/compress.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/compress-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/compress.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "89ed44b8f0f99513c90d1ec2249a2e3d504c1b7e37929770c2ff1d296c02d50f",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/compress.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/compress-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/compress.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "c88ebc0be98fc89b06b5b6bc61578067efff83bd12a66a02670dbc5e9a101fa9",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/compress.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/compress-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/crc32.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "771bacbbc1efc8a9171201fb56af6ecc40e124b90e2ae442818ea0be5bd6bd72",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/crc32.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/crc32-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/crc32.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "58c2101a8e893a88d28b08e0036fc3c161e44e10d714a9ec9353d173b607272f",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/crc32.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/crc32-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/crc32.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "1f2f0add7b083d6b13773e2020b61f43a0334975cb508f370c417cb0994fef43",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/crc32.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/crc32-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/deflate.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "502705c6a1974b357958702d1956469e363c09c1a774c840e6ff5e804dc7a66f",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/deflate.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/deflate-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/deflate.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "809190a5cc7d1e1b2235a2c42cec0722b57a43cd8f066db6026f43ccf1b4d098",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/deflate.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/deflate-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/deflate.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "71e8dddcc64426bb1991e69945ba137c9bb046318413bcb6ec6acbb9ff934b77",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/deflate.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/deflate-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzclose.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "1915164204135bb2b735a4b94a7997e58e9bb0f9f374d65f8883c192586e44b2",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzclose.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzclose-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzclose.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "9ada786da0741a08a88ab561def19d940d8bf899b16993d8b86461463f12e8b8",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzclose.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzclose-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzclose.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "3a3277973f9486b6af56437d8dae6c98f7f8734882f2f19dad1d40af6fa88db1",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzclose.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzclose-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzlib.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "09523acfd6c650a09ea16fb9a0e968c3b17acec40757b3bdde7101a4132257e7",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzlib.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzlib-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzlib.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "9348f540f6f1b8382dc44db0655889f769d29e4d8c55039f735be1b6394841d1",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzlib.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzlib-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzlib.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "ef33870308630e36cbcf6d3c80c22304de090e161b8ebb8d692d4e35c21810fa",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzlib.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzlib-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzread.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "2e696307b30527f324c210f600aa586423ff3b94337030ebd0370b48c6f1db27",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzread.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzread-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzread.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "e33b64bbd27239d804a85a386aad63e4b756c4182d3baf08158ef6d6cc60e587",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzread.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzread-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzread.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "a0456f11f9bd731859f9dbfa0ee18da1c511829b000eaa333e9385284565f657",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzread.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzread-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzwrite.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "2ecf85dc2a527ca1e915684346032b18d461e814bea9c6357babe5724edbd7f7",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzwrite.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzwrite-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzwrite.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "acc1d6f753a3641d1d1e3cfbb02cfe37735f9fb34205c2eaba807244d31f4def",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzwrite.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzwrite-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzwrite.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "7894b187219856df37efacb8fe55945f6a2cd30fc4846ce5132d158e934f2ea8",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/gzwrite.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/gzwrite-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/infback.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "92ad38dd9ad54add2ffa51d147454c90446f9de5e3df3b74a778eafde6328f8b",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/infback.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/infback-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/infback.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "dd65fb9c9d6862a126b646e37f8c93e7a8bbc15136047c586fffb03b99020878",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/infback.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/infback-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/infback.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "b1d793fa359f1f3065f8c9fffab0a9c5d43b391cf8387bbe15d71b242cbf9e28",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/infback.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/infback-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inffast.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "b8fcdf6cae4253a096ea21e50c4599b578777f355f3ab5209c616e134840c7ab",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inffast.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inffast-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inffast.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "ecb9c7e01b58b9de1e9999285dbf5d577015ce95ee09b7273c733114133550e4",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inffast.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inffast-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inffast.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "35dc59df8e1d94af20ce7d077c6cbe3519132e76f34c6cd7fa5a6a475823c134",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inffast.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inffast-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inflate.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "4855176798ce7d7841811624d7444603e1795ed0c40361dcdcbb210ddb7688ed",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inflate.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inflate-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inflate.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "8cec976e5e842a8da5b95fe973d323b9de541d742421051939e5b66d4c20ae2a",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inflate.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inflate-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inflate.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "804b72b2b6eef48a3cf86fcd57e5a787f85024d225131e271a5bd89d9e37a27d",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inflate.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inflate-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inftrees.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "3bd5ae1a9b659f696acd9ce876b1ad2af2279bcc065c3aee8fe062b859988e2d",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inftrees.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inftrees-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inftrees.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "357c0ba3c45f6832606106c7d4c49323efa6e09b91a409f3d4c47cebc065a0f4",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inftrees.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inftrees-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inftrees.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "f69dd5b3c32be01c51439a4a8b9bcda182be0519b2b7220f011ade014a28b87f",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/inftrees.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/inftrees-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-example.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "fabe2f739b5cdacaebb1d05363b587d3bdcec17198e2fbc39bc6856f0d0f3340",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-example.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/test-example-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-example.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "ffa49b499478941d6bb79398e2470d411b87cdc241e1e925ddd8d7bea1bb2f34",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-example.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/test-example-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-example.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "4196d920783a304f96f455ebbb87f2587db3fff16ef816fec5c49231c11f4562",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-example.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/test-example-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-minigzip.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "36b1be35ad3a2f8313401a82afdcbcabc5f557fe8afcf44b58902d8a84379186",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-minigzip.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/test-minigzip-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-minigzip.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "d8f9dd2234065ceaa35b1acc039bc489b9bce348d744d404bd407736ca0c6263",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-minigzip.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/test-minigzip-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-minigzip.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "fac1fe0187233052bbc8fd2346c20b0970f2657e3920ba9b40a2935d7f324e91",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/test-minigzip.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/test-minigzip-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/trees.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "0d2f40b0fadffcfc314e1e0d439fc4a1365efab9362f2b53783eff5b709758f7",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/trees.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/trees-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/trees.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "02e495e2fd6a52fe6e2859da029362e4609f620be99f5151bbf046aba767a4d9",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/trees.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/trees-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/trees.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "b6095046b19b2e558bcc04e0d2e5afa2c953278f09e4b8198eb53afb542a607e",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/trees.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/trees-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/uncompr.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "8c8156c33c9328c0548e786117a780d190f154b395bfd74efac0361fa11f3df1",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/uncompr.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/uncompr-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/uncompr.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "7f241aee95ede8e9e7df86c0c402598ffbbff8aeb0f5e1d7edcc5598cca4ec88",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/uncompr.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/uncompr-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/uncompr.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "43fa83cd252135e6cab5950bf0d14e78a8de98006cd0792d9b715034a4386d0f",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/uncompr.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/uncompr-optimized.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/zutil.ssa",
+      "mode": "baseline",
+      "assembly_sha256": "db0216753c45f087345de07a5c223c85e83e249f27714d55202845b791b00c7d",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/zutil.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/zutil-baseline.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/zutil.ssa",
+      "mode": "allocated",
+      "assembly_sha256": "eba6ea269f19269dc5ced20a75c6e9e04c6471703abb7b19f04f2ab9e33fbe4c",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/zutil.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/zutil-allocated.s"
+      ]
+    },
+    {
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/zutil.ssa",
+      "mode": "optimized",
+      "assembly_sha256": "0e671bea7ea64bf6da298e876153f1f6faa432c80cefb576f7ea71b1ad893662",
+      "command": [
+        "/tmp/lcb-arm-leaf-bank/.build/review/release",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-leaf-bank-final-zlib-review/zutil.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-arm-leaf-bank/.build/review/release-equivalence/zutil-optimized.s"
+      ]
+    }
+  ],
+  "result": "all51assemblyoutputsbyteidenticaltoe68"
+}

@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from arm_leaf_bank import exercise as arm_leaf_bank
 from arm_extuw import exercise as arm_extuw
 from branch_fallthrough import exercise as fallthrough
 from signed_division_one import exercise as signed_one
@@ -34,6 +35,9 @@ def main():
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
         for target in ['aarch64-linux', 'aarch64-macos']:
+            leaf = arm_leaf_bank(LCB,work/target,run,cc,target,False)
+            assert leaf['executed_checks'] == 0
+            assert all(v['execution'] == 'not-run' for v in leaf['modes'].values())
             extuw = arm_extuw(LCB,work/target,run,cc,target,False,qbe)
             assert extuw['checks_per_mode'] == 0 and extuw['negative_control'] == 'not-run'
             arm = arm_extensions(LCB, work/target, run, cc, target, False)
