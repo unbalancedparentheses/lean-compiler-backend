@@ -26,16 +26,15 @@ load are diagnostic only. Proof scope remains unchanged.
 word normalization. Both AMD targets pass private independent tests; zlib loses
 1,745 optimized text bytes per target. Fresh main units and unchanged proof
 audit pass on the exact qualified source. Combined e095ed59 replay, corpus and
-fresh zlib checks also pass; complete regression gates/CI are running.
+fresh zlib checks also pass; all complete local gates and combined-source CI now pass.
 
 [Data-definition admission](docs/benchmarks/data-definition-limit/README.md) now
 allows 4,096 globals, covering frontend-generated message catalogs that exceeded
 the old 1,024 cap. Combined identity e095ed59 passes all five actual-main boundary
 matrices, unchanged catalog execution, units and unchanged proof audit. Byte and
-parser budgets remain bounded. All three complete Linux gates pass; final host,
-CI qualification are running. [Fresh QBE/cproc builds](docs/benchmarks/amd-data-bootstrap/README.md)
+parser budgets remain bounded. All three complete Linux gates and the complete host gate pass; combined-source CI passes all three runners. [Fresh QBE/cproc builds](docs/benchmarks/amd-data-bootstrap/README.md)
 pass all three Linux targets on the combined source, retaining original/corrected
-oracle distinctions and existing qualification limits.
+oracle distinctions and existing qualification limits. A fresh five-label ARM zlib correctness build also passes; the monitored timing preflight refused high outside-host load, so no new runtime-performance claim is made.
 
 ## Active execution order
 

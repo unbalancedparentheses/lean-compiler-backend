@@ -15,7 +15,7 @@ The first combined full-host rerun hit an AMD helper output-directory collision
 after the preceding Linux gate. The helper now permits reuse and passes two
 consecutive emission/Rosetta profiles; failure and exact helper versions are
 retained in [repeatability evidence](benchmarks/amd-folded-loads/repeatability/README.md).
-Compiler identity is unchanged; complete full host v2 passed with the fixed helper. Its full log is retained in benchmarks/data-definition-limit/gates/full-host-v2.log.
+Compiler identity is unchanged; complete full host v2 passed with the fixed helper, whose three CI runners also pass (a2c061d/run39789252298). Its full log is retained in benchmarks/data-definition-limit/gates/full-host-v2.log.
 
 [Data-definition admission](benchmarks/data-definition-limit/README.md) now allows
 4,096 definitions. Combined identity `e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e`
