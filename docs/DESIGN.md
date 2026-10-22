@@ -27,104 +27,64 @@ Source memory, calls and native binary certification remain outside that domain.
 
 ## Implemented pipeline
 
-1. `Parser.lean` parses the supported QBE-style integer syntax.
-2. `Validate.lean` checks names, SSA dominance, phi predecessors, widths and limits.
-3. `Semantics.lean` executes the supported IR using fixed-width integer semantics,
-   signed comparisons/extensions, masked shifts and truncating signed division.
-   `Memory.lean` provides byte-addressed objects for integer loads, stores and
-   blits; stores, blits and void calls are explicit statements without SSA result
-   definitions.
-4. `AArch64.lean` selects integer instructions, assigns stack slots and renders
-   assembly with branches, parallel phi copies, integer memory accesses, blits and
-   direct/indirect calls for Apple's AArch64 ABI.
-5. Nix-provided Clang assembles and links independent C test callers.
+The compatibility path and the restricted typed first path are separate. The
+compatibility driver in `Main.lean` composes these stages:
 
-The parser treats newlines as whitespace; upstream QBE also uses them as syntax
-separators. Tests shared with QBE use its canonical multiline format. This is a
-restricted compatible operation subset, not a claim of full QBE compatibility.
-Unquoted names follow QBE's ASCII grammar, including dots and embedded dollar
-signs, with a letter, underscore or dot first. Integer literals are decimal bit patterns with magnitude at most 2^64-1.
-Negative magnitudes below -2^63 are reduced modulo 2^64 before contextual checks.
+1. `Parser.lean` reads the supported QBE-style scalar, floating, aggregate, data,
+   linkage and debug syntax. `SSA.lean` converts mutable temporaries into SSA.
+2. `Validate.lean` checks types, names, dominance, phi predecessors, internal
+   signatures and resource limits. Validation is an executable check, not a
+   proof-carrying admission theorem.
+3. Optional `Optimize.lean` passes simplify values/control flow, promote eligible
+   scalar objects and perform conservative memory/common-expression transforms.
+   `CFG.lean`, `Liveness.lean`, `Selection.lean` and `Allocation.lean` supply shared
+   analyses, selection facts, checked register allocation and reusable spill homes.
+4. `AArch64.lean`, `AMD64.lean` and `RV64.lean` lower functions and render assembly
+   for the five supported Linux/macOS configurations. Target ABI planners classify
+   scalar/aggregate parameters and results, variadics and outgoing storage.
+   `Assembly.lean` shares symbol/data rendering. The default stack baseline remains
+   available independently of optional optimization/allocation.
+5. External assemblers/linkers produce native programs. Test harnesses compile
+   independent C callers and compare behavior with platform C and retained QBE;
+   these toolchains remain outside the proved boundary.
 
-Compatibility functions have at most 1024 arguments, 70000 instructions/phi nodes
-and 4096 blocks; programs have at most 4096 functions, 16384 top-level parsing items, 8 MiB of input and 600000
-tokens. The restricted first-path profile retains 64 blocks and 480 definitions. Frames are 16-byte aligned,
-at most 1 MiB in the compatibility backend (4080 bytes in the restricted first
-proof profile). Large frame adjustments and allocation addresses use split
-AArch64 immediate scales; large incoming stack offsets use a scratch address
-register, and large local/phi/LR accesses reserve x15 for their address. Every value gets an eight-byte slot; word values access only
-the low four bytes. Implicit word-to-long widening is rejected. Scratch registers
-x9/x10/x11 and the x16 indirect-call target are caller-clobbered. Dynamic
-allocation functions save/restore x29 and use it as a stable frame base.
-Direct/indirect calls accept up to 1024 typed scalar/aggregate arguments and a
-scalar, aggregate or void result. Integer
-scalar arguments use x0..x7/w0..w7 while general-purpose argument registers remain
-available, loaded from stable homes to preserve permutations. Apple ARM64 places later word arguments in four-byte aligned slots
-and long arguments in eight-byte aligned slots. The outgoing area is rounded to
-16 bytes. Static-frame functions reserve it below locals, phi staging, saved LR
-and allocated objects; its size covers the largest call. Dynamic-frame functions
-reserve and release it at each call below the current SP, protecting live objects. Incoming stack arguments are read above the complete local
-frame, using offsets from the caller's SP. Caller and callee use the same explicit
-argument layout, checked against independent C in both directions. The 1024-argument
-cap is a resource policy, not an ABI constraint; the frame limit remains separate.
-Each outgoing argument area is also limited to 1 MiB, including dynamic calls and
-private indirect aggregate copies. Large outgoing AArch64 stores use a scratch
-address when their offsets exceed the instruction's immediate range.
-Non-leaf functions reserve a separate slot for x30 and restore it before return.
-All values live across calls remain in the caller's frame, outside callee clobbers.
-Internal call ABI signatures are checked; Apple ARM64 word results may also be
-consumed as zero-extended long results.
-External signatures are an explicit linking assumption: QBE IL has no external
-declaration to check. The interpreter checks dynamically resolved internal call
-signatures; native indirect targets must honor the declared ABI. Subword arguments
-and results use explicit ABI annotations and packed 1/2-byte stack slots. Aggregate
-ABI types remain unsupported. A first `env` parameter/argument uses x9 without
-consuming an ordinary argument register. Callees save it before stack-argument
-loads; callers set it after ordinary argument preparation. Integer/floating variadics use
-eight-byte stack slots for unnamed arguments and an eight-byte va_list cursor;
-aggregate variadic arguments remain unsupported.
-Void results are represented by absence of a value in the IR and interpreter;
-they are not integer zero. A return with the wrong presence/type of value, an
-integer assignment from a void call, or an internal non-void call without a
-result temporary is rejected. `--eval` prints `void` for a void return.
-Phi sources are staged in separate slots before destinations change, including
-loop-carried copy cycles. Temporary definitions must be in SSA form and dominate
-their uses; general QBE SSA construction remains unimplemented. The interpreter
-executes at most 100,000 block steps across the entire call tree, with a 128-level
-call-depth limit, and reports exhaustion explicitly. `hlt`
-terminates native execution with a target-dependent error and has no return value.
+`Semantics.lean`, `Floating.lean` and `Memory.lean` provide a bounded testing
+interpreter alongside this compilation path. Abstract byte-addressed objects
+track initialization and activation lifetime. Uninitialized, out-of-bounds and
+unmodeled external accesses report an unevaluated result; native output does not
+inherit those checks. External calls are tested through native C interoperation,
+not assigned invented interpreted values.
 
-Stack allocations accept positive constant sizes up to 4096 or long runtime size
-operands, in any block. Entry-only constant allocations retain the static-frame
-layout. Other functions allocate at the point of execution, including repeated
-loop allocations, using a stable x29 base and canonical saved FP/LR record.
-Returning restores the fixed-frame SP and caller FP/LR. Objects remain distinct
-from SSA/phi slots and outgoing argument areas. Native dynamic allocation assumes
-valid sizes and sufficient stack capacity; it adds no size/capacity guard. The
-interpreter bounds total live memory and refuses zero-sized runtime allocations.
+Compatibility limits are explicit resource policies: 4,096 functions and data
+definitions, 4,096 blocks and 70,000 instructions/phis per function, 1,024
+arguments, 1 MiB fixed frames/outgoing areas and 256 MiB native module data.
+Parsing retains its 8 MiB input, 600,000-token and 16,384-top-level-item budgets.
+The interpreter has a 1 MiB memory budget, 100,000 shared block steps and a
+128-level call-depth limit. The restricted first path retains its independent
+smaller admission bounds. The source definitions and validators are authoritative
+when extending these policies.
 
-Interpreter addresses are abstract, not host pointers. Each object tracks byte
-initialization. Out-of-bounds, uninitialized and external-pointer accesses have no
-interpreted result. Native code has ordinary QBE loads/stores without those
-checks. Tests avoid undefined accesses; pointer integer values are not compared
-between interpreter addresses and real machine addresses.
+Static/dynamic stack objects preserve requested alignment, including zero-size
+allocations. Constant objects and blits are admitted through 1 MiB, subject to
+frame limits; larger copies use compact loops. Blit spans must be disjoint or
+identical, and a zero-byte blit accesses no memory. Native dynamic allocation
+assumes valid nonnegative sizes and sufficient stack capacity. There is no
+runtime memory-safety guarantee.
 
-Blits have two address operands and a constant byte count in 0..4096, with no
-result temporary. The count cap limits generated code size; QBE itself requires
-a nonnegative numeric constant and recommends keeping it small. Source and
-destination spans must be disjoint or have identical addresses, following the
-retained QBE 1.3 `doc/il.txt` contract. Interpretation rejects partial overlap
-and requires nonempty spans to lie in allocated objects. It copies each byte's
-initialization state, so an unknown source byte remains unknown at the
-destination and a subsequent read still fails. A zero-byte copy accesses no
-memory. Native output has no overlap or bounds guards; testing within the
-defined domain does not establish memory safety or source-to-binary correctness.
+Internal call signatures are checked, including exact structural aggregate
+aliases; native external/indirect targets must honor their declared ABI.
+Effect-only scalar calls may discard a result while retaining the call's effects.
+Aggregate return storage remains explicit. ABI details differ by target: Apple's
+packed scalar stack arguments and variadic cursor are not universal Linux rules.
+Parallel phi transfers preserve cycles, and allocation keeps live values outside
+caller clobbers using supported homes; broader allocation remains open.
 
-Interpreted callees share the caller's memory, so their stores persist on return.
-Each return invalidates the callee's stack objects while retaining caller-owned
-objects and their mutations. Abstract addresses are not reused. An external call
-has no interpreter model and reports an unevaluated result; native C interoperation
-is tested separately rather than fabricating an interpreted value.
+The parser's accepted grammar, assembler-dependent string/section behavior,
+undefined arithmetic domains and independent test exclusions are recorded in
+[SEMANTICS.md](SEMANTICS.md), [PORT_STATUS.md](PORT_STATUS.md),
+[UPSTREAM_DISCREPANCIES.md](UPSTREAM_DISCREPANCIES.md) and the linked qualification
+reports. Neither accepting a public opcode name nor passing a fixture establishes
+full QBE compatibility.
 
 ## What is proved
 
