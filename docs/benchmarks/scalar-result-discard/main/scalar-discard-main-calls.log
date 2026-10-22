@@ -1,0 +1,12 @@
+CALL FAILURE: retained /Users/unbalancedparen/projects/lean-compiler-backend/.build/calls-failures/run-1792658688358186000
+Traceback (most recent call last):
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/calls.py", line 503, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/calls.py", line 462, in main
+    rejected = controls(work)
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/calls.py", line 305, in controls
+    assert result.returncode and 'error:' in result.stderr, text
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: function l $f(l %a) { @s ret %a }
+function $v() { @s call $f(l 0) ret }

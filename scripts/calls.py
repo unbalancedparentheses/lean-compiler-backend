@@ -294,7 +294,6 @@ def controls(work):
         assert result.returncode and 'error:' in result.stderr, operation
     void_bad = [
         'function $v() { @s ret } function l $f() { @s %r =l call $v() ret %r }',
-        base + 'function $v() { @s call $f(l 0) ret }',
         'function $v() { @s ret 1 }',
         'function $v(l %p) { @s ret } function $f() { @s call $v() ret }',
         'function $v(l %p) { @s ret } function $f() { @s call $v(w 0) ret }',
@@ -303,6 +302,10 @@ def controls(work):
         source.write_text(text)
         result = subprocess.run([LCB,'--check',source],text=True,capture_output=True,timeout=30)
         assert result.returncode and 'error:' in result.stderr, text
+    # Effect-only calls may discard a defined scalar return value.
+    source.write_text(base + 'function $v() { @s call $f(l 0) ret }')
+    run([LCB,'--check',source])
+    assert run([LCB,'--eval',source,'v']).strip() == 'void'
     # QBE accepts a bare return even in a typed compatibility function. Its
     # return registers are unspecified; the certified first path still rejects.
     source.write_text('function l $f() { @s ret }')

@@ -336,12 +336,16 @@ def effectiveCallSignature (callee : Function) (arguments : Array CallArgument)
   return (callee, arguments)
 
 /-- Internal Apple ARM64 w results clear the upper half of x0, allowing a caller
-    to consume the result as l. Floating/subword/void signatures remain exact. -/
+    to consume the result as l. Used floating/subword/void signatures remain
+    exact; effect-only calls may discard scalar results, never aggregates. -/
 def callResultMatches (callee : Function) (width : Option Width) (floating : Bool)
     (subword : Option Subword) (aggregate : Option String := none) : Bool :=
-  aggregate == callee.resultAggregate && floating == callee.resultFloating && subword == callee.resultSubword &&
-    (width == callee.resultWidth ||
-      (!floating && subword.isNone && aggregate.isNone && callee.resultWidth == some .word && width == some .long))
+  -- An effect-only call may ignore any scalar return register. Aggregate
+  -- returns can require caller-provided storage, so they remain exact.
+  (width.isNone && !floating && subword.isNone && aggregate.isNone && callee.resultAggregate.isNone) ||
+    (aggregate == callee.resultAggregate && floating == callee.resultFloating && subword == callee.resultSubword &&
+      (width == callee.resultWidth ||
+        (!floating && subword.isNone && aggregate.isNone && callee.resultWidth == some .word && width == some .long)))
 
 def validate (program : Program) : Except String Unit := do
   if program.isEmpty then throw "program contains no functions"

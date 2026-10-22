@@ -42,11 +42,20 @@ deflate-only is about 6.1–6.3% slower, trees-only near parity. Layout/cache co
 also shift, so this is localization evidence, not an instruction-level causal
 proof. Two function-body mixtures pass correctness/provenance but remain untimed.
 
+[Scalar-result discard](benchmarks/scalar-result-discard/README.md) now accepts
+effect-only calls to defined scalar-return functions, preserving effects and
+rejecting aggregate-return omission. Fresh integrated five-target execution
+passes 6,400 C checks and five corruptions; units/emission and the unchanged
+147-report audit pass. Corpus assemblies/refusals are all unchanged. Existing
+native call/indirect/variadic gates pass after correcting a stale rejection test.
+Full host/all-Linux gates for this new identity are not yet rerun; preceding
+Symbols full gates passed. No native emitter or ABI layout was changed.
+
 ## Repository and current compiler
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd`.
+`60ffdd4c56bf26efa0eb8593923ccb094808ab4d91e6739d03bb360bea99c8bf`.
 
 [ARM leaf registers](benchmarks/arm-leaf-bank/README.md) admit x16/x17/x8 only
 for bounded call/TLS-free functions. Both native ARM independent ABI matrices,

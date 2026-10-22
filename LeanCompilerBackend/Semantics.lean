@@ -212,8 +212,9 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let values ← arguments.mapM fun argument => do
         let value ← operand state.symbols locals argument.width argument.value
         pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
-      let (result, updated) ← call target values (arguments.map (·.width)) (arguments.map (·.aggregate)) ((arguments[0]?).any (·.environment)) none state
-      if result.isSome then throw "non-void call requires a return temporary"
+      -- Module validation and indirect target resolution exclude aggregate
+      -- result omission. Scalar return values may be discarded, preserving effects.
+      let (_, updated) ← call target values (arguments.map (·.width)) (arguments.map (·.aggregate)) ((arguments[0]?).any (·.environment)) none state
       state := updated
     | .vaStart list =>
       let list ← operand state.symbols locals .long list

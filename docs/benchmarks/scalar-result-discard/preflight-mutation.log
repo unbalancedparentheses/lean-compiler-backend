@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/private/tmp/lcb-scalar-discard/run.py", line 22, in <module>
+    reports[target]=exercise(compiler,case,run,cc,target,True,qbe);(out/'reports.json').write_text(json.dumps(reports,indent=2)+'\n');print(target,'passed',flush=True)
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-scalar-discard/scripts/scalar_result_discard.py", line 49, in exercise
+    bad=d/'wrong-effect.ssa';bad.write_text(ir.replace('add %v, 1 storel','add %v, 2 storel',1));assert bad.read_bytes()!=src.read_bytes();asm=d/'wrong-effect.s';exe=d/'wrong-effect';checked([compiler,bad,'--target',target,'--optimize','-o',asm]);checked([cc,'-O2',c,asm,'-o',exe],True);p=run([str(exe)],True);assert p.returncode==1,(p.returncode,p.stderr);r['negative_controls']['wrong_effect']='detected exit1'
+                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

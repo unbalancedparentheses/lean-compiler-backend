@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/private/tmp/lcb-scalar-discard/run.py", line 22, in <module>
+    reports[target]=exercise(compiler,case,run,cc,target,True,qbe);(out/'reports.json').write_text(json.dumps(reports,indent=2)+'\n');print(target,'passed',flush=True)
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-scalar-discard/scripts/scalar_result_discard.py", line 40, in exercise
+    if label=='qbe':checked([qbe,'-t',qt,'-o',asm,src],True)
+                    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-scalar-discard/scripts/scalar_result_discard.py", line 28, in checked
+    p=run(list(map(str,cmd)),inside);assert p.returncode==0,(cmd,p.returncode,p.stdout,p.stderr);return p
+                                            ^^^^^^^^^^^^^^^
+AssertionError: ([PosixPath('/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/lua-mixed-review/qbe-original-source/qbe'), '-t', 'arm64_apple', '-o', PosixPath('/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/scalar-result-discard-review/aarch64-macos/scalar-result-discard/qbe.s'), PosixPath('/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/scalar-result-discard-review/aarch64-macos/scalar-result-discard/calls.ssa')], 1, '', 'qbe:/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/scalar-result-discard-review/aarch64-macos/scalar-result-discard/calls.ssa:1: newline expected, got ?? instead\n')

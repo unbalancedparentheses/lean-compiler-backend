@@ -1,0 +1,28 @@
+function w $local_w(l %p) { @s %v =l loadl %p %r =l add %v, 1 storel %r, %p ret 4294967295 }
+export function $probe_w(l %p, l %fn) { @s call $local_w(l %p) %f =l copy $local_w call %f(l %p) call $external_w(l %p) call %fn(l %p) ret }
+export function l $interpret_w() { @s %p =l alloc8 8 storel 0, %p call $local_w(l %p) %f =l copy $local_w call %f(l %p) %r =l loadl %p ret %r }
+function l $local_l(l %p) { @s %v =l loadl %p %r =l add %v, 2 storel %r, %p ret 18446744073709551615 }
+export function $probe_l(l %p, l %fn) { @s call $local_l(l %p) %f =l copy $local_l call %f(l %p) call $external_l(l %p) call %fn(l %p) ret }
+export function l $interpret_l() { @s %p =l alloc8 8 storel 0, %p call $local_l(l %p) %f =l copy $local_l call %f(l %p) %r =l loadl %p ret %r }
+function s $local_s(l %p) { @s %v =l loadl %p %r =l add %v, 3 storel %r, %p ret s_1.5 }
+export function $probe_s(l %p, l %fn) { @s call $local_s(l %p) %f =l copy $local_s call %f(l %p) call $external_s(l %p) call %fn(l %p) ret }
+export function l $interpret_s() { @s %p =l alloc8 8 storel 0, %p call $local_s(l %p) %f =l copy $local_s call %f(l %p) %r =l loadl %p ret %r }
+function d $local_d(l %p) { @s %v =l loadl %p %r =l add %v, 4 storel %r, %p ret d_-2.5 }
+export function $probe_d(l %p, l %fn) { @s call $local_d(l %p) %f =l copy $local_d call %f(l %p) call $external_d(l %p) call %fn(l %p) ret }
+export function l $interpret_d() { @s %p =l alloc8 8 storel 0, %p call $local_d(l %p) %f =l copy $local_d call %f(l %p) %r =l loadl %p ret %r }
+function sb $local_sb(l %p) { @s %v =l loadl %p %r =l add %v, 5 storel %r, %p ret 255 }
+export function $probe_sb(l %p, l %fn) { @s call $local_sb(l %p) %f =l copy $local_sb call %f(l %p) call $external_sb(l %p) call %fn(l %p) ret }
+export function l $interpret_sb() { @s %p =l alloc8 8 storel 0, %p call $local_sb(l %p) %f =l copy $local_sb call %f(l %p) %r =l loadl %p ret %r }
+function ub $local_ub(l %p) { @s %v =l loadl %p %r =l add %v, 6 storel %r, %p ret 255 }
+export function $probe_ub(l %p, l %fn) { @s call $local_ub(l %p) %f =l copy $local_ub call %f(l %p) call $external_ub(l %p) call %fn(l %p) ret }
+export function l $interpret_ub() { @s %p =l alloc8 8 storel 0, %p call $local_ub(l %p) %f =l copy $local_ub call %f(l %p) %r =l loadl %p ret %r }
+function sh $local_sh(l %p) { @s %v =l loadl %p %r =l add %v, 7 storel %r, %p ret 65535 }
+export function $probe_sh(l %p, l %fn) { @s call $local_sh(l %p) %f =l copy $local_sh call %f(l %p) call $external_sh(l %p) call %fn(l %p) ret }
+export function l $interpret_sh() { @s %p =l alloc8 8 storel 0, %p call $local_sh(l %p) %f =l copy $local_sh call %f(l %p) %r =l loadl %p ret %r }
+function uh $local_uh(l %p) { @s %v =l loadl %p %r =l add %v, 8 storel %r, %p ret 65535 }
+export function $probe_uh(l %p, l %fn) { @s call $local_uh(l %p) %f =l copy $local_uh call %f(l %p) call $external_uh(l %p) call %fn(l %p) ret }
+export function l $interpret_uh() { @s %p =l alloc8 8 storel 0, %p call $local_uh(l %p) %f =l copy $local_uh call %f(l %p) %r =l loadl %p ret %r }
+function $nothing(l %p) { @s %v =l loadl %p %r =l add %v, 9 storel %r, %p ret }
+export function $dead_void(l %p) { @s %unused =w call $nothing(l %p) ret }
+function w $variadic(l %p, ...) { @s %v =l loadl %p %r =l add %v, 10 storel %r, %p ret 99 }
+export function $discard_variadic(l %p) { @s call $variadic(l %p, ...) ret }

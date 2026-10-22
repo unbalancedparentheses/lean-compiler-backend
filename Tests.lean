@@ -28,6 +28,15 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
   | .error _ => false
 
 def main : IO Unit := do
+  let discardedSource := "data $seen = { l 0 } function d $floating() { @s storel 41, $seen ret d_1.5 } function sb $narrow() { @s %v =l loadl $seen %n =l add %v, 1 storel %n, $seen ret 255 } function $nothing() { @s ret } export function l $discarded() { @s call $floating() call $narrow() call $nothing() %r =l loadl $seen ret %r }"
+  let discarded ← match Parser.parseModule discardedSource >>= SSA.constructModule with
+    | .ok m => pure m
+    | .error e => throw (IO.userError e)
+  require (valueEquals (Semantics.evaluateModule discarded "discarded" #[]) (some 42))
+    "effect-only calls must discard scalar results while preserving effects"
+  let aggregateDiscard := "type :big = { l 4 } function :big $aggregate() { @s %p =l alloc8 32 ret %p } export function $bad() { @s call $aggregate() ret }"
+  require (isFailure (Parser.parseModule aggregateDiscard >>= SSA.constructModule))
+    "effect-only call must not omit aggregate result storage"
   AArch64.Tests.run
   AMD64.Tests.run
   Driver.Tests.run

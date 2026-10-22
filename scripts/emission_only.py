@@ -7,6 +7,7 @@ from fuzz import ROOT, LCB
 from amd_leaf_bank import exercise as amd_leaf_bank
 from upstream_development import exercise as upstream_development
 from symbol_address_pressure import exercise as symbol_pressure
+from scalar_result_discard import exercise as scalar_discard
 from arm_indexed_load import exercise as arm_indexed_load
 from arm_phi_identity import exercise as arm_phi_identity
 from arm_leaf_bank import exercise as arm_leaf_bank
@@ -58,6 +59,9 @@ def main():
         for target in ['aarch64-linux','aarch64-macos','x86_64-linux','x86_64-macos','riscv64-linux']:
             development = upstream_development(LCB,work/target,run,cc,target,False,qbe)
             assert development['checks_per_lcb_mode'] == 0 and development['original_qbe'] == 'not-run'
+            discarded = scalar_discard(LCB,work/target,run,cc,target,False,qbe)
+            assert discarded['checks_per_backend'] == 0 and discarded['original_qbe'] == 'not-run'
+            assert all(row['execution'] == 'not-run' for row in discarded['backends'].values())
             pressure = symbol_pressure(LCB,work/target,run,cc,target,False,qbe)
             assert pressure['checks_per_backend'] == 0 and pressure['negative_control'] == 'not-run'
             assert all(row['execution'] == 'not-run' for row in pressure['backends'].values())

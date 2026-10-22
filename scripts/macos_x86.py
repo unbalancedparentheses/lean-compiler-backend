@@ -182,6 +182,9 @@ def main():
     from symbol_address_pressure import exercise as symbol_pressure
     symbol_pressure(compiler,work,run,cc,'x86_64-macos',execute,qbe)
 
+    from scalar_result_discard import exercise as scalar_discard
+    scalar_discard(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+
     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
     print('Actual compiler emission modes:', emission_modes, flush=True)
     report['emission_mode_counts'] = emission_modes

@@ -1,0 +1,23 @@
+[
+  {
+    "name": "format",
+    "status": "harness_preflight_failed_not_qualification",
+    "reason": "Original QBE requires statement newlines; initial one-line fixture rejected.",
+    "ir_sha256": "547c41445b8dfbdc13dfa1c9c539d36517ec4322a671eafc9be66a812105a3aa",
+    "log_sha256": "a7f1ef37a4b1f89e0bcfb618a5797fce7d51fbd12be90e6af7e4a652fa1fb3a8"
+  },
+  {
+    "name": "assignment",
+    "status": "harness_preflight_failed_not_qualification",
+    "reason": "Formatter split an assigned call after =w; original QBE rejected invalid instruction argument.",
+    "ir_sha256": "aa836340bf6e268be1ce41acdde81c76042daa7f2888e3377b23701d32e909c0",
+    "log_sha256": "85756b05d09fbe4e9978561e3b4a950400e06d69e8253e49ecba1cb493d1baff"
+  },
+  {
+    "name": "mutation",
+    "status": "harness_preflight_failed_not_qualification",
+    "reason": "Old mutation string matched no newline-formatted instruction; harness assertion rejected no-op mutation.",
+    "ir_sha256": "bb20c51a73ba99a55624169fb32fbc79a0dc499ebd4b47a939a1211fb94ee968",
+    "log_sha256": "4c46730b63ca53618a60c6893e0cfbef98e9e4f2c23e435e3222725520f1537c"
+  }
+]

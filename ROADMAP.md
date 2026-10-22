@@ -48,6 +48,11 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Effect-only scalar calls](docs/benchmarks/scalar-result-discard/README.md) can
+now discard a same-module scalar result, matching original QBE while retaining
+aggregate-result storage guards. Fresh five-target C/original-QBE matrices,
+interpreter controls and unchanged corpus output qualify this bounded fix.
+
 [Global-address lifetime control](docs/benchmarks/symbol-address-placement/README.md)
 now avoids entry-wide lifetimes for disjoint straight-line uses and limits large
 CFG hoists. The stress profile drops 502 spills to zero; independent five-target
