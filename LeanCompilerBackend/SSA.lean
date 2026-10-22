@@ -269,7 +269,7 @@ def constructModule (m : LeanCompilerBackend.Module) : Except String LeanCompile
     -- Keep the raw resource boundary rather than allowing dead input to evade it.
     if f.blocks.size > maxCompatibilityBlocks then throw "function exceeds 4096-block limit"
     let count := f.blocks.foldl (fun n b => n + b.instructions.size + b.phis.size) 0
-    if count > maxCompatibilityInstructions then throw "function exceeds 16384-instruction/phi limit"
+    if count > maxCompatibilityInstructions then throw s!"function exceeds {maxCompatibilityInstructions}-instruction/phi limit"
     checkRawLocals f
     let f ← CFG.pruneUnreachable f
     match construct f with

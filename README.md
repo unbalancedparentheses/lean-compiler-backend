@@ -122,7 +122,7 @@ before rebuilding; the checks reject stale source/build identities.
   rejection of unsupported constructs.
 - Conditional/unconditional branches, fallthrough, loops, phi nodes and `hlt`.
   Phi transfers use parallel copies; cross-block uses are checked for dominance.
-  Indexed CFG/SSA validation supports up to 4096 blocks and 16384 instructions,
+  Indexed CFG/SSA validation supports up to 4096 blocks and 70000 instructions/phis (600000 module tokens),
   with large native frame-slot addressing. The restricted proof profile keeps its
   smaller independent limits.
 - Integer byte/half/word/long loads and stores, including signed loads and

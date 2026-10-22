@@ -1,0 +1,242 @@
+{
+  "base_commit": "c970d9c",
+  "compiler_identity": "6291b0be6d4e3d355bf2bb9699bba78f6d37cbbbf39734432f8ea1ddbb6cb6a7",
+  "compiler_sha256": "106e9fd1ea80e6493e9ff95c84cd8840eecd0050ac38d03dfed98864b7fbf61b",
+  "limits": {
+    "instructions": 70000,
+    "tokens": 600000
+  },
+  "measurements": [
+    {
+      "label": "struct-check",
+      "command": [
+        "/tmp/lcb-cap70000-review/.lake/build/bin/lcb",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct/input.ssa"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.2894896670477465,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-check.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-check.stderr",
+      "peak_rss_bytes": 110723072
+    },
+    {
+      "label": "struct-optimized",
+      "command": [
+        "/tmp/lcb-cap70000-review/.lake/build/bin/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct/optimized.s"
+      ],
+      "exit": -15,
+      "timeout": true,
+      "wall_seconds": 180.00753745803377,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-optimized.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-optimized.stderr",
+      "peak_rss_bytes": null
+    },
+    {
+      "label": "struct-baseline",
+      "command": [
+        "/tmp/lcb-cap70000-review/.lake/build/bin/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct/baseline.s"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 69.82335141598014,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-baseline.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-baseline.stderr",
+      "peak_rss_bytes": 170065920
+    },
+    {
+      "label": "struct-baseline-link",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "/work/cap70000-review/struct/baseline.s",
+        "-lm",
+        "-o",
+        "/work/cap70000-review/struct/baseline"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.7223980829585344,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-baseline-link.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-baseline-link.stderr",
+      "peak_rss_bytes": 47955968
+    },
+    {
+      "label": "struct-baseline-run",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "timeout",
+        "30",
+        "/work/cap70000-review/struct/baseline"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.12579779204679653,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-baseline-run.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-baseline-run.stderr",
+      "peak_rss_bytes": 48201728
+    },
+    {
+      "label": "struct-allocated",
+      "command": [
+        "/tmp/lcb-cap70000-review/.lake/build/bin/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct/allocated.s"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 19.51277570798993,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-allocated.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-allocated.stderr",
+      "peak_rss_bytes": 518406144
+    },
+    {
+      "label": "struct-allocated-link",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "/work/cap70000-review/struct/allocated.s",
+        "-lm",
+        "-o",
+        "/work/cap70000-review/struct/allocated"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.18140254099853337,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-allocated-link.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-allocated-link.stderr",
+      "peak_rss_bytes": 47579136
+    },
+    {
+      "label": "struct-allocated-run",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "timeout",
+        "30",
+        "/work/cap70000-review/struct/allocated"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.07549958297749981,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-allocated-run.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/struct-allocated-run.stderr",
+      "peak_rss_bytes": 48218112
+    },
+    {
+      "label": "csmith-check",
+      "command": [
+        "/tmp/lcb-cap70000-review/.lake/build/bin/lcb",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith/input.ssa"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.1305151249980554,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith-check.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith-check.stderr",
+      "peak_rss_bytes": 72024064
+    },
+    {
+      "label": "csmith-optimized",
+      "command": [
+        "/tmp/lcb-cap70000-review/.lake/build/bin/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith/input.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith/optimized.s"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 11.885159208031837,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith-optimized.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith-optimized.stderr",
+      "peak_rss_bytes": 107806720
+    },
+    {
+      "label": "csmith-optimized-link",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "/work/cap70000-review/csmith/optimized.s",
+        "-lm",
+        "-o",
+        "/work/cap70000-review/csmith/optimized"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.12854245799826458,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith-optimized-link.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith-optimized-link.stderr",
+      "peak_rss_bytes": 48070656
+    },
+    {
+      "label": "csmith-optimized-run",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "timeout",
+        "30",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/cap70000-review/csmith/optimized"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.07356608303962275,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith-optimized-run.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cap70000-review/csmith-optimized-run.stderr",
+      "peak_rss_bytes": 47955968
+    }
+  ],
+  "struct": {
+    "input_sha256": "b96090a33b6aa6131a0c48b90f128243094deafa1af6f5d3f28b6b2ea44fb264",
+    "baseline": {
+      "output": "b424c67700bbdde0",
+      "reference": "b424c67700bbdde0",
+      "matches": true
+    },
+    "allocated": {
+      "output": "b424c67700bbdde0",
+      "reference": "b424c67700bbdde0",
+      "matches": true
+    }
+  },
+  "csmith": {
+    "input_sha256": "1a747b8085dd6033829f7d84063c258ab9bb073624c03abab28b469cb15c1847",
+    "optimized": {
+      "output": "checksum = 534A8C01",
+      "reference": "checksum = 534A8C01",
+      "matches": true
+    }
+  }
+}

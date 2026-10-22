@@ -8,7 +8,7 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`e15e24036e37b5a6d033ea558837842db21a15e4131e3b86b98ad127ff2f014e`.
+`810b573be417b6b0783220fb69a31e8451bb2deef970ff48d2e8030b2984a90f`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
@@ -25,6 +25,29 @@ compares 88 inputs across five targets and three modes: 1,305 byte-identical
 assemblies and 15 identical refusals. This is output-equivalence evidence, not
 an end-to-end proof. The complete local regression gate and proof audit pass.
 Admission bounds are unchanged in this checkpoint.
+
+### Isolated large-function scaling measurements
+
+Two detached variants of base `c970d9c`, both with the proposed 70,000/600,000
+bounds, isolate the graph/buffering changes. These are single host compilation
+observations, not runtime speedups or a general benchmark. The reports bind each
+variant to its own compiler identity and input hash:
+[before](benchmarks/scaling-cap-original.json),
+[after](benchmarks/scaling-cap-buffer.json).
+
+| Unchanged input / emission mode | Before | Graph + chunk buffer |
+| --- | ---: | ---: |
+| 65,537-byte structure / baseline | 69.823 s | 9.308 s |
+| Structure / allocated | 19.513 s | 9.728 s |
+| Structure / optimized | timeout at 180 s | 60.757 s |
+| Csmith 20265033 / optimized | 11.885 s | 4.078 s |
+
+The three completed before/after assemblies are byte-identical; the optimized
+structure assembly is identical to the intermediate graph-only variant, since
+the original optimized run timed out. All completed binaries match independent
+checksums. Peak optimized structure RSS after both changes was 434,667,520 bytes;
+the original timed-out run has no comparable peak-RSS measurement. Large dense
+allocation remains costly and is a follow-up opportunity.
 
 ## AMD64 adjacent memory offsets
 
@@ -43,13 +66,16 @@ ARM64 runtime tests; optimized object text is 596,476 bytes (35,685 fewer), link
 text 618,329. Original QBE's x86 self-compilation mismatch remains separately
 unqualified, with the corrected oracle passing.
 
-Fresh x86 Csmith seeds 20265032–20265063 yielded 23 common matches / 225,101 IR
-lines, eight GCC O0 timeouts, and one baseline admission refusal at the existing
-16,384-instruction bound (seed 20265033). The interrupted first batch and remaining
-30-seed continuation are both retained in `csmith-amd-adjacent-refusal.json` and
-`csmith-amd-adjacent-rest.json`; the refused program is not a pass. A separate
-resource-cap/scaling experiment is investigating this real-program gap and the
-previous 65,537-byte scalar-expanded structure refusal. No new proof scope.
+At the preceding identity, x86 Csmith seeds 20265032–20265063 yielded 23 common
+matches, eight GCC O0 timeouts and one 16,384-instruction admission refusal
+(seed 20265033). Historical reports `csmith-amd-adjacent-refusal.json` and
+`csmith-amd-adjacent-rest.json` retain that failure. After the resource increase,
+[the same complete 32-seed batch](benchmarks/csmith-amd-cap-32.json) yields 24
+common matches / 268,328 IR lines, eight reference timeouts and no LCB failures.
+The previously refused 43,227-line program now matches GCC O0/O2 and unchanged
+original QBE with checksum `534A8C01` in all three LCB modes. The corrupted-return
+control is detected. Replayed seeds are not new independent random samples.
+No new proof scope.
 
 ## RV64 adjacent memory offsets and cross-target generated C
 
@@ -271,13 +297,23 @@ is a code-size observation, not a general performance claim.
 The generated 8193-byte C structure assignment workload passes both GCC levels,
 original QBE and all three LCB modes with checksum `154a4b0ba4aa02e0`. Pinned
 cproc expands these assignments into scalar loads/stores, so this is separate
-from direct blit qualification. At 65537 bytes, its 98,622-line IR exceeds our
-500000-token parser limit: all LCB modes are explicitly unqualified, while
-GCC O0/O2 and original QBE pass with checksum `b424c67700bbdde0`. This is a
-concrete remaining resource/compatibility gap, not a backend pass. Raising the
-token cap alone is insufficient: the two functions contain 65,607 and 32,934
-instructions, also exceeding the parser/SSA/validator 16,384-instruction bounds.
-Supporting that unchanged lowering requires a separate large-function effort.
+from direct blit qualification. The unchanged 65537-byte workload now passes GCC O0/O2, original QBE and all
+three LCB modes with checksum `b424c67700bbdde0`; see
+[the current-identity report](benchmarks/large-struct-65537-qualified.json).
+The same unchanged IR also executes correctly in all three modes under
+[RV64/QEMU](benchmarks/large-struct-65537-rv.json) and
+[x86/QEMU](benchmarks/large-struct-65537-x86.json). These cross-target runs use
+the native GCC reference checksum; they do not rerun original QBE for those ISAs.
+Its 98,622-line IR has 566,849 tokens and functions with 65,607/32,934 instructions.
+The old `large-struct-65537-refusal.json` preserves the previous admission failure.
+Compatibility now admits 70,000 instructions/phis per function and 600,000 module
+tokens. Exact boundary tests cover single-block parser limits, two-block total
+function limits and module token limits, retaining earlier 16K/4096-block and
+mutable-SSA cases. The full local regression gate and proof audit pass; the
+resource increase also preserves 1,305 fixture assemblies and 15 expected
+refusals byte-for-byte. Certified 480-definition/64-block limits remain unchanged.
+Dense liveness, mutable SSA and other independent limits still constrain inputs;
+this is not a guarantee that every program within these two bounds is cheap.
 No Windows implementation or new proof was added.
 
 ## Changes in the preceding window

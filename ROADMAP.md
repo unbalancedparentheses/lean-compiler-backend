@@ -220,7 +220,7 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   incoming values and inconsistent mutable types are explicitly rejected.
   Indexed CFG/predecessor tables, packed-set dominance, definition/reaching-value
   caches and large native SSA-slot addressing are implemented. Compatibility now
-  admits 4096 blocks and 16384 instructions/phis, independently of first-path limits.
+  admits 4096 blocks and 70000 instructions/phis (600000 module tokens), independently of first-path limits.
   Entry-unreachable blocks are pruned before compatibility SSA/dominance, matching
   QBE admission and allowing dead predecessors in cproc-generated input.
   Module parsing is iterative and admits 4096 functions with indexed direct-call

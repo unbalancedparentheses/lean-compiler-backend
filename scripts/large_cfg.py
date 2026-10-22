@@ -96,11 +96,32 @@ int main(void) {
         source.write_text(chain(4097));reject([LCB,'--check',source],'block')
         source.write_text(chain(3000,True));run([LCB, '--target', 'aarch64-macos',source,'-o',work/'mutable.s'])
         assert int(run([LCB,'--eval',source,'chain',123]))==3245
-        for count in [16384,16385]:
+        for count in [16384,16385,70000,70001]:
             source.write_text('function w $limit() {\n@entry\n'+''.join(f' %v{i} =w copy {i}\n' for i in range(count))+f' ret %v{count-1}\n}}\n')
-            if count==16384: run([LCB,'--check',source])
+            if count<=70000: run([LCB,'--check',source])
             else: reject([LCB,'--check',source],'instruction')
-    print('large CFG: 4096 blocks, 16384 instructions, 3000-block mutable SSA; large W/X slots, phi staging, saved LR and dynamic frames '+('passed native Lean/QBE/C and address corruption' if native_host() else 'checked; native unmeasured'))
+        # Both blocks parse below the per-block ceiling; exercise the separate
+        # total-function bound in SSA rather than only parser fuel exhaustion.
+        for count in [70000,70001]:
+            source.write_text('function w $total_limit() {\n@entry\n'+
+                ''.join(f' %v{i} =w copy {i}\n' for i in range(35000))+
+                ' jmp @next\n@next\n'+
+                ''.join(f' %v{i} =w copy {i}\n' for i in range(35000,count))+
+                f' ret %v{count-1}\n}}\n')
+            if count==70000: run([LCB,'--check',source])
+            else: reject([LCB,'--check',source],'70000-instruction/phi limit')
+        # Each data definition has six fixed tokens: data, name, =, {, b, }.
+        # Sixteen definitions with 37494 byte initializers each total exactly
+        # 600000 tokens, below individual initializer and module data limits.
+        # Whitespace separates every token, so split() counts this subset exactly.
+        for total in [600000,600001]:
+            data='\n'.join('data $token_boundary_'+str(i)+' = { b '+
+                '0 '*(37494+(1 if total==600001 and i==0 else 0))+'}' for i in range(16))
+            assert len(data.split())==total
+            source.write_text(data+'\n')
+            if total==600000: run([LCB,'--check',source])
+            else: reject([LCB,'--check',source],'600000-token compatibility limit')
+    print('large CFG: 4096 blocks, 70000 instructions, 600000 tokens, retained 16K coverage, 3000-block mutable SSA; large W/X slots, phi staging, saved LR and dynamic frames '+('passed native Lean/QBE/C and address corruption' if native_host() else 'checked; native unmeasured'))
 
 
 if __name__=='__main__':main()

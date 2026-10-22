@@ -1,0 +1,213 @@
+{
+  "schema": 1,
+  "target": "riscv64-linux",
+  "execution_mode": "QEMU user emulation in ARM64 Linux VM",
+  "compiler_identity": "810b573be417b6b0783220fb69a31e8451bb2deef970ff48d2e8030b2984a90f",
+  "compiler_sha256": "a79b54ec55d56f9acfdfc98f2036997153e3ee430d116df1911968a0c97ec4ad",
+  "source_sha256": "f74297f1a0975f115ff478842f2a6f8804cb30746ed63606e7f86f3458c66770",
+  "ir_sha256": "b96090a33b6aa6131a0c48b90f128243094deafa1af6f5d3f28b6b2ea44fb264",
+  "expected": "b424c67700bbdde0",
+  "reference": "retained unchanged-C GCC O0/O2 and original QBE evidence docs/benchmarks/large-struct-65537-refusal.json",
+  "original_qbe": "not rerun; no reference link profile changed",
+  "measurements": [
+    {
+      "label": "baseline-compile",
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/lcb-snapshot",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/baseline.s"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 10.173871208971832,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/baseline-compile.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/baseline-compile.stderr",
+      "peak_rss_bytes": 156827648
+    },
+    {
+      "label": "baseline-link",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "/work/struct65537-rv-cap-review/baseline.s",
+        "-o",
+        "/work/struct65537-rv-cap-review/baseline"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.5631164999795146,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/baseline-link.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/baseline-link.stderr",
+      "peak_rss_bytes": 48644096
+    },
+    {
+      "label": "baseline-run",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "timeout",
+        "30",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/struct65537-rv-cap-review/baseline"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.38862079102545977,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/baseline-run.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/baseline-run.stderr",
+      "peak_rss_bytes": 49053696
+    },
+    {
+      "label": "allocated-compile",
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/lcb-snapshot",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/allocated.s"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 10.85885162500199,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/allocated-compile.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/allocated-compile.stderr",
+      "peak_rss_bytes": 527368192
+    },
+    {
+      "label": "allocated-link",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "/work/struct65537-rv-cap-review/allocated.s",
+        "-o",
+        "/work/struct65537-rv-cap-review/allocated"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.18187650002073497,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/allocated-link.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/allocated-link.stderr",
+      "peak_rss_bytes": 48234496
+    },
+    {
+      "label": "allocated-run",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "timeout",
+        "30",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/struct65537-rv-cap-review/allocated"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.13069704198278487,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/allocated-run.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/allocated-run.stderr",
+      "peak_rss_bytes": 48840704
+    },
+    {
+      "label": "optimized-compile",
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/lcb-snapshot",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/optimized.s"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 57.53106679202756,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/optimized-compile.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/optimized-compile.stderr",
+      "peak_rss_bytes": 437239808
+    },
+    {
+      "label": "optimized-link",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "/work/struct65537-rv-cap-review/optimized.s",
+        "-o",
+        "/work/struct65537-rv-cap-review/optimized"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.23653808300150558,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/optimized-link.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/optimized-link.stderr",
+      "peak_rss_bytes": 48349184
+    },
+    {
+      "label": "optimized-run",
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "timeout",
+        "30",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/struct65537-rv-cap-review/optimized"
+      ],
+      "exit": 0,
+      "timeout": false,
+      "wall_seconds": 0.17553720902651548,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/optimized-run.stdout",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/struct65537-rv-cap-review/optimized-run.stderr",
+      "peak_rss_bytes": 48381952
+    }
+  ],
+  "cases": {
+    "baseline": {
+      "output": "b424c67700bbdde0",
+      "matches": true,
+      "assembly_sha256": "f0326f34a6f5a9a3a0ac8db4749264b25a2b2270ae77e7071a1791262e0d85da",
+      "executable_sha256": "84a0cc8eb9a83fc1fdc1bb748b9a0d11639c9db0e24541f59a23d3fbbb713cb5"
+    },
+    "allocated": {
+      "output": "b424c67700bbdde0",
+      "matches": true,
+      "assembly_sha256": "6ef5f4b8d89d7872ea809731878e1c3822c0a7e77a2e0b2191818a84390cd58a",
+      "executable_sha256": "5147221b78592fba3f420bf01bbcc45a0149eb4596ee1579537a6709a3f7b611"
+    },
+    "optimized": {
+      "output": "b424c67700bbdde0",
+      "matches": true,
+      "assembly_sha256": "43d438a1886800a030d26347cf0aebad6bd361c5eb6dbd65120e1d2f70b19ca8",
+      "executable_sha256": "1fe639f184b7225167f2fcf55ed17e500d2c5fceb54e390b0b3d1d94189c3aad"
+    }
+  },
+  "status": "passed",
+  "environment": "Linux 36d787fe752f 7.2.9-orbstack-00391-g2b298d05fbd4 #1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+  "cc": "riscv64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.",
+  "qemu": "qemu-riscv64 version 8.2.2 (Debian 1:8.2.2+ds-0ubuntu1.18)\nCopyright (c) 2003-2023 Fabrice Bellard and the QEMU Project developers",
+  "reference_report_sha256": "5146dda261a91d72d243f1528de408cd1f939c0dd218dc20ddd1bac680085544",
+  "harness_sha256": "b327f0aad1a4517abc1d164ea60f8412c458c812867cb86454b718a48f0e271f",
+  "notes": [
+    "No source or IR transformation; retained original refusal report remains unchanged.",
+    "All LCB links use cross-GCC default link mode; no -no-pie override.",
+    "Compilation RSS measures the native host compiler via macOS /usr/bin/time -l. Docker link/run RSS measures the host Docker client, not guest GCC/QEMU memory.",
+    "Reference checksum comes from retained GCC O0/O2 and original QBE evidence; those references were not rerun for this report."
+  ]
+}

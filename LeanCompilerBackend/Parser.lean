@@ -653,7 +653,7 @@ def parseModule (source : String) : Except String Module := do
   if source.utf8ByteSize > 8 * 1024 * 1024 then throw "input exceeds 8 MiB compatibility resource limit"
   let tokens := tokenize source
   if tokens.isEmpty then throw "input contains no functions or data"
-  if tokens.size > 500000 then throw "input exceeds 500000-token compatibility limit"
+  if tokens.size > 600000 then throw "input exceeds 600000-token compatibility limit"
   let (program, _) ← (parseDefinitions (min (tokens.size + 1) 16385)).run { tokens }
   discard (Aggregate.layouts program.types)
   return program

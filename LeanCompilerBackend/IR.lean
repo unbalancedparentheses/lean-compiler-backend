@@ -11,7 +11,7 @@ namespace LeanCompilerBackend
 /-- Compatibility resource bounds are independent of the certified-profile plan. -/
 def maxCompatibilityFunctions : Nat := 4096
 def maxCompatibilityBlocks : Nat := 4096
-def maxCompatibilityInstructions : Nat := 16384
+def maxCompatibilityInstructions : Nat := 70000
 
 /-- Unquoted QBE identifier grammar; quoted global names are a separate feature. -/
 def validIdentifier (name : String) : Bool :=
