@@ -99,6 +99,11 @@ r8/r9 for call/TLS-free functions with at most four incoming ABI GP slots. Both
 x86 target gates pass, with target-configured zlib executable qualification and
 672 fewer optimized text bytes. General caller-saved allocation remains open.
 
+ARM [adjacent indexed loads](docs/benchmarks/arm-indexed-load/README.md) now combine
+sole-use long temporary sums with loads. Both native ARM matrices, actual spill
+offsets beyond 32 KiB and the full Linux ARM gate pass. Fresh zlib execution
+qualifies 584 fewer optimized text bytes per target; paired timing is pending.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and

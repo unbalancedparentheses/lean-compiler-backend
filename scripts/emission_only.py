@@ -5,6 +5,7 @@ import subprocess
 import tempfile
 from fuzz import ROOT, LCB
 from amd_leaf_bank import exercise as amd_leaf_bank
+from arm_indexed_load import exercise as arm_indexed_load
 from arm_phi_identity import exercise as arm_phi_identity
 from arm_leaf_bank import exercise as arm_leaf_bank
 from arm_extuw import exercise as arm_extuw
@@ -39,6 +40,8 @@ def main():
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
         for target in ['aarch64-linux', 'aarch64-macos']:
+            indexed = arm_indexed_load(LCB,work/target,run,cc,target,False,qbe=qbe)
+            assert indexed['case_groups_per_mode'] == 0 and indexed['original_qbe'] == 'not-run'
             phi = arm_phi_identity(LCB,work/target,run,cc,target,False,qbe)
             assert phi['checks_per_mode'] == 0 and phi['original_qbe'] == 'not-run'
             leaf = arm_leaf_bank(LCB,work/target,run,cc,target,False)

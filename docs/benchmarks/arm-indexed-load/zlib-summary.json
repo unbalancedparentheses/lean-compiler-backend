@@ -1,0 +1,106 @@
+{
+  "aarch64-linux": {
+    "baseline": {
+      "before": 416468,
+      "after": 416468,
+      "delta": 0,
+      "crc32": {
+        "before": 15452,
+        "after": 15452
+      },
+      "changed": {}
+    },
+    "allocated": {
+      "before": 167064,
+      "after": 166340,
+      "delta": -724,
+      "crc32": {
+        "before": 7696,
+        "after": 7536
+      },
+      "changed": {
+        "adler32": -132,
+        "crc32": -160,
+        "deflate": -124,
+        "gzread": -12,
+        "gzwrite": -4,
+        "infback": -12,
+        "inflate": -28,
+        "inftrees": -80,
+        "test-example": -4,
+        "test-minigzip": -36,
+        "trees": -132
+      }
+    },
+    "optimized": {
+      "before": 116376,
+      "after": 115792,
+      "delta": -584,
+      "crc32": {
+        "before": 4436,
+        "after": 4300
+      },
+      "changed": {
+        "crc32": -136,
+        "deflate": -128,
+        "gzwrite": -4,
+        "infback": -4,
+        "inflate": -20,
+        "inftrees": -72,
+        "trees": -220
+      }
+    }
+  },
+  "aarch64-macos": {
+    "baseline": {
+      "before": 416772,
+      "after": 416772,
+      "delta": 0,
+      "crc32": {
+        "before": 15452,
+        "after": 15452
+      },
+      "changed": {}
+    },
+    "allocated": {
+      "before": 167368,
+      "after": 166644,
+      "delta": -724,
+      "crc32": {
+        "before": 7696,
+        "after": 7536
+      },
+      "changed": {
+        "adler32": -132,
+        "crc32": -160,
+        "deflate": -124,
+        "gzread": -12,
+        "gzwrite": -4,
+        "infback": -12,
+        "inflate": -28,
+        "inftrees": -80,
+        "test-example": -4,
+        "test-minigzip": -36,
+        "trees": -132
+      }
+    },
+    "optimized": {
+      "before": 116680,
+      "after": 116096,
+      "delta": -584,
+      "crc32": {
+        "before": 4436,
+        "after": 4300
+      },
+      "changed": {
+        "crc32": -136,
+        "deflate": -128,
+        "gzwrite": -4,
+        "infback": -4,
+        "inflate": -20,
+        "inftrees": -72,
+        "trees": -220
+      }
+    }
+  }
+}

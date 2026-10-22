@@ -152,6 +152,8 @@ def main():
     arm_load_extension_tests(compiler,work,run,cc,'aarch64-linux',native)
     from arm_leaf_bank import exercise as arm_leaf_bank_tests
     arm_leaf_bank_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from arm_indexed_load import exercise as arm_indexed_tests
+    arm_indexed_tests(compiler,work,run,cc,'aarch64-linux',native,qbe=qbe)
     from arm_phi_identity import exercise as arm_phi_tests
     arm_phi_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
     from arm_extuw import exercise as arm_extuw_tests

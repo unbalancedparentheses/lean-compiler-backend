@@ -663,6 +663,29 @@ private def emitStatement (darwin : Bool) (localSymbols : List String) (types : 
       | .word => s!"str w{valueHome}" | .long => s!"str x{valueHome}"
     pure (addressLines ++ valueLines ++ [s!"\t{instruction}, [x{addressHome}]"])
 
+/-- Fold an adjacent sole-use sum of temporary addresses into a register-offset
+    load. The operands are consumed at the immediately following instruction, so
+    their allocated homes stay valid. Spilled inputs use distinct reserved scratch
+    registers; no symbol/TLS materialization or writeback mode is involved. -/
+private def adjacentIndexedLoad (darwin : Bool) (localSymbols : List String) (base : String)
+    (slots : Homes) (uses : Std.HashMap String Nat) (first second : Statement)
+    : Except String (Option (List String)) := do
+  let .assign address := first | return none
+  if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
+  let .binary .add (.temporary left) (.temporary right) := address.operation | return none
+  let .assign inst := second | return none
+  let .load kind (.temporary name) := inst.operation | return none
+  if name != address.destination then return none
+  let leftHome := operandRegister slots 9 (.temporary left)
+  let rightHome := operandRegister slots 10 (.temporary right)
+  let mut lines ← if leftHome == 9 then load darwin localSymbols base slots .long 9 (.temporary left) else pure []
+  if rightHome == 10 then lines := lines ++ (← load darwin localSymbols base slots .long 10 (.temporary right))
+  let resultHome := (slots.registers[inst.destination]?).getD 9
+  lines := lines ++ [s!"\t{memoryLoad inst.width resultHome kind}, [x{leftHome}, x{rightHome}]"]
+  if resultHome == 9 then
+    lines := lines ++ (← storeHome base slots inst.width (register inst.width 9) inst.destination)
+  return some lines
+
 /-- Select an adjacent long address calculation plus its sole load/store use.
     No intervening instruction can overwrite the base's assigned home, and no
     remaining use needs the omitted address result. This deliberately does not
@@ -1032,7 +1055,9 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
         else
           if allocate then
             if let some next := block.instructions[instructionIndex+1]? then
-              pendingMemory ← adjacentMemory darwin localSymbols base slots addressUses statement next
+              pendingMemory ← adjacentIndexedLoad darwin localSymbols base slots addressUses statement next
+              if pendingMemory.isNone then
+                pendingMemory ← adjacentMemory darwin localSymbols base slots addressUses statement next
           if pendingMemory.isNone then
             if let some (_, width, a, b) := branchCompare then
               if instructionIndex+1 == block.instructions.size then

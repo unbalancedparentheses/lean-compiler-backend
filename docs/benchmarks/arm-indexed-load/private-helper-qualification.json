@@ -1,0 +1,18 @@
+{
+  "scope": "Only private indexed-load test helper changed. Core and immutable candidate binary remain root-owned unchanged. No main edits, compiler builds, timing, or commits.",
+  "candidate_identity": "3506f2cf55639ec9cc17de57a33bac29cfd7f5d90043a5df52264fd61ca37ac4",
+  "candidate_sha256": "15182be67a543a077538739b44e8b9f19f346f57f8373e246e538b479e98a9ba",
+  "results": "Both native ARM targets: 37124 C case groups per mode across baseline/allocated/optimized; each group one or more assertions. Baseline exact equality versus15ce; original QBE unchanged passes each same fixture. Guest-only QBE invocation/hash and emission-only nonexistent tool controls pass.",
+  "coverage": [
+    "All signed/unsigned byte/half/word loads and long/single/double raw bit loads, negative/unaligned indices.",
+    "One spilled operand in both orders, two spilled operands with spilled destination, same temporary twice, destination aliases either input, inputs live after load. Structural assertions bind actual emitted homes.",
+    "High-bit modular cancellation through unsigned64 C arithmetic, extra phi use, call/store/blit barriers, symbol/TLS fallback and debug-file-ID/location preservation.",
+    "Guard pages both ends for exact byte/half/word/long width, NaN and signed-zero bit patterns; wrong byte-width mutation faults AppleSIGBUS/Linux139. Wrong-index mutation exits1.",
+    "64KiB frame with pressure and live pointer passes. This does NOT claim x15 large-spill-slot coverage: that requires more than4096 simultaneously spilled eight-byte homes under current layout, beyond this bounded matrix."
+  ],
+  "harness_corrections": [
+    "Variable debug file ID; Apple semicolon function comments; original pressure case only one spilled operand, now explicit both-spill variants.",
+    "Original guest oracle path /tmp/qbe/qbe hashed via guest python and run with inside=True."
+  ],
+  "patch": "/tmp/lcb-arm-indexed-tests.patch"
+}

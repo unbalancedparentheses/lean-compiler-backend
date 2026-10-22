@@ -19,7 +19,7 @@ cproc rejects three required volatile stores before any backend invocation.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`1fb34f883f3d1b0a8cec71544974df3fc5a9b4a23c7c300a144677eae3e4bcfc`.
+`e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4`.
 
 [ARM leaf registers](benchmarks/arm-leaf-bank/README.md) admit x16/x17/x8 only
 for bounded call/TLS-free functions. Both native ARM independent ABI matrices,
@@ -40,12 +40,19 @@ same-width same-home transfers. Both native ARM matrices and full Linux ARM gate
 pass; 147 proof reports stay unchanged. Zlib loses another 5,460 text bytes per ARM
 target. Two new quiet timing windows show about 25% less CRC32 time relative to
 leaf, though CRC remains about 1.28–1.29x QBE. [Restricted AMD leaf registers](benchmarks/amd-leaf-bank/README.md) now use r8/r9
-only when calls/TLS are absent and the actual incoming ABI GP count is at most4.
-Both full x86 gates and fresh units pass; target-configured zlib shrinks672bytes
+only when calls/TLS are absent and the actual incoming ABI GP count is at most 4.
+Both full x86 gates and fresh units pass; target-configured zlib shrinks 672 bytes
 and its executed candidate assemblies exactly match this main identity. The
 private stale-unit claim is explicitly retracted; corrected main units were
-rebuilt and executed. ARM indexed loads remain a qualified candidate awaiting
-integration. CI through6d84890 is green;735a572 remains in progress.
+rebuilt and executed.
+[ARM indexed loads](benchmarks/arm-indexed-load/README.md) now combine adjacent
+sole-use address sums with loads. Both native ARM independent matrices and the
+full Linux ARM gate pass; a separate 4,200-live-value fixture executes actual
+33,520/33,536/33,528-byte input/result spills on both ARM targets. Zlib loses
+another 584 optimized text bytes per ARM target, with six upstream examples and
+72 exact streams passing. The broader full host gate is still running at this
+checkpoint; five-label in-process correctness/provenance passes, timing pending.
+CI through 6d84890 is green; 735a572 and 7fd745c remain in progress.
 
 [ARM typed extuw](benchmarks/arm-extuw/README.md) omits same-home unsigned
 word extensions only for declared word sources. Both native ARM matrices, full
