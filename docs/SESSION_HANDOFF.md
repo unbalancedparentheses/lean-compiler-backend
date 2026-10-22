@@ -8,12 +8,38 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`cba910978b25a1066f746acc0f4a31a9cdb81e31699a61f2b3a4c13db5c6d132`.
+`475c428a6d6764abb797d7c706de170c69e550a58c215fd88c35918d88743e3b`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
 caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
+
+## Final integer comparison branches
+
+Allocated ARM64 emits a conditional branch directly from a final integer
+comparison when its boolean result has exactly one whole-function use in that
+terminator. Shared/phi uses, earlier comparisons and floating comparisons retain
+materialized booleans. Independent review found no concrete defect. The C matrix
+passes 176,400 cases per mode on Apple ARM64 and catches an inverted branch;
+32 fresh fuzz seeds 20261429–20261460 pass, 256 functions / 3,328 inputs.
+Zlib's original tests and 12 exact streams pass; linked text is 137,638 bytes,
+4,764 below the earlier adjacent-address checkpoint. QBE bootstrap retains all
+qualified fixture/self-IR reproductions and original runtime cases; object text
+is 369,064 bytes (12,052 below the adjacent-address checkpoint), linked text
+397,956 bytes. Identity-bound `zlib-branch-selection.json`,
+`qbe-branch-selection.json` and `csmith-branch-selection.json` preserve results.
+Csmith seeds 20261293–20261324 qualify 27/32, 225,632 IR lines, with five
+reference timeouts excluded. Eleven disjoint default-profile batches total
+246/304 attempts, 2,273,638 qualified IR lines and 58 reference timeouts. No proof
+coverage is enlarged. The full local regression gate passed in `.build/branch-selection-full-check.log`.
+The optimized target suites passed; corrected mode coverage is the next checkpoint.
+
+The target runners' global optimization flag was found to override individual
+helper mode requests. Earlier optimized target invocations therefore did not
+independently distinguish helper baseline/allocated modes; standalone/default
+runs were unaffected. The runner correction will preserve each matrix's explicit
+mode while retaining optimized upstream fixtures and single-mode ABI helpers.
 
 ## Active window: conservative memory forwarding
 

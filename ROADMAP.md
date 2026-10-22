@@ -65,7 +65,9 @@ Next bounded work, before proof expansion:
    conservative barriers for writes, calls, variadic state, blits and allocations.
 3. Extend implemented liveness, reusable spills and callee-saved allocation with
    caller-saved/FP banks, splitting/coalescing and machine value-flow checks;
-   retain the current stack baseline as a differential oracle.
+   retain the current stack baseline as a differential oracle. ARM64 now selects
+   adjacent sole-use address offsets and final sole-use integer comparison flags
+   without extending operand lifetimes.
 4. Complete the remaining QBE ABI configuration (`amd64_win`),
    broaden boundary tests on existing targets and obtain native RV64 qualification.
 5. Run broader differential fuzzing and performance benchmarks, then resume

@@ -133,6 +133,8 @@ def main():
     large_blit_tests(compiler,work,run,cc,'aarch64-linux',native,qbe if native else None,'arm64')
     from address_selection import exercise as address_selection_tests
     address_selection_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from branch_selection import exercise as branch_selection_tests
+    branch_selection_tests(compiler,work,run,cc,'aarch64-linux',native)
     from memory_forward import exercise as memory_forward_tests
     memory_forward_tests(compiler,work,run,cc,'aarch64-linux',native)
     from unsigned_strength import exercise as unsigned_tests

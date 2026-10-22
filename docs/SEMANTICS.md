@@ -785,3 +785,19 @@ copies do not relax aggregate-call size bounds. Independent byte/guard checks
 cover alignment, reversed disjoint buffers, identical spans, repeated loops,
 live pointer/value returns, the 1 MiB bound and an omitted-loop-store control.
 These execution tests do not constitute memory or machine preservation proofs.
+
+## Adjacent integer comparison branches
+
+Allocated ARM64 emission can consume the flags from a block's final integer
+comparison directly in its conditional terminator. The comparison result must
+have exactly one use across all instructions, phi edges and terminators, and
+that use must be the current branch. The condition is inverted to select the
+existing false-edge label before either edge's phi copies execute. No operand
+lifetime is extended and no instruction is moved across another instruction.
+Shared boolean values, non-final comparisons and floating comparisons retain
+their existing materialized-result path. The stack baseline is unchanged.
+
+The independent C matrix exercises all ten signed/unsigned/equality predicates,
+both widths, immediate boundaries, shared phi uses, intervening instructions,
+earlier comparison results and register pressure. Inverting one emitted branch
+must fail the oracle. This instruction selection is tested, not formally proved.

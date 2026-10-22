@@ -118,6 +118,8 @@ def main():
     large_blit_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe if execute else None,'amd64_apple')
     from address_selection import exercise as address_selection_tests
     address_selection_tests(compiler,work,run,cc,'x86_64-macos',execute)
+    from branch_selection import exercise as branch_selection_tests
+    branch_selection_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from memory_forward import exercise as memory_forward_tests
     memory_forward_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from unsigned_strength import exercise as unsigned_tests

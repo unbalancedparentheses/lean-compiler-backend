@@ -220,6 +220,29 @@ private def condition : Comparison → String
   | .signedLE => "le" | .signedLT => "lt" | .signedGE => "ge" | .signedGT => "gt"
   | .unsignedLE => "ls" | .unsignedLT => "lo" | .unsignedGE => "hs" | .unsignedGT => "hi"
 
+private def inverseCondition : Comparison → String
+  | .eq => "ne" | .ne => "eq"
+  | .signedLE => "gt" | .signedLT => "ge" | .signedGE => "lt" | .signedGT => "le"
+  | .unsignedLE => "hi" | .unsignedLT => "hs" | .unsignedGE => "lo" | .unsignedGT => "ls"
+
+/-- Materialize integer comparison flags without consuming or changing operand homes. -/
+private def comparisonFlags (darwin : Bool) (localSymbols : List String) (base : String)
+    (slots : Homes) (width : Width) (a b : Operand) : Except String (List String) := do
+  let left := operandRegister slots 9 a
+  let right := operandRegister slots 10 b
+  let encoded := if slots.registers.isEmpty then none else
+    match b with | .constant value => binaryImmediate width .sub value | _ => none
+  let mut lines := []
+  if left == 9 then lines := (← load darwin localSymbols base slots width 9 a)
+  if let some (instruction, operand) := encoded then
+    -- CMN uses a nonzero magnitude; zero stays CMP for the carry flag.
+    let comparison := if instruction == "add" then "cmn" else "cmp"
+    lines := lines ++ [s!"\t{comparison} {register width left}, {operand}"]
+  else
+    if right == 10 then lines := lines ++ (← load darwin localSymbols base slots width 10 b)
+    lines := lines ++ [s!"\tcmp {register width left}, {register width right}"]
+  return lines
+
 private def unaryInstruction (width : Width) (op : Unary) (destination source : Nat) : List String :=
   let output := register width destination
   let input := register width source
@@ -514,20 +537,8 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     else lines := lines ++ [s!"\t{instruction} {output}, {rLeft}, {rRight}"]
     if resultHome != 9 then return lines
   | .compare op width a b =>
-    let left := operandRegister slots 9 a
-    let right := operandRegister slots 10 b
     let destination := (slots.registers.lookup inst.destination).getD 9
-    let encoded := if slots.registers.isEmpty then none else
-      match b with | .constant value => binaryImmediate width .sub value | _ => none
-    if left == 9 then lines := lines ++ (← load darwin localSymbols base slots width 9 a)
-    if let some (instruction, operand) := encoded then
-      -- CMN adds a nonzero magnitude for an encodable negative constant;
-      -- zero uses CMP, preserving its distinct carry flag.
-      let comparison := if instruction == "add" then "cmn" else "cmp"
-      lines := lines ++ [s!"\t{comparison} {register width left}, {operand}"]
-    else
-      if right == 10 then lines := lines ++ (← load darwin localSymbols base slots width 10 b)
-      lines := lines ++ [s!"\tcmp {register width left}, {register width right}"]
+    lines := lines ++ (← comparisonFlags darwin localSymbols base slots width a b)
     -- A W write zero-extends, so both word and long boolean results are exact.
     lines := lines ++ [s!"\tcset {register .word destination}, {condition op}"]
     if destination != 9 then return lines
@@ -879,6 +890,19 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
     let next := (f.blocks[blockIndex+1]?).map (·.label)
     lines := lines ++ [blockLabel f block.label ++ ":"]
     let mut debugIndex := 0
+    -- Only the final comparison may feed flags directly to the terminator.
+    -- Whole-function use counts include phi edges, so no omitted boolean survives.
+    let branchCompare := if allocate then
+      match block.instructions[block.instructions.size-1]?, block.terminator with
+      | some (.assign inst), .branch (.temporary name) _ _ =>
+        match inst.operation with
+        | .compare op width a b =>
+          if inst.destination == name && (addressUses[name]?).getD 0 == 1 then
+            some (op, width, a, b)
+          else none
+        | _ => none
+      | _, _ => none
+      else none
     let mut pendingMemory : Option (List String) := none
     for instructionIndex in [:block.instructions.size + 1] do
       for _ in [:block.debugLocations.size] do
@@ -896,7 +920,13 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
             if let some next := block.instructions[instructionIndex+1]? then
               pendingMemory ← adjacentMemory darwin localSymbols base slots addressUses statement next
           if pendingMemory.isNone then
-            lines := lines ++ (← emitStatement darwin localSymbols types base slots allocations varargs statement)
+            if let some (_, width, a, b) := branchCompare then
+              if instructionIndex+1 == block.instructions.size then
+                lines := lines ++ (← comparisonFlags darwin localSymbols base slots width a b)
+              else
+                lines := lines ++ (← emitStatement darwin localSymbols types base slots allocations varargs statement)
+            else
+              lines := lines ++ (← emitStatement darwin localSymbols types base slots allocations varargs statement)
     match block.terminator with
     | .ret value =>
       if let some value := value then
@@ -928,10 +958,13 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
       lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label target)
       if !allocate || next != some target then lines := lines ++ [s!"\tb {blockLabel f target}"]
     | .branch condition yes no =>
-      let conditionHome := operandRegister slots 9 condition
-      if conditionHome == 9 then lines := lines ++ (← load darwin localSymbols base slots .word 9 condition)
       let otherwise := edgeLabel f block.label
-      lines := lines ++ [s!"\tcbz w{conditionHome}, {otherwise}"]
+      if let some (op, _, _, _) := branchCompare then
+        lines := lines ++ [s!"\tb.{inverseCondition op} {otherwise}"]
+      else
+        let conditionHome := operandRegister slots 9 condition
+        if conditionHome == 9 then lines := lines ++ (← load darwin localSymbols base slots .word 9 condition)
+        lines := lines ++ [s!"\tcbz w{conditionHome}, {otherwise}"]
       lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label yes)
       lines := lines ++ [s!"\tb {blockLabel f yes}", otherwise ++ ":"]
       lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label no)
