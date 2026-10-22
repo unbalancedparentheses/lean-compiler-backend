@@ -6,6 +6,13 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[LZ4 1.10.0](benchmarks/lz4/README.md) now passes native Linux ARM64 qualification:
+all six original C units, 370 functions / 64,135 IR lines, upstream unit/fixed-seed
+tests and 15 exact compression/cross-decompression profiles per backend. All three
+LCB modes, GCC O0/O2, original and corrected QBE pass. Cross-target runs are pending.
+The [Lua attempt](benchmarks/lua-preflight/README.md) remains unqualified because
+cproc rejects three required volatile stores before any backend invocation.
+
 ## Repository and current compiler
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.

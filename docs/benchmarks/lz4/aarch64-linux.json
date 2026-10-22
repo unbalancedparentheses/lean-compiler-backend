@@ -1,0 +1,1599 @@
+{
+  "schema": 1,
+  "status": "passed",
+  "program": "LZ4 1.10.0 library and upstream fuzzer/frame drivers",
+  "target": "aarch64-linux",
+  "execution_mode": "native Linux ARM64 VM",
+  "source_commit": "ebb370ca83af193212df4dcbadcc5d87bc0de2f0",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "source_hashes": {
+    "tests/fuzzer.c": "12b107129e9ad71430a8a3693bd8b5aeb3b9fb443ee04ff7778952d1ec971b84",
+    "tests/datagen.h": "49ff2d1b70db6329f3b5d28d2befa11060a42fddbdad84b9388c40521ea6e71f",
+    "tests/abiTest.c": "bc5dcbbe88d4c1ce369f191b71231f15e7a59fe632731dd9cfa3967d5a7ce930",
+    "tests/frametest.c": "5427f269bff29a542302fd6a24990cee5f0bdf35387e71f9a5fce9f12279205a",
+    "tests/loremOut.h": "a5fcb7823171e68f64e607a729ab47b44ad5c3488a86221de05301d692e68582",
+    "tests/decompress-partial-usingDict.c": "71a5c13989dd6a5d3bb25631c3de5fc45c2c0e813d4e9db36bf8b934632b6499",
+    "tests/fullbench.c": "b0cc4fc9efdb1586a6325161334655406de82bb4bf33fcea48f7a7f0c31e4c41",
+    "tests/freestanding.c": "ba375837e8ec8b597023f57c071470741b6359c7b4cbcdf9729f13173faec116",
+    "tests/datagen.c": "78e3ace5a00312a60350687c915d6dd6c3626ecf2b4fecb6906c7cbec4600c91",
+    "tests/roundTripTest.c": "8266d37dff64896b6d31684b74c17e8b0a9e03c2d439699011fe568cf0ba44e8",
+    "tests/checkTag.c": "a49419f21d05aa45c7d82c7972064e1cd0d87ba6fe0a3417686337545d276445",
+    "tests/decompress-partial.c": "1414d2a725042c8fef07faa38ff373b8fe96d49042fc1035b75ad07b59232d6c",
+    "tests/loremOut.c": "fc958cac885b4a161f52e9be7d83f27c0ac481e71f78ad2074f7124c2b03576f",
+    "tests/checkFrame.c": "dc99d353ba1ca94cd7f90fbccda489f04c6c9d2f413132ad36e5e9c78f298dbf",
+    "tests/datagencli.c": "5efac455360aa1e880e50ad3272b91aa0f606862b68d80bbe9e48167b246a249",
+    "programs/lz4io.h": "7134b42d8a90f33a5f304f18cac08517c777a4c8d8884d32244748008c3c833b",
+    "programs/lorem.h": "cabf55c784b8a53bfe0a4cbd159b9f5d5bfd335aedfb03be3ab9949719b53de9",
+    "programs/util.c": "c8ee5579f705d0b303e1332b60af4dccf03f802d6c4bf76e27be5ddc174de60f",
+    "programs/threadpool.h": "a196bdd5d2e790fa1daccd6165e9bc38f62a214813c0523b419a65f5b1642aba",
+    "programs/bench.h": "2ff152b06793b2010e1b3ed8cde8b13ff8720efd98acbdeab43595b730e07404",
+    "programs/lz4conf.h": "a764239ce093e7387ddac748246c7ca75d567ff011fbf23cba1b674a32f02fb2",
+    "programs/timefn.h": "e0667688ea12664799144b312f5765e1396136ef2e9dec20e2cf891cb8a1726b",
+    "programs/lz4io.c": "a9eb8e230cc3f80df64be6447ae3d425723313a37eb48dec3fc38d25c4c74575",
+    "programs/threadpool.c": "ce6e698084572f3fa6fd79709637c5b27d73a4fd03c21bb8b6fd4b9812156c03",
+    "programs/util.h": "b01eb516568cf9e18278a61b0c23fb46d48a25bb448c2a0bc9d609593d260a6d",
+    "programs/lorem.c": "036908c08290d655ce45bbbc75c283da6bc8d2b31cd2106fffacf7fbb753839a",
+    "programs/lz4cli.c": "ac054905a90a0b12e7166d1299a5ab36df133345ed3a979c418914c9afb71f56",
+    "programs/bench.c": "53be2d318b2889d907a03e66a064d1a56dcca0b24c607296c722b9edfbbc5b70",
+    "programs/timefn.c": "ff3169880747ed50062081dac428d38f44eb26181fd53201f8add4b8a7b570be",
+    "programs/platform.h": "35dd5a8f8d885efb81bfe9b2c7c47fa7a6ae353a6a47db8fc8a5b5029c43e430",
+    "examples/fileCompress.c": "4f0842885669b01d003ec2a8c6fc9ef22705053a2d787ab145c3fa0a66fc1aa1",
+    "examples/blockStreaming_lineByLine.c": "f236d3e7a2511475ebf25f8d354ee2d6733c73e67587c65670aeecabc3f1669d",
+    "examples/frameCompress.c": "bd6e2e3b7243769dce5a35837c6c4cef726d93405e887844355784ee39d7f3c2",
+    "examples/bench_functions.c": "a3b55cf6bdde878639823a8879dde969b6e0f42f565bae56b9b3a38edc89d7fa",
+    "examples/blockStreaming_doubleBuffer.c": "8eb96317f1454db6b400b9da7b73ac435b16c50401b68b3e571e7efa7d29d72c",
+    "examples/streamingHC_ringBuffer.c": "de97d059a99a6db0934930eff946ccbc9daf7f111ec5e60651e65f2b79153de5",
+    "examples/print_version.c": "dcc2f58fe93bb7f50a1b459e54e99abae5ebd41363b0abf54e5a683f5340fbf0",
+    "examples/blockStreaming_ringBuffer.c": "de8fd5cdc83552ff190203004ddb1cacd54174ad3adab68dae7cc20d4994debf",
+    "examples/simple_buffer.c": "ac685d4e02a449d067f35720b92297643c6b1e639e3bf29ec4197143c98304f9",
+    "examples/dictionaryRandomAccess.c": "c169b03e47269c445ce3adf028bd76ae8c011735a1322f51e2a13a792d7945e5",
+    "lib/xxhash.h": "aefdd236f35130495c18764cabed3f7b216906855fc5e6a9025cd2040bc84444",
+    "lib/lz4hc.c": "126cafafdb91767e6e55238298a910903851b35b2cee27ce80ae2280469ee232",
+    "lib/lz4frame.c": "44f421bea199c7f11da263c717f063228cd2c8c05a8384d327b49cc81ccfbac4",
+    "lib/lz4.h": "26b82efc53d1570f3b54eef02e9c4764c1ad374ff03cac04e2ced5ea4d4c552f",
+    "lib/lz4file.h": "400ed90bc74324abcf338d37235dd81aa431fd815c22db4b369b88c12b213115",
+    "lib/xxhash.c": "b667033dc735fb5ea5648e0a61a2e065e5ef5bbda53669730063bd856c643c48",
+    "lib/lz4frame_static.h": "31ab72a6e97e4fa0bedd4420d24a3f1f8024cbfa1d8ffad88c87cbb4e04f769d",
+    "lib/lz4hc.h": "e43824e8a9ba16f54100c4ccbccfa5782a858ca9ab83c48aac303fea3e76e21e",
+    "lib/lz4.c": "9396f7de527bc8435de9c7569fb7998e56545a84b4f3c2d808c0235c01774539",
+    "lib/lz4frame.h": "b845db4b7ee1bfa64b8f641a94f62e7f636a8b5d673cc61766413782283aaad1",
+    "lib/lz4file.c": "9c920fb21890bdce47d753bcd4a4dd3699ae75ac81ae7a999397c64fef012bec",
+    "ossfuzz/fuzz_helpers.h": "877718ed9f8406883774f086402dbac72af4e4e5aa3965859b7624dd95c7c0d4",
+    "ossfuzz/round_trip_frame_uncompressed_fuzzer.c": "a87dde93037a39eabc89950c31730b3d4d26f5a349cfb36491dc4265c7149804",
+    "ossfuzz/round_trip_stream_fuzzer.c": "16f4773cee11b62a998f3d383be4a55780a910dcb5cc7299d8b2f87b444d13f1",
+    "ossfuzz/round_trip_fuzzer.c": "0c87880bd1301c4fc1255c34f9aca341479e22f0e5440c877b0db52aa9e04e0a",
+    "ossfuzz/lz4_helpers.c": "69b9957ae889774e3084f8b96e0d486ecb4816f2561a13dc42ebabf6e32faa58",
+    "ossfuzz/compress_frame_fuzzer.c": "3329efba2287ce33e5bf58c2f3460c407afebdb5d7bfdb5560fb9dd7b102f782",
+    "ossfuzz/decompress_frame_fuzzer.c": "baf0dab7bfae0c7440f0488048dd45c846f809c11dcc0a9a781941f18df033b2",
+    "ossfuzz/round_trip_frame_fuzzer.c": "3a07589f1deeabea74b1a4728b8528c45b3a1c7a27a783f503dbca5a35247071",
+    "ossfuzz/fuzz_data_producer.h": "4e30f91d4d61f7da92b285ba33dd1c6fc40fd9058fe95652b38808f45a38bda1",
+    "ossfuzz/standaloneengine.c": "45a219de4aa04f76b2a7103fa82c10581131a7e5b486eedc8f65142cbe12fc40",
+    "ossfuzz/compress_fuzzer.c": "f1ae2f302b1ad5a6aa160c792f9d1c0ce2c291b28a16bf2429de0fce3971857d",
+    "ossfuzz/compress_hc_fuzzer.c": "444b476026723697c8bc0be68a44ab434e281dd025a6a65d39c70981b422e6f3",
+    "ossfuzz/fuzz.h": "0a004654a5e1ed8a40663f14136b9b36eb546567e8fa87a0dd50e4269d4bbf46",
+    "ossfuzz/decompress_fuzzer.c": "462b122196f8a2069e5e5c444528eacb04e8140b11bea20c835d6b6c67b88cb6",
+    "ossfuzz/lz4_helpers.h": "a858177044de8a5921951ab4aa8fddae6130b1d257d637ba1ea012c541029734",
+    "ossfuzz/fuzz_data_producer.c": "a12393758430ea5c2d1ec51118d9fc74e0c55444072a83adc00feb6037c888e0",
+    "ossfuzz/round_trip_hc_fuzzer.c": "bc8aa628675f0366939fb583319c5fcc48e164439b03f4eef770ffab42086273"
+  },
+  "compiler_identity": "de27b459436dbfc15e827f17fbfa30948b2192b598035c40ac5debd2952f33f9",
+  "compiler_sha256": "44ed601fdd77181a71dcced3cb7e7d56a6bf5604bdac60ea6ba8392c13d05e62",
+  "harness_sha256": "42d12e64442e28c3366f524ab4ab7ca5c8359d9c251c196dd71a633163fa1ae1",
+  "harness_snapshot": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/lz4-qualified-arm-final/harness.py",
+  "frontend_defines": [
+    "-D__CHAR_BIT__=8",
+    "-D__SCHAR_MAX__=127",
+    "-D__SHRT_MAX__=32767",
+    "-D__LONG_MAX__=9223372036854775807L"
+  ],
+  "work": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/lz4-qualified-arm-final",
+  "qbe_source_sha256": {
+    "util.c": "833a66c4c703cd47d7855cfd4b9f77642bdd0d35c6914c0baa3cd555031e35dd",
+    "fold.c": "3544071a30cc049320838f3bf44c1f83171117735fd2bb67959b2bc0a4431be8",
+    "all.h": "61bc106ffb07e0abe0b418f95ac7e1a9e4c6bcf8c308d8743562299129056519",
+    "cfg.c": "99099b6c39fbf9de442811c9e5e57417d6ef13ffa534ff6c82cade4fcadcf438",
+    "ssa.c": "a06727f6e5f6786e6fb1f30912631896007b9867dfd64e3e27a754ee9a9332c8",
+    "emit.c": "48af42e44d5017102e6ec7bec00465304f324f89160a93825f4952a257702031",
+    "mem.c": "4229d499db4186086b2d02ac78c983a6f31012d350bd281128ea61c037af4b65",
+    "spill.c": "d8b5367c4531faedbd4e073ccd955557a8e2333f9240d9f186f62dde777baebe",
+    "live.c": "19f084507c5f38f213e90193c11111e6079a06e3dd13f80df4b9e2c65b6a5eb5",
+    "abi.c": "923a5ea94e088e8ee4435924b38c0efaa601e4fc3b65b1964d70903491533103",
+    "gcm.c": "6af05af2af79bdd217b53133735e1d98fede157ee46ca1aac54c337a817ac586",
+    "rega.c": "167270237fb1a6a528f7f53bda895eb46074d42ac1d4a41ae9489706f10ae9ff",
+    "copy.c": "f1b6ebcb4802e2aa32239c905ae47aea0c6d1335cedcbb2a0e3aad8d18f4e06f",
+    "simpl.c": "0c14d2e5cc81bf6250a92f4c54eb8d453334100e127796b7a2e84f40b6e00254",
+    "main.c": "a6a9a128d2dc5f9db117a2d25843c0124d80609d1f1c176e3c71de188fd0ade1",
+    "gvn.c": "d09e291f14d1b777c2a27ddbf128eae02c7d649ccd88b2d180c29c2bf6b0e6a9",
+    "alias.c": "c210400e482f4ad2576d238d8cc411e0b1984ca57fb5d5ec849ed83fb6fd404f",
+    "ops.h": "39a2fe3c63ef4ab9c67d894ba83324ff6f9cdcdb3c5fe81f96efedf0350cf8ba",
+    "parse.c": "e762d78e1890af5c06daa581cfd40b30fcaa840450f32ca9cf2b141740a869da",
+    "load.c": "1b35c950499fa6c8d8a562ced54a531cd39adc384fc637922e69498e6bbb8b71",
+    "ifopt.c": "b4d49edd190dabc6b183453de5237d2ba33607739b61d6d9f1a2c8c1369f2f86",
+    "rv64/targ.c": "82668853f271d1dc20b914a2e0f402764e42951a75059ba29d4e0f77fe85cb83",
+    "rv64/isel.c": "95500527dcc4036b239b2ab62525aa1df0a645df142647756756526343a87846",
+    "rv64/all.h": "2636f565c1e4a2e4aff1fe9501c40220a4eb67e905e650f4f734ab8714d53d5f",
+    "rv64/emit.c": "4d76c3878e19a8d22a060300d43feab4fb54b589b341bb94e34d2fa4393999d3",
+    "rv64/abi.c": "c9ad2cfcb7ee56d8cd99e3cae2d4961929e099fc47f6e2b4a82162ed1fd92f22",
+    "tools/pmov.c": "3b3eb463f34424035ec79513f1ff64b749c4d382c17e4d73355508a7d9ea4964",
+    "tools/lexh.c": "4e6183a33f9abf412d7ea267897a07da4c972804d3b17d171dd68bcc2eced5d6",
+    "tools/log2.c": "ed282110b0e7cabf3e69a6fcb6c4dc44bf37369b97b904e8991211b61625db57",
+    "amd64/targ.c": "e53960a60eb5c1d3364bb8595bb64b3f5827db9436f886432de368cbb4e22211",
+    "amd64/isel.c": "049096f821fdb5035a68838f313c2f6431e8a5178a8958a9259bf566ef977eb5",
+    "amd64/all.h": "8ce357c9b3c7970a0160bc02c3ef61197bb1d469b06a93b08e0ac5b9061f55e3",
+    "amd64/emit.c": "b2563a49370154419246b11c4f6f2cd45e0f7c1327e491a2c7d2a2d4c8f8c36f",
+    "amd64/winabi.c": "abea8f315c09fc26a5df7abbbc98470a6113d08a866bbbdf7928825d10dc6ec9",
+    "amd64/sysv.c": "d7b867b243dba484924e46062ccb3ff1ca44243ad06004f8a7b8f6cd937d6ec0",
+    "minic/yacc.c": "42a71ff6fb0f5eb861923682833dbd53a3d6cdabb1f0fab8bd3cb9f0fcda4d59",
+    "arm64/targ.c": "5215bee5bae89d5d95cec3a4ddaea32ff15e6d35952c248f1d49653609c6dac7",
+    "arm64/isel.c": "3e7eab441eb37ae1cc29916586a6bfe1c55012400766e733d30dbc528f5747ef",
+    "arm64/all.h": "0c7503dd82c3efd65e1876865e4dcb2b6af287e43942cf9452ddbdd0473df52d",
+    "arm64/emit.c": "3dc7280fe44797b56c00194091d2686b90317f673b2175a87df89fa0a6f3cabf",
+    "arm64/abi.c": "1e881c0d2443e8a37b54ec9cb4474963bd5635286a5067df611e11ab250cccb5",
+    "minic/test/mandel.c": "835dc25eb3c7afb3aa0f89b2f5aa369f926990ac6b5a266511f9d49d982c1164",
+    "minic/test/knight.c": "a1b4f6c89d47c2e6ff2bff91a580a8525470ec638f02577aa4343b5e61ee128d",
+    "minic/test/queen.c": "7e01a19ba293d5c68425250cb85a613900b8e2ea77f02ae94c33b92aa0b89493",
+    "minic/test/collatz.c": "08962ec9ae1148ed40d29c9100e9ea72f4517375114cb8ad6e4f20cc5a10ccdb",
+    "minic/test/prime.c": "910ff8512e54e6b1b6fcf2a1656ecea2b3d475131c4acdb5b27fb05ac542b86c",
+    "minic/test/euler9.c": "4fcd8d845a822e7a52db18249283a5c7d87a01fb627214126c2707c15fc05f44"
+  },
+  "qbe_binary_sha256": {
+    "qbe": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "qbe-corrected": "4b6e9c5de2c50f9deb9783c78c3b2e0aff5930245f1431b24c6b78ee969eaf4b"
+  },
+  "oracle_patch_sha256": "81bd4149db4f03d9a5515f3fa5283048f8f4b08323ca722882a3d8b0e5f350bd",
+  "translation_units": {
+    "lz4": {
+      "sha256": "63af74dcc510f4592d7f1e09c3c753f096100283c6d6542157e4c7bc135fcd6f",
+      "lines": 7171,
+      "functions": 96
+    },
+    "lz4hc": {
+      "sha256": "e978e5ae79607397133c933fab2319a0fc74664215d0b0c6cef6204011b59245",
+      "lines": 8535,
+      "functions": 95
+    },
+    "lz4frame": {
+      "sha256": "70da4c1e350809153c1143171b1701533005aa1391d8c8c2b582bedfc6227ce2",
+      "lines": 6410,
+      "functions": 63
+    },
+    "xxhash": {
+      "sha256": "7281a24e792b323ce0549409e0cc732dddd41bfbf57d563fab889e41f7cc6a3f",
+      "lines": 3794,
+      "functions": 52
+    },
+    "fuzzer": {
+      "sha256": "8df92907c51d93b63e0f281547f11d142f2faf2f1212896104c21308360349c1",
+      "lines": 30336,
+      "functions": 34
+    },
+    "frametest": {
+      "sha256": "b817fee9f624507bc447f1943b9b3900041817a71985fd16512f51fa45746c71",
+      "lines": 7889,
+      "functions": 30
+    }
+  },
+  "backends": {
+    "gcc-O0": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.39640204200986773,
+        "lz4hc": 0.18832695798482746,
+        "lz4frame": 0.07461162499384955,
+        "xxhash": 0.08021545800147578,
+        "fuzzer": 0.1177705000154674,
+        "frametest": 0.09214866696856916
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 275824\t      0\t      0\t 275824\t  43570\t/work/lz4-qualified-arm-final/gcc-O0/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 102204\t      0\t      0\t 102204\t  18f3c\t/work/lz4-qualified-arm-final/gcc-O0/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  21152\t    208\t      0\t  21360\t   5370\t/work/lz4-qualified-arm-final/gcc-O0/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  29755\t      0\t      0\t  29755\t   743b\t/work/lz4-qualified-arm-final/gcc-O0/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  64594\t      4\t      8\t  64606\t   fc5e\t/work/lz4-qualified-arm-final/gcc-O0/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  40756\t     36\t     20\t  40812\t   9f6c\t/work/lz4-qualified-arm-final/gcc-O0/frametest.o"
+      },
+      "object_sha256": {
+        "lz4": "a68712fe20492caf909663c58aa904ec97011d0d40a5e3a352fa2009e2cf0b46",
+        "lz4hc": "8264969f99fa21d210069365ad38a1f8b0a13a0a405d976008b48b4a121c346f",
+        "lz4frame": "6449b1a50fb8718d7e5a4390e04ead2b1028a4cf8cc9c1d64bf8da7c0c06ff8f",
+        "xxhash": "462c7c20132660f151eb664f5da1ce60be0f6bbfe60dd8758dda913247ed4433",
+        "fuzzer": "e3c5398b8dcbfa8a155566763065f49a8957c3f828557a45be9a5c8464ff7248",
+        "frametest": "255783f4c0e3d46df1d98e2c1271a57758db95d4a722ebc96dc31000814511ee"
+      },
+      "execution_status": "passed"
+    },
+    "gcc-O2": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.8412544170278125,
+        "lz4hc": 0.9020256249932572,
+        "lz4frame": 0.15636266698129475,
+        "xxhash": 0.2509192080469802,
+        "fuzzer": 0.4356576659483835,
+        "frametest": 0.2798898330074735
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  54311\t      0\t      0\t  54311\t   d427\t/work/lz4-qualified-arm-final/gcc-O2/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  48820\t      0\t      0\t  48820\t   beb4\t/work/lz4-qualified-arm-final/gcc-O2/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  14066\t    200\t      0\t  14266\t   37ba\t/work/lz4-qualified-arm-final/gcc-O2/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   7458\t      0\t      0\t   7458\t   1d22\t/work/lz4-qualified-arm-final/gcc-O2/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  51384\t      4\t      8\t  51396\t   c8c4\t/work/lz4-qualified-arm-final/gcc-O2/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  30565\t     36\t     20\t  30621\t   779d\t/work/lz4-qualified-arm-final/gcc-O2/frametest.o"
+      },
+      "object_sha256": {
+        "lz4": "bd12b6a1a84bf41b5328240241ac4112971d8a2dc131f3bc8c689991b8321e32",
+        "lz4hc": "a8f309740ad658852fadcd57dd2bc328edd7382c56b3e19933662c076b01aa8a",
+        "lz4frame": "71612a7b88914025d668e73ae2903c1af20801bf2690874c0bb9d73d3f3b9fee",
+        "xxhash": "3030c047ac4599c7c8baebff21f12d0941b8ef8b67b914fdc03424685f7959fa",
+        "fuzzer": "038c3cdff6c6bde47fa805a7eefafe187fe1a3d53dc239f2aee5627656da742d",
+        "frametest": "15e2bf50c10b5b12e99bb1606bdba6e1a46d3d303faa9944246d565c66f20efc"
+      },
+      "execution_status": "passed"
+    },
+    "baseline": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.12773895799182355,
+        "lz4hc": 0.13473908294690773,
+        "lz4frame": 0.11946158402133733,
+        "xxhash": 0.10904237499926239,
+        "fuzzer": 0.361478959035594,
+        "frametest": 0.14847745798761025
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  85288\t    224\t      0\t  85512\t  14e08\t/work/lz4-qualified-arm-final/baseline/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 104276\t    352\t      0\t 104628\t  198b4\t/work/lz4-qualified-arm-final/baseline/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  80956\t    944\t      0\t  81900\t  13fec\t/work/lz4-qualified-arm-final/baseline/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  47748\t    143\t      0\t  47891\t   bb13\t/work/lz4-qualified-arm-final/baseline/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 532868\t  15187\t      0\t 548055\t  85cd7\t/work/lz4-qualified-arm-final/baseline/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 103360\t   5495\t      0\t 108855\t  1a937\t/work/lz4-qualified-arm-final/baseline/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "51c64318ca875f04a3aa712c122602e665578856fbaa966346f3bc7c99b39e26",
+        "lz4hc": "cf61be9cd76d753a4723d29f1ae0af9432b15590285aa4a03c417543d718f979",
+        "lz4frame": "fe66a006fa57b28b4702fd1673517925889a19d46610eab56476ed54fa4c06c6",
+        "xxhash": "2c214dd51ec1c6253ad3c36b1fe57e34a28d7f43ffb913e0ee444452b5d018ea",
+        "fuzzer": "7f514796fc52667678fadaa75d3ca9b9da07009784a7cd47d92cdd29f43815f1",
+        "frametest": "3879b0f75230877649ed90dafd24df7386b6db87bbfb6b4ec28d3a31ff02080c"
+      },
+      "object_sha256": {
+        "lz4": "eb9d552e434c0c9929f4916c45687b3f7f6735ec6fe9afdc2f0d678aa44c6f39",
+        "lz4hc": "f74f9ee94baa41703450836512d1d36f5feb3b7d8485386e319fc34b073e1aea",
+        "lz4frame": "ce5061765a1312483b9ca693cebda19e86670455c036093808ba3431eace7d5f",
+        "xxhash": "d8a6f0130130300b2ab76194f8a97a3d466c2c2db2b399479b5c9431f28f093d",
+        "fuzzer": "1ae2b076e85b03146aff70c930983c12502e99e56702ce64db39b0993e312844",
+        "frametest": "39184c1deab86992d39ce99c0b97acef67bc703b25441f5c68107ebaa99b702d"
+      },
+      "execution_status": "passed"
+    },
+    "allocated": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.13155537500279024,
+        "lz4hc": 0.1407590419985354,
+        "lz4frame": 0.13053437502821907,
+        "xxhash": 0.10846491705160588,
+        "fuzzer": 0.45529445802094415,
+        "frametest": 0.17179720802232623
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  47808\t    224\t      0\t  48032\t   bba0\t/work/lz4-qualified-arm-final/allocated/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  56368\t    352\t      0\t  56720\t   dd90\t/work/lz4-qualified-arm-final/allocated/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  40752\t    944\t      0\t  41696\t   a2e0\t/work/lz4-qualified-arm-final/allocated/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  23704\t    143\t      0\t  23847\t   5d27\t/work/lz4-qualified-arm-final/allocated/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 204040\t  15187\t      0\t 219227\t  3585b\t/work/lz4-qualified-arm-final/allocated/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  64664\t   5495\t      0\t  70159\t  1120f\t/work/lz4-qualified-arm-final/allocated/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "785bd06af7c527bca7bf9ad9b39d81eebaac3795d7e923a439826a414ebd9b28",
+        "lz4hc": "15567259661e20a9973c06220fec356250d858d6455615e1c78b65ba676bcc9f",
+        "lz4frame": "6af203db6b43f777cb320b595985558f8e4a9147e26552b7c2a82e546a387b65",
+        "xxhash": "eb0ce368791a3371c00706dd7c0ab87f9c72c1755ed27e6090ebb358335953f4",
+        "fuzzer": "e7a7694852436c801b26304b5f2d2d4fed02824430cfaa8a66073f1dd82d052b",
+        "frametest": "2384ce7a63a9ebb46514b5a77a97f52acbb90685f96bde156f08964e93e0dffd"
+      },
+      "object_sha256": {
+        "lz4": "a928f916acca31d979021cb5d5969303980f961de6e58c77b7d2bd0586a2b93f",
+        "lz4hc": "2f9974912f5ce86dcd96c709fd224507e5ca7bd3eb8199dec6464c0f29bef338",
+        "lz4frame": "1ed16da0067c11ce049c139e89f26a69a3f18f1a9f83cb7bc258a1b7724f30bf",
+        "xxhash": "84033544f34fe49e90ad03d89430a8ba80fba5b14522c24c646ae2c89aed5bb3",
+        "fuzzer": "9d1545c08b6ef979d0bf12ab507fd6d9212d078e48dbb52c2e9ab3d4030729ae",
+        "frametest": "57a814c27fdce42b5a4c248a0ef0d029e63e9dfbb0674630aa178d8bb7e5e812"
+      },
+      "execution_status": "passed"
+    },
+    "optimized": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.1766845830134116,
+        "lz4hc": 0.19441033399198204,
+        "lz4frame": 0.1628394589642994,
+        "xxhash": 0.12572770897531882,
+        "fuzzer": 1.3862465409911238,
+        "frametest": 0.3375253339763731
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  29548\t    224\t      0\t  29772\t   744c\t/work/lz4-qualified-arm-final/optimized/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  35568\t    352\t      0\t  35920\t   8c50\t/work/lz4-qualified-arm-final/optimized/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  25168\t    944\t      0\t  26112\t   6600\t/work/lz4-qualified-arm-final/optimized/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  14440\t    143\t      0\t  14583\t   38f7\t/work/lz4-qualified-arm-final/optimized/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 166800\t  15187\t      0\t 181987\t  2c6e3\t/work/lz4-qualified-arm-final/optimized/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  44096\t   5495\t      0\t  49591\t   c1b7\t/work/lz4-qualified-arm-final/optimized/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "c482328e1b8da45cf606ea77719379cb88d9569b1ab5fb5658ef51fe83a53f2e",
+        "lz4hc": "f2845e3033394088b67168b5ee1378bca5dc511684b0ba79bf5280967bac8394",
+        "lz4frame": "b6bcf3354c31bc115c00d06f3126d3bbade400aedfc011cb82e49f1943cc2296",
+        "xxhash": "c9a84c6df068c4ba1a2f1e8f6745f61eb13397dfa087330eed23df30a7d05b9a",
+        "fuzzer": "7f33d12ba0c29313308eaa04f7ca00e9654642bd70b580356f853903cf573e46",
+        "frametest": "a721dd1dc9081212cb53926995efda402d6028975c5fc3f605e542edcefffadd"
+      },
+      "object_sha256": {
+        "lz4": "ebc764ba492f08fac435964ed5d1791b655616fe14f7c4cc5b70bd941dcbbf6e",
+        "lz4hc": "4a6bee3b40a03b14311375d2221c12c75400ab63bf6b78fe26e165f3e6468d27",
+        "lz4frame": "7efdcd0b345f19abed66aebd471cbec48610a85d36efbb3a151fd674fbc2e583",
+        "xxhash": "f95861bd6e4f66af40fc76791e3bbe9b52f66c012fdce3f292cef6e14de20300",
+        "fuzzer": "42a992afb7cadd17f5bdf3628699c7151188efdda6c008d12681918f73b47d2b",
+        "frametest": "6311e69f103e6e32ee22b5e49679d7de2d24cd593cbf35e17827ef5f76a5c574"
+      },
+      "execution_status": "passed"
+    },
+    "qbe": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.3137553340056911,
+        "lz4hc": 0.08909991598920897,
+        "lz4frame": 0.08339912496739998,
+        "xxhash": 0.08132095797918737,
+        "fuzzer": 0.29767470801016316,
+        "frametest": 0.17480149999028072
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  23504\t    224\t      0\t  23728\t   5cb0\t/work/lz4-qualified-arm-final/qbe/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  31700\t    352\t      0\t  32052\t   7d34\t/work/lz4-qualified-arm-final/qbe/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  26992\t    944\t      0\t  27936\t   6d20\t/work/lz4-qualified-arm-final/qbe/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  14056\t    143\t      0\t  14199\t   3777\t/work/lz4-qualified-arm-final/qbe/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 257500\t  15187\t      0\t 272687\t  4292f\t/work/lz4-qualified-arm-final/qbe/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  38160\t   5495\t      0\t  43655\t   aa87\t/work/lz4-qualified-arm-final/qbe/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "a156e13bb99dac151cdaf007b289b11b4f726e94b72e3b94e0143c47f93a7ad1",
+        "lz4hc": "43627d84507cf69e15eb0a215adebcc4cb7e82f63bda6259deb9caac1de474d0",
+        "lz4frame": "f736c16f28493c0b7f401343a160d02c424a122e7cca2ff8e829b5bc7fe8a7db",
+        "xxhash": "1b2f4cf2d5e69f39d796a01fc436c89d870345465ec3a9b7f8e5a8f204d66819",
+        "fuzzer": "307037ec0d003506effc07c948885b4e715f2a5d3fe6c0f6e868490a1ed8ba3f",
+        "frametest": "f6fdfcde07efc2ff16f72278ec9ea2d7cd8e15c99f34996447def372ba9b3bb5"
+      },
+      "object_sha256": {
+        "lz4": "24b4075f04a68ab50d1e7b6e423473946a90d86736076b9794f39ec060fb78b0",
+        "lz4hc": "d72fa1a3c0bcc5a360295857911fd9f8f18c2cf3a6aa02cc7d2ae561afef25be",
+        "lz4frame": "634ee20332e7dd3e477f845bdf088de5bf92ae51898a3cb94a6c382de173f971",
+        "xxhash": "259786c18e53a84c1c7c236f1545ea16231f8a5349d9692004e47307f1986020",
+        "fuzzer": "320bef191f89083aac808e8afe96404fd3f1fde9d9e4ff6da49a89cf5aef0c2b",
+        "frametest": "fc7a21dfe7559c0562f171fdf612a17c8eac6ff7a299e701ab00070663652201"
+      },
+      "execution_status": "passed"
+    },
+    "qbe-corrected": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.3021423749742098,
+        "lz4hc": 0.08902895799838006,
+        "lz4frame": 0.08172879100311548,
+        "xxhash": 0.07471170905046165,
+        "fuzzer": 0.2992805829853751,
+        "frametest": 0.1698814999544993
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  23504\t    224\t      0\t  23728\t   5cb0\t/work/lz4-qualified-arm-final/qbe-corrected/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  31700\t    352\t      0\t  32052\t   7d34\t/work/lz4-qualified-arm-final/qbe-corrected/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  26992\t    944\t      0\t  27936\t   6d20\t/work/lz4-qualified-arm-final/qbe-corrected/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  14056\t    143\t      0\t  14199\t   3777\t/work/lz4-qualified-arm-final/qbe-corrected/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 257500\t  15187\t      0\t 272687\t  4292f\t/work/lz4-qualified-arm-final/qbe-corrected/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  38160\t   5495\t      0\t  43655\t   aa87\t/work/lz4-qualified-arm-final/qbe-corrected/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "a156e13bb99dac151cdaf007b289b11b4f726e94b72e3b94e0143c47f93a7ad1",
+        "lz4hc": "43627d84507cf69e15eb0a215adebcc4cb7e82f63bda6259deb9caac1de474d0",
+        "lz4frame": "f736c16f28493c0b7f401343a160d02c424a122e7cca2ff8e829b5bc7fe8a7db",
+        "xxhash": "1b2f4cf2d5e69f39d796a01fc436c89d870345465ec3a9b7f8e5a8f204d66819",
+        "fuzzer": "307037ec0d003506effc07c948885b4e715f2a5d3fe6c0f6e868490a1ed8ba3f",
+        "frametest": "f6fdfcde07efc2ff16f72278ec9ea2d7cd8e15c99f34996447def372ba9b3bb5"
+      },
+      "object_sha256": {
+        "lz4": "24b4075f04a68ab50d1e7b6e423473946a90d86736076b9794f39ec060fb78b0",
+        "lz4hc": "d72fa1a3c0bcc5a360295857911fd9f8f18c2cf3a6aa02cc7d2ae561afef25be",
+        "lz4frame": "634ee20332e7dd3e477f845bdf088de5bf92ae51898a3cb94a6c382de173f971",
+        "xxhash": "259786c18e53a84c1c7c236f1545ea16231f8a5349d9692004e47307f1986020",
+        "fuzzer": "320bef191f89083aac808e8afe96404fd3f1fde9d9e4ff6da49a89cf5aef0c2b",
+        "frametest": "fc7a21dfe7559c0562f171fdf612a17c8eac6ff7a299e701ab00070663652201"
+      },
+      "execution_status": "passed"
+    }
+  },
+  "notes": [
+    "Original upstream C/header sources and frontend IR are unmodified.",
+    "All four library and both driver units use identical target-specific cproc IR for LCB/QBE; GCC compiles original C.",
+    "Original and separately corrected QBE results remain distinct; RV QBE links non-PIE only.",
+    "Upstream drivers use two fixed-seed 100-cycle profiles each; frametest also runs basic unit tests each time.",
+    "Fuzzer additionally runs unseeded built-in unit tests at compression levels 9/10 and one automatic-seed cycle, whose printed seed is recorded.",
+    "Generated stream caller is GCC-built; libraries and upstream fuzzer/frame drivers use the selected compiler backend.",
+    "This is a bounded test profile, not the full upstream test suite; stream bytes and cross-decompression compare to GCC O0/O2.",
+    "No runtime speedup claim."
+  ],
+  "stream_caller_sha256": "78bcbfdd4bff7f74dee162303ea8f63164a24becc1b717c80415a7b23ea87d85",
+  "negative_control": {
+    "status": "detected",
+    "exit": 99,
+    "mutation": "Increment compiled LZ4_versionNumber return register",
+    "assembly_sha256": "590ddbba1be7aca15e6cd9600967897abaa65aeaa466afd11aa2f50ca5289e0e"
+  },
+  "executables_sha256": {
+    "gcc-O0": {
+      "fuzzer": "ff223c19ced94986dd72c61cd4750be81b996dafbda342745c65e93e5988c39d",
+      "frametest": "72f7c1629d3defd99bf8f07ff86afcc62ea3af977d10cc29a47fb51d8ac126b1",
+      "stream": "e8846d34ffc8438ec10b8a67aa49a76f1f6aa53421d30065810c926ffc77fc8a"
+    },
+    "gcc-O2": {
+      "fuzzer": "68e142f0da7c46ecabe6f9d8f5282d64f15e65dcf728997b436f48b8ae948d03",
+      "frametest": "442de0002f0eef69e1dd582b534a3de7f587281add332cb12cb5925b9891ed31",
+      "stream": "cd96615fca03e1d5b0ec8e82ab7cdf4533f19abe06ddc97030e95e9b72c060cf"
+    },
+    "baseline": {
+      "fuzzer": "a7b4a4d32f498a4e18cc4eb3d73cafc784ad15a816c6b4b7a7aa1d4bfde29347",
+      "frametest": "d98cad1b4739535a561e013ae24bccea891e2bce9bcb6e090ca63fb77836203e",
+      "stream": "8305bfd339e8cd8b37e682f222632ee2252f819e8927a23c1e7238d4f5b7fa1a"
+    },
+    "allocated": {
+      "fuzzer": "9120712f8268effbff8a24ee03ef5becd306b2ca5b9eb38c9238dc0183ff116b",
+      "frametest": "1ee48381a8bbaf9c969f6fb67259ade3cfc4c774df13ec5c0df9ff3912478839",
+      "stream": "6682330df0622778d9f2e716d16d020c23fe1a94d59f1fb3a771a23daa4893a1"
+    },
+    "optimized": {
+      "fuzzer": "942c2e5ee7f15c719cb53a1e419adec416c15d97f0e7f946d7564f1694fdb834",
+      "frametest": "692b3cec0e52a9aac3ea8c5768b04224e30b96338847a971b2ce719a4b7bbf65",
+      "stream": "14f20b2e581b19779fbbb1bca2dd2676df5d8321895fc33734d76168cd944637"
+    },
+    "qbe": {
+      "fuzzer": "45c330943c508691cbd22364d853cf15adda641c6f47ffa20ac5347002960b37",
+      "frametest": "486cd71b47e7d16dbfdd6fcf434fcc8bbbf42599c28ac2a3100777da9dce5efd",
+      "stream": "ddfe76ca65cdbca1cf6e76bad63c06b6f105f961e6daa251f74a2f8da195b37f"
+    },
+    "qbe-corrected": {
+      "fuzzer": "45c330943c508691cbd22364d853cf15adda641c6f47ffa20ac5347002960b37",
+      "frametest": "486cd71b47e7d16dbfdd6fcf434fcc8bbbf42599c28ac2a3100777da9dce5efd",
+      "stream": "ddfe76ca65cdbca1cf6e76bad63c06b6f105f961e6daa251f74a2f8da195b37f"
+    }
+  },
+  "execution": {
+    "backends": {
+      "gcc-O0": {
+        "status": "passed",
+        "checks": {
+          "fuzzer-1": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 1\ngenerating low buffer at address 0x1000 \n\r   13   \r   26   \r   35   \r   46   \r   57   \r   65   \r   76   \r   89   \r    100 /    100   - all tests completed successfully \ncompression ratio: 54.828%\nHC compression ratio: 51.668%\nratio with dict: 36.947%\n",
+            "stderr": "",
+            "stdout_sha256": "d31531c6f14670c0569fe17b8451cbc6a2560d16819458aa4604811add9ae19d",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "fuzzer-20261022": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 20261022\ngenerating low buffer at address 0x1000 \n\r   13   \r   24   \r   32   \r   41   \r   53   \r   62   \r   72   \r   79   \r   91   \r    100 /    100   - all tests completed successfully \ncompression ratio: 53.658%\nHC compression ratio: 50.331%\nratio with dict: 35.191%\n",
+            "stderr": "",
+            "stdout_sha256": "7dea6eef1302b34a39d5b8f2523cc4c9a8c9fa4fcc0c58322f9970ce44c70e08",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "frametest-1": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 1 \nBasic tests completed \n\r    0   \r   37   \r   94   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "fea081041735e3ec4628eca82f9403096d8c43ba839dc2a5290854f2809cf36e"
+          },
+          "frametest-20261022": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 20261022 \nBasic tests completed \n\r    0   \r   37   \r   88   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "6247aeffeeb7f6544aa31f0515fe8b4b8841c08649cd52a2c012649a0cb5eb73"
+          }
+        },
+        "unit_tests": {
+          "exit": 0,
+          "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 9793\nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=9 \nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=10 \ngenerating low buffer at address 0x1000 \n\r    0   \r      1 /      1   - all tests completed successfully \ncompression ratio: 53.354%\nHC compression ratio: 51.821%\nratio with dict: 38.813%\n",
+          "stderr": ""
+        },
+        "streams": [
+          {
+            "mode": "block",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "block",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "block",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "block",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "block",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "hc",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "hc",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "hc",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "hc",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "hc",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "frame",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 11,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "b966d1adb50d2f9d31d02a07249838cb4367c896960d71855e58d9e02091e098"
+          },
+          {
+            "mode": "frame",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 16,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "5d1cd8975982b4508d292ca942e3e13ec64178a42baafd7f87c718d9e880ff32"
+          },
+          {
+            "mode": "frame",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 282,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "5df875ad25487fb02fe68f888377a29e1fd92c835cfbb635935f88303cca31b5"
+          },
+          {
+            "mode": "frame",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 537,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "ba51167cc2657e637358e7567852cb6f0310962567486f82872dbbadc8546ee5"
+          },
+          {
+            "mode": "frame",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65551,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "04ba4f629926316859404bbdf42e2955a0e1790d21e909c9722de01dcf82f0c2"
+          }
+        ]
+      },
+      "gcc-O2": {
+        "status": "passed",
+        "checks": {
+          "fuzzer-1": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 1\ngenerating low buffer at address 0x1000 \n\r   38   \r   77   \r    100 /    100   - all tests completed successfully \ncompression ratio: 54.828%\nHC compression ratio: 51.668%\nratio with dict: 36.947%\n",
+            "stderr": "",
+            "stdout_sha256": "dd096b623a6a1ba87620d80ddc5da9190cb9dafc503fed3fea87ba2cc9bdcd5f",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "fuzzer-20261022": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 20261022\ngenerating low buffer at address 0x1000 \n\r   37   \r   72   \r    100 /    100   - all tests completed successfully \ncompression ratio: 53.658%\nHC compression ratio: 50.331%\nratio with dict: 35.191%\n",
+            "stderr": "",
+            "stdout_sha256": "e1c0323a43f8e3aeaa66d8e9e8024a09b0787a6e93c2646de30fad8c8db83c8c",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "frametest-1": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 1 \nBasic tests completed \n\r   81   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "44caf754426fbb14ba828bfb3d3b1871e25223f6c5ea72f41763773ff8bcc0db"
+          },
+          "frametest-20261022": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 20261022 \nBasic tests completed \n\r   93   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "0484ef327f87a0f68ebd3672a9277b00deaa94f9d73596759dd7bb6427c92d87"
+          }
+        },
+        "unit_tests": {
+          "exit": 0,
+          "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 2396\nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=9 \nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=10 \ngenerating low buffer at address 0x1000 \n\r    0   \r      1 /      1   - all tests completed successfully \ncompression ratio: 78.934%\nHC compression ratio: 77.235%\nratio with dict: 7.162%\n",
+          "stderr": ""
+        },
+        "streams": [
+          {
+            "mode": "block",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "block",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "block",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "block",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "block",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "hc",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "hc",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "hc",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "hc",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "hc",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "frame",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 11,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "b966d1adb50d2f9d31d02a07249838cb4367c896960d71855e58d9e02091e098"
+          },
+          {
+            "mode": "frame",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 16,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "5d1cd8975982b4508d292ca942e3e13ec64178a42baafd7f87c718d9e880ff32"
+          },
+          {
+            "mode": "frame",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 282,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "5df875ad25487fb02fe68f888377a29e1fd92c835cfbb635935f88303cca31b5"
+          },
+          {
+            "mode": "frame",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 537,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "ba51167cc2657e637358e7567852cb6f0310962567486f82872dbbadc8546ee5"
+          },
+          {
+            "mode": "frame",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65551,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "04ba4f629926316859404bbdf42e2955a0e1790d21e909c9722de01dcf82f0c2"
+          }
+        ]
+      },
+      "baseline": {
+        "status": "passed",
+        "checks": {
+          "fuzzer-1": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 1\ngenerating low buffer at address 0x1000 \n\r    2   \r    5   \r    9   \r   13   \r   15   \r   18   \r   21   \r   25   \r   28   \r   30   \r   32   \r   34   \r   36   \r   38   \r   42   \r   46   \r   49   \r   51   \r   54   \r   57   \r   60   \r   62   \r   64   \r   66   \r   69   \r   71   \r   74   \r   77   \r   81   \r   84   \r   87   \r   90   \r   93   \r   96   \r   98   \r    100 /    100   - all tests completed successfully \ncompression ratio: 54.828%\nHC compression ratio: 51.668%\nratio with dict: 36.947%\n",
+            "stderr": "",
+            "stdout_sha256": "2146eab30ada72f5a4a195fb1aeb2701a8013136dd2e237b2793b777bc2523fb",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "fuzzer-20261022": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 20261022\ngenerating low buffer at address 0x1000 \n\r    1   \r    3   \r    8   \r   13   \r   15   \r   17   \r   21   \r   25   \r   27   \r   29   \r   31   \r   34   \r   36   \r   38   \r   40   \r   43   \r   45   \r   48   \r   52   \r   54   \r   56   \r   59   \r   61   \r   63   \r   65   \r   68   \r   71   \r   73   \r   75   \r   76   \r   78   \r   82   \r   84   \r   87   \r   90   \r   91   \r   93   \r   95   \r   97   \r    100 /    100   - all tests completed successfully \ncompression ratio: 53.658%\nHC compression ratio: 50.331%\nratio with dict: 35.191%\n",
+            "stderr": "",
+            "stdout_sha256": "3a6078a8848e542836ed265ea11538b412c37147eceb6397d309e8e9356b40af",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "frametest-1": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 1 \nBasic tests completed \n\r    0   \r    7   \r   11   \r   26   \r   39   \r   57   \r   65   \r   76   \r   87   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "ff3f3fd981db5c355017241273e8496917383596e296e7e027472b1056539d3f"
+          },
+          "frametest-20261022": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 20261022 \nBasic tests completed \n\r    0   \r   16   \r   18   \r   34   \r   47   \r   68   \r   84   \r   89   \r   93   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "20669b27e8d4c6c4561bbdc4a77706832ce43e72673301767a8fa08c22840ae2"
+          }
+        },
+        "unit_tests": {
+          "exit": 0,
+          "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 4241\nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=9 \nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=10 \ngenerating low buffer at address 0x1000 \n\r    0   \r      1 /      1   - all tests completed successfully \ncompression ratio: 51.688%\nHC compression ratio: 48.507%\nratio with dict: 32.770%\n",
+          "stderr": ""
+        },
+        "streams": [
+          {
+            "mode": "block",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "block",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "block",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "block",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "block",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "hc",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "hc",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "hc",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "hc",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "hc",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "frame",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 11,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "b966d1adb50d2f9d31d02a07249838cb4367c896960d71855e58d9e02091e098"
+          },
+          {
+            "mode": "frame",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 16,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "5d1cd8975982b4508d292ca942e3e13ec64178a42baafd7f87c718d9e880ff32"
+          },
+          {
+            "mode": "frame",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 282,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "5df875ad25487fb02fe68f888377a29e1fd92c835cfbb635935f88303cca31b5"
+          },
+          {
+            "mode": "frame",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 537,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "ba51167cc2657e637358e7567852cb6f0310962567486f82872dbbadc8546ee5"
+          },
+          {
+            "mode": "frame",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65551,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "04ba4f629926316859404bbdf42e2955a0e1790d21e909c9722de01dcf82f0c2"
+          }
+        ]
+      },
+      "allocated": {
+        "status": "passed",
+        "checks": {
+          "fuzzer-1": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 1\ngenerating low buffer at address 0x1000 \n\r    5   \r   13   \r   19   \r   26   \r   31   \r   36   \r   42   \r   50   \r   57   \r   62   \r   66   \r   71   \r   78   \r   85   \r   91   \r   97   \r    100 /    100   - all tests completed successfully \ncompression ratio: 54.828%\nHC compression ratio: 51.668%\nratio with dict: 36.947%\n",
+            "stderr": "",
+            "stdout_sha256": "9f7770ae98f8608e44fc4eeb11c08ce90a2891a458b09b998522c734cfa742b7",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "fuzzer-20261022": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 20261022\ngenerating low buffer at address 0x1000 \n\r    3   \r   13   \r   18   \r   25   \r   29   \r   34   \r   39   \r   44   \r   52   \r   57   \r   62   \r   66   \r   73   \r   76   \r   81   \r   87   \r   92   \r   96   \r    100 /    100   - all tests completed successfully \ncompression ratio: 53.658%\nHC compression ratio: 50.331%\nratio with dict: 35.191%\n",
+            "stderr": "",
+            "stdout_sha256": "38a312c4bad38c93c0df5d89517fe1056c6793a58da82474d31c3ffa201af936",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "frametest-1": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 1 \nBasic tests completed \n\r    0   \r    9   \r   39   \r   76   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "7567fd61ec248f27f12e0877cea1cb582ec051e9a3f83b3812305dd47a5bba93"
+          },
+          "frametest-20261022": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 20261022 \nBasic tests completed \n\r    0   \r   28   \r   47   \r   84   \r   93   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "34f3e59cbdf9734009eb2d12fade97630ba80074914be5f7c2e2496313de4727"
+          }
+        },
+        "unit_tests": {
+          "exit": 0,
+          "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 3208\nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=9 \nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=10 \ngenerating low buffer at address 0x1000 \n\r    0   \r      1 /      1   - all tests completed successfully \ncompression ratio: 60.690%\nHC compression ratio: 58.862%\nratio with dict: 50.831%\n",
+          "stderr": ""
+        },
+        "streams": [
+          {
+            "mode": "block",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "block",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "block",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "block",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "block",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "hc",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "hc",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "hc",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "hc",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "hc",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "frame",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 11,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "b966d1adb50d2f9d31d02a07249838cb4367c896960d71855e58d9e02091e098"
+          },
+          {
+            "mode": "frame",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 16,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "5d1cd8975982b4508d292ca942e3e13ec64178a42baafd7f87c718d9e880ff32"
+          },
+          {
+            "mode": "frame",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 282,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "5df875ad25487fb02fe68f888377a29e1fd92c835cfbb635935f88303cca31b5"
+          },
+          {
+            "mode": "frame",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 537,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "ba51167cc2657e637358e7567852cb6f0310962567486f82872dbbadc8546ee5"
+          },
+          {
+            "mode": "frame",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65551,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "04ba4f629926316859404bbdf42e2955a0e1790d21e909c9722de01dcf82f0c2"
+          }
+        ]
+      },
+      "optimized": {
+        "status": "passed",
+        "checks": {
+          "fuzzer-1": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 1\ngenerating low buffer at address 0x1000 \n\r   11   \r   20   \r   30   \r   37   \r   49   \r   58   \r   65   \r   74   \r   86   \r   96   \r    100 /    100   - all tests completed successfully \ncompression ratio: 54.828%\nHC compression ratio: 51.668%\nratio with dict: 36.947%\n",
+            "stderr": "",
+            "stdout_sha256": "a097cbfeb366230247952cbd3924f5d8376252c1b0d4fa7db36025a09ce433ba",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "fuzzer-20261022": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 20261022\ngenerating low buffer at address 0x1000 \n\r   10   \r   20   \r   29   \r   37   \r   46   \r   56   \r   63   \r   72   \r   78   \r   90   \r   96   \r    100 /    100   - all tests completed successfully \ncompression ratio: 53.658%\nHC compression ratio: 50.331%\nratio with dict: 35.191%\n",
+            "stderr": "",
+            "stdout_sha256": "122c6a7c8d1214efc5f9081d7ad65771c090891b14890c4c8a0e29d532d1bd39",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "frametest-1": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 1 \nBasic tests completed \n\r    0   \r   26   \r   76   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "5a1a27a9b84ca03a51cf9360c7e1fffc1c2546f05a6107c7e04f92f66afb1554"
+          },
+          "frametest-20261022": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 20261022 \nBasic tests completed \n\r    0   \r   34   \r   83   \r   93   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "2449a1e72734070305863972defca6570279790776a41bf0ae255930e054b47f"
+          }
+        },
+        "unit_tests": {
+          "exit": 0,
+          "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 1797\nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=9 \nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=10 \ngenerating low buffer at address 0x1000 \n\r    0   \r      1 /      1   - all tests completed successfully \ncompression ratio: 49.195%\nHC compression ratio: 45.890%\nratio with dict: 7.255%\n",
+          "stderr": ""
+        },
+        "streams": [
+          {
+            "mode": "block",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "block",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "block",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "block",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "block",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "hc",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "hc",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "hc",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "hc",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "hc",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "frame",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 11,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "b966d1adb50d2f9d31d02a07249838cb4367c896960d71855e58d9e02091e098"
+          },
+          {
+            "mode": "frame",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 16,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "5d1cd8975982b4508d292ca942e3e13ec64178a42baafd7f87c718d9e880ff32"
+          },
+          {
+            "mode": "frame",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 282,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "5df875ad25487fb02fe68f888377a29e1fd92c835cfbb635935f88303cca31b5"
+          },
+          {
+            "mode": "frame",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 537,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "ba51167cc2657e637358e7567852cb6f0310962567486f82872dbbadc8546ee5"
+          },
+          {
+            "mode": "frame",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65551,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "04ba4f629926316859404bbdf42e2955a0e1790d21e909c9722de01dcf82f0c2"
+          }
+        ]
+      },
+      "qbe": {
+        "status": "passed",
+        "checks": {
+          "fuzzer-1": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 1\ngenerating low buffer at address 0x1000 \n\r   12   \r   23   \r   33   \r   42   \r   54   \r   62   \r   71   \r   84   \r   96   \r    100 /    100   - all tests completed successfully \ncompression ratio: 54.828%\nHC compression ratio: 51.668%\nratio with dict: 36.947%\n",
+            "stderr": "",
+            "stdout_sha256": "781ff49fdd463ce3c5403976b9261808aefdbc81921a83395971d86947cec437",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "fuzzer-20261022": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 20261022\ngenerating low buffer at address 0x1000 \n\r   13   \r   24   \r   32   \r   41   \r   53   \r   61   \r   71   \r   78   \r   91   \r    100 /    100   - all tests completed successfully \ncompression ratio: 53.658%\nHC compression ratio: 50.331%\nratio with dict: 35.191%\n",
+            "stderr": "",
+            "stdout_sha256": "01dc09873ea9350f750cfe3c0cdc8d95e7819aa9438bf5d823aadf4aae75db68",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "frametest-1": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 1 \nBasic tests completed \n\r    0   \r   34   \r   80   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "54b0922fdeb50a0fd7cf8fc2a5938be1ff39a8da96df353756f92725e763ecb9"
+          },
+          "frametest-20261022": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 20261022 \nBasic tests completed \n\r    0   \r   34   \r   84   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "d58d49df52a05029aef1bd2abb329da6283d95b815e1174a47c4aa96e1d84705"
+          }
+        },
+        "unit_tests": {
+          "exit": 0,
+          "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 5032\nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=9 \nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=10 \ngenerating low buffer at address 0x1000 \n\r    0   \r      1 /      1   - all tests completed successfully \ncompression ratio: 51.295%\nHC compression ratio: 47.766%\nratio with dict: 43.426%\n",
+          "stderr": ""
+        },
+        "streams": [
+          {
+            "mode": "block",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "block",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "block",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "block",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "block",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "hc",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "hc",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "hc",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "hc",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "hc",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "frame",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 11,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "b966d1adb50d2f9d31d02a07249838cb4367c896960d71855e58d9e02091e098"
+          },
+          {
+            "mode": "frame",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 16,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "5d1cd8975982b4508d292ca942e3e13ec64178a42baafd7f87c718d9e880ff32"
+          },
+          {
+            "mode": "frame",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 282,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "5df875ad25487fb02fe68f888377a29e1fd92c835cfbb635935f88303cca31b5"
+          },
+          {
+            "mode": "frame",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 537,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "ba51167cc2657e637358e7567852cb6f0310962567486f82872dbbadc8546ee5"
+          },
+          {
+            "mode": "frame",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65551,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "04ba4f629926316859404bbdf42e2955a0e1790d21e909c9722de01dcf82f0c2"
+          }
+        ]
+      },
+      "qbe-corrected": {
+        "status": "passed",
+        "checks": {
+          "fuzzer-1": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 1\ngenerating low buffer at address 0x1000 \n\r   12   \r   22   \r   32   \r   40   \r   51   \r   61   \r   68   \r   78   \r   90   \r   99   \r    100 /    100   - all tests completed successfully \ncompression ratio: 54.828%\nHC compression ratio: 51.668%\nratio with dict: 36.947%\n",
+            "stderr": "",
+            "stdout_sha256": "72f6b9a6630067affd40ecf098bcad8198b6bec4819125483d65ce4b7a3fe393",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "fuzzer-20261022": {
+            "exit": 0,
+            "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 20261022\ngenerating low buffer at address 0x1000 \n\r   12   \r   22   \r   30   \r   39   \r   48   \r   59   \r   66   \r   76   \r   86   \r   95   \r    100 /    100   - all tests completed successfully \ncompression ratio: 53.658%\nHC compression ratio: 50.331%\nratio with dict: 35.191%\n",
+            "stderr": "",
+            "stdout_sha256": "6ce97eeb3db3f1e30c8e2edb6933ca428d9f3b907aacff684d4e1505599002ad",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "frametest-1": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 1 \nBasic tests completed \n\r    0   \r   26   \r   76   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "5a1a27a9b84ca03a51cf9360c7e1fffc1c2546f05a6107c7e04f92f66afb1554"
+          },
+          "frametest-20261022": {
+            "exit": 0,
+            "stdout": "",
+            "stderr": "Starting lz4frame tester (64-bits, 1.10.0) \nSeed = 20261022 \nBasic tests completed \n\r    0   \r   34   \r   84   \rAll tests completed   \n",
+            "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stderr_sha256": "d58d49df52a05029aef1bd2abb329da6283d95b815e1174a47c4aa96e1d84705"
+          }
+        },
+        "unit_tests": {
+          "exit": 0,
+          "stdout": "Starting LZ4 fuzzer (64-bits, v1.10.0)\nSeed = 2925\nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=9 \nOverflow tests : 64 bits mode : no overflow \nAll unit tests completed successfully compressionLevel=10 \ngenerating low buffer at address 0x1000 \n\r    0   \r      1 /      1   - all tests completed successfully \ncompression ratio: 50.826%\nHC compression ratio: 46.780%\nratio with dict: 43.772%\n",
+          "stderr": ""
+        },
+        "streams": [
+          {
+            "mode": "block",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "block",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "block",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "block",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "block",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "hc",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 1,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d"
+          },
+          {
+            "mode": "hc",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 2,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "50ce734df436010eedd9c23b1b99535e7435808214559b6cfc1fa12c60f1eeb6"
+          },
+          {
+            "mode": "hc",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 267,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "bd8e93cd8210913b297d9d76950beda15a426c5fb646829ef69d4e37618e5734"
+          },
+          {
+            "mode": "hc",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 522,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "74973d7037abd1dd8409f46fd5e3baa98c2a0d09aa8f2c31b92f1ee538addef9"
+          },
+          {
+            "mode": "hc",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65794,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "7c1cb2ddd7820013ee86f67525cd8c328818d16e611234f67a3865b4e90724fc"
+          },
+          {
+            "mode": "frame",
+            "payload": 0,
+            "input_bytes": 0,
+            "compressed_bytes": 11,
+            "input_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "compressed_sha256": "b966d1adb50d2f9d31d02a07249838cb4367c896960d71855e58d9e02091e098"
+          },
+          {
+            "mode": "frame",
+            "payload": 1,
+            "input_bytes": 1,
+            "compressed_bytes": 16,
+            "input_sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb",
+            "compressed_sha256": "5d1cd8975982b4508d292ca942e3e13ec64178a42baafd7f87c718d9e880ff32"
+          },
+          {
+            "mode": "frame",
+            "payload": 2,
+            "input_bytes": 65536,
+            "compressed_bytes": 282,
+            "input_sha256": "bf718b6f653bebc184e1479f1935b8da974d701b893afcf49e701f3e2f9f9c5a",
+            "compressed_sha256": "5df875ad25487fb02fe68f888377a29e1fd92c835cfbb635935f88303cca31b5"
+          },
+          {
+            "mode": "frame",
+            "payload": 3,
+            "input_bytes": 65536,
+            "compressed_bytes": 537,
+            "input_sha256": "7daca2095d0438260fa849183dfc67faa459fdf4936e1bc91eec6b281b27e4c2",
+            "compressed_sha256": "ba51167cc2657e637358e7567852cb6f0310962567486f82872dbbadc8546ee5"
+          },
+          {
+            "mode": "frame",
+            "payload": 4,
+            "input_bytes": 65536,
+            "compressed_bytes": 65551,
+            "input_sha256": "3e7d6538959f43ffae4c92a851b23f062c1f83048468e77d6b6b9dadbb7ca340",
+            "compressed_sha256": "04ba4f629926316859404bbdf42e2955a0e1790d21e909c9722de01dcf82f0c2"
+          }
+        ]
+      }
+    }
+  }
+}
