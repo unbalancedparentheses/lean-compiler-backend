@@ -12,6 +12,14 @@ Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backen
 The current compiler source/build identity is
 `11be972e96d4fc9de4c6df28cd1fe7f5ddf5c728ff01348bd6d1398eef1748b4`.
 
+[Libyaml 0.2.5](benchmarks/libyaml/README.md) now qualifies all 21 original
+translation units (351 functions, 70,576 IR lines) in all three LCB modes on all
+three Linux targets, with 52 checks per mode against GCC O0/O2. Original QBE
+ARM reader and RV link failures remain separate from corrected-reference passes.
+A [fresh pointer Csmith campaign](benchmarks/csmith-pointers-overnight/README.md)
+qualifies 11/64 attempts per Linux target; 50 frontend refusals and three GCC
+reference timeouts are explicitly unqualified. Allocated replays pass.
+
 AMD64 omits redundant word normalization after operations that already write EAX.
 The [fresh qualification](benchmarks/amd-word-normalization/README.md) passes both
 full AMD target gates and 112,672 independent C checks per mode/target. Seventeen
