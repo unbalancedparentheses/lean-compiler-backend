@@ -19,7 +19,15 @@ cproc rejects three required volatile stores before any backend invocation.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`7958046aa99bf6a1d836e954f5f022dfc8e62384a8e58013fdf529eb5808e282`.
+`5ce9e7a3011f06f269e630fb6685db716de6a9d5850c99f4dedc6df83dcfc8fa`.
+
+[ARM typed extuw](benchmarks/arm-extuw/README.md) omits same-home unsigned
+word extensions only for declared word sources. Both native ARM matrices, full
+Linux ARM gate, units and unchanged 147-report audit pass. Zlib/libyaml/LZ4
+before/after executable checks pass, with 1,012/8/500 fewer optimized text bytes
+per ARM target. Baseline and ordinary emission corpus are unchanged. CI through
+a3778f4 is green; later runs remain pending. Leaf allocation and in-process zlib
+timing are under investigation, with no speed claim yet.
 
 [AMD64/RV64 fallthrough](benchmarks/branch-fallthrough/README.md) omits jumps to
 the immediately following block after preserving phi transfers. All three full

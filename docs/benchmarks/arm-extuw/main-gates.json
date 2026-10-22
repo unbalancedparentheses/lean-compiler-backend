@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "compiler_identity": "5ce9e7a3011f06f269e630fb6685db716de6a9d5850c99f4dedc6df83dcfc8fa",
+  "proof_audit": "147 reports byte-identical to previous checkpoint",
+  "logs": {
+    ".build/arm-extuw-main-units.log": {
+      "exit_code": 0,
+      "sha256": "70cc838e898e6ec08f2623db6094cc0a56c0410b1b1001548a7382b7f50c78e6",
+      "last_lines": [
+        "canonical job/artifact replay, dependency identities and SHA-256 checks passed",
+        "unit checks passed"
+      ]
+    },
+    ".build/arm-extuw-main-proof-audit.log": {
+      "exit_code": 0,
+      "sha256": "c555a9f334c34e0fbd082393488a072028ef92d77aec14bc7ba5c40e70fafad8",
+      "last_lines": [
+        "'LeanCompilerBackend.Verified.source_instruction_invert' depends on axioms: [propext, Quot.sound]",
+        "'LeanCompilerBackend.Verified.simulate_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]"
+      ]
+    },
+    ".build/arm-extuw-main-linux.log": {
+      "exit_code": 0,
+      "sha256": "3a91c62f866fdc1357fecafd83ccb7130b066ba8a6493e0acbe669daf1fe1b47",
+      "last_lines": [
+        "Linux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True",
+        "Actual compiler emission modes: {'baseline': 48, 'allocated': 38, 'optimized': 135}"
+      ]
+    },
+    ".build/arm-extuw-main-apple.log": {
+      "exit_code": 0,
+      "sha256": "9f535efb362e3cf27c83a8c57a05616edfd0772eab6d840d15e7bbf86c45fcbe",
+      "last_lines": [
+        "  \"original_qbe\": \"passed\"",
+        "}"
+      ]
+    },
+    ".build/arm-extuw-main-emission.log": {
+      "exit_code": 0,
+      "sha256": "1c67749e247bb4249be93cb5d8f100e3172e430c0ab264733ced3c57fe6e2a45",
+      "last_lines": [
+        "{'target': 'riscv64-linux', 'compiler_identity': '5ce9e7a3011f06f269e630fb6685db716de6a9d5850c99f4dedc6df83dcfc8fa', 'compiler_sha256': '8cd66c28eef69a0e22176779ffb4bd0ab602c76ca2b64ccca0d457fb6c3bb6d5', 'source_sha256': '1b3421d5ef0741309a2b9f14f57ada4ba8fb85052d27f792b1632c6062a9c9f2', 'caller_sha256': '7a1f9a59c83bce11d84a2bb08d4f3ab79f1a24ffa54249d03c31af93fa74073a', 'emitted_checks_per_mode': 9728, 'executed_checks_per_mode': 0, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}",
+        "Emission-only target helpers passed with missing tools and an execution guard"
+      ]
+    },
+    ".build/arm-extuw-main-equivalence.log": {
+      "exit_code": 0,
+      "sha256": "e63f41ee2d97e31a81357ed71a9b6c5da06a1c1f0083c3301d0320956515c906",
+      "last_lines": [
+        "1305 identical assemblies; 15 identical refusals; 0 failures; .build/arm-extuw-main-equivalence.json"
+      ]
+    }
+  }
+}

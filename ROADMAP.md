@@ -76,6 +76,11 @@ now omits next-block jumps after phi transfers. All affected target gates and
 independent matrices pass; optimized zlib text shrinks further with byte-exact
 stream comparisons. Conditional branch reach and target selection are unchanged.
 
+ARM64 [typed unsigned-word extensions](docs/benchmarks/arm-extuw/README.md)
+now omit same-home conversions only for declared word sources. Both native ARM
+matrices and the complete Linux ARM gate pass, alongside zlib/libyaml/LZ4 executable
+comparisons. The documented word-producer invariant still needs formal coverage.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and

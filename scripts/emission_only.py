@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from arm_extuw import exercise as arm_extuw
 from branch_fallthrough import exercise as fallthrough
 from signed_division_one import exercise as signed_one
 from arm_branch_layout import exercise as arm_branches
@@ -33,6 +34,8 @@ def main():
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
         for target in ['aarch64-linux', 'aarch64-macos']:
+            extuw = arm_extuw(LCB,work/target,run,cc,target,False,qbe)
+            assert extuw['checks_per_mode'] == 0 and extuw['negative_control'] == 'not-run'
             arm = arm_extensions(LCB, work/target, run, cc, target, False)
             assert arm['checks_per_mode'] == 0 and arm['negative_control'] == 'not-run'
             branches = arm_branches(LCB, work/target, run, cc, target, False, qbe, 'arm64', large=False)

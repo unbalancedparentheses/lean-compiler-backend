@@ -150,6 +150,8 @@ def main():
     extension_tests(compiler,work,run,cc,'aarch64-linux',native)
     from arm_load_extensions import exercise as arm_load_extension_tests
     arm_load_extension_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from arm_extuw import exercise as arm_extuw_tests
+    arm_extuw_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
     from arm_branch_layout import exercise as arm_branch_tests
     arm_branch_tests(compiler,work,run,cc,'aarch64-linux',native,qbe,'arm64')
     from signed_division_one import exercise as signed_one_tests

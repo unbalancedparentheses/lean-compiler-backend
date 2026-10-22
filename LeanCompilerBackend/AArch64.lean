@@ -183,6 +183,7 @@ private def slotAccess (instruction base register : String) (bytes offset : Nat)
 private structure Homes where
   stack : Std.HashMap String Nat
   registers : Std.HashMap String Nat
+  widths : Std.HashMap String Width
 
 private def operandRegister (homes : Homes) (scratch : Nat) : Operand → Nat
   | .temporary name => (homes.registers[name]?).getD scratch
@@ -521,7 +522,14 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     let sourceHome := operandRegister slots 9 value
     let resultHome := (slots.registers[inst.destination]?).getD 9
     if sourceHome == 9 then lines := lines ++ (← load darwin localSymbols base slots (op.inputWidth inst.width) 9 value)
-    lines := lines ++ unaryInstruction inst.width op resultHome sourceHome
+    -- Every declared word definition writes W, including parameters, phis,
+    -- FP bit results, varargs and ABI call returns. A same-home extuw therefore
+    -- already has zero upper bits. Long-typed sources still require truncation.
+    let redundant := op == .unsignedWord && sourceHome != 9 && sourceHome == resultHome &&
+      match value with
+      | .temporary name => slots.widths[name]? == some .word
+      | _ => false
+    if !redundant then lines := lines ++ unaryInstruction inst.width op resultHome sourceHome
     if resultHome != 9 then return lines
   | .divide op a b =>
     let left := operandRegister slots 9 a
@@ -827,7 +835,8 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   -- Lookup-only tables preserve layout order; reversing retains List.lookup first-match behavior.
   let slots : Homes := {
     stack := Std.HashMap.ofList ((homes.homes.filterMap (fun (name,i) => if i >= homes.registerCount then some (name,outgoing+(i-homes.registerCount)*8) else none)).reverse)
-    registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (name,i) => if i < homes.registerCount then some (name,19+i) else none)).reverse) }
+    registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (name,i) => if i < homes.registerCount then some (name,19+i) else none)).reverse)
+    widths := Std.HashMap.ofList f.locals.toList }
   let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
   let stageBase := outgoing + homes.spills * 8
   let mut frameEnd := outgoing + (homes.spills + maxPhis) * 8
