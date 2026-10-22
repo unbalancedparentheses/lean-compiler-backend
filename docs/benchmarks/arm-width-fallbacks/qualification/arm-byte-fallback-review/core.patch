@@ -1,0 +1,12 @@
+diff --git a/LeanCompilerBackend/AArch64.lean b/LeanCompilerBackend/AArch64.lean
+index 42fbed6..f9dafe0 100644
+--- a/LeanCompilerBackend/AArch64.lean
++++ b/LeanCompilerBackend/AArch64.lean
+@@ -675,6 +675,7 @@ private def adjacentIndexedLoad (darwin : Bool) (localSymbols : List String) (ba
+   let .binary .add (.temporary left) (.temporary right) := address.operation | return none
+   let .assign inst := second | return none
+   let .load kind (.temporary name) := inst.operation | return none
++  if kind.bytes inst.width == 1 then return none
+   if name != address.destination then return none
+   let leftHome := operandRegister slots 9 (.temporary left)
+   let rightHome := operandRegister slots 10 (.temporary right)

@@ -117,8 +117,9 @@ ARM [adjacent indexed loads](docs/benchmarks/arm-indexed-load/README.md) now com
 sole-use long temporary sums with loads. Both native ARM matrices, actual spill
 offsets beyond 32 KiB and the full Linux ARM gate pass. Fresh zlib execution
 qualifies 584 fewer optimized text bytes per target. Paired timing shows a
-compression tradeoff; the [broad narrow-load fallback experiment](docs/benchmarks/arm-wide-indexed/README.md) remains unmerged. Byte/halfword-specific
-experiments are separately qualified and awaiting timing.
+compression tradeoff; the [broad narrow-load fallback experiment](docs/benchmarks/arm-wide-indexed/README.md) remains unmerged. [Byte/halfword-specific experiments](docs/benchmarks/arm-width-fallbacks/README.md)
+pass correctness and two compression-only timing windows but remain unmerged:
+mixed-payload gains come with small repeated-payload costs and need broader qualification.
 
 A [mixed Lua 5.4.7 build](docs/benchmarks/lua-mixed/README.md) now qualifies
 968 functions across 30 frontend-compatible units on native Linux ARM64. Three

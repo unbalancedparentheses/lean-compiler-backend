@@ -1,0 +1,41 @@
+{
+  "compiler_identity": "43e76b2aa4e5e3a02a9c91400934c1198626f355c86b61fb601fc35972b30e32",
+  "compiler_sha256": "b291549be8d8dee46ba581929cdaadd3fc90bb4cbf97304b79b7118a5a9ee8fe",
+  "before_identity": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+  "before_sha256": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+  "source_sha256": "6174a2e6109299ef13661126e913b476221f6d5ff22a6299ee247f7f0a0b4bc9",
+  "caller_sha256": "c5f02693dda6912deb60715ca27a32b6eb228a66fac4a54b6b63a89383039c2b",
+  "target": "aarch64-macos",
+  "case_groups_per_mode": 37124,
+  "count_qualification": "Each group contains one or more independent C comparisons; totals include guarded-page cases.",
+  "modes": {
+    "baseline": {
+      "assembly_sha256": "2cab19d297eb2a1c18b0ee87c07fdc9f67bd5dc133ec1c5012045f1eb9fd1c55",
+      "execution": "passed",
+      "baseline_identical": true,
+      "executable_sha256": "6c9582f7dd01544583d60e70c5b00063d83f991503e83887f6eca74662f240a7"
+    },
+    "allocated": {
+      "assembly_sha256": "74b6bb1de00b312bc68c0734575a25683488b9defa9c8f5815d05a9822e5d73b",
+      "execution": "passed",
+      "baseline_identical": null,
+      "executable_sha256": "0264fe1b2e88dd82d466831b300ef2fba8ec59dd698970f9fc84557521d3d350"
+    },
+    "optimized": {
+      "assembly_sha256": "84a4ef77cef17c3d23286ffef3fbf304f54aa6313948a581daffded70c7d2cdd",
+      "execution": "passed",
+      "baseline_identical": null,
+      "executable_sha256": "0a59e5ceea9fc3849a82035fa8e683ef812bececb1bdf565658c4ace107662fb"
+    }
+  },
+  "negative_control": {
+    "status": "detected",
+    "exit": 1
+  },
+  "original_qbe": "passed",
+  "guard_overread_control": {
+    "status": "detected",
+    "exit": -10
+  },
+  "original_qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+}

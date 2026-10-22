@@ -57,6 +57,10 @@ also shift, so this is localization evidence, not an instruction-level causal
 proof. Two function-body timing windows now complete provenance checks: longest_match
 alone stays near parity; the remaining deflate mixture retains slowdown. A v1
 summary-script failure is retained unqualified; two fresh v2 windows are separate.
+[Width-specific fallbacks](benchmarks/arm-width-fallbacks/README.md) now pass two
+compression-only windows: halfword fallback gains 2.6–3.0% on mixed compression
+with about a 0.3% repeated-payload cost. All width candidates remain unmerged;
+these are exploratory tradeoffs, not universal policy wins.
 
 [Scalar-result discard](benchmarks/scalar-result-discard/README.md) now accepts
 effect-only calls to defined scalar-return functions, preserving effects and

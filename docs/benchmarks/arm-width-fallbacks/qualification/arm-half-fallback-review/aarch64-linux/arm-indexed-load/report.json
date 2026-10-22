@@ -1,0 +1,41 @@
+{
+  "compiler_identity": "43e76b2aa4e5e3a02a9c91400934c1198626f355c86b61fb601fc35972b30e32",
+  "compiler_sha256": "b291549be8d8dee46ba581929cdaadd3fc90bb4cbf97304b79b7118a5a9ee8fe",
+  "before_identity": "240863b373737ef51e61b743b39ed0448646e993bc0bae175fdd780436bfaefd",
+  "before_sha256": "a0166149c7afbd6457db31e5647027aca5c54028fc8b1ac4165b42eecd52c5f5",
+  "source_sha256": "6174a2e6109299ef13661126e913b476221f6d5ff22a6299ee247f7f0a0b4bc9",
+  "caller_sha256": "c5f02693dda6912deb60715ca27a32b6eb228a66fac4a54b6b63a89383039c2b",
+  "target": "aarch64-linux",
+  "case_groups_per_mode": 37124,
+  "count_qualification": "Each group contains one or more independent C comparisons; totals include guarded-page cases.",
+  "modes": {
+    "baseline": {
+      "assembly_sha256": "4f72b971b7259795cbf6bcfc200b2713ba4753ae2a1d7b77a603e42760b7399b",
+      "execution": "passed",
+      "baseline_identical": true,
+      "executable_sha256": "a76936e1bf12b06997a01ea255ad4f71e1792abda86f326807a9cf5d2535bf79"
+    },
+    "allocated": {
+      "assembly_sha256": "260a7104a662a8277a66a203c14df10e3519006b7f9270453ded080df9d44f74",
+      "execution": "passed",
+      "baseline_identical": null,
+      "executable_sha256": "6eb9d8615174bcaaa0e5bc4d530a73f2cb179bb7635e2821f736e4f42c4218f7"
+    },
+    "optimized": {
+      "assembly_sha256": "ca22ccf3c9c4162fc72b80cfed051d63c38a58e384a8bb57a838666df05b49a4",
+      "execution": "passed",
+      "baseline_identical": null,
+      "executable_sha256": "f71150b2f7177354cfe65bbb756ddcec94fd0a114a89d601804e1d0e2cdeeeae"
+    }
+  },
+  "negative_control": {
+    "status": "detected",
+    "exit": 1
+  },
+  "original_qbe": "passed",
+  "guard_overread_control": {
+    "status": "detected",
+    "exit": 139
+  },
+  "original_qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+}
