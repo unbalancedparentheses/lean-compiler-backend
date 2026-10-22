@@ -132,15 +132,15 @@ def limits(work):
     source.write_text(maximal.replace(' ret %v479', ' %extra =l copy 0\n ret %v479'))
     run([LCB, '--check', source])
     run([LCB, '--first-path', source], success=False)
-    maximum_parameters = ', '.join(f'l %p{i}' for i in range(64))
-    parameter_function = 'function l $parameters(' + maximum_parameters + ') {\n@s\n ret %p63\n}\n'
+    maximum_parameters = ', '.join(f'l %p{i}' for i in range(1024))
+    parameter_function = 'function l $parameters(' + maximum_parameters + ') {\n@s\n ret %p1023\n}\n'
     source.write_text(prefix + parameter_function)
     run([LCB, '--check', source])
     run([LCB, '--target', 'aarch64-macos', source, '-o', work / 'parameters.s'])
-    assert int(run([LCB, '--eval', source, 'parameters', *map(str, range(64))]).stdout) == 63
+    assert int(run([LCB, '--eval', source, 'parameters', *map(str, range(1024))]).stdout) == 1023
     source.write_text('function l $f(' + maximum_parameters + ', l %extra) { @s ret 0 }')
     run([LCB, '--check', source], success=False)
-    print('resource boundaries: more than 64 functions, 64 parameters; compatibility exceeds the retained 480-definition first-path bound')
+    print('resource boundaries: more than 64 functions, 1024 parameters; compatibility exceeds the retained 480-definition first-path bound')
 
 
 def harness():

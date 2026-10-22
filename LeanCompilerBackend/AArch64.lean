@@ -368,6 +368,7 @@ private def emitCall (darwin : Bool) (localSymbols : List String) (types : Array
     : Except String (List String) := do
   let mut lines := []
   let plan ← AggregateABI.plan types arguments darwin
+  if plan.totalBytes > 1024 * 1024 then throw "outgoing argument area exceeds the 1 MiB resource limit"
   let dynamicOutgoing := base == "x29" && plan.totalBytes != 0
   if dynamicOutgoing then lines := lines ++ adjustStack "sub" plan.totalBytes
   -- Copy indirect arguments before filling live argument registers.
@@ -385,7 +386,7 @@ private def emitCall (darwin : Bool) (localSymbols : List String) (types : Array
         let some offset := entry.copyOffset | throw "missing indirect aggregate copy"
         match entry.location with
         | .general first _ => lines := lines ++ stackAddress "sp" first offset
-        | .stack dest => lines := lines ++ stackAddress "sp" 12 offset ++ [s!"\tstr x12, [sp, #{dest}]"]
+        | .stack dest => lines := lines ++ stackAddress "sp" 12 offset ++ slotAccess "str" "sp" "x12" 8 dest
         | _ => throw "indirect aggregate in floating register"
       else
         lines := lines ++ (← load darwin localSymbols base slots .long 12 argument.value)
@@ -408,11 +409,11 @@ private def emitCall (darwin : Bool) (localSymbols : List String) (types : Array
       | .stack offset =>
         lines := lines ++ (← load darwin localSymbols base slots argument.width 9 argument.value)
         if let some kind := argument.subword then lines := lines ++ [extendSubword kind 9]
-        let instruction := if !argument.variadic then match argument.subword with
-          | some kind => if kind.bytes == 1 then "strb w9" else "strh w9"
-          | none => s!"str {register argument.width 9}"
-          else s!"str {register argument.width 9}"
-        lines := lines ++ [s!"\t{instruction}, [sp, #{offset}]"]
+        let bytes := if !argument.variadic then
+          (argument.subword.map (·.bytes)).getD argument.width.bytes
+          else argument.width.bytes
+        let instruction := if bytes == 1 then "strb" else if bytes == 2 then "strh" else "str"
+        lines := lines ++ slotAccess instruction "sp" (register argument.width 9) bytes offset
   if let some (destination, name) := result then
     let info ← AggregateABI.find types name
     if info.passing == .indirect then

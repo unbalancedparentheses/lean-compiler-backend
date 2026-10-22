@@ -114,7 +114,7 @@ before rebuilding; the checks reject stale source/build identities.
 
 ## Current scope
 
-- Scalar `w`/`l`/`s`/`d` and void functions with up to 64 typed arguments.
+- Scalar `w`/`l`/`s`/`d` and void functions with up to 1024 typed scalar/aggregate arguments.
 - Integer arithmetic/bitwise operations, masked shifts, signed/unsigned
   division and remainder, negation, all integer comparisons and byte/half/word extensions.
 - Defined 32/64-bit modular arithmetic, including narrowing `l` operands to `w`.
@@ -132,7 +132,7 @@ before rebuilding; the checks reject stale source/build identities.
 - Effect-only `blit source, destination, count` copies, with constant byte counts
   in 0..1 MiB. Copies above 128 bytes use compact loops. The source and destination spans must be disjoint or have identical
   addresses, as required by QBE. The byte-count cap is a compiler resource limit.
-- Direct and indirect calls with up to 64 typed scalar arguments and a scalar or void result,
+- Direct and indirect calls with up to 1024 typed scalar/aggregate arguments and a scalar, aggregate or void result,
   including recursion and external C symbols. Internal signatures are checked;
   external definitions must honor the declared ABI. Non-leaf frames save the
   return address and preserve live values across calls.
@@ -150,7 +150,8 @@ before rebuilding; the checks reject stale source/build identities.
 - Apple ARM64 uses independent banks of eight named integer and floating argument
   registers, then uses
   naturally aligned stack arguments: four bytes for words and eight for longs.
-  The 64-argument cap is a compiler resource limit; the frame limit still applies.
+  The 1024-argument cap is a compiler resource limit; fixed frames and outgoing
+  argument areas remain bounded by 1 MiB. The certified profile retains eight parameters.
 - A small Lean theorem for primitive arithmetic opcode selection. A separate
   first-path model additionally proves source execution facts, target ALU,
   register/flag/frame helper facts and artifact binding. Admission soundness

@@ -56,7 +56,7 @@ This fixture count does not mean the full port is complete.
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
-   review implementation limits (4096 functions, 64 arguments, bounded object/frame
+   review implementation limits (4096 functions, 1024 arguments, bounded object/frame
    sizes) against real frontend workloads. QBE target aliases, stdin/stdout and
    multi-input CLI conventions now support frontend pipelines. The compatibility
    driver defaults to its supported host architecture/OS; unknown hosts require
@@ -189,8 +189,11 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
 - [ ] P07 — Calls, variadics, aggregates, floating point and the five in-scope ABIs.
-  Direct and indirect calls with up to 64 w/l/s/d register/stack arguments and a scalar or void result,
-  recursion and native C interoperation are implemented as an initial slice.
+  Direct and indirect calls with up to 1024 scalar/aggregate register/stack arguments
+  and scalar, aggregate or void results, recursion and native C interoperation are
+  implemented within the compatibility resource profile. Seven boundary signatures
+  pass independent C checks in all three lowering modes on the five targets; original
+  QBE comparisons exclude explicitly recorded narrow-call/large-address failures.
   Function tables, native C callbacks, env arguments and integer/floating variadics
   (vastart/vaarg) are also tested. Subword ABI arguments/results and packed byte/short stack slots are tested;
   Apple ARM64 aggregate arguments/results now include GP/FP registers, stack fallback,

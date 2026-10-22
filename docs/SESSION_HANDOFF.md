@@ -10,7 +10,21 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`aa20e5ffce15827dcb8e6a489cadbb089fd6dc1bbd08879077f9a823cc730759`.
+`97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20`.
+
+Compatibility now admits 1024 typed parameters/arguments, including aggregates,
+while retaining the eight-parameter certified profile and 1 MiB frame/outgoing
+area bounds. Large AArch64 outgoing scalar/narrow stores use reserved x15
+addressing when scaled immediates cannot encode the offset. Independent C
+boundary tests cover seven signatures, all three lowering modes and five call
+paths; see [argument-limit evidence](benchmarks/argument-limits/README.md).
+The additional dynamic-outgoing suite passes 515-HFA calls with live runtime
+allocations, TLS and direct/indirect/environment paths across all five targets.
+Original QBE's narrow-call and RV aggregate-address failures are retained and
+excluded explicitly from oracle profiles, never from independent LCB/C checks.
+
+## Preceding lookup-map compilation checkpoint
+
 
 SSA binding updates and all three emitters now use lookup-only hash maps.
 No map enumeration determines output order; home tables preserve first-match

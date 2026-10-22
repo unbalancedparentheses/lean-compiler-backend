@@ -285,7 +285,7 @@ def controls(work):
         '%r =w call $f(l 1)', '%r =l call $f()', '%r =l call $f(w 1)',
         '%r =l call $f(l %missing)', '%r =l call %missing_target(l 1)',
         '%r =l call $f(l 1,)', '%r =l call $f(...)', '%r =l call $f(d 1)',
-        '%r =sb call $f(l 1)', '%r =l call $too_many(' + ','.join('l 1' for _ in range(65)) + ')',
+        '%r =sb call $f(l 1)', '%r =l call $too_many(' + ','.join('l 1' for _ in range(1025)) + ')',
     ]
     source = work/'control.ssa'
     for operation in bad:

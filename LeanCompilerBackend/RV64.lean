@@ -129,6 +129,7 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
       let info ← RV64ABI.find c.types name
       if info.indirect then total := total+max 1 info.layout.size
   let bytes := align total
+  if bytes > 1024 * 1024 then throw "RV64 outgoing argument area exceeds 1 MiB"
   let mut lines := address "sp" "sp" (-(bytes : Int))
   for i in [:args.size] do
     let a := args[i]!

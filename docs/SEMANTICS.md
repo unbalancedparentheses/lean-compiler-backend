@@ -304,7 +304,8 @@ pointer in the function body. Its ABI type name remains explicit on function and
 call signatures; known direct and interpreted indirect calls check those names.
 Types must precede their uses. ABI admission currently limits aggregate size to
 4096 bytes and alignment to at most 8, independently of the larger storage-layout
-limits. The existing 64-argument, function and instruction limits still apply.
+limits. The 1024-argument compatibility bound and the function/instruction limits
+still apply; the certified profile retains its independent eight-parameter bound.
 
 Homogeneous single/double aggregates use up to four FP registers; small other
 aggregates use one or two GP registers. An aggregate that does not fit is passed
@@ -343,10 +344,12 @@ matches. Aggregate lowering is tested and explicitly uncertified.
 
 ## Scalable compatibility CFG and frame limits
 
-The compatibility parser admits up to 4096 blocks and 16384 instructions/phis per
-function, with 8 MiB input and 500000 tokens. Block bodies, block lists and phi
+The compatibility parser admits up to 4096 blocks and 70000 instructions/phis per
+function, with 8 MiB input and 600000 tokens. Block bodies, block lists and phi
 incoming lists and top-level definitions parse iteratively. Modules admit 4096
-functions and 16384 top-level parsing items; the 64-argument bound remains.
+functions and 16384 top-level parsing items, with at most 1024 scalar/aggregate
+parameters or call arguments. Fixed frames and each outgoing argument area remain
+bounded by 1 MiB, including dynamic calls and private aggregate copies.
 Function definitions and direct-call signatures use an indexed lookup. Native/
 emulated tests execute a 4096-function forward-call chain and reject oversized
 modules, late duplicate definitions and late call-signature mismatches.

@@ -164,6 +164,10 @@ def main():
     prefix_collision_tests(compiler,work,run,cc,'aarch64-linux',native)
     from promotion_bindings import exercise as promotion_binding_tests
     promotion_binding_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from dynamic_outgoing import exercise as dynamic_outgoing_tests
+    dynamic_outgoing_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from argument_limits import exercise as argument_limit_tests, original_qbe_profiles
+    argument_limit_tests(compiler,work,run,cc,'aarch64-linux',native,qbe,'arm64',original_qbe_profiles('aarch64-linux'))
     from allocation import exercise as allocation_tests
     allocation_tests(compiler,work,run,cc,'aarch64-linux',native,optimized_only=args.optimize)
     from instruction_selection import exercise as selection_tests

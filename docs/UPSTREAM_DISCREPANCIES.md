@@ -110,6 +110,27 @@ for the QBE reference: pinned RV64 omits required subword return extensions, and
 AMD64 narrow call arguments disagree with Clang C callees in some signed-halfword
 cases. The independent C caller still checks the original Lean source.
 
+The 1024-argument boundary suite also retains a [single signed-byte outbound
+call](benchmarks/argument-limits/rv-narrow-input.ssa) with an [independent C
+callee](benchmarks/argument-limits/rv-narrow-caller.c): pinned RV64 and Apple AMD64
+QBE pass 140 where an optimized C callee (`-O1`) expects -116; an
+unoptimized callee may mask the missing extension. QBE's call specification explicitly permits
+unextended subword arguments; this differs from consuming unspecified upper bits
+of a subword return. The Apple AMD64 result belongs to the existing Clang
+narrow-call discrepancy class. All LCB profiles run unchanged against C; original
+QBE comparisons omit the two narrow/aggregate mixtures on these targets.
+
+Pinned RV64 also emits an out-of-range `add t0,fp,2048` for the second field of
+the final argument in a [132-pair signature](benchmarks/argument-limits/rv-aggregate-132.ssa).
+The [131-pair control](benchmarks/argument-limits/rv-aggregate-131.ssa) assembles.
+The retained [assembler result](benchmarks/argument-limits/argument-rv-aggregate-minimal.log)
+records the boundary. The emitter's `Oaddr` test checks the negative side of the
+immediate bound but admits this oversized positive offset. The argument suite
+therefore additionally excludes the 1024-all-aggregate original RV64 oracle;
+LCB's independent C execution still covers it in all three modes. Original QBE
+source is unchanged, and RV64 oracle executables retain their explicit `-no-pie`
+link profile while LCB uses the default.
+
 `scripts/target_aggregate.py` isolates three RV64 exact-capacity pressure failures
 (single float, single double and mixed float/integer aggregates). In pinned
 `rv64/abi.c`, `argsclass` uses `>=` when deciding whether aggregate register banks

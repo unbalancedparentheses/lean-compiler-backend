@@ -1,0 +1,79 @@
+{
+  "compiler_identity": "97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20",
+  "rv_aggregate": [
+    {
+      "parameters": 131,
+      "mode": "baseline",
+      "assembler_exit": 0,
+      "stderr": ""
+    },
+    {
+      "parameters": 131,
+      "mode": "allocated",
+      "assembler_exit": 0,
+      "stderr": ""
+    },
+    {
+      "parameters": 131,
+      "mode": "optimized",
+      "assembler_exit": 0,
+      "stderr": ""
+    },
+    {
+      "parameters": 131,
+      "mode": "original-qbe",
+      "assembler_exit": 0,
+      "stderr": ""
+    },
+    {
+      "parameters": 132,
+      "mode": "baseline",
+      "assembler_exit": 0,
+      "stderr": ""
+    },
+    {
+      "parameters": 132,
+      "mode": "allocated",
+      "assembler_exit": 0,
+      "stderr": ""
+    },
+    {
+      "parameters": 132,
+      "mode": "optimized",
+      "assembler_exit": 0,
+      "stderr": ""
+    },
+    {
+      "parameters": 132,
+      "mode": "original-qbe",
+      "assembler_exit": 1,
+      "stderr": "/work/argument-minimal-current/132-original-qbe.s: Assembler messages:\n/work/argument-minimal-current/132-original-qbe.s:33: Error: illegal operands `add t0,fp,2048'\n"
+    }
+  ],
+  "rv_narrow": [
+    {
+      "mode": "baseline",
+      "exit": 0,
+      "stdout": "-116\n"
+    },
+    {
+      "mode": "allocated",
+      "exit": 0,
+      "stdout": "-116\n"
+    },
+    {
+      "mode": "optimized",
+      "exit": 0,
+      "stdout": "-116\n"
+    },
+    {
+      "mode": "original-qbe",
+      "exit": 1,
+      "stdout": "140\n"
+    }
+  ],
+  "narrow_c_compiler_options": [
+    "-O1"
+  ],
+  "execution": "RV64 via QEMU; original QBE narrow executable -no-pie; LCB default link"
+}

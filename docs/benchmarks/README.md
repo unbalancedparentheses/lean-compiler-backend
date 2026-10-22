@@ -857,3 +857,9 @@ regression addresses this concrete error without establishing an end-to-end proo
 identities, identical-assembly checks, the unchanged large-structure workload
 and independent C regression results. These are local compilation measurements;
 no generated-program speedup or new preservation proof is claimed.
+
+## 1024-argument compatibility checkpoint
+
+[Boundary suite and qualification](argument-limits/README.md) cover mixed scalar,
+narrow and aggregate signatures across the five supported targets, with explicit
+original-QBE oracle exclusions and unchanged certified-profile limits.

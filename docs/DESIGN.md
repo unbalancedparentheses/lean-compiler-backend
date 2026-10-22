@@ -45,8 +45,8 @@ restricted compatible operation subset, not a claim of full QBE compatibility.
 Unquoted names follow QBE's ASCII grammar, including dots and embedded dollar
 signs, with a letter, underscore or dot first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
 
-Compatibility functions have at most 64 arguments, 16384 instructions/phi nodes
-and 4096 blocks; programs have at most 4096 functions, 16384 top-level parsing items, 8 MiB of input and 500000
+Compatibility functions have at most 1024 arguments, 70000 instructions/phi nodes
+and 4096 blocks; programs have at most 4096 functions, 16384 top-level parsing items, 8 MiB of input and 600000
 tokens. The restricted first-path profile retains 64 blocks and 480 definitions. Frames are 16-byte aligned,
 at most 1 MiB in the compatibility backend (4080 bytes in the restricted first
 proof profile). Large frame adjustments and allocation addresses use split
@@ -55,16 +55,20 @@ register, and large local/phi/LR accesses reserve x15 for their address. Every v
 the low four bytes. Implicit word-to-long widening is rejected. Scratch registers
 x9/x10/x11 and the x16 indirect-call target are caller-clobbered. Dynamic
 allocation functions save/restore x29 and use it as a stable frame base.
-Direct/indirect calls accept up to 64 typed w/l arguments and a w/l or void result. The
-first eight arguments are loaded from stable slots into x0..x7/w0..w7, preserving
-permutations. Apple ARM64 places later word arguments in four-byte aligned slots
+Direct/indirect calls accept up to 1024 typed scalar/aggregate arguments and a
+scalar, aggregate or void result. Integer
+scalar arguments use x0..x7/w0..w7 while general-purpose argument registers remain
+available, loaded from stable homes to preserve permutations. Apple ARM64 places later word arguments in four-byte aligned slots
 and long arguments in eight-byte aligned slots. The outgoing area is rounded to
 16 bytes. Static-frame functions reserve it below locals, phi staging, saved LR
 and allocated objects; its size covers the largest call. Dynamic-frame functions
 reserve and release it at each call below the current SP, protecting live objects. Incoming stack arguments are read above the complete local
 frame, using offsets from the caller's SP. Caller and callee use the same explicit
-argument layout, checked against independent C in both directions. The 64-argument
+argument layout, checked against independent C in both directions. The 1024-argument
 cap is a resource policy, not an ABI constraint; the frame limit remains separate.
+Each outgoing argument area is also limited to 1 MiB, including dynamic calls and
+private indirect aggregate copies. Large outgoing AArch64 stores use a scratch
+address when their offsets exceed the instruction's immediate range.
 Non-leaf functions reserve a separate slot for x30 and restore it before return.
 All values live across calls remain in the caller's frame, outside callee clobbers.
 Internal call ABI signatures are checked; Apple ARM64 word results may also be
@@ -176,6 +180,20 @@ Stack-argument qualification covers counts from eight through 64, word/long
 packing patterns, internal/external calls and non-leaf incoming parameters.
 Recursive cases retain each caller's local stack object. Deliberately widened
 outgoing word stores and displaced incoming loads must change native results.
+
+`scripts/argument_limits.py` additionally checks seven signatures: scalar mixtures
+at 64/65/128/1024 arguments, narrow/aggregate mixtures at 65/1024, and 1024
+all-aggregate arguments. Sixteen seeds and five call paths give 560 independent C
+checks per lowering mode and target. Baseline, allocated and optimized output
+passed on Apple ARM64 and Linux ARM64 natively, Apple x86-64 through Rosetta,
+and Linux x86-64/RV64 through QEMU. Unchanged QBE matches seven profiles on both
+ARM64 targets and Linux x86-64, five on Apple x86-64, and four on RV64. Apple
+x86-64 excludes the two narrow mixtures; RV64 excludes both narrow mixtures and
+the all-aggregate case. The retained upstream narrow-call and large positive
+aggregate-address failures do not weaken the independent LCB/C checks. Only the
+RV64 QBE reference uses `-no-pie`; LCB retains default linking. Refusal controls
+cover 1025 arguments, oversized incoming/outgoing frames, and the separate
+certified eight-parameter limit; a corrupted return must fail the C oracle.
 
 The first-path machine IR now makes stack accesses, registers, immediates and
 prologue/epilogue operations explicit; its typed assembly has legality checks and

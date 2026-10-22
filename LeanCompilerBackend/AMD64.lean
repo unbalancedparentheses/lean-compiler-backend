@@ -131,6 +131,7 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
   let resultInfo ← result.mapM (fun (_, name) => AMD64ABI.find c.types name)
   let p ← plan c.types args (resultInfo.any (·.memory))
   let bytes := align p.stackBytes
+  if bytes > 1024 * 1024 then throw "AMD64 outgoing argument area exceeds 1 MiB"
   let mut lines := if bytes != 0 then [s!"\tsubq ${bytes}, %rsp"] else []
   for i in [:args.size] do
     let arg := args[i]!

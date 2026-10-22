@@ -1,0 +1,211 @@
+{
+  "aarch64-linux": {
+    "target": "aarch64-linux",
+    "execution": true,
+    "tls": true,
+    "hfa_arguments": 515,
+    "arguments": 529,
+    "calls_per_mode": 80,
+    "compiler_identity": "97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20",
+    "compiler_sha256": "294c29b54864ba5986d3d1f5947a89deb9800cecbc14f06ee89c19edc9fbe0b8",
+    "source_sha256": "92f706f25025a3968c0ef0c3c9616a676b3280db5ecddd7688ae6d859fcc0ee2",
+    "caller_sha256": "761e3eff666c53f778f93f9a40dc3da9943c4ccbbeff819d9c822a4aac946c6a",
+    "modes": {
+      "baseline": "passed",
+      "allocated": "passed",
+      "optimized": "passed"
+    },
+    "original_qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/dynamic-current-aarch64/dynamic-outgoing-tls/original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/dynamic-current-aarch64/dynamic-outgoing-tls/input.ssa"
+      ],
+      "emit_exit": 0,
+      "emit_stdout": "",
+      "emit_stderr": "",
+      "status": "passed",
+      "binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+      "link_exit": 0,
+      "link_stderr": "",
+      "run_exit": 0,
+      "run_stdout": "",
+      "run_stderr": ""
+    },
+    "arm_tail_offsets": [
+      16424,
+      16432,
+      16440,
+      16448,
+      16456
+    ],
+    "negative_control": {
+      "mutation": "dynamic direct-call byte store shifted by1",
+      "exit": 1,
+      "status": "detected"
+    }
+  },
+  "x86_64-linux": {
+    "target": "x86_64-linux",
+    "execution": true,
+    "tls": true,
+    "hfa_arguments": 515,
+    "arguments": 529,
+    "calls_per_mode": 80,
+    "compiler_identity": "97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20",
+    "compiler_sha256": "294c29b54864ba5986d3d1f5947a89deb9800cecbc14f06ee89c19edc9fbe0b8",
+    "source_sha256": "92f706f25025a3968c0ef0c3c9616a676b3280db5ecddd7688ae6d859fcc0ee2",
+    "caller_sha256": "761e3eff666c53f778f93f9a40dc3da9943c4ccbbeff819d9c822a4aac946c6a",
+    "modes": {
+      "baseline": "passed",
+      "allocated": "passed",
+      "optimized": "passed"
+    },
+    "original_qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/dynamic-current-x86_64/dynamic-outgoing-tls/original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/dynamic-current-x86_64/dynamic-outgoing-tls/input.ssa"
+      ],
+      "emit_exit": 0,
+      "emit_stdout": "",
+      "emit_stderr": "",
+      "status": "passed",
+      "binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+      "link_exit": 0,
+      "link_stderr": "",
+      "run_exit": 0,
+      "run_stdout": "",
+      "run_stderr": ""
+    }
+  },
+  "riscv64-linux": {
+    "target": "riscv64-linux",
+    "execution": true,
+    "tls": true,
+    "hfa_arguments": 515,
+    "arguments": 529,
+    "calls_per_mode": 80,
+    "compiler_identity": "97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20",
+    "compiler_sha256": "294c29b54864ba5986d3d1f5947a89deb9800cecbc14f06ee89c19edc9fbe0b8",
+    "source_sha256": "92f706f25025a3968c0ef0c3c9616a676b3280db5ecddd7688ae6d859fcc0ee2",
+    "caller_sha256": "761e3eff666c53f778f93f9a40dc3da9943c4ccbbeff819d9c822a4aac946c6a",
+    "modes": {
+      "baseline": "passed",
+      "allocated": "passed",
+      "optimized": "passed"
+    },
+    "original_qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/dynamic-current-riscv64/dynamic-outgoing-tls/original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/dynamic-current-riscv64/dynamic-outgoing-tls/input.ssa"
+      ],
+      "emit_exit": 0,
+      "emit_stdout": "",
+      "emit_stderr": "",
+      "status": "passed",
+      "binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+      "link_exit": 0,
+      "link_stderr": "",
+      "run_exit": 0,
+      "run_stdout": "",
+      "run_stderr": ""
+    }
+  },
+  "aarch64-macos": {
+    "target": "aarch64-macos",
+    "execution": true,
+    "tls": true,
+    "hfa_arguments": 515,
+    "arguments": 529,
+    "calls_per_mode": 80,
+    "compiler_identity": "97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20",
+    "compiler_sha256": "294c29b54864ba5986d3d1f5947a89deb9800cecbc14f06ee89c19edc9fbe0b8",
+    "source_sha256": "92f706f25025a3968c0ef0c3c9616a676b3280db5ecddd7688ae6d859fcc0ee2",
+    "caller_sha256": "761e3eff666c53f778f93f9a40dc3da9943c4ccbbeff819d9c822a4aac946c6a",
+    "modes": {
+      "baseline": "passed",
+      "allocated": "passed",
+      "optimized": "passed"
+    },
+    "original_qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/dynamic-current-native/dynamic-outgoing-tls/original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/dynamic-current-native/dynamic-outgoing-tls/input.ssa"
+      ],
+      "emit_exit": 0,
+      "emit_stdout": "",
+      "emit_stderr": "",
+      "status": "passed",
+      "binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+      "link_exit": 0,
+      "link_stderr": "",
+      "run_exit": 0,
+      "run_stdout": "",
+      "run_stderr": ""
+    },
+    "arm_tail_offsets": [
+      16424,
+      16425,
+      16426,
+      16428,
+      16432
+    ],
+    "negative_control": {
+      "mutation": "dynamic direct-call byte store shifted by1",
+      "exit": 1,
+      "status": "detected"
+    }
+  },
+  "x86_64-macos": {
+    "target": "x86_64-macos",
+    "execution": true,
+    "tls": true,
+    "hfa_arguments": 515,
+    "arguments": 529,
+    "calls_per_mode": 80,
+    "compiler_identity": "97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20",
+    "compiler_sha256": "294c29b54864ba5986d3d1f5947a89deb9800cecbc14f06ee89c19edc9fbe0b8",
+    "source_sha256": "92f706f25025a3968c0ef0c3c9616a676b3280db5ecddd7688ae6d859fcc0ee2",
+    "caller_sha256": "761e3eff666c53f778f93f9a40dc3da9943c4ccbbeff819d9c822a4aac946c6a",
+    "modes": {
+      "baseline": "passed",
+      "allocated": "passed",
+      "optimized": "passed"
+    },
+    "original_qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/dynamic-current-rosetta/dynamic-outgoing-tls/original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/dynamic-current-rosetta/dynamic-outgoing-tls/input.ssa"
+      ],
+      "emit_exit": 0,
+      "emit_stdout": "",
+      "emit_stderr": "",
+      "status": "passed",
+      "binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+      "link_exit": 0,
+      "link_stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "run_exit": 0,
+      "run_stdout": "",
+      "run_stderr": ""
+    }
+  }
+}

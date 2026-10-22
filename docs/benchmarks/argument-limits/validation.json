@@ -1,0 +1,68 @@
+{
+  "compiler_identity": "97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20",
+  "build": "lake build lcb lcb-tests: exit 0",
+  "units": "fresh lcb-tests: exit 0",
+  "proof_audit": "147 printed axiom reports unchanged",
+  "native_apple_arm": {
+    "native": {
+      "exit": 0,
+      "log_sha256": "7eaebd756dfcbd6cc48ec3911f98561fd0ba30d3683cdba7547d6c55bce9bcac",
+      "summary": [
+        "aarch64-macos: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=True; original QBE profiles=7"
+      ]
+    },
+    "test": {
+      "exit": 0,
+      "log_sha256": "6729c04f870bd939d792d00c0857d5d04c77b01f765da6e42cc77d6caec3c935",
+      "summary": [
+        "native assembly: 120,000 arithmetic vectors, 20,000 ABI/width checks; no Lean imports",
+        "upstream QBE 1.3: identical independent harness passed",
+        "all backend checks passed"
+      ]
+    },
+    "calls": {
+      "exit": 0,
+      "log_sha256": "b99511d3e8935b379379ea62161db385495be0144a836bcb9f935adbe32e7d68",
+      "summary": [
+        "calls: 26 entry functions (16 generated), 208 interpreter cases, 19 rejection/undefined-domain controls; 1794 native cases per Lean/QBE/C backend; 69 external ABI cases per backend; live-value and callee-saved corruption detected"
+      ]
+    }
+  },
+  "linux_gates": {
+    "aarch64-linux": {
+      "exit": 0,
+      "log_sha256": "5b4c8fb0b2388804aaa373500a23e23354ee32daacd82d5605d9742836ce344a",
+      "summary": [
+        "Linux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True",
+        "Actual compiler emission modes: {'baseline': 28, 'allocated': 22, 'optimized': 119}"
+      ]
+    },
+    "x86_64-linux": {
+      "exit": 0,
+      "log_sha256": "71d08c836ae801f67a6e2c970739f72e1ec7a7c63eeb4302a51f0d882354ae15",
+      "summary": [
+        "x86_64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 28, 'allocated': 22, 'optimized': 119}"
+      ]
+    },
+    "riscv64-linux": {
+      "exit": 0,
+      "log_sha256": "12d0d828dd5d019228a752919f51ec9b97571308fa416dc579c7f86116f61f69",
+      "summary": [
+        "riscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 27, 'allocated': 21, 'optimized': 120}"
+      ]
+    }
+  },
+  "apple_x86_gate": {
+    "execution": "Rosetta",
+    "exit": 0,
+    "log_sha256": "df765e2d510504c1f3d899cbe5c5bf70ae2d1506b4d4ded42df19d6ea67b2eab",
+    "summary": [
+      "macOS AMD64: 75/76 emitted; 58 executable and 17 assembly-only passes; execution=rosetta",
+      "x86_64-macos: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=True; original QBE profiles=5",
+      "x86_64-macos: original QBE exclusions [(65, True, False), (1024, True, False)]; signed-byte outbound-call defect and, on RV, large positive aggregate-frame offset defect"
+    ]
+  },
+  "execution_scope": "Apple ARM and Linux ARM native; Apple x86 Rosetta; Linux x86/RV QEMU. Native Linux ARM/x86 also covered by separate CI, status tracked per commit."
+}

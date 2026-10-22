@@ -120,6 +120,10 @@ def main():
     prefix_collision_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from promotion_bindings import exercise as promotion_binding_tests
     promotion_binding_tests(compiler,work,run,cc,'x86_64-macos',execute)
+    from dynamic_outgoing import exercise as dynamic_outgoing_tests
+    dynamic_outgoing_tests(compiler,work,run,cc,'x86_64-macos',execute)
+    from argument_limits import exercise as argument_limit_tests, original_qbe_profiles
+    argument_limit_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple',original_qbe_profiles('x86_64-macos'))
     from extern_flags import exercise as flags_tests
     flags_tests(compiler,work,run,cc,qbe,'x86_64-macos','amd64_apple',execute)
     from allocation import exercise as allocation_tests
