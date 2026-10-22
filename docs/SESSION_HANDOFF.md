@@ -11,12 +11,13 @@ the GNU-only section-name expectation that failed both Linux Clang CI jobs.
 Six GNU/LLVM profiles pass on all three Linux targets using committed identity4b41;
 LLVM preserves quoted escapes literally and original QBE keeps two extra raw
 spellings. Exact header/symbol/runtime checks remain. All three CI runners passed on
-`a32fc5c` (run39777689834); newer scaled-source CI remains separate.
+`a32fc5c` (run39777689834); scaled source `8ec0f00` also passes all three CI runners (run39778647834).
 [ARM scaled loads](benchmarks/arm-scaled-load/README.md) are integrated on identity
 `210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5`.
 All three complete Linux gates, native ARM matrices/high-spill checks, units,
 147 unchanged exact audit statements, exhaustive corpus delta audit and fresh
-zlib/Lua/QBE/cproc campaigns pass. Full host gate is running; CI is pending.
+zlib/Lua/QBE/cproc campaigns pass. The local full host rerun is running; all three pinned Nix CI runners pass on
+`8ec0f00`.
 Zlib loses 312 text bytes per ARM target, mixed Lua 292 bytes. Timings remain
 diagnostic under unrelated background load; clean performance is unresolved.
 This combined Linux gate also covers preceding aliases, mutable widths and retained TLS.
