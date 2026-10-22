@@ -1,0 +1,16 @@
+Four quiet windows: 1/2 at 100 ms, 3/4 at 500 ms; each 9 rounds, 2 warmups. Same binaries and protocol apart from batch duration.
+Median paired elapsed indexed/phi ratio [descriptive bootstrap 95% interval]:
+repeated compress   0.9931[0.9901,1.0193] | 0.9904[0.9523,1.0089] | 0.9924[0.9859,1.0107] | 0.9924[0.9421,1.0058]
+repeated uncompress 0.9897[0.9810,0.9968] | 0.9880[0.9736,1.0053] | 0.9862[0.9623,1.0009] | 0.9826[0.9695,0.9967]
+repeated crc32      0.9568[0.9359,0.9680] | 0.9451[0.9219,0.9581] | 0.9521[0.9084,0.9675] | 0.9397[0.8115,0.9507]
+random   compress   0.9690[0.9588,1.0178] | 0.9987[0.9731,1.0343] | 0.9817[0.9729,1.0436] | 0.9986[0.9529,1.0114]
+random   uncompress 1.0015[0.9908,1.0172] | 1.0049[0.9891,1.0417] | 1.0015[0.9955,1.0198] | 0.9988[0.9902,1.0138]
+random   crc32      0.9376[0.9084,1.1178] | 0.9495[0.9198,0.9860] | 0.9658[0.9400,1.0708] | 0.9442[0.9353,0.9601]
+mixed    compress   1.0457[0.9035,1.1138] | 1.0433[1.0120,1.1175] | 1.0421[1.0253,1.0615] | 1.0364[0.9850,1.0628]
+mixed    uncompress 0.9950[0.9852,1.0041] | 0.9994[0.9733,1.0193] | 0.9970[0.9823,1.0033] | 0.9975[0.9920,1.0063]
+mixed    crc32      0.9077[0.8085,0.9598] | 0.9615[0.9143,0.9709] | 0.9489[0.9282,0.9655] | 0.9401[0.9243,0.9836]
+
+Interpretation: mixed compression shows higher elapsed in all four medians (3.6–4.6%). Windows 2 and 3 descriptive intervals exclude 1; windows 1 and 4 overlap 1. The 500 ms reruns preserve the regression signal; they do not establish its cause or eliminate VM/host scheduling noise. Do not discard the slower results or claim a universal speedup.
+Repeated and mixed CRC32 show lower median elapsed and intervals below 1 in all four windows, but magnitudes vary. Random CRC32 intervals overlap 1 in windows 1 and 3. Other results remain near parity with intervals crossing 1 in at least one window.
+Window 4 remains noisy: indexed random CRC32 CV 16.36%, mixed compression CV 7.62%; the paired mixed-compression ratio CV is 3.58%. Longer calibrated batches did not guarantee lower dispersion. Same seeded ordering is reused; bootstrap intervals are descriptive and not corrected for multiple comparisons.
+All four archives retain 135 measurements and sink agreement. Each has 485-file host/guest provenance checks before/after timing, and the same compiler/driver/source/IR hashes. Original 100 ms reports and summaries remain unchanged. Full GCC/original-QBE/corrected-QBE comparisons and environments are in four-window-summary.json.

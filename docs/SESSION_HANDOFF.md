@@ -58,9 +58,11 @@ another 584 optimized text bytes per ARM target, with six upstream examples and
 72 exact streams passing. The broader full host gate now passes, including native Apple ARM and Rosetta
 x86 execution. Five-label in-process correctness/provenance passes. Two initial
 100 ms timing windows show CRC improvement but a possible mixed-compression
-regression, with substantial first-window noise. Two longer 500 ms windows are
-running; no general speedup claim is made.
-CI through 735a572 is green; 7fd745c and 03b2991 remain in progress.
+regression, with substantial first-window noise. Two longer 500 ms windows also
+pass provenance; all four mixed-compression medians remain 3.6–4.6% slower (two
+intervals exclude parity). CRC improves, but no general speedup claim is made.
+Diagnostic object combinations will investigate the regression.
+CI through 7fd745c is green; 03b2991 and bbea3aa remain in progress.
 
 [ARM typed extuw](benchmarks/arm-extuw/README.md) omits same-home unsigned
 word extensions only for declared word sources. Both native ARM matrices, full

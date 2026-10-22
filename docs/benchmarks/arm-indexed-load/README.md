@@ -12,8 +12,11 @@ Two initial quiet timing windows (100 ms calibration, nine paired rounds each)
 show repeated CRC32 about 4.3–5.5% faster than phi, but mixed compression medians
 about 4.3–4.6% slower. Only the second mixed-compression interval excludes no
 change; the first window has substantial variability. These results include a
-possible regression and do not establish a general speedup. Longer 500 ms
-windows are being collected to investigate. Raw samples, provenance and all
-comparisons are retained in window1/window2 and the two-window summary.
+possible regression and do not establish a general speedup. Two additional 500 ms windows also pass all provenance checks. Across all four
+windows mixed-compression medians are 3.6–4.6% slower, with two intervals excluding
+parity and two overlapping it. Longer batches did not eliminate variability.
+The regression signal remains unresolved; changed-unit diagnostic builds are
+being prepared. Repeated/mixed CRC medians improve with intervals below parity
+in all four windows. All raw windows, separate protocols and summaries are retained.
 
 Object size is not a runtime-speed claim. No new preservation proof or full QBE compatibility claim is made.

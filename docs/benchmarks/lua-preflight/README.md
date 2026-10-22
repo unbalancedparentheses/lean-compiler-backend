@@ -17,9 +17,9 @@ The preflight used the existing native Linux ARM cproc executable and flags
 -D__DBL_MAX_EXP__=1024 -D__FLT_RADIX__=2`, with `-emit-qbe` per original unit.
 The raw diagnostics, source and frontend hashes are in `report.json`.
 
-The matching official Lua tests were downloaded and checksum-verified but never
-executed. They are not counted as qualification. Frontend support for volatile
-stores (or another compatible frontend) is required before this workload can
-qualify the backend.
+The matching official Lua tests were downloaded and checksum-verified but were
+not executed during this preflight. Frontend support for volatile stores (or
+another compatible frontend) is required to compile the entire workload through
+the backend. The later mixed-build qualification below has a narrower scope.
 
 A later [mixed-build qualification](../lua-mixed/README.md) executes the 30 frontend-compatible units through LCB/QBE and shares the same three unchanged GCC units. It does not change this full-frontend preflight failure.
