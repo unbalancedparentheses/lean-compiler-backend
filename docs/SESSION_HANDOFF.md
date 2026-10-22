@@ -57,6 +57,12 @@ review found no semantic defect. Lean structural/evaluation units and 60,480
 independent C cases per mode pass; all corrected target suites pass with actual
 mode counts. Fresh fuzz seeds 20261461–20261492 pass, 256 functions / 3,328 inputs.
 The complete local gate passed in `.build/extensions-full-check.log`.
+A separate native campaign, `fuzz-extensions-256.json`, qualifies seeds
+20262000–20262255: 2,048 functions / 26,624 inputs against independent Python,
+the interpreter, baseline/optimized native LCB and unchanged QBE, including a
+caught corrupted return. Its private compiler is the extension checkpoint
+identity `004162d26e502368fbb845947b6fd48fc089bc36c55b0b0b1da61b52a35fd496`,
+not a later branch-selection build. Reported provenance limitations are explicit.
 
 Identity-bound `zlib-extensions.json`, `zlib-extensions-x86.json` and
 `zlib-extensions-rv.json` retain upstream static tests and 12 exact gzip streams
