@@ -30,10 +30,17 @@ private def indices (set : Nat) : Array Nat := Id.run do
 private def bit (live : Liveness.Result) (name : String) : Nat :=
   (live.indices[name]?).map (fun i => 1 <<< i) |>.getD 0
 
+/-- Greedy coloring visits names in index order, so only edges from a larger
+    index to a smaller index can intersect already occupied homes. Keep exactly
+    that half of the undirected relation; the independent boundary checker still
+    checks every definition, parameter group and parallel phi group. -/
 private def connect (graph : Array Nat) (node : Nat) (others : Nat) : Array Nat := Id.run do
-  let others := others ^^^ (others &&& (1 <<< node))
-  let mut graph := graph.set! node (graph[node]! ||| others)
-  for other in indices others do graph := graph.set! other (graph[other]! ||| (1 <<< node))
+  let nodeBit := 1 <<< node
+  let lower := others &&& (nodeBit - 1)
+  let mut graph := graph.set! node (graph[node]! ||| lower)
+  for above in indices (others >>> (node+1)) do
+    let other := above + node + 1
+    graph := graph.set! other (graph[other]! ||| nodeBit)
   return graph
 
 private def interference (f : Function) (live : Liveness.Result) : Array Nat := Id.run do

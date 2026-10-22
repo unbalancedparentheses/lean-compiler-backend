@@ -2,6 +2,21 @@ import LeanCompilerBackend.IR
 
 namespace LeanCompilerBackend.Assembly
 
+/-- Accumulate instruction chunks without repeatedly copying the whole function.
+    Flatten once, preserving the exact line and debug-directive order. -/
+structure LineBuffer where
+  chunks : Array (List String)
+
+def LineBuffer.ofList (lines : List String) : LineBuffer := ⟨#[lines]⟩
+
+instance : HAppend LineBuffer (List String) LineBuffer where
+  hAppend buffer lines := ⟨buffer.chunks.push lines⟩
+
+instance : HAppend (List String) LineBuffer LineBuffer where
+  hAppend lines buffer := ⟨#[lines] ++ buffer.chunks⟩
+
+def LineBuffer.toList (buffer : LineBuffer) : List String := buffer.chunks.toList.flatten
+
 def symbolName (darwin : Bool) (name : String) : String :=
   if darwin then
     if name.startsWith "\"" then name else "_" ++ name

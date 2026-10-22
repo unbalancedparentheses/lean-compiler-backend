@@ -354,7 +354,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
   let aliases := f.blocks.toList.flatMap fun b => b.instructions.toList.filterMap fun s =>
     match s with | .assign {destination, operation := .copy (.symbol name), ..} => some (destination,name) | _ => none
   let c : Context := {slots := homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,header+(i-homes.registerCount+1)*8) else none), registers := homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none), locals, stage := header+(homes.spills+1)*8, vaOffset := if incoming.stackBytes > 0 then incoming.stackBytes else (incoming.ngp*8 : Int)-64, wordFunctions := words, aliases, objects, types, resultPointer}
-  let mut lines := [f.customSection.map (Assembly.sectionDirective false) |>.getD ".text", s!".type {f.name}, @function", ".p2align 2"]
+  let mut lines := Assembly.LineBuffer.ofList [f.customSection.map (Assembly.sectionDirective false) |>.getD ".text", s!".type {f.name}, @function", ".p2align 2"]
   if f.exported then lines := lines ++ [s!".globl {f.name}"]
   lines := lines ++ [s!"{f.name}:", "\tmv t0, sp"] ++ address "sp" "sp" (-(frame : Int)) ++
     memory "sd" "ra" "t0" (-((header-8) : Int)) ++ memory "sd" "s0" "t0" (-(header : Int)) ++ ["\tmv s0, t0"]
@@ -435,7 +435,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
         [s!"\tj {label f yes}", other ++ ":"] ++ (← edge c f b.label no) ++ [s!"\tj {label f no}"]
   lines := lines ++ [s!".size {f.name}, .-{f.name}"]
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines
-  pure (String.intercalate "\n" lines ++ "\n")
+  pure (String.intercalate "\n" lines.toList ++ "\n")
 
 def emitModule (m : Module) (allocate : Bool := false) : Except String String := do
   validateModule m

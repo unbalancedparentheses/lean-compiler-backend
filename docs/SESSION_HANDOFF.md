@@ -8,12 +8,23 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`b91946119f838a456702633aa0a30cd84e63603186498a1a241d7ce3b8ab0ac1`.
+`e15e24036e37b5a6d033ea558837842db21a15e4131e3b86b98ad127ff2f014e`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
 caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
+
+## Compiler scaling without emission changes
+
+Interference construction retains only lower-index neighbors consumed by greedy
+coloring; independent allocation/home-flow checks remain unchanged. All three
+emitters buffer chunks and flatten once, avoiding repeated growing-list copies.
+The retained [equivalence report](benchmarks/scaling-emission-equivalence.json)
+compares 88 inputs across five targets and three modes: 1,305 byte-identical
+assemblies and 15 identical refusals. This is output-equivalence evidence, not
+an end-to-end proof. The complete local regression gate and proof audit pass.
+Admission bounds are unchanged in this checkpoint.
 
 ## AMD64 adjacent memory offsets
 

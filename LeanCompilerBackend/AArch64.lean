@@ -807,7 +807,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   let frame := alignUp frameEnd 16
   if frame > 1024 * 1024 then throw "stack frame exceeds the 1 MiB resource limit"
   let symbol := symbolName darwin f.name
-  let mut lines := [s!"{if darwin then ";" else "//"} function {f.name}; AArch64 compatibility backend",
+  let mut lines := Assembly.LineBuffer.ofList [s!"{if darwin then ";" else "//"} function {f.name}; AArch64 compatibility backend",
     f.customSection.map (sectionDirective darwin) |>.getD ".text"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   if !darwin then lines := lines ++ [s!".type {symbol}, %function"]
@@ -947,7 +947,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   let file := match f.debugFile with
     | some name => s!".file {debugFileId} {debugFilename name}\n"
     | none => ""
-  pure (file ++ String.intercalate "\n" (lines ++ [""]))
+  pure (file ++ String.intercalate "\n" (lines ++ [""]).toList)
 
 private def emitFunctions (program : Program) (types : Array AggregateABI.TypeInfo := #[]) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String (List String) := do
   let mut fileId := 1

@@ -389,7 +389,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
   if frame > 1024*1024 then throw "AMD64 frame exceeds 1 MiB"
   let c : Context := { darwin, slots := homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,(i-homes.registerCount+1)*8) else none), registers := homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none), objects, types, resultPointer, locals, stage := (homes.spills+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
   let symbol := Assembly.symbolName darwin f.name
-  let mut lines := [f.customSection.map (Assembly.sectionDirective darwin) |>.getD ".text", ".p2align 4"]
+  let mut lines := Assembly.LineBuffer.ofList [f.customSection.map (Assembly.sectionDirective darwin) |>.getD ".text", ".p2align 4"]
   if !darwin then lines := lines ++ [s!".type {symbol}, @function"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   lines := lines ++ [s!"{symbol}:", "\tpushq %rbp", "\tmovq %rsp, %rbp"]
@@ -479,7 +479,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
       lines := lines ++ (← edge c f block.label yes) ++ [s!"\tjmp {label darwin f yes}", other ++ ":"] ++ (← edge c f block.label no) ++ [s!"\tjmp {label darwin f no}"]
   if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines
-  pure (String.intercalate "\n" lines ++ "\n")
+  pure (String.intercalate "\n" lines.toList ++ "\n")
 
 def emitModule (m : Module) (darwin : Bool := false) (allocate : Bool := false) : Except String String := do
   validateModule m
