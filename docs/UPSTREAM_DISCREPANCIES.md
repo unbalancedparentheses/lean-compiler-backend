@@ -221,3 +221,31 @@ bootstrap harness verifies the pinned source hash and applies the exact patch
 only to a separately named oracle copy; vendored sources and frontend IR remain
 unchanged. The reduced checks also cover positive/negative signed-32-bit addends.
 This addresses the measured oracle discrepancy without extending our proof claims.
+
+## AMD64 oversized immediate shift counts
+
+Pinned QBE 1.3 defines shift counts modulo the result width (`doc/il.txt`,
+lines 698–703), but its AMD64 emitter can leave an oversized immediate in the
+assembly. For example:
+
+```qbe
+export function w $shift(w %x) {
+@entry
+ %result =w shr %x,1553590636
+ ret %result
+}
+```
+
+The count is equivalent to 12 for a word result. Original QBE emits
+`shrl $1553590636, %eax`, which GNU assembler rejects with an operand-type
+mismatch. The generated long-shift cases also expose `shrq $4294967295`.
+No vendored source or original oracle is patched.
+
+The raw cross-target campaign (`scripts/cross_fuzz.py`, seeds
+20263000–20263031) qualifies all 32 seeds / 3,328 inputs per LCB mode on Linux
+ARM64, x86-64 and RV64. Original QBE matches all 32 on ARM64/RV64, but only one
+on x86-64; 31 x86 reference failures are retained and excluded from common
+qualification. Reports `cross-fuzz-{arm64,x86,rv64}-raw.json` distinguish the
+independent Python/interpreter/LCB results from original-QBE results. x86/RV
+execution uses QEMU, and original RV64 QBE uses explicitly recorded non-PIE
+linking. Every target's return-corruption control is detected.

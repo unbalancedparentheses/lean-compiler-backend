@@ -791,7 +791,7 @@ constitute memory or machine preservation proofs.
 
 ## Adjacent integer comparison branches
 
-Allocated ARM64 emission can consume the flags from a block's final integer
+Allocated ARM64 and AMD64 emission can consume the flags from a block's final integer
 comparison directly in its conditional terminator. The comparison result must
 have exactly one use across all instructions, phi edges and terminators, and
 that use must be the current branch. The condition is inverted to select the

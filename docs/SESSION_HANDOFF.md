@@ -8,12 +8,39 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`004162d26e502368fbb845947b6fd48fc089bc36c55b0b0b1da61b52a35fd496`.
+`80a20e067d8d30ff9785f44a1df43beaee829c7e00a921db34c81cf4031a96d8`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
 caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
+
+## AMD64 comparison branches
+
+AMD64 now uses final sole-use integer comparison flags directly, matching the
+ARM64 selection boundary. Existing width-specific scratch loads remain intact;
+shared/phi uses, earlier comparisons and floating comparisons retain explicit
+booleans. The common `Selection` queries are exact extractions of ARM64 logic.
+Independent review found no correctness defect. Both Linux x86 QEMU and macOS
+x86 Rosetta suites pass 176,400 C cases per mode and detect an inverted branch;
+all five target suites pass with distinct lowering-mode counts. The full local
+regression gate passed in `.build/amd-branch-full-check.log`.
+
+`zlib-amd-branch.json` retains upstream static tests and 12 exact gzip streams
+for all qualified x86 backends. LCB linked text is 256,158 bytes, down 16,145
+from the preceding extension checkpoint's identical-source x86 measurement.
+`qbe-amd-branch.json` also qualifies the x86-hosted compiler: 455 exact fixture
+assemblies across six output targets, 32 self-IR assemblies and 58 original
+ARM64 runtime cases. Original x86 QBE's self-compilation assembly mismatch
+(`arm64_apple` / `abi8.ssa`) is retained separately; the corrected oracle passes.
+This is a code-size result; execution remains QEMU, not native x86 hardware.
+Fresh native fuzz seeds 20261493–20261524 pass (256 functions / 3,328 inputs).
+New raw cross-target fuzzing covers seeds 20263000–20263031: all 32 qualify
+against Python/interpreter in every LCB mode on Linux ARM64/x86/RV. Unchanged
+QBE qualifies all 32 ARM64/RV seeds and one x86 seed; 31 x86 assembler failures
+from oversized immediate shifts remain excluded and documented separately.
+Reports `cross-fuzz-{arm64,x86,rv64}-raw.json` preserve both denominators and
+negative controls. Proof scope is unchanged.
 
 ## Redundant extending-load extensions
 

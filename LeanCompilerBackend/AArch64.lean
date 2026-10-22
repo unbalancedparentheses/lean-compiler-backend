@@ -7,6 +7,7 @@
 -/
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.AggregateABI
+import LeanCompilerBackend.Selection
 import LeanCompilerBackend.Allocation
 import LeanCompilerBackend.Assembly
 
@@ -637,23 +638,6 @@ private def emitStatement (darwin : Bool) (localSymbols : List String) (types : 
       | .word => s!"str w{valueHome}" | .long => s!"str x{valueHome}"
     pure (addressLines ++ valueLines ++ [s!"\t{instruction}, [x{addressHome}]"])
 
-/-- Count every SSA use, including phi edges and terminators. An adjacent
-    address definition may disappear only when its memory operand is the sole use. -/
-private def useCounts (f : Function) : Std.HashMap String Nat := Id.run do
-  let add := fun (counts : Std.HashMap String Nat) (v : Operand) => match v with
-    | .temporary name => counts.insert name ((counts[name]?).getD 0 + 1)
-    | _ => counts
-  let mut counts := {}
-  for b in f.blocks do
-    for phi in b.phis do
-      for (_,v) in phi.incoming do counts := add counts v
-    for statement in b.instructions do
-      counts := statement.operands.foldl add counts
-    match b.terminator with
-    | .ret (some v) | .branch v .. => counts := add counts v
-    | _ => pure ()
-  return counts
-
 /-- Select an adjacent long address calculation plus its sole load/store use.
     No intervening instruction can overwrite the base's assigned home, and no
     remaining use needs the omitted address result. This deliberately does not
@@ -884,7 +868,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
           lines := lines ++ stackAddress "sp" 10 (frame + argumentOffset) ++ [s!"\t{instruction}, [x10]"]
         else lines := lines ++ loadIncoming parameter.width (frame + argumentOffset)
         lines := lines ++ (← storeHome base slots parameter.width (register parameter.width 9) parameter.name)
-  let addressUses := if allocate then useCounts f else {}
+  let addressUses := if allocate then Selection.useCounts f else {}
   for blockIndex in [:f.blocks.size] do
     let block := f.blocks[blockIndex]!
     let next := (f.blocks[blockIndex+1]?).map (·.label)
@@ -892,17 +876,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
     let mut debugIndex := 0
     -- Only the final comparison may feed flags directly to the terminator.
     -- Whole-function use counts include phi edges, so no omitted boolean survives.
-    let branchCompare := if allocate then
-      match block.instructions[block.instructions.size-1]?, block.terminator with
-      | some (.assign inst), .branch (.temporary name) _ _ =>
-        match inst.operation with
-        | .compare op width a b =>
-          if inst.destination == name && (addressUses[name]?).getD 0 == 1 then
-            some (op, width, a, b)
-          else none
-        | _ => none
-      | _, _ => none
-      else none
+    let branchCompare := if allocate then Selection.branchComparison addressUses block else none
     let mut pendingMemory : Option (List String) := none
     for instructionIndex in [:block.instructions.size + 1] do
       for _ in [:block.debugLocations.size] do

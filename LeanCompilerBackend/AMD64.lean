@@ -2,6 +2,7 @@
    Baseline values use unique stack slots; optional allocation uses checked
    callee-saved GP homes and reusable spill slots (including floating bit patterns). -/
 import LeanCompilerBackend.Semantics
+import LeanCompilerBackend.Selection
 import LeanCompilerBackend.Allocation
 import LeanCompilerBackend.Assembly
 import LeanCompilerBackend.AMD64ABI
@@ -175,6 +176,15 @@ private def condition : Comparison → String
   | .eq => "e" | .ne => "ne" | .signedLE => "le" | .signedLT => "l" | .signedGE => "ge" | .signedGT => "g"
   | .unsignedLE => "be" | .unsignedLT => "b" | .unsignedGE => "ae" | .unsignedGT => "a"
 
+private def inverseCondition : Comparison → String
+  | .eq => "ne" | .ne => "e" | .signedLE => "g" | .signedLT => "ge" | .signedGE => "l" | .signedGT => "le"
+  | .unsignedLE => "a" | .unsignedLT => "ae" | .unsignedGE => "b" | .unsignedGT => "be"
+
+private def comparisonFlags (c : Context) (width : Width) (x y : Operand)
+    : Except String (List String) := do
+  return (← load c width "rax" x) ++ (← load c width "rcx" y) ++
+    [s!"\tcmp{suffix width} {reg width "rcx"}, {reg width "rax"}"]
+
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
   let w := inst.width
   let s := suffix w
@@ -198,8 +208,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       ++ [s!"\t{if signed then "idiv" else "div"}{s} {b}"]
     if op == .signedRem || op == .unsignedRem then lines := lines ++ [s!"\tmov{s} {reg w "rdx"}, {a}"]
   | .compare op width x y =>
-    lines := (← load c width "rax" x) ++ (← load c width "rcx" y) ++
-      [s!"\tcmp{suffix width} {reg width "rcx"}, {reg width "rax"}", s!"\tset{condition op} %al", "\tmovzbl %al, %eax"]
+    lines := (← comparisonFlags c width x y) ++ [s!"\tset{condition op} %al", "\tmovzbl %al, %eax"]
   | .floatBinary op x y =>
     lines := (← load c w "rax" x) ++ (← load c w "rcx" y) ++
       [s!"\tmov{if w == .word then "d" else "q"} {a}, %xmm0", s!"\tmov{if w == .word then "d" else "q"} {b}, %xmm1"]
@@ -368,7 +377,9 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
     if let some kind := p.subword then lines := lines ++ extend .word kind.extension
     if p.width == .word then lines := lines ++ ["\tmovl %eax, %eax"]
     lines := lines ++ (← store c p.name)
+  let uses := if allocate then Selection.useCounts f else {}
   for block in f.blocks do
+    let branchCompare := if allocate then Selection.branchComparison uses block else none
     lines := lines ++ [label darwin f block.label ++ ":"]
     let mut debugIndex := 0
     for i in [:block.instructions.size+1] do
@@ -378,7 +389,11 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
           lines := lines ++ [s!"\t.loc {fileId} {loc.line} {loc.column}"]
           debugIndex := debugIndex + 1
         else break
-      if let some inst := block.instructions[i]? then lines := lines ++ (← emitStatement c inst)
+      if let some inst := block.instructions[i]? then
+        if let some (_, width, x, y) := branchCompare then
+          if i+1 == block.instructions.size then lines := lines ++ (← comparisonFlags c width x y)
+          else lines := lines ++ (← emitStatement c inst)
+        else lines := lines ++ (← emitStatement c inst)
     match block.terminator with
     | .ret value =>
       if let some value := value then
@@ -401,8 +416,11 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
     | .jump target => lines := lines ++ (← edge c f block.label target) ++ [s!"\tjmp {label darwin f target}"]
     | .branch value yes no =>
       let other := s!"{if darwin then "L" else ".L"}_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{block.label}"
-      lines := lines ++ (← load c .word "rax" value) ++ ["\ttestl %eax, %eax", s!"\tjz {other}"] ++
-        (← edge c f block.label yes) ++ [s!"\tjmp {label darwin f yes}", other ++ ":"] ++ (← edge c f block.label no) ++ [s!"\tjmp {label darwin f no}"]
+      if let some (op, _, _, _) := branchCompare then
+        lines := lines ++ [s!"\tj{inverseCondition op} {other}"]
+      else
+        lines := lines ++ (← load c .word "rax" value) ++ ["\ttestl %eax, %eax", s!"\tjz {other}"]
+      lines := lines ++ (← edge c f block.label yes) ++ [s!"\tjmp {label darwin f yes}", other ++ ":"] ++ (← edge c f block.label no) ++ [s!"\tjmp {label darwin f no}"]
   if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines
   pure (String.intercalate "\n" lines ++ "\n")
