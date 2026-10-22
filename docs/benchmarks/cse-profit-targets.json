@@ -1,0 +1,1427 @@
+{
+  "compiler_identity": "1d6efcd4a97eac98b7c6140cbf62de6fce00df1edd265fd59f3092d9f5ff93d6",
+  "local_full_gate": "still running at publication; unit tests and proof audit passed; final host gate result will be recorded in next checkpoint",
+  "optimized_linux_gates": {
+    "aarch64-linux": {
+      "exit": 0,
+      "report": {
+        "target": "aarch64-linux",
+        "optimized": true,
+        "compiler_identity": "1d6efcd4a97eac98b7c6140cbf62de6fce00df1edd265fd59f3092d9f5ff93d6",
+        "fixtures": [
+          {
+            "fixture": "_alt.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_bf99.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_bfmandel.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_chacha20.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_dragon.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_fix1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_fix2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_fix3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_fix4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_gcm1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_gcm2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_live.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_load-elim.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_rpo.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_spill1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_spill2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "_spill3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "assembled"
+          },
+          {
+            "fixture": "abi1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "abi2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "abi3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "abi4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "abi5.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "abi6.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "abi7.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "abi8.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "abi9.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "alias1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "align.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "cmp1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "collatz.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "conaddr.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "copy.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "cprime.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "cup.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "dark.ssa",
+            "emitted": false,
+            "diagnostic": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/optimized-arm64/dark/input.ssa: call $test: argument count/variadic boundary disagrees with its definition",
+            "native": "unmeasured"
+          },
+          {
+            "fixture": "double.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "dynalloc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "echo.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "env.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "eucl.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "euclc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "fixarg.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "fold1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "fpcnv.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "gvn1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "gvn2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "ifc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "isel1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "isel2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "isel3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "isel4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "isel5.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "isel6.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "ldbits.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "ldhoist.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "load1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "load2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "load3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "loop.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "mandel.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "max.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "mem1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "mem2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "mem3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "philv.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "prime.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "puts10.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "queen.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "rega1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "spill1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "strcmp.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "strspn.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "sum.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "tls.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "vararg1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          },
+          {
+            "fixture": "vararg2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "native": "passed"
+          }
+        ],
+        "failures": [],
+        "emission_mode_counts": {
+          "baseline": 15,
+          "allocated": 10,
+          "optimized": 107
+        }
+      },
+      "stdout": "Linux TLS: eight concurrent C threads, external TLS, mixed live arguments and executable/shared-library linkage passed\nLinux variadics: mixed GP/FP exhaustion, dynamic frames, direct/indirect calls and C interoperation passed against QBE\naarch64-linux: QBE subword reference uses explicit narrow extensions; Lean input and independent C ABI checks remain unchanged\naarch64-linux: generated mixed scalar ABI/subword/variadic matrices and independent C floating/conversion oracles passed against QBE\naarch64-linux: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=True\naarch64-linux: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=True\naarch64-linux: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=True; original-QBE=through 65537 bytes\naarch64-linux: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=True\naarch64-linux: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=True\naarch64-linux: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=True\naarch64-linux: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=True\naarch64-linux: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=True\naarch64-linux: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=True\naarch64-linux: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True\naarch64-linux: external symbol +32 matches C in baseline/optimized; original QBE discrepancy retained; execution=True\naarch64-linux: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=True\naarch64-linux: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=True\naarch64-linux: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=True\naarch64-linux: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=True\naarch64-linux: 3106 integer immediate/comparison/fallback functions, 24848 independent cases per baseline/allocated/optimized mode; execution=True\naarch64-linux: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=True\naarch64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True\nELF sections: target-specific syntax, named code/data, init-array constructors and common alignment passed; native=True\nLinux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True\nActual compiler emission modes: {'baseline': 15, 'allocated': 10, 'optimized': 107}\n"
+    },
+    "x86_64-linux": {
+      "exit": 0,
+      "report": {
+        "target": "x86_64-linux",
+        "optimized": true,
+        "compiler_identity": "1d6efcd4a97eac98b7c6140cbf62de6fce00df1edd265fd59f3092d9f5ff93d6",
+        "execution_mode": "emulated",
+        "fixtures": [
+          {
+            "fixture": "_alt.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_bf99.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_bfmandel.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_chacha20.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_dragon.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_fix1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_fix2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_fix3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_fix4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_gcm1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_gcm2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_live.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_load-elim.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_rpo.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_spill1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_spill2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_spill3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "abi1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi5.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi6.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi7.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi8.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi9.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "alias1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "align.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "cmp1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "collatz.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "conaddr.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "copy.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "cprime.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "cup.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "dark.ssa",
+            "emitted": false,
+            "diagnostic": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/x86_64/optimized/dark/input.ssa: call $test: argument count/variadic boundary disagrees with its definition",
+            "execution": "unmeasured"
+          },
+          {
+            "fixture": "double.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "dynalloc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "echo.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "env.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "eucl.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "euclc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "fixarg.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "fold1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "fpcnv.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "gvn1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "gvn2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "ifc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel5.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel6.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "ldbits.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "ldhoist.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "load1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "load2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "load3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "loop.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "mandel.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "max.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "mem1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "mem2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "mem3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "philv.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "prime.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "puts10.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "queen.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "rega1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "spill1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "strcmp.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "strspn.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "sum.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "tls.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "vararg1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "vararg2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          }
+        ],
+        "failures": [],
+        "emission_mode_counts": {
+          "baseline": 15,
+          "allocated": 10,
+          "optimized": 107
+        }
+      },
+      "stdout": "x86_64-linux: QBE subword reference uses explicit narrow extensions; Lean input and independent C ABI checks remain unchanged\nx86_64-linux: generated mixed scalar ABI/subword/variadic matrices and independent C floating/conversion oracles passed against QBE\nx86_64-linux: 22 aggregate layouts, protected tails/corruption, by-value copies, callbacks and GP/FP pressure passed; C-only padding/nested/rollback edges passed\nx86_64-linux: eight-thread C TLS, live mixed arguments, external TLS and executable/shared-library interoperation passed\nx86_64-linux: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=True\nx86_64-linux: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=True\nx86_64-linux: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=True; original-QBE=through 65537 bytes\nx86_64-linux: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=True\nx86_64-linux: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=True\nx86_64-linux: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=True\nx86_64-linux: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=True\nx86_64-linux: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=True\nx86_64-linux: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=True\nx86_64-linux: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True\nx86_64-linux: external symbol +32 matches C in baseline/optimized; original QBE matches C; execution=True\nx86_64-linux: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=True\nx86_64-linux: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=True\nx86_64-linux: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=True\nx86_64-linux: conditional external +140 pointer matches independent C in all lowering modes; original QBE flags discrepancy retained; execution=True\nx86_64-linux: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=True\nx86_64-linux: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=True\nx86_64-linux: isolated pinned QBE alloc16 0 leaf alignment failure; positive-size oracle workaround and original Lean input checked separately\nx86_64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True\nx86_64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated\nActual compiler emission modes: {'baseline': 15, 'allocated': 10, 'optimized': 107}\n"
+    },
+    "riscv64-linux": {
+      "exit": 0,
+      "report": {
+        "target": "riscv64-linux",
+        "optimized": true,
+        "compiler_identity": "1d6efcd4a97eac98b7c6140cbf62de6fce00df1edd265fd59f3092d9f5ff93d6",
+        "execution_mode": "emulated",
+        "fixtures": [
+          {
+            "fixture": "_alt.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_bf99.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_bfmandel.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_chacha20.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_dragon.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_fix1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_fix2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_fix3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_fix4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_gcm1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_gcm2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_live.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_load-elim.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_rpo.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_spill1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_spill2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "_spill3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "assembled"
+          },
+          {
+            "fixture": "abi1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi5.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi6.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi7.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi8.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "abi9.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "alias1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "align.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "cmp1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "collatz.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "conaddr.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "copy.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "cprime.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "cup.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "dark.ssa",
+            "emitted": false,
+            "diagnostic": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/riscv64/optimized/dark/input.ssa: call $test: argument count/variadic boundary disagrees with its definition",
+            "execution": "unmeasured"
+          },
+          {
+            "fixture": "double.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "dynalloc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "echo.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "env.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "eucl.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "euclc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "fixarg.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "fold1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "fpcnv.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "gvn1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "gvn2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "ifc.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel4.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel5.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "isel6.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "ldbits.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "ldhoist.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "load1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "load2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "load3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "loop.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "mandel.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "max.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "mem1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "mem2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "mem3.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "philv.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "prime.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "puts10.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "queen.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "rega1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "spill1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "strcmp.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "strspn.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "sum.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "tls.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "vararg1.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          },
+          {
+            "fixture": "vararg2.ssa",
+            "emitted": true,
+            "diagnostic": "",
+            "execution": "passed"
+          }
+        ],
+        "failures": [],
+        "emission_mode_counts": {
+          "baseline": 14,
+          "allocated": 9,
+          "optimized": 108
+        }
+      },
+      "stdout": "riscv64-linux: QBE subword reference uses explicit narrow extensions; Lean input and independent C ABI checks remain unchanged\nriscv64-linux: generated mixed scalar ABI/subword/variadic matrices and independent C floating/conversion oracles passed against QBE\nriscv64-linux: isolated pinned QBE exact-capacity aggregate discrepancy in batch 2; full Lean/C checks passed\nriscv64-linux: isolated pinned QBE exact-capacity aggregate discrepancy in batch 3; full Lean/C checks passed\nriscv64-linux: isolated pinned QBE exact-capacity aggregate discrepancy in batch 4; full Lean/C checks passed\nriscv64-linux: 22 aggregate layouts, protected tails/corruption, by-value copies, callbacks and GP/FP pressure passed; C-only padding/nested/rollback edges passed\nriscv64-linux: reduced exact-FP-capacity fixture passes Lean/C and reproduces pinned QBE failure\nriscv64-linux: exact FP capacity, split GP/stack aggregates and aligned variadic pairs passed independent C checks\nriscv64-linux: eight-thread C TLS, live mixed arguments, external TLS and executable/shared-library interoperation passed\nriscv64-linux: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=True\nriscv64-linux: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=True\noriginal QBE RV64 default-PIE link failed; retrying unchanged reference assembly with -no-pie: /usr/lib/gcc-cross/riscv64-linux-gnu/13/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccrdxB11.o: relocation R_RISCV_HI20 against `a local symbol' can not be used when making a shared object; recompile with -fPIC\ncollect2: error: ld returned 1 exit status\n\nriscv64-linux: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=True; original-QBE=through 65537 bytes\nriscv64-linux: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=True\nriscv64-linux: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=True\nriscv64-linux: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=True\nriscv64-linux: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=True\nriscv64-linux: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=True\nriscv64-linux: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=True\nriscv64-linux: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True\nriscv64-linux: external symbol +32 matches C in baseline/optimized; original QBE discrepancy retained; execution=True\nriscv64-linux: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=True\nriscv64-linux: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=True\nriscv64-linux: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=True\nriscv64-linux: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=True\nriscv64-linux: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=True\nriscv64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True\nriscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated\nActual compiler emission modes: {'baseline': 14, 'allocated': 9, 'optimized': 108}\n"
+    }
+  }
+}

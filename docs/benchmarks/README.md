@@ -788,3 +788,48 @@ Use `--work .build/linux-arm64/<unique-directory>` for separate retained
 artifacts/private compiler snapshots. Cross-target cproc builds are private to
 that directory; the ARM64 runner still configures the shared cJSON cproc checkout,
 so serialize it with other scripts using that checkout.
+
+
+## CSE profitability on large copies
+
+[The unchanged large-structure workload](large-struct-cse-profit.json) passes all
+three LCB modes, GCC O0/O2 and unchanged QBE. Optimized ARM64 executable text
+decreases from 756,699 to 396,415 bytes. [The native phase probe](large-function-profile/cse-phases-report.json)
+keeps maximum live values at 6 across common-expression elimination, forwarding
+and final cleanup, instead of growing to 8,197. Reuse now requires an already-live
+value or a definition within eight visited instructions; this is a profitability
+heuristic. The probe source is unchanged and its exact current-CLI object manifest
+is retained. Concurrent-load emission timings are not a speedup claim.
+
+[Zlib on the same compiler](zlib-cse-profit-arm.json) passes its 17 units, upstream
+tests, 12 exact compressed streams and independent roundtrips. Optimized text is
+128,854 bytes versus 119,110 for the separately corrected QBE oracle. The report
+keeps original-QBE discrepancies separate; no new proof coverage is claimed.
+
+The same compiler also passes zlib's unchanged workload on
+[x86-64](zlib-cse-profit-x86.json) and [RV64](zlib-cse-profit-rv.json) under QEMU.
+The CSE heuristic has a code-size tradeoff there: optimized text is 242,571 bytes
+on x86-64 (previously 240,395) and 261,360 on RV64 (previously 258,460). It prevents
+the measured pathological live-range extension, but is not uniformly better for
+code size. Original x86/RV QBE failures remain separate from corrected-oracle
+qualification; RV corrected QBE uses explicit non-PIE linking while LCB uses
+default linking. QEMU and concurrent-load timings are not native speedup claims.
+
+[Fresh cJSON measurements](cjson-cse-profit.json) use the same CSE compiler identity:
+153 assertions across 18 executables pass through baseline/optimized LCB, unchanged
+QBE and GCC. The baseline's documented deep-recursion stack exception still needs
+a 64 MiB retry; optimized/QBE/GCC use the default stack. Optimized library text is
+34,156 bytes versus QBE's 26,220. Five native Linux ARM64 samples of 1,000 parse/print
+iterations have matching checksum `342141b63f079083`: median runtime 0.2589 s
+optimized, 0.2189 s QBE and 0.1773 s GCC (baseline 0.8469 s). Backend compilation
+medians are 0.1190 s optimized and 0.0171 s QBE. These local observations show a
+remaining gap, not universal performance ratios; compiler lookups are the next
+measured compile-time improvement.
+
+[Fresh differential fuzzing](cse-profit-fuzz.json) passes 64 seeds / 512 functions /
+4,608 cases against Python, the interpreter, native baseline/optimized emission
+and unchanged QBE, with the corrupted-return control detected.
+[Optimized target gates](cse-profit-targets.json) pass 58 original executable
+fixtures and 17 assembly-only fixtures per Linux target, together with independent
+ABI/memory checks; ARM64 is native and x86/RV use QEMU. The full host gate is still
+running at publication; its final result will be recorded in the next checkpoint.

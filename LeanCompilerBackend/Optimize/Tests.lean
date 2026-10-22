@@ -123,6 +123,28 @@ def run : IO Unit := do
   require (cleaned.functions[0]!.blocks[0]!.instructions.size == 3) "cascading common expressions were retained"
   for x in (#[0,1,42,18446744073709551615] : Array UInt64) do
     require (same (Semantics.evaluate common.functions[0]! #[x]) (Semantics.evaluate cleaned.functions[0]! #[x])) "common expressions changed bit-vector results"
+  -- Repeated, immediately consumed expressions must not keep an entire earlier
+  -- batch live until a distant second batch. This models scalar-expanded copies.
+  let mut pressureSource := "function l $pressure(l %x) { @s %sum0 =l copy 0 "
+  for pass in [:2] do
+    for i in [:128] do
+      let n := pass * 128 + i
+      let op := if pass == 0 then "xor" else "add"
+      pressureSource := pressureSource ++ s!"%v{n} =l add %x, {i+1} %sum{n+1} =l {op} %sum{n}, %v{n} "
+  pressureSource := pressureSource ++ "ret %sum256 }"
+  let pressure ← parse pressureSource
+  let pressureCleaned ← optimize pressure
+  let live ← match Liveness.analyze pressureCleaned.functions[0]! with
+    | .ok live => pure live
+    | .error reason => throw (IO.userError reason)
+  let maxLive := live.before.foldl (fun maximum points => points.foldl
+    (fun maximum point => max maximum (live.members point).size) maximum) 0
+  require (maxLive <= 12) "common expression reuse resurrected a distant batch of dead values"
+  for x in (#[0,1,42,18446744073709551615] : Array UInt64) do
+    let first := (List.range 128).foldl (fun acc i => acc ^^^ (x + UInt64.ofNat (i+1))) (0 : UInt64)
+    let expected := (List.range 128).foldl (fun acc i => acc + (x + UInt64.ofNat (i+1))) first
+    require (Semantics.evaluate pressureCleaned.functions[0]! #[x] == .ok expected)
+      "common expression elimination changed the independently calculated batch result"
   let dominated ← parse "function l $f(l %x, w %condition) { @s jmp @parent @left %a =l mul %x, 7 jmp @join @right %b =l mul %x, 7 jmp @join @join %r =l phi @left %a, @right %b ret %r @parent %base =l mul %x, 7 jnz %condition, @left, @right }"
   let cleaned ← optimize dominated
   require (cleaned.functions[0]!.blocks.foldl (fun n b => n + b.instructions.size) 0 == 1) "dominating common expression in later-listed block was missed"

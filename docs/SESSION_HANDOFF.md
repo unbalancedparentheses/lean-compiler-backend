@@ -1,19 +1,49 @@
-# Session handoff — 2026-10-21
+# Session handoff — 2026-10-22
 
 This is a continuation checkpoint, not a full QBE compatibility or verification
 completion claim. QBE compatibility and useful, independently tested optimization
-remain the priority; broader certification is deferred.
+remain the priority; broader certification is deferred. The active compatibility
+scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
+deferred at the user’s request and is not a current completion blocker.
 
 ## Repository and current compiler
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`4469809638285e6dd88609ede9cfdbe4247378755084b9c57ef4e99212b1360a`.
-Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
-introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
-evidence. `1331a81` synchronizes the generated port inventory source after CI
-caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
-published in coherent tested commits; this document does not identify its own SHA.
+`1d6efcd4a97eac98b7c6140cbf62de6fce00df1edd265fd59f3092d9f5ff93d6`.
+The current implementation limits common-expression reuse to values already live
+at the use or definitions encountered within eight instructions. This is a
+profitability heuristic, not a register-pressure or preservation proof. Published
+historical reports retain their own identities; inspect Git for checkpoint SHAs.
+
+## CSE profitability checkpoint
+
+The [unchanged large-structure program](benchmarks/large-struct-cse-profit.json)
+passes GCC O0/O2, unchanged QBE and all three LCB modes with checksum
+`b424c67700bbdde0`. Optimized ARM64 executable text falls from 756,699 to 396,415
+bytes. The [native phase probe](benchmarks/large-function-profile/cse-phases-report.json)
+uses the same probe source and exact current CLI objects; the common-expression
+phase now keeps maximum liveness at 6 instead of increasing it to 8,197. Its
+[object manifest](benchmarks/large-function-profile/cse-native-objects.json) is
+retained. A new unit regression checks a repeated-expression workload's liveness
+bound and results against independently calculated UInt64 values.
+
+[Zlib](benchmarks/zlib-cse-profit-arm.json) passes 17 unchanged translation units,
+12 exact gzip streams, independent decompression/roundtrips and upstream tests.
+Optimized text is 128,854 bytes versus the corrected QBE oracle's 119,110 bytes.
+Original and corrected QBE distinctions remain in the report. Concurrent-load
+large-structure emission was 75.768 seconds optimized; no whole-compile speedup
+is claimed. Promotion remains expensive in this checkpoint and is the next
+measured change to integrate. The same zlib workload also passes x86/RV QEMU
+checks; optimized text increases slightly there (242,571 / 261,360 bytes versus
+240,395 / 258,460 before). This heuristic is not a universal code-size win.
+
+The [fresh cJSON comparison](benchmarks/cjson-cse-profit.json) passes 153 assertions
+across 18 executables with the existing baseline-only 64 MiB recursion-stack
+retry. Optimized text is 34,156 bytes versus unchanged QBE's 26,220; five native
+Linux ARM64 samples give median runtime 0.2589 s optimized, 0.2189 s QBE and
+0.1773 s GCC, all with checksum `342141b63f079083`. These are local measurements,
+not a general performance/parity claim.
 
 ## Debug records and instruction budgets
 
@@ -31,7 +61,7 @@ The normal fixture corpus still emits 1,305 byte-identical assemblies and retain
 15 identical refusals. The complete local regression gate and proof audit pass.
 This does not change the certified profile.
 
-The [current large-structure comparison](benchmarks/large-struct-65537-timed.json)
+The [previous large-structure comparison](benchmarks/large-struct-65537-timed.json)
 retains compiler, harness and original-QBE hashes and separates compile/link,
 IR emission and execution timings. The unchanged 65,537-byte structure workload
 passes GCC O0/O2, original QBE and all LCB modes. On this single concurrent run,
@@ -46,12 +76,12 @@ match the same checksum on x86 with default linking and RV64 with explicit
 all LCB cross-target runs use default linking. These checks use unchanged QBE,
 not the corrected oracle.
 
-## Measured next optimization priorities
+## Previous native profile motivating this work
 
 The [native structural probe](benchmarks/large-function-profile/structural-summary.json)
 and [phase probe](benchmarks/large-function-profile/phases-report.json) reuse the
-current CLI's exact object files; source probes, object manifest and logs are
-retained alongside the reports. No compiler patch was made from these findings.
+then-current CLI's exact object files; source probes, object manifest and logs are
+retained alongside the reports. The reports below precede the CSE profitability change.
 For the unchanged large structure function, maximum live values grow from 8
 before optimization to 8,197 afterward, requiring 8,197 colors / 8,187 spill homes
 with ten ARM64 registers. The `main` function grows only from 9 to 14 live values.
@@ -59,8 +89,8 @@ with ten ARM64 registers. The `main` function grows only from 9 to 14 live value
 The phase composition `Common.eliminate(Optimize.function f)` raises the live set
 from 6 to 8,197; later forwarding, extension and dead-definition passes retain
 that pressure. Separately, `Memory.promote` took 18.822 seconds in the phase probe
-while reducing maximum live values from 8 to 7. Next work should measure and
-limit unprofitable common-expression reuse, and investigate promotion-pass cost,
+while reducing maximum live values from 8 to 7. The CSE checkpoint above addresses the measured pressure increase. Next work
+will integrate the isolated promotion-pass cost fix,
 with the unchanged program/checksum and independent allocation checks retained.
 These are single native-probe observations under concurrent load, not a new
 compiler speedup claim. The interpreted probe timed out and the first native
@@ -501,20 +531,23 @@ and separately corrected oracle copies remain distinct; vendored QBE is unchange
 See [benchmarks/README.md](benchmarks/README.md) and
 [UPSTREAM_DISCREPANCIES.md](UPSTREAM_DISCREPANCIES.md).
 
-CI is fully green through `9aec75e`, including both native Linux targets and
-macOS. Final compiler `a66cde8` (run `39689969001`) has Linux x86-64 green; Linux
-ARM64 and macOS are still running as of 23:05 UTC. Later benchmark/documentation
-commits have the same compiler identity and their own pending CI runs. Inspect
-exact run statuses rather than inferring their completion. The earlier host-
-default failure at `a721ee7` was fixed by `72389df`; no known failure remains open.
+CI is green through the previous `2532f6d` checkpoint (run `39711219361`),
+including the Linux ARM64, Linux x86-64 and macOS jobs. The CSE profitability
+checkpoint passes units, proof audit, the three optimized Linux gates and a fresh
+64-seed native differential fuzz campaign (512 functions / 4,608 input cases,
+including a detected corruption control). Its complete host regression gate is
+still running at publication, currently in Rosetta fixture execution; record the
+final result in the next checkpoint. CI for this new checkpoint is not yet known.
+No proof scope is expanded.
 
 ## Next work
 
 1. Use measured workloads to guide broader memory/CFG transformations and
    allocation improvements: caller-saved/FP banks,
    live-range splitting/coalescing. Current bounded loop-weight ranking remains a heuristic.
-2. Close Windows AMD64 ABI/emission and remaining syntax/linkage/resource/ABI
-   boundary cases. Host-native default-driver behavior is now implemented.
+2. Close remaining syntax/linkage/resource/ABI boundary cases on the five existing
+   Linux/macOS targets. Windows AMD64 is deferred. Host-native default-driver
+   behavior is now implemented.
 3. Obtain native RV64 and Intel macOS qualification; local evidence is emulated.
 4. Keep the [roadmap](../ROADMAP.md) full-port-first ordering. Existing proofs cover
    restricted source/machine semantics, primitive ALU selection and first-path

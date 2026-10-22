@@ -1,0 +1,13 @@
+{
+  "compiler_identity": "1d6efcd4a97eac98b7c6140cbf62de6fce00df1edd265fd59f3092d9f5ff93d6",
+  "compiler_sha256": "cf401948d8c3bb3b9544b191c099616d7769c24c7f70a94dbb9d3e4743e9bdb9",
+  "harness_sha256": "8b8f49c12f52eb4f62492e22f9cf9238ffadda908c16ac2f8f2642d3cb5db485",
+  "command": "LCB_CC=cc python3 scripts/fuzz.py --seed-start 20268000 --seeds 64 --functions 8 --steps 40 --samples 4 --optimize --require-native",
+  "execution": "native Apple ARM64 macOS; script snapshots compiler before campaign",
+  "status": "passed",
+  "seeds": 64,
+  "functions": 512,
+  "input_cases": 4608,
+  "negative_control": "corrupted emitted return detected",
+  "stdout": "fuzz seed 20268000: passed\nfuzz seed 20268001: passed\nfuzz seed 20268002: passed\nfuzz seed 20268003: passed\nfuzz seed 20268004: passed\nfuzz seed 20268005: passed\nfuzz seed 20268006: passed\nfuzz seed 20268007: passed\nfuzz seed 20268008: passed\nfuzz seed 20268009: passed\nfuzz seed 20268010: passed\nfuzz seed 20268011: passed\nfuzz seed 20268012: passed\nfuzz seed 20268013: passed\nfuzz seed 20268014: passed\nfuzz seed 20268015: passed\nfuzz seed 20268016: passed\nfuzz seed 20268017: passed\nfuzz seed 20268018: passed\nfuzz seed 20268019: passed\nfuzz seed 20268020: passed\nfuzz seed 20268021: passed\nfuzz seed 20268022: passed\nfuzz seed 20268023: passed\nfuzz seed 20268024: passed\nfuzz seed 20268025: passed\nfuzz seed 20268026: passed\nfuzz seed 20268027: passed\nfuzz seed 20268028: passed\nfuzz seed 20268029: passed\nfuzz seed 20268030: passed\nfuzz seed 20268031: passed\nfuzz seed 20268032: passed\nfuzz seed 20268033: passed\nfuzz seed 20268034: passed\nfuzz seed 20268035: passed\nfuzz seed 20268036: passed\nfuzz seed 20268037: passed\nfuzz seed 20268038: passed\nfuzz seed 20268039: passed\nfuzz seed 20268040: passed\nfuzz seed 20268041: passed\nfuzz seed 20268042: passed\nfuzz seed 20268043: passed\nfuzz seed 20268044: passed\nfuzz seed 20268045: passed\nfuzz seed 20268046: passed\nfuzz seed 20268047: passed\nfuzz seed 20268048: passed\nfuzz seed 20268049: passed\nfuzz seed 20268050: passed\nfuzz seed 20268051: passed\nfuzz seed 20268052: passed\nfuzz seed 20268053: passed\nfuzz seed 20268054: passed\nfuzz seed 20268055: passed\nfuzz seed 20268056: passed\nfuzz seed 20268057: passed\nfuzz seed 20268058: passed\nfuzz seed 20268059: passed\nfuzz seed 20268060: passed\nfuzz seed 20268061: passed\nfuzz seed 20268062: passed\nfuzz seed 20268063: passed\nfuzz: 64 seeds, 512 generated functions, 4608 input cases; Python / Lean interpreter / Lean native / QBE native / Lean optimized native\nfuzz negative control: corrupted emitted return detected\n"
+}

@@ -1,16 +1,19 @@
 # Roadmap
 
-Full QBE 1.3 compatibility is the immediate development priority. Complete the
-language, ABIs, optimization pipeline and targets before expanding formal proof
+QBE 1.3 compatibility on the five in-scope Linux/macOS targets is the immediate
+development priority. Complete the language, ABIs and optimization pipeline on
+those targets before expanding formal proof
 coverage. Preserve executable semantics, reproducible function boundaries, existing
 proofs and strong testing throughout. Certification is a separate later milestone
 and is not a prerequisite for compatibility work. QBE is the starting baseline
 and a fallible comparison implementation, not a permanent constraint on the IR.
+Windows AMD64 is explicitly deferred at the user’s request and is not a blocker
+for this scoped compatibility milestone.
 
 This is a general-purpose backend implemented in Lean 4. Concrete is a consumer
 through a separate adapter. The current implementation is a bounded scalar
 integer/floating, control-flow, memory, TLS and aggregate-call backend on Apple
-ARM64 and Linux ARM64/x86-64/RV64. The existing
+ARM64/x86-64 and Linux ARM64/x86-64/RV64. The existing
 opcode-selection theorem is limited; the backend is not verified end to end.
 
 ## Active execution order
@@ -20,8 +23,8 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 2. Extend the implemented SSA, scalar promotion, CFG optimization, liveness and
    callee-saved allocation pipeline (P08–P09) toward QBE optimization coverage.
    Measure against the retained stack baseline and original QBE.
-3. Implement the remaining Windows AMD64 ABI configuration (P10), broaden the
-   existing five targets' boundary cases and obtain native RV64/Intel macOS evidence.
+3. Broaden the five in-scope targets' ABI/emission boundary cases (P10) and obtain
+   native RV64/Intel macOS evidence. Windows AMD64 remains deferred.
 4. Close full-suite and performance qualification (P11–P12). These checks start
    now and grow throughout the port; they are not deferred until feature completion.
 5. Resume C01–C03 and expand V01–V05 proof coverage against the established
@@ -34,7 +37,8 @@ SSA construction, aggregate arguments/results and checked callee-saved allocatio
 are implemented on all five configurations. Native Apple ARM64, Linux ARM64 and
 Linux x86-64 qualification is available; RV64 runs under QEMU and Intel macOS
 output runs through Rosetta locally. Remaining work includes syntax/linkage edges,
-Windows AMD64, broader ABI qualification and optimization/allocation passes.
+broader ABI qualification and optimization/allocation passes. Windows AMD64 is
+outside the current completion criteria.
 Use the compatibility inventory to choose subsequent bounded feature slices.
 C01 is paused as an active workstream; its existing results remain checked.
 New preservation proofs and proved validators are not prerequisites for adding
@@ -71,8 +75,8 @@ Next bounded work, before proof expansion:
    adjacent sole-use address offsets; ARM64, AMD64 and RV64 select final sole-use
    integer comparisons directly into conditional branches without extending operand
    lifetimes.
-4. Complete the remaining QBE ABI configuration (`amd64_win`),
-   broaden boundary tests on existing targets and obtain native RV64 qualification.
+4. Broaden boundary tests on the five existing targets and obtain native RV64
+   qualification. The upstream `amd64_win` configuration is deferred.
 5. Run broader differential fuzzing and performance benchmarks, then resume
    proof expansion against the completed compatibility implementation.
 
@@ -178,21 +182,21 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   is tested with concurrent C threads. Apple custom code/data sections and common
   zero-fill definitions now pass native section/coalescing tests. Quoted globals
   and existing Linux/Apple TLS conventions are implemented; additional section
-  forms and Windows conventions remain.
+  forms remain; Windows conventions are deferred.
   Local single/double arithmetic, comparisons, casts, memory and phi values are
   implemented, including numeric conversions, scalar floating calls/returns and
   variadics. Float-to-integer interpretation rejects non-finite/out-of-range inputs.
   Specify lifetime, initialization, access widths, alignment and pointer behavior;
   justify any alias facts used by optimization.
-- [ ] P07 — Calls, variadics, aggregates, floating point and each upstream ABI.
+- [ ] P07 — Calls, variadics, aggregates, floating point and the five in-scope ABIs.
   Direct and indirect calls with up to 64 w/l/s/d register/stack arguments and a scalar or void result,
   recursion and native C interoperation are implemented as an initial slice.
   Function tables, native C callbacks, env arguments and integer/floating variadics
   (vastart/vaarg) are also tested. Subword ABI arguments/results and packed byte/short stack slots are tested;
   Apple ARM64 aggregate arguments/results now include GP/FP registers, stack fallback,
   private indirect copies, opaque values, aggregate variadics and exact short tails.
-  The five implemented target ABIs now have aggregate lowering; Windows AMD64
-  and broader edge-case qualification remain open. The Apple ARM64 integer
+  The five implemented target ABIs now have aggregate lowering; broader edge-case
+  qualification remains open. Windows AMD64 is deferred. The Apple ARM64 integer
   stack slice uses natural word/long packing and is checked against native C.
   Aggregate implementation/qualification checklist:
   1. Parse named record, union and opaque types with repetition, nesting and explicit
@@ -295,7 +299,7 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   macOS AMD64 now reaches 75/76 fixtures (58 executable and 17 assembly-only
   passes through Rosetta), sharing SysV classification with Mach-O/TLV emission.
   Native Linux ARM64 CI is enabled; native RV64 and Intel macOS qualification
-  remain, alongside the Windows AMD64 implementation.
+  remain. Windows AMD64 implementation is deferred outside the current milestone.
   Coverage on one ISA or OS ABI does not certify another. 32-bit ARM/x86/RISC-V
   are outside the QBE baseline and require separately scoped target work.
 - [ ] P11 — Run the complete upstream test suite, ABI generators and differential
@@ -321,7 +325,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   QBE code size/runtime on the measured workload; these gates remain open.
 
 Exit gate: full coverage across the inventoried syntax, documented semantics,
-targets, ABIs and passes, with known discrepancies explicit. A working subset or
+five in-scope targets, their ABIs and the optimization passes, with known
+discrepancies explicit. Windows AMD64 is excluded from this exit gate. A working subset or
 wrapper around C QBE is not the full port. Publish separate compatibility and
 certification matrices; full compatibility does not imply full certification.
 
