@@ -209,6 +209,7 @@ python3 scripts/blit_guard_pages.py "$@"
 python3 scripts/calls.py "$@"
 python3 scripts/argument_limits.py "$@"
 python3 scripts/dynamic_outgoing.py "$@"
+python3 scripts/rv_load_normalization.py
 python3 scripts/indirect.py "$@"
 python3 scripts/variadic.py "$@"
 python3 scripts/environment.py "$@"

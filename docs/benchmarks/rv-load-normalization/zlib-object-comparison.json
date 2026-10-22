@@ -1,0 +1,1744 @@
+{
+  "schema": 1,
+  "target": "riscv64-linux",
+  "benchmark_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/zlib-rv-load-main.json",
+  "benchmark_report_sha256": "0a90fe36e0c1015561c6de74e7c8fd150d11eae1d1e2ba4c861d4258dbc790f1",
+  "snapshots": {
+    "before": {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+      "identity": "97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20",
+      "sha256": "294c29b54864ba5986d3d1f5947a89deb9800cecbc14f06ee89c19edc9fbe0b8"
+    },
+    "after": {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+      "identity": "81000f96ded3564ff24256c8c736be2f853d88c1c67ce0429ace201fc251c003",
+      "sha256": "b6952567cd37e14e3220987297f060dc7be528f833e7a6fcc08cea8929376f4a"
+    }
+  },
+  "comparison": "Assembly must equal old bytes with only immediate lbu/lhu/lwu t0,offset(t0) followed by slli/srli32 normalization removed. Object .text measured independently with GNU size.",
+  "rows": [
+    {
+      "unit": "adler32",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/adler32.ssa",
+      "source_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/adler32.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/adler32.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/adler32.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/adler32.o"
+        ],
+        "assembly_sha256": "b4fba23b987effc46b44c1a38bb8194c00051986f1dda2f7bf445f3e921acbf3",
+        "text_bytes": 16688,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/adler32.o  :\nsection              size   addr\n.text               16688      0\n.data                   0      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               16769\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/adler32.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/adler32.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/adler32.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/adler32.o"
+        ],
+        "assembly_sha256": "3f2863c5fd28aa64dc8b695976dc6b797a0e6998531371b766a5dd80510e0a7d",
+        "text_bytes": 16460,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/adler32.o  :\nsection              size   addr\n.text               16460      0\n.data                   0      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               16541\n\n\n"
+      },
+      "removed_normalization_pairs": 38,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "adler32",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/adler32.ssa",
+      "source_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/adler32.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/adler32.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/adler32.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/adler32.o"
+        ],
+        "assembly_sha256": "3ccb240de154f8b593a56b6519928159554ea32becd0c0c740588bfefef83d1d",
+        "text_bytes": 4924,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/adler32.o  :\nsection             size   addr\n.text               4924      0\n.data                  0      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               5005\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/adler32.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/adler32.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/adler32.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/adler32.o"
+        ],
+        "assembly_sha256": "a96dad10c1e8f437298c2e191d4e7d1b854ce688ca480f512fc84b05784701d6",
+        "text_bytes": 4712,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/adler32.o  :\nsection             size   addr\n.text               4712      0\n.data                  0      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               4793\n\n\n"
+      },
+      "removed_normalization_pairs": 35,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "compress",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/compress.ssa",
+      "source_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/compress.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/compress.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/compress.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/compress.o"
+        ],
+        "assembly_sha256": "27a7753cf5e0f4a7f1df14ae3375e06f80a91ee68e266cf7c12db86396ca9559",
+        "text_bytes": 3752,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/compress.o  :\nsection             size   addr\n.text               3752      0\n.data                  6      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               3839\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/compress.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/compress.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/compress.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/compress.o"
+        ],
+        "assembly_sha256": "3902728976b60c9a63b6d5489625230be58d7c39a4d0723ac40dd2fe959d364d",
+        "text_bytes": 3736,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/compress.o  :\nsection             size   addr\n.text               3736      0\n.data                  6      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               3823\n\n\n"
+      },
+      "removed_normalization_pairs": 3,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "compress",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/compress.ssa",
+      "source_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/compress.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/compress.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/compress.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/compress.o"
+        ],
+        "assembly_sha256": "4e3173e36a0e0b2b232111ccc5c5c74e621671a8156f1582901fac9e916c366f",
+        "text_bytes": 2368,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/compress.o  :\nsection             size   addr\n.text               2368      0\n.data                  6      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               2455\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/compress.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/compress.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/compress.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/compress.o"
+        ],
+        "assembly_sha256": "4e3173e36a0e0b2b232111ccc5c5c74e621671a8156f1582901fac9e916c366f",
+        "text_bytes": 2368,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/compress.o  :\nsection             size   addr\n.text               2368      0\n.data                  6      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               2455\n\n\n"
+      },
+      "removed_normalization_pairs": 0,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "crc32",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/crc32.ssa",
+      "source_sha256": "2cd9b2b2e51cfa5ec875dc7a2faf9a3708c11bfda0efe11476f3c4bb50bfe3a8",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/crc32.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/crc32.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/crc32.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/crc32.o"
+        ],
+        "assembly_sha256": "568bf39b2eb643b647c52eb27df5ed86c25acc0660ba575e469bda7e83028b37",
+        "text_bytes": 24616,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/crc32.o  :\nsection              size   addr\n.text               24616      0\n.data               10368      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               35065\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/crc32.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/crc32.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/crc32.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/crc32.o"
+        ],
+        "assembly_sha256": "22537952816319a77a2341e835fbaf62f287d72e9bdfedcf35e4ca2d0eb90b86",
+        "text_bytes": 24532,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/crc32.o  :\nsection              size   addr\n.text               24532      0\n.data               10368      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               34981\n\n\n"
+      },
+      "removed_normalization_pairs": 14,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "crc32",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/crc32.ssa",
+      "source_sha256": "2cd9b2b2e51cfa5ec875dc7a2faf9a3708c11bfda0efe11476f3c4bb50bfe3a8",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/crc32.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/crc32.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/crc32.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/crc32.o"
+        ],
+        "assembly_sha256": "bf7eb7951a69ebdcd44d0dd84fc7fac1490ac88e29b278d6b7ce96a98818dd4a",
+        "text_bytes": 11324,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/crc32.o  :\nsection              size   addr\n.text               11324      0\n.data               10368      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               21773\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/crc32.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/crc32.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/crc32.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/crc32.o"
+        ],
+        "assembly_sha256": "e605d1d999efe141bba2bfc9724a51b6d226819afd7cd7038a3f0be8f0abe835",
+        "text_bytes": 11256,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/crc32.o  :\nsection              size   addr\n.text               11256      0\n.data               10368      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               21705\n\n\n"
+      },
+      "removed_normalization_pairs": 11,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "deflate",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/deflate.ssa",
+      "source_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/deflate.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/deflate.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/deflate.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/deflate.o"
+        ],
+        "assembly_sha256": "745cc2c3ad2ae6b9423db5108234730007fe8dfeda9eb75061408f72f12ac1cd",
+        "text_bytes": 156216,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/deflate.o  :\nsection               size   addr\n.text               156216      0\n.data                  238      0\n.bss                     0      0\n.note.GNU-stack          0      0\n.riscv.attributes       81      0\nTotal               156535\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/deflate.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/deflate.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/deflate.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/deflate.o"
+        ],
+        "assembly_sha256": "5d7c9fac6682daa583cd658ba2499257a2160cfebe00fb50d940659558d04469",
+        "text_bytes": 155400,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/deflate.o  :\nsection               size   addr\n.text               155400      0\n.data                  238      0\n.bss                     0      0\n.note.GNU-stack          0      0\n.riscv.attributes       81      0\nTotal               155719\n\n\n"
+      },
+      "removed_normalization_pairs": 136,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "deflate",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/deflate.ssa",
+      "source_sha256": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/deflate.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/deflate.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/deflate.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/deflate.o"
+        ],
+        "assembly_sha256": "22f64ad47ed4c4d2a2817389a53fa345a59b76573f9ce19aba811017381d630f",
+        "text_bytes": 59052,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/deflate.o  :\nsection              size   addr\n.text               59052      0\n.data                 238      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               59371\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/deflate.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/deflate.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/deflate.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/deflate.o"
+        ],
+        "assembly_sha256": "3273560e06589410a93f6d057049383a4e847fc40125d8b186b1a58ad7a5d61b",
+        "text_bytes": 58476,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/deflate.o  :\nsection              size   addr\n.text               58476      0\n.data                 238      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               58795\n\n\n"
+      },
+      "removed_normalization_pairs": 96,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "gzclose",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzclose.ssa",
+      "source_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzclose.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzclose.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzclose.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzclose.o"
+        ],
+        "assembly_sha256": "8afdc8794a96ce9ab1d6a73612649db9e1e7864cd7155147ebb270bbff677948",
+        "text_bytes": 1896,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/gzclose.o  :\nsection             size   addr\n.text               1896      0\n.data                  0      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               1977\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzclose.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzclose.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzclose.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzclose.o"
+        ],
+        "assembly_sha256": "074bd0c0e5a0bd417ddd4d32a60aa1459286b29b16108ed740be1aea96170943",
+        "text_bytes": 1876,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/gzclose.o  :\nsection             size   addr\n.text               1876      0\n.data                  0      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               1957\n\n\n"
+      },
+      "removed_normalization_pairs": 3,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "gzclose",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzclose.ssa",
+      "source_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzclose.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzclose.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzclose.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzclose.o"
+        ],
+        "assembly_sha256": "99f791dc42c117d4815836e80cd1a4d55c2b480a25d0cec2f29aaea71f9fa0e9",
+        "text_bytes": 1396,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/gzclose.o  :\nsection             size   addr\n.text               1396      0\n.data                  0      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               1477\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzclose.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzclose.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzclose.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzclose.o"
+        ],
+        "assembly_sha256": "99f791dc42c117d4815836e80cd1a4d55c2b480a25d0cec2f29aaea71f9fa0e9",
+        "text_bytes": 1396,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/gzclose.o  :\nsection             size   addr\n.text               1396      0\n.data                  0      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               1477\n\n\n"
+      },
+      "removed_normalization_pairs": 0,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "gzlib",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzlib.ssa",
+      "source_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzlib.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzlib.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzlib.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzlib.o"
+        ],
+        "assembly_sha256": "0a696d5fe034700c40548fdeaf602f3c76d8c7157aa2a3acb4fbbcac608da344",
+        "text_bytes": 18468,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/gzlib.o  :\nsection              size   addr\n.text               18468      0\n.data                  36      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               18585\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzlib.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzlib.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzlib.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzlib.o"
+        ],
+        "assembly_sha256": "fdfceadd77b5ddde784d5ed0c54cca7c880f58bc02f554e5f43e582c40512ea9",
+        "text_bytes": 18420,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/gzlib.o  :\nsection              size   addr\n.text               18420      0\n.data                  36      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               18537\n\n\n"
+      },
+      "removed_normalization_pairs": 8,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "gzlib",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzlib.ssa",
+      "source_sha256": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzlib.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzlib.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzlib.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzlib.o"
+        ],
+        "assembly_sha256": "e6fc41f6645b24676b20276e2db967850d26f59b01a2514f385a65d4c7df1665",
+        "text_bytes": 10268,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/gzlib.o  :\nsection              size   addr\n.text               10268      0\n.data                  36      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               10385\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzlib.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzlib.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzlib.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzlib.o"
+        ],
+        "assembly_sha256": "8b2eb6fceef91478d70345a471fb887570081e8febc6827d2dc0ba7934298161",
+        "text_bytes": 10236,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/gzlib.o  :\nsection              size   addr\n.text               10236      0\n.data                  36      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               10353\n\n\n"
+      },
+      "removed_normalization_pairs": 5,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "gzread",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzread.ssa",
+      "source_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzread.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzread.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzread.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzread.o"
+        ],
+        "assembly_sha256": "d8aadd1cce8a422d925a4f2c12532ed5e162bba1757801e96d82515bfd630bec",
+        "text_bytes": 24792,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/gzread.o  :\nsection              size   addr\n.text               24792      0\n.data                 199      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               25072\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzread.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzread.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzread.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzread.o"
+        ],
+        "assembly_sha256": "22c4efc73b20e1bcf24f9bd4c21e8cccd961e839daf511abf7299f04df2e0a40",
+        "text_bytes": 24736,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/gzread.o  :\nsection              size   addr\n.text               24736      0\n.data                 199      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               25016\n\n\n"
+      },
+      "removed_normalization_pairs": 9,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "gzread",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzread.ssa",
+      "source_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzread.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzread.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzread.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzread.o"
+        ],
+        "assembly_sha256": "46d85973e29a131024fc3577e17bdeae2190c4f9f1ed1311690a0ab3ea74218f",
+        "text_bytes": 13984,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/gzread.o  :\nsection              size   addr\n.text               13984      0\n.data                 199      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               14264\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzread.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzread.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzread.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzread.o"
+        ],
+        "assembly_sha256": "a4dcf0f6f3bd261e7e58ac0eb89fc21635b08107b3ea3082737abc5412b27642",
+        "text_bytes": 13948,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/gzread.o  :\nsection              size   addr\n.text               13948      0\n.data                 199      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               14228\n\n\n"
+      },
+      "removed_normalization_pairs": 6,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "gzwrite",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzwrite.ssa",
+      "source_sha256": "11e2b2c55217c57b690d25f9fa07f4349a4065a7a5885e46d70463386cafdc55",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzwrite.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzwrite.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzwrite.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/gzwrite.o"
+        ],
+        "assembly_sha256": "986c6176836eb0588a28025ecafde3db687c353e213446d74a594d8d1fb75525",
+        "text_bytes": 23116,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/gzwrite.o  :\nsection              size   addr\n.text               23116      0\n.data                 163      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               23360\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzwrite.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzwrite.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzwrite.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/gzwrite.o"
+        ],
+        "assembly_sha256": "1878fbbad64da55eff8b7e4c1a562e451413cd2af2fe862ae90b7b46fb085916",
+        "text_bytes": 23092,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/gzwrite.o  :\nsection              size   addr\n.text               23092      0\n.data                 163      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               23336\n\n\n"
+      },
+      "removed_normalization_pairs": 4,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "gzwrite",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzwrite.ssa",
+      "source_sha256": "11e2b2c55217c57b690d25f9fa07f4349a4065a7a5885e46d70463386cafdc55",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzwrite.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzwrite.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzwrite.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/gzwrite.o"
+        ],
+        "assembly_sha256": "6a4c7f00dd23cf98afc4b5fb344ec9492d2ee720000a719ab8db17a3ebe9005d",
+        "text_bytes": 12920,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/gzwrite.o  :\nsection              size   addr\n.text               12920      0\n.data                 163      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               13164\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/gzwrite.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzwrite.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzwrite.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/gzwrite.o"
+        ],
+        "assembly_sha256": "ebb2d98b2801f63497eb54fa10ba73ffa88867e2a1eb8694454dcaa89d760d83",
+        "text_bytes": 12916,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/gzwrite.o  :\nsection              size   addr\n.text               12916      0\n.data                 163      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               13160\n\n\n"
+      },
+      "removed_normalization_pairs": 1,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "infback",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/infback.ssa",
+      "source_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/infback.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/infback.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/infback.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/infback.o"
+        ],
+        "assembly_sha256": "9c53180ced71722ea705970415265e7ca1eb2cc0851cb7701a8f1066a0bc8d47",
+        "text_bytes": 49832,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/infback.o  :\nsection              size   addr\n.text               49832      0\n.data                2522      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               52435\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/infback.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/infback.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/infback.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/infback.o"
+        ],
+        "assembly_sha256": "1404b354c75c5874c2c0c5e22d9ed1d557eb528db31db2e0700178ad63718952",
+        "text_bytes": 49308,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/infback.o  :\nsection              size   addr\n.text               49308      0\n.data                2522      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               51911\n\n\n"
+      },
+      "removed_normalization_pairs": 87,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "infback",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/infback.ssa",
+      "source_sha256": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/infback.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/infback.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/infback.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/infback.o"
+        ],
+        "assembly_sha256": "4e0574feacf41f85ceecffc4e7fae3e4267a63edaf2a5365ca412eac7631aa41",
+        "text_bytes": 21660,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/infback.o  :\nsection              size   addr\n.text               21660      0\n.data                2522      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               24263\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/infback.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/infback.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/infback.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/infback.o"
+        ],
+        "assembly_sha256": "ca9672508649f678ae1b0bd789f7ed2250a605a118363d4c1ed5f2805af33a6b",
+        "text_bytes": 21188,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/infback.o  :\nsection              size   addr\n.text               21188      0\n.data                2522      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               23791\n\n\n"
+      },
+      "removed_normalization_pairs": 79,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "inffast",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inffast.ssa",
+      "source_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inffast.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inffast.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inffast.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inffast.o"
+        ],
+        "assembly_sha256": "bd2d104305f65696010823345b93f4b74c4569c17f7d92425d36caae6a410519",
+        "text_bytes": 18176,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/inffast.o  :\nsection              size   addr\n.text               18176      0\n.data                  80      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               18337\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inffast.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inffast.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inffast.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inffast.o"
+        ],
+        "assembly_sha256": "ba7450fdeda9831fbfce6cca5354df2f1eb97a3617f1ea9fa616605ace1561b6",
+        "text_bytes": 17976,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/inffast.o  :\nsection              size   addr\n.text               17976      0\n.data                  80      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               18137\n\n\n"
+      },
+      "removed_normalization_pairs": 33,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "inffast",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inffast.ssa",
+      "source_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inffast.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inffast.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inffast.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inffast.o"
+        ],
+        "assembly_sha256": "842b8536c3f5df62da139e30b2932ed63cca75faeadcf1a5b2e292d1459fa0a1",
+        "text_bytes": 8232,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/inffast.o  :\nsection             size   addr\n.text               8232      0\n.data                 80      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               8393\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inffast.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inffast.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inffast.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inffast.o"
+        ],
+        "assembly_sha256": "1015ace0655a080f9b1b5ec3573fd9c4b7c3f207e872022b87230054a680b67e",
+        "text_bytes": 8052,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/inffast.o  :\nsection             size   addr\n.text               8052      0\n.data                 80      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               8213\n\n\n"
+      },
+      "removed_normalization_pairs": 30,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "inflate",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inflate.ssa",
+      "source_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inflate.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inflate.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inflate.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inflate.o"
+        ],
+        "assembly_sha256": "ae4ea719272c55bb4379b653846fbc2a26b13b90a402b832e35e842bf8e2ead4",
+        "text_bytes": 106460,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/inflate.o  :\nsection               size   addr\n.text               106460      0\n.data                 2681      0\n.bss                     0      0\n.note.GNU-stack          0      0\n.riscv.attributes       81      0\nTotal               109222\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inflate.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inflate.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inflate.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inflate.o"
+        ],
+        "assembly_sha256": "97c8f80f0baf53117866ff32b349a4f95ea185f243b9a9896ee78c7f88a448c0",
+        "text_bytes": 105832,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/inflate.o  :\nsection               size   addr\n.text               105832      0\n.data                 2681      0\n.bss                     0      0\n.note.GNU-stack          0      0\n.riscv.attributes       81      0\nTotal               108594\n\n\n"
+      },
+      "removed_normalization_pairs": 104,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "inflate",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inflate.ssa",
+      "source_sha256": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inflate.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inflate.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inflate.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inflate.o"
+        ],
+        "assembly_sha256": "a2f64386623ffd07a48a92d3955c50ae301915c929540978c1276771c129767e",
+        "text_bytes": 51160,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/inflate.o  :\nsection              size   addr\n.text               51160      0\n.data                2681      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               53922\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inflate.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inflate.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inflate.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inflate.o"
+        ],
+        "assembly_sha256": "611a090273213e729f3395f9f288447b8c35968e2fd5a99c8ba4ae9a0fd544f2",
+        "text_bytes": 50584,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/inflate.o  :\nsection              size   addr\n.text               50584      0\n.data                2681      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               53346\n\n\n"
+      },
+      "removed_normalization_pairs": 96,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "inftrees",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inftrees.ssa",
+      "source_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inftrees.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inftrees.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inftrees.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/inftrees.o"
+        ],
+        "assembly_sha256": "2a3ffbd292ed40da75362707d16e8873425f8035378d517b450353a251ca52ec",
+        "text_bytes": 13916,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/inftrees.o  :\nsection              size   addr\n.text               13916      0\n.data                 300      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               14297\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inftrees.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inftrees.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inftrees.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/inftrees.o"
+        ],
+        "assembly_sha256": "5f03945e2fdcfc04b3af4be11955559b9e776d4857d3bdf0a31d9dcce1bb0e1a",
+        "text_bytes": 13724,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/inftrees.o  :\nsection              size   addr\n.text               13724      0\n.data                 300      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               14105\n\n\n"
+      },
+      "removed_normalization_pairs": 32,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "inftrees",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inftrees.ssa",
+      "source_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inftrees.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inftrees.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inftrees.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/inftrees.o"
+        ],
+        "assembly_sha256": "dd2f0022d93613f9570237626075045c1d2f6b8fa710f91041f732477dd6105f",
+        "text_bytes": 7028,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/inftrees.o  :\nsection             size   addr\n.text               7028      0\n.data                300      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               7409\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/inftrees.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inftrees.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inftrees.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/inftrees.o"
+        ],
+        "assembly_sha256": "09f50e8204c9e0d0b040cc0441a416a5c8a36851202a213621f35d4dcb8996c9",
+        "text_bytes": 6852,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/inftrees.o  :\nsection             size   addr\n.text               6852      0\n.data                300      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               7233\n\n\n"
+      },
+      "removed_normalization_pairs": 29,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "test/example",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-example.ssa",
+      "source_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-example.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/test-example.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/test-example.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/test-example.o"
+        ],
+        "assembly_sha256": "fccd41ad74de6f055bf67993de139444caf4b1e492cf889f05434f9ba3967734",
+        "text_bytes": 20456,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/test-example.o  :\nsection              size   addr\n.text               20456      0\n.data                 934      0\n.bss                    8      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               21479\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-example.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/test-example.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/test-example.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/test-example.o"
+        ],
+        "assembly_sha256": "e6aa9894bf3378651fbf7d58ec4e674c181c7df2bb1d731a4a62e45cfe6a0b24",
+        "text_bytes": 20412,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/test-example.o  :\nsection              size   addr\n.text               20412      0\n.data                 934      0\n.bss                    8      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               21435\n\n\n"
+      },
+      "removed_normalization_pairs": 7,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "test/example",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-example.ssa",
+      "source_sha256": "3e0a6a9b949f731a7f585d84f54de8865bf9f0a77344933b7c5d7aa547cc346f",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-example.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/test-example.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/test-example.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/test-example.o"
+        ],
+        "assembly_sha256": "9063aa4a9565b20f29f5462dac441ce51140137ec7ac2c82bea67679e87bcc3b",
+        "text_bytes": 13212,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/test-example.o  :\nsection              size   addr\n.text               13212      0\n.data                 934      0\n.bss                    8      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               14235\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-example.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/test-example.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/test-example.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/test-example.o"
+        ],
+        "assembly_sha256": "35ae2d103e3353d541303dcf30c1bbeb93cd0ee8114d887771d7fc7e18ea5eb9",
+        "text_bytes": 13188,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/test-example.o  :\nsection              size   addr\n.text               13188      0\n.data                 934      0\n.bss                    8      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               14211\n\n\n"
+      },
+      "removed_normalization_pairs": 4,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "test/minigzip",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-minigzip.ssa",
+      "source_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-minigzip.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/test-minigzip.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/test-minigzip.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/test-minigzip.o"
+        ],
+        "assembly_sha256": "4ea21d2cbf13052507bd9d902affdbe173fa5ed50ea69626dcd5652d0c8d5627",
+        "text_bytes": 9420,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/test-minigzip.o  :\nsection             size   addr\n.text               9420      0\n.data                192      0\n.bss                   8      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               9701\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-minigzip.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/test-minigzip.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/test-minigzip.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/test-minigzip.o"
+        ],
+        "assembly_sha256": "ded309840d0370404da990dee32972a6e49b63eccf7e8ca6d253d12ab390dee7",
+        "text_bytes": 9368,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/test-minigzip.o  :\nsection             size   addr\n.text               9368      0\n.data                192      0\n.bss                   8      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               9649\n\n\n"
+      },
+      "removed_normalization_pairs": 9,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "test/minigzip",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-minigzip.ssa",
+      "source_sha256": "c26963fcafd80cf88c5f4627ecbbf714c66b39f6c306a8372ca5cfb93f7ecd7f",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-minigzip.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/test-minigzip.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/test-minigzip.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/test-minigzip.o"
+        ],
+        "assembly_sha256": "d5f0cd3762c3efd624854995182db4b72eedcfb05fae2067e1361be6121ac47f",
+        "text_bytes": 6116,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/test-minigzip.o  :\nsection             size   addr\n.text               6116      0\n.data                192      0\n.bss                   8      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               6397\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/test-minigzip.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/test-minigzip.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/test-minigzip.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/test-minigzip.o"
+        ],
+        "assembly_sha256": "d2d6a8320d02ee1123e954c7fbc7ef3a1082c0b42b2371307eec89617c503506",
+        "text_bytes": 6080,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/test-minigzip.o  :\nsection             size   addr\n.text               6080      0\n.data                192      0\n.bss                   8      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               6361\n\n\n"
+      },
+      "removed_normalization_pairs": 6,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "trees",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/trees.ssa",
+      "source_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/trees.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/trees.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/trees.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/trees.o"
+        ],
+        "assembly_sha256": "73d8d28c16dc3b9ced83c0cc0603474e1016f2b9cd082f858b4b2a771b72fef3",
+        "text_bytes": 93240,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/trees.o  :\nsection              size   addr\n.text               93240      0\n.data                2704      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               96025\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/trees.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/trees.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/trees.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/trees.o"
+        ],
+        "assembly_sha256": "32aee53a71385ce0d4420a5099278616744ac07fc80a4a689c9c3cd2779fec3b",
+        "text_bytes": 92028,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/trees.o  :\nsection              size   addr\n.text               92028      0\n.data                2704      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               94813\n\n\n"
+      },
+      "removed_normalization_pairs": 202,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "trees",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/trees.ssa",
+      "source_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/trees.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/trees.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/trees.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/trees.o"
+        ],
+        "assembly_sha256": "b08d2c1886aec942f88b79a88fff3989a2ee0b181215b3a073d43c5ae6f4eccc",
+        "text_bytes": 40848,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/trees.o  :\nsection              size   addr\n.text               40848      0\n.data                2704      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               43633\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/trees.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/trees.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/trees.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/trees.o"
+        ],
+        "assembly_sha256": "3b72b0e4a674b347e44f29c339b7c5100ab446e7d205b42c56337f4bb3c079c0",
+        "text_bytes": 39668,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/trees.o  :\nsection              size   addr\n.text               39668      0\n.data                2704      0\n.bss                    0      0\n.note.GNU-stack         0      0\n.riscv.attributes      81      0\nTotal               42453\n\n\n"
+      },
+      "removed_normalization_pairs": 197,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "uncompr",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/uncompr.ssa",
+      "source_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/uncompr.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/uncompr.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/uncompr.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/uncompr.o"
+        ],
+        "assembly_sha256": "d7ff0ba3ecbe2971066a0a0b858d95e4a4b89682061324449d7bb6dc77b46718",
+        "text_bytes": 4152,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/uncompr.o  :\nsection             size   addr\n.text               4152      0\n.data                  6      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               4239\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/uncompr.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/uncompr.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/uncompr.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/uncompr.o"
+        ],
+        "assembly_sha256": "df24b92822bc0102f13f85f306187a6024dc4c3c0da7f449e635c7874d32754e",
+        "text_bytes": 4136,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/uncompr.o  :\nsection             size   addr\n.text               4136      0\n.data                  6      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               4223\n\n\n"
+      },
+      "removed_normalization_pairs": 3,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "uncompr",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/uncompr.ssa",
+      "source_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/uncompr.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/uncompr.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/uncompr.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/uncompr.o"
+        ],
+        "assembly_sha256": "666f59e43f8fcb6cc1fa1c0acb4ac57a64a399e73b31efcf34ae79d873148eab",
+        "text_bytes": 2672,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/uncompr.o  :\nsection             size   addr\n.text               2672      0\n.data                  6      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               2759\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/uncompr.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/uncompr.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/uncompr.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/uncompr.o"
+        ],
+        "assembly_sha256": "666f59e43f8fcb6cc1fa1c0acb4ac57a64a399e73b31efcf34ae79d873148eab",
+        "text_bytes": 2672,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/uncompr.o  :\nsection             size   addr\n.text               2672      0\n.data                  6      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               2759\n\n\n"
+      },
+      "removed_normalization_pairs": 0,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "zutil",
+      "mode": "baseline",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/zutil.ssa",
+      "source_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/zutil.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/zutil.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/zutil.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/before/zutil.o"
+        ],
+        "assembly_sha256": "5c26fd68ba50cb5e6703b6959a9bf2483f01c9892e3b970e497e0d811e07f10d",
+        "text_bytes": 3924,
+        "size_output": "/work/rv-load-main-comparison/baseline/before/zutil.o  :\nsection             size   addr\n.text               3924      0\n.data                206      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               4211\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/zutil.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/zutil.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/zutil.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/baseline/after/zutil.o"
+        ],
+        "assembly_sha256": "0899c85fe511979b2735eef5ff2ab8fe0eec482ba2bb58329cd803e9af3dd1ba",
+        "text_bytes": 3908,
+        "size_output": "/work/rv-load-main-comparison/baseline/after/zutil.o  :\nsection             size   addr\n.text               3908      0\n.data                206      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               4195\n\n\n"
+      },
+      "removed_normalization_pairs": 3,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    },
+    {
+      "unit": "zutil",
+      "mode": "optimized",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/zutil.ssa",
+      "source_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+      "before": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/before-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/zutil.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/zutil.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/zutil.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/before/zutil.o"
+        ],
+        "assembly_sha256": "e54ece0af5d5c664632b6685c7b8193e93e4e4369a2c09a3a94f11c213c18f75",
+        "text_bytes": 1704,
+        "size_output": "/work/rv-load-main-comparison/optimized/before/zutil.o  :\nsection             size   addr\n.text               1704      0\n.data                206      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               1991\n\n\n"
+      },
+      "after": {
+        "emit_command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/after-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/zutil.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/zutil.s"
+        ],
+        "object_command": [
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/zutil.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-load-main-comparison/optimized/after/zutil.o"
+        ],
+        "assembly_sha256": "e54ece0af5d5c664632b6685c7b8193e93e4e4369a2c09a3a94f11c213c18f75",
+        "text_bytes": 1704,
+        "size_output": "/work/rv-load-main-comparison/optimized/after/zutil.o  :\nsection             size   addr\n.text               1704      0\n.data                206      0\n.bss                   0      0\n.note.GNU-stack        0      0\n.riscv.attributes     81      0\nTotal               1991\n\n\n"
+      },
+      "removed_normalization_pairs": 0,
+      "exact_expected_assembly": true,
+      "matches_completed_benchmark_assembly": true
+    }
+  ],
+  "execution": "No runtime measurements or new execution qualification; see completed main zlib report.",
+  "reference_note": "Before/after LCB comparison only; main report retains original QBE failure and corrected-oracle results separately.",
+  "toolchain": {
+    "cc": "riscv64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+    "size": "GNU size (GNU Binutils for Ubuntu) 2.42\nCopyright (C) 2024 Free Software Foundation, Inc.\nThis program is free software; you may redistribute it under the terms of\nthe GNU General Public License version 3 or (at your option) any later version.\nThis program has absolutely no warranty.\n"
+  },
+  "totals": {
+    "baseline": {
+      "translation_units": 17,
+      "removed_pairs": 695,
+      "before_text_bytes": 589120,
+      "after_text_bytes": 584944
+    },
+    "optimized": {
+      "translation_units": 17,
+      "removed_pairs": 595,
+      "before_text_bytes": 268868,
+      "after_text_bytes": 265296
+    }
+  },
+  "status": "passed",
+  "comparison_script_sha256": "da02230f2b6bda7161994c8b79a2402c3da3f67a2180891fb4a64f95eaa2818e",
+  "completed_benchmark_assembly_matches": 34
+}

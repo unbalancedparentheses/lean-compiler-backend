@@ -134,6 +134,9 @@ def main():
     dynamic_outgoing_tests(compiler,work,run,cc,args.target,execute)
     from argument_limits import exercise as argument_limit_tests, original_qbe_profiles
     argument_limit_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget,original_qbe_profiles(args.target))
+    if args.target == 'riscv64-linux':
+        from rv_load_normalization import exercise as rv_load_tests
+        rv_load_tests(compiler,work,run,cc,execute=execute)
     if args.target == 'x86_64-linux':
         from extern_flags import exercise as flags_tests
         flags_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)

@@ -178,6 +178,14 @@ private def inverseComparisonBranch (op : Comparison) (destination : String) : S
     | .unsignedLE => ("bltu", "t1", "t0") | .unsignedGT => ("bgeu", "t1", "t0")
   s!"\t{mnemonic} {x}, {y}, {destination}"
 
+/-- Unsigned memory loads already zero-extend into the full RV64 register.
+    Plain word loads use lwu (including floating raw bits); plain long loads
+    need no narrowing. Signed word results still require the canonical mask. -/
+private def loadNorm (w : Width) (kind : LoadKind) : List String :=
+  match kind with
+  | .unsignedByte | .unsignedHalf | .unsignedWord | .plain => []
+  | .signedByte | .signedHalf | .signedWord => norm w "t0"
+
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
   let w := inst.width
   let ws := if w == .word then "w" else ""
@@ -253,7 +261,10 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
     if let some k := inst.callSubword then lines := lines ++ extend .word k.extension
   | .vaArg list =>
     lines := (← load c .long "t0" list) ++ ["\tld t1, 0(t0)", "\taddi t2, t1, 8", "\tsd t2, 0(t0)", s!"\t{if w == Width.word then "lwu" else "ld"} t0, 0(t1)"]
-  pure (lines ++ norm w "t0" ++ (← store c inst.destination))
+  let normalization := match inst.operation with
+    | .load kind _ => loadNorm w kind
+    | _ => norm w "t0"
+  pure (lines ++ normalization ++ (← store c inst.destination))
 
 private def emitStatement (c : Context) : Statement → Except String (List String)
   | .assign i => emitInstruction c i
@@ -302,8 +313,8 @@ private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
       | .signedByte => "lb" | .unsignedByte => "lbu" | .signedHalf => "lh" | .unsignedHalf => "lhu"
       | .signedWord => "lw" | .unsignedWord => "lwu" | .plain => if inst.width == .word then "lwu" else "ld"
     let lines ← load c .long "t0" pointer
-    -- Keep word normalization, including signed loads and floating raw bits.
-    return some (lines ++ memory op "t0" "t0" offset ++ norm inst.width "t0" ++ (← store c inst.destination))
+    -- Unsigned opcodes already normalize; signed word results still narrow.
+    return some (lines ++ memory op "t0" "t0" offset ++ loadNorm inst.width kind ++ (← store c inst.destination))
   | .store width value _ =>
     let op := match width with | .byte => "sb" | .half => "sh" | .word => "sw" | .long => "sd"
     -- Value materialization may use t6 for large spill offsets or resolve TLS;

@@ -286,6 +286,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Allocated fall-through edges omit redundant jumps.
   Wide shift counts, mixed-width
   operations, signed loads and address/result aliasing have independent checks.
+  RV64 zero-extending loads omit redundant word-mask pairs; signed loads and
+  general word copies retain required normalization, with independent bit cases.
   Caller clobbers, callee saves, FP bit patterns and spill pressure have execution
   and corruption checks. Caller-saved/FP-bank allocation, live-range splitting,
   coalescing and machine instruction-level value-flow checking remain.

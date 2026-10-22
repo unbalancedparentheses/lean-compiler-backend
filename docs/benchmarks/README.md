@@ -863,3 +863,9 @@ no generated-program speedup or new preservation proof is claimed.
 [Boundary suite and qualification](argument-limits/README.md) cover mixed scalar,
 narrow and aggregate signatures across the five supported targets, with explicit
 original-QBE oracle exclusions and unchanged certified-profile limits.
+
+## RV64 unsigned-load normalization checkpoint
+
+[Independent bit cases, exact assembly changes and zlib object measurements](rv-load-normalization/README.md)
+qualify removal of redundant unsigned-load mask pairs while retaining signed-load
+normalization. Original and corrected QBE outcomes remain separate.

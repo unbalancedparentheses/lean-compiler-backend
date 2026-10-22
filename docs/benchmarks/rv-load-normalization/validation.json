@@ -1,0 +1,15 @@
+{
+  "compiler_identity": "81000f96ded3564ff24256c8c736be2f853d88c1c67ce0429ace201fc251c003",
+  "build": "lake build lcb lcb-tests: exit0",
+  "units": "fresh lcb-tests: exit0",
+  "proof_audit": "147 axiom reports unchanged",
+  "optimized_RV_gate": {
+    "exit": 0,
+    "log_sha256": "6faee40e5fa0afa2531a6bb17c4008d67b7a6dac1ad92285f64e775c08bbaa75",
+    "summary": [
+      "riscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+      "Actual compiler emission modes: {'baseline': 29, 'allocated': 23, 'optimized': 122}"
+    ]
+  },
+  "execution": "RV64 QEMU, no native RV hardware claim"
+}

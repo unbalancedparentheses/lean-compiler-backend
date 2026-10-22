@@ -10,7 +10,19 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`97ca481485a7977677a97f62e8f5955ac59f404173063f37d8af44209041dd20`.
+`81000f96ded3564ff24256c8c736be2f853d88c1c67ce0429ace201fc251c003`.
+
+RV64 omits redundant normalization after zero-extending unsigned memory loads;
+signed word-result loads and ordinary word-copy narrowing remain unchanged.
+The [retained qualification](benchmarks/rv-load-normalization/README.md) passes
+9,216 independent C bit cases per mode, two corruption controls, the complete
+RV gate, 1,305 precisely expected corpus assemblies and 15 matching refusals.
+Zlib's 17 units pass upstream tests, exact gzip streams and roundtrips with the
+original/corrected QBE distinction preserved. Optimized object text falls by
+3,572 bytes; no runtime speedup or new proof is claimed.
+
+## Preceding argument-boundary checkpoint
+
 
 Compatibility now admits 1024 typed parameters/arguments, including aggregates,
 while retaining the eight-parameter certified profile and 1 MiB frame/outgoing

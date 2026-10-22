@@ -1,0 +1,35 @@
+{
+  "target": "riscv64-linux",
+  "execution": true,
+  "cases_per_mode": 9216,
+  "compiler_identity": "81000f96ded3564ff24256c8c736be2f853d88c1c67ce0429ace201fc251c003",
+  "compiler_sha256": "b6952567cd37e14e3220987297f060dc7be528f833e7a6fcc08cea8929376f4a",
+  "source_sha256": "2a028e08be23a923452ee49d3d2583b32c2d93aa2bca778e0c5f8a80c2c19aa3",
+  "caller_sha256": "cdf09703ed412f64d90fb35b368208f3a21f378a279aaad3730f4a46ac7125bb",
+  "modes": {
+    "baseline": {
+      "structural": "passed",
+      "execution": "passed"
+    },
+    "allocated": {
+      "structural": "passed",
+      "execution": "passed"
+    },
+    "optimized": {
+      "structural": "passed",
+      "execution": "passed"
+    }
+  },
+  "negative_controls": [
+    {
+      "label": "signed-unsigned-word",
+      "exit": 1,
+      "status": "detected"
+    },
+    {
+      "label": "unsigned-signed-byte",
+      "exit": 1,
+      "status": "detected"
+    }
+  ]
+}
