@@ -11,3 +11,5 @@ The 17-unit zlib comparison removes 889 redundant instructions and 1,745 optimiz
 All corpus changes are audited: 1,275 identical assemblies, fifteen identical refusals and thirty AMD allocated/optimized assemblies containing exactly 34 removed self-copies. Missing-tool emission, CLI, source/helper/compiler bindings and guest/host barriers pass. Earlier failed or superseded helper runs remain explicitly separate in the private evidence.
 
 The combined replay freshly executes both AMD target matrices and Linux zlib, audits all 102 before/after assembly pairs, and exactly matches 204 private/combined workload assemblies. Its current-corpus comparison reproduces only the expected 34 normalization deletions. All 137 source bindings and 487 guest/host artifact checks pass. No binary was rebuilt during this replay.
+
+A [repeatability fix](repeatability/README.md) allows consecutive helper runs in an existing gate directory. Two consecutive emission and Rosetta execution profiles pass; the first local full-host directory-collision failure is retained separately. Compiler source identity is unchanged.

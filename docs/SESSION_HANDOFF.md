@@ -6,6 +6,12 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+The first combined full-host rerun hit an AMD helper output-directory collision
+after the preceding Linux gate. The helper now permits reuse and passes two
+consecutive emission/Rosetta profiles; failure and exact helper versions are
+retained in [repeatability evidence](benchmarks/amd-folded-loads/repeatability/README.md).
+Compiler identity is unchanged; full host v2 is running with the fixed helper.
+
 [Data-definition admission](benchmarks/data-definition-limit/README.md) now allows
 4,096 definitions. Combined identity `e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e`
 passes fresh units, 147 unchanged audit statements and all five actual-main

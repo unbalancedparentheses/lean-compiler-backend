@@ -1,0 +1,145 @@
+{
+  "identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+  "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+  "helper_sha256": "d119512cf625476b3525d4f240897b1ce2b9535b057774de348887db575f54dc",
+  "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+  "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+  "target": "x86_64-macos",
+  "functions": 128,
+  "checks_per_execution": 2048,
+  "rows": [
+    {
+      "label": "before-baseline",
+      "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+      "execution": "not-run"
+    },
+    {
+      "label": "before-allocated",
+      "assembly_sha256": "8d2d74d88ac75d585cc02cf77813c0a5818418f5a090f3388e9d2a205ff5ce61",
+      "execution": "not-run"
+    },
+    {
+      "label": "before-optimized",
+      "assembly_sha256": "c29bdb5cadb4b57e3f6551757d612d87eb2e43e2bc3de6ab20a65a50eea4f7ed",
+      "execution": "not-run"
+    },
+    {
+      "label": "baseline",
+      "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+      "execution": "not-run",
+      "removed_normalizations": 0
+    },
+    {
+      "label": "allocated",
+      "assembly_sha256": "3a3e2745f93b1b4bf8caf11b79b32e0e057637621f055720cbd2000f1d2014ce",
+      "execution": "not-run",
+      "removed_normalizations": 48
+    },
+    {
+      "label": "optimized",
+      "assembly_sha256": "b0f123306b197aa3dfed3c0753c7900378183cfaa0ba1fcb79f538163dd96773",
+      "execution": "not-run",
+      "removed_normalizations": 48
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

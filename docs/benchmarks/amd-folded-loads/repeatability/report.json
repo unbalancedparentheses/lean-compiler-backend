@@ -1,0 +1,1345 @@
+{
+  "status": "passed",
+  "bindings": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/amd_folded_loads.py": "d119512cf625476b3525d4f240897b1ce2b9535b057774de348887db575f54dc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/run.py": "be522068fec1527f68b2fdb182839ed4e785792d1ecf22727c79ace5f1016486"
+  },
+  "iterations": 2,
+  "reports": [
+    {
+      "identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+      "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+      "helper_sha256": "d119512cf625476b3525d4f240897b1ce2b9535b057774de348887db575f54dc",
+      "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+      "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+      "target": "x86_64-linux",
+      "functions": 128,
+      "checks_per_execution": 2048,
+      "rows": [
+        {
+          "label": "before-baseline",
+          "assembly_sha256": "7131da1f03199ba5ed7c0b54d7565f21d0387dfb5948d4440ecb2c81db023e5b",
+          "execution": "not-run"
+        },
+        {
+          "label": "before-allocated",
+          "assembly_sha256": "8bc0ad54397c4f71e77df897ef88b8b131e6d8791b2be9023fc9a326d471b96d",
+          "execution": "not-run"
+        },
+        {
+          "label": "before-optimized",
+          "assembly_sha256": "22e61945c79877385a5ebc833f6f822e5c1dc9f107e72326873ae53c2dec0983",
+          "execution": "not-run"
+        },
+        {
+          "label": "baseline",
+          "assembly_sha256": "7131da1f03199ba5ed7c0b54d7565f21d0387dfb5948d4440ecb2c81db023e5b",
+          "execution": "not-run",
+          "removed_normalizations": 0
+        },
+        {
+          "label": "allocated",
+          "assembly_sha256": "c526a68ec3d9a41a41e0116f1ff1c85b7c79f9879109fec03e81600d114ed32b",
+          "execution": "not-run",
+          "removed_normalizations": 48
+        },
+        {
+          "label": "optimized",
+          "assembly_sha256": "5e2e8933fbdb5d0b11b0f185d6aa8f9c3f7df0414a551312ea3fe05b5521ae84",
+          "execution": "not-run",
+          "removed_normalizations": 48
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "--build-identity"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/before-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/before-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/before-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+      "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+      "helper_sha256": "d119512cf625476b3525d4f240897b1ce2b9535b057774de348887db575f54dc",
+      "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+      "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+      "target": "x86_64-macos",
+      "functions": 128,
+      "checks_per_execution": 2048,
+      "rows": [
+        {
+          "label": "before-baseline",
+          "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+          "execution": "not-run"
+        },
+        {
+          "label": "before-allocated",
+          "assembly_sha256": "8d2d74d88ac75d585cc02cf77813c0a5818418f5a090f3388e9d2a205ff5ce61",
+          "execution": "not-run"
+        },
+        {
+          "label": "before-optimized",
+          "assembly_sha256": "c29bdb5cadb4b57e3f6551757d612d87eb2e43e2bc3de6ab20a65a50eea4f7ed",
+          "execution": "not-run"
+        },
+        {
+          "label": "baseline",
+          "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+          "execution": "not-run",
+          "removed_normalizations": 0
+        },
+        {
+          "label": "allocated",
+          "assembly_sha256": "3a3e2745f93b1b4bf8caf11b79b32e0e057637621f055720cbd2000f1d2014ce",
+          "execution": "not-run",
+          "removed_normalizations": 48
+        },
+        {
+          "label": "optimized",
+          "assembly_sha256": "b0f123306b197aa3dfed3c0753c7900378183cfaa0ba1fcb79f538163dd96773",
+          "execution": "not-run",
+          "removed_normalizations": 48
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "--build-identity"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+      "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+      "helper_sha256": "d119512cf625476b3525d4f240897b1ce2b9535b057774de348887db575f54dc",
+      "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+      "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+      "target": "x86_64-macos",
+      "functions": 128,
+      "checks_per_execution": 2048,
+      "rows": [
+        {
+          "label": "before-baseline",
+          "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+          "execution": "passed"
+        },
+        {
+          "label": "before-allocated",
+          "assembly_sha256": "8d2d74d88ac75d585cc02cf77813c0a5818418f5a090f3388e9d2a205ff5ce61",
+          "execution": "passed"
+        },
+        {
+          "label": "before-optimized",
+          "assembly_sha256": "c29bdb5cadb4b57e3f6551757d612d87eb2e43e2bc3de6ab20a65a50eea4f7ed",
+          "execution": "passed"
+        },
+        {
+          "label": "baseline",
+          "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+          "execution": "passed",
+          "removed_normalizations": 0
+        },
+        {
+          "label": "allocated",
+          "assembly_sha256": "3a3e2745f93b1b4bf8caf11b79b32e0e057637621f055720cbd2000f1d2014ce",
+          "execution": "passed",
+          "removed_normalizations": 48
+        },
+        {
+          "label": "optimized",
+          "assembly_sha256": "b0f123306b197aa3dfed3c0753c7900378183cfaa0ba1fcb79f538163dd96773",
+          "execution": "passed",
+          "removed_normalizations": 48
+        },
+        {
+          "label": "qbe",
+          "assembly_sha256": "a2fae5b6c082816c5133389638b486620180a2c103a5af51f2e3478d13113fcc",
+          "execution": "passed"
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "--build-identity"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-baseline.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-allocated.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-optimized.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/baseline.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/allocated.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/optimized.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+            "-t",
+            "amd64_apple",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe-legal.ssa"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe-legal.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/wrong-sign.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/wrong-sign"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/wrong-sign"
+          ],
+          "inside": true,
+          "exit": 17,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "python3",
+            "-c",
+            "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7\n",
+          "stderr": ""
+        }
+      ],
+      "qbe_scope": {
+        "description": "unchanged QBE legal signed32 displacement subset; out-of-range fallback C/LCB only after retained QBE assembly refusal",
+        "source_sha256": "a3283503976a964ec03f20267a86d24278191a6be798acadf91e94991cfc8a22",
+        "caller_sha256": "436619c8f6d5fc31afde93652498534e852fd88c54f3e59250a7540a6b8e7972",
+        "checks": 1792
+      },
+      "wrong_signedness_detected": true,
+      "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+    },
+    {
+      "identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+      "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+      "helper_sha256": "d119512cf625476b3525d4f240897b1ce2b9535b057774de348887db575f54dc",
+      "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+      "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+      "target": "x86_64-linux",
+      "functions": 128,
+      "checks_per_execution": 2048,
+      "rows": [
+        {
+          "label": "before-baseline",
+          "assembly_sha256": "7131da1f03199ba5ed7c0b54d7565f21d0387dfb5948d4440ecb2c81db023e5b",
+          "execution": "not-run"
+        },
+        {
+          "label": "before-allocated",
+          "assembly_sha256": "8bc0ad54397c4f71e77df897ef88b8b131e6d8791b2be9023fc9a326d471b96d",
+          "execution": "not-run"
+        },
+        {
+          "label": "before-optimized",
+          "assembly_sha256": "22e61945c79877385a5ebc833f6f822e5c1dc9f107e72326873ae53c2dec0983",
+          "execution": "not-run"
+        },
+        {
+          "label": "baseline",
+          "assembly_sha256": "7131da1f03199ba5ed7c0b54d7565f21d0387dfb5948d4440ecb2c81db023e5b",
+          "execution": "not-run",
+          "removed_normalizations": 0
+        },
+        {
+          "label": "allocated",
+          "assembly_sha256": "c526a68ec3d9a41a41e0116f1ff1c85b7c79f9879109fec03e81600d114ed32b",
+          "execution": "not-run",
+          "removed_normalizations": 48
+        },
+        {
+          "label": "optimized",
+          "assembly_sha256": "5e2e8933fbdb5d0b11b0f185d6aa8f9c3f7df0414a551312ea3fe05b5521ae84",
+          "execution": "not-run",
+          "removed_normalizations": 48
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "--build-identity"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/before-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/before-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/before-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-linux",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-linux/amd-folded-loads/optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+      "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+      "helper_sha256": "d119512cf625476b3525d4f240897b1ce2b9535b057774de348887db575f54dc",
+      "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+      "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+      "target": "x86_64-macos",
+      "functions": 128,
+      "checks_per_execution": 2048,
+      "rows": [
+        {
+          "label": "before-baseline",
+          "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+          "execution": "not-run"
+        },
+        {
+          "label": "before-allocated",
+          "assembly_sha256": "8d2d74d88ac75d585cc02cf77813c0a5818418f5a090f3388e9d2a205ff5ce61",
+          "execution": "not-run"
+        },
+        {
+          "label": "before-optimized",
+          "assembly_sha256": "c29bdb5cadb4b57e3f6551757d612d87eb2e43e2bc3de6ab20a65a50eea4f7ed",
+          "execution": "not-run"
+        },
+        {
+          "label": "baseline",
+          "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+          "execution": "not-run",
+          "removed_normalizations": 0
+        },
+        {
+          "label": "allocated",
+          "assembly_sha256": "3a3e2745f93b1b4bf8caf11b79b32e0e057637621f055720cbd2000f1d2014ce",
+          "execution": "not-run",
+          "removed_normalizations": 48
+        },
+        {
+          "label": "optimized",
+          "assembly_sha256": "b0f123306b197aa3dfed3c0753c7900378183cfaa0ba1fcb79f538163dd96773",
+          "execution": "not-run",
+          "removed_normalizations": 48
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "--build-identity"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/before-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/emission/x86_64-macos/amd-folded-loads/optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ]
+    },
+    {
+      "identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+      "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+      "helper_sha256": "d119512cf625476b3525d4f240897b1ce2b9535b057774de348887db575f54dc",
+      "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+      "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+      "target": "x86_64-macos",
+      "functions": 128,
+      "checks_per_execution": 2048,
+      "rows": [
+        {
+          "label": "before-baseline",
+          "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+          "execution": "passed"
+        },
+        {
+          "label": "before-allocated",
+          "assembly_sha256": "8d2d74d88ac75d585cc02cf77813c0a5818418f5a090f3388e9d2a205ff5ce61",
+          "execution": "passed"
+        },
+        {
+          "label": "before-optimized",
+          "assembly_sha256": "c29bdb5cadb4b57e3f6551757d612d87eb2e43e2bc3de6ab20a65a50eea4f7ed",
+          "execution": "passed"
+        },
+        {
+          "label": "baseline",
+          "assembly_sha256": "6154847f6422e137940b2c59e5efcb7c1cd03ab3d070168acb96d5c3c7a4cc49",
+          "execution": "passed",
+          "removed_normalizations": 0
+        },
+        {
+          "label": "allocated",
+          "assembly_sha256": "3a3e2745f93b1b4bf8caf11b79b32e0e057637621f055720cbd2000f1d2014ce",
+          "execution": "passed",
+          "removed_normalizations": 48
+        },
+        {
+          "label": "optimized",
+          "assembly_sha256": "b0f123306b197aa3dfed3c0753c7900378183cfaa0ba1fcb79f538163dd96773",
+          "execution": "passed",
+          "removed_normalizations": 48
+        },
+        {
+          "label": "qbe",
+          "assembly_sha256": "a2fae5b6c082816c5133389638b486620180a2c103a5af51f2e3478d13113fcc",
+          "execution": "passed"
+        }
+      ],
+      "commands": [
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "--build-identity"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-baseline.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-allocated.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-optimized.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/before-optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/baseline.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/baseline.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/baseline"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/allocated.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/allocated.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/allocated"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-data-limit-main",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/input.ssa",
+            "--target",
+            "x86_64-macos",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/optimized.s"
+          ],
+          "inside": false,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/optimized.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/optimized"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+            "-t",
+            "amd64_apple",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe-legal.ssa"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe-legal.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/qbe"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "cc",
+            "-arch",
+            "x86_64",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/caller.c",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/wrong-sign.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/wrong-sign"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "",
+          "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+        },
+        {
+          "command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-helper-repeatability/native/amd-folded-loads/wrong-sign"
+          ],
+          "inside": true,
+          "exit": 17,
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "python3",
+            "-c",
+            "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot"
+          ],
+          "inside": true,
+          "exit": 0,
+          "stdout": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7\n",
+          "stderr": ""
+        }
+      ],
+      "qbe_scope": {
+        "description": "unchanged QBE legal signed32 displacement subset; out-of-range fallback C/LCB only after retained QBE assembly refusal",
+        "source_sha256": "a3283503976a964ec03f20267a86d24278191a6be798acadf91e94991cfc8a22",
+        "caller_sha256": "436619c8f6d5fc31afde93652498534e852fd88c54f3e59250a7540a6b8e7972",
+        "checks": 1792
+      },
+      "wrong_signedness_detected": true,
+      "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+    }
+  ]
+}

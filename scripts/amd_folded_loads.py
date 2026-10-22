@@ -46,7 +46,7 @@ int main(void){uint64_t seeds[]={0,1,127,128,255,32767,32768,65535,0x7fffffff,0x
  return ''.join(ir),c,cases
 
 def exercise(compiler,work,run,cc,target,execute=True,before=None,qbe=None):
- w=Path(work)/'amd-folded-loads';w.mkdir(parents=True);sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();ir,c,cases=fixture();src=w/'input.ssa';src.write_text(ir);caller=w/'caller.c';caller.write_text(c);cc=list(cc) if isinstance(cc,(list,tuple)) else [cc];commands=[]
+ w=Path(work)/'amd-folded-loads';w.mkdir(parents=True,exist_ok=True);sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();ir,c,cases=fixture();src=w/'input.ssa';src.write_text(ir);caller=w/'caller.c';caller.write_text(c);cc=list(cc) if isinstance(cc,(list,tuple)) else [cc];commands=[]
  def call(cmd,inside=False,ok=True):
   r=run(list(map(str,cmd)),inside);commands.append({'command':list(map(str,cmd)),'inside':inside,'exit':r.returncode,'stdout':r.stdout,'stderr':r.stderr})
   if ok:assert r.returncode==0,commands[-1]
