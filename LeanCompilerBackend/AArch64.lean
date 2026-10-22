@@ -760,6 +760,47 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
     lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ (← storeHome base slots phi.width r phi.destination)
   pure lines
 
+/-- Remove only empty conditional-edge trampolines whose true block is next.
+    Every instruction emitted in a function is one four-byte A64 instruction;
+    the only alignment directive is the initial `.p2align 2`. Count physical
+    lines (including comments, labels and non-emitting directives) and retain a
+    124 KiB margin below conditional branches' signed 1 MiB reach. This bound is on
+    expanded assembly, including TLS, calls and aggregate copies, not on IR.
+    Unknown directives conservatively disable the fold for future extensions. -/
+def compactEmptyBranches (lines : List String) : List String := Id.run do
+  let physical := lines.flatMap (·.splitOn "\n")
+  if physical.length * 4 + 16 > 900 * 1024 then return lines
+  for line in physical do
+    let text := line.trimAscii.toString
+    if text.startsWith "." && !(text == ".text" || text == ".p2align 2" ||
+        text.startsWith ".section " || text.startsWith ".globl " ||
+        text.startsWith ".type " || text.startsWith ".loc " ||
+        text.startsWith ".tlsdesccall ") then return lines
+  let input := lines.toArray
+  let mut output := #[]
+  let mut skip := 0
+  for i in [:input.size] do
+    if i < skip then continue
+    if i + 4 < input.size then
+      let branch := input[i]!
+      let yesJump := input[i+1]!
+      let edge := input[i+2]!
+      let noJump := input[i+3]!
+      let yesLabel := input[i+4]!
+      if (branch.startsWith "\tb." || branch.startsWith "\tcbz w") &&
+          edge.startsWith "L_lcb_edge_" && edge.endsWith ":" &&
+          yesJump.startsWith "\tb " && noJump.startsWith "\tb " then
+        let edgeName := String.ofList (edge.toList.take (edge.length-1))
+        let yesName := String.ofList (yesJump.toList.drop 3)
+        let noName := String.ofList (noJump.toList.drop 3)
+        if branch.endsWith (" " ++ edgeName) && yesLabel == yesName ++ ":" then
+          let branchPrefix := String.ofList (branch.toList.take (branch.length-edgeName.length))
+          output := output.push (branchPrefix ++ noName)
+          skip := i+4
+          continue
+    output := output.push input[i]!
+  return output.toList
+
 def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String := do
   validateFunction f true
   checkTargetSection darwin f.customSection
@@ -968,6 +1009,7 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
       lines := lines ++ [s!"\tb {blockLabel f yes}", otherwise ++ ":"]
       lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label no)
       if !allocate || next != some no then lines := lines ++ [s!"\tb {blockLabel f no}"]
+  if allocate then lines := Assembly.LineBuffer.ofList (compactEmptyBranches lines.toList)
   if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   let file := match f.debugFile with
     | some name => s!".file {debugFileId} {debugFilename name}\n"

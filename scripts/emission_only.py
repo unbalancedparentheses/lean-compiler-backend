@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from arm_branch_layout import exercise as arm_branches
 from arm_load_extensions import exercise as arm_extensions
 from rv_result_normalization import exercise as rv_normalization
 from amd_immediates import exercise as immediates
@@ -32,6 +33,8 @@ def main():
         for target in ['aarch64-linux', 'aarch64-macos']:
             arm = arm_extensions(LCB, work/target, run, cc, target, False)
             assert arm['checks_per_mode'] == 0 and arm['negative_control'] == 'not-run'
+            branches = arm_branches(LCB, work/target, run, cc, target, False, qbe, 'arm64', large=False)
+            assert branches['c_checks_per_mode'] == 0 and branches['original_qbe'] == 'not_executed'
         rv = rv_normalization(LCB, work, run, cc, execute=False)
         assert rv['executed_checks_per_mode'] == 0 and rv['negative_control'] == 'not-run'
         assert all(v['execution'] == 'not-run' for v in rv['modes'].values())

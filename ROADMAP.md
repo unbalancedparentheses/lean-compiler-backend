@@ -61,6 +61,11 @@ records 2.12% smaller text with matching executable results. Subsequent
 reduce optimized zlib text a further 6.28%, with both AMD gates passing. Runtime performance
 and broader allocation remain separate qualification work.
 
+ARM64 [empty conditional-edge layout](docs/benchmarks/arm-branch-layout/README.md)
+now removes redundant trampolines under a conservative expanded-size bound, reducing
+optimized zlib text another 6.4% on both ARM targets. Native independent-C/QBE and
+large-function fallback tests pass; no timing or new proof claim is made.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and

@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "compilers": {
+    "before": {
+      "identity": "a2e10e57113b6cadafcca6a59c5206bde2a51282bd1ef55206e4079ed1121043",
+      "sha256": "bfca9e0093457f366c4eec24c0ef5f40291ac9afa74ffeffa0fcdbcca7add4c4"
+    },
+    "after": {
+      "identity": "de27b459436dbfc15e827f17fbfa30948b2192b598035c40ac5debd2952f33f9",
+      "sha256": "44ed601fdd77181a71dcced3cb7e7d56a6bf5604bdac60ea6ba8392c13d05e62"
+    }
+  },
+  "cases": 1320,
+  "unchanged_assemblies": 1187,
+  "matching_refusals": 15,
+  "expected_changed_assemblies": {
+    "aarch64-macos": 59,
+    "aarch64-linux": 59
+  },
+  "removed_branch_instructions": 6772,
+  "note": "Only allocated/optimized ARM empty conditional trampoline rewrites accepted; every other byte preserved. Raw exact comparison reports intended differences. Not a semantic proof."
+}

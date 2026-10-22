@@ -10,7 +10,14 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`a2e10e57113b6cadafcca6a59c5206bde2a51282bd1ef55206e4079ed1121043`.
+`de27b459436dbfc15e827f17fbfa30948b2192b598035c40ac5debd2952f33f9`.
+
+[ARM64 empty branch layout](benchmarks/arm-branch-layout/README.md) now removes
+empty conditional trampolines under a conservative expanded-assembly range bound.
+Both native ARM matrices, original QBE, >1 MiB fallback, complete Linux ARM gate,
+unit suite and unchanged 147-report audit pass. Optimized zlib text shrinks another
+8,480 bytes per ARM target (~6.4%); executable comparisons pass, timing unmeasured.
+CI through e07d3da is fully green; newer checkpoints remain pending.
 
 [ARM64 same-register unsigned load extensions](benchmarks/arm-load-extensions/README.md)
 now avoid redundant instructions in allocated/optimized code, preserving baseline
