@@ -1,0 +1,1334 @@
+{
+  "status": "passed",
+  "rows": [
+    {
+      "unit": "lapi",
+      "before_sha256": "a9e67099c0c52f726d9845eac85fb0c446e85ced989cb6e03bdaf0e846ad3c7e",
+      "after_sha256": "bd779b88352ef232ef9739ad3a0d87ae18a7195e2b1159dcbeac80bfe81e3405",
+      "folds": 3,
+      "functions": {
+        "lua_getmetatable": 1,
+        "aux_upvalue": 2
+      },
+      "sites": [
+        {
+          "function": "lua_getmetatable",
+          "old_line": 3270,
+          "new_line": 3270,
+          "old": [
+            "\tlsl x20, x20, #3",
+            "\tldr x20, [x21, x20]"
+          ],
+          "new": [
+            "\tldr x20, [x21, x20, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "aux_upvalue",
+          "old_line": 5719,
+          "new_line": 5718,
+          "old": [
+            "\tlsl x25, x25, #3",
+            "\tldr x24, [x24, x25]"
+          ],
+          "new": [
+            "\tldr x24, [x24, x25, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "aux_upvalue",
+          "old_line": 5729,
+          "new_line": 5727,
+          "old": [
+            "\tlsl x21, x21, #3",
+            "\tldr x19, [x19, x21]"
+          ],
+          "new": [
+            "\tldr x19, [x19, x21, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lauxlib",
+      "before_sha256": "48f685f389fb8d814a53cb9af93d9b8f47653a230737e817222abd1103963272",
+      "after_sha256": "f790b14604cc09e97693404870b674bdd8a1dd6b9b9b87c1012d0575a2075395",
+      "folds": 2,
+      "functions": {
+        "luaL_checkoption": 2
+      },
+      "sites": [
+        {
+          "function": "luaL_checkoption",
+          "old_line": 1584,
+          "new_line": 1584,
+          "old": [
+            "\tlsl x24, x24, #3",
+            "\tldr x24, [x22, x24]"
+          ],
+          "new": [
+            "\tldr x24, [x22, x24, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaL_checkoption",
+          "old_line": 1590,
+          "new_line": 1589,
+          "old": [
+            "\tlsl x24, x24, #3",
+            "\tldr x24, [x22, x24]"
+          ],
+          "new": [
+            "\tldr x24, [x22, x24, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lbaselib",
+      "before_sha256": "4eca68304cd377050a63b851afa6dcda0a2f25992dc7639afc19abfaa5c4f135",
+      "after_sha256": "de767c7ac9bc9f2539305480658afff7530df6bfe7f0b11e95c4b261b0139b17",
+      "folds": 3,
+      "functions": {
+        "b_str2int": 3
+      },
+      "sites": [
+        {
+          "function": "b_str2int",
+          "old_line": 240,
+          "new_line": 240,
+          "old": [
+            "\tlsl x24, x24, #1",
+            "\tldrh w23, [x23, x24]"
+          ],
+          "new": [
+            "\tldrh w23, [x23, x24, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "b_str2int",
+          "old_line": 268,
+          "new_line": 267,
+          "old": [
+            "\tlsl x25, x25, #1",
+            "\tldrh w24, [x24, x25]"
+          ],
+          "new": [
+            "\tldrh w24, [x24, x25, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "b_str2int",
+          "old_line": 314,
+          "new_line": 312,
+          "old": [
+            "\tlsl x25, x25, #1",
+            "\tldrh w24, [x24, x25]"
+          ],
+          "new": [
+            "\tldrh w24, [x24, x25, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lcode",
+      "before_sha256": "846e8b60e1f5fbc7a3a7199896fbfaea7e6d907df4d588a6db2e5b2358d7e786",
+      "after_sha256": "68beb292a904c44475f87ac88607b1fb77ae439ebe6781075fd15a4b52d30cc7",
+      "folds": 6,
+      "functions": {
+        "getjump": 1,
+        "luaK_setoneret": 2,
+        "jumponcond": 1,
+        "finishbinexpneg": 1,
+        "finaltarget": 1
+      },
+      "sites": [
+        {
+          "function": "getjump",
+          "old_line": 504,
+          "new_line": 504,
+          "old": [
+            "\tlsl x21, x21, #2",
+            "\tldr w19, [x19, x21]"
+          ],
+          "new": [
+            "\tldr w19, [x19, x21, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaK_setoneret",
+          "old_line": 2709,
+          "new_line": 2708,
+          "old": [
+            "\tlsl x21, x21, #2",
+            "\tldr w19, [x19, x21]"
+          ],
+          "new": [
+            "\tldr w19, [x19, x21, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaK_setoneret",
+          "old_line": 2724,
+          "new_line": 2722,
+          "old": [
+            "\tlsl x22, x22, #2",
+            "\tldr w21, [x21, x22]"
+          ],
+          "new": [
+            "\tldr w21, [x21, x22, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "jumponcond",
+          "old_line": 4196,
+          "new_line": 4193,
+          "old": [
+            "\tlsl x23, x23, #2",
+            "\tldr w22, [x22, x23]"
+          ],
+          "new": [
+            "\tldr w22, [x22, x23, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "finishbinexpneg",
+          "old_line": 5744,
+          "new_line": 5740,
+          "old": [
+            "\tlsl x22, x22, #2",
+            "\tldr w21, [x21, x22]"
+          ],
+          "new": [
+            "\tldr w21, [x21, x22, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "finaltarget",
+          "old_line": 7303,
+          "new_line": 7298,
+          "old": [
+            "\tlsl x22, x22, #2",
+            "\tldr w22, [x19, x22]"
+          ],
+          "new": [
+            "\tldr w22, [x19, x22, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lcorolib",
+      "before_sha256": "9a28ca627c2f140987fb5ea51c09e95f6232cc226adf6f79c11aaaf2fd5d17d1",
+      "after_sha256": "9a28ca627c2f140987fb5ea51c09e95f6232cc226adf6f79c11aaaf2fd5d17d1",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "lctype",
+      "before_sha256": "d40f0005bc9fae6db70e4f77a4b242bfde832cbf395148fbc1b1c895f54f5be6",
+      "after_sha256": "d40f0005bc9fae6db70e4f77a4b242bfde832cbf395148fbc1b1c895f54f5be6",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "ldblib",
+      "before_sha256": "df58008860a582aaab5c92f46813d859eb219295b798d74b0754bea23e1ecfd3",
+      "after_sha256": "df58008860a582aaab5c92f46813d859eb219295b798d74b0754bea23e1ecfd3",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "ldump",
+      "before_sha256": "97dee5631293ab16ead6a75bd06806dfe0138758d84d95f5252b95ef7b2b89fa",
+      "after_sha256": "9dfe02d65a4af98860ca20c6b1c97e592a732ae858c9d8de46041d074e5ce417",
+      "folds": 1,
+      "functions": {
+        "dumpProtos": 1
+      },
+      "sites": [
+        {
+          "function": "dumpProtos",
+          "old_line": 454,
+          "new_line": 454,
+          "old": [
+            "\tlsl x24, x24, #3",
+            "\tldr x23, [x23, x24]"
+          ],
+          "new": [
+            "\tldr x23, [x23, x24, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lfunc",
+      "before_sha256": "5e307644d9b98d988830e37da053f990cec10ea605f9ffe8d7cb17c7cc43096c",
+      "after_sha256": "5e307644d9b98d988830e37da053f990cec10ea605f9ffe8d7cb17c7cc43096c",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "lgc",
+      "before_sha256": "10bb4832d933e114292fab4e106d9090504473e67b3383a27165a6ffbb16c6e8",
+      "after_sha256": "eb25f2422a900c989925de78b8f60a0bd6f2615a9ffc403e67cfcaba4567b1c2",
+      "folds": 5,
+      "functions": {
+        "markmt": 1,
+        "traverseproto": 3,
+        "traverseLclosure": 1
+      },
+      "sites": [
+        {
+          "function": "markmt",
+          "old_line": 701,
+          "new_line": 701,
+          "old": [
+            "\tlsl x22, x22, #3",
+            "\tldr x21, [x21, x22]"
+          ],
+          "new": [
+            "\tldr x21, [x21, x22, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "traverseproto",
+          "old_line": 1780,
+          "new_line": 1779,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x22, [x22, x23]"
+          ],
+          "new": [
+            "\tldr x22, [x22, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "traverseproto",
+          "old_line": 1787,
+          "new_line": 1785,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x22, [x22, x23]"
+          ],
+          "new": [
+            "\tldr x22, [x22, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "traverseproto",
+          "old_line": 1795,
+          "new_line": 1792,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x22, [x22, x23]"
+          ],
+          "new": [
+            "\tldr x22, [x22, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "traverseLclosure",
+          "old_line": 1965,
+          "new_line": 1961,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x22, [x22, x23]"
+          ],
+          "new": [
+            "\tldr x22, [x22, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "linit",
+      "before_sha256": "e7eb9b7cb2d6e081aaae400bf96275813c8b2bed17215babf6b0e9637b5f1d9f",
+      "after_sha256": "e7eb9b7cb2d6e081aaae400bf96275813c8b2bed17215babf6b0e9637b5f1d9f",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "liolib",
+      "before_sha256": "9b5a479b98f2c2e3090baccd292e9ad8b83e0f6d0e0e942e0d63150a570d82ba",
+      "after_sha256": "197c1c0b4917d723563530736fc071d2714322b5f8ab13cf2ab69a0dfcad6481",
+      "folds": 3,
+      "functions": {
+        "readdigits": 2,
+        "read_number": 1
+      },
+      "sites": [
+        {
+          "function": "readdigits",
+          "old_line": 1370,
+          "new_line": 1370,
+          "old": [
+            "\tlsl x23, x23, #1",
+            "\tldrh w22, [x22, x23]"
+          ],
+          "new": [
+            "\tldrh w22, [x22, x23, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "readdigits",
+          "old_line": 1382,
+          "new_line": 1381,
+          "old": [
+            "\tlsl x23, x23, #1",
+            "\tldrh w22, [x22, x23]"
+          ],
+          "new": [
+            "\tldrh w22, [x22, x23, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "read_number",
+          "old_line": 1457,
+          "new_line": 1455,
+          "old": [
+            "\tlsl x23, x23, #1",
+            "\tldrh w20, [x20, x23]"
+          ],
+          "new": [
+            "\tldrh w20, [x20, x23, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "llex",
+      "before_sha256": "5b05eb46def4f5688bebe4781e71db089569c04e5ddca279b898197e9b31e641",
+      "after_sha256": "5b05eb46def4f5688bebe4781e71db089569c04e5ddca279b898197e9b31e641",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "lmathlib",
+      "before_sha256": "56666a74b02b974751c76da7ebdfcdc940c2c3a6994ffa505e493d5edb37c4d2",
+      "after_sha256": "56666a74b02b974751c76da7ebdfcdc940c2c3a6994ffa505e493d5edb37c4d2",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "lmem",
+      "before_sha256": "a2cd0b6009087b8ba49011fcabf009dc040a6f4fb832be9cf118ffb94456cb8b",
+      "after_sha256": "a2cd0b6009087b8ba49011fcabf009dc040a6f4fb832be9cf118ffb94456cb8b",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "loadlib",
+      "before_sha256": "a745bc8604de319cba622b4ca5fc3b995fd055ec91cc344785545cd9d10fc40c",
+      "after_sha256": "a745bc8604de319cba622b4ca5fc3b995fd055ec91cc344785545cd9d10fc40c",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "lobject",
+      "before_sha256": "bcedeb6e26d8a7a371563219d43c110c8500b078bf3a3353e475f98508169c8e",
+      "after_sha256": "bcedeb6e26d8a7a371563219d43c110c8500b078bf3a3353e475f98508169c8e",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "lopcodes",
+      "before_sha256": "6f46f4d8877d83b55b950321d666d258187db2e59319251c7104056b6d1a3644",
+      "after_sha256": "6f46f4d8877d83b55b950321d666d258187db2e59319251c7104056b6d1a3644",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "loslib",
+      "before_sha256": "6afa44d0949ce4a0566a916b478f6af9dbb3bdf3e615e4c9e4e3ed11a8227425",
+      "after_sha256": "6afa44d0949ce4a0566a916b478f6af9dbb3bdf3e615e4c9e4e3ed11a8227425",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "lparser",
+      "before_sha256": "38530fc9733cc6bc965b4334f44525fe4b6d9e06d611317fb552f65893ad08b8",
+      "after_sha256": "1acca47f8606e8ce1c48758b00708de59ed41a9d6c1463f43c2991be64979484",
+      "folds": 1,
+      "functions": {
+        "retstat": 1
+      },
+      "sites": [
+        {
+          "function": "retstat",
+          "old_line": 7335,
+          "new_line": 7335,
+          "old": [
+            "\tlsl x25, x25, #2",
+            "\tldr w24, [x24, x25]"
+          ],
+          "new": [
+            "\tldr w24, [x24, x25, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lstring",
+      "before_sha256": "003acf87b3b460c01164aa6538ee23467abfe9dc2b37df8348490fe8437f0e89",
+      "after_sha256": "591bdfb9d2e4cbea88458766da8c188c9c6d84ff45e44dd67dcdc87d85f6db8e",
+      "folds": 3,
+      "functions": {
+        "tablerehash": 1,
+        "luaS_clearcache": 1,
+        "luaS_new": 1
+      },
+      "sites": [
+        {
+          "function": "tablerehash",
+          "old_line": 203,
+          "new_line": 203,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x26, [x19, x26]"
+          ],
+          "new": [
+            "\tldr x26, [x19, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaS_clearcache",
+          "old_line": 341,
+          "new_line": 340,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x22, [x22, x23]"
+          ],
+          "new": [
+            "\tldr x22, [x22, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaS_new",
+          "old_line": 932,
+          "new_line": 930,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x21, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x21, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lstrlib",
+      "before_sha256": "502c2ecc95f274dac4d0644577c1876df18002e136bd2e22bc27df518ddbf8fb",
+      "after_sha256": "81bfb4b3791d67f532336eb5ea2f4bc44cafa56d471cae9f5a461c4da4fd8663",
+      "folds": 17,
+      "functions": {
+        "match_class": 11,
+        "add_s": 1,
+        "addquoted": 2,
+        "get2digits": 2,
+        "checkformat": 1
+      },
+      "sites": [
+        {
+          "function": "match_class",
+          "old_line": 1672,
+          "new_line": 1672,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1683,
+          "new_line": 1682,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1694,
+          "new_line": 1692,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1705,
+          "new_line": 1702,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1716,
+          "new_line": 1712,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1727,
+          "new_line": 1722,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1738,
+          "new_line": 1732,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1749,
+          "new_line": 1742,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1760,
+          "new_line": 1752,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1771,
+          "new_line": 1762,
+          "old": [
+            "\tlsl x19, x19, #1",
+            "\tldrh w19, [x21, x19]"
+          ],
+          "new": [
+            "\tldrh w19, [x21, x19, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "match_class",
+          "old_line": 1909,
+          "new_line": 1899,
+          "old": [
+            "\tlsl x20, x20, #1",
+            "\tldrh w20, [x21, x20]"
+          ],
+          "new": [
+            "\tldrh w20, [x21, x20, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "add_s",
+          "old_line": 4156,
+          "new_line": 4145,
+          "old": [
+            "\tlsl x20, x20, #1",
+            "\tldrh w19, [x19, x20]"
+          ],
+          "new": [
+            "\tldrh w19, [x19, x20, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "addquoted",
+          "old_line": 4829,
+          "new_line": 4817,
+          "old": [
+            "\tlsl x24, x24, #1",
+            "\tldrh w20, [x20, x24]"
+          ],
+          "new": [
+            "\tldrh w20, [x20, x24, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "addquoted",
+          "old_line": 4841,
+          "new_line": 4828,
+          "old": [
+            "\tlsl x24, x24, #1",
+            "\tldrh w20, [x20, x24]"
+          ],
+          "new": [
+            "\tldrh w20, [x20, x24, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "get2digits",
+          "old_line": 5280,
+          "new_line": 5266,
+          "old": [
+            "\tlsl x21, x21, #1",
+            "\tldrh w20, [x20, x21]"
+          ],
+          "new": [
+            "\tldrh w20, [x20, x21, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "get2digits",
+          "old_line": 5293,
+          "new_line": 5278,
+          "old": [
+            "\tlsl x21, x21, #1",
+            "\tldrh w20, [x20, x21]"
+          ],
+          "new": [
+            "\tldrh w20, [x20, x21, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        },
+        {
+          "function": "checkformat",
+          "old_line": 5362,
+          "new_line": 5346,
+          "old": [
+            "\tlsl x21, x21, #1",
+            "\tldrh w21, [x22, x21]"
+          ],
+          "new": [
+            "\tldrh w21, [x22, x21, lsl #1]"
+          ],
+          "bytes": 2,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "ltable",
+      "before_sha256": "8080284642ff9932b6ea7ba80f3a52b6c8840c28899c93ed51c919cc3a8b4975",
+      "after_sha256": "286f308413a95e42e21ce4f152466b7eddeee4230869212e46a7a39ceb615ea7",
+      "folds": 1,
+      "functions": {
+        "computesizes": 1
+      },
+      "sites": [
+        {
+          "function": "computesizes",
+          "old_line": 1185,
+          "new_line": 1185,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w26, [x19, x26]"
+          ],
+          "new": [
+            "\tldr w26, [x19, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "ltablib",
+      "before_sha256": "e54cc043214c24042b19c064fe8b192a7b356048ff15791d756fddd6ddee22b2",
+      "after_sha256": "13372f2334c668e9b11aca99d8fa78aace099d5aa0f98d4857bbcd507298eac3",
+      "folds": 1,
+      "functions": {
+        "l_randomizePivot": 1
+      },
+      "sites": [
+        {
+          "function": "l_randomizePivot",
+          "old_line": 1010,
+          "new_line": 1010,
+          "old": [
+            "\tlsl x22, x22, #2",
+            "\tldr w22, [x21, x22]"
+          ],
+          "new": [
+            "\tldr w22, [x21, x22, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "ltm",
+      "before_sha256": "b304798c86f7cdad628626cd6b66b7d246e48d2e9698e87679450da18fcf19e2",
+      "after_sha256": "8905ec0c03f6a49675ac5569e7a50d540b4ce6334bd7fa6a313ee8aa1cecb35e",
+      "folds": 3,
+      "functions": {
+        "luaT_init": 1,
+        "luaT_gettmbyobj": 2
+      },
+      "sites": [
+        {
+          "function": "luaT_init",
+          "old_line": 45,
+          "new_line": 45,
+          "old": [
+            "\tlsl x22, x22, #3",
+            "\tldr x21, [x21, x22]"
+          ],
+          "new": [
+            "\tldr x21, [x21, x22, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaT_gettmbyobj",
+          "old_line": 156,
+          "new_line": 155,
+          "old": [
+            "\tlsl x20, x20, #3",
+            "\tldr x20, [x22, x20]"
+          ],
+          "new": [
+            "\tldr x20, [x22, x20, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaT_gettmbyobj",
+          "old_line": 187,
+          "new_line": 185,
+          "old": [
+            "\tlsl x21, x21, #3",
+            "\tldr x19, [x19, x21]"
+          ],
+          "new": [
+            "\tldr x19, [x19, x21, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lua",
+      "before_sha256": "f86425c9ea3b303a736e1eeddb24f57ba6fe7b8c291e5ea40b143388846d03c7",
+      "after_sha256": "1581af1ac79a6eb3c81a17759a95847c5f99c86c1b5cfb442af5af0ec5776d3b",
+      "folds": 13,
+      "functions": {
+        "createargtable": 1,
+        "collectargs": 8,
+        "runargs": 3,
+        "pmain": 1
+      },
+      "sites": [
+        {
+          "function": "createargtable",
+          "old_line": 544,
+          "new_line": 544,
+          "old": [
+            "\tlsl x24, x24, #3",
+            "\tldr x24, [x20, x24]"
+          ],
+          "new": [
+            "\tldr x24, [x20, x24, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "collectargs",
+          "old_line": 993,
+          "new_line": 992,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x19, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x19, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "collectargs",
+          "old_line": 1000,
+          "new_line": 998,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x19, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x19, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "collectargs",
+          "old_line": 1017,
+          "new_line": 1014,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x19, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x19, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "collectargs",
+          "old_line": 1023,
+          "new_line": 1019,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x19, [x19, x23]"
+          ],
+          "new": [
+            "\tldr x19, [x19, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "collectargs",
+          "old_line": 1061,
+          "new_line": 1056,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x19, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x19, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "collectargs",
+          "old_line": 1088,
+          "new_line": 1082,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x19, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x19, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "collectargs",
+          "old_line": 1116,
+          "new_line": 1109,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x19, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x19, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "collectargs",
+          "old_line": 1145,
+          "new_line": 1137,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x19, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x19, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "runargs",
+          "old_line": 1330,
+          "new_line": 1321,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x20, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x20, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "runargs",
+          "old_line": 1337,
+          "new_line": 1327,
+          "old": [
+            "\tlsl x24, x24, #3",
+            "\tldr x24, [x20, x24]"
+          ],
+          "new": [
+            "\tldr x24, [x20, x24, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "runargs",
+          "old_line": 1355,
+          "new_line": 1344,
+          "old": [
+            "\tlsl x24, x24, #3",
+            "\tldr x24, [x20, x24]"
+          ],
+          "new": [
+            "\tldr x24, [x20, x24, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "pmain",
+          "old_line": 2285,
+          "new_line": 2273,
+          "old": [
+            "\tlsl x19, x19, #3",
+            "\tldr x19, [x22, x19]"
+          ],
+          "new": [
+            "\tldr x19, [x22, x19, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lundump",
+      "before_sha256": "a612175cfc508374039ac78960c325ba19e61d7e3d7d5dd595c88a7f8a9920a9",
+      "after_sha256": "159414f5c2595dea6872246a181ab25f1f1cd625833dd1cec33ab23802c731a3",
+      "folds": 3,
+      "functions": {
+        "loadProtos": 3
+      },
+      "sites": [
+        {
+          "function": "loadProtos",
+          "old_line": 742,
+          "new_line": 742,
+          "old": [
+            "\tlsl x24, x24, #3",
+            "\tldr x23, [x23, x24]"
+          ],
+          "new": [
+            "\tldr x23, [x23, x24, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "loadProtos",
+          "old_line": 751,
+          "new_line": 750,
+          "old": [
+            "\tlsl x25, x25, #3",
+            "\tldr x24, [x24, x25]"
+          ],
+          "new": [
+            "\tldr x24, [x24, x25, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "loadProtos",
+          "old_line": 764,
+          "new_line": 762,
+          "old": [
+            "\tlsl x24, x24, #3",
+            "\tldr x23, [x23, x24]"
+          ],
+          "new": [
+            "\tldr x23, [x23, x24, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lutf8lib",
+      "before_sha256": "77487b0d46519176add7d74071cb946e4efa13b4d7bdab9003b23af788f48162",
+      "after_sha256": "77487b0d46519176add7d74071cb946e4efa13b4d7bdab9003b23af788f48162",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    },
+    {
+      "unit": "lvm",
+      "before_sha256": "c9606c0f629aceafff80b1d2b8da4772227b34ef741709a2f0499be6ded59cd3",
+      "after_sha256": "3baecaa742ccf444198e37b0b4e94ec2e6dcd352004fa616ca43bd763f91abc7",
+      "folds": 8,
+      "functions": {
+        "pushclosure": 3,
+        "luaV_execute": 5
+      },
+      "sites": [
+        {
+          "function": "pushclosure",
+          "old_line": 3606,
+          "new_line": 3606,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x23, [x21, x23]"
+          ],
+          "new": [
+            "\tldr x23, [x21, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "pushclosure",
+          "old_line": 3620,
+          "new_line": 3619,
+          "old": [
+            "\tlsl x27, x27, #3",
+            "\tldr x23, [x23, x27]"
+          ],
+          "new": [
+            "\tldr x23, [x23, x27, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "pushclosure",
+          "old_line": 3628,
+          "new_line": 3626,
+          "old": [
+            "\tlsl x27, x27, #3",
+            "\tldr x23, [x23, x27]"
+          ],
+          "new": [
+            "\tldr x23, [x23, x27, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaV_execute",
+          "old_line": 4319,
+          "new_line": 4316,
+          "old": [
+            "\tlsl x19, x19, #3",
+            "\tldr x19, [x21, x19]"
+          ],
+          "new": [
+            "\tldr x19, [x21, x19, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaV_execute",
+          "old_line": 4339,
+          "new_line": 4335,
+          "old": [
+            "\tlsl x19, x19, #3",
+            "\tldr x19, [x21, x19]"
+          ],
+          "new": [
+            "\tldr x19, [x21, x19, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaV_execute",
+          "old_line": 4386,
+          "new_line": 4381,
+          "old": [
+            "\tlsl x23, x23, #3",
+            "\tldr x21, [x21, x23]"
+          ],
+          "new": [
+            "\tldr x21, [x21, x23, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaV_execute",
+          "old_line": 4756,
+          "new_line": 4750,
+          "old": [
+            "\tlsl x21, x21, #3",
+            "\tldr x20, [x20, x21]"
+          ],
+          "new": [
+            "\tldr x20, [x20, x21, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "luaV_execute",
+          "old_line": 9748,
+          "new_line": 9741,
+          "old": [
+            "\tlsl x19, x19, #3",
+            "\tldr x19, [x21, x19]"
+          ],
+          "new": [
+            "\tldr x19, [x21, x19, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "unit": "lzio",
+      "before_sha256": "1b5f68d4bb1619c3b0b88369873b419252a771a04d0739e0dcfc98dbe6cf358c",
+      "after_sha256": "1b5f68d4bb1619c3b0b88369873b419252a771a04d0739e0dcfc98dbe6cf358c",
+      "folds": 0,
+      "functions": {},
+      "sites": []
+    }
+  ]
+}

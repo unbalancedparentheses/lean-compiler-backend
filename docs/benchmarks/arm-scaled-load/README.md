@@ -1,0 +1,13 @@
+# ARM scaled register loads
+
+Combined compiler identity `210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5` folds adjacent, sole-use long shift/add/load sequences into ARM scaled register loads. The scale must be zero or the access-size scale. Original allocation, exact load width, signedness and debug boundaries are preserved; stores, shared temporaries, word shifts and nonadjacent chains retain existing lowering.
+
+[Actual-main evidence](main/report.json) passes both native ARM target matrices, original QBE on its legal immediate domain, independent C for the extended shift domain, wrong-scale/overread controls, missing-tool and CLI checks, and fourteen before/after/original-QBE high-spill executions. The high-spill fixture has 4,200 live values and independently checks spill addresses beyond the immediate range. All source/helper/compiler bindings and guest/host barriers passed. Binary artifacts are omitted with hashes.
+
+Fresh units and all 147 exact proof-audit statements pass unchanged. All three complete Linux gates pass. Corpus comparison has 1,295 identical assemblies, fifteen identical refusals and ten exhaustively audited scaled-load differences; non-ARM and baseline outputs are unchanged. The complete host gate is running at this checkpoint; its result will be recorded separately. CI is pending, including the separate GNU/LLVM section-name harness correction.
+
+[Fresh workloads](workloads/README.md) verify zlib on both ARM assembly targets, with Linux execution and 72 exact GCC/Python compressed-stream comparisons. The optimization removes 312 text bytes per ARM target. Mixed Lua removes 292 bytes and passes independent probes and reduced upstream suites. Lua retains three GCC volatile units and documented suite exclusions; this is not full Lua qualification.
+
+[Fresh QBE/cproc builds](bootstraps/README.md) pass on all three Linux targets: 2,922 exact QBE assembly comparisons plus 348 runtime tests, and 114 exact cproc IR reproductions plus 1,176 upstream tests. Original and explicitly corrected QBE outcomes remain separate; original-reference failures are preserved. ARM runs natively in the VM; x86/RV use QEMU. These are bounded compatibility checks, not complete QBE parity or an end-to-end proof.
+
+[Private candidate evidence](private/) predates integration and binds a different identity. Its [two timing windows](timing/README.md) overlapped unrelated background CPU load. Earlier quiet-window interpretation is withdrawn; samples are diagnostic only, and clean performance remains unresolved. No speedup or absence-of-regression claim follows from these timings. Independent correctness and static code-size reductions support this change.

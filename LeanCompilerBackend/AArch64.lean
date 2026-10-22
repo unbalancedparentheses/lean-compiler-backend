@@ -697,6 +697,36 @@ private def adjacentIndexedLoad (darwin : Bool) (localSymbols : List String) (ba
     lines := lines ++ (← storeHome base slots inst.width (register inst.width 9) inst.destination)
   return some lines
 
+/-- Fold only adjacent sole-use long shift/add/load chains. No executed
+    instruction lies between the original input reads and the selected load;
+    the caller also excludes intermediate debug positions. Original allocation
+    remains authoritative, with distinct reserved scratch for spilled inputs. -/
+private def adjacentScaledLoad (darwin : Bool) (localSymbols : List String) (base : String)
+    (slots : Homes) (uses : Std.HashMap String Nat) (first second third : Statement)
+    : Except String (Option (List String)) := do
+  let .assign shifted := first | return none
+  if shifted.width != .long || shifted.floating || uses[shifted.destination]? != some 1 then return none
+  let .binary .shiftLeft (.temporary index) (.constant amount) := shifted.operation | return none
+  let .assign address := second | return none
+  if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
+  let .binary .add (.temporary left) (.temporary right) := address.operation | return none
+  let pointer ← if left == shifted.destination then pure right
+    else if right == shifted.destination then pure left else return none
+  let .assign inst := third | return none
+  let .load kind (.temporary name) := inst.operation | return none
+  if name != address.destination then return none
+  let shift := (Semantics.constant .word amount).toNat % 64
+  if shift != 0 && shift != (kind.bytes inst.width).log2 then return none
+  let pointerHome := operandRegister slots 9 (.temporary pointer)
+  let indexHome := operandRegister slots 10 (.temporary index)
+  let mut lines ← if pointerHome == 9 then load darwin localSymbols base slots .long 9 (.temporary pointer) else pure []
+  if indexHome == 10 then lines := lines ++ (← load darwin localSymbols base slots .long 10 (.temporary index))
+  let resultHome := (slots.registers[inst.destination]?).getD 9
+  lines := lines ++ [s!"\t{memoryLoad inst.width resultHome kind}, [x{pointerHome}, x{indexHome}, lsl #{shift}]"]
+  if resultHome == 9 then
+    lines := lines ++ (← storeHome base slots inst.width (register inst.width 9) inst.destination)
+  return some lines
+
 /-- Select an adjacent long address calculation plus its sole load/store use.
     No intervening instruction can overwrite the base's assigned home, and no
     remaining use needs the omitted address result. This deliberately does not
@@ -1044,7 +1074,7 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
     -- Only the final comparison may feed flags directly to the terminator.
     -- Whole-function use counts include phi edges, so no omitted boolean survives.
     let branchCompare := if allocate then Selection.branchComparison addressUses block else none
-    let mut pendingMemory : Option (List String) := none
+    let mut pendingMemory : Option (Nat × List String) := none
     for instructionIndex in [:block.instructions.size + 1] do
       let mut instructionDebug := false
       for _ in [:block.debugLocations.size] do
@@ -1060,15 +1090,21 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
           !instructionDebug &&
           (block.instructions[instructionIndex-1]?).any (redundantLoadExtension slots · statement)
         if redundantExtension then pure ()
-        else if let some selected := pendingMemory then
-          lines := lines ++ selected
-          pendingMemory := none
+        else if let some (skips, selected) := pendingMemory then
+          if skips == 0 then
+            lines := lines ++ selected
+            pendingMemory := none
+          else pendingMemory := some (skips-1, selected)
         else
           if allocate then
             if let some next := block.instructions[instructionIndex+1]? then
-              pendingMemory ← adjacentIndexedLoad darwin localSymbols base slots addressUses statement next
+              if let some third := block.instructions[instructionIndex+2]? then
+                if !block.debugLocations.any (fun d => d.instruction == instructionIndex+1 || d.instruction == instructionIndex+2) then
+                  pendingMemory := (← adjacentScaledLoad darwin localSymbols base slots addressUses statement next third).map (1, ·)
               if pendingMemory.isNone then
-                pendingMemory ← adjacentMemory darwin localSymbols base slots addressUses statement next
+                pendingMemory := (← adjacentIndexedLoad darwin localSymbols base slots addressUses statement next).map (0, ·)
+              if pendingMemory.isNone then
+                pendingMemory := (← adjacentMemory darwin localSymbols base slots addressUses statement next).map (0, ·)
           if pendingMemory.isNone then
             if let some (_, width, a, b) := branchCompare then
               if instructionIndex+1 == block.instructions.size then

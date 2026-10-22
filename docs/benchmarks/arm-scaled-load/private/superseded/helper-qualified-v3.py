@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+"""Independent byte/bit oracle for adjacent long shift/add/load selection."""
+import hashlib,json,re,subprocess
+from pathlib import Path
+KINDS=[('ub',1,False,'w'),('ub',1,False,'l'),('sb',1,True,'w'),('sb',1,True,'l'),('uh',2,False,'w'),('uh',2,False,'l'),('sh',2,True,'w'),('sh',2,True,'l'),('uw',4,False,'w'),('uw',4,False,'l'),('sw',4,True,'w'),('sw',4,True,'l'),('l',8,False,'l'),('s',4,False,'w'),('d',8,False,'l')]
+def fixture(supplement=False):
+ ir=['dbgfile "scaled.c"'];decl=[];checks=[];names=[]
+ variants=['high','negative','huge'] if supplement else ['plain','commuted','zero','debug_shift','debug_add','shared_shift','shared_address','separated','wrong_scale','word_shift','barrier_call','live','pressure','extension']
+ for op,size,signed,width in KINDS:
+  for variant in variants:
+   if variant=='extension' and op not in ['ub','uh','uw']:continue
+   k=size.bit_length()-1
+   if variant=='zero':k=0
+   if variant=='wrong_scale':k=1 if k!=1 else 2
+   amount={'high':k+64,'negative':k-64,'huge':4294967296+k}.get(variant,k)
+   name=f'{op}_{width}_{variant}';result='l' if variant=='extension' else width
+   extras=24 if variant=='pressure' else 0
+   params=', '.join(['l %base','l %index']+[f'l %a{i}' for i in range(extras)])
+   lines=[f'export function {result} ${name}({params}) {{','@s',f' %scaled ={ "w" if variant=="word_shift" else "l"} shl %index, {amount}']
+   if variant=='debug_shift':lines+=[' dbgloc 41, 2']
+   if variant=='word_shift':lines+=[' %wide =l extuw %scaled']
+   scaled='%wide' if variant=='word_shift' else '%scaled'
+   lines+=[' %address =l add '+(scaled+', %base' if variant=='commuted' else '%base, '+scaled)]
+   if variant=='debug_add':lines+=[' dbgloc 42, 3']
+   if variant=='separated':lines+=[' %other =l xor %index, 991']
+   if variant=='barrier_call':lines+=[' call $scaled_barrier()']
+   lines += [f' %loaded ={op if op in ["s","d"] else width} load{op} %address'];value='%loaded'
+   if op in ['s','d']:lines += [f' %bits ={width} cast %loaded'];value='%bits'
+   if variant=='extension':lines += [f' %extended =l ext{op} %loaded'];value='%extended'
+   if variant in ['shared_shift','shared_address','separated','live']:
+    extra={'shared_shift':'%scaled','shared_address':'%address','separated':'%other','live':'%index'}[variant]
+    lines += [f' %mixed ={result} xor {value}, {extra}'];value='%mixed'
+   for i in range(extras):lines += [f' %sum{i} ={result} add {value}, %a{i}'];value=f'%sum{i}'
+   lines+=[' ret '+value,'}'];ir+=['\n'.join(lines)];ctype='uint32_t' if result=='w' else 'uint64_t'
+   decl += [f'extern {ctype} {name}(uint64_t,uint64_t'+',uint64_t'*extras+');']
+   expected=f'({ctype})({"int" if signed else "uint"}{size*8}_t)raw'
+   if variant in ['shared_shift','shared_address','separated','live']:expected+=f'^({ctype})'+{'shared_shift':'scaled','shared_address':'(uintptr_t)q','separated':'(index^991)','live':'index'}[variant]
+   check=f'{{uint64_t raw=0;memcpy(&raw,q,{size});uint64_t scaled='+ (f'(uint32_t)(index<<{k})' if variant=='word_shift' else f'(index<<{k})')+f';uint64_t base=(uintptr_t)q-scaled;{ctype} want=({expected});'
+   if extras:check+='for(unsigned j=0;j<24;j++)want+=index+j;'
+   check+=f'if({name}(base,index'+''.join(f',index+{j}' for j in range(extras))+')!=want)return 1;}'
+   checks.append((size,check));names.append((name,variant,size,k))
+ if not supplement:
+  ir+=['export function l $same_base_index(l %both) {\n@s\n %shifted =l shl %both, 3\n %address =l add %both, %shifted\n %v =l loadl %address\n ret %v\n}'];decl+=['extern uint64_t same_base_index(uint64_t);'];names.append(('same_base_index','plain',8,3))
+  checks.append((8,'{uint64_t raw;memcpy(&raw,q,8);if(same_base_index((uint64_t)(uintptr_t)q*UINT64_C(10248191152060862009))!=raw)return 1;}'))
+ c='''#define _GNU_SOURCE
+#include <stdint.h>
+#include <string.h>
+#include <sys/mman.h>
+#include <unistd.h>
+'''+ '\n'.join(decl)+'''
+__attribute__((noinline)) void scaled_barrier(void){__asm__ volatile("" ::: "memory");}
+int main(int argc,char**argv){(void)argv;uint64_t patterns[]={0,UINT64_MAX,0x8000000000000000ULL,0x7ff0000000000001ULL,0x7ff8000012345678ULL,0x80000000,0x7f800001,0x123456789abcdefULL};
+uint64_t indices[]={0,1,7,UINT64_MAX,0x8000000000000000ULL,0x80000001,0x100000003ULL};
+unsigned char bytes[96];long page=sysconf(_SC_PAGESIZE);unsigned char*map=mmap(0,page*3,PROT_NONE,MAP_PRIVATE|MAP_ANON,-1,0);if(map==MAP_FAILED||mprotect(map+page,page,PROT_READ|PROT_WRITE))return 2;
+for(unsigned p=0;p<8;p++)for(unsigned j=0;j<7;j++){uint64_t index=indices[j];for(unsigned b=0;b<96;b++)bytes[b]=(unsigned char)(patterns[p]>>(8*(b%8)));
+if(argc==1)for(unsigned off=0;off<8;off++){unsigned char*q=bytes+32+off;
+'''+ '\n'.join(check for _,check in checks)+'''
+}
+'''+ '\n'.join('{for(unsigned side=0;side<2;side++){unsigned char*q=side?map+page:map+2*page-'+str(size)+';memcpy(q,&patterns[p],'+str(size)+');'+check+'}}' for size,check in checks if 'plain(' in check or 'zero(' in check)+'''
+}munmap(map,page*3);return 0;}
+'''
+ return '\n'.join(ir)+'\n',c,names
+
+def exercise(compiler,work,run,cc,target,execute=True,before=None,qbe=None):
+ d=Path(work)/'arm-scaled-load';d.mkdir(parents=True,exist_ok=True);sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
+ def checked(cmd,inside=False):
+  p=run(list(map(str,cmd)),inside);assert p.returncode==0,(cmd,p.returncode,p.stdout,p.stderr);return p
+ report={'target':target,'identity':checked([compiler,'--build-identity']).stdout.strip(),'compiler_sha256':sha(compiler),'helper_sha256':sha(__file__),'profiles':{},'controls':{}}
+ cc=[cc] if isinstance(cc,(str,Path)) else cc
+ for profile,supplement in [('legal',False),('large_shift_counts',True)]:
+  ir,c,names=fixture(supplement);src=d/(profile+'.ssa');src.write_text(ir);caller=d/(profile+'.c');caller.write_text(c);rows={};report['profiles'][profile]={'source_sha256':sha(src),'caller_sha256':sha(caller),'backends':rows,'functions':len(names),'original_qbe_scope':'unchanged source' if not supplement else 'not run: upstream immediate-assembly limitations; independent C only'}
+  for mode,flags in [('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]+([('qbe',[])] if execute and qbe and not supplement else []):
+   asm=d/(profile+'-'+mode+'.s')
+   checked([qbe,'-t','arm64_apple' if target.endswith('macos') else 'arm64','-o',asm,src],True) if mode=='qbe' else checked([compiler,src,'--target',target,*flags,'-o',asm])
+   text=asm.read_text();row={'assembly_sha256':sha(asm),'execution':'not-run'};rows[mode]=row
+   def body(name):return re.search(r'(?:;|//) function '+name+r';[\s\S]*?(?=(?:;|//) function |\Z)',text).group()
+   if mode=='allocated':
+    positive={'plain','commuted','zero','live','pressure','extension','high','negative','huge'}
+    for name,variant,size,k in names:
+     found=bool(re.search(r'\[x\d+, x\d+, lsl #\d+\]',body(name)))
+     assert found==(variant in positive),(name,body(name))
+    row['scaled_loads']=len(re.findall(r'\[x\d+, x\d+, lsl #\d+\]',text))
+   if mode=='baseline' and before:
+    old=d/(profile+'-before.s');checked([before,src,'--target',target,'-o',old]);assert old.read_bytes()==asm.read_bytes();row['before_identical']=True
+   if execute:
+    exe=d/(profile+'-'+mode);checked([*cc,'-O2',caller,asm,'-o',exe],True);checked([exe],True);row['execution']='passed'
+    if mode=='allocated' and not supplement:
+     original=body('l_l_plain');damaged=original.replace('lsl #3','lsl #0');assert original!=damaged
+     bad=d/'wrong-scale.s';bad.write_text(text.replace(original,damaged,1));exe=d/'wrong-scale';checked([*cc,'-O2',caller,bad,'-o',exe],True);p=run([str(exe)],True);assert p.returncode!=0;report['controls']['wrong_scale']={'detected':True,'exit':p.returncode}
+     original=body('ub_w_plain');damaged=original.replace('\tldrb ','\tldr ',1);assert original!=damaged
+     bad=d/'overread.s';bad.write_text(text.replace(original,damaged,1));exe=d/'overread';checked([*cc,'-O2',caller,bad,'-o',exe],True);p=run([str(exe),'guard'],True);assert p.returncode!=0;report['controls']['guard_overread']={'detected':True,'exit':p.returncode}
+ if execute and qbe:report['qbe_sha256']=checked(['python3','-c','import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())',qbe],True).stdout.strip()
+ (d/'report.json').write_text(json.dumps(report,indent=2)+'\n');return report

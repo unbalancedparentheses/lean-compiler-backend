@@ -1,0 +1,51 @@
+{
+  "target": "aarch64-linux",
+  "identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+  "compiler_sha256": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+  "helper_sha256": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+  "profiles": {
+    "legal": {
+      "source_sha256": "d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325",
+      "caller_sha256": "8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395",
+      "backends": {
+        "baseline": {
+          "assembly_sha256": "30c34f9e6b659bda05f5a714e7e7a0c6e7889f7e34447da8fdfa06d504a5d60e",
+          "execution": "not-run"
+        },
+        "allocated": {
+          "assembly_sha256": "6d82082fb563bd36f9eb5e5c1a9eea90d6e1344188ff58b0c3d4c40f2682cc3f",
+          "execution": "not-run",
+          "scaled_loads": 82
+        },
+        "optimized": {
+          "assembly_sha256": "3d7a043fd0fba2931952ae197391d495687e87a9dd77518143d33b3f93c371fd",
+          "execution": "not-run"
+        }
+      },
+      "functions": 202,
+      "original_qbe_scope": "unchanged source"
+    },
+    "large_shift_counts": {
+      "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+      "caller_sha256": "911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2",
+      "backends": {
+        "baseline": {
+          "assembly_sha256": "538d9f703e38b092c2d30f017eb0fb37f661132d831a5600e47da637a16f223b",
+          "execution": "not-run"
+        },
+        "allocated": {
+          "assembly_sha256": "ddadd14816d216a58bcbf6943fc93d7df238190b97fa278181719eb4d9e09c28",
+          "execution": "not-run",
+          "scaled_loads": 45
+        },
+        "optimized": {
+          "assembly_sha256": "8dd7c0d7a2855692145ecfc0cfdc7a80b1fd353bf416242c8d95141d6d01dace",
+          "execution": "not-run"
+        }
+      },
+      "functions": 45,
+      "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+    }
+  },
+  "controls": {}
+}

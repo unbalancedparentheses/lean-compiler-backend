@@ -1,0 +1,220 @@
+{
+  "compiler_identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+  "compiler_sha256": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+  "campaigns": {
+    "qbe": [
+      {
+        "target": "aarch64-linux",
+        "units": 32,
+        "qualified_backends": [
+          "baseline",
+          "optimized",
+          "qbe-corrected"
+        ],
+        "fixture_assemblies": 455,
+        "self_ir_assemblies": 32,
+        "original_runtime_tests": 58,
+        "original_failure": {
+          "target": "arm64",
+          "input": "_alt.ssa",
+          "exit": 1,
+          "reference_exit": 0,
+          "stderr": "qbe:/work/combined-scaled-v1-qbe-aarch64-linux/source/test/_alt.ssa:25: missing second operand in copy\n",
+          "phase": "assembly reproduction",
+          "assembly_sha256": null,
+          "reference_assembly_sha256": "5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd"
+        },
+        "comparator_control": {
+          "status": "detected",
+          "target": "arm64",
+          "input": "_alt.ssa",
+          "label": "baseline",
+          "original_sha256": "5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd",
+          "mutated_sha256": "3470062fc6654d17b209faf924ed5a04bc8371f28365f5acfd8ffe94f0a645ad"
+        },
+        "pre_post_bindings": 1148,
+        "guest_host_bindings": 3276
+      },
+      {
+        "target": "x86_64-linux",
+        "units": 32,
+        "qualified_backends": [
+          "baseline",
+          "optimized",
+          "qbe-corrected"
+        ],
+        "fixture_assemblies": 455,
+        "self_ir_assemblies": 32,
+        "original_runtime_tests": 58,
+        "original_failure": {
+          "target": "arm64_apple",
+          "input": "abi8.ssa",
+          "exit": 0,
+          "reference_exit": 0,
+          "stderr": "",
+          "phase": "assembly reproduction",
+          "assembly_sha256": "a39731a5d5204d4ff75ea23d9fe5ed98b78fb78571979fbade2f7daf72603774",
+          "reference_assembly_sha256": "77bf98f2480660bbeb2bce534270af3a69d3ae7e18aa40a2f75c9436d4d45844"
+        },
+        "comparator_control": {
+          "status": "detected",
+          "target": "arm64",
+          "input": "_alt.ssa",
+          "label": "baseline",
+          "original_sha256": "5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd",
+          "mutated_sha256": "3470062fc6654d17b209faf924ed5a04bc8371f28365f5acfd8ffe94f0a645ad"
+        },
+        "pre_post_bindings": 1148,
+        "guest_host_bindings": 3382
+      },
+      {
+        "target": "riscv64-linux",
+        "units": 32,
+        "qualified_backends": [
+          "baseline",
+          "optimized",
+          "qbe-corrected"
+        ],
+        "fixture_assemblies": 455,
+        "self_ir_assemblies": 32,
+        "original_runtime_tests": 58,
+        "original_failure": {
+          "phase": "link",
+          "exit": 1,
+          "stderr": "/work/combined-scaled-v1-qbe-riscv64-linux/main-qbe.o: in function `data':\n(.text+0x3ea): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/util-qbe.o: in function `igroup':\n(.text+0xf78): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/parse-qbe.o: in function `typecheck':\n(.text+0x2b30): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/cfg-qbe.o: in function `ifgraph':\n(.text+0x1928): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/mem-qbe.o: in function `promote':\n(.text+0x590): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/ssa-qbe.o: in function `renblk':\n(.text+0x1402): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/load-qbe.o: in function `loadopt':\n(.text+0x234c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/copy-qbe.o: in function `narrowpars':\n(.text+0x107a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/fold-qbe.o: in function `opfold':\n(.text+0x120a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/gvn-qbe.o: in function `rcmp':\n(.text+0xb0a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/gcm-qbe.o: in function `isdivwl':\n(.text+0x3f8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/simpl-qbe.o: in function `ins':\n(.text+0x80c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/ifopt-qbe.o: in function `convert':\n(.text+0x7d2): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/live-qbe.o: in function `filllive':\n(.text+0x712): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/spill-qbe.o: in function `tmpuse':\n(.text+0x51e): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/rega-qbe.o: in function `rref':\n(.text+0x690): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/emit-qbe.o: in function `bshas':\n(.text+0x37e): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/amd64-sysv-qbe.o: in function `selcall':\n(.text+0x1c98): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/amd64-isel-qbe.o: in function `fixarg':\n(.text+0x71c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/amd64-emit-qbe.o: in function `slot':\n(.text+0x404): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/amd64-winabi-qbe.o: in function `lower_vastart':\n(.text+0x2142): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/arm64-abi-qbe.o: in function `selret':\n(.text+0xd08): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/arm64-isel-qbe.o: in function `fixarg':\n(.text+0x658): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/arm64-emit-qbe.o: in function `rname':\n(.text+0x5f8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/rv64-abi-qbe.o: in function `selcall':\n(.text+0x2100): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v1-qbe-riscv64-linux/rv64-isel-qbe.o: in function `fixarg':\n(.text+0x7ce): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\ncollect2: error: ld returned 1 exit status\n"
+        },
+        "comparator_control": {
+          "status": "detected",
+          "target": "arm64",
+          "input": "_alt.ssa",
+          "label": "baseline",
+          "original_sha256": "5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd",
+          "mutated_sha256": "3470062fc6654d17b209faf924ed5a04bc8371f28365f5acfd8ffe94f0a645ad"
+        },
+        "pre_post_bindings": 1147,
+        "guest_host_bindings": 3273
+      }
+    ],
+    "cproc": [
+      {
+        "target": "aarch64-linux",
+        "units": 18,
+        "qualified_backends": [
+          "baseline",
+          "optimized",
+          "qbe-corrected"
+        ],
+        "stage2_ir": 19,
+        "upstream_tests": 196,
+        "original_failure": {
+          "input": "attr",
+          "exit": 139,
+          "stderr": ""
+        },
+        "negative_controls": {
+          "baseline": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          },
+          "optimized": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          },
+          "qbe-corrected": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          }
+        },
+        "pre_post_bindings": 1039,
+        "guest_host_bindings": 931
+      },
+      {
+        "target": "x86_64-linux",
+        "units": 18,
+        "qualified_backends": [
+          "baseline",
+          "optimized",
+          "qbe"
+        ],
+        "stage2_ir": 19,
+        "upstream_tests": 196,
+        "original_failure": null,
+        "negative_controls": {
+          "baseline": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          },
+          "optimized": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          },
+          "qbe": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          }
+        },
+        "pre_post_bindings": 947,
+        "guest_host_bindings": 892
+      },
+      {
+        "target": "riscv64-linux",
+        "units": 18,
+        "qualified_backends": [
+          "baseline",
+          "optimized",
+          "qbe-corrected"
+        ],
+        "stage2_ir": 19,
+        "upstream_tests": 196,
+        "original_failure": {
+          "phase": "link",
+          "exit": 1,
+          "stderr": "/work/combined-scaled-v2-cproc-riscv64-linux/attr-qbe.o: in function `parseattr':\n(.text+0x2c8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/decl-qbe.o: in function `storageclass':\n(.text+0x378): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/eval-qbe.o: in function `eval':\n(.text+0xb80): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/expr-qbe.o: in function `mkunaryexpr':\n(.text+0x586): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/init-qbe.o: in function `subobj':\n(.text+0x3e8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/main-qbe.o: in function `main':\n(.text+0x4b2): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/pp-qbe.o: in function `define':\n(.text+0xb4a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/stmt-qbe.o: in function `label':\n(.text+0x270): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/targ-qbe.o: in function `targinit':\n(.text+0xc4): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/type-qbe.o: in function `mkbitinttype':\n(.text+0x220): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-scaled-v2-cproc-riscv64-linux/qbe-qbe.o: in function `__uint64_identity':\n(.text+0x1ce): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\ncollect2: error: ld returned 1 exit status\n"
+        },
+        "negative_controls": {
+          "baseline": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          },
+          "optimized": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          },
+          "qbe-corrected": {
+            "detected": true,
+            "mutation": "valid sentinel return constant extsw37->extsw38; comparator-sensitivity only",
+            "expected_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "stage2_sha256": "5f0fcc841d3ffda6857c4291bb554a4da6b480010c1b5cbafd853abb6a0a3bda",
+            "corrupt_sha256": "636c5f325c4f81cd12afc21f09d949b3837d48fe2b6b464f58f5858d578d217f"
+          }
+        },
+        "pre_post_bindings": 1038,
+        "guest_host_bindings": 930
+      }
+    ]
+  }
+}

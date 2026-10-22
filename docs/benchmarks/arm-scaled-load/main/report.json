@@ -1,0 +1,2316 @@
+{
+  "status": "passed",
+  "requested_identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+  "inputs": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-retained-tls-main": "9ef753acd62459226551d7e24a56b8dc991a3e134b1cf238a66aee271d9c266a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/arm_scaled_load.py": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "/private/tmp/lcb-arm-scaled-main-runner.py": "16e23719c1f1bcbf79f5d2a87470a96db570c261eb5240df67d2a1e9e2f39a74",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/docker_sync.py": "fb12daba92aa4b24d3fb4e727181b5c62849012ab3c834fc268ea76e8bd3ac34",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/check.sh": "70041eed74267a595f699f868d79f83d5d659efdd25433a822b36007aa6e5504",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/linux_arm64.py": "f6b091208ef07c4458e9472ce74ecf149e79f42715b9bf8870112ade1800b1e9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/emission_only.py": "aff64996f3842d5c7a02a8acf6f390263c6b4cb8fccb0af7c83ef710b3914f99",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/fuzz.py": "8b8f49c12f52eb4f62492e22f9cf9238ffadda908c16ac2f8f2642d3cb5db485",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/lakefile.toml": "5afaaf03766b4be4ed61d03027be1ab98cd0a9f6a5ae28a9bea1eec0ff416b2a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AArch64/Tests.lean": "65ab35a56dd24e58ea67959c23e0e413f70edb61b50acbfea043fb1c875daf47",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AArch64.lean": "9a82cd512c368813524b66262c8a0bf79effd09cd64f3c870d245436ecdfbfe6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AMD64/Tests.lean": "63ffb56118f02b6ede2f59d41db32ea0a3450cc08e6b32c4cf0388d147cd0598",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AMD64.lean": "c1bd4c01dcd6cafb473b7ebd4bc2d61720aa80bbbe218416b530e28bae84b31c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AMD64ABI.lean": "7115ddfe18fb7b2849ba6528835be3bf2e86a821ee39afb8213557eb92954668",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Aggregate.lean": "e5810d033ae69a9f04c4b4dcbd1ae5880d7f8c675b5f470c3d3058b311d33d2f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AggregateABI.lean": "5601ceeee76584fad38dc6b79324379b4b976de1dc240f5a0e95fbb5293a1e7c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Allocation/HomeFlow.lean": "b6136f99ace2ca6e47e2bee6eadbeb2652ec700ddf434ca729f688c4ee21f92e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Allocation/Tests.lean": "e282e6e0d2e13949b033664b8321354bbac890ddfb3940e2e987fa26e9abbd0b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Allocation.lean": "0c6156cfab3fc1e1f5bf261af55856a418dccbb2787dea46ef607ac6e92fd86f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Assembly.lean": "00f809224564ca4faeec93382a7c81b72bd2c63ba14b3a4c57525254f2b7deea",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/CFG/Tests.lean": "62ab138e022966d083fe5e11556c26513f833f8f300401db63cefa1007b1f98d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/CFG.lean": "420c938a07b0eb61f9ce3c31ceb49dc06eabd529cd98c145af72885d6df49c76",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Driver/Tests.lean": "4c14ae1b52399b8c050d58453e7cdf66562364524dfccc05c398adf0bb4106dc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Driver.lean": "c40930441a04335b7fff0bcfd8b992a2fe32bb0581def99b9e3af7fffa15887b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Floating.lean": "fcac1f8df1a660465f9edbf93643832cf0b3dee502c8a1013ab3594990f2b253",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/IR.lean": "e9f9615bca1fa560ad8a37bef3b35219427583db5676b04a2e18a0b7c191fa86",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Liveness/Report.lean": "f7c172f0c7cb281906143db874d3b9355db8c48cf4cf7bbed25fa6e6e43ccf35",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Liveness/Tests.lean": "90176c65f03047f28971f21b73b2718e2f47af7ab41b2570c21cddcaa6414d59",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Liveness.lean": "58ece0279b566ecbc2b137c450c9aee2a9e9f2c6157fc39dec1906be4d2f9cc2",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Memory.lean": "0db41a42d6dfed2cbeab8454846a6edfe914755fab09f15a253c3a431745ab58",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Numeric.lean": "30f9fe54ec26d0eca61747670b4f460536adb2aeeca15c08032698b654f26753",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Algebra.lean": "ec3c130edebaab6b89a07a7cdae3094fff5ff6fbbf1f9b57fc627afdd4156f72",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Cleanup.lean": "11d6c7e355588c577a07090e34952d5df2e5d33dabf30a63168a93130421a57e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Common.lean": "2c0ac466e47865c10508e0d356bb94395c7ad751d26d9eb4bf9065415fad938a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/ControlFlow.lean": "7d16d140d10fd430f1a361d226e94495c65d9438b0ed99046265a6d442ebc509",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Memory.lean": "fa0181aa7b9f87ef7ed8ab34faf2b771abdd9cb4c247931cef4927c5e80aa7af",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/MemoryTests.lean": "3658e7276a9da7925aa0c74ab2483dfa7a3f7e957bb6e0fd9d50ab07977d5724",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Symbols.lean": "1cbd430393f5a140256d30134a9c63173eb47f0bbc910ee07333704aeda0d58e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Tests.lean": "d1215f670259343e0b7a82e58b76f54dede0e49f8e0affe57dcc4ebfe22b595c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize.lean": "78e8c403f7e9518c263caea6d877536a886b140e9c2b902934f8cfbc0eeb3212",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Parser.lean": "29d4ccc487ae93e327957b9c9d07d3e3a1b8afdb7b5ccf190d8c97d006b873f0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/RV64.lean": "d6c94cc9089de7586f6f8e206b5440dd6dd0e13078176ecb3d9be43cc2e182f1",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/RV64ABI.lean": "f154ee464642740cbf544665a44bac0706cd6933d4958caa822973a9c356412f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/SSA.lean": "cc701076f89ab109d377cb78be424ea76740dd7f25822dd90eb591b1eeb321dc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Section.lean": "28420d9c05932c9f8cf6f1307014542f500fdacae0c3c79b49930d9067e65b4a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Selection.lean": "c481fa8cbf9c8b7afe81c8b30fdaea4ab457dac0cea7eee25fbb0d53b44736b0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Semantics.lean": "4da69b68754bbbf300af04df334e2071c58c73ebca3a38af06d88a0079d6fbd5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Validate.lean": "9c90a2f9ec0a39fc8b818a3838ffc0fd2cff72c3ad0e17872278e9fb554d95df",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Admission.lean": "cc0f3c3bf0bb39885d229a5760d56e0a09323f5d34f91cd8e3b9804985bd756a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/ArithmeticProofs.lean": "d806ceb93053c74cc4e144c07e58b1137d42bbc874117392df4bb5691f6e1ec0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/BindingProofs.lean": "2a13f20cef28d5d35b088cd8fcda3bfb013e8cbbaa1e8b4f07239016897ffbab",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/BuildIdentity.lean": "4307b1aa54716714ac56bff1251ef4b53e56fd73eda8d97505456219d7e95151",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Canonical.lean": "799ac8acec698abc280202a187d87e0d73661ca9f070fa1ac32d83cac998a77f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Codec.lean": "20a248930ed0602688e94a0dd0199a7e6818453351e015b48059d69f374763dc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/CodecTests.lean": "98e137be525fd924b3d7f4e35108aa9fd2286d01d5b25a8c11ada9bcb211792b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/CommitProofs.lean": "e99f9b7a9ca6b1bb28922f565c3547196541d86303a5b46bca8af2855f84bf5c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/ComparisonProofs.lean": "95945f88bbb788ca09bfc7b27eb6f0e88d3da99589f780908bbb88ea90eed23f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/DivergenceProofs.lean": "6c468426e74d914d3b23c75352d85f047ea4399ed89aa51d94151794aac9eef9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/EntryExamples.lean": "b9cc95fe11cd42198bc0008ca41e5aeb9d14e38ece2560042bbdd86009ea26ab",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/EntryProofs.lean": "c13ced91590efdcc36cffb80daa4bd58090e8f51c909c0cb0bdf56353d0128be",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/FrameProofs.lean": "8d0a719df3be1196a7360ed33f167bec4aa59b6629d72461162e131eca3c3d89",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/InstructionProofs.lean": "5bae870198e9b8b8c032e8f74899e40d24ba3ae3fa02f21ffda3ecfd3f574721",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Job.lean": "2123e67519aa074ccdba6d7d0f6397348c2ca9ba7a80d1edf03be79f6a2e1d60",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/JobTests.lean": "8d9bf381ea30a5be656f10592c6e6012da8d85bd02ebe2e621bdea14cb283f78",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/LayoutProofs.lean": "0fd2e241b051404b0ef7a0565347f9e483a2053ec31af58b81a29102279bf0ab",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Machine.lean": "dab86276a3b99010b40bc59843184a808c289eb74065fb6f8820683495e1ead5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/MachineProofs.lean": "337af99f7e606f2ff46286cb90b565ccf18d1972225f8a98e6e188db854a46cd",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/OperandProofs.lean": "08ad146f31a3fdd8f7fd79fc5276c85abffd5a17f60d89190ee51545e9722497",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/PhiContextProofs.lean": "5e58575ae217b4a2d4c3b5e15742c1ebf5d977ba42d218f181afefab185ae192",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/PhiExamples.lean": "0782be3a2bc6c01d82e57417b0ab968528b6aa3c082af037dee274070960042f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/PhiSwapProof.lean": "85090541bf04203f0f948d457c6ea1fddffe99b4b0853370552d1791780d4f4e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Plans.lean": "0ecd9ed68bda245fd7c79150809e0f682e68e85a1ee61e8a9d19347564fcf582",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/SHA256.lean": "b70466347d1d78927a491fd4cbe4c22e534ae61525f5588fa4c20319e502db05",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/SimulationProofs.lean": "b3dd8f321462606dedb0da85686208c9c323bd5bd279fa597ad26f471b466265",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Source.lean": "fa243eb1f0f891885845cf3accb8aadd9e34ed1362da1269f969fa8104745cb9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/SourceTransferProofs.lean": "919234a850d69bb80ac708a6d7dba865b254016de608b44ce729bf9d4eb38924",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/StackMIR.lean": "71b2d8a46c3c146b2dfe9dba2a904ee9204a70f51ef6b0dd019da5661470a6f6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/StagingProofs.lean": "9ad440310d5be21bcfd689a160ed8e174a12bfb14cfd2c3b7fb951f23a04a310",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Tests.lean": "93ebadcbceee19d5782096ee70c66aacc65bbe13f3594a8ee4673e7488024db6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/TransferProofs.lean": "cac56400c0e44a7398bbc5e09753613e3023bc860faafa4a8aa9bb9feb51a185",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/TypedA64.lean": "c7cd7e2c6b530a4c35a11266c9671a76cf8720c6d03cadb43a824a7cbbf1ae46",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Wire.lean": "643f0a78278007c238f1b2ccc5c46168fc0eb4b2da7315973eff2cbc45b16618",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/abi.c": "923a5ea94e088e8ee4435924b38c0efaa601e4fc3b65b1964d70903491533103",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/alias.c": "c210400e482f4ad2576d238d8cc411e0b1984ca57fb5d5ec849ed83fb6fd404f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/emit.c": "b2563a49370154419246b11c4f6f2cd45e0f7c1327e491a2c7d2a2d4c8f8c36f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/isel.c": "049096f821fdb5035a68838f313c2f6431e8a5178a8958a9259bf566ef977eb5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/sysv.c": "d7b867b243dba484924e46062ccb3ff1ca44243ad06004f8a7b8f6cd937d6ec0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/targ.c": "e53960a60eb5c1d3364bb8595bb64b3f5827db9436f886432de368cbb4e22211",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/winabi.c": "abea8f315c09fc26a5df7abbbc98470a6113d08a866bbbdf7928825d10dc6ec9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/abi.c": "1e881c0d2443e8a37b54ec9cb4474963bd5635286a5067df611e11ab250cccb5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/emit.c": "3dc7280fe44797b56c00194091d2686b90317f673b2175a87df89fa0a6f3cabf",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/isel.c": "3e7eab441eb37ae1cc29916586a6bfe1c55012400766e733d30dbc528f5747ef",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/targ.c": "5215bee5bae89d5d95cec3a4ddaea32ff15e6d35952c248f1d49653609c6dac7",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/cfg.c": "99099b6c39fbf9de442811c9e5e57417d6ef13ffa534ff6c82cade4fcadcf438",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/copy.c": "f1b6ebcb4802e2aa32239c905ae47aea0c6d1335cedcbb2a0e3aad8d18f4e06f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/emit.c": "48af42e44d5017102e6ec7bec00465304f324f89160a93825f4952a257702031",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/fold.c": "3544071a30cc049320838f3bf44c1f83171117735fd2bb67959b2bc0a4431be8",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/gcm.c": "6af05af2af79bdd217b53133735e1d98fede157ee46ca1aac54c337a817ac586",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/gvn.c": "d09e291f14d1b777c2a27ddbf128eae02c7d649ccd88b2d180c29c2bf6b0e6a9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/ifopt.c": "b4d49edd190dabc6b183453de5237d2ba33607739b61d6d9f1a2c8c1369f2f86",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/live.c": "19f084507c5f38f213e90193c11111e6079a06e3dd13f80df4b9e2c65b6a5eb5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/load.c": "1b35c950499fa6c8d8a562ced54a531cd39adc384fc637922e69498e6bbb8b71",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/main.c": "a6a9a128d2dc5f9db117a2d25843c0124d80609d1f1c176e3c71de188fd0ade1",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/mem.c": "4229d499db4186086b2d02ac78c983a6f31012d350bd281128ea61c037af4b65",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/collatz.c": "08962ec9ae1148ed40d29c9100e9ea72f4517375114cb8ad6e4f20cc5a10ccdb",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/euler9.c": "4fcd8d845a822e7a52db18249283a5c7d87a01fb627214126c2707c15fc05f44",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/knight.c": "a1b4f6c89d47c2e6ff2bff91a580a8525470ec638f02577aa4343b5e61ee128d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/mandel.c": "835dc25eb3c7afb3aa0f89b2f5aa369f926990ac6b5a266511f9d49d982c1164",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/prime.c": "910ff8512e54e6b1b6fcf2a1656ecea2b3d475131c4acdb5b27fb05ac542b86c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/queen.c": "7e01a19ba293d5c68425250cb85a613900b8e2ea77f02ae94c33b92aa0b89493",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/yacc.c": "42a71ff6fb0f5eb861923682833dbd53a3d6cdabb1f0fab8bd3cb9f0fcda4d59",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/parse.c": "e762d78e1890af5c06daa581cfd40b30fcaa840450f32ca9cf2b141740a869da",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rega.c": "167270237fb1a6a528f7f53bda895eb46074d42ac1d4a41ae9489706f10ae9ff",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/abi.c": "c9ad2cfcb7ee56d8cd99e3cae2d4961929e099fc47f6e2b4a82162ed1fd92f22",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/emit.c": "4d76c3878e19a8d22a060300d43feab4fb54b589b341bb94e34d2fa4393999d3",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/isel.c": "95500527dcc4036b239b2ab62525aa1df0a645df142647756756526343a87846",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/targ.c": "82668853f271d1dc20b914a2e0f402764e42951a75059ba29d4e0f77fe85cb83",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/simpl.c": "0c14d2e5cc81bf6250a92f4c54eb8d453334100e127796b7a2e84f40b6e00254",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/spill.c": "d8b5367c4531faedbd4e073ccd955557a8e2333f9240d9f186f62dde777baebe",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/ssa.c": "a06727f6e5f6786e6fb1f30912631896007b9867dfd64e3e27a754ee9a9332c8",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/tools/lexh.c": "4e6183a33f9abf412d7ea267897a07da4c972804d3b17d171dd68bcc2eced5d6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/tools/log2.c": "ed282110b0e7cabf3e69a6fcb6c4dc44bf37369b97b904e8991211b61625db57",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/tools/pmov.c": "3b3eb463f34424035ec79513f1ff64b749c4d382c17e4d73355508a7d9ea4964",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/util.c": "833a66c4c703cd47d7855cfd4b9f77642bdd0d35c6914c0baa3cd555031e35dd",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/all.h": "61bc106ffb07e0abe0b418f95ac7e1a9e4c6bcf8c308d8743562299129056519",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/all.h": "8ce357c9b3c7970a0160bc02c3ef61197bb1d469b06a93b08e0ac5b9061f55e3",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/all.h": "0c7503dd82c3efd65e1876865e4dcb2b6af287e43942cf9452ddbdd0473df52d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/ops.h": "39a2fe3c63ef4ab9c67d894ba83324ff6f9cdcdb3c5fe81f96efedf0350cf8ba",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/all.h": "2636f565c1e4a2e4aff1fe9501c40220a4eb67e905e650f4f734ab8714d53d5f"
+  },
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-baseline"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-baseline"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-allocated"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-allocated"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/wrong-scale.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/wrong-scale"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/wrong-scale"
+      ],
+      "inside": false,
+      "exit": -10,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/overread.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/overread"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/overread",
+        "guard"
+      ],
+      "inside": false,
+      "exit": -10,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-optimized"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-optimized"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/qbe",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.ssa"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-qbe"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/legal-qbe"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-baseline"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-baseline"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-allocated"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-allocated"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-optimized"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-macos/arm-scaled-load/large_shift_counts-optimized"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/qbe"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/legal-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/legal-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/legal-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/large_shift_counts-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/large_shift_counts-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-macos/arm-scaled-load/large_shift_counts-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-baseline.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-allocated.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/wrong-scale.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/wrong-scale"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/wrong-scale"
+      ],
+      "inside": true,
+      "exit": 139,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/overread.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/overread"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/overread",
+        "guard"
+      ],
+      "inside": true,
+      "exit": 139,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-optimized.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/tmp/qbe/qbe",
+        "-t",
+        "arm64",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-qbe.s",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-qbe.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/legal-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-baseline.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-allocated.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts.c",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-optimized.s",
+        "-o",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/arm-scaled-main-review/matrix/aarch64-linux/arm-scaled-load/large_shift_counts-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/legal-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/legal-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/legal.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/legal-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/large_shift_counts-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/large_shift_counts-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/large_shift_counts.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/emission/aarch64-linux/arm-scaled-load/large_shift_counts-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/run.py"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "all14 executions passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/arm_scaled_load.py",
+        "--compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+        "--before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+        "--qbe",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/qbe",
+        "--require-native"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "{\n  \"target\": \"aarch64-macos\",\n  \"identity\": \"210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5\",\n  \"compiler_sha256\": \"a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b\",\n  \"helper_sha256\": \"506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4\",\n  \"profiles\": {\n    \"legal\": {\n      \"source_sha256\": \"d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325\",\n      \"caller_sha256\": \"8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395\",\n      \"backends\": {\n        \"baseline\": {\n          \"assembly_sha256\": \"be84146c51dee6dea600b49ca066f9485410c5165220cdd7360527da40cf0159\",\n          \"execution\": \"passed\",\n          \"before_identical\": true\n        },\n        \"allocated\": {\n          \"assembly_sha256\": \"5942c887732732f3423e8e5489994f18fc99198af4da0bceea1d32e55387d847\",\n          \"execution\": \"passed\",\n          \"scaled_loads\": 82\n        },\n        \"optimized\": {\n          \"assembly_sha256\": \"8302039493b105e8c78d4eb6e8099f2e206dc8f42a18401250fe307cb5bd7304\",\n          \"execution\": \"passed\"\n        },\n        \"qbe\": {\n          \"assembly_sha256\": \"bb9b8b8bdb6a4d292e8ff62fac443817eed6d42824f545252fc0e90726cb78f6\",\n          \"execution\": \"passed\"\n        }\n      },\n      \"functions\": 202,\n      \"original_qbe_scope\": \"unchanged source\"\n    },\n    \"large_shift_counts\": {\n      \"source_sha256\": \"42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe\",\n      \"caller_sha256\": \"911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2\",\n      \"backends\": {\n        \"baseline\": {\n          \"assembly_sha256\": \"1140ca65195b2bec74138e432894a0caa42e3034a02508d896de498749be0c41\",\n          \"execution\": \"passed\",\n          \"before_identical\": true\n        },\n        \"allocated\": {\n          \"assembly_sha256\": \"ddb3471dc7e58949a0d15e8f404d7aaf9f5e6955a6992cbcb2ffc44b8b90fbf6\",\n          \"execution\": \"passed\",\n          \"scaled_loads\": 45\n        },\n        \"optimized\": {\n          \"assembly_sha256\": \"661617e3e8fb760baa568b1fd01f111766d32243f1a38d29459a8a8e3df880e0\",\n          \"execution\": \"passed\"\n        }\n      },\n      \"functions\": 45,\n      \"original_qbe_scope\": \"not run: upstream immediate-assembly limitations; independent C only\"\n    }\n  },\n  \"controls\": {\n    \"wrong_scale\": {\n      \"detected\": true,\n      \"exit\": -10\n    },\n    \"guard_overread\": {\n      \"detected\": true,\n      \"exit\": -10\n    }\n  },\n  \"qbe_sha256\": \"9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7\"\n}\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "Native Apple ARM and native ARM Linux Docker VM; no timing, original QBE legal shifts only; high-spill source unchanged.",
+  "guest_qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "matrices": {
+    "aarch64-macos": {
+      "target": "aarch64-macos",
+      "identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+      "compiler_sha256": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+      "helper_sha256": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+      "profiles": {
+        "legal": {
+          "source_sha256": "d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325",
+          "caller_sha256": "8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395",
+          "backends": {
+            "baseline": {
+              "assembly_sha256": "be84146c51dee6dea600b49ca066f9485410c5165220cdd7360527da40cf0159",
+              "execution": "passed",
+              "before_identical": true
+            },
+            "allocated": {
+              "assembly_sha256": "5942c887732732f3423e8e5489994f18fc99198af4da0bceea1d32e55387d847",
+              "execution": "passed",
+              "scaled_loads": 82
+            },
+            "optimized": {
+              "assembly_sha256": "8302039493b105e8c78d4eb6e8099f2e206dc8f42a18401250fe307cb5bd7304",
+              "execution": "passed"
+            },
+            "qbe": {
+              "assembly_sha256": "bb9b8b8bdb6a4d292e8ff62fac443817eed6d42824f545252fc0e90726cb78f6",
+              "execution": "passed"
+            }
+          },
+          "functions": 202,
+          "original_qbe_scope": "unchanged source"
+        },
+        "large_shift_counts": {
+          "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+          "caller_sha256": "911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2",
+          "backends": {
+            "baseline": {
+              "assembly_sha256": "1140ca65195b2bec74138e432894a0caa42e3034a02508d896de498749be0c41",
+              "execution": "passed",
+              "before_identical": true
+            },
+            "allocated": {
+              "assembly_sha256": "ddb3471dc7e58949a0d15e8f404d7aaf9f5e6955a6992cbcb2ffc44b8b90fbf6",
+              "execution": "passed",
+              "scaled_loads": 45
+            },
+            "optimized": {
+              "assembly_sha256": "661617e3e8fb760baa568b1fd01f111766d32243f1a38d29459a8a8e3df880e0",
+              "execution": "passed"
+            }
+          },
+          "functions": 45,
+          "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+        }
+      },
+      "controls": {
+        "wrong_scale": {
+          "detected": true,
+          "exit": -10
+        },
+        "guard_overread": {
+          "detected": true,
+          "exit": -10
+        }
+      },
+      "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+    },
+    "aarch64-linux": {
+      "target": "aarch64-linux",
+      "identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+      "compiler_sha256": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+      "helper_sha256": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+      "profiles": {
+        "legal": {
+          "source_sha256": "d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325",
+          "caller_sha256": "8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395",
+          "backends": {
+            "baseline": {
+              "assembly_sha256": "30c34f9e6b659bda05f5a714e7e7a0c6e7889f7e34447da8fdfa06d504a5d60e",
+              "execution": "passed",
+              "before_identical": true
+            },
+            "allocated": {
+              "assembly_sha256": "6d82082fb563bd36f9eb5e5c1a9eea90d6e1344188ff58b0c3d4c40f2682cc3f",
+              "execution": "passed",
+              "scaled_loads": 82
+            },
+            "optimized": {
+              "assembly_sha256": "3d7a043fd0fba2931952ae197391d495687e87a9dd77518143d33b3f93c371fd",
+              "execution": "passed"
+            },
+            "qbe": {
+              "assembly_sha256": "4493a37a6e174e18659df647402210b4d2332f2bee4f42270f653ea8490f39af",
+              "execution": "passed"
+            }
+          },
+          "functions": 202,
+          "original_qbe_scope": "unchanged source"
+        },
+        "large_shift_counts": {
+          "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+          "caller_sha256": "911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2",
+          "backends": {
+            "baseline": {
+              "assembly_sha256": "538d9f703e38b092c2d30f017eb0fb37f661132d831a5600e47da637a16f223b",
+              "execution": "passed",
+              "before_identical": true
+            },
+            "allocated": {
+              "assembly_sha256": "ddadd14816d216a58bcbf6943fc93d7df238190b97fa278181719eb4d9e09c28",
+              "execution": "passed",
+              "scaled_loads": 45
+            },
+            "optimized": {
+              "assembly_sha256": "8dd7c0d7a2855692145ecfc0cfdc7a80b1fd353bf416242c8d95141d6d01dace",
+              "execution": "passed"
+            }
+          },
+          "functions": 45,
+          "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+        }
+      },
+      "controls": {
+        "wrong_scale": {
+          "detected": true,
+          "exit": 139
+        },
+        "guard_overread": {
+          "detected": true,
+          "exit": 139
+        }
+      },
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    }
+  },
+  "emission_controls": {
+    "aarch64-macos": {
+      "target": "aarch64-macos",
+      "identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+      "compiler_sha256": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+      "helper_sha256": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+      "profiles": {
+        "legal": {
+          "source_sha256": "d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325",
+          "caller_sha256": "8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395",
+          "backends": {
+            "baseline": {
+              "assembly_sha256": "be84146c51dee6dea600b49ca066f9485410c5165220cdd7360527da40cf0159",
+              "execution": "not-run"
+            },
+            "allocated": {
+              "assembly_sha256": "5942c887732732f3423e8e5489994f18fc99198af4da0bceea1d32e55387d847",
+              "execution": "not-run",
+              "scaled_loads": 82
+            },
+            "optimized": {
+              "assembly_sha256": "8302039493b105e8c78d4eb6e8099f2e206dc8f42a18401250fe307cb5bd7304",
+              "execution": "not-run"
+            }
+          },
+          "functions": 202,
+          "original_qbe_scope": "unchanged source"
+        },
+        "large_shift_counts": {
+          "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+          "caller_sha256": "911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2",
+          "backends": {
+            "baseline": {
+              "assembly_sha256": "1140ca65195b2bec74138e432894a0caa42e3034a02508d896de498749be0c41",
+              "execution": "not-run"
+            },
+            "allocated": {
+              "assembly_sha256": "ddb3471dc7e58949a0d15e8f404d7aaf9f5e6955a6992cbcb2ffc44b8b90fbf6",
+              "execution": "not-run",
+              "scaled_loads": 45
+            },
+            "optimized": {
+              "assembly_sha256": "661617e3e8fb760baa568b1fd01f111766d32243f1a38d29459a8a8e3df880e0",
+              "execution": "not-run"
+            }
+          },
+          "functions": 45,
+          "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+        }
+      },
+      "controls": {}
+    },
+    "aarch64-linux": {
+      "target": "aarch64-linux",
+      "identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+      "compiler_sha256": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+      "helper_sha256": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+      "profiles": {
+        "legal": {
+          "source_sha256": "d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325",
+          "caller_sha256": "8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395",
+          "backends": {
+            "baseline": {
+              "assembly_sha256": "30c34f9e6b659bda05f5a714e7e7a0c6e7889f7e34447da8fdfa06d504a5d60e",
+              "execution": "not-run"
+            },
+            "allocated": {
+              "assembly_sha256": "6d82082fb563bd36f9eb5e5c1a9eea90d6e1344188ff58b0c3d4c40f2682cc3f",
+              "execution": "not-run",
+              "scaled_loads": 82
+            },
+            "optimized": {
+              "assembly_sha256": "3d7a043fd0fba2931952ae197391d495687e87a9dd77518143d33b3f93c371fd",
+              "execution": "not-run"
+            }
+          },
+          "functions": 202,
+          "original_qbe_scope": "unchanged source"
+        },
+        "large_shift_counts": {
+          "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+          "caller_sha256": "911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2",
+          "backends": {
+            "baseline": {
+              "assembly_sha256": "538d9f703e38b092c2d30f017eb0fb37f661132d831a5600e47da637a16f223b",
+              "execution": "not-run"
+            },
+            "allocated": {
+              "assembly_sha256": "ddadd14816d216a58bcbf6943fc93d7df238190b97fa278181719eb4d9e09c28",
+              "execution": "not-run",
+              "scaled_loads": 45
+            },
+            "optimized": {
+              "assembly_sha256": "8dd7c0d7a2855692145ecfc0cfdc7a80b1fd353bf416242c8d95141d6d01dace",
+              "execution": "not-run"
+            }
+          },
+          "functions": 45,
+          "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+        }
+      },
+      "controls": {}
+    }
+  },
+  "high_spill_original_bindings": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-high-spills/input.ssa": "de807de238f7ccd76773f6ef1c2d4362360d74c8c45918789078d797e39e0be0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-high-spills/caller.c": "4de8791e6da930f94deca56d8f37a31b88d76a16cc1b31cd15e267c88512af77",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-high-spills/generate.py": "cda2d2880bbb87dd1540486d31959a0e187998092623bea311b139654bc312b7",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-high-spills/run.py": "294ba5dbf6581fea1c5fc662bef450829633186c34225fa143abf314481dfe9e"
+  },
+  "high_spills": {
+    "source_sha256": "de807de238f7ccd76773f6ef1c2d4362360d74c8c45918789078d797e39e0be0",
+    "caller_sha256": "4de8791e6da930f94deca56d8f37a31b88d76a16cc1b31cd15e267c88512af77",
+    "compilers": {
+      "before": {
+        "identity": "4b41bddbd06b27174a3729ad2eca3888525a2f6e3e31d737a1057c18d22287bc",
+        "sha256": "9ef753acd62459226551d7e24a56b8dc991a3e134b1cf238a66aee271d9c266a"
+      },
+      "after": {
+        "identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+        "sha256": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b"
+      }
+    },
+    "qbe_binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "runs": [
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+          "--build-identity"
+        ],
+        "exit": 0,
+        "stdout": "4b41bddbd06b27174a3729ad2eca3888525a2f6e3e31d737a1057c18d22287bc\n",
+        "stderr": "",
+        "seconds": 0.024148875032551587
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+          "--build-identity"
+        ],
+        "exit": 0,
+        "stdout": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5\n",
+        "stderr": "",
+        "seconds": 0.023674458963796496
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-baseline.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.097475457994733
+      },
+      {
+        "command": [
+          "cc",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-baseline"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.5394807910197414
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-baseline"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.24544533295556903
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-macos",
+          "--allocate",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-allocated.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 3.412000334006734
+      },
+      {
+        "command": [
+          "cc",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-allocated"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.24071379099041224
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-allocated"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.24284125003032386
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-macos",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-optimized.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 3.678890875016805
+      },
+      {
+        "command": [
+          "cc",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-optimized"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.26154974999371916
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-before-optimized"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.2507788749644533
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-baseline.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.10000862501328811
+      },
+      {
+        "command": [
+          "cc",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-baseline"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.5123188329744153
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-baseline"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.25174999999580905
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-macos",
+          "--allocate",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-allocated.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 3.194721459003631
+      },
+      {
+        "command": [
+          "cc",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-allocated"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.22635133302537724
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-allocated"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.2403421659837477
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-macos",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-optimized.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 3.4190906659932807
+      },
+      {
+        "command": [
+          "cc",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-optimized"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.2407165000331588
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-after-optimized"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.24447287496877834
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/qbe",
+          "-t",
+          "arm64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.10633579199202359
+      },
+      {
+        "command": [
+          "cc",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.2839928329922259
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.25508433301001787
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-linux-before-baseline.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.09458616696065292
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-O2",
+          "/work/arm-scaled-main-review/high-spills/caller.c",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-baseline.s",
+          "-o",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-baseline"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.22518033301457763
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-baseline"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.08084362500812858
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-linux",
+          "--allocate",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-linux-before-allocated.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 3.210563166998327
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-O2",
+          "/work/arm-scaled-main-review/high-spills/caller.c",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-allocated.s",
+          "-o",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-allocated"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.16523979196790606
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-allocated"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.07435941701987758
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/before",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-linux-before-optimized.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 3.270404624985531
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-O2",
+          "/work/arm-scaled-main-review/high-spills/caller.c",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-optimized.s",
+          "-o",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-optimized"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.1661648330045864
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-before-optimized"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.07363549998262897
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-linux-after-baseline.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.10355466697365046
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-O2",
+          "/work/arm-scaled-main-review/high-spills/caller.c",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-baseline.s",
+          "-o",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-baseline"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.2221335420035757
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-baseline"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.0869292079587467
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-linux",
+          "--allocate",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-linux-after-allocated.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 3.1734585420344956
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-O2",
+          "/work/arm-scaled-main-review/high-spills/caller.c",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-allocated.s",
+          "-o",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-allocated"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.14860454201698303
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-allocated"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.07123433303786442
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/compiler",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa",
+          "--target",
+          "aarch64-linux",
+          "--optimize",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-linux-after-optimized.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 3.247372791985981
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-O2",
+          "/work/arm-scaled-main-review/high-spills/caller.c",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-optimized.s",
+          "-o",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-optimized"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.14949137502117082
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-after-optimized"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.0818047079956159
+      },
+      {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/snapshot/qbe",
+          "-t",
+          "arm64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/aarch64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-main-review/high-spills/input.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.1008122080238536
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-O2",
+          "/work/arm-scaled-main-review/high-spills/caller.c",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-qbe.s",
+          "-o",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "seconds": 0.17318941600387916
+      },
+      {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/arm-scaled-main-review/high-spills/aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "28 large spill checks passed\n",
+        "stderr": "",
+        "seconds": 0.08012166700791568
+      }
+    ],
+    "checks_per_execution": 28,
+    "execution_modes": {
+      "aarch64-macos": "native Apple ARM",
+      "aarch64-linux": "native ARM Linux Docker VM"
+    },
+    "structural": {
+      "aarch64-macos-after-allocated": {
+        "offsets_left_right_result": [
+          33520,
+          33536,
+          33528
+        ],
+        "assembly_sha256": "7d08296b1c2edfcdde408a57ae3634d0d0bed40bedb5a95f115755e40747b141",
+        "sequence": "add x15, sp, #8, lsl #12\n\tadd x15, x15, #752\n\tldr x9, [x15]\n\tadd x15, sp, #8, lsl #12\n\tadd x15, x15, #768\n\tldr x10, [x15]\n\tldr x9, [x9, x10, lsl #3]\n\tadd x15, sp, #8, lsl #12\n\tadd x15, x15, #760\n\tstr x9, [x15]"
+      },
+      "aarch64-macos-after-optimized": {
+        "offsets_left_right_result": [
+          33520,
+          33536,
+          33528
+        ],
+        "assembly_sha256": "b4a5873f3b7a72e008901a3978c16aa02cc98355d6b7fd8734b3b0a8d1fc4ddf",
+        "sequence": "add x15, sp, #8, lsl #12\n\tadd x15, x15, #752\n\tldr x9, [x15]\n\tadd x15, sp, #8, lsl #12\n\tadd x15, x15, #768\n\tldr x10, [x15]\n\tldr x9, [x9, x10, lsl #3]\n\tadd x15, sp, #8, lsl #12\n\tadd x15, x15, #760\n\tstr x9, [x15]"
+      },
+      "aarch64-linux-after-allocated": {
+        "offsets_left_right_result": [
+          33520,
+          33536,
+          33528
+        ],
+        "assembly_sha256": "218bea9eb0f15958ccd917dae4947934080d1cd8e15a1fcb7de3cd00b857b850",
+        "sequence": "add x15, sp, #8, lsl #12\n\tadd x15, x15, #752\n\tldr x9, [x15]\n\tadd x15, sp, #8, lsl #12\n\tadd x15, x15, #768\n\tldr x10, [x15]\n\tldr x9, [x9, x10, lsl #3]\n\tadd x15, sp, #8, lsl #12\n\tadd x15, x15, #760\n\tstr x9, [x15]"
+      },
+      "aarch64-linux-after-optimized": {
+        "offsets_left_right_result": [
+          33520,
+          33536,
+          33528
+        ],
+        "assembly_sha256": "625ed3583f14748c1d49aaa81bb9846e76c9360ce46fcac060132ff22e3e201d",
+        "sequence": "add x15, sp, #8, lsl #12\n\tadd x15, x15, #752\n\tldr x9, [x15]\n\tadd x15, sp, #8, lsl #12\n\tadd x15, x15, #768\n\tldr x10, [x15]\n\tldr x9, [x9, x10, lsl #3]\n\tadd x15, sp, #8, lsl #12\n\tadd x15, x15, #760\n\tstr x9, [x15]"
+      }
+    },
+    "status": "passed"
+  },
+  "native_default_cli": {
+    "target": "aarch64-macos",
+    "identity": "210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5",
+    "compiler_sha256": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+    "helper_sha256": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+    "profiles": {
+      "legal": {
+        "source_sha256": "d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325",
+        "caller_sha256": "8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395",
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "be84146c51dee6dea600b49ca066f9485410c5165220cdd7360527da40cf0159",
+            "execution": "passed",
+            "before_identical": true
+          },
+          "allocated": {
+            "assembly_sha256": "5942c887732732f3423e8e5489994f18fc99198af4da0bceea1d32e55387d847",
+            "execution": "passed",
+            "scaled_loads": 82
+          },
+          "optimized": {
+            "assembly_sha256": "8302039493b105e8c78d4eb6e8099f2e206dc8f42a18401250fe307cb5bd7304",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "bb9b8b8bdb6a4d292e8ff62fac443817eed6d42824f545252fc0e90726cb78f6",
+            "execution": "passed"
+          }
+        },
+        "functions": 202,
+        "original_qbe_scope": "unchanged source"
+      },
+      "large_shift_counts": {
+        "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+        "caller_sha256": "911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2",
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "1140ca65195b2bec74138e432894a0caa42e3034a02508d896de498749be0c41",
+            "execution": "passed",
+            "before_identical": true
+          },
+          "allocated": {
+            "assembly_sha256": "ddb3471dc7e58949a0d15e8f404d7aaf9f5e6955a6992cbcb2ffc44b8b90fbf6",
+            "execution": "passed",
+            "scaled_loads": 45
+          },
+          "optimized": {
+            "assembly_sha256": "661617e3e8fb760baa568b1fd01f111766d32243f1a38d29459a8a8e3df880e0",
+            "execution": "passed"
+          }
+        },
+        "functions": 45,
+        "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+      }
+    },
+    "controls": {
+      "wrong_scale": {
+        "detected": true,
+        "exit": -10
+      },
+      "guard_overread": {
+        "detected": true,
+        "exit": -10
+      }
+    },
+    "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+  },
+  "inputs_after": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main": "a89759b4fe0c27ab08142a90ae0bc8f517e664af09fbc1166800abfadd22392b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-retained-tls-main": "9ef753acd62459226551d7e24a56b8dc991a3e134b1cf238a66aee271d9c266a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/arm_scaled_load.py": "506090de6ba7a07996fd93e089c113adf3f9c0e564ef6725c6af74e81d027df4",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "/private/tmp/lcb-arm-scaled-main-runner.py": "16e23719c1f1bcbf79f5d2a87470a96db570c261eb5240df67d2a1e9e2f39a74",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/docker_sync.py": "fb12daba92aa4b24d3fb4e727181b5c62849012ab3c834fc268ea76e8bd3ac34",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/check.sh": "70041eed74267a595f699f868d79f83d5d659efdd25433a822b36007aa6e5504",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/linux_arm64.py": "f6b091208ef07c4458e9472ce74ecf149e79f42715b9bf8870112ade1800b1e9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/emission_only.py": "aff64996f3842d5c7a02a8acf6f390263c6b4cb8fccb0af7c83ef710b3914f99",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/fuzz.py": "8b8f49c12f52eb4f62492e22f9cf9238ffadda908c16ac2f8f2642d3cb5db485",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/lakefile.toml": "5afaaf03766b4be4ed61d03027be1ab98cd0a9f6a5ae28a9bea1eec0ff416b2a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AArch64/Tests.lean": "65ab35a56dd24e58ea67959c23e0e413f70edb61b50acbfea043fb1c875daf47",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AArch64.lean": "9a82cd512c368813524b66262c8a0bf79effd09cd64f3c870d245436ecdfbfe6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AMD64/Tests.lean": "63ffb56118f02b6ede2f59d41db32ea0a3450cc08e6b32c4cf0388d147cd0598",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AMD64.lean": "c1bd4c01dcd6cafb473b7ebd4bc2d61720aa80bbbe218416b530e28bae84b31c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AMD64ABI.lean": "7115ddfe18fb7b2849ba6528835be3bf2e86a821ee39afb8213557eb92954668",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Aggregate.lean": "e5810d033ae69a9f04c4b4dcbd1ae5880d7f8c675b5f470c3d3058b311d33d2f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/AggregateABI.lean": "5601ceeee76584fad38dc6b79324379b4b976de1dc240f5a0e95fbb5293a1e7c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Allocation/HomeFlow.lean": "b6136f99ace2ca6e47e2bee6eadbeb2652ec700ddf434ca729f688c4ee21f92e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Allocation/Tests.lean": "e282e6e0d2e13949b033664b8321354bbac890ddfb3940e2e987fa26e9abbd0b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Allocation.lean": "0c6156cfab3fc1e1f5bf261af55856a418dccbb2787dea46ef607ac6e92fd86f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Assembly.lean": "00f809224564ca4faeec93382a7c81b72bd2c63ba14b3a4c57525254f2b7deea",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/CFG/Tests.lean": "62ab138e022966d083fe5e11556c26513f833f8f300401db63cefa1007b1f98d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/CFG.lean": "420c938a07b0eb61f9ce3c31ceb49dc06eabd529cd98c145af72885d6df49c76",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Driver/Tests.lean": "4c14ae1b52399b8c050d58453e7cdf66562364524dfccc05c398adf0bb4106dc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Driver.lean": "c40930441a04335b7fff0bcfd8b992a2fe32bb0581def99b9e3af7fffa15887b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Floating.lean": "fcac1f8df1a660465f9edbf93643832cf0b3dee502c8a1013ab3594990f2b253",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/IR.lean": "e9f9615bca1fa560ad8a37bef3b35219427583db5676b04a2e18a0b7c191fa86",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Liveness/Report.lean": "f7c172f0c7cb281906143db874d3b9355db8c48cf4cf7bbed25fa6e6e43ccf35",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Liveness/Tests.lean": "90176c65f03047f28971f21b73b2718e2f47af7ab41b2570c21cddcaa6414d59",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Liveness.lean": "58ece0279b566ecbc2b137c450c9aee2a9e9f2c6157fc39dec1906be4d2f9cc2",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Memory.lean": "0db41a42d6dfed2cbeab8454846a6edfe914755fab09f15a253c3a431745ab58",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Numeric.lean": "30f9fe54ec26d0eca61747670b4f460536adb2aeeca15c08032698b654f26753",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Algebra.lean": "ec3c130edebaab6b89a07a7cdae3094fff5ff6fbbf1f9b57fc627afdd4156f72",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Cleanup.lean": "11d6c7e355588c577a07090e34952d5df2e5d33dabf30a63168a93130421a57e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Common.lean": "2c0ac466e47865c10508e0d356bb94395c7ad751d26d9eb4bf9065415fad938a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/ControlFlow.lean": "7d16d140d10fd430f1a361d226e94495c65d9438b0ed99046265a6d442ebc509",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Memory.lean": "fa0181aa7b9f87ef7ed8ab34faf2b771abdd9cb4c247931cef4927c5e80aa7af",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/MemoryTests.lean": "3658e7276a9da7925aa0c74ab2483dfa7a3f7e957bb6e0fd9d50ab07977d5724",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Symbols.lean": "1cbd430393f5a140256d30134a9c63173eb47f0bbc910ee07333704aeda0d58e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize/Tests.lean": "d1215f670259343e0b7a82e58b76f54dede0e49f8e0affe57dcc4ebfe22b595c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Optimize.lean": "78e8c403f7e9518c263caea6d877536a886b140e9c2b902934f8cfbc0eeb3212",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Parser.lean": "29d4ccc487ae93e327957b9c9d07d3e3a1b8afdb7b5ccf190d8c97d006b873f0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/RV64.lean": "d6c94cc9089de7586f6f8e206b5440dd6dd0e13078176ecb3d9be43cc2e182f1",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/RV64ABI.lean": "f154ee464642740cbf544665a44bac0706cd6933d4958caa822973a9c356412f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/SSA.lean": "cc701076f89ab109d377cb78be424ea76740dd7f25822dd90eb591b1eeb321dc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Section.lean": "28420d9c05932c9f8cf6f1307014542f500fdacae0c3c79b49930d9067e65b4a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Selection.lean": "c481fa8cbf9c8b7afe81c8b30fdaea4ab457dac0cea7eee25fbb0d53b44736b0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Semantics.lean": "4da69b68754bbbf300af04df334e2071c58c73ebca3a38af06d88a0079d6fbd5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Validate.lean": "9c90a2f9ec0a39fc8b818a3838ffc0fd2cff72c3ad0e17872278e9fb554d95df",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Admission.lean": "cc0f3c3bf0bb39885d229a5760d56e0a09323f5d34f91cd8e3b9804985bd756a",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/ArithmeticProofs.lean": "d806ceb93053c74cc4e144c07e58b1137d42bbc874117392df4bb5691f6e1ec0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/BindingProofs.lean": "2a13f20cef28d5d35b088cd8fcda3bfb013e8cbbaa1e8b4f07239016897ffbab",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/BuildIdentity.lean": "4307b1aa54716714ac56bff1251ef4b53e56fd73eda8d97505456219d7e95151",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Canonical.lean": "799ac8acec698abc280202a187d87e0d73661ca9f070fa1ac32d83cac998a77f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Codec.lean": "20a248930ed0602688e94a0dd0199a7e6818453351e015b48059d69f374763dc",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/CodecTests.lean": "98e137be525fd924b3d7f4e35108aa9fd2286d01d5b25a8c11ada9bcb211792b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/CommitProofs.lean": "e99f9b7a9ca6b1bb28922f565c3547196541d86303a5b46bca8af2855f84bf5c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/ComparisonProofs.lean": "95945f88bbb788ca09bfc7b27eb6f0e88d3da99589f780908bbb88ea90eed23f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/DivergenceProofs.lean": "6c468426e74d914d3b23c75352d85f047ea4399ed89aa51d94151794aac9eef9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/EntryExamples.lean": "b9cc95fe11cd42198bc0008ca41e5aeb9d14e38ece2560042bbdd86009ea26ab",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/EntryProofs.lean": "c13ced91590efdcc36cffb80daa4bd58090e8f51c909c0cb0bdf56353d0128be",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/FrameProofs.lean": "8d0a719df3be1196a7360ed33f167bec4aa59b6629d72461162e131eca3c3d89",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/InstructionProofs.lean": "5bae870198e9b8b8c032e8f74899e40d24ba3ae3fa02f21ffda3ecfd3f574721",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Job.lean": "2123e67519aa074ccdba6d7d0f6397348c2ca9ba7a80d1edf03be79f6a2e1d60",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/JobTests.lean": "8d9bf381ea30a5be656f10592c6e6012da8d85bd02ebe2e621bdea14cb283f78",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/LayoutProofs.lean": "0fd2e241b051404b0ef7a0565347f9e483a2053ec31af58b81a29102279bf0ab",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Machine.lean": "dab86276a3b99010b40bc59843184a808c289eb74065fb6f8820683495e1ead5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/MachineProofs.lean": "337af99f7e606f2ff46286cb90b565ccf18d1972225f8a98e6e188db854a46cd",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/OperandProofs.lean": "08ad146f31a3fdd8f7fd79fc5276c85abffd5a17f60d89190ee51545e9722497",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/PhiContextProofs.lean": "5e58575ae217b4a2d4c3b5e15742c1ebf5d977ba42d218f181afefab185ae192",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/PhiExamples.lean": "0782be3a2bc6c01d82e57417b0ab968528b6aa3c082af037dee274070960042f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/PhiSwapProof.lean": "85090541bf04203f0f948d457c6ea1fddffe99b4b0853370552d1791780d4f4e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Plans.lean": "0ecd9ed68bda245fd7c79150809e0f682e68e85a1ee61e8a9d19347564fcf582",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/SHA256.lean": "b70466347d1d78927a491fd4cbe4c22e534ae61525f5588fa4c20319e502db05",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/SimulationProofs.lean": "b3dd8f321462606dedb0da85686208c9c323bd5bd279fa597ad26f471b466265",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Source.lean": "fa243eb1f0f891885845cf3accb8aadd9e34ed1362da1269f969fa8104745cb9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/SourceTransferProofs.lean": "919234a850d69bb80ac708a6d7dba865b254016de608b44ce729bf9d4eb38924",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/StackMIR.lean": "71b2d8a46c3c146b2dfe9dba2a904ee9204a70f51ef6b0dd019da5661470a6f6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/StagingProofs.lean": "9ad440310d5be21bcfd689a160ed8e174a12bfb14cfd2c3b7fb951f23a04a310",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Tests.lean": "93ebadcbceee19d5782096ee70c66aacc65bbe13f3594a8ee4673e7488024db6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/TransferProofs.lean": "cac56400c0e44a7398bbc5e09753613e3023bc860faafa4a8aa9bb9feb51a185",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/TypedA64.lean": "c7cd7e2c6b530a4c35a11266c9671a76cf8720c6d03cadb43a824a7cbbf1ae46",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/LeanCompilerBackend/Verified/Wire.lean": "643f0a78278007c238f1b2ccc5c46168fc0eb4b2da7315973eff2cbc45b16618",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/abi.c": "923a5ea94e088e8ee4435924b38c0efaa601e4fc3b65b1964d70903491533103",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/alias.c": "c210400e482f4ad2576d238d8cc411e0b1984ca57fb5d5ec849ed83fb6fd404f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/emit.c": "b2563a49370154419246b11c4f6f2cd45e0f7c1327e491a2c7d2a2d4c8f8c36f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/isel.c": "049096f821fdb5035a68838f313c2f6431e8a5178a8958a9259bf566ef977eb5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/sysv.c": "d7b867b243dba484924e46062ccb3ff1ca44243ad06004f8a7b8f6cd937d6ec0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/targ.c": "e53960a60eb5c1d3364bb8595bb64b3f5827db9436f886432de368cbb4e22211",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/winabi.c": "abea8f315c09fc26a5df7abbbc98470a6113d08a866bbbdf7928825d10dc6ec9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/abi.c": "1e881c0d2443e8a37b54ec9cb4474963bd5635286a5067df611e11ab250cccb5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/emit.c": "3dc7280fe44797b56c00194091d2686b90317f673b2175a87df89fa0a6f3cabf",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/isel.c": "3e7eab441eb37ae1cc29916586a6bfe1c55012400766e733d30dbc528f5747ef",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/targ.c": "5215bee5bae89d5d95cec3a4ddaea32ff15e6d35952c248f1d49653609c6dac7",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/cfg.c": "99099b6c39fbf9de442811c9e5e57417d6ef13ffa534ff6c82cade4fcadcf438",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/copy.c": "f1b6ebcb4802e2aa32239c905ae47aea0c6d1335cedcbb2a0e3aad8d18f4e06f",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/emit.c": "48af42e44d5017102e6ec7bec00465304f324f89160a93825f4952a257702031",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/fold.c": "3544071a30cc049320838f3bf44c1f83171117735fd2bb67959b2bc0a4431be8",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/gcm.c": "6af05af2af79bdd217b53133735e1d98fede157ee46ca1aac54c337a817ac586",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/gvn.c": "d09e291f14d1b777c2a27ddbf128eae02c7d649ccd88b2d180c29c2bf6b0e6a9",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/ifopt.c": "b4d49edd190dabc6b183453de5237d2ba33607739b61d6d9f1a2c8c1369f2f86",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/live.c": "19f084507c5f38f213e90193c11111e6079a06e3dd13f80df4b9e2c65b6a5eb5",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/load.c": "1b35c950499fa6c8d8a562ced54a531cd39adc384fc637922e69498e6bbb8b71",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/main.c": "a6a9a128d2dc5f9db117a2d25843c0124d80609d1f1c176e3c71de188fd0ade1",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/mem.c": "4229d499db4186086b2d02ac78c983a6f31012d350bd281128ea61c037af4b65",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/collatz.c": "08962ec9ae1148ed40d29c9100e9ea72f4517375114cb8ad6e4f20cc5a10ccdb",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/euler9.c": "4fcd8d845a822e7a52db18249283a5c7d87a01fb627214126c2707c15fc05f44",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/knight.c": "a1b4f6c89d47c2e6ff2bff91a580a8525470ec638f02577aa4343b5e61ee128d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/mandel.c": "835dc25eb3c7afb3aa0f89b2f5aa369f926990ac6b5a266511f9d49d982c1164",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/prime.c": "910ff8512e54e6b1b6fcf2a1656ecea2b3d475131c4acdb5b27fb05ac542b86c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/test/queen.c": "7e01a19ba293d5c68425250cb85a613900b8e2ea77f02ae94c33b92aa0b89493",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/minic/yacc.c": "42a71ff6fb0f5eb861923682833dbd53a3d6cdabb1f0fab8bd3cb9f0fcda4d59",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/parse.c": "e762d78e1890af5c06daa581cfd40b30fcaa840450f32ca9cf2b141740a869da",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rega.c": "167270237fb1a6a528f7f53bda895eb46074d42ac1d4a41ae9489706f10ae9ff",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/abi.c": "c9ad2cfcb7ee56d8cd99e3cae2d4961929e099fc47f6e2b4a82162ed1fd92f22",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/emit.c": "4d76c3878e19a8d22a060300d43feab4fb54b589b341bb94e34d2fa4393999d3",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/isel.c": "95500527dcc4036b239b2ab62525aa1df0a645df142647756756526343a87846",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/targ.c": "82668853f271d1dc20b914a2e0f402764e42951a75059ba29d4e0f77fe85cb83",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/simpl.c": "0c14d2e5cc81bf6250a92f4c54eb8d453334100e127796b7a2e84f40b6e00254",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/spill.c": "d8b5367c4531faedbd4e073ccd955557a8e2333f9240d9f186f62dde777baebe",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/ssa.c": "a06727f6e5f6786e6fb1f30912631896007b9867dfd64e3e27a754ee9a9332c8",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/tools/lexh.c": "4e6183a33f9abf412d7ea267897a07da4c972804d3b17d171dd68bcc2eced5d6",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/tools/log2.c": "ed282110b0e7cabf3e69a6fcb6c4dc44bf37369b97b904e8991211b61625db57",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/tools/pmov.c": "3b3eb463f34424035ec79513f1ff64b749c4d382c17e4d73355508a7d9ea4964",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/util.c": "833a66c4c703cd47d7855cfd4b9f77642bdd0d35c6914c0baa3cd555031e35dd",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/all.h": "61bc106ffb07e0abe0b418f95ac7e1a9e4c6bcf8c308d8743562299129056519",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/amd64/all.h": "8ce357c9b3c7970a0160bc02c3ef61197bb1d469b06a93b08e0ac5b9061f55e3",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/arm64/all.h": "0c7503dd82c3efd65e1876865e4dcb2b6af287e43942cf9452ddbdd0473df52d",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/ops.h": "39a2fe3c63ef4ab9c67d894ba83324ff6f9cdcdb3c5fe81f96efedf0350cf8ba",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/third_party/qbe/rv64/all.h": "2636f565c1e4a2e4aff1fe9501c40220a4eb67e905e650f4f734ab8714d53d5f"
+  },
+  "guest_host_bindings": {
+    "matrix/aarch64-linux": {
+      "arm-scaled-load/legal-optimized.s": "3d7a043fd0fba2931952ae197391d495687e87a9dd77518143d33b3f93c371fd",
+      "arm-scaled-load/large_shift_counts-allocated": "f28821c316ead7ad8d4bd62b4c1bc1575aa18dfdad95289875f8f51ac42e4234",
+      "arm-scaled-load/report.json": "7348239481f1713b6441e5528424762f31f53fd9040ff4142195ba9e50c56c04",
+      "arm-scaled-load/overread": "b298adb2275a21fcb7de0cf70412e2b9d21e882dda8ed46f32cd4365278a6d5c",
+      "arm-scaled-load/legal.c": "8041bff0e7b2484b066b076094fe500d9bec24e9f1d8ed00f903938c28690395",
+      "arm-scaled-load/legal.ssa": "d6d748249d79719a02bfbc2be1384659dc4902a9f569266d708f0a3c55433325",
+      "arm-scaled-load/large_shift_counts.c": "911e71ffa98af493298912049bb0cf6c7bbf1c026c92f34bec553eb8d48113c2",
+      "arm-scaled-load/legal-allocated.s": "6d82082fb563bd36f9eb5e5c1a9eea90d6e1344188ff58b0c3d4c40f2682cc3f",
+      "arm-scaled-load/legal-before.s": "30c34f9e6b659bda05f5a714e7e7a0c6e7889f7e34447da8fdfa06d504a5d60e",
+      "arm-scaled-load/legal-qbe.s": "4493a37a6e174e18659df647402210b4d2332f2bee4f42270f653ea8490f39af",
+      "arm-scaled-load/legal-allocated": "ea79f07f4aeae40a794917806e44ff9ef7cc9e8ae0d0bf16225b55977f98741f",
+      "arm-scaled-load/legal-baseline": "cf2df3f50b6f9dbbc9ef0006422fd2518b46f2532e2425eedddccb4d694a6368",
+      "arm-scaled-load/wrong-scale": "8a7f649815640d7700c0f8156d5b01d225b53f1ffbb3e9ca1cc424b156616336",
+      "arm-scaled-load/large_shift_counts-baseline": "a60b382da5c839375615762ab95d1a2f9fedf8ce150617ed5d140a7b65152184",
+      "arm-scaled-load/large_shift_counts-optimized.s": "8dd7c0d7a2855692145ecfc0cfdc7a80b1fd353bf416242c8d95141d6d01dace",
+      "arm-scaled-load/large_shift_counts-optimized": "31b86a77dc5960116009f18ae25beba4fd98751880b8fad93a81dc5d592dde6a",
+      "arm-scaled-load/wrong-scale.s": "dd47a113f1a631873b691f336ec8320643a66fbdf216246c669464c4128d80b1",
+      "arm-scaled-load/legal-baseline.s": "30c34f9e6b659bda05f5a714e7e7a0c6e7889f7e34447da8fdfa06d504a5d60e",
+      "arm-scaled-load/large_shift_counts-baseline.s": "538d9f703e38b092c2d30f017eb0fb37f661132d831a5600e47da637a16f223b",
+      "arm-scaled-load/large_shift_counts-before.s": "538d9f703e38b092c2d30f017eb0fb37f661132d831a5600e47da637a16f223b",
+      "arm-scaled-load/large_shift_counts-allocated.s": "ddadd14816d216a58bcbf6943fc93d7df238190b97fa278181719eb4d9e09c28",
+      "arm-scaled-load/large_shift_counts.ssa": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+      "arm-scaled-load/legal-optimized": "b08ddcbf182f191105383cd24f6e0ef811c810b69d81592ffc895c6081513005",
+      "arm-scaled-load/legal-qbe": "761837a15d8fbbd2ca14337351a7fc94333614577918b6f10361a00df56fc837",
+      "arm-scaled-load/overread.s": "a0d1b8b8c8275c583e6c2dabf3949f4ef987946bdd90a5423160d4c68ccde9f8"
+    },
+    "high-spills": {
+      "aarch64-macos-after-optimized": "57fc3ed6b24e2777e48491f1de34b75c50c1966a6df8c0e6d632f2bbad222ab0",
+      "aarch64-macos-after-optimized.s": "b4a5873f3b7a72e008901a3978c16aa02cc98355d6b7fd8734b3b0a8d1fc4ddf",
+      "run.py": "013a9e2fd54d08a42498a37fb85789226405b6e63df8e3989444c032d43ce8fb",
+      "aarch64-macos-before-optimized": "b9e4c39d8991d72534a7ef9dc03c7a136c1c10555f9b79868d80fdeb353fef25",
+      "aarch64-linux-qbe.s": "ff2a7114ece9f591b932f3e7249f67fb9dc59e689cbe94f8e72e754ebb983c7f",
+      "aarch64-macos-before-baseline.s": "a40eca4a82bb7989f6b2a1a6efecaca9ffbe4a835b58c85c3fda1aea3b68a47e",
+      "report.json": "97b92d578b3ab35d9f17b81ddb2dc965f8c7c790d4bea3346037b41700ad786d",
+      "input.ssa": "de807de238f7ccd76773f6ef1c2d4362360d74c8c45918789078d797e39e0be0",
+      "aarch64-linux-before-optimized": "477ffc120220ab5a1a4575b9eefc787a6cbcd2ac02af384464efa501ab5fc0db",
+      "aarch64-linux-before-optimized.s": "6e9ea18eddb642005ed90bf97bed8e3a3b5cf531f145910b0546e539f5dd2031",
+      "generate.py": "cda2d2880bbb87dd1540486d31959a0e187998092623bea311b139654bc312b7",
+      "aarch64-macos-after-baseline.s": "a40eca4a82bb7989f6b2a1a6efecaca9ffbe4a835b58c85c3fda1aea3b68a47e",
+      "aarch64-linux-after-baseline": "249da1f30d04b812678711ab5904bee884d2505612f96ba51b8410717f4f0842",
+      "aarch64-macos-after-allocated.s": "7d08296b1c2edfcdde408a57ae3634d0d0bed40bedb5a95f115755e40747b141",
+      "aarch64-linux-after-baseline.s": "9db250ea8fc573ad60b7b56e2d0eb1a794e103435175aba7b5f35bdad0291db7",
+      "aarch64-linux-after-optimized": "b06a90cd0e8350f8499b334dd269346a332340dd67c3afb01f8edf4b9542a46f",
+      "aarch64-linux-before-allocated.s": "46e87b0a568b05ac13d352cac6e9b1e6c022dcc11b3bf3097ac728b10d87316c",
+      "aarch64-macos-qbe": "657b68fa2e39f10d4041a90762e8979aee2a41778f8bcdc841705d1996e25fc0",
+      "run-original.py": "294ba5dbf6581fea1c5fc662bef450829633186c34225fa143abf314481dfe9e",
+      "aarch64-macos-before-allocated": "2e952c9297063aef8491e3c81b14bb6dd56e1d56cd78f5aeefd049b000a1d84e",
+      "aarch64-macos-before-allocated.s": "d1eda2c95403488b18ecbf8a1d3e7caae9062545f05c454f71a75c994ba71eea",
+      "aarch64-macos-qbe.s": "fafe139297201a370c533d3cbdf9ba04449f790281e147015021dac052629380",
+      "aarch64-macos-after-allocated": "65898a23f6c939d694743413046afe6a54fb55d023367004e6dba2282efb9eee",
+      "aarch64-macos-after-baseline": "40afb1cc4e69ac8b9734145eee957dd18ba4577f1f9ca0fbf9997fff55873b47",
+      "aarch64-linux-after-allocated.s": "218bea9eb0f15958ccd917dae4947934080d1cd8e15a1fcb7de3cd00b857b850",
+      "aarch64-macos-before-baseline": "f9c34f32655ce74d39a18a9535472d6557b840c80cb58706c4c4909c387a539e",
+      "caller.c": "4de8791e6da930f94deca56d8f37a31b88d76a16cc1b31cd15e267c88512af77",
+      "aarch64-linux-before-allocated": "4985a3c2deb1f3926689219648065bc43168787225c686ab50d6595a1a7e9b1f",
+      "aarch64-linux-qbe": "89b5712eb7fc5e6ed19fe28ced16ba007ef0f5afde8e841ddff7cf7f3039a370",
+      "aarch64-linux-before-baseline.s": "9db250ea8fc573ad60b7b56e2d0eb1a794e103435175aba7b5f35bdad0291db7",
+      "aarch64-linux-before-baseline": "9fcfbff37bf6410c6550f9de6675cece10b51d3dd59bba449965b148115587db",
+      "aarch64-macos-before-optimized.s": "330271c685cd8144ee55dae37d47b4af1d14fd5b94c3fe6f48c4f95ebee86b77",
+      "aarch64-linux-after-optimized.s": "625ed3583f14748c1d49aaa81bb9846e76c9360ce46fcac060132ff22e3e201d",
+      "aarch64-linux-after-allocated": "3540bbdf8fc9ca1da1c368aed6bc727092ca4a7cb58822724de0d7ab6441f0c9"
+    }
+  }
+}

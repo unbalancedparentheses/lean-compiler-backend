@@ -1,0 +1,322 @@
+dbgfile "scaled.c"
+export function w $ub_w_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 64
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -64
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967296
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function l $ub_l_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 64
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -64
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967296
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function w $sb_w_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 64
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -64
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967296
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function l $sb_l_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 64
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -64
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967296
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function w $uh_w_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 65
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -63
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967297
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function l $uh_l_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 65
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -63
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967297
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function w $sh_w_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 65
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -63
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967297
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function l $sh_l_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 65
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -63
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967297
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function w $uw_w_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 66
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -62
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967298
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function l $uw_l_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 66
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -62
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967298
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function w $sw_w_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 66
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -62
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967298
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function l $sw_l_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 66
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -62
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967298
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $l_l_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 67
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -61
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967299
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function w $s_w_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 66
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -62
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967298
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function l $d_l_high(l %base, l %index) {
+@s
+ %scaled =l shl %index, 67
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_negative(l %base, l %index) {
+@s
+ %scaled =l shl %index, -61
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_huge(l %base, l %index) {
+@s
+ %scaled =l shl %index, 4294967299
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}

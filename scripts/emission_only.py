@@ -15,6 +15,7 @@ from upstream_development import exercise as upstream_development
 from symbol_address_pressure import exercise as symbol_pressure
 from scalar_result_discard import exercise as scalar_discard
 from arm_indexed_load import exercise as arm_indexed_load
+from arm_scaled_load import exercise as arm_scaled_load
 from arm_phi_identity import exercise as arm_phi_identity
 from arm_leaf_bank import exercise as arm_leaf_bank
 from arm_extuw import exercise as arm_extuw
@@ -49,6 +50,9 @@ def main():
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
         for target in ['aarch64-linux', 'aarch64-macos']:
+            scaled = arm_scaled_load(LCB,work/target,run,cc,target,False,qbe=qbe)
+            assert all(v['execution'] == 'not-run' for p in scaled['profiles'].values() for v in p['backends'].values())
+            assert 'qbe_sha256' not in scaled
             indexed = arm_indexed_load(LCB,work/target,run,cc,target,False,qbe=qbe)
             assert indexed['case_groups_per_mode'] == 0 and indexed['original_qbe'] == 'not-run'
             phi = arm_phi_identity(LCB,work/target,run,cc,target,False,qbe)

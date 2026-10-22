@@ -1,0 +1,11 @@
+{
+  "status": "noisy-diagnostic-only",
+  "evidence": "background-load-observation-reduced.json",
+  "evidence_sha256": "1077b3f6926bf1043301dece4efa5118c24d268a70eb41d1fac8d77dbbf7466b",
+  "superseded_manifest_sha256": "fd56788b147595b9a77bb52fec0e99edddf1921d9c48d58041499c9ca9cf9e6a",
+  "qualification": "Compiler-team heavy jobs were held, but the machine was not established quiet. Post-window ps/lsof shows unrelated archive maintenance processes with elapsed times overlapping both windows and CPU usage at observation. Historical CPU levels were not sampled; exact per-window load and causal attribution are unavailable.",
+  "preserved": "All raw measurements, source/binary bindings, sink checks, per-window manifests and provenance remain unchanged. No samples removed or rerun; external processes untouched.",
+  "recommendation": "Bounded merge can be justified by independent correctness and 312-byte optimized zlib text reduction. Clean performance remains unresolved; these diagnostic ratios are not clean speed evidence.",
+  "private_raw_observation_sha256": "00dbddaf37c2399400952bd3e5b7106798707ae1de3146f0ee0adb77d7eb633d",
+  "removed_private_raw_binding": "scaled-load-background-observation.json (removed from publication; original raw observation retained privately)"
+}

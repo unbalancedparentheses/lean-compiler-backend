@@ -1,0 +1,30 @@
+{
+  "observed_utc": "2026-10-22T12:02:22.778655+00:00",
+  "classification": "unrelated archive maintenance",
+  "processes": [
+    {
+      "pid": "50079",
+      "parent_pid": "49943",
+      "cpu_percent_at_observation": "42.9",
+      "state": "S",
+      "elapsed": "15:09"
+    },
+    {
+      "pid": "53389",
+      "parent_pid": "52868",
+      "cpu_percent_at_observation": "40.3",
+      "state": "S",
+      "elapsed": "15:04"
+    },
+    {
+      "pid": "54967",
+      "parent_pid": "54632",
+      "cpu_percent_at_observation": "40.7",
+      "state": "S",
+      "elapsed": "15:01"
+    }
+  ],
+  "scope": "Post-window observation: elapsed running times overlap both timing windows, and several unrelated archive pack-objects processes currently consume CPU. Main compiler jobs were held, but this does not establish a machine-wide quiet window. Prior per-process CPU history was not sampled, so no causal attribution or historical CPU level is inferred.",
+  "raw_observation_sha256": "00dbddaf37c2399400952bd3e5b7106798707ae1de3146f0ee0adb77d7eb633d",
+  "privacy": "Full raw observation retained privately outside this publication; unrelated cwd/project/push details omitted."
+}

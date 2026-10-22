@@ -1,0 +1,1813 @@
+dbgfile "scaled.c"
+export function w $ub_w_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %scaled, %base
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ %mixed =w xor %loaded, %scaled
+ ret %mixed
+}
+export function w $ub_w_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ %mixed =w xor %loaded, %address
+ ret %mixed
+}
+export function w $ub_w_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =w loadub %address
+ %mixed =w xor %loaded, %other
+ ret %mixed
+}
+export function w $ub_w_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 0
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =w loadub %address
+ ret %loaded
+}
+export function w $ub_w_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ %mixed =w xor %loaded, %index
+ ret %mixed
+}
+export function w $ub_w_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ %sum0 =w add %loaded, %a0
+ %sum1 =w add %sum0, %a1
+ %sum2 =w add %sum1, %a2
+ %sum3 =w add %sum2, %a3
+ %sum4 =w add %sum3, %a4
+ %sum5 =w add %sum4, %a5
+ %sum6 =w add %sum5, %a6
+ %sum7 =w add %sum6, %a7
+ %sum8 =w add %sum7, %a8
+ %sum9 =w add %sum8, %a9
+ %sum10 =w add %sum9, %a10
+ %sum11 =w add %sum10, %a11
+ %sum12 =w add %sum11, %a12
+ %sum13 =w add %sum12, %a13
+ %sum14 =w add %sum13, %a14
+ %sum15 =w add %sum14, %a15
+ %sum16 =w add %sum15, %a16
+ %sum17 =w add %sum16, %a17
+ %sum18 =w add %sum17, %a18
+ %sum19 =w add %sum18, %a19
+ %sum20 =w add %sum19, %a20
+ %sum21 =w add %sum20, %a21
+ %sum22 =w add %sum21, %a22
+ %sum23 =w add %sum22, %a23
+ ret %sum23
+}
+export function l $ub_w_extension(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadub %address
+ %extended =l extub %loaded
+ ret %extended
+}
+export function l $ub_l_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %scaled, %base
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ %mixed =l xor %loaded, %scaled
+ ret %mixed
+}
+export function l $ub_l_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ %mixed =l xor %loaded, %address
+ ret %mixed
+}
+export function l $ub_l_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =l loadub %address
+ %mixed =l xor %loaded, %other
+ ret %mixed
+}
+export function l $ub_l_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 0
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =l loadub %address
+ ret %loaded
+}
+export function l $ub_l_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ %mixed =l xor %loaded, %index
+ ret %mixed
+}
+export function l $ub_l_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ %sum0 =l add %loaded, %a0
+ %sum1 =l add %sum0, %a1
+ %sum2 =l add %sum1, %a2
+ %sum3 =l add %sum2, %a3
+ %sum4 =l add %sum3, %a4
+ %sum5 =l add %sum4, %a5
+ %sum6 =l add %sum5, %a6
+ %sum7 =l add %sum6, %a7
+ %sum8 =l add %sum7, %a8
+ %sum9 =l add %sum8, %a9
+ %sum10 =l add %sum9, %a10
+ %sum11 =l add %sum10, %a11
+ %sum12 =l add %sum11, %a12
+ %sum13 =l add %sum12, %a13
+ %sum14 =l add %sum13, %a14
+ %sum15 =l add %sum14, %a15
+ %sum16 =l add %sum15, %a16
+ %sum17 =l add %sum16, %a17
+ %sum18 =l add %sum17, %a18
+ %sum19 =l add %sum18, %a19
+ %sum20 =l add %sum19, %a20
+ %sum21 =l add %sum20, %a21
+ %sum22 =l add %sum21, %a22
+ %sum23 =l add %sum22, %a23
+ ret %sum23
+}
+export function l $ub_l_extension(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadub %address
+ %extended =l extub %loaded
+ ret %extended
+}
+export function w $sb_w_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %scaled, %base
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ %mixed =w xor %loaded, %scaled
+ ret %mixed
+}
+export function w $sb_w_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ %mixed =w xor %loaded, %address
+ ret %mixed
+}
+export function w $sb_w_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =w loadsb %address
+ %mixed =w xor %loaded, %other
+ ret %mixed
+}
+export function w $sb_w_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 0
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =w loadsb %address
+ ret %loaded
+}
+export function w $sb_w_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ %mixed =w xor %loaded, %index
+ ret %mixed
+}
+export function w $sb_w_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadsb %address
+ %sum0 =w add %loaded, %a0
+ %sum1 =w add %sum0, %a1
+ %sum2 =w add %sum1, %a2
+ %sum3 =w add %sum2, %a3
+ %sum4 =w add %sum3, %a4
+ %sum5 =w add %sum4, %a5
+ %sum6 =w add %sum5, %a6
+ %sum7 =w add %sum6, %a7
+ %sum8 =w add %sum7, %a8
+ %sum9 =w add %sum8, %a9
+ %sum10 =w add %sum9, %a10
+ %sum11 =w add %sum10, %a11
+ %sum12 =w add %sum11, %a12
+ %sum13 =w add %sum12, %a13
+ %sum14 =w add %sum13, %a14
+ %sum15 =w add %sum14, %a15
+ %sum16 =w add %sum15, %a16
+ %sum17 =w add %sum16, %a17
+ %sum18 =w add %sum17, %a18
+ %sum19 =w add %sum18, %a19
+ %sum20 =w add %sum19, %a20
+ %sum21 =w add %sum20, %a21
+ %sum22 =w add %sum21, %a22
+ %sum23 =w add %sum22, %a23
+ ret %sum23
+}
+export function l $sb_l_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %scaled, %base
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ %mixed =l xor %loaded, %scaled
+ ret %mixed
+}
+export function l $sb_l_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ %mixed =l xor %loaded, %address
+ ret %mixed
+}
+export function l $sb_l_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =l loadsb %address
+ %mixed =l xor %loaded, %other
+ ret %mixed
+}
+export function l $sb_l_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 0
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =l loadsb %address
+ ret %loaded
+}
+export function l $sb_l_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ %mixed =l xor %loaded, %index
+ ret %mixed
+}
+export function l $sb_l_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadsb %address
+ %sum0 =l add %loaded, %a0
+ %sum1 =l add %sum0, %a1
+ %sum2 =l add %sum1, %a2
+ %sum3 =l add %sum2, %a3
+ %sum4 =l add %sum3, %a4
+ %sum5 =l add %sum4, %a5
+ %sum6 =l add %sum5, %a6
+ %sum7 =l add %sum6, %a7
+ %sum8 =l add %sum7, %a8
+ %sum9 =l add %sum8, %a9
+ %sum10 =l add %sum9, %a10
+ %sum11 =l add %sum10, %a11
+ %sum12 =l add %sum11, %a12
+ %sum13 =l add %sum12, %a13
+ %sum14 =l add %sum13, %a14
+ %sum15 =l add %sum14, %a15
+ %sum16 =l add %sum15, %a16
+ %sum17 =l add %sum16, %a17
+ %sum18 =l add %sum17, %a18
+ %sum19 =l add %sum18, %a19
+ %sum20 =l add %sum19, %a20
+ %sum21 =l add %sum20, %a21
+ %sum22 =l add %sum21, %a22
+ %sum23 =l add %sum22, %a23
+ ret %sum23
+}
+export function w $uh_w_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %scaled, %base
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ %mixed =w xor %loaded, %scaled
+ ret %mixed
+}
+export function w $uh_w_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ %mixed =w xor %loaded, %address
+ ret %mixed
+}
+export function w $uh_w_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =w loaduh %address
+ %mixed =w xor %loaded, %other
+ ret %mixed
+}
+export function w $uh_w_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 1
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =w loaduh %address
+ ret %loaded
+}
+export function w $uh_w_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ %mixed =w xor %loaded, %index
+ ret %mixed
+}
+export function w $uh_w_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ %sum0 =w add %loaded, %a0
+ %sum1 =w add %sum0, %a1
+ %sum2 =w add %sum1, %a2
+ %sum3 =w add %sum2, %a3
+ %sum4 =w add %sum3, %a4
+ %sum5 =w add %sum4, %a5
+ %sum6 =w add %sum5, %a6
+ %sum7 =w add %sum6, %a7
+ %sum8 =w add %sum7, %a8
+ %sum9 =w add %sum8, %a9
+ %sum10 =w add %sum9, %a10
+ %sum11 =w add %sum10, %a11
+ %sum12 =w add %sum11, %a12
+ %sum13 =w add %sum12, %a13
+ %sum14 =w add %sum13, %a14
+ %sum15 =w add %sum14, %a15
+ %sum16 =w add %sum15, %a16
+ %sum17 =w add %sum16, %a17
+ %sum18 =w add %sum17, %a18
+ %sum19 =w add %sum18, %a19
+ %sum20 =w add %sum19, %a20
+ %sum21 =w add %sum20, %a21
+ %sum22 =w add %sum21, %a22
+ %sum23 =w add %sum22, %a23
+ ret %sum23
+}
+export function l $uh_w_extension(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loaduh %address
+ %extended =l extuh %loaded
+ ret %extended
+}
+export function l $uh_l_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %scaled, %base
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ %mixed =l xor %loaded, %scaled
+ ret %mixed
+}
+export function l $uh_l_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ %mixed =l xor %loaded, %address
+ ret %mixed
+}
+export function l $uh_l_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =l loaduh %address
+ %mixed =l xor %loaded, %other
+ ret %mixed
+}
+export function l $uh_l_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 1
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =l loaduh %address
+ ret %loaded
+}
+export function l $uh_l_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ %mixed =l xor %loaded, %index
+ ret %mixed
+}
+export function l $uh_l_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ %sum0 =l add %loaded, %a0
+ %sum1 =l add %sum0, %a1
+ %sum2 =l add %sum1, %a2
+ %sum3 =l add %sum2, %a3
+ %sum4 =l add %sum3, %a4
+ %sum5 =l add %sum4, %a5
+ %sum6 =l add %sum5, %a6
+ %sum7 =l add %sum6, %a7
+ %sum8 =l add %sum7, %a8
+ %sum9 =l add %sum8, %a9
+ %sum10 =l add %sum9, %a10
+ %sum11 =l add %sum10, %a11
+ %sum12 =l add %sum11, %a12
+ %sum13 =l add %sum12, %a13
+ %sum14 =l add %sum13, %a14
+ %sum15 =l add %sum14, %a15
+ %sum16 =l add %sum15, %a16
+ %sum17 =l add %sum16, %a17
+ %sum18 =l add %sum17, %a18
+ %sum19 =l add %sum18, %a19
+ %sum20 =l add %sum19, %a20
+ %sum21 =l add %sum20, %a21
+ %sum22 =l add %sum21, %a22
+ %sum23 =l add %sum22, %a23
+ ret %sum23
+}
+export function l $uh_l_extension(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loaduh %address
+ %extended =l extuh %loaded
+ ret %extended
+}
+export function w $sh_w_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %scaled, %base
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ %mixed =w xor %loaded, %scaled
+ ret %mixed
+}
+export function w $sh_w_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ %mixed =w xor %loaded, %address
+ ret %mixed
+}
+export function w $sh_w_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =w loadsh %address
+ %mixed =w xor %loaded, %other
+ ret %mixed
+}
+export function w $sh_w_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 1
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =w loadsh %address
+ ret %loaded
+}
+export function w $sh_w_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ %mixed =w xor %loaded, %index
+ ret %mixed
+}
+export function w $sh_w_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loadsh %address
+ %sum0 =w add %loaded, %a0
+ %sum1 =w add %sum0, %a1
+ %sum2 =w add %sum1, %a2
+ %sum3 =w add %sum2, %a3
+ %sum4 =w add %sum3, %a4
+ %sum5 =w add %sum4, %a5
+ %sum6 =w add %sum5, %a6
+ %sum7 =w add %sum6, %a7
+ %sum8 =w add %sum7, %a8
+ %sum9 =w add %sum8, %a9
+ %sum10 =w add %sum9, %a10
+ %sum11 =w add %sum10, %a11
+ %sum12 =w add %sum11, %a12
+ %sum13 =w add %sum12, %a13
+ %sum14 =w add %sum13, %a14
+ %sum15 =w add %sum14, %a15
+ %sum16 =w add %sum15, %a16
+ %sum17 =w add %sum16, %a17
+ %sum18 =w add %sum17, %a18
+ %sum19 =w add %sum18, %a19
+ %sum20 =w add %sum19, %a20
+ %sum21 =w add %sum20, %a21
+ %sum22 =w add %sum21, %a22
+ %sum23 =w add %sum22, %a23
+ ret %sum23
+}
+export function l $sh_l_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %scaled, %base
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ %mixed =l xor %loaded, %scaled
+ ret %mixed
+}
+export function l $sh_l_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ %mixed =l xor %loaded, %address
+ ret %mixed
+}
+export function l $sh_l_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =l loadsh %address
+ %mixed =l xor %loaded, %other
+ ret %mixed
+}
+export function l $sh_l_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 1
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =l loadsh %address
+ ret %loaded
+}
+export function l $sh_l_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ %mixed =l xor %loaded, %index
+ ret %mixed
+}
+export function l $sh_l_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadsh %address
+ %sum0 =l add %loaded, %a0
+ %sum1 =l add %sum0, %a1
+ %sum2 =l add %sum1, %a2
+ %sum3 =l add %sum2, %a3
+ %sum4 =l add %sum3, %a4
+ %sum5 =l add %sum4, %a5
+ %sum6 =l add %sum5, %a6
+ %sum7 =l add %sum6, %a7
+ %sum8 =l add %sum7, %a8
+ %sum9 =l add %sum8, %a9
+ %sum10 =l add %sum9, %a10
+ %sum11 =l add %sum10, %a11
+ %sum12 =l add %sum11, %a12
+ %sum13 =l add %sum12, %a13
+ %sum14 =l add %sum13, %a14
+ %sum15 =l add %sum14, %a15
+ %sum16 =l add %sum15, %a16
+ %sum17 =l add %sum16, %a17
+ %sum18 =l add %sum17, %a18
+ %sum19 =l add %sum18, %a19
+ %sum20 =l add %sum19, %a20
+ %sum21 =l add %sum20, %a21
+ %sum22 =l add %sum21, %a22
+ %sum23 =l add %sum22, %a23
+ ret %sum23
+}
+export function w $uw_w_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %scaled, %base
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ %mixed =w xor %loaded, %scaled
+ ret %mixed
+}
+export function w $uw_w_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ %mixed =w xor %loaded, %address
+ ret %mixed
+}
+export function w $uw_w_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =w loaduw %address
+ %mixed =w xor %loaded, %other
+ ret %mixed
+}
+export function w $uw_w_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 2
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =w loaduw %address
+ ret %loaded
+}
+export function w $uw_w_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ %mixed =w xor %loaded, %index
+ ret %mixed
+}
+export function w $uw_w_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ %sum0 =w add %loaded, %a0
+ %sum1 =w add %sum0, %a1
+ %sum2 =w add %sum1, %a2
+ %sum3 =w add %sum2, %a3
+ %sum4 =w add %sum3, %a4
+ %sum5 =w add %sum4, %a5
+ %sum6 =w add %sum5, %a6
+ %sum7 =w add %sum6, %a7
+ %sum8 =w add %sum7, %a8
+ %sum9 =w add %sum8, %a9
+ %sum10 =w add %sum9, %a10
+ %sum11 =w add %sum10, %a11
+ %sum12 =w add %sum11, %a12
+ %sum13 =w add %sum12, %a13
+ %sum14 =w add %sum13, %a14
+ %sum15 =w add %sum14, %a15
+ %sum16 =w add %sum15, %a16
+ %sum17 =w add %sum16, %a17
+ %sum18 =w add %sum17, %a18
+ %sum19 =w add %sum18, %a19
+ %sum20 =w add %sum19, %a20
+ %sum21 =w add %sum20, %a21
+ %sum22 =w add %sum21, %a22
+ %sum23 =w add %sum22, %a23
+ ret %sum23
+}
+export function l $uw_w_extension(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loaduw %address
+ %extended =l extuw %loaded
+ ret %extended
+}
+export function l $uw_l_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %scaled, %base
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ %mixed =l xor %loaded, %scaled
+ ret %mixed
+}
+export function l $uw_l_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ %mixed =l xor %loaded, %address
+ ret %mixed
+}
+export function l $uw_l_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =l loaduw %address
+ %mixed =l xor %loaded, %other
+ ret %mixed
+}
+export function l $uw_l_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 2
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =l loaduw %address
+ ret %loaded
+}
+export function l $uw_l_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ %mixed =l xor %loaded, %index
+ ret %mixed
+}
+export function l $uw_l_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ %sum0 =l add %loaded, %a0
+ %sum1 =l add %sum0, %a1
+ %sum2 =l add %sum1, %a2
+ %sum3 =l add %sum2, %a3
+ %sum4 =l add %sum3, %a4
+ %sum5 =l add %sum4, %a5
+ %sum6 =l add %sum5, %a6
+ %sum7 =l add %sum6, %a7
+ %sum8 =l add %sum7, %a8
+ %sum9 =l add %sum8, %a9
+ %sum10 =l add %sum9, %a10
+ %sum11 =l add %sum10, %a11
+ %sum12 =l add %sum11, %a12
+ %sum13 =l add %sum12, %a13
+ %sum14 =l add %sum13, %a14
+ %sum15 =l add %sum14, %a15
+ %sum16 =l add %sum15, %a16
+ %sum17 =l add %sum16, %a17
+ %sum18 =l add %sum17, %a18
+ %sum19 =l add %sum18, %a19
+ %sum20 =l add %sum19, %a20
+ %sum21 =l add %sum20, %a21
+ %sum22 =l add %sum21, %a22
+ %sum23 =l add %sum22, %a23
+ ret %sum23
+}
+export function l $uw_l_extension(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loaduw %address
+ %extended =l extuw %loaded
+ ret %extended
+}
+export function w $sw_w_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %scaled, %base
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ %mixed =w xor %loaded, %scaled
+ ret %mixed
+}
+export function w $sw_w_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ %mixed =w xor %loaded, %address
+ ret %mixed
+}
+export function w $sw_w_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =w loadsw %address
+ %mixed =w xor %loaded, %other
+ ret %mixed
+}
+export function w $sw_w_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 2
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =w loadsw %address
+ ret %loaded
+}
+export function w $sw_w_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ %mixed =w xor %loaded, %index
+ ret %mixed
+}
+export function w $sw_w_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =w loadsw %address
+ %sum0 =w add %loaded, %a0
+ %sum1 =w add %sum0, %a1
+ %sum2 =w add %sum1, %a2
+ %sum3 =w add %sum2, %a3
+ %sum4 =w add %sum3, %a4
+ %sum5 =w add %sum4, %a5
+ %sum6 =w add %sum5, %a6
+ %sum7 =w add %sum6, %a7
+ %sum8 =w add %sum7, %a8
+ %sum9 =w add %sum8, %a9
+ %sum10 =w add %sum9, %a10
+ %sum11 =w add %sum10, %a11
+ %sum12 =w add %sum11, %a12
+ %sum13 =w add %sum12, %a13
+ %sum14 =w add %sum13, %a14
+ %sum15 =w add %sum14, %a15
+ %sum16 =w add %sum15, %a16
+ %sum17 =w add %sum16, %a17
+ %sum18 =w add %sum17, %a18
+ %sum19 =w add %sum18, %a19
+ %sum20 =w add %sum19, %a20
+ %sum21 =w add %sum20, %a21
+ %sum22 =w add %sum21, %a22
+ %sum23 =w add %sum22, %a23
+ ret %sum23
+}
+export function l $sw_l_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %scaled, %base
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ %mixed =l xor %loaded, %scaled
+ ret %mixed
+}
+export function l $sw_l_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ %mixed =l xor %loaded, %address
+ ret %mixed
+}
+export function l $sw_l_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =l loadsw %address
+ %mixed =l xor %loaded, %other
+ ret %mixed
+}
+export function l $sw_l_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 2
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =l loadsw %address
+ ret %loaded
+}
+export function l $sw_l_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ %mixed =l xor %loaded, %index
+ ret %mixed
+}
+export function l $sw_l_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =l loadsw %address
+ %sum0 =l add %loaded, %a0
+ %sum1 =l add %sum0, %a1
+ %sum2 =l add %sum1, %a2
+ %sum3 =l add %sum2, %a3
+ %sum4 =l add %sum3, %a4
+ %sum5 =l add %sum4, %a5
+ %sum6 =l add %sum5, %a6
+ %sum7 =l add %sum6, %a7
+ %sum8 =l add %sum7, %a8
+ %sum9 =l add %sum8, %a9
+ %sum10 =l add %sum9, %a10
+ %sum11 =l add %sum10, %a11
+ %sum12 =l add %sum11, %a12
+ %sum13 =l add %sum12, %a13
+ %sum14 =l add %sum13, %a14
+ %sum15 =l add %sum14, %a15
+ %sum16 =l add %sum15, %a16
+ %sum17 =l add %sum16, %a17
+ %sum18 =l add %sum17, %a18
+ %sum19 =l add %sum18, %a19
+ %sum20 =l add %sum19, %a20
+ %sum21 =l add %sum20, %a21
+ %sum22 =l add %sum21, %a22
+ %sum23 =l add %sum22, %a23
+ ret %sum23
+}
+export function l $l_l_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %scaled, %base
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ %mixed =l xor %loaded, %scaled
+ ret %mixed
+}
+export function l $l_l_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ %mixed =l xor %loaded, %address
+ ret %mixed
+}
+export function l $l_l_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =l loadl %address
+ %mixed =l xor %loaded, %other
+ ret %mixed
+}
+export function l $l_l_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 3
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =l loadl %address
+ ret %loaded
+}
+export function l $l_l_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ %mixed =l xor %loaded, %index
+ ret %mixed
+}
+export function l $l_l_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =l loadl %address
+ %sum0 =l add %loaded, %a0
+ %sum1 =l add %sum0, %a1
+ %sum2 =l add %sum1, %a2
+ %sum3 =l add %sum2, %a3
+ %sum4 =l add %sum3, %a4
+ %sum5 =l add %sum4, %a5
+ %sum6 =l add %sum5, %a6
+ %sum7 =l add %sum6, %a7
+ %sum8 =l add %sum7, %a8
+ %sum9 =l add %sum8, %a9
+ %sum10 =l add %sum9, %a10
+ %sum11 =l add %sum10, %a11
+ %sum12 =l add %sum11, %a12
+ %sum13 =l add %sum12, %a13
+ %sum14 =l add %sum13, %a14
+ %sum15 =l add %sum14, %a15
+ %sum16 =l add %sum15, %a16
+ %sum17 =l add %sum16, %a17
+ %sum18 =l add %sum17, %a18
+ %sum19 =l add %sum18, %a19
+ %sum20 =l add %sum19, %a20
+ %sum21 =l add %sum20, %a21
+ %sum22 =l add %sum21, %a22
+ %sum23 =l add %sum22, %a23
+ ret %sum23
+}
+export function w $s_w_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %scaled, %base
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ %mixed =w xor %bits, %scaled
+ ret %mixed
+}
+export function w $s_w_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ %mixed =w xor %bits, %address
+ ret %mixed
+}
+export function w $s_w_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ %mixed =w xor %bits, %other
+ ret %mixed
+}
+export function w $s_w_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 2
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ ret %bits
+}
+export function w $s_w_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ %mixed =w xor %bits, %index
+ ret %mixed
+}
+export function w $s_w_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 2
+ %address =l add %base, %scaled
+ %loaded =s loads %address
+ %bits =w cast %loaded
+ %sum0 =w add %bits, %a0
+ %sum1 =w add %sum0, %a1
+ %sum2 =w add %sum1, %a2
+ %sum3 =w add %sum2, %a3
+ %sum4 =w add %sum3, %a4
+ %sum5 =w add %sum4, %a5
+ %sum6 =w add %sum5, %a6
+ %sum7 =w add %sum6, %a7
+ %sum8 =w add %sum7, %a8
+ %sum9 =w add %sum8, %a9
+ %sum10 =w add %sum9, %a10
+ %sum11 =w add %sum10, %a11
+ %sum12 =w add %sum11, %a12
+ %sum13 =w add %sum12, %a13
+ %sum14 =w add %sum13, %a14
+ %sum15 =w add %sum14, %a15
+ %sum16 =w add %sum15, %a16
+ %sum17 =w add %sum16, %a17
+ %sum18 =w add %sum17, %a18
+ %sum19 =w add %sum18, %a19
+ %sum20 =w add %sum19, %a20
+ %sum21 =w add %sum20, %a21
+ %sum22 =w add %sum21, %a22
+ %sum23 =w add %sum22, %a23
+ ret %sum23
+}
+export function l $d_l_plain(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_commuted(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %scaled, %base
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_zero(l %base, l %index) {
+@s
+ %scaled =l shl %index, 0
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_debug_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ dbgloc 41, 2
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_debug_add(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ dbgloc 42, 3
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_shared_shift(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ %mixed =l xor %bits, %scaled
+ ret %mixed
+}
+export function l $d_l_shared_address(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ %mixed =l xor %bits, %address
+ ret %mixed
+}
+export function l $d_l_separated(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %other =l xor %index, 991
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ %mixed =l xor %bits, %other
+ ret %mixed
+}
+export function l $d_l_wrong_scale(l %base, l %index) {
+@s
+ %scaled =l shl %index, 1
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_word_shift(l %base, l %index) {
+@s
+ %scaled =w shl %index, 3
+ %wide =l extuw %scaled
+ %address =l add %base, %wide
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ ret %bits
+}
+export function l $d_l_live(l %base, l %index) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ %mixed =l xor %bits, %index
+ ret %mixed
+}
+export function l $d_l_pressure(l %base, l %index, l %a0, l %a1, l %a2, l %a3, l %a4, l %a5, l %a6, l %a7, l %a8, l %a9, l %a10, l %a11, l %a12, l %a13, l %a14, l %a15, l %a16, l %a17, l %a18, l %a19, l %a20, l %a21, l %a22, l %a23) {
+@s
+ %scaled =l shl %index, 3
+ %address =l add %base, %scaled
+ %loaded =d loadd %address
+ %bits =l cast %loaded
+ %sum0 =l add %bits, %a0
+ %sum1 =l add %sum0, %a1
+ %sum2 =l add %sum1, %a2
+ %sum3 =l add %sum2, %a3
+ %sum4 =l add %sum3, %a4
+ %sum5 =l add %sum4, %a5
+ %sum6 =l add %sum5, %a6
+ %sum7 =l add %sum6, %a7
+ %sum8 =l add %sum7, %a8
+ %sum9 =l add %sum8, %a9
+ %sum10 =l add %sum9, %a10
+ %sum11 =l add %sum10, %a11
+ %sum12 =l add %sum11, %a12
+ %sum13 =l add %sum12, %a13
+ %sum14 =l add %sum13, %a14
+ %sum15 =l add %sum14, %a15
+ %sum16 =l add %sum15, %a16
+ %sum17 =l add %sum16, %a17
+ %sum18 =l add %sum17, %a18
+ %sum19 =l add %sum18, %a19
+ %sum20 =l add %sum19, %a20
+ %sum21 =l add %sum20, %a21
+ %sum22 =l add %sum21, %a22
+ %sum23 =l add %sum22, %a23
+ ret %sum23
+}

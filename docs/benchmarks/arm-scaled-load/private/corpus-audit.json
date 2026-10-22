@@ -1,0 +1,672 @@
+{
+  "status": "passed",
+  "identical_assemblies": 1295,
+  "identical_refusals": 15,
+  "changed_assemblies": [
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "target": "aarch64-macos",
+      "before_sha256": "5cbc24a858b647c575eb2bc37f84a08fc196b0f0c39864972232ab492351bf54",
+      "after_sha256": "cf8b683db87059fb06d35097ec199f847e21786a355976920a80c02f6aa8c9ce",
+      "folds": 1,
+      "functions": {
+        "L_lcb_block_4_test_getmemo": 1
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_4_test_getmemo",
+          "old_line": 54,
+          "new_line": 54,
+          "old": [
+            "\tlsl x22, x22, #2",
+            "\tldr w22, [x22, x19]"
+          ],
+          "new": [
+            "\tldr w22, [x19, x22, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "target": "aarch64-linux",
+      "before_sha256": "f9a3cb441c9b59be75d6dfef4edfdfd89f0861b9887336222e7c5abf13c3624c",
+      "after_sha256": "28febe9da8841ca0594cc629a24f245f47374ba42b390504b07858e8ddecab99",
+      "folds": 1,
+      "functions": {
+        "L_lcb_block_4_test_getmemo": 1
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_4_test_getmemo",
+          "old_line": 55,
+          "new_line": 55,
+          "old": [
+            "\tlsl x22, x22, #2",
+            "\tldr w22, [x22, x19]"
+          ],
+          "new": [
+            "\tldr w22, [x19, x22, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/isel1.ssa",
+      "target": "aarch64-macos",
+      "before_sha256": "8c39d37c552215cd27f681811c0647f12ebea676eccbe0daad58d8cb2dfa6ef1",
+      "after_sha256": "b56c68aa349e039ab3695e42982b016804439544dd8c12cded6a4c2ee8d96935",
+      "folds": 1,
+      "functions": {
+        "L_lcb_block_1_f_start": 1
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_1_f_start",
+          "old_line": 18,
+          "new_line": 18,
+          "old": [
+            "\tlsl x20, x20, #2",
+            "\tldr w19, [x19, x20]"
+          ],
+          "new": [
+            "\tldr w19, [x19, x20, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/isel1.ssa",
+      "target": "aarch64-linux",
+      "before_sha256": "8cd2022bf9e77926d29b2b8a0ebd79bb1eaf27f06d58d1e80ff4e9e275fa088b",
+      "after_sha256": "920df34c27e5352b1ba6a54417139d6cd733f8a0e9a30e04fb4e103351e96c63",
+      "folds": 1,
+      "functions": {
+        "L_lcb_block_1_f_start": 1
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_1_f_start",
+          "old_line": 19,
+          "new_line": 19,
+          "old": [
+            "\tlsl x20, x20, #2",
+            "\tldr w19, [x19, x20]"
+          ],
+          "new": [
+            "\tldr w19, [x19, x20, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/isel4.ssa",
+      "target": "aarch64-macos",
+      "before_sha256": "e1626288228ab8318867b644d31803073ad3a8ee16624a034ae37f40953a77c2",
+      "after_sha256": "08bdca061b8db375664233bc26a13baad273c5c1190e996385fc1de7ecd6a145",
+      "folds": 2,
+      "functions": {
+        "L_lcb_block_2_f0_start": 1,
+        "L_lcb_block_2_f1_start": 1
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_2_f0_start",
+          "old_line": 15,
+          "new_line": 15,
+          "old": [
+            "\tlsl x20, x20, #2",
+            "\tldrsw x19, [x19, x20]"
+          ],
+          "new": [
+            "\tldrsw x19, [x19, x20, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_2_f1_start",
+          "old_line": 36,
+          "new_line": 35,
+          "old": [
+            "\tlsl x20, x20, #2",
+            "\tldrsw x19, [x20, x19]"
+          ],
+          "new": [
+            "\tldrsw x19, [x19, x20, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/isel4.ssa",
+      "target": "aarch64-linux",
+      "before_sha256": "86ff4786e723d3dd33991dde664614669d6875962f2b3eb23bb74068587ae58e",
+      "after_sha256": "bd3c66a5fafe9a4bf28d4e46e88b95e6e4a6ad20d476d32b056d95f9aaca5033",
+      "folds": 2,
+      "functions": {
+        "L_lcb_block_2_f0_start": 1,
+        "L_lcb_block_2_f1_start": 1
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_2_f0_start",
+          "old_line": 16,
+          "new_line": 16,
+          "old": [
+            "\tlsl x20, x20, #2",
+            "\tldrsw x19, [x19, x20]"
+          ],
+          "new": [
+            "\tldrsw x19, [x19, x20, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_2_f1_start",
+          "old_line": 39,
+          "new_line": 38,
+          "old": [
+            "\tlsl x20, x20, #2",
+            "\tldrsw x19, [x20, x19]"
+          ],
+          "new": [
+            "\tldrsw x19, [x19, x20, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/queen.ssa",
+      "target": "aarch64-macos",
+      "before_sha256": "cf72df3c17b9896cc10a7a2a25a6c69a6ed4a59c94a554811fc5cb8ddad10482",
+      "after_sha256": "d4bc2701f9c8b8dfdf5f2a978efc86a2dae3f7bffcdbfbf416d74e5f5f8f613e",
+      "folds": 14,
+      "functions": {
+        "L_lcb_block_3_chk_l2": 4,
+        "L_lcb_block_3_chk_l4": 2,
+        "L_lcb_block_3_chk_l7": 2,
+        "L_lcb_block_3_chk_l10": 2,
+        "L_lcb_block_3_chk_l13": 2,
+        "L_lcb_block_2_go_l23": 2
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_3_chk_l2",
+          "old_line": 34,
+          "new_line": 34,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x26, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x26, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l2",
+          "old_line": 37,
+          "new_line": 36,
+          "old": [
+            "\tlsl x27, x27, #2",
+            "\tldr w26, [x26, x27]"
+          ],
+          "new": [
+            "\tldr w26, [x26, x27, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l2",
+          "old_line": 41,
+          "new_line": 39,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l2",
+          "old_line": 44,
+          "new_line": 41,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l4",
+          "old_line": 60,
+          "new_line": 56,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l4",
+          "old_line": 64,
+          "new_line": 59,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l7",
+          "old_line": 82,
+          "new_line": 76,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l7",
+          "old_line": 86,
+          "new_line": 79,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l10",
+          "old_line": 104,
+          "new_line": 96,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l10",
+          "old_line": 108,
+          "new_line": 99,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l13",
+          "old_line": 126,
+          "new_line": 116,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l13",
+          "old_line": 130,
+          "new_line": 119,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_2_go_l23",
+          "old_line": 204,
+          "new_line": 192,
+          "old": [
+            "\tlsl x22, x22, #3",
+            "\tldr x21, [x21, x22]"
+          ],
+          "new": [
+            "\tldr x21, [x21, x22, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_2_go_l23",
+          "old_line": 219,
+          "new_line": 206,
+          "old": [
+            "\tlsl x22, x22, #3",
+            "\tldr x21, [x21, x22]"
+          ],
+          "new": [
+            "\tldr x21, [x21, x22, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/queen.ssa",
+      "target": "aarch64-linux",
+      "before_sha256": "1578365b583b75bbad9378e834f27556de79dc2432f0a19e21a224a5cdcfad41",
+      "after_sha256": "3a0c46a37d7599b0e629ad79fcd0bc3a533b3cddfd94643096e408c706bb2d83",
+      "folds": 14,
+      "functions": {
+        "L_lcb_block_3_chk_l2": 4,
+        "L_lcb_block_3_chk_l4": 2,
+        "L_lcb_block_3_chk_l7": 2,
+        "L_lcb_block_3_chk_l10": 2,
+        "L_lcb_block_3_chk_l13": 2,
+        "L_lcb_block_2_go_l23": 2
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_3_chk_l2",
+          "old_line": 35,
+          "new_line": 35,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x26, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x26, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l2",
+          "old_line": 38,
+          "new_line": 37,
+          "old": [
+            "\tlsl x27, x27, #2",
+            "\tldr w26, [x26, x27]"
+          ],
+          "new": [
+            "\tldr w26, [x26, x27, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l2",
+          "old_line": 42,
+          "new_line": 40,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l2",
+          "old_line": 45,
+          "new_line": 42,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l4",
+          "old_line": 61,
+          "new_line": 57,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l4",
+          "old_line": 65,
+          "new_line": 60,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l7",
+          "old_line": 83,
+          "new_line": 77,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l7",
+          "old_line": 87,
+          "new_line": 80,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l10",
+          "old_line": 105,
+          "new_line": 97,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l10",
+          "old_line": 109,
+          "new_line": 100,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l13",
+          "old_line": 127,
+          "new_line": 117,
+          "old": [
+            "\tlsl x26, x26, #3",
+            "\tldr x25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr x25, [x25, x26, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_3_chk_l13",
+          "old_line": 131,
+          "new_line": 120,
+          "old": [
+            "\tlsl x26, x26, #2",
+            "\tldr w25, [x25, x26]"
+          ],
+          "new": [
+            "\tldr w25, [x25, x26, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_2_go_l23",
+          "old_line": 207,
+          "new_line": 195,
+          "old": [
+            "\tlsl x22, x22, #3",
+            "\tldr x21, [x21, x22]"
+          ],
+          "new": [
+            "\tldr x21, [x21, x22, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        },
+        {
+          "function": "L_lcb_block_2_go_l23",
+          "old_line": 222,
+          "new_line": 209,
+          "old": [
+            "\tlsl x22, x22, #3",
+            "\tldr x21, [x21, x22]"
+          ],
+          "new": [
+            "\tldr x21, [x21, x22, lsl #3]"
+          ],
+          "bytes": 8,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/sum.ssa",
+      "target": "aarch64-macos",
+      "before_sha256": "63acdbbecf7725f333be81398405e8edf6340b2f1decd1e0052672eadeec2737",
+      "after_sha256": "84cd91f5ded1627ea02d840b4cf0f88a66cfeee3dbd67e04375f4ca2e3e0eea9",
+      "folds": 1,
+      "functions": {
+        "L_lcb_block_3_sum_loop1": 1
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_3_sum_loop1",
+          "old_line": 25,
+          "new_line": 25,
+          "old": [
+            "\tlsl x20, x20, #2",
+            "\tldr w20, [x20, x19]"
+          ],
+          "new": [
+            "\tldr w20, [x19, x20, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    },
+    {
+      "input": "third_party/qbe/test/sum.ssa",
+      "target": "aarch64-linux",
+      "before_sha256": "315d11b926099b1e11e58dc2965516ba43ab30dc90330cb2b7319c89975d310a",
+      "after_sha256": "697f29358ec3f2c05a98051a067a68cfce582270257ad3d988981d39c6e8d676",
+      "folds": 1,
+      "functions": {
+        "L_lcb_block_3_sum_loop1": 1
+      },
+      "sites": [
+        {
+          "function": "L_lcb_block_3_sum_loop1",
+          "old_line": 26,
+          "new_line": 26,
+          "old": [
+            "\tlsl x20, x20, #2",
+            "\tldr w20, [x20, x19]"
+          ],
+          "new": [
+            "\tldr w20, [x19, x20, lsl #2]"
+          ],
+          "bytes": 4,
+          "spilled_shift": false
+        }
+      ]
+    }
+  ],
+  "qualification": "Raw comparator calls these10 byte differences failures; each is exhaustively explained here as exact two-to-one scaled load replacement. No execution claim from this audit."
+}

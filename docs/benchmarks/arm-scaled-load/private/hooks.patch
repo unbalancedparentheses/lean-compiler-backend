@@ -1,0 +1,47 @@
+diff --git a/scripts/check.sh b/scripts/check.sh
+index bb33a59..1e122a4 100644
+--- a/scripts/check.sh
++++ b/scripts/check.sh
+@@ -175,6 +175,7 @@ python3 scripts/redundant_extensions.py "$@"
+ python3 scripts/arm_load_extensions.py
+ python3 scripts/arm_extuw.py
+ python3 scripts/arm_indexed_load.py
++python3 scripts/arm_scaled_load.py
+ python3 scripts/arm_phi_identity.py
+ python3 scripts/arm_leaf_bank.py --compiler .lake/build/bin/lcb --work .build/native-arm-leaf
+ python3 scripts/arm_branch_layout.py
+diff --git a/scripts/emission_only.py b/scripts/emission_only.py
+index 1e64690..548ad76 100644
+--- a/scripts/emission_only.py
++++ b/scripts/emission_only.py
+@@ -12,6 +12,7 @@ from upstream_development import exercise as upstream_development
+ from symbol_address_pressure import exercise as symbol_pressure
+ from scalar_result_discard import exercise as scalar_discard
+ from arm_indexed_load import exercise as arm_indexed_load
++from arm_scaled_load import exercise as arm_scaled_load
+ from arm_phi_identity import exercise as arm_phi_identity
+ from arm_leaf_bank import exercise as arm_leaf_bank
+ from arm_extuw import exercise as arm_extuw
+@@ -46,6 +47,9 @@ def main():
+             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
+             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
+         for target in ['aarch64-linux', 'aarch64-macos']:
++            scaled = arm_scaled_load(LCB,work/target,run,cc,target,False,qbe=qbe)
++            assert all(v['execution'] == 'not-run' for p in scaled['profiles'].values() for v in p['backends'].values())
++            assert 'qbe_sha256' not in scaled
+             indexed = arm_indexed_load(LCB,work/target,run,cc,target,False,qbe=qbe)
+             assert indexed['case_groups_per_mode'] == 0 and indexed['original_qbe'] == 'not-run'
+             phi = arm_phi_identity(LCB,work/target,run,cc,target,False,qbe)
+diff --git a/scripts/linux_arm64.py b/scripts/linux_arm64.py
+index e65fcae..2ac086f 100644
+--- a/scripts/linux_arm64.py
++++ b/scripts/linux_arm64.py
+@@ -154,6 +154,8 @@ def main():
+     arm_leaf_bank_tests(compiler,work,run,cc,'aarch64-linux',native)
+     from arm_indexed_load import exercise as arm_indexed_tests
+     arm_indexed_tests(compiler,work,run,cc,'aarch64-linux',native,qbe=qbe)
++    from arm_scaled_load import exercise as arm_scaled_tests
++    arm_scaled_tests(compiler,work,run,cc,'aarch64-linux',native,qbe=qbe)
+     from arm_phi_identity import exercise as arm_phi_tests
+     arm_phi_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from arm_extuw import exercise as arm_extuw_tests

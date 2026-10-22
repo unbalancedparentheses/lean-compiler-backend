@@ -1,0 +1,299 @@
+import LeanCompilerBackend
+import LeanCompilerBackend.Driver
+import LeanCompilerBackend.Verified.Codec
+import LeanCompilerBackend.Liveness.Report
+
+open LeanCompilerBackend
+
+private def usage : String :=
+  "Lean Compiler Backend 0.1.0\n" ++
+  "Usage:\n" ++
+  "  lcb [OPTIONS] INPUT.ssa ... [-o OUTPUT.s] [--target aarch64-macos|aarch64-linux|x86_64-linux|x86_64-macos|riscv64-linux] [--optimize] [--allocate]\n" ++
+  "  lcb -t arm64_apple|arm64|amd64_sysv|amd64_apple|rv64 [-o OUTPUT.s] [INPUT.ssa|- ...]\n" ++
+  "  Compatibility options may precede/follow inputs; missing input or - reads stdin; -o - writes stdout. Default target: host platform; first-path output remains aarch64-macos.\n" ++
+  "  lcb --check INPUT.ssa\n" ++
+  "  lcb --liveness INPUT.ssa\n" ++
+  "  lcb --allocation INPUT.ssa\n" ++
+  "  lcb --type-layout INPUT.ssa\n" ++
+  "  lcb --first-path INPUT.ssa [-o OUTPUT.s] [--require-proof]\n" ++
+  "  lcb --first-path-eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
+  "  lcb --write-job INPUT.ssa FUNCTION OUTPUT.job\n" ++
+  "  lcb --replay-job INPUT.job [-o OUTPUT.s]\n" ++
+  "  lcb --write-artifact INPUT.job OUTPUT.artifact\n" ++
+  "  lcb --replay-artifact INPUT.artifact [-o OUTPUT.s]\n" ++
+  "  lcb --job-info INPUT.job\n" ++
+  "  lcb --eval INPUT.ssa FUNCTION [INTEGER ...]\n" ++
+  "  lcb --version | --build-identity | --help\n" ++
+  "Compatibility subset: QBE scalar w/l/s/d values, SSA construction, control flow, direct/indirect scalar calls, variadics, data/symbols and stack allocation. Floating CLI arguments/results use raw IEEE bits.\n"
+
+private def loadModule (path : String) (constructSSA : Bool := true) : IO LeanCompilerBackend.Module := do
+  let source ← if path == "-" then (← IO.getStdin).readToEnd else IO.FS.readFile path
+  let parsed := Parser.parseModule source >>= fun m =>
+    if constructSSA then SSA.constructModule m else validateModule m *> pure m
+  match parsed with
+  | .ok module => return module
+  | .error message => throw (IO.userError s!"{path}: {message}")
+
+private def loadProgram (path : String) : IO Program := do
+  let module ← loadModule path false
+  if !module.data.isEmpty || !module.types.isEmpty then
+    throw (IO.userError "module data/types are outside the first-path profile")
+  return module.functions
+
+private def options : List String → Except String (Option String)
+  | [] => .ok none
+  | "-o" :: path :: rest => do
+    let more ← options rest
+    if more.isSome then throw "output specified more than once"
+    return some path
+  | "--target" :: "aarch64-macos" :: rest => options rest
+  | "--target" :: target :: _ => .error s!"unsupported target '{target}'; supported: aarch64-macos"
+  | option :: _ => .error s!"unknown or incomplete option '{option}'"
+
+private structure CompatibilityOptions where
+  output : Option String := none
+  target : Option String := none
+  inputs : List String := []
+  optimize : Bool := false
+  allocate : Bool := false
+
+private def compatibilityTarget : String → Except String String
+  | "aarch64-macos" | "arm64_apple" => pure "aarch64-macos"
+  | "aarch64-linux" | "arm64" => pure "aarch64-linux"
+  | "x86_64-linux" | "amd64_sysv" => pure "x86_64-linux"
+  | "x86_64-macos" | "amd64_apple" => pure "x86_64-macos"
+  | "riscv64-linux" | "rv64" => pure "riscv64-linux"
+  | value => throw s!"unsupported target '{value}'; supported: aarch64-macos, aarch64-linux, x86_64-linux, x86_64-macos, riscv64-linux (QBE aliases: arm64_apple, arm64, amd64_sysv, amd64_apple, rv64)"
+
+private def compatibilityOptions (args : List String) : Except String CompatibilityOptions := do
+  let rec parse : List String → CompatibilityOptions → Except String CompatibilityOptions
+    | [], result => pure result
+    | "--" :: rest, result => pure { result with inputs := result.inputs ++ rest }
+    | "--optimize" :: rest, result => parse rest { result with optimize := true }
+    | "--allocate" :: rest, result => parse rest { result with allocate := true }
+    | "-o" :: path :: rest, result => do
+      if result.output.isSome then throw "output specified more than once"
+      parse rest { result with output := some path }
+    | "--target" :: value :: rest, result
+    | "-t" :: value :: rest, result => do
+      if result.target.isSome then throw "target specified more than once"
+      let target ← compatibilityTarget value
+      parse rest { result with target := some target }
+    | arg :: rest, result => do
+      if arg.startsWith "-o" && arg.length > 2 then
+        if result.output.isSome then throw "output specified more than once"
+        parse rest { result with output := some (arg.drop 2).toString }
+      else if arg.startsWith "-t" && arg.length > 2 then
+        if result.target.isSome then throw "target specified more than once"
+        let target ← compatibilityTarget (arg.drop 2).toString
+        parse rest { result with target := some target }
+      else if arg == "-" || !arg.startsWith "-" then
+        parse rest { result with inputs := result.inputs ++ [arg] }
+      else throw s!"unknown or incomplete option '{arg}'"
+  parse args {}
+
+private def firstPathOptions (args : List String) : Except String (Option String × Verified.EvidenceRequest) := do
+  let requested := if args.contains "--require-proof" then .kernelTypedAssembly else .none
+  let output ← options (args.filter (· != "--require-proof"))
+  pure (output, requested)
+
+private def firstPath (program : Program) (requested : Verified.EvidenceRequest) : Except String String := do
+  let jobs ← (Verified.prepareModule program "cli" requested).mapError (fun e => toString (repr e))
+  let mut fragments := []
+  for job in jobs do
+    let artifact ← (Verified.compileFunction job).mapError (fun e => toString (repr e))
+    fragments := fragments ++ [artifact.code.fragment]
+  pure ("; Uncertified first-path typed assembly; no preservation certificate\n.text\n" ++
+    String.intercalate "\n" fragments ++ ".subsections_via_symbols\n")
+
+private def readJob (path : String) : IO Verified.FunctionJob := do
+  match Verified.Codec.decodeJob (← IO.FS.readBinFile path) with
+  | .ok job => pure job
+  | .error reason => throw (IO.userError reason)
+
+private def compileJob (job : Verified.FunctionJob) : IO Verified.FunctionArtifact := do
+  match Verified.compileFunction job with
+  | .ok artifact => pure artifact
+  | .error reason => throw (IO.userError (toString (repr reason)))
+
+private def outputFragment (fragment : String) (rest : List String) : IO UInt32 := do
+  let output ← match options rest with
+    | .ok value => pure value
+    | .error reason => throw (IO.userError reason)
+  let assembly := "; Uncertified first-path replay\n.text\n" ++ fragment ++ ".subsections_via_symbols\n"
+  match output with
+  | some path => IO.FS.writeFile path assembly
+  | none => IO.print assembly
+  pure 0
+
+private def argument (text : String) : Except String UInt64 := do
+  let some n := text.toInt? | throw s!"invalid integer argument '{text}'"
+  if n < -(2 ^ 63 : Int) || n > (2 ^ 64 : Int) - 1 then
+    throw s!"integer argument outside supported 64-bit domain: '{text}'"
+  return (BitVec.ofInt 64 n).toNat.toUInt64
+
+private def run (args : List String) : IO UInt32 := do
+  if args.isEmpty then
+    if ← (← IO.getStdin).isTty then
+      IO.print usage
+      return 0
+  match args with
+  | ["--version"] => IO.println "lean-compiler-backend 0.1.0 (experimental)"; return 0
+  | ["--build-identity"] => IO.println Verified.compilerBuildIdentity; return 0
+  | ["--help"] | ["-h"] => IO.print usage; return 0
+  | ["--type-layout", path] =>
+    let module ← loadModule path
+    let layouts ← match Aggregate.layouts module.types with
+      | .ok layouts => pure layouts
+      | .error reason => throw (IO.userError reason)
+    for layout in layouts do
+      IO.println s!"type {layout.name} {layout.size} {layout.alignment}"
+      for (variant, index) in layout.variants.toList.zipIdx do
+        for (field, fieldIndex) in variant.toList.zipIdx do
+          IO.println s!"field {layout.name} {index} {fieldIndex} {field.offset} {field.stride} {field.field.count}"
+    return 0
+  | ["--allocation", path] =>
+    let module ← loadModule path
+    for f in module.functions do
+      let result ← match Allocation.allocate f with
+        | .ok result => pure result
+        | .error reason => throw (IO.userError reason)
+      let live ← match Liveness.analyze f with
+        | .ok live => pure live
+        | .error reason => throw (IO.userError reason)
+      IO.println (Lean.Json.mkObj [
+        ("liveness", Liveness.report f live), ("colors", Lean.toJson result.colors),
+        ("colorCount", Lean.toJson result.colorCount),
+        ("parameters", Lean.toJson (f.parameters.map (·.name)))]).compress
+    return 0
+  | ["--liveness", path] =>
+    let module ← loadModule path
+    for f in module.functions do
+      let result ← match Liveness.analyze f with
+        | .ok result => pure result
+        | .error reason => throw (IO.userError s!"function ${f.name}: {reason}")
+      IO.println (Liveness.report f result).compress
+    return 0
+  | ["--check", path] =>
+    let module ← loadModule path
+    IO.println s!"checked {module.functions.size} function(s), {module.data.size} data definition(s); initial QBE subset"
+    return 0
+  | "--first-path-eval" :: path :: name :: values =>
+    let program ← loadProgram path
+    let some f := program.find? (·.name == name) | throw (IO.userError s!"unknown function ${name}")
+    let job ← match Verified.prepareJob f "cli" with
+      | .ok job => pure job
+      | .error e => throw (IO.userError (toString (repr e)))
+    let artifact ← compileJob job
+    let numbers ← match values.toArray.mapM argument with
+      | .ok numbers => pure numbers
+      | .error e => throw (IO.userError e)
+    if numbers.size != job.code.body.parameters.size then throw (IO.userError "argument count mismatch")
+    let args := (job.code.body.parameters.zip numbers).map fun (width, number) =>
+      Verified.Source.Value.constant width number.toNat
+    let result ← match Verified.Source.evaluateFunction job.code.body args 100000 with
+      | .returned value => pure value
+      | .exhausted _ => throw (IO.userError "source model budget exhausted; inconclusive")
+      | .stuck fault => throw (IO.userError s!"source model fault: {repr fault}")
+    for (stage, execution) in [
+        ("MIR", Verified.Machine.evaluateMIR artifact.code.stackMIR args 1000000),
+        ("assembly", Verified.Machine.evaluateAssembly artifact.code.assembly args 1000000)] do
+      match execution with
+      | .returned value _ =>
+        if value != result then throw (IO.userError s!"{stage} model differs from source")
+      | .exhausted _ => throw (IO.userError s!"{stage} model budget exhausted; inconclusive")
+      | .stuck fault => throw (IO.userError s!"{stage} model fault: {fault}")
+    IO.println result.toNat
+    pure 0
+  | ["--write-job", path, name, output] =>
+    let program ← loadProgram path
+    let some f := program.find? (·.name == name) | throw (IO.userError s!"unknown function ${name}")
+    let job ← match Verified.prepareJob f "cli" with
+      | .ok job => pure job
+      | .error reason => throw (IO.userError (toString (repr reason)))
+    let bytes ← match Verified.Codec.encodeJob job with
+      | .ok bytes => pure bytes
+      | .error reason => throw (IO.userError reason)
+    IO.FS.writeBinFile output bytes
+    pure 0
+  | "--replay-job" :: path :: rest =>
+    let artifact ← compileJob (← readJob path)
+    outputFragment artifact.code.fragment rest
+  | ["--write-artifact", path, output] =>
+    let job ← readJob path
+    let artifact ← compileJob job
+    let bytes ← match Verified.Codec.encodeArtifact job artifact with
+      | .ok bytes => pure bytes
+      | .error reason => throw (IO.userError reason)
+    IO.FS.writeBinFile output bytes
+    pure 0
+  | "--replay-artifact" :: path :: rest =>
+    let (_, artifact) ← match Verified.Codec.decodeArtifact (← IO.FS.readBinFile path) with
+      | .ok result => pure result
+      | .error reason => throw (IO.userError reason)
+    outputFragment artifact.code.fragment rest
+  | ["--job-info", path] =>
+    let artifact ← compileJob (← readJob path)
+    let ids ← match Verified.Codec.fingerprints artifact with
+      | .ok ids => pure ids
+      | .error reason => throw (IO.userError reason)
+    IO.println s!"status: uncertified\ncode-input: {ids.codeInput}\ncode: {ids.code}\ndebug: {ids.debug}\nevidence: {ids.evidence}"
+    pure 0
+  | "--first-path" :: path :: rest =>
+    let (output, requested) ← match firstPathOptions rest with
+      | .ok value => pure value
+      | .error message => throw (IO.userError message)
+    let program ← loadProgram path
+    let assembly ← match firstPath program requested with
+      | .ok text => pure text
+      | .error message => throw (IO.userError message)
+    match output with
+    | some target => IO.FS.writeFile target assembly
+    | none => IO.print assembly
+    return 0
+  | "--eval" :: path :: name :: values =>
+    let module ← loadModule path
+    let result := do
+      let arguments ← values.toArray.mapM argument
+      Semantics.evaluateModule module name arguments
+    match result with
+    | .ok (some value) => IO.println value; return 0
+    | .ok none => IO.println "void"; return 0
+    | .error message => throw (IO.userError message)
+  | _ =>
+    let settings ← match compatibilityOptions args with
+      | .ok value => pure value
+      | .error message => throw (IO.userError message)
+    let selected ← match settings.target with
+      | some target => pure target
+      | none => match Driver.hostTarget System.Platform.target with
+        | .ok target => pure target
+        | .error message => throw (IO.userError message)
+    let allocate := settings.optimize || settings.allocate
+    let inputs := if settings.inputs.isEmpty then ["-"] else settings.inputs
+    let mut fragments : List String := []
+    for path in inputs do
+      let module ← loadModule path
+      let module ← if settings.optimize then
+        match Optimize.module module with
+        | .ok optimized => pure optimized
+        | .error message => throw (IO.userError message)
+        else pure module
+      let result := if selected == "x86_64-linux" || selected == "x86_64-macos" then AMD64.emitModule module (selected == "x86_64-macos") allocate
+        else if selected == "riscv64-linux" then RV64.emitModule module allocate
+        else AArch64.emitModule module (selected == "aarch64-macos") allocate
+      let assembly ← match result with
+        | .ok text => pure text
+        | .error message => throw (IO.userError message)
+      fragments := fragments ++ [assembly]
+    let assembly := String.join fragments
+    match settings.output with
+    | some target => if target == "-" then IO.print assembly else IO.FS.writeFile target assembly
+    | none => IO.print assembly
+    return 0
+
+def main (args : List String) : IO UInt32 := do
+  try run args
+  catch error =>
+    IO.eprintln s!"error: {error}"
+    return 1

@@ -1,0 +1,7 @@
+Wrapper failure captured from the orchestration tool output after the ARM cproc helper exited 0:
+
+  File "/tmp/lcb-combined-bootstrap-prep/run.py", line 24, in main
+    data=json.loads(report.read_text());assert data['compiler_identity']==a.identity and data['compiler_sha256']==sha(compiler)
+KeyError: 'compiler_sha256'
+
+The helper report stores this field at provenance.compiler_sha256. The helper's original report and stdout log are preserved. This attempt has no successful wrapper post-binding/report barrier and is superseded by the fresh combined-scaled-v2 cproc campaign. QBE v1 uses the expected top-level field and remains qualified independently.

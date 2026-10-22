@@ -16,6 +16,12 @@ integer/floating, control-flow, memory, TLS and aggregate-call backend on Apple
 ARM64/x86-64 and Linux ARM64/x86-64/RV64. The existing
 opcode-selection theorem is limited; the backend is not verified end to end.
 
+[ARM scaled-load checkpoint](docs/benchmarks/arm-scaled-load/README.md): combined
+identity 210a515a passes all three full Linux gates, native ARM independent
+matrices, corpus audit and fresh zlib/Lua/QBE/cproc qualification. Full host gate
+and CI remain pending. Static savings are measured; timings under background
+load are diagnostic only. Proof scope remains unchanged.
+
 ## Active execution order
 
 1. Close remaining language, resource-limit and ABI gaps (P05–P07) with real

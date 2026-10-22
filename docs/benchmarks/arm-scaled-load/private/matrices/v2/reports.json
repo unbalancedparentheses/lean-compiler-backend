@@ -1,0 +1,136 @@
+{
+  "aarch64-macos": {
+    "target": "aarch64-macos",
+    "identity": "96c8fae6d984f3af804b7c50fa1b3dc25af59a5cf8be60d0dfa663c54b8bf841",
+    "compiler_sha256": "2d6185fc03efe1666218a49a7de67425734f821f564f6e1c072242af089490b3",
+    "helper_sha256": "1c3c8a85c259ae2857ce2488236641e6322e6d9649efa03d5fd8c7c2d926f085",
+    "profiles": {
+      "legal": {
+        "source_sha256": "9be2ab170c5ac96f7fd2064e9acf9f1d743cb7176e88069a8f3f0a620af89080",
+        "caller_sha256": "c6e71a5f386c0e95be784538f7f2afe464d1e563b25f33992bc2cdc16c6f91ab",
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "0c46ac859330b532a41aebf901172cd8a8fdf7cc9e3ed7921828f9c981c00e87",
+            "execution": "passed",
+            "before_identical": true
+          },
+          "allocated": {
+            "assembly_sha256": "b33ab6d7c50107dfaf16ececdb826ee15599cf1623e4fb5f0563b8c29a4e9cc1",
+            "execution": "passed",
+            "scaled_loads": 81
+          },
+          "optimized": {
+            "assembly_sha256": "68b7c746f1e125c58b0d138276ce3ec2db1d8d4af07914c81fc08b0743ba8073",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "ba49904f27fd1112493987c71d49cb9af086001ec2142b5b25d86af9d42c1eab",
+            "execution": "passed"
+          }
+        },
+        "functions": 186,
+        "original_qbe_scope": "unchanged source"
+      },
+      "large_shift_counts": {
+        "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+        "caller_sha256": "d7d7e20ed596ec8d3dd5660d8ee824641f24ff299d3552a57558820078217b20",
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "1140ca65195b2bec74138e432894a0caa42e3034a02508d896de498749be0c41",
+            "execution": "passed",
+            "before_identical": true
+          },
+          "allocated": {
+            "assembly_sha256": "ddb3471dc7e58949a0d15e8f404d7aaf9f5e6955a6992cbcb2ffc44b8b90fbf6",
+            "execution": "passed",
+            "scaled_loads": 45
+          },
+          "optimized": {
+            "assembly_sha256": "661617e3e8fb760baa568b1fd01f111766d32243f1a38d29459a8a8e3df880e0",
+            "execution": "passed"
+          }
+        },
+        "functions": 45,
+        "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+      }
+    },
+    "controls": {
+      "wrong_scale": {
+        "detected": true,
+        "exit": -10
+      },
+      "guard_overread": {
+        "detected": true,
+        "exit": -10
+      }
+    },
+    "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+  },
+  "aarch64-linux": {
+    "target": "aarch64-linux",
+    "identity": "96c8fae6d984f3af804b7c50fa1b3dc25af59a5cf8be60d0dfa663c54b8bf841",
+    "compiler_sha256": "2d6185fc03efe1666218a49a7de67425734f821f564f6e1c072242af089490b3",
+    "helper_sha256": "1c3c8a85c259ae2857ce2488236641e6322e6d9649efa03d5fd8c7c2d926f085",
+    "profiles": {
+      "legal": {
+        "source_sha256": "9be2ab170c5ac96f7fd2064e9acf9f1d743cb7176e88069a8f3f0a620af89080",
+        "caller_sha256": "c6e71a5f386c0e95be784538f7f2afe464d1e563b25f33992bc2cdc16c6f91ab",
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "e4a7e9d174323d1dfecdf9a42c9b5d46c1ecc64d1315ed5982b97928de3c403b",
+            "execution": "passed",
+            "before_identical": true
+          },
+          "allocated": {
+            "assembly_sha256": "17568d3815d7aad6e01805ccbb07b9a77b95832a94e4a3e4d297c348be2de88f",
+            "execution": "passed",
+            "scaled_loads": 81
+          },
+          "optimized": {
+            "assembly_sha256": "21e2daea2eddba785f55e1c4e53c2dffb72a52dbc67a6b9b8f790994f6091c59",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "36d0187b50e4f0b9e48daf89c5fb387f261dfa193f569c721baff7e9acdc4341",
+            "execution": "passed"
+          }
+        },
+        "functions": 186,
+        "original_qbe_scope": "unchanged source"
+      },
+      "large_shift_counts": {
+        "source_sha256": "42b064e1a81bbe07c6b06668047711d05d8fd0559b4a043d586ff618c1494cfe",
+        "caller_sha256": "d7d7e20ed596ec8d3dd5660d8ee824641f24ff299d3552a57558820078217b20",
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "538d9f703e38b092c2d30f017eb0fb37f661132d831a5600e47da637a16f223b",
+            "execution": "passed",
+            "before_identical": true
+          },
+          "allocated": {
+            "assembly_sha256": "ddadd14816d216a58bcbf6943fc93d7df238190b97fa278181719eb4d9e09c28",
+            "execution": "passed",
+            "scaled_loads": 45
+          },
+          "optimized": {
+            "assembly_sha256": "8dd7c0d7a2855692145ecfc0cfdc7a80b1fd353bf416242c8d95141d6d01dace",
+            "execution": "passed"
+          }
+        },
+        "functions": 45,
+        "original_qbe_scope": "not run: upstream immediate-assembly limitations; independent C only"
+      }
+    },
+    "controls": {
+      "wrong_scale": {
+        "detected": true,
+        "exit": 139
+      },
+      "guard_overread": {
+        "detected": true,
+        "exit": 139
+      }
+    },
+    "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+  }
+}

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/tmp/lcb-arm-scaled-load/run-matrix.py", line 28, in <module>
+    result=arm_scaled_load.exercise(compiler,work/target,native if target.endswith('macos') else run,os.environ.get('LCB_CC','cc') if target.endswith('macos') else 'gcc',target,True,before,root/'.build/syntax-main-review/qbe-snapshot' if target.endswith('macos') else Path('/tmp/qbe/qbe'))
+  File "/tmp/lcb-arm-scaled-load/scripts/arm_scaled_load.py", line 67, in exercise
+    checked([qbe,'-t','arm64_apple' if target.endswith('macos') else 'arm64','-o',asm,src],True) if mode=='qbe' else checked([compiler,src,'--target',target,*flags,'-o',asm])
+                                                                                                                     ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-arm-scaled-load/scripts/arm_scaled_load.py", line 60, in checked
+    p=run(list(map(str,cmd)),inside);assert p.returncode==0,(cmd,p.returncode,p.stdout,p.stderr);return p
+                                            ^^^^^^^^^^^^^^^
+AssertionError: ([PosixPath('/tmp/lcb-arm-scaled-load/after'), PosixPath('/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-load-private-v1/aarch64-macos/arm-scaled-load/legal.ssa'), '--target', 'aarch64-macos', '-o', PosixPath('/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-load-private-v1/aarch64-macos/arm-scaled-load/legal-baseline.s')], 1, '', 'error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-scaled-load-private-v1/aarch64-macos/arm-scaled-load/legal.ssa: function $ub_w_word_shift: %scaled: implicit w-to-l extension is unsupported; use an explicit conversion\n')

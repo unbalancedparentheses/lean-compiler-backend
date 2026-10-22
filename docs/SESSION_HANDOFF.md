@@ -11,9 +11,14 @@ the GNU-only section-name expectation that failed both Linux Clang CI jobs.
 Six GNU/LLVM profiles pass on all three Linux targets using committed identity4b41;
 LLVM preserves quoted escapes literally and original QBE keeps two extra raw
 spellings. Exact header/symbol/runtime checks remain; a CI rerun is pending.
-The ARM scaled-load candidate remains uncommitted locally on identity210a515a,
-with all Linux gates and fresh zlib/Lua/QBE/cproc checks passing; full host gate
-is running. Its timing evidence is diagnostic only under background load.
+[ARM scaled loads](benchmarks/arm-scaled-load/README.md) are integrated on identity
+`210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5`.
+All three complete Linux gates, native ARM matrices/high-spill checks, units,
+147 unchanged exact audit statements, exhaustive corpus delta audit and fresh
+zlib/Lua/QBE/cproc campaigns pass. Full host gate is running; CI is pending.
+Zlib loses 312 text bytes per ARM target, mixed Lua 292 bytes. Timings remain
+diagnostic under unrelated background load; clean performance is unresolved.
+This combined Linux gate also covers preceding aliases, mutable widths and retained TLS.
 
 [Retained writable TLS](benchmarks/retained-tls/README.md) is integrated on identity
 `4b41bddbd06b27174a3729ad2eca3888525a2f6e3e31d737a1057c18d22287bc`.
