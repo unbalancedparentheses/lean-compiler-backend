@@ -1,0 +1,1080 @@
+{
+  "target": "riscv64-linux",
+  "compiler_identity": "888da894478dde89a5639f11a8be6a5dc275c03cf9c36e55688dff9963726682",
+  "compiler_sha256": "0fdc101acd12d9f6c78c25e68872673b25c90dc1c0b7c7dcd2248a4cc8b85671",
+  "before_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "ordinary_equivalence": "passed",
+  "helper_sha256": "f6bc4c5285f46de1507ef826c72fb5d441f3e69ce282051a13f2f4b14f8f12c0",
+  "input_sha256": "22fdb3f21dba940faba201fb14b62e83cb45fa3ebbeef759b72fe0b6fbe5a3c2",
+  "caller_sha256": "24e23ee9f3b38f3dd6f381306d2add7cef011afe6393906b00754ed2f424c158",
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "results": [
+    {
+      "mode": "baseline",
+      "executed": true,
+      "assembly_sha256": "47def9f2673ff23032302675892bd14113df8334685f24b80ad1112320ef7f88",
+      "metadata": {
+        ".text": {
+          "index": "1",
+          "type": "PROGBITS",
+          "size": 1644,
+          "flags": "AX",
+          "alignment": 4
+        },
+        ".rela.text": {
+          "index": "2",
+          "type": "RELA",
+          "size": 1176,
+          "flags": "I",
+          "alignment": 8
+        },
+        ".data": {
+          "index": "3",
+          "type": "PROGBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".bss": {
+          "index": "4",
+          "type": "NOBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 16
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 32
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        }
+      }
+    },
+    {
+      "mode": "allocated",
+      "executed": true,
+      "assembly_sha256": "5e5b139fe0da5fa4a711be2b0a22f6a953d8d48fe634c69b9da4fe383b20b3e6",
+      "metadata": {
+        ".text": {
+          "index": "1",
+          "type": "PROGBITS",
+          "size": 1672,
+          "flags": "AX",
+          "alignment": 4
+        },
+        ".rela.text": {
+          "index": "2",
+          "type": "RELA",
+          "size": 1176,
+          "flags": "I",
+          "alignment": 8
+        },
+        ".data": {
+          "index": "3",
+          "type": "PROGBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".bss": {
+          "index": "4",
+          "type": "NOBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 16
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 32
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        }
+      }
+    },
+    {
+      "mode": "optimized",
+      "executed": true,
+      "assembly_sha256": "5e5b139fe0da5fa4a711be2b0a22f6a953d8d48fe634c69b9da4fe383b20b3e6",
+      "metadata": {
+        ".text": {
+          "index": "1",
+          "type": "PROGBITS",
+          "size": 1672,
+          "flags": "AX",
+          "alignment": 4
+        },
+        ".rela.text": {
+          "index": "2",
+          "type": "RELA",
+          "size": 1176,
+          "flags": "I",
+          "alignment": 8
+        },
+        ".data": {
+          "index": "3",
+          "type": "PROGBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".bss": {
+          "index": "4",
+          "type": "NOBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 16
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 32
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        }
+      }
+    },
+    {
+      "mode": "qbe",
+      "executed": true,
+      "assembly_sha256": "1feaa78d0df15cad46144f5680a5ef2740eed580ba09b43a2b993dc0455afc9b",
+      "metadata": {
+        ".text": {
+          "index": "1",
+          "type": "PROGBITS",
+          "size": 384,
+          "flags": "AX",
+          "alignment": 16
+        },
+        ".rela.text": {
+          "index": "2",
+          "type": "RELA",
+          "size": 1344,
+          "flags": "I",
+          "alignment": 8
+        },
+        ".data": {
+          "index": "3",
+          "type": "PROGBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".bss": {
+          "index": "4",
+          "type": "NOBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 16
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 32
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        }
+      }
+    }
+  ],
+  "executed_round_groups": 2048,
+  "negative_cases": 24,
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "888da894478dde89a5639f11a8be6a5dc275c03cf9c36e55688dff9963726682\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 14 section headers, starting at offset 0x1070:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 00066c 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000b50 000498 18   I 11   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0006ac 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0006ac 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0006b0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0006c0 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0006c8 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0006d0 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 0006d8 000000 00      0   0  1\n  [10] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0006d8 000051 00      0   0  1\n  [11] .symtab           SYMTAB          0000000000000000 000730 000318 18     12  23  8\n  [12] .strtab           STRTAB          0000000000000000 000a48 000104 00      0   0  1\n  [13] .shstrtab         STRTAB          0000000000000000 000fe8 000085 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 33 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n     5: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     7: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     9: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    11: 0000000000000070     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    12: 0000000000000130     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    13: 000000000000020c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    14: 00000000000002b8     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    15: 0000000000000382     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    16: 0000000000000458     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    17: 0000000000000522     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    18: 00000000000005f8     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    19: 0000000000000026     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_edge_11_read_custom_s\n    20: 0000000000000028     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_zero\n    21: 00000000000000e8     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_init\n    22: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .riscv.attributes\n    23: 0000000000000002   422 FUNC    GLOBAL DEFAULT    1 read_custom\n    24: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    25: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND __tls_get_addr\n    26: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    27: 00000000000001aa   384 FUNC    GLOBAL DEFAULT    1 write_custom\n    28: 000000000000032c   206 FUNC    GLOBAL DEFAULT    1 read_local\n    29: 00000000000003fc   206 FUNC    GLOBAL DEFAULT    1 write_local\n    30: 00000000000004cc   206 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    31: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    32: 000000000000059c   206 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline.o",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 14 section headers, starting at offset 0x1090:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000688 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000b70 000498 18   I 11   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0006d0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0006e0 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0006e8 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0006f0 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 0006f8 000000 00      0   0  1\n  [10] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0006f8 000051 00      0   0  1\n  [11] .symtab           SYMTAB          0000000000000000 000750 000318 18     12  23  8\n  [12] .strtab           STRTAB          0000000000000000 000a68 000104 00      0   0  1\n  [13] .shstrtab         STRTAB          0000000000000000 001008 000085 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 33 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n     5: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     7: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     9: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    11: 0000000000000076     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    12: 0000000000000136     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    13: 0000000000000216     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    14: 00000000000002c0     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    15: 0000000000000394     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    16: 000000000000046c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    17: 000000000000053c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    18: 0000000000000614     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    19: 000000000000002c     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_edge_11_read_custom_s\n    20: 000000000000002e     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_zero\n    21: 00000000000000ee     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_init\n    22: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .riscv.attributes\n    23: 0000000000000002   428 FUNC    GLOBAL DEFAULT    1 read_custom\n    24: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    25: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND __tls_get_addr\n    26: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    27: 00000000000001b0   392 FUNC    GLOBAL DEFAULT    1 write_custom\n    28: 000000000000033a   210 FUNC    GLOBAL DEFAULT    1 read_local\n    29: 000000000000040e   210 FUNC    GLOBAL DEFAULT    1 write_local\n    30: 00000000000004e2   210 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    31: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    32: 00000000000005b6   210 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated.o",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 14 section headers, starting at offset 0x1090:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000688 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000b70 000498 18   I 11   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0006d0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0006e0 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0006e8 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0006f0 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 0006f8 000000 00      0   0  1\n  [10] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0006f8 000051 00      0   0  1\n  [11] .symtab           SYMTAB          0000000000000000 000750 000318 18     12  23  8\n  [12] .strtab           STRTAB          0000000000000000 000a68 000104 00      0   0  1\n  [13] .shstrtab         STRTAB          0000000000000000 001008 000085 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 33 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n     5: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     7: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     9: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    11: 0000000000000076     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    12: 0000000000000136     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    13: 0000000000000216     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    14: 00000000000002c0     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    15: 0000000000000394     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    16: 000000000000046c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    17: 000000000000053c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    18: 0000000000000614     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    19: 000000000000002c     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_edge_11_read_custom_s\n    20: 000000000000002e     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_zero\n    21: 00000000000000ee     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_init\n    22: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .riscv.attributes\n    23: 0000000000000002   428 FUNC    GLOBAL DEFAULT    1 read_custom\n    24: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    25: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND __tls_get_addr\n    26: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    27: 00000000000001b0   392 FUNC    GLOBAL DEFAULT    1 write_custom\n    28: 000000000000033a   210 FUNC    GLOBAL DEFAULT    1 read_local\n    29: 000000000000040e   210 FUNC    GLOBAL DEFAULT    1 write_local\n    30: 00000000000004e2   210 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    31: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    32: 00000000000005b6   210 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized.o",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 14 section headers, starting at offset 0xb00:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000180 00  AX  0   0 16\n  [ 2] .rela.text        RELA            0000000000000000 000538 000540 18   I 11   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0001c0 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0001c0 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0001c0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0001e0 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0001e8 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0001f0 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 0001f8 000000 00      0   0  1\n  [10] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0001f8 000051 00      0   0  1\n  [11] .symtab           SYMTAB          0000000000000000 000250 000228 18     12  14  8\n  [12] .strtab           STRTAB          0000000000000000 000478 0000bd 00      0   0  1\n  [13] .shstrtab         STRTAB          0000000000000000 000a78 000085 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 23 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     5: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     7: 0000000000000000     0 TLS     LOCAL  DEFAULT    7 custom_local\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n     9: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    11: 0000000000000030     0 NOTYPE  LOCAL  DEFAULT    1 .L2\n    12: 0000000000000040     0 NOTYPE  LOCAL  DEFAULT    1 .L3\n    13: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .riscv.attributes\n    14: 0000000000000000     0 TLS     GLOBAL DEFAULT    5 custom_init\n    15: 0000000000000000     0 TLS     GLOBAL DEFAULT    6 custom_zero\n    16: 0000000000000000     0 TLS     GLOBAL DEFAULT    8 ordinary\n    17: 000000000000000e    62 FUNC    GLOBAL DEFAULT    1 read_custom\n    18: 000000000000005a    58 FUNC    GLOBAL DEFAULT    1 write_custom\n    19: 00000000000000a2    42 FUNC    GLOBAL DEFAULT    1 read_local\n    20: 00000000000000da    42 FUNC    GLOBAL DEFAULT    1 write_local\n    21: 0000000000000112    42 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    22: 000000000000014a    42 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/qbe.o",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/wrong-section.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/wrong-section.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/wrong-section.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 14 section headers, starting at offset 0x1090:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000688 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000b70 000498 18   I 11   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.wrong    PROGBITS        0000000000000000 0006d0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0006e0 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0006e8 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0006f0 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 0006f8 000000 00      0   0  1\n  [10] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0006f8 000051 00      0   0  1\n  [11] .symtab           SYMTAB          0000000000000000 000750 000318 18     12  23  8\n  [12] .strtab           STRTAB          0000000000000000 000a68 000104 00      0   0  1\n  [13] .shstrtab         STRTAB          0000000000000000 001008 000086 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/wrong-section.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 33 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n     5: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.wrong\n     7: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     9: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    11: 0000000000000076     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    12: 0000000000000136     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    13: 0000000000000216     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    14: 00000000000002c0     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    15: 0000000000000394     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    16: 000000000000046c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    17: 000000000000053c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    18: 0000000000000614     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    19: 000000000000002c     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_edge_11_read_custom_s\n    20: 000000000000002e     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_zero\n    21: 00000000000000ee     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_init\n    22: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .riscv.attributes\n    23: 0000000000000002   428 FUNC    GLOBAL DEFAULT    1 read_custom\n    24: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    25: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND __tls_get_addr\n    26: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    27: 00000000000001b0   392 FUNC    GLOBAL DEFAULT    1 write_custom\n    28: 000000000000033a   210 FUNC    GLOBAL DEFAULT    1 read_local\n    29: 000000000000040e   210 FUNC    GLOBAL DEFAULT    1 write_local\n    30: 00000000000004e2   210 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    31: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    32: 00000000000005b6   210 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/wrong-value.s",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/wrong-value"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags (optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags (optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags (optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/ordinary-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/function-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/function-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/function-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-old-v1-riscv64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "This fixture covers ELF explicit awT permutations; optional R is qualified separately by retained_tls.py; read-only aT excluded; custom zero initialization remains PROGBITS. Four sequential child threads each perform128 read/write rounds; same main-thread state retained. Ordinary TLS emission required; optional before equivalence status recorded separately. Apple custom TLS refused. No timing claim."
+}

@@ -48,6 +48,8 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Retained writable TLS](docs/benchmarks/retained-tls/README.md) now composes optional R with required awT flags. Three Linux C/original-QBE matrices verify exact metadata, thread state and real linker garbage collection; Apple refusal and other flag restrictions remain. This supersedes the earlier bounded awTR refusal without rewriting historical evidence.
+
 [Mutable integer widths](docs/benchmarks/mutable-integer-widths/README.md) now merge mixed w/l definitions to word class before SSA, preserving original instruction widths and rejecting raw long/FP uses before pruning. All five independent C/original-QBE matrices, interpreter/refusal controls and 147 unchanged audit statements pass. Explicit original-long phi self-definition remains outside this bounded slice.
 
 [Exact aggregate signature aliases](docs/benchmarks/aggregate-signature-aliases/README.md) now admit separately named declarations with identical structure, including prior nested aliases. Direct validation and indirect interpretation agree; exact alignment options, field counts/order, union/opaque identity and scalar classes remain distinct. All five C/original-QBE matrices, three full Linux gates and 147 unchanged audit statements pass. Broader ABI-equivalent shapes remain outside this slice.

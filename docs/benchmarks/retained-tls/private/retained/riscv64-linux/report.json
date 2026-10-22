@@ -1,0 +1,1162 @@
+{
+  "target": "riscv64-linux",
+  "compiler_identity": "888da894478dde89a5639f11a8be6a5dc275c03cf9c36e55688dff9963726682",
+  "compiler_sha256": "0fdc101acd12d9f6c78c25e68872673b25c90dc1c0b7c7dcd2248a4cc8b85671",
+  "helper_sha256": "809fa0e2b076bf54d2a8d55e216ec7c9de3efd3777fe49d1f65f8cde00874fa2",
+  "dependency_sha256": "f6bc4c5285f46de1507ef826c72fb5d441f3e69ce282051a13f2f4b14f8f12c0",
+  "source_sha256": "7b9202d57666556b366af3b819c26047f1b593d00daa288dc82d690e70350cfa",
+  "caller_sha256": "24e23ee9f3b38f3dd6f381306d2add7cef011afe6393906b00754ed2f424c158",
+  "results": [
+    {
+      "mode": "baseline",
+      "assembly_sha256": "7b15e981c05fef2042c8f8163ffde2423457bf5d07dfe2d65db27782e0039749",
+      "execution": "passed",
+      "metadata": {
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 16,
+          "symbol_size": 8
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 32,
+          "symbol_size": 8
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".unused_keep": {
+          "index": "9",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".unused_drop": {
+          "index": "10",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8,
+          "symbol_size": 8
+        }
+      },
+      "unreferenced_keep_survived": true
+    },
+    {
+      "mode": "allocated",
+      "assembly_sha256": "fc6b33473973872f4ca7d32b2c06e0a04ef0d25a35b6fb02a03b895fb17b2175",
+      "execution": "passed",
+      "metadata": {
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 16,
+          "symbol_size": 8
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 32,
+          "symbol_size": 8
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".unused_keep": {
+          "index": "9",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".unused_drop": {
+          "index": "10",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8,
+          "symbol_size": 8
+        }
+      },
+      "unreferenced_keep_survived": true
+    },
+    {
+      "mode": "optimized",
+      "assembly_sha256": "fc6b33473973872f4ca7d32b2c06e0a04ef0d25a35b6fb02a03b895fb17b2175",
+      "execution": "passed",
+      "metadata": {
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 16,
+          "symbol_size": 8
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 32,
+          "symbol_size": 8
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".unused_keep": {
+          "index": "9",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 8,
+          "symbol_size": 8
+        },
+        ".unused_drop": {
+          "index": "10",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8,
+          "symbol_size": 8
+        }
+      },
+      "unreferenced_keep_survived": true
+    },
+    {
+      "mode": "qbe",
+      "assembly_sha256": "393d8aef60552c0ffbacb104940f70361b077e11473f647040cfe3f4d0484c19",
+      "execution": "passed",
+      "metadata": {
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 16,
+          "symbol_size": 0
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 32,
+          "symbol_size": 0
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 8,
+          "symbol_size": 0
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8,
+          "symbol_size": 0
+        },
+        ".unused_keep": {
+          "index": "9",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WATR",
+          "alignment": 8,
+          "symbol_size": 0
+        },
+        ".unused_drop": {
+          "index": "10",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8,
+          "symbol_size": 0
+        }
+      },
+      "unreferenced_keep_survived": true
+    }
+  ],
+  "controls": {
+    "optimized_remove_R": "unreferenced symbols both dropped; thread oracle passed",
+    "qbe_remove_R": "unreferenced symbols both dropped; thread oracle passed",
+    "wrong_value": "exit1 detected"
+  },
+  "checks_per_backend": 512,
+  "before_equivalence": "passed",
+  "before_refusal": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/input.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n",
+  "negative_cases": 15,
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "888da894478dde89a5639f11a8be6a5dc275c03cf9c36e55688dff9963726682\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/ordinary-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/without_retain-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-names-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/input.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 16 section headers, starting at offset 0x1110:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 00066c 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000bd8 000498 18   I 13   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0006ac 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0006ac 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0006b0 000008 00 WATR  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0006c0 000008 00 WATR  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0006c8 000008 00 WATR  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0006d0 000008 00 WAT  0   0  8\n  [ 9] .unused_keep      PROGBITS        0000000000000000 0006d8 000008 00 WATR  0   0  8\n  [10] .unused_drop      PROGBITS        0000000000000000 0006e0 000008 00 WAT  0   0  8\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 0006e8 000000 00      0   0  1\n  [12] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0006e8 000051 00      0   0  1\n  [13] .symtab           SYMTAB          0000000000000000 000740 000378 18     14  25  8\n  [14] .strtab           STRTAB          0000000000000000 000ab8 00011c 00      0   0  1\n  [15] .shstrtab         STRTAB          0000000000000000 001070 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 37 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n     5: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     7: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     9: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .unused_keep\n    11: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .unused_drop\n    12: 0000000000000000     0 SECTION LOCAL  DEFAULT   11 .note.GNU-stack\n    13: 0000000000000070     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    14: 0000000000000130     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    15: 000000000000020c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    16: 00000000000002b8     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    17: 0000000000000382     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    18: 0000000000000458     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    19: 0000000000000522     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    20: 00000000000005f8     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    21: 0000000000000026     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_edge_11_read_custom_s\n    22: 0000000000000028     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_zero\n    23: 00000000000000e8     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_init\n    24: 0000000000000000     0 SECTION LOCAL  DEFAULT   12 .riscv.attributes\n    25: 0000000000000002   422 FUNC    GLOBAL DEFAULT    1 read_custom\n    26: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    27: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND __tls_get_addr\n    28: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    29: 00000000000001aa   384 FUNC    GLOBAL DEFAULT    1 write_custom\n    30: 000000000000032c   206 FUNC    GLOBAL DEFAULT    1 read_local\n    31: 00000000000003fc   206 FUNC    GLOBAL DEFAULT    1 write_local\n    32: 00000000000004cc   206 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    33: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    34: 000000000000059c   206 FUNC    GLOBAL DEFAULT    1 write_ordinary\n    35: 0000000000000000     8 TLS     GLOBAL DEFAULT    9 unused_keep\n    36: 0000000000000000     8 TLS     GLOBAL DEFAULT   10 unused_drop\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "-pthread",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "0000000000000900 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000009e4 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000800 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000092e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000b9c t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000002d30 a _DYNAMIC\n0000000000002f68 a _GLOBAL_OFFSET_TABLE_\n0000000000000790 a _PROCEDURE_LINKAGE_TABLE_\n0000000000003010 B __BSS_END__\n0000000000003000 D __DATA_BEGIN__\n0000000000001314 r __FRAME_END__\n00000000000011e4 r __GNU_EH_FRAME_HDR\n0000000000003008 D __SDATA_BEGIN__\n0000000000003008 D __TMC_END__\n00000000000002f0 r __abi_tag\n0000000000003008 B __bss_start\n0000000000000998 t __do_global_dtors_aux\n0000000000002d28 d __do_global_dtors_aux_fini_array_entry\n0000000000003000 D __dso_handle\n0000000000002d20 d __frame_dummy_init_array_entry\n0000000000003800 A __global_pointer$\n0000000000003008 D _edata\n0000000000003010 B _end\n0000000000000900 T _start\n0000000000003008 b completed.0\n0000000000000010 D custom_init\n0000000000000028 d custom_local\n0000000000000020 D custom_zero\n000000000000092e t deregister_tm_clones\n000000000000300c b failed\n00000000000009d8 t frame_dummy\n00000000000009e4 t initial\n0000000000000922 t load_gp\n0000000000000800 T main\n0000000000000000 D ordinary\n0000000000000b9c T read_custom\n0000000000000eb4 T read_local\n000000000000104c T read_ordinary\n000000000000095e t register_tm_clones\n0000000000000030 D unused_keep\n0000000000000a62 t worker\n0000000000000d3c T write_custom\n0000000000000f80 T write_local\n0000000000001118 T write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 16 section headers, starting at offset 0x1130:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000688 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000bf8 000498 18   I 13   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0006d0 000008 00 WATR  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0006e0 000008 00 WATR  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0006e8 000008 00 WATR  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0006f0 000008 00 WAT  0   0  8\n  [ 9] .unused_keep      PROGBITS        0000000000000000 0006f8 000008 00 WATR  0   0  8\n  [10] .unused_drop      PROGBITS        0000000000000000 000700 000008 00 WAT  0   0  8\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 000708 000000 00      0   0  1\n  [12] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 000708 000051 00      0   0  1\n  [13] .symtab           SYMTAB          0000000000000000 000760 000378 18     14  25  8\n  [14] .strtab           STRTAB          0000000000000000 000ad8 00011c 00      0   0  1\n  [15] .shstrtab         STRTAB          0000000000000000 001090 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 37 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n     5: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     7: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     9: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .unused_keep\n    11: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .unused_drop\n    12: 0000000000000000     0 SECTION LOCAL  DEFAULT   11 .note.GNU-stack\n    13: 0000000000000076     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    14: 0000000000000136     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    15: 0000000000000216     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    16: 00000000000002c0     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    17: 0000000000000394     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    18: 000000000000046c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    19: 000000000000053c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    20: 0000000000000614     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    21: 000000000000002c     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_edge_11_read_custom_s\n    22: 000000000000002e     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_zero\n    23: 00000000000000ee     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_init\n    24: 0000000000000000     0 SECTION LOCAL  DEFAULT   12 .riscv.attributes\n    25: 0000000000000002   428 FUNC    GLOBAL DEFAULT    1 read_custom\n    26: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    27: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND __tls_get_addr\n    28: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    29: 00000000000001b0   392 FUNC    GLOBAL DEFAULT    1 write_custom\n    30: 000000000000033a   210 FUNC    GLOBAL DEFAULT    1 read_local\n    31: 000000000000040e   210 FUNC    GLOBAL DEFAULT    1 write_local\n    32: 00000000000004e2   210 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    33: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    34: 00000000000005b6   210 FUNC    GLOBAL DEFAULT    1 write_ordinary\n    35: 0000000000000000     8 TLS     GLOBAL DEFAULT    9 unused_keep\n    36: 0000000000000000     8 TLS     GLOBAL DEFAULT   10 unused_drop\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "-pthread",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "0000000000000900 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000009e4 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000800 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000092e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000b9c t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000002d30 a _DYNAMIC\n0000000000002f68 a _GLOBAL_OFFSET_TABLE_\n0000000000000790 a _PROCEDURE_LINKAGE_TABLE_\n0000000000003010 B __BSS_END__\n0000000000003000 D __DATA_BEGIN__\n0000000000001334 r __FRAME_END__\n0000000000001200 r __GNU_EH_FRAME_HDR\n0000000000003008 D __SDATA_BEGIN__\n0000000000003008 D __TMC_END__\n00000000000002f0 r __abi_tag\n0000000000003008 B __bss_start\n0000000000000998 t __do_global_dtors_aux\n0000000000002d28 d __do_global_dtors_aux_fini_array_entry\n0000000000003000 D __dso_handle\n0000000000002d20 d __frame_dummy_init_array_entry\n0000000000003800 A __global_pointer$\n0000000000003008 D _edata\n0000000000003010 B _end\n0000000000000900 T _start\n0000000000003008 b completed.0\n0000000000000010 D custom_init\n0000000000000028 d custom_local\n0000000000000020 D custom_zero\n000000000000092e t deregister_tm_clones\n000000000000300c b failed\n00000000000009d8 t frame_dummy\n00000000000009e4 t initial\n0000000000000922 t load_gp\n0000000000000800 T main\n0000000000000000 D ordinary\n0000000000000b9c T read_custom\n0000000000000ec0 T read_local\n0000000000001060 T read_ordinary\n000000000000095e t register_tm_clones\n0000000000000030 D unused_keep\n0000000000000a62 t worker\n0000000000000d40 T write_custom\n0000000000000f90 T write_local\n0000000000001130 T write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 16 section headers, starting at offset 0x1130:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000688 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000bf8 000498 18   I 13   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0006c8 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0006d0 000008 00 WATR  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0006e0 000008 00 WATR  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0006e8 000008 00 WATR  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0006f0 000008 00 WAT  0   0  8\n  [ 9] .unused_keep      PROGBITS        0000000000000000 0006f8 000008 00 WATR  0   0  8\n  [10] .unused_drop      PROGBITS        0000000000000000 000700 000008 00 WAT  0   0  8\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 000708 000000 00      0   0  1\n  [12] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 000708 000051 00      0   0  1\n  [13] .symtab           SYMTAB          0000000000000000 000760 000378 18     14  25  8\n  [14] .strtab           STRTAB          0000000000000000 000ad8 00011c 00      0   0  1\n  [15] .shstrtab         STRTAB          0000000000000000 001090 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 37 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n     5: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     7: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     9: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .unused_keep\n    11: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .unused_drop\n    12: 0000000000000000     0 SECTION LOCAL  DEFAULT   11 .note.GNU-stack\n    13: 0000000000000076     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    14: 0000000000000136     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    15: 0000000000000216     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    16: 00000000000002c0     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    17: 0000000000000394     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    18: 000000000000046c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    19: 000000000000053c     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    20: 0000000000000614     0 NOTYPE  LOCAL  DEFAULT    1 .L0 \n    21: 000000000000002c     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_edge_11_read_custom_s\n    22: 000000000000002e     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_zero\n    23: 00000000000000ee     0 NOTYPE  LOCAL  DEFAULT    1 .L_lcb_11_read_custom_init\n    24: 0000000000000000     0 SECTION LOCAL  DEFAULT   12 .riscv.attributes\n    25: 0000000000000002   428 FUNC    GLOBAL DEFAULT    1 read_custom\n    26: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    27: 0000000000000000     0 NOTYPE  GLOBAL DEFAULT  UND __tls_get_addr\n    28: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    29: 00000000000001b0   392 FUNC    GLOBAL DEFAULT    1 write_custom\n    30: 000000000000033a   210 FUNC    GLOBAL DEFAULT    1 read_local\n    31: 000000000000040e   210 FUNC    GLOBAL DEFAULT    1 write_local\n    32: 00000000000004e2   210 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    33: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    34: 00000000000005b6   210 FUNC    GLOBAL DEFAULT    1 write_ordinary\n    35: 0000000000000000     8 TLS     GLOBAL DEFAULT    9 unused_keep\n    36: 0000000000000000     8 TLS     GLOBAL DEFAULT   10 unused_drop\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "-pthread",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "0000000000000900 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000009e4 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000800 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000092e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000b9c t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000002d30 a _DYNAMIC\n0000000000002f68 a _GLOBAL_OFFSET_TABLE_\n0000000000000790 a _PROCEDURE_LINKAGE_TABLE_\n0000000000003010 B __BSS_END__\n0000000000003000 D __DATA_BEGIN__\n0000000000001334 r __FRAME_END__\n0000000000001200 r __GNU_EH_FRAME_HDR\n0000000000003008 D __SDATA_BEGIN__\n0000000000003008 D __TMC_END__\n00000000000002f0 r __abi_tag\n0000000000003008 B __bss_start\n0000000000000998 t __do_global_dtors_aux\n0000000000002d28 d __do_global_dtors_aux_fini_array_entry\n0000000000003000 D __dso_handle\n0000000000002d20 d __frame_dummy_init_array_entry\n0000000000003800 A __global_pointer$\n0000000000003008 D _edata\n0000000000003010 B _end\n0000000000000900 T _start\n0000000000003008 b completed.0\n0000000000000010 D custom_init\n0000000000000028 d custom_local\n0000000000000020 D custom_zero\n000000000000092e t deregister_tm_clones\n000000000000300c b failed\n00000000000009d8 t frame_dummy\n00000000000009e4 t initial\n0000000000000922 t load_gp\n0000000000000800 T main\n0000000000000000 D ordinary\n0000000000000b9c T read_custom\n0000000000000ec0 T read_local\n0000000000001060 T read_ordinary\n000000000000095e t register_tm_clones\n0000000000000030 D unused_keep\n0000000000000a62 t worker\n0000000000000d40 T write_custom\n0000000000000f90 T write_local\n0000000000001130 T write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 16 section headers, starting at offset 0xba0:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000180 00  AX  0   0 16\n  [ 2] .rela.text        RELA            0000000000000000 0005c0 000540 18   I 13   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0001c0 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0001c0 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0001c0 000008 00 WATR  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0001e0 000008 00 WATR  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0001e8 000008 00 WATR  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0001f0 000008 00 WAT  0   0  8\n  [ 9] .unused_keep      PROGBITS        0000000000000000 0001f8 000008 00 WATR  0   0  8\n  [10] .unused_drop      PROGBITS        0000000000000000 000200 000008 00 WAT  0   0  8\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 000208 000000 00      0   0  1\n  [12] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 000208 000051 00      0   0  1\n  [13] .symtab           SYMTAB          0000000000000000 000260 000288 18     14  16  8\n  [14] .strtab           STRTAB          0000000000000000 0004e8 0000d5 00      0   0  1\n  [15] .shstrtab         STRTAB          0000000000000000 000b00 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 27 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     5: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     7: 0000000000000000     0 TLS     LOCAL  DEFAULT    7 custom_local\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n     9: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n    10: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .unused_keep\n    11: 0000000000000000     0 SECTION LOCAL  DEFAULT   10 .unused_drop\n    12: 0000000000000000     0 SECTION LOCAL  DEFAULT   11 .note.GNU-stack\n    13: 0000000000000030     0 NOTYPE  LOCAL  DEFAULT    1 .L2\n    14: 0000000000000040     0 NOTYPE  LOCAL  DEFAULT    1 .L3\n    15: 0000000000000000     0 SECTION LOCAL  DEFAULT   12 .riscv.attributes\n    16: 0000000000000000     0 TLS     GLOBAL DEFAULT    5 custom_init\n    17: 0000000000000000     0 TLS     GLOBAL DEFAULT    6 custom_zero\n    18: 0000000000000000     0 TLS     GLOBAL DEFAULT    8 ordinary\n    19: 000000000000000e    62 FUNC    GLOBAL DEFAULT    1 read_custom\n    20: 000000000000005a    58 FUNC    GLOBAL DEFAULT    1 write_custom\n    21: 00000000000000a2    42 FUNC    GLOBAL DEFAULT    1 read_local\n    22: 00000000000000da    42 FUNC    GLOBAL DEFAULT    1 write_local\n    23: 0000000000000112    42 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    24: 000000000000014a    42 FUNC    GLOBAL DEFAULT    1 write_ordinary\n    25: 0000000000000000     0 TLS     GLOBAL DEFAULT    9 unused_keep\n    26: 0000000000000000     0 TLS     GLOBAL DEFAULT   10 unused_drop\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "-pthread",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "0000000000000890 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000974 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000790 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000008be t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000b30 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000001d70 a _DYNAMIC\n0000000000001fa0 a _GLOBAL_OFFSET_TABLE_\n0000000000000730 a _PROCEDURE_LINKAGE_TABLE_\n0000000000002010 B __BSS_END__\n0000000000002000 D __DATA_BEGIN__\n0000000000000d84 r __FRAME_END__\n0000000000000c50 r __GNU_EH_FRAME_HDR\n0000000000002008 D __SDATA_BEGIN__\n0000000000002008 D __TMC_END__\n00000000000002f0 r __abi_tag\n0000000000002008 B __bss_start\n0000000000000928 t __do_global_dtors_aux\n0000000000001d68 d __do_global_dtors_aux_fini_array_entry\n0000000000002000 D __dso_handle\n0000000000001d60 d __frame_dummy_init_array_entry\n0000000000002800 A __global_pointer$\n0000000000002008 D _edata\n0000000000002010 B _end\n0000000000000890 T _start\n0000000000002008 b completed.0\n0000000000000010 D custom_init\n0000000000000028 d custom_local\n0000000000000020 D custom_zero\n00000000000008be t deregister_tm_clones\n000000000000200c b failed\n0000000000000968 t frame_dummy\n0000000000000974 t initial\n00000000000008b2 t load_gp\n0000000000000790 T main\n0000000000000000 D ordinary\n0000000000000b30 T read_custom\n0000000000000b90 T read_local\n0000000000000bf0 T read_ordinary\n00000000000008ee t register_tm_clones\n0000000000000030 D unused_keep\n00000000000009f2 t worker\n0000000000000b60 T write_custom\n0000000000000bc0 T write_local\n0000000000000c20 T write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized-remove-R.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized-remove-R.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "-pthread",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized-remove-R.s",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized-remove-R"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized-remove-R"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "0000000000000900 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000009e4 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000800 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000092e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000b9c t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000002d28 a _DYNAMIC\n0000000000002f60 a _GLOBAL_OFFSET_TABLE_\n0000000000000790 a _PROCEDURE_LINKAGE_TABLE_\n0000000000003010 B __BSS_END__\n0000000000003000 D __DATA_BEGIN__\n0000000000001334 r __FRAME_END__\n0000000000001200 r __GNU_EH_FRAME_HDR\n0000000000003008 D __SDATA_BEGIN__\n0000000000003008 D __TMC_END__\n00000000000002f0 r __abi_tag\n0000000000003008 B __bss_start\n0000000000000998 t __do_global_dtors_aux\n0000000000002d20 d __do_global_dtors_aux_fini_array_entry\n0000000000003000 D __dso_handle\n0000000000002d18 d __frame_dummy_init_array_entry\n0000000000003800 A __global_pointer$\n0000000000003008 D _edata\n0000000000003010 B _end\n0000000000000900 T _start\n0000000000003008 b completed.0\n0000000000000010 D custom_init\n0000000000000028 d custom_local\n0000000000000020 D custom_zero\n000000000000092e t deregister_tm_clones\n000000000000300c b failed\n00000000000009d8 t frame_dummy\n00000000000009e4 t initial\n0000000000000922 t load_gp\n0000000000000800 T main\n0000000000000000 D ordinary\n0000000000000b9c T read_custom\n0000000000000ec0 T read_local\n0000000000001060 T read_ordinary\n000000000000095e t register_tm_clones\n0000000000000a62 t worker\n0000000000000d40 T write_custom\n0000000000000f90 T write_local\n0000000000001130 T write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/optimized-remove-R"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe-remove-R.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe-remove-R.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "-pthread",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe-remove-R.s",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe-remove-R"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe-remove-R"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "0000000000000890 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000974 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000790 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000008be t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000b30 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000001d88 a _DYNAMIC\n0000000000001fb8 a _GLOBAL_OFFSET_TABLE_\n0000000000000730 a _PROCEDURE_LINKAGE_TABLE_\n0000000000002010 B __BSS_END__\n0000000000002000 D __DATA_BEGIN__\n0000000000000d84 r __FRAME_END__\n0000000000000c50 r __GNU_EH_FRAME_HDR\n0000000000002008 D __SDATA_BEGIN__\n0000000000002008 D __TMC_END__\n00000000000002f0 r __abi_tag\n0000000000002008 B __bss_start\n0000000000000928 t __do_global_dtors_aux\n0000000000001d80 d __do_global_dtors_aux_fini_array_entry\n0000000000002000 D __dso_handle\n0000000000001d78 d __frame_dummy_init_array_entry\n0000000000002800 A __global_pointer$\n0000000000002008 D _edata\n0000000000002010 B _end\n0000000000000890 T _start\n0000000000002008 b completed.0\n0000000000000010 D custom_init\n0000000000000028 d custom_local\n0000000000000020 D custom_zero\n00000000000008be t deregister_tm_clones\n000000000000200c b failed\n0000000000000968 t frame_dummy\n0000000000000974 t initial\n00000000000008b2 t load_gp\n0000000000000790 T main\n0000000000000000 D ordinary\n0000000000000b30 T read_custom\n0000000000000b90 T read_local\n0000000000000bf0 T read_ordinary\n00000000000008ee t register_tm_clones\n00000000000009f2 t worker\n0000000000000b60 T write_custom\n0000000000000bc0 T write_local\n0000000000000c20 T write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/qbe-remove-R"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/wrong-value.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/wrong-value.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "-pthread",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/wrong-value.s",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/wrong-value"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-aTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-wTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRx.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-retained-tls/.build/retained-tls/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-v2-riscv64-linux/retained-tls/invalid-awTRG.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": ""
+    }
+  ]
+}

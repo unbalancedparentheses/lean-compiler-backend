@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/private/tmp/lcb-retained-tls/.build/retained-tls/run.py", line 21, in <module>
+    r=t.exercise(private/'.build/retained-tls/after',work,run,cc,target,qbe=Path('/tmp/qbe/qbe') if linux else root/'.build/syntax-main-review/qbe-snapshot',before=root/'.build/lcb-elf-names-main');reports.append(dict(target=target,report=str(work/'retained-tls/report.json')));print(target,'passed',flush=True)
+  File "/tmp/lcb-retained-tls/scripts/retained_tls.py", line 42, in exercise
+    obj=d/(label+'.o');exe=d/label;invoke([*cc,'-c',asm,'-o',obj],True);row['metadata']=metadata(invoke(['readelf','-SW',obj],True).stdout,invoke(['readelf','-sW',obj],True).stdout)
+                                                                                        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-retained-tls/scripts/retained_tls.py", line 18, in metadata
+    matches=[line.split() for line in symbols.splitlines() if line.split() and line.split()[-1]==name];assert len(matches)==1,(name,matches);sym=matches[0];assert sym[2]=='8' and sym[3]=='TLS' and sym[6]==row['index'],sym;result[section]=row
+                                                                                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ['19:', '0000000000000000', '0', 'TLS', 'GLOBAL', 'DEFAULT', '5', 'custom_init']

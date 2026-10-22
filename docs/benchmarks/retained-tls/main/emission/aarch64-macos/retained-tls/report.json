@@ -1,0 +1,391 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "4b41bddbd06b27174a3729ad2eca3888525a2f6e3e31d737a1057c18d22287bc",
+  "compiler_sha256": "9ef753acd62459226551d7e24a56b8dc991a3e134b1cf238a66aee271d9c266a",
+  "helper_sha256": "809fa0e2b076bf54d2a8d55e216ec7c9de3efd3777fe49d1f65f8cde00874fa2",
+  "dependency_sha256": "f6bc4c5285f46de1507ef826c72fb5d441f3e69ce282051a13f2f4b14f8f12c0",
+  "source_sha256": "7b9202d57666556b366af3b819c26047f1b593d00daa288dc82d690e70350cfa",
+  "caller_sha256": "24e23ee9f3b38f3dd6f381306d2add7cef011afe6393906b00754ed2f424c158",
+  "results": [
+    {
+      "mode": "baseline",
+      "apple_refusal": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "mode": "allocated",
+      "apple_refusal": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "mode": "optimized",
+      "apple_refusal": "error: Apple thread data cannot have a custom section\n"
+    }
+  ],
+  "controls": {},
+  "checks_per_backend": 0,
+  "before_equivalence": "passed",
+  "negative_cases": 15,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "4b41bddbd06b27174a3729ad2eca3888525a2f6e3e31d737a1057c18d22287bc\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-mutable-width-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-mutable-width-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-mutable-width-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/ordinary-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-aTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-wTR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awR.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRx.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/snapshot/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/retained-tls-main-review/emission/aarch64-macos/retained-tls/invalid-awTRG.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    }
+  ]
+}

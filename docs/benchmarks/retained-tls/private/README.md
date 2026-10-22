@@ -1,0 +1,19 @@
+# Retained writable ELF TLS
+
+Private candidate based on b246312. Compiler source/build identity `888da894478dde89a5639f11a8be6a5dc275c03cf9c36e55688dff9963726682`. No main edits or commits.
+
+This expands the previously bounded custom TLS flag profile from required a/w/T to required a/w/T with optional R. Flag order remains immaterial. Missing a/w/T, read-only TLS, executable/group flags, common TLS, ordinary data/functions with T and Apple custom TLS remain outside admission. There are no emitter changes. Historical awTR-refusal campaign evidence is unchanged and records the prior boundary.
+
+Final v2 helper qualifies all three Linux targets in baseline/allocated/optimized plus unchanged original QBE. Each backend checks four sequential child threads with 128 read/write round groups each (512), initial values, main-thread isolation and alignment. Primary counts: 4,608 LCB and 1,536 original-QBE round groups. Linux ARM runs natively in Docker; x86/RV use QEMU. These are correctness checks, not timings or concurrent stress claims.
+
+Object inspection checks exact custom section names, PROGBITS type, WATR or WAT flags, eight-byte size and explicit alignment, plus TLS symbol type and matching section index. Actual symbol sizes are recorded; assembler-generated symbols may have size zero. Tested zero-filled custom storage stays PROGBITS; no claim about assembler-special section names is made.
+
+The linked executable is built with --gc-sections. An unreferenced retained TLS symbol survives; its unreferenced non-retained counterpart disappears. The C caller references neither sentinel, so the oracle does not create linker roots. Removing R from the same optimized LCB/original-QBE source drops both unused symbols on all three targets; the ordinary thread oracle still passes. A deliberately wrong initial value produces C exit 1 on all three targets.
+
+Before names-main snapshot refuses the new awTR input. Existing awT fixture assembly is byte-identical before/after for all nine Linux/mode pairs; ordinary TLS fixture assembly is byte-identical for all fifteen target/mode pairs. Both Apple targets explicitly refuse custom TLS in all modes; no Apple execution of custom TLS is claimed. Fifteen unsupported flag/mode cases per target remain refused. Five missing-tool emission-only exercises passed without invoking C/QBE, and the host CLI passed its Apple refusal/emission path with zero executed custom-TLS rounds.
+
+The existing custom_tls_sections helper also passes its full five-target regression with original QBE on Linux. No awTR negative existed in the tracked b246312 helper: the existing awTx negative was strengthened to awTRx, preserving the Linux 24 / Apple 18 negative-case counts. The helper scope text now distinguishes its unchanged awT fixtures from the new retained-TLS qualification. Historical combined-campaign artifacts were not changed.
+
+Fresh units and all 147 exact unchanged proof-audit assertions pass; no new proof claim. Source/helper/dependency/compiler hashes agree across final campaign. Guest/host SHA barriers matched 43 files per Linux target for the new helper and 33 per target for the existing helper. Relative publication manifest binds all retained evidence. The initial v1 preflight incorrectly required an ELF symbol size of 8; the actual symbol size was 0 while the section size was 8. Its helper/log/artifacts remain segregated as a harness assumption failure, not a compiler failure. Final v2 checks section storage size and records symbol size.
+
+core.patch includes Section.lean, units and the old-helper negative/scope adjustment. helper.patch adds scripts/retained_tls.py with standard exercise and CLI. Integration must regenerate identity against then-current sources. Main hooks and full gates are left to the parent integration checkpoint.

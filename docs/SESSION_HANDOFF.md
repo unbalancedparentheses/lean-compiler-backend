@@ -6,12 +6,21 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Retained writable TLS](benchmarks/retained-tls/README.md) is integrated on identity
+`4b41bddbd06b27174a3729ad2eca3888525a2f6e3e31d737a1057c18d22287bc`.
+Optional R now composes with awT. All three Linux C/original-QBE thread/metadata/GC
+matrices, Apple refusal/equivalence, emission/CLI controls, units and 147 exact
+audit statements pass. Corpus and all 432 workload assemblies remain identical.
+Complete Linux/host gates are queued for the forthcoming combined checkpoint.
+Scaled ARM loads are next, supported by correctness and static code-size savings;
+performance samples are diagnostic under uncontrolled external background load.
+
 [Mutable integer widths](benchmarks/mutable-integer-widths/README.md) are integrated
 on identity `1902411287790994d88c0700305e3916b276da8ea01b7d57ccb26fcfea7887d9`.
 All five original-QBE/C matrices, fresh units, 147 exact audit statements, existing
 SSA regression and missing-tool/CLI controls pass. Corpus and all 432 workload
 assemblies remain identical. Complete regression gates are pending the upcoming
-combined checkpoint. Retained TLS is ready privately; scaled ARM loads passed
+combined checkpoint. Retained TLS follows in the checkpoint above; scaled ARM loads passed
 two timing windows, but external background CPU activity invalidates a quiet-window
 interpretation. Those timings are diagnostics only; clean performance remains
 unresolved. Correctness/static savings support further bounded review.

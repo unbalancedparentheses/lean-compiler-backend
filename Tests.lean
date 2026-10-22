@@ -105,6 +105,14 @@ def main : IO Unit := do
       "ELF retain broadened unrelated flag grammar"
   require (valueEquals (Section.checkTarget true (some ⟨"__DATA", some "aR"⟩)) ())
     "Apple literal second-field section name changed"
+  for flags in ["awTR", "RawT", "TRwa"] do
+    require (valueEquals (Section.checkDataTarget false true (some ⟨".retained_tls", some flags⟩)) ())
+      "ELF retained writable TLS rejected"
+    require (isFailure (Section.checkDataTarget true true (some ⟨".retained_tls", some flags⟩)))
+      "Apple custom TLS must remain refused with R"
+  for flags in ["aTR", "wTR", "awR", "awTRx", "awTRG"] do
+    require (isFailure (Section.checkDataTarget false true (some ⟨".retained_tls", some flags⟩)))
+      "retained TLS must still require awT and reject unrelated flags"
   let tlsSection : SectionSpec := ⟨".custom_tls", some "awT"⟩
   require (valueEquals (Section.checkDataTarget false true (some tlsSection)) ())
     "ELF custom TLS section rejected"

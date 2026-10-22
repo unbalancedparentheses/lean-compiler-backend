@@ -1,0 +1,70 @@
+diff --git a/scripts/retained_tls.py b/scripts/retained_tls.py
+new file mode 100644
+index 0000000..bf3c6df
+--- /dev/null
++++ b/scripts/retained_tls.py
+@@ -0,0 +1,64 @@
++#!/usr/bin/env python3
++"""Optional GNU retain flag on writable ELF TLS; thread and linker-GC oracles."""
++from pathlib import Path
++import hashlib,json,re
++import custom_tls_sections as tls
++IR=tls.IR.replace('"awT"','"awTR"').replace('"waT"','"RwaT"').replace('"Taw"','"TRaw"')+'section ".unused_keep" "awTR" export thread data $unused_keep = { l 91 }\nsection ".unused_drop" "awT" export thread data $unused_drop = { l 92 }\n'
++C=tls.C
++
++def metadata(sections,symbols):
++ found={}
++ for line in sections.splitlines():
++  m=re.match(r'\s*\[\s*(\d+)\]\s+(\S+)\s+(\S+)\s+\S+\s+\S+\s+(\S+)\s+\S+\s+(\S+)\s+\S+\s+\S+\s+(\d+)',line)
++  if m:found[m[2]]={'index':m[1],'type':m[3],'size':int(m[4],16),'flags':m[5],'alignment':int(m[6])}
++ expected=[('custom_init','.lcb_tls.init',16,'WATR'),('custom_zero','.lcb_tls.zero',32,'WATR'),('custom_local','.lcb_tls.local',8,'WATR'),('ordinary','.tdata',8,'WAT'),('unused_keep','.unused_keep',8,'WATR'),('unused_drop','.unused_drop',8,'WAT')]
++ result={}
++ for name,section,alignment,flags in expected:
++  row=found[section];assert row['type']=='PROGBITS' and set(row['flags'])==set(flags) and row['size']==8 and row['alignment']==alignment,(section,row)
++  matches=[line.split() for line in symbols.splitlines() if line.split() and line.split()[-1]==name];assert len(matches)==1,(name,matches);sym=matches[0];assert sym[3]=='TLS' and sym[6]==row['index'],sym;row['symbol_size']=int(sym[2]);result[section]=row
++ return result
++
++def exercise(compiler,work,run,cc,target,execute=True,qbe=None,before=None):
++ d=Path(work)/'retained-tls';d.mkdir(parents=True,exist_ok=True);cc=[str(cc)] if isinstance(cc,(str,Path)) else list(map(str,cc));sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();commands=[]
++ def invoke(cmd,inside=False,ok=True):
++  cmd=list(map(str,cmd));p=run(cmd,inside);commands.append(dict(command=cmd,inside=inside,exit=p.returncode,stdout=p.stdout,stderr=p.stderr));assert not ok or p.returncode==0,commands[-1];return p
++ src=d/'input.ssa';src.write_text(IR);caller=d/'caller.c';caller.write_text(C);apple=target.endswith('macos');r=dict(target=target,compiler_identity=invoke([compiler,'--build-identity']).stdout.strip(),compiler_sha256=sha(compiler),helper_sha256=sha(__file__),dependency_sha256=sha(tls.__file__),source_sha256=sha(src),caller_sha256=sha(caller),results=[],controls={},checks_per_backend=512 if execute and not apple else 0,before_equivalence='skipped: no before snapshot' if before is None else 'passed')
++ modes=[('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]
++ for name,text in [('ordinary',tls.ORDINARY)]+([] if apple else [('without_retain',tls.IR)]):
++  path=d/(name+'.ssa');path.write_text(text)
++  for label,flags in modes:
++   asm=d/(name+'-'+label+'.s');invoke([compiler,path,'--target',target,*flags,'-o',asm])
++   if before:
++    old=d/(name+'-'+label+'-before.s');invoke([before,path,'--target',target,*flags,'-o',old]);assert old.read_bytes()==asm.read_bytes()
++ if before and not apple:
++  p=invoke([before,src,'--target',target,'-o',d/'before.s'],ok=False);assert p.returncode!=0 and 'custom TLS' in p.stderr;r['before_refusal']=p.stderr
++ for label,flags in modes+([('qbe',None)] if execute and qbe and not apple else []):
++  asm=d/(label+'.s');cmd=[qbe,'-t',{'aarch64-linux':'arm64','x86_64-linux':'amd64_sysv','riscv64-linux':'rv64'}[target],'-o',asm,src] if label=='qbe' else [compiler,src,'--target',target,*flags,'-o',asm]
++  p=invoke(cmd,label=='qbe',not apple)
++  if apple:
++   assert p.returncode!=0 and 'Apple thread data cannot have a custom section' in p.stderr;r['results'].append(dict(mode=label,apple_refusal=p.stderr));continue
++  row=dict(mode=label,assembly_sha256=sha(asm),execution='not-run');r['results'].append(row)
++  if execute:
++   obj=d/(label+'.o');exe=d/label;invoke([*cc,'-c',asm,'-o',obj],True);row['metadata']=metadata(invoke(['readelf','-SW',obj],True).stdout,invoke(['readelf','-sW',obj],True).stdout)
++   invoke([*cc,'-O2','-pthread',caller,obj,'-Wl,--gc-sections','-o',exe],True);syms=invoke(['nm','--defined-only',exe],True).stdout;assert 'unused_keep' in syms and 'unused_drop' not in syms;invoke([exe],True);row['execution']='passed';row['unreferenced_keep_survived']=True
++ if execute and not apple:
++  for label,flags in [('optimized',['--optimize'])]+([('qbe',None)] if qbe else []):
++   path=d/(label+'-remove-R.ssa');path.write_text(IR.replace('"awTR"','"awT"').replace('"RwaT"','"waT"').replace('"TRaw"','"Taw"'));asm=d/(label+'-remove-R.s');exe=d/(label+'-remove-R');cmd=[qbe,'-t',{'aarch64-linux':'arm64','x86_64-linux':'amd64_sysv','riscv64-linux':'rv64'}[target],'-o',asm,path] if label=='qbe' else [compiler,path,'--target',target,*flags,'-o',asm];invoke(cmd,label=='qbe');invoke([*cc,'-O2','-pthread',caller,asm,'-Wl,--gc-sections','-o',exe],True);syms=invoke(['nm','--defined-only',exe],True).stdout;assert 'unused_keep' not in syms and 'unused_drop' not in syms;invoke([exe],True);r['controls'][label+'_remove_R']='unreferenced symbols both dropped; thread oracle passed'
++  bad=d/'wrong-value.ssa';bad.write_text(IR.replace('{ l 37 }','{ l 38 }',1));asm=d/'wrong-value.s';exe=d/'wrong-value';invoke([compiler,bad,'--target',target,'--optimize','-o',asm]);invoke([*cc,'-O2','-pthread',caller,asm,'-Wl,--gc-sections','-o',exe],True);p=invoke([exe],True,False);assert p.returncode==1;r['controls']['wrong_value']='exit1 detected'
++ for flags in ['aTR','wTR','awR','awTRx','awTRG']:
++  path=d/('invalid-'+flags+'.ssa');path.write_text(f'section ".invalid" "{flags}" thread data $x = {{ l 1 }}\n')
++  for label,options in modes:
++   p=invoke([compiler,path,'--target',target,*options,'-o',d/('invalid-'+flags+'-'+label+'.s')],ok=False);assert p.returncode!=0
++ r['negative_cases']=15
++ if execute and qbe and not apple:r['qbe_sha256']=invoke(['python3','-c','import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())',qbe],True).stdout.strip()
++ assert sha(src)==r['source_sha256'] and sha(caller)==r['caller_sha256'];r['commands']=commands;(d/'report.json').write_text(json.dumps(r,indent=2));return r
++
++def main():
++ import argparse,os,platform,subprocess,tempfile
++ from fuzz import LCB
++ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--compiler',type=Path,default=LCB);p.add_argument('--before',type=Path);p.add_argument('--qbe',type=Path);p.add_argument('--target');p.add_argument('--emission-only',action='store_true');p.add_argument('--require-native',action='store_true');args=p.parse_args()
++ native={('Darwin','arm64'):'aarch64-macos',('Darwin','x86_64'):'x86_64-macos',('Linux','aarch64'):'aarch64-linux',('Linux','arm64'):'aarch64-linux',('Linux','x86_64'):'x86_64-linux',('Linux','riscv64'):'riscv64-linux'}.get((platform.system(),platform.machine().lower()));target=args.target or native or 'aarch64-macos';execute=not args.emission_only and target==native
++ if args.require_native:assert execute,'native target required'
++ def run(cmd,inside=False):return subprocess.run(list(map(str,cmd)),capture_output=True,text=True,timeout=180)
++ with tempfile.TemporaryDirectory(prefix='lcb-retained-tls-') as tmp:print(json.dumps(exercise(args.compiler.resolve(),Path(tmp),run,os.environ.get('LCB_CC','cc'),target,execute,args.qbe,args.before),indent=2))
++if __name__=='__main__':main()

@@ -7,6 +7,7 @@ from fuzz import ROOT, LCB
 from aggregate_signature_aliases import exercise as aggregate_signature_aliases
 from mutable_integer_widths import exercise as mutable_integer_widths
 from elf_section_names import exercise as elf_section_names
+from retained_tls import exercise as retained_tls
 from custom_tls_sections import exercise as custom_tls_sections
 from elf_retain import exercise as elf_retain
 from amd_leaf_bank import exercise as amd_leaf_bank
@@ -68,6 +69,8 @@ def main():
             assert widths['checks_per_backend'] == 0 and 'qbe' not in widths['backends']
             elf_names = elf_section_names(LCB,work/target,run,cc,target,False,qbe)
             assert elf_names['executed_modes'] == 0 and elf_names['qbe_sha256'] is None
+            retained = retained_tls(LCB,work/target,run,cc,target,False,qbe)
+            assert retained['checks_per_backend'] == 0 and 'qbe_sha256' not in retained
             tls = custom_tls_sections(LCB,work/target,run,cc,target,False,qbe)
             assert tls['executed_round_groups'] == 0 and tls['qbe_sha256'] is None
             assert tls['ordinary_equivalence'] == 'skipped: no before snapshot supplied'

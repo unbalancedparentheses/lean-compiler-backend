@@ -58,15 +58,15 @@ def checkTarget (darwin : Bool) (customSection : Option SectionSpec) : Except St
       throw s!"custom section syntax does not match the selected object format: {error}"
     throw error
 
-/-- Bounded ELF custom TLS storage: explicit allocatable, writable TLS flags.
+/-- Bounded ELF custom TLS storage: explicit allocatable, writable TLS flags, optionally retained.
     This is data-context validation; ordinary sections still reject T. -/
 def checkTLS (customSection : SectionSpec) : Except String Unit := do
   checkELF { customSection with flags := none }
   let some flags := customSection.flags
-    | throw "custom TLS section requires explicit awT flags"
-  if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'T') ||
+    | throw "custom TLS section requires explicit awT flags (optional R)"
+  if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'T' || c == 'R') ||
       !flags.contains 'a' || !flags.contains 'w' || !flags.contains 'T' then
-    throw "custom TLS section requires allocatable writable TLS flags (awT)"
+    throw "custom TLS section requires allocatable writable TLS flags (awT, optional R)"
 
 def checkDataAny (threadLocal : Bool) (customSection : Option SectionSpec) : Except String Unit := do
   if threadLocal then

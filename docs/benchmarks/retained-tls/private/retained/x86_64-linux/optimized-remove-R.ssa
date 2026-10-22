@@ -1,0 +1,45 @@
+section ".lcb_tls.init" "awT"
+export thread data $custom_init = align 16 { l 37 }
+section ".lcb_tls.zero" "waT"
+export thread data $custom_zero = align 32 { z 8 }
+section ".lcb_tls.local" "Taw"
+thread data $custom_local = { l 73 }
+export thread data $ordinary = { l 19 }
+export function l $read_custom(w %i) {
+@s
+ jnz %i, @zero, @init
+@zero
+ %z =l loadl thread $custom_zero
+ ret %z
+@init
+ %a =l loadl thread $custom_init
+ ret %a
+}
+export function $write_custom(l %a, l %z) {
+@s
+ storel %a, thread $custom_init
+ storel %z, thread $custom_zero
+ ret
+}
+export function l $read_local() {
+@s
+ %v =l loadl thread $custom_local
+ ret %v
+}
+export function $write_local(l %v) {
+@s
+ storel %v, thread $custom_local
+ ret
+}
+export function l $read_ordinary() {
+@s
+ %v =l loadl thread $ordinary
+ ret %v
+}
+export function $write_ordinary(l %v) {
+@s
+ storel %v, thread $ordinary
+ ret
+}
+section ".unused_keep" "awT" export thread data $unused_keep = { l 91 }
+section ".unused_drop" "awT" export thread data $unused_drop = { l 92 }
