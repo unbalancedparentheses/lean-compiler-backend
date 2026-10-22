@@ -18,8 +18,8 @@ opcode-selection theorem is limited; the backend is not verified end to end.
 
 [ARM scaled-load checkpoint](docs/benchmarks/arm-scaled-load/README.md): combined
 identity 210a515a passes all three full Linux gates, native ARM independent
-matrices, corpus audit and fresh zlib/Lua/QBE/cproc qualification. All three pinned Nix CI runners pass on `8ec0f00`; the local full host rerun
-remains pending. Static savings are measured; timings under background
+matrices, corpus audit and fresh zlib/Lua/QBE/cproc qualification. All three pinned Nix CI runners pass on `8ec0f00`; the complete local host gate
+also passes. Static savings are measured; timings under background
 load are diagnostic only. Proof scope remains unchanged.
 
 ## Active execution order

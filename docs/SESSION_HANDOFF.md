@@ -16,7 +16,7 @@ spellings. Exact header/symbol/runtime checks remain. All three CI runners passe
 `210a515a50b54c9b78a824349deea8e4a78cc0d0b26f9bde5f61a886f8e6b2b5`.
 All three complete Linux gates, native ARM matrices/high-spill checks, units,
 147 unchanged exact audit statements, exhaustive corpus delta audit and fresh
-zlib/Lua/QBE/cproc campaigns pass. The local full host rerun is running; all three pinned Nix CI runners pass on
+zlib/Lua/QBE/cproc campaigns pass. The complete local host gate passed; all three pinned Nix CI runners pass on
 `8ec0f00`.
 Zlib loses 312 text bytes per ARM target, mixed Lua 292 bytes. Timings remain
 diagnostic under unrelated background load; clean performance is unresolved.
