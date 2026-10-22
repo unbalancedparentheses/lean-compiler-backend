@@ -804,3 +804,17 @@ The independent C matrix exercises all ten signed/unsigned/equality predicates,
 both widths, immediate boundaries, shared phi uses, intervening instructions,
 earlier comparison results and register pressure. Inverting one emitted branch
 must fail the oracle. This instruction selection is tested, not formally proved.
+
+## Redundant extensions of loaded values
+
+The optimizer records integer SSA values defined by extending byte, halfword or
+word loads. A later unary extension with exactly the same signedness, source
+bit width and result width becomes a copy of that loaded value. The defining
+load stays present, and stores or calls between the load and extension remain
+in place. Validated SSA makes the value immutable across those effects and
+across dominated block edges. Different result widths, mismatched extensions,
+plain loads, phi combinations and floating values do not acquire this fact.
+
+Structural units check the exclusions and retained memory operations; independent
+C execution checks signed edges and mutations between the load and extension.
+This transformation has no formal preservation proof.

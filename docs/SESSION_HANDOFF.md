@@ -8,12 +8,40 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`475c428a6d6764abb797d7c706de170c69e550a58c215fd88c35918d88743e3b`.
+`004162d26e502368fbb845947b6fd48fc089bc36c55b0b0b1da61b52a35fd496`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
 caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
+
+## Redundant extending-load extensions
+
+Matching same-width unary extensions of integer extending-load SSA values now
+become copies. Loads and intervening stores/calls stay intact. Cross-width,
+mismatched, plain-load, mixed-phi and floating cases remain explicit. Independent
+review found no semantic defect. Lean structural/evaluation units and 60,480
+independent C cases per mode pass; all corrected target suites pass with actual
+mode counts. Fresh fuzz seeds 20261461–20261492 pass, 256 functions / 3,328 inputs.
+The complete local gate passed in `.build/extensions-full-check.log`.
+
+Identity-bound `zlib-extensions.json`, `zlib-extensions-x86.json` and
+`zlib-extensions-rv.json` retain upstream static tests and 12 exact gzip streams
+on native Linux ARM64 and QEMU x86/RV. Original RV64 QBE's link failure remains
+unqualified; the isolated corrected oracle is reported separately. ARM64 zlib
+text is 135,770 bytes, 1,868 below the branch-selection checkpoint.
+`qbe-extensions.json` retains all qualified reproductions and 58 original runtime
+cases, with object text 367,156 (1,908 fewer) and linked text 396,048 bytes.
+`cproc-extensions.json` reproduces 19 stage-two IR files and passes 196/196
+original tests; original QBE's attr crash remains separate.
+`cjson-extensions.json` retains the 153 upstream assertions, 18 test executables
+and checksum `342141b63f079083`; only the baseline needs the existing deep-stack
+retry. Timings are local
+measurements, and proof scope is unchanged.
+`csmith-extensions.json` qualifies 26/32 new seeds 20261325–20261356,
+196,320 IR lines; six reference timeouts remain excluded. Twelve disjoint
+default-profile batches total 272/336 attempts, 2,469,958 qualified IR
+lines and 64 reference timeouts.
 
 ## Final integer comparison branches
 

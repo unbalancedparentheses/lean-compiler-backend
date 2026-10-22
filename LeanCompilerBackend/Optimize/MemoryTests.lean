@@ -115,6 +115,42 @@ def run : IO Unit := do
   let forwardedDebug := Memory.forward {repeated with blocks := repeated.blocks.map fun b => {b with
     debugLocations := #[{instruction := 2, line := 9, column := 1}]}}
   require (forwardedDebug.blocks[0]!.debugLocations[0]!.instruction == 2) "forwarding moved debug positions"
+  for (load, extension, width, bytes, store) in #[
+      ("sb", "sb", "w", 1, "b"), ("ub", "ub", "l", 1, "b"),
+      ("sh", "sh", "l", 2, "h"), ("uh", "uh", "w", 2, "h"),
+      ("sw", "sw", "l", 4, "w"), ("uw", "uw", "l", 4, "w")] do
+    let original ← parse ("function " ++ width ++ " $f(l %x) { @s %p =l alloc8 " ++ toString bytes ++
+      " store" ++ store ++ " %x,%p %a =" ++ width ++ " load" ++ load ++ " %p " ++
+      " storeb 0,%p %b =" ++ width ++ " ext" ++ extension ++ " %a ret %b }")
+    let result := Memory.eliminateExtensions original
+    match result.blocks[0]!.instructions[4]! with
+    | .assign {operation := .copy (.temporary name), ..} => require (name == "a") "load extension source changed"
+    | _ => throw (IO.userError "matching same-width extension was not removed")
+    require (memoryCount result == memoryCount original) "extension cleanup removed a memory access"
+    for x in (#[0,127,128,255,32767,32768,65535,2147483648,4294967295,18446744073709551615] : Array UInt64) do
+      require (agrees original result #[x]) "extension cleanup changed signedness or SSA value after store"
+  for source in #[
+    "function l $f(l %p) { @s %a =w loadsw %p %b =l extsw %a ret %b }",
+    "function l $f(l %p) { @s %a =l loadub %p %b =l extsb %a ret %b }",
+    "function l $f(l %p) { @s %a =l loadl %p %b =l extub %a ret %b }",
+    "function l $f(l %p) { @s %a =l loadsh %p %b =l extsb %a ret %b }",
+    "function w $f(l %p) { @s %a =l loadsh %p %b =w extsh %a ret %b }"] do
+    let original ← parse source
+    let result := Memory.eliminateExtensions original
+    match result.blocks[0]!.instructions[1]! with
+    | .assign {operation := .unary .., ..} => pure ()
+    | _ => throw (IO.userError "unsafe cross-width/mismatched/plain-load extension removed")
+  let successor ← parse "function l $f(l %p) { @s %a =l loaduh %p jmp @next @next %b =l extuh %a ret %b }"
+  let result := Memory.eliminateExtensions successor
+  match result.blocks[1]!.instructions[0]! with
+  | .assign {operation := .copy (.temporary name), ..} => require (name == "a") "successor load source changed"
+  | _ => throw (IO.userError "dominated matching extension was not removed")
+  let mixedPhi ← parse "function l $f(l %p,w %c) { @s %a =l loaduh %p jnz %c,@yes,@no @yes jmp @join @no jmp @join @join %v =l phi @yes %a,@no 65536 %b =l extuh %v ret %b }"
+  let result := Memory.eliminateExtensions mixedPhi
+  match result.blocks[3]!.instructions[0]! with
+  | .assign {operation := .unary .., ..} => pure ()
+  | _ => throw (IO.userError "mixed phi inherited an invalid narrowing fact")
+  IO.println "load extension cleanup: same-width signedness, retained loads/effects and cross-width guards passed"
   IO.println "same-block memory forwarding: exact addresses, integer extensions, FP bits, alias/call/blit/allocation/block guards passed"
   IO.println "scalar stack promotion: branches, loops, FP bits, initialization/escape/width guards and debug positions passed"
 

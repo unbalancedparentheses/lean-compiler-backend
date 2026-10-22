@@ -63,6 +63,8 @@ Next bounded work, before proof expansion:
    general alias analysis, broader CFG transforms and the remaining QBE optimization
    passes. Exact-address same-block memory forwarding is implemented with
    conservative barriers for writes, calls, variadic state, blits and allocations.
+   Matching same-width extensions of already-extended loaded SSA values become
+   copies while retaining the loads and all intervening effects.
 3. Extend implemented liveness, reusable spills and callee-saved allocation with
    caller-saved/FP banks, splitting/coalescing and machine value-flow checks;
    retain the current stack baseline as a differential oracle. ARM64 now selects

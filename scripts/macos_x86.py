@@ -131,6 +131,8 @@ def main():
     branch_selection_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from memory_forward import exercise as memory_forward_tests
     memory_forward_tests(compiler, work, run, cc, 'x86_64-macos', execute)
+    from redundant_extensions import exercise as extension_tests
+    extension_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from unsigned_strength import exercise as unsigned_tests
     unsigned_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from global_addresses import exercise as global_addresses

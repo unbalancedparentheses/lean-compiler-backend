@@ -227,4 +227,33 @@ def forward (f : Function) : Function := Id.run do
     blocks := blocks.push {block with instructions}
   return {f with blocks}
 
+/-- A matching same-width extension cannot change a value already extended by
+    its defining load. Only the pure extension becomes a copy: the original load
+    and all intervening effects remain. SSA definitions make the value immutable
+    across stores, calls and block edges. Cross-width conversions stay explicit. -/
+def eliminateExtensions (f : Function) : Function := Id.run do
+  let mut loads : Std.HashMap String (Width × Unary) := {}
+  for block in f.blocks do
+    for statement in block.instructions do
+      if let .assign inst := statement then
+        if let .load kind _ := inst.operation then
+          let extension : Option Unary := match kind with
+            | .signedByte => some .signedByte | .unsignedByte => some .unsignedByte
+            | .signedHalf => some .signedHalf | .unsignedHalf => some .unsignedHalf
+            | .signedWord => some .signedWord | .unsignedWord => some .unsignedWord
+            | .plain => none
+          if !inst.floating then
+            if let some op := extension then
+              loads := loads.insert inst.destination (inst.width, op)
+  return {f with blocks := f.blocks.map fun block => {block with
+    instructions := block.instructions.map fun statement => match statement with
+      | .assign inst =>
+        match inst.operation with
+        | .unary op (.temporary name) =>
+          if !inst.floating && loads[name]? == some (inst.width, op) then
+            .assign {inst with operation := .copy (.temporary name)}
+          else statement
+        | _ => statement
+      | _ => statement}}
+
 end LeanCompilerBackend.Optimize.Memory
