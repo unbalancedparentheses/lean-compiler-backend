@@ -1,0 +1,1292 @@
+compiler source/build identity: consistent
+ARM physical banks: call/TLS/scratch/local-branch/size mutation controls passed
+ARM empty branch edges: condition/phi/fallthrough/identical-target and expanded-range guards passed
+ARM64 logical immediates: 190980 dense, complete-encoding, signed-pattern, neighbor and random checks against independent enumeration
+AMD64 leaf banks: ABI GP boundaries, hidden result, aggregate rollback, env/varargs and call/TLS/scratch controls passed
+driver: host triples select five supported targets; unsupported hosts require an explicit target
+CFG dominance: all 4096 four-node graphs match list reference and node-deletion oracle on fully reachable graphs
+liveness resource boundaries: 4096 blocks and 16384 definitions passed
+allocation checks: reusable homes, spills, dead writes and corrupted plans passed
+compatibility optimization: constants, copies, CFG/phi cleanup, dominance-aware common expressions, widths, traps and debug indices passed
+load extension cleanup: same-width signedness, retained loads/effects and cross-width guards passed
+same-block memory forwarding: exact addresses, integer extensions, FP bits, alias/call/blit/allocation/block guards passed
+scalar stack promotion: branches, loops, FP bits, initialization/escape/width guards and debug positions passed
+first-path source semantics/admission checks passed
+function-job, typed-lowering, binding and mutation checks passed
+canonical job/artifact replay, dependency identities and SHA-256 checks passed
+unit checks passed
+CLI: 141 target/option/stdin/multi-input equivalences, interpreter stdin, refusal/artifact controls; native default-target multi-module execution=True
+QBE source/operation/target inventory: consistent
+'LeanCompilerBackend.AArch64.select_preserves' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Source.run_return_sound' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Source.step_deterministic' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.normalize_idempotent' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.read_write_same' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.word_write_long_read' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.write_preserves_other' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.enter_leave' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.subtract_zero_iff_equal' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.subtract_borrow_iff_less' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.alu_preserves' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.verifyArtifact_binds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.compile_refuses_unavailable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.run_return_sound' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.run_exhausted_prefix' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.value_offset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.stage_offset' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.frame_aligned' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.frame_covers_slots' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.slot_aligned' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.distinct_slots_disjoint' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.value_stage_disjoint' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.value_access_in_frame' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.stage_access_in_frame' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.scaled_offset_encodable' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.writeBytes_size' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.writeBytes_outside' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.writeBytes_initializes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.address_in_frame' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.store_in_frame' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.writeBytes_byte' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.readBytes_writeBytes' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.readBytes_congr' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.readBytes_writeBytes_disjoint' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.load_store_same' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.load_store_disjoint' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.argumentBits_read' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.initialRegisters_size' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.initial_arg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.initialState_entry' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.initial_complete' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.initial_sound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.assemblyEntry_sound' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.bounded_entry_exists' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.EntryExamples.empty_entry' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.EntryExamples.loop_entry' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.EntryExamples.cyclic_entry' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.EntryExamples.maximum_entry' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.EntryExamples.maximum_frame_bytes' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.copied_ready' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.executeMIRList_append' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.execute_copy' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.executeMIRList_steps' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.copied_load_same' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.copied_load_disjoint' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.copied_other_reg' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.phi_swap_exec' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.lowerEdge_swap' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.phi_swap_steps' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.cycle_admitted' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.cycle_lowered' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.cycle_legal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.cycle_layout' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.cycle_edge' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.cycle_transfer' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.steps_append' does not depend on any axioms
+'LeanCompilerBackend.Verified.Machine.steps_take' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.cycle_diverges' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.prefix_diverges' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.source_cycle' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.source_diverges' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.mir_entry_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.mir_cycle_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.mir_diverges' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.assembly_selected' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.assembly_legal' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.assembly_entry_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.assembly_cycle_run' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.assembly_diverges' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.cycle_behavior' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Source.read_ok' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.loadOperand_correct' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.localsMatch_registers' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.value_normalized' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.operand_copy' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.planned_value' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.planned_stage' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.localsMatch_stage' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.stagePhis_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.localsMatch_store' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.staged_store' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.commitPhis_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.phi_phases_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.commitPhis_length' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.stagePhis_length' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.mir_jump' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.lowerEdge_steps' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Source.transfer_loops' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Source.transferInputs_selected' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Source.collectPhi_ok' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Source.collectPhis_ok' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Source.write_ok' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Source.transferTargets_valid' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Source.commitPhis_ok' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Source.transfer_assigns' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Source.transfer_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.swap_inputs' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.swap_targets' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.PhiExamples.swap_simulation' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.loop_related' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.PhiExamples.loop_ready' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.source_instruction_step' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.copy_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.copy_steps' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.copyContext_refl' does not depend on any axioms
+'LeanCompilerBackend.Verified.Machine.copyContext_trans' does not depend on any axioms
+'LeanCompilerBackend.Verified.Machine.copyInstruction_context' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.copyList_context' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.loadOperand_copy' does not depend on any axioms
+'LeanCompilerBackend.Verified.Machine.commitPhis_copy' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.stagePhis_copy' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.phi_context' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.lowerEdge_context' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.sourceView_width' does not depend on any axioms
+'LeanCompilerBackend.Verified.Machine.sourceView_bits' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.sourceView_value' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.assignedReg_ready' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.assignedReg_locals' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.writeReg_assigned' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.assignedReg_same' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.assignedReg_other' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.Machine.binary_expansion' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.binary_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.binary_steps' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.value_bits_toNat' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.boolValue_width' does not depend on any axioms
+'LeanCompilerBackend.Verified.Machine.boolValue_bits' does not depend on any axioms
+'LeanCompilerBackend.Verified.Machine.comparison_source' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.load_operands' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.Machine.comparison_expansion' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.comparison_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.comparison_steps' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.source_write_sound' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.instruction_correct' depends on axioms: [propext, Classical.choice, Quot.sound]
+'LeanCompilerBackend.Verified.instruction_length' depends on axioms: [propext]
+'LeanCompilerBackend.Verified.source_instruction_invert' depends on axioms: [propext, Quot.sound]
+'LeanCompilerBackend.Verified.simulate_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]
+provenance: 159 exact upstream files
+rejection controls: 17; implemented compatibility target selection passed
+resource boundaries: more than 64 functions, 1024 parameters; compatibility exceeds the retained 480-definition first-path bound
+interpreter vs independent Python arithmetic: 98 values
+native assembly: 120,000 arithmetic vectors, 20,000 ABI/width checks; no Lean imports
+upstream QBE 1.3: identical independent harness passed
+all backend checks passed
+integer operation matrix: 66 typed forms, 1052 interpreter cases; 30460 native cases per baseline/allocated/optimized/QBE backend
+CFG negative controls: 12 plus explicit interpreter budget exhaustion
+CFG matrix: 14 functions, 168 interpreter cases; 1862 native cases per backend; hlt termination checked
+SSA construction: 22 functions, 197 Python/interpreter cases, deterministic renaming and admission controls; native Lean/QBE and corruption passed
+large CFG: 4096 blocks, 70000 instructions, 600000 tokens, retained 16K coverage, 3000-block mutable SSA; large W/X slots, phi staging, saved LR and dynamic frames passed native Lean/QBE/C and address corruption
+liveness: 75 original QBE fixtures, 198 functions, 12138 upstream instruction boundaries; set and path oracles, phi swaps/calls/unreachable normalization and wrong-edge corruption passed
+allocation oracle: 198 functions, 9523 values use 739 homes; original fixtures and corruption check passed
+aarch64-macos: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=True
+aarch64-macos: 3106 integer immediate/comparison/fallback functions, 24848 independent cases per baseline/allocated/optimized mode; execution=True
+aarch64-macos 5628 checks per mode passed; execution True
+aarch64-macos: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=True
+aarch64-macos: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=True
+aarch64-macos: 2560 independent sparse-prefix cases per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}
+aarch64-macos: 600 independent C cases per mode; modes={'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}; corruption=detected
+first-path: fresh-process/module-order stability, explicit proof refusal and compatibility isolation passed
+first-path: 25 job/artifact roundtrips; all dependency hashes match independent hashlib; corrupt replay rejected
+first-path: 25 functions; 32,000 arithmetic/comparison and 8,000 loop/ABI cases per typed/baseline/QBE backend; maximal frame, W/X alias and saved-register probes; both corruption controls detected
+first-path fuzz 20261019: 12 generated cyclic-phi functions, 72 inputs across Python/source/MIR/assembly/compatibility/native/QBE; backedge corruption detected
+first-path fuzz 20261020: 12 generated cyclic-phi functions, 72 inputs across Python/source/MIR/assembly/compatibility/native/QBE; backedge corruption detected
+symbols: parser/emitter and model refusal checks passed; native Lean/QBE/C checks and wrong-symbol control passed
+aarch64-macos: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=True
+aarch64-macos: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=True
+aarch64-macos: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=True
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '62fdc4aa4626263f14d229b7d5e2bfe6490f672b07a01eb0104f54bdbaabb037', 'caller_sha256': '3be2ad20bab41adf40ef37c6c82d5d339c3f5c2657e590f60d21875c6831db77', 'target': 'aarch64-macos', 'checks_per_mode': 10496, 'emitted_checks_per_mode': 10496, 'modes': {'baseline': {'structural': 'passed', 'execution': 'passed'}, 'allocated': {'structural': 'passed', 'execution': 'passed'}, 'optimized': {'structural': 'passed', 'execution': 'passed'}}, 'negative_control': {'status': 'detected', 'exit': -10}}
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "source_sha256": "8fbcf54a0ac887bb23ec8f57c3450ce1fe5c103402f1b8f6e6a16bc78de82bb5",
+  "caller_sha256": "43450ca62ea0510d3f9ed1ab389c925aa835a85a5cc6621cf98c105f19756add",
+  "checks_per_mode": 5632,
+  "modes": {
+    "baseline": {
+      "structural": "passed",
+      "execution": "passed",
+      "assembly_sha256": "fe0bc5736142bfb5a72cc72d10e1481bba260c13daebf7e4fc456c6e404fe0a8"
+    },
+    "allocated": {
+      "structural": "passed",
+      "execution": "passed",
+      "assembly_sha256": "127bd0bb5bf796ed34480ecce0f6da4b67ef786855ddd2d51e9494b1d51a60ee"
+    },
+    "optimized": {
+      "structural": "passed",
+      "execution": "passed",
+      "assembly_sha256": "55cd1494fab3aed287ad37a088acdcccaf7d9da9a60648418a1fc8db85f392ce"
+    }
+  },
+  "negative_control": {
+    "status": "detected",
+    "exit": 11
+  },
+  "original_qbe": "passed"
+}
+{
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "before_identity": null,
+  "before_sha256": null,
+  "source_sha256": "6174a2e6109299ef13661126e913b476221f6d5ff22a6299ee247f7f0a0b4bc9",
+  "caller_sha256": "c5f02693dda6912deb60715ca27a32b6eb228a66fac4a54b6b63a89383039c2b",
+  "target": "aarch64-macos",
+  "case_groups_per_mode": 37124,
+  "count_qualification": "Each group contains one or more independent C comparisons; totals include guarded-page cases.",
+  "modes": {
+    "baseline": {
+      "assembly_sha256": "2cab19d297eb2a1c18b0ee87c07fdc9f67bd5dc133ec1c5012045f1eb9fd1c55",
+      "execution": "passed",
+      "baseline_identical": false,
+      "executable_sha256": "6c9582f7dd01544583d60e70c5b00063d83f991503e83887f6eca74662f240a7"
+    },
+    "allocated": {
+      "assembly_sha256": "4ee6d9d23d124736891b2b44f7e344a5bd5cb89b8022aebc9ebe5ac2189eb5cf",
+      "execution": "passed",
+      "baseline_identical": null,
+      "executable_sha256": "f1752dc0adddc66d7b94658ff12af1512467bae762a227d6c45ece851fd10ebe"
+    },
+    "optimized": {
+      "assembly_sha256": "f8836e87c8ac5ea21a66a543356da85ce7aa0c623f9f786614af8467b6c7a32a",
+      "execution": "passed",
+      "baseline_identical": null,
+      "executable_sha256": "891131a40a42b2e74e993d32621c2397a3f8aed16c43f3d9e9a848017de93494"
+    }
+  },
+  "negative_control": {
+    "status": "detected",
+    "exit": 1
+  },
+  "original_qbe": "passed",
+  "guard_overread_control": {
+    "status": "detected",
+    "exit": -10
+  },
+  "original_qbe_sha256": "70f65c5aa48fa2bc2cdd19a7e64583225cb2ffd7b247d24e72b283cd3ba3a007"
+}
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "source_sha256": "c5f3f99c5a007101e4ea3c2c878a3951ea3a1bf80dcb7c9ce729ae04c4bb8289",
+  "caller_sha256": "c19c5c5b640ba2a224f59cd115f0d64b86a20a03e9f65fa86cb53b506fce7463",
+  "checks_per_mode": 5120,
+  "modes": {
+    "baseline": {
+      "assembly_sha256": "b6c71d7cc3acf855dc9a183cb89dce639635334840849f950520a6510484fc23",
+      "execution": "passed"
+    },
+    "allocated": {
+      "assembly_sha256": "1077fae9dadf0555fd92d3b633a6e3a5a8b11764aa09d802bfb2b86bf506364f",
+      "execution": "passed"
+    },
+    "optimized": {
+      "assembly_sha256": "88386e26445c83eb093570db7965cfa233a429ab11342d720a1053c7e6dd5d98",
+      "execution": "passed"
+    }
+  },
+  "wrong_narrowing": {
+    "status": "detected",
+    "exit": 2
+  },
+  "original_qbe": "passed"
+}
+{
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "script_sha256": "c4963ee432a7fee784f810c31540bbc1415945d4aa36c25a51e4c0ecd15d8d43",
+  "source_sha256": "656ce6fb66d02cf75c797bfec868f75fe7f1a5298e2f48ccb4f58de29ea48f31",
+  "caller_sha256": "55ffaf75525e40bb176494534f70ea865061d7ed680b17659e6e2079c4904232",
+  "target": "aarch64-macos",
+  "modes": {
+    "baseline": {
+      "assembly_sha256": "031bf1da71ba67c1019fa23e37cc744edb3259918046505614164f0e00a32b4e",
+      "execution": "passed"
+    },
+    "allocated": {
+      "assembly_sha256": "57ecbf0f619fa78d3481a8d37f22bbf57f8dcfdf6aa23750ed0ece6faf052090",
+      "execution": "passed",
+      "expanded_bank_occurrences": {
+        "pressure": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "hidden": {
+          "16": 2,
+          "17": 2,
+          "8": 3
+        },
+        "environment_target": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "raw_s": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "raw_d": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "convert_s": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "convert_d": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "variadic": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        }
+      }
+    },
+    "optimized": {
+      "assembly_sha256": "4cc730e27b15b28a844642834980af809803ea4164d49cf6503e47d243477779",
+      "execution": "passed",
+      "expanded_bank_occurrences": {
+        "pressure": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "hidden": {
+          "16": 2,
+          "17": 2,
+          "8": 3
+        },
+        "environment_target": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "raw_s": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "raw_d": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "convert_s": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "convert_d": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        },
+        "variadic": {
+          "16": 2,
+          "17": 2,
+          "8": 2
+        }
+      }
+    }
+  },
+  "executed_checks": 21504,
+  "caller_clobber_control": {
+    "exit": 5,
+    "status": "detected"
+  }
+}
+{'target': 'aarch64-macos', 'modes': {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}, 'c_checks_per_mode': 11661, 'wrong_target_detected': True, 'original_qbe': 'passed', 'large_expanded_function': {'baseline': {'status': 'passed', 'physical_lines': 330025}, 'allocated': {'status': 'passed', 'physical_lines': 275030}, 'optimized': {'status': 'passed', 'physical_lines': 275030}}}
+aarch64-macos: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=True
+aarch64-macos: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=True
+data: 8 interpreter cases, 9 rejections, data-only emission; native Lean/QBE/C and initializer corruption checks passed
+aarch64-macos: hexadecimal strings and annotation order: 6/6 executable profiles; 314-byte and 25-annotation suites; 5 negative parses; execution=True
+aarch64-macos 6 6
+aarch64-macos: bounded integer bit patterns: 169 byte checks, 22 value checks, 24 interpreter checks, 13 refusals; execution=True
+aarch64-macos 3 3
+aarch64-macos: section-name matrix passed, 189 C checks; execution=True
+aarch64-macos ELF names passed; executed modes 0
+aarch64-macos custom TLS qualification passed; 0 executed round groups; skipped: no before snapshot supplied
+aarch64-macos aggregate ABI matrix passed [127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 255, 256, 257, 4095, 4096, 4097, 32767, 32768, 32769, 65535, 65536, 65537]
+aarch64-macos ELF retain checks passed; executed modes 0
+aarch64-macos: 18 interpreter relocation checks; 12/36 link/execution profiles qualified; failures retained separately
+{"interpreter_checks": 18, "qualified": 12, "attempts": 36}
+data matrix seed 20261020: 39 objects, 759 exact bytes; Python/Lean checks passed; native Lean/QBE/C passed (QBE multiline reference uses escaped line breaks)
+float constants seed 20261020: 154 IEEE patterns, 308 interpreted constant/data results; libc bit oracle passed; native Lean/QBE exact bytes passed
+floating: 896 C/interpreter cases; arithmetic, comparisons, casts, memory and phi; native baseline/allocated/optimized/QBE and arithmetic corruption passed
+conversions: 18 typed forms, 1228 C/interpreter cases, invalid-domain refusals; native baseline/allocated/optimized/QBE and signedness corruption passed
+float ABI: 8 mixed signatures through 64 arguments, 192 interpreter calls; native Lean/QBE/C both directions, callbacks, dynamic frames and corruption passed
+floating variadics: 7 interpreter calls; mixed named register/stack boundaries and s/d tails; native Lean/QBE/C passed
+aggregate layouts: 80 generated C comparisons, QBE-specific layouts and 16 rejection controls passed
+aggregate ABI: 22 layouts, by-value isolation and result lifetimes; native Lean/QBE/C returns, callbacks, mixed GP/FP exhaustion and dynamic frames passed
+aggregate edges: result-buffer reuse/lifetime, uninitialized padding, x8+x9 and opaque values passed; native Lean/C over-aligned floats and aggregate variadics passed; QBE common cases pass and three retained upstream discrepancies reproduce separately
+subword ABI: 8 signatures through 64 mixed arguments, 193 interpreter calls; native Lean/QBE/C both directions, callbacks, packed stacks and corruption passed
+TLS: single-thread interpreter initialization/access and signature controls; 8 concurrent C threads, native Lean/C isolation and mixed live arguments passed; original QBE two-TLS-call assertion reproduced (not a match), helper-form QBE comparison and corruption passed
+names: dotted/dollar identifiers and malformed-name rejection passed; native Lean/QBE/C passed
+aarch64-macos: reproduced pinned QBE quoted-TLS suffix assembly failure; original Lean input remains mandatory
+aarch64-macos: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=True
+debug locations: SSA-preserved source records, filename switches, malformed-input controls and interpretation passed; native Lean/QBE/C and DWARF line tables passed
+linkage: custom code/data sections, default-section restoration, common zero-fill and invalid-linkage controls passed; native Lean/QBE/C, object sections, common coalescing and 64-byte alignment passed
+{
+  "scope": "Supplementary independent callers, distinct from58 original upstream executable fixtures. Original SSA files unchanged; append-only assembly tail adapter for private functions.",
+  "target": "aarch64-macos",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "execution": true,
+  "checks_per_lcb_mode": 770,
+  "fixtures": {
+    "_gcm1.ssa": {
+      "original_ir_sha256": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+      "caller_sha256": "8cf839ac16c506261273f46774b4a779be91cda37dddff598ac8f21adaeabe43",
+      "checks_per_backend": 768,
+      "backends": {
+        "baseline": {
+          "assembly_sha256": "e3fb3ec6863c3de27dc677a8a24b6d966ed08af35f3223211292ea43f9166f50",
+          "caller_assembly_sha256": "e3fb3ec6863c3de27dc677a8a24b6d966ed08af35f3223211292ea43f9166f50",
+          "execution": "passed"
+        },
+        "allocated": {
+          "assembly_sha256": "5b1da63426a4e7d51983771b1b43f77e19235c7dca1f8e65f63128bb965f2cb9",
+          "caller_assembly_sha256": "5b1da63426a4e7d51983771b1b43f77e19235c7dca1f8e65f63128bb965f2cb9",
+          "execution": "passed"
+        },
+        "optimized": {
+          "assembly_sha256": "93a198e6d22f7f51ad9c12b3bf0ae2e61ad59a76666cb3acdca7911b4f33380d",
+          "caller_assembly_sha256": "93a198e6d22f7f51ad9c12b3bf0ae2e61ad59a76666cb3acdca7911b4f33380d",
+          "execution": "passed"
+        },
+        "qbe": {
+          "assembly_sha256": "d9f3bfc01d391a6b55a45a82389c8db2f3a2f0ec6734e46748cdd123b40aa2dc",
+          "caller_assembly_sha256": "d9f3bfc01d391a6b55a45a82389c8db2f3a2f0ec6734e46748cdd123b40aa2dc",
+          "execution": "passed"
+        }
+      }
+    },
+    "_fix3.ssa": {
+      "original_ir_sha256": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+      "caller_sha256": "91691c562b7d08858ffb41c0a2a550f813412409ff65733065593945cf0ca4c0",
+      "checks_per_backend": 1,
+      "backends": {
+        "baseline": {
+          "assembly_sha256": "7bff3a8413ef9d6e90d96a97b79e9302eaa4a216b2c4a95dade3a5a36d683f17",
+          "caller_assembly_sha256": "cdcb3659956afc51a6ebb2eeb22d86a05a48b5278fe734305da1d5d596b79f97",
+          "execution": "passed"
+        },
+        "allocated": {
+          "assembly_sha256": "4bd8d839280c887aeccb379aae64d3d7606878bf4e5732e0f6e9880dbe246b84",
+          "caller_assembly_sha256": "867df4b092ea3b152ca3f33d07941e532a6ae8ce24d1e42ca39127b7d84c8c2a",
+          "execution": "passed"
+        },
+        "optimized": {
+          "assembly_sha256": "4bd8d839280c887aeccb379aae64d3d7606878bf4e5732e0f6e9880dbe246b84",
+          "caller_assembly_sha256": "867df4b092ea3b152ca3f33d07941e532a6ae8ce24d1e42ca39127b7d84c8c2a",
+          "execution": "passed"
+        },
+        "qbe": {
+          "assembly_sha256": "07dea05912f27f3ace64aae34239ea269abb5468dd25cc5503da84aa28733025",
+          "caller_assembly_sha256": "01f43b68b33bba457eb909155e3a5b5f922dfaf3efcdfeab6199278be0f6359d",
+          "execution": "passed"
+        }
+      }
+    },
+    "_fix4.ssa": {
+      "original_ir_sha256": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+      "caller_sha256": "308f7a17a3d3663ef52d3b1ac8671be9a2c96fea7bf308d097c58f4dee222153",
+      "checks_per_backend": 1,
+      "backends": {
+        "baseline": {
+          "assembly_sha256": "160eef159efb24618327e9748c8e95a1a3a5e47ee405d4e340a529a8a289072e",
+          "caller_assembly_sha256": "fb4af96e9c8c59a82168f9612a0134fa7e4a2d354a37c27e16982285bece39c0",
+          "execution": "passed"
+        },
+        "allocated": {
+          "assembly_sha256": "0f6ac58a06dd31fcafee26f11945edc0b74dbe6fe54cb2ae4a14464f5b0fc48a",
+          "caller_assembly_sha256": "3de16043ad8eef1dbc6aaef16839cd8d0c157a370fa93dd3ffeed259bacaef4c",
+          "execution": "passed"
+        },
+        "optimized": {
+          "assembly_sha256": "abd7d3f247f5b4fac1d9865307cb4c0d6611cfe0ac60188efa2826d827208cd1",
+          "caller_assembly_sha256": "3fa7d0ae2a718631fd0b6e6eb54327d7be2372f41238a791f52b56bf1007e2f5",
+          "execution": "passed"
+        },
+        "qbe": {
+          "assembly_sha256": "2e27420a278e2e92132e5f493a1867e563f676e94b2052321dd774e434fa561a",
+          "caller_assembly_sha256": "99e230c4e1d12d92d8725ab59ee10fbb8daaa7d34752a371dc2dd6de2f34fa43",
+          "execution": "passed"
+        }
+      }
+    }
+  },
+  "negative_control": {
+    "status": "detected",
+    "exit": 1
+  },
+  "original_qbe": "passed",
+  "original_qbe_sha256": "2fd4cec50062c83cc03c4a9e2ca36281852d563f69ef7121e8064fc0932dbf91"
+}
+{
+  "target": "aarch64-macos",
+  "scope": "Seeded independent uint64 C oracle; CFG cap is profitability heuristic, not pressure bound. No timing claim.",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "ir_sha256": "a5a6e03ba69111089eac184704a5022a3e72c26781603948a91b6e67d9f09581",
+  "caller_sha256": "b8fc030e7f0c0c4e53c9d1c439a850ca6844dbd117534e2b19b61148436da860",
+  "cases": [
+    [
+      "single8",
+      8,
+      "single"
+    ],
+    [
+      "single9",
+      9,
+      "single"
+    ],
+    [
+      "single16",
+      16,
+      "single"
+    ],
+    [
+      "single64",
+      64,
+      "single"
+    ],
+    [
+      "single512",
+      512,
+      "single"
+    ],
+    [
+      "branch8",
+      8,
+      "branch"
+    ],
+    [
+      "branch9",
+      9,
+      "branch"
+    ],
+    [
+      "loop8",
+      8,
+      "loop"
+    ],
+    [
+      "loop9",
+      9,
+      "loop"
+    ],
+    [
+      "overlap16",
+      16,
+      "overlap"
+    ],
+    [
+      "effect16",
+      16,
+      "effect"
+    ],
+    [
+      "multi16",
+      16,
+      "multi"
+    ],
+    [
+      "word16",
+      16,
+      "word"
+    ]
+  ],
+  "checks_per_backend": 416,
+  "backends": {
+    "baseline": {
+      "assembly_sha256": "04d081b02fd92faa599078b1c7ea1b880e1db30e32b148bad24f2e57753d9ec1",
+      "execution": "passed"
+    },
+    "allocated": {
+      "assembly_sha256": "47cfe5cba9d2f5bb32c4b9900f73eafb0cc3970fc0e860ce0d02bb89e84757c8",
+      "execution": "passed"
+    },
+    "optimized": {
+      "assembly_sha256": "8d55169614e3af0e131be9c2cccf52e9a661b885a6f532f1120b059ca64e1a74",
+      "execution": "passed"
+    },
+    "qbe": {
+      "assembly_sha256": "6080586a0f7e89c2515e836a5e59a1e91e407561a1d68fab26d38851cdb42c59",
+      "execution": "passed"
+    }
+  },
+  "negative_control": {
+    "status": "detected",
+    "exit": 1,
+    "ir_sha256": "ad329590fc3d2799bed1a48a6509d7976bf3fed94c2460c693bd1b9130e94821"
+  },
+  "original_qbe_sha256": "b38475fcfa2cba45d0c9b320515cfe98c37b25be13a6231e60d755284f850f08"
+}
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "source_sha256": "bb20c51a73ba99a55624169fb32fbc79a0dc499ebd4b47a939a1211fb94ee968",
+  "caller_sha256": "e4661f8123d3ae32fa63428e186cd3f078cb120b75256ec4893a376d62c4b457",
+  "checks_per_backend": 320,
+  "scalar_abi_types": [
+    "w",
+    "l",
+    "s",
+    "d",
+    "sb",
+    "ub",
+    "sh",
+    "uh"
+  ],
+  "backends": {
+    "baseline": {
+      "assembly_sha256": "8c6dc5e71a358ec6b6667c2ce70496b9db3764d360c8ec0e1166e91ca72d229b",
+      "execution": "passed"
+    },
+    "allocated": {
+      "assembly_sha256": "ce16ff510bcd8b2938378ff20162a99c41672827ae24aa7200751805b86df587",
+      "execution": "passed"
+    },
+    "optimized": {
+      "assembly_sha256": "ce16ff510bcd8b2938378ff20162a99c41672827ae24aa7200751805b86df587",
+      "execution": "passed"
+    },
+    "qbe": {
+      "assembly_sha256": "a17c0563f9f9277f21d73cf066fe29e2d56ecf9d60bd5376c8b3472207637c77",
+      "execution": "passed"
+    }
+  },
+  "negative_controls": {
+    "aggregate": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-scalar-result-discard-e0ho9mt0/scalar-result-discard/aggregate.ssa: call $f: result type disagrees with its definition",
+    "used_void": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-scalar-result-discard-e0ho9mt0/scalar-result-discard/used_void.ssa: call $f: result type disagrees with its definition",
+    "used_float_mismatch": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-scalar-result-discard-e0ho9mt0/scalar-result-discard/used_float_mismatch.ssa: call $f: result type disagrees with its definition",
+    "argument_mismatch": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-scalar-result-discard-e0ho9mt0/scalar-result-discard/argument_mismatch.ssa: call $f: argument type disagrees with its definition",
+    "used_environment": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-scalar-result-discard-e0ho9mt0/scalar-result-discard/used_environment.ssa: missing environment argument: callee reads its environment parameter",
+    "aggregate_indirect_interpreter": "error: indirect call signature disagrees with target definition; result not evaluated",
+    "wrong_effect": "detected exit1"
+  },
+  "original_qbe": "passed",
+  "scope": "Scalar result discard only. Unknown native external/indirect signatures remain ABI assumptions; no aggregate result omission support.",
+  "interpreter_checks": 8,
+  "qbe_sha256": "35fe51aa4fa366819f850eb83c735392ed9d90d322f35b7bde89d653d223549d"
+}
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "source_sha256": "fac12ae0fa230dd6fa552e298853efac769da39f887b9db94593e37e3675bafa",
+  "caller_sha256": "85e5ce05bb859ecd33e7068e23e085673c29ac3e507b472210c39a49814ca802",
+  "checks_per_backend": 672,
+  "scalar_abi_types": [
+    "w",
+    "l",
+    "s",
+    "d",
+    "sb",
+    "ub",
+    "sh",
+    "uh"
+  ],
+  "backends": {
+    "baseline": {
+      "assembly_sha256": "77d7b8a43b68524c068abe2e03109b879dd46eff8050554f945d1a59f1a7c731",
+      "execution": "passed"
+    },
+    "allocated": {
+      "assembly_sha256": "f1fbaab83b2051809daaafd02c0d2de5be434a3d344e0418dbf8cbfab3f0cf64",
+      "execution": "passed"
+    },
+    "optimized": {
+      "assembly_sha256": "dae452a5e31197a3e611551a0c71b1bca276919cd7a6c775e8ca39c1e5766c0b",
+      "execution": "passed"
+    },
+    "qbe": {
+      "assembly_sha256": "db7c68c97a5185d7c2c379dc34b4bf8423c90681dd0bb6334e3f084a4fc58255",
+      "execution": "passed"
+    }
+  },
+  "negative_controls": {
+    "aggregate": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-unused-call-results-ubzh2bu_/unused-call-results/aggregate.ssa: call $f: result type disagrees with its definition",
+    "used_void": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-unused-call-results-ubzh2bu_/unused-call-results/used_void.ssa: call $f: result type disagrees with its definition",
+    "used_float_mismatch": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-unused-call-results-ubzh2bu_/unused-call-results/used_float_mismatch.ssa: call $f: result type disagrees with its definition",
+    "argument_mismatch": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-unused-call-results-ubzh2bu_/unused-call-results/argument_mismatch.ssa: call $f: argument type disagrees with its definition",
+    "used_environment": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-unused-call-results-ubzh2bu_/unused-call-results/used_environment.ssa: missing environment argument: callee reads its environment parameter",
+    "aggregate_indirect_interpreter": "error: indirect call signature disagrees with target definition; result not evaluated",
+    "dropped_call": "detected exit1"
+  },
+  "original_qbe": "passed",
+  "scope": "Assigned unused scalar calls retain effects; used results and aggregate return storage preserved. Unknown native external/indirect signatures remain ABI assumptions.",
+  "interpreter_checks": 8,
+  "qbe_sha256": "a0820ea095585e9a32d226fb0f8587c5de99e8f6be185a65e13cb8c7d37da1b5"
+}
+upstream suite: 75/76 emitted; 1 unsupported; 58 native passes per Lean/QBE backend, 17 development fixtures assembled only
+aarch64-linux: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=False
+aarch64-linux: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=False
+aarch64-linux: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=False; original-QBE=unmeasured
+aarch64-linux: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=False
+aarch64-linux: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=False
+aarch64-linux: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=False
+aarch64-linux: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=False
+aarch64-linux: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=False
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '62fdc4aa4626263f14d229b7d5e2bfe6490f672b07a01eb0104f54bdbaabb037', 'caller_sha256': '3be2ad20bab41adf40ef37c6c82d5d339c3f5c2657e590f60d21875c6831db77', 'target': 'aarch64-linux', 'checks_per_mode': 0, 'emitted_checks_per_mode': 10496, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}
+{'target': 'aarch64-linux', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'large_expanded_function': {'baseline': {'status': 'emitted', 'physical_lines': 330027}, 'allocated': {'status': 'emitted', 'physical_lines': 275032}, 'optimized': {'status': 'emitted', 'physical_lines': 275032}}}
+aarch64-linux 5628 checks per mode passed; execution False
+aarch64-linux: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=False
+aarch64-linux: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=False
+aarch64-linux: external symbol +32 matches C in baseline/optimized; original QBE discrepancy retained; execution=False
+aarch64-linux aggregate ABI matrix passed [127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 255, 256, 257, 4095, 4096, 4097, 32767, 32768, 32769, 65535, 65536, 65537]
+aarch64-linux ELF retain checks passed; executed modes 0
+aarch64-linux: bounded integer bit patterns: 169 byte checks, 22 value checks, 24 interpreter checks, 13 refusals; execution=False
+aarch64-linux: hexadecimal strings and annotation order: 0/6 executable profiles; 314-byte and 25-annotation suites; 5 negative parses; execution=False
+aarch64-linux: 18 interpreter relocation checks; 0/0 link/execution profiles qualified; failures retained separately
+aarch64-linux: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=False
+aarch64-linux: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=False
+aarch64-linux: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=False
+aarch64-linux: 2560 independent sparse-prefix cases per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}
+aarch64-linux: 600 independent C cases per mode; modes={'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; corruption=not-run
+aarch64-linux: dynamic outgoing 529 args (515 HFAs), 80 calls/mode; TLS=True; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; originalQBE=None
+aarch64-linux: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; used-env/signature/external controls passed
+aarch64-linux: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=False; original QBE profiles=0
+aarch64-linux: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=False
+aarch64-linux: 3106 integer immediate/comparison/fallback functions, 24848 independent cases per baseline/allocated/optimized mode; execution=False
+aarch64-linux: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=False
+aarch64-linux: baseline/folded assembly and 256 independent integer-oracle cases; execution=False
+aarch64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=False
+ELF sections: target-specific syntax, named code/data, init-array constructors and common alignment passed; native=False
+Linux ARM64: 75/76 emitted; 0 original executable drivers and 0 assembly-only fixtures passed per Lean/QBE backend; native=False
+Actual compiler emission modes: {'baseline': 189, 'allocated': 77, 'optimized': 82}
+x86_64-linux: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=False
+x86_64-linux: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=False
+x86_64-linux: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=False; original-QBE=unmeasured
+x86_64-linux: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=False
+x86_64-linux: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=False
+x86_64-linux: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=False
+x86_64-linux: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=False
+x86_64-linux: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=False
+x86_64-linux: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=False
+x86_64-linux: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=False
+x86_64-linux: external symbol +32 matches C in baseline/optimized; original QBE matches C; execution=False
+x86_64-linux aggregate ABI matrix passed [127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 255, 256, 257, 4095, 4096, 4097, 32767, 32768, 32769, 65535, 65536, 65537]
+x86_64-linux ELF retain checks passed; executed modes 0
+x86_64-linux: bounded integer bit patterns: 169 byte checks, 22 value checks, 24 interpreter checks, 13 refusals; execution=False
+x86_64-linux: hexadecimal strings and annotation order: 0/6 executable profiles; 314-byte and 25-annotation suites; 5 negative parses; execution=False
+x86_64-linux: 18 interpreter relocation checks; 0/0 link/execution profiles qualified; failures retained separately
+x86_64-linux: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=False
+x86_64-linux: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=False
+x86_64-linux: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=False
+x86_64-linux: 2560 independent sparse-prefix cases per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}
+x86_64-linux: 600 independent C cases per mode; modes={'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; corruption=not-run
+x86_64-linux: dynamic outgoing 529 args (515 HFAs), 80 calls/mode; TLS=True; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; originalQBE=None
+x86_64-linux: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; used-env/signature/external controls passed
+{'target': 'x86_64-linux', 'modes': {'baseline': {'status': 'emitted', 'jump_to_next_label': 44}, 'allocated': {'status': 'emitted', 'jump_to_next_label': 0}, 'optimized': {'status': 'emitted', 'jump_to_next_label': 0}}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'qbe_link_flags': []}
+x86_64-linux 5628 checks per mode passed; execution False
+{'target': 'x86_64-linux', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'binary_checks_per_mode': 0, 'additional_checks_per_mode': 0, 'call_result_corruption_detected': False, 'qbe_arithmetic_checks': 0, 'qbe_profile': 'arithmetic/bitwise constants and legal immediate shifts only; C independently checks all LCB cases, including extra narrowing/ABI/TLS controls'}
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '466fef70b8e0f6ea678930ffa53fbc4f2eec51d979970f5f188e744ba9ca1b1b', 'caller_sha256': '6b428ca83568d35a6100417fea43fe9253eb900e90a1246b2aecf2bf7f8d2ccd', 'qbe_sha256': None, 'target': 'x86_64-linux', 'functions': 810, 'seeds': 190, 'checks_per_mode': 0, 'generated_checks_per_mode': 153900, 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'wrong_immediate_detected': False, 'qbe_profile': 'all arithmetic/bitwise/multiply constants, variable and LHS-constant operands; only 0 <= constant shift < width; TLS supplement LCB-only (original QBE failures retained separately)', 'qbe_functions': 573, 'qbe_checks': 0}
+x86_64-linux: empty variadic markers: {'target': 'x86_64-linux', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'calls_per_mode': 0, 'negative_lcb_cases': 12, 'marker_loss_detected': False, 'source_sha256': '013e00e725bc7fe0a6d73d4b5ac5d1b9d9f93f74b541a746bc3d5be6e57e91b3'}
+x86_64-linux: unused-env variadic definitions, seven GP/FP boundary signatures, 126 interpreter and 0 C calls per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; explicit-env calls and used-env definitions remain rejected
+x86_64-linux: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=False; original QBE profiles=0
+x86_64-linux: original QBE exclusions [(65, True, False), (1024, True, False)]; signed-byte outbound-call defect and, on RV, large positive aggregate-frame offset defect
+x86_64-linux: conditional external +140 pointer matches independent C in all lowering modes; original QBE flags discrepancy retained; execution=False
+x86_64-linux: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=False
+x86_64-linux: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=False
+x86_64-linux: baseline/folded assembly and 256 independent integer-oracle cases; execution=False
+x86_64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=False
+x86_64-linux: 75/76 emitted; 0 executable drivers and 0 assembly-only passes per Lean/QBE backend; execution=not measured
+Actual compiler emission modes: {'baseline': 189, 'allocated': 82, 'optimized': 88}
+riscv64-linux: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=False
+riscv64-linux: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=False
+riscv64-linux: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=False; original-QBE=unmeasured
+riscv64-linux: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=False
+riscv64-linux: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=False
+riscv64-linux: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=False
+riscv64-linux: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=False
+riscv64-linux: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=False
+riscv64-linux: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=False
+riscv64-linux: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=False
+riscv64-linux: external symbol +32 matches C in baseline/optimized; original QBE discrepancy retained; execution=False
+riscv64-linux aggregate ABI matrix passed [127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 255, 256, 257, 4095, 4096, 4097, 32767, 32768, 32769, 65535, 65536, 65537]
+riscv64-linux ELF retain checks passed; executed modes 0
+riscv64-linux: bounded integer bit patterns: 169 byte checks, 22 value checks, 24 interpreter checks, 13 refusals; execution=False
+riscv64-linux: hexadecimal strings and annotation order: 0/6 executable profiles; 314-byte and 25-annotation suites; 5 negative parses; execution=False
+riscv64-linux: 18 interpreter relocation checks; 0/0 link/execution profiles qualified; failures retained separately
+riscv64-linux: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=False
+riscv64-linux: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=False
+riscv64-linux: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=False
+riscv64-linux: 2560 independent sparse-prefix cases per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}
+riscv64-linux: 600 independent C cases per mode; modes={'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; corruption=not-run
+riscv64-linux: dynamic outgoing 529 args (515 HFAs), 80 calls/mode; TLS=True; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; originalQBE=None
+riscv64-linux: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; used-env/signature/external controls passed
+{'target': 'riscv64-linux', 'modes': {'baseline': {'status': 'emitted', 'jump_to_next_label': 44}, 'allocated': {'status': 'emitted', 'jump_to_next_label': 0}, 'optimized': {'status': 'emitted', 'jump_to_next_label': 0}}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'qbe_link_flags': []}
+riscv64-linux 5628 checks per mode passed; execution False
+riscv64-linux: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=False; original QBE profiles=0
+riscv64-linux: original QBE exclusions [(65, True, False), (1024, True, False), (1024, False, True)]; signed-byte outbound-call defect and, on RV, large positive aggregate-frame offset defect
+riscv64-linux: 9216 independent load/cast bit cases per mode, structural checks and 0 detected corruption controls; execution=False
+{'target': 'riscv64-linux', 'functions': 576, 'seeds': 190, 'checks_per_mode': 109440, 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'wrong_immediate_detected': False, 'qbe_profile': 'all arithmetic/bitwise constants; only 0 <= constant shift < width', 'qbe_functions': 393}
+{'target': 'riscv64-linux', 'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '1b3421d5ef0741309a2b9f14f57ada4ba8fb85052d27f792b1632c6062a9c9f2', 'caller_sha256': '7a1f9a59c83bce11d84a2bb08d4f3ab79f1a24ffa54249d03c31af93fa74073a', 'emitted_checks_per_mode': 9728, 'executed_checks_per_mode': 0, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}
+riscv64-linux: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=False
+riscv64-linux: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=False
+riscv64-linux: baseline/folded assembly and 256 independent integer-oracle cases; execution=False
+riscv64-linux: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=False
+riscv64-linux: 75/76 emitted; 0 executable drivers and 0 assembly-only passes per Lean/QBE backend; execution=not measured
+Actual compiler emission modes: {'baseline': 179, 'allocated': 72, 'optimized': 78}
+macOS AMD64: 75/76 emitted; 58 executable and 17 assembly-only passes; execution=rosetta
+x86_64-macos: QBE subword reference uses explicit narrow extensions; Lean input and independent C ABI checks remain unchanged
+x86_64-macos: generated mixed scalar ABI/subword/variadic matrices and independent C floating/conversion oracles passed against QBE
+x86_64-macos: 22 aggregate layouts, protected tails/corruption, by-value copies, callbacks and GP/FP pressure passed; C-only padding/nested/rollback edges passed
+x86_64-macos: eight-thread C TLS, live mixed arguments, external TLS and executable/shared-library interoperation passed
+x86_64-macos: Mach-O code/data sections, common coalescing/alignment and DWARF line tables passed
+x86_64-macos aggregate ABI matrix passed [127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 255, 256, 257, 4095, 4096, 4097, 32767, 32768, 32769, 65535, 65536, 65537]
+x86_64-macos ELF retain checks passed; executed modes 0
+x86_64-macos: bounded integer bit patterns: 169 byte checks, 22 value checks, 24 interpreter checks, 13 refusals; execution=True
+x86_64-macos: hexadecimal strings and annotation order: 6/6 executable profiles; 314-byte and 25-annotation suites; 5 negative parses; execution=True
+x86_64-macos: 18 interpreter relocation checks; 12/36 link/execution profiles qualified; failures retained separately
+x86_64-macos: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=True
+x86_64-macos: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=True
+x86_64-macos: scalar promotion: 1024 scalar and 16896 narrow loop cases, signed/unsigned loads, escaping/partial/mixed objects and FP branches; execution=True
+x86_64-macos: 2560 independent sparse-prefix cases per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}
+x86_64-macos: 600 independent C cases per mode; modes={'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}; corruption=detected
+x86_64-macos: dynamic outgoing 529 args (515 HFAs), 80 calls/mode; TLS=True; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}; originalQBE=None
+x86_64-macos: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed
+{'target': 'x86_64-macos', 'modes': {'baseline': {'status': 'passed', 'jump_to_next_label': 44}, 'allocated': {'status': 'passed', 'jump_to_next_label': 0}, 'optimized': {'status': 'passed', 'jump_to_next_label': 0}}, 'c_checks_per_mode': 12168, 'wrong_target_detected': True, 'original_qbe': 'passed', 'qbe_link_flags': []}
+x86_64-macos 5628 checks per mode passed; execution True
+{'target': 'x86_64-macos', 'modes': {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}, 'binary_checks_per_mode': 109440, 'additional_checks_per_mode': 3232, 'call_result_corruption_detected': True, 'qbe_arithmetic_checks': 74670, 'qbe_profile': 'arithmetic/bitwise constants and legal immediate shifts only; C independently checks all LCB cases, including extra narrowing/ABI/TLS controls'}
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '466fef70b8e0f6ea678930ffa53fbc4f2eec51d979970f5f188e744ba9ca1b1b', 'caller_sha256': '6b428ca83568d35a6100417fea43fe9253eb900e90a1246b2aecf2bf7f8d2ccd', 'qbe_sha256': '0f1433e0f09ee84813719265bc4013d39a15c05e10de5aa35a47469bac8a335c', 'target': 'x86_64-macos', 'functions': 810, 'seeds': 190, 'checks_per_mode': 153900, 'generated_checks_per_mode': 153900, 'modes': {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}, 'wrong_immediate_detected': True, 'qbe_profile': 'all arithmetic/bitwise/multiply constants, variable and LHS-constant operands; only 0 <= constant shift < width; TLS supplement LCB-only (original QBE failures retained separately)', 'qbe_functions': 573, 'qbe_checks': 108870}
+x86_64-macos: empty variadic markers: {'target': 'x86_64-macos', 'modes': {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}, 'calls_per_mode': 20, 'negative_lcb_cases': 12, 'marker_loss_detected': True, 'source_sha256': '013e00e725bc7fe0a6d73d4b5ac5d1b9d9f93f74b541a746bc3d5be6e57e91b3'}
+x86_64-macos: unused-env variadic definitions, seven GP/FP boundary signatures, 126 interpreter and 315 C calls per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'register-only signature passed (45 calls); unchanged full input fails known overflow-pointer discrepancy'}; explicit-env calls and used-env definitions remain rejected
+x86_64-macos: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=True; original QBE profiles=5
+x86_64-macos: original QBE exclusions [(65, True, False), (1024, True, False)]; signed-byte outbound-call defect and, on RV, large positive aggregate-frame offset defect
+x86_64-macos: conditional external +140 pointer matches independent C in all lowering modes; original QBE flags discrepancy retained; execution=True
+x86_64-macos: allocation pressure/spills, caller clobbers, callee saves, FP bits/pressure/conversions, 79 phi permutations/5372 cases, phi swaps, dead writes, dynamic frames; execution=True
+x86_64-macos: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=True; original-QBE=through 65537 bytes
+x86_64-macos: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=True
+x86_64-macos: constant-offset memory: 14944 independent byte-level load/store/FP/shared-address checks per mode; execution=True
+x86_64-macos: integer branch selection: 178360 independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution=True
+x86_64-macos: memory forwarding: 95232 independent truncation/FP/alias/call/blit/loop checks per mode; execution=True
+x86_64-macos: redundant extensions: 60480 independent matching/mismatched/cross-width and mutation checks per mode; execution=True
+x86_64-macos: unsigned division/remainder: 216 functions, 2592 independent cases per mode, all powers and truncation/nonpower boundaries; execution=True
+x86_64-macos: common global addresses: 8192 independent call/mutation, narrowing/phi, loop and naming-collision checks per mode; execution=True
+x86_64-macos: reproduced pinned QBE quoted-TLS suffix assembly failure; original Lean input remains mandatory
+x86_64-macos: quoted code/data/TLS/relocations and direct/indirect calls passed; execution=True
+x86_64-macos: isolated pinned QBE alloc16 0 leaf alignment failure; positive-size oracle workaround and original Lean input checked separately
+x86_64-macos: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True
+x86_64-macos: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=True
+x86_64-macos: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True
+x86_64-macos: baseline/folded assembly and 256 independent integer-oracle cases; execution=True
+Actual compiler emission modes: {'baseline': 204, 'allocated': 75, 'optimized': 82}
+memory: 45 functions (16 generated), 360 interpreter cases, 11 rejection/undefined-domain controls; 3105 native cases per Lean baseline/optimized/corrected-QBE backend; 1664 C-owned-memory cases per backend; 1104 C reference cases; signed-load corruption detected
+Original QBE 1.3: 616 known-class overlap mismatches; NOT counted as matching. Exact cases retained in /Users/unbalancedparen/projects/lean-compiler-backend/.build/memory-qbe-discrepancies/run-1792669032370310000
+large frames: 6 layouts through 128 KiB allocations, 60 interpreter cases; native Lean/QBE/C and incoming-argument corruption passed
+aarch64-macos: large constant objects 4097..1047552 bytes, entry/nonentry paths, page/tail/call checks; 24 cases per mode; execution=True
+aarch64-macos: 16 MiB BSS, 4096 page offsets/tail, alignment and relocation, compact objects, 256 MiB admission boundary and interpreter refusal; execution=True
+dynamic allocation: 64 interpreter cases, two runtime-domain refusals; native Lean/QBE/C loops, callbacks, stack arguments and SP/FP record/restoration checks passed
+aarch64-macos: zero-sized static/dynamic/loop allocations preserve alignment and live objects; execution=True
+aarch64-macos: 4096-function forward-call chain, boundary/duplicate/signature diagnostics; execution=True
+aarch64-macos: CFG/phi cleanup, word conditions, live dynamic edges, common expressions; 198 independent cases, unreachable predecessor normalization; execution=True
+aarch64-macos: baseline/folded assembly and 256 independent integer-oracle cases; execution=True
+blit allocated-memory interpretation: 81 cases passed
+blit: 40 copy sizes (0..4096; 12 seeded draws), 81 allocated-memory interpreter cases; 8 static rejections, 8 undefined-domain refusals, 6 defined-state controls; 216 allocated-memory native cases and 1080 C-owned-memory guard-byte cases per Lean/QBE/C backend; zero-length external pointers and byte-tail corruption detected
+aarch64-macos: large blits: 22 sizes through 1 MiB, 264 aligned/unaligned/disjoint/identical full-byte cases per mode, repeated loops and zero unresolved symbols; execution=True; original-QBE=through 65537 bytes
+aarch64-macos: blit guard pages: 27 sizes, 162 start/end disjoint/identical cases per mode plus protected zero copies; execution=True
+calls: 26 entry functions (16 generated), 208 interpreter cases, 18 rejection/undefined-domain controls; 1794 native cases per Lean/QBE/C backend; 69 external ABI cases per backend; live-value and callee-saved corruption detected
+aarch64-macos: argument boundaries 64/65/128/1024 and rejection 1025; 7 signatures, 16 seeds, five call paths, three LCB modes; narrow/aggregate edges and corruption control; execution=True; original QBE profiles=7
+aarch64-macos: dynamic outgoing 529 args (515 HFAs), 80 calls/mode; TLS=True; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed'}; originalQBE=None
+riscv64-linux: 9216 independent load/cast bit cases per mode, structural checks and 0 detected corruption controls; execution=False
+indirect: 6 signatures through 64 arguments, 91 interpreter cases, dynamic signature refusals; native Lean/QBE/C callbacks, recursion, phi/void calls and corruption control passed
+variadics: 7 named-argument boundaries through 64 total arguments; 70 interpreted calls; native Lean/QBE/C direct and indirect calls in both directions passed
+environment: 36 interpreter cases; native Lean/QBE and independent x9 ABI probes passed
+aarch64-macos: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed
+x86_64-linux: empty variadic markers: {'target': 'x86_64-linux', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'calls_per_mode': 0, 'negative_lcb_cases': 12, 'marker_loss_detected': False, 'source_sha256': '013e00e725bc7fe0a6d73d4b5ac5d1b9d9f93f74b541a746bc3d5be6e57e91b3'}
+x86_64-linux: unused-env variadic definitions, seven GP/FP boundary signatures, 126 interpreter and 0 C calls per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; explicit-env calls and used-env definitions remain rejected
+stack argument batch 1: passed
+stack argument batch 2: passed
+stack argument batch 3: passed
+stack argument batch 4: passed
+stack argument batch 5: passed
+stack argument batch 6: passed
+stack argument batch 7: passed
+recursive stack arguments: 4 interpreter cases; 16 native cases per Lean/QBE/C backend; caller stack objects retained
+stack arguments: 55 signatures, 220 entry functions, 110 interpreter cases; 3520 native cases per Lean/QBE/C backend; both ABI corruptions detected
+fuzz seed 20261018: passed
+fuzz seed 20261019: passed
+fuzz seed 20261020: passed
+fuzz seed 20261021: passed
+fuzz: 4 seeds, 32 generated functions, 256 input cases; Python / Lean interpreter / Lean native / QBE native / Lean optimized native
+fuzz negative control: corrupted emitted return detected
+{'target': 'riscv64-linux', 'functions': 576, 'seeds': 190, 'checks_per_mode': 109440, 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'wrong_immediate_detected': False, 'qbe_profile': 'all arithmetic/bitwise constants; only 0 <= constant shift < width', 'qbe_functions': 393}
+{'target': 'x86_64-linux', 'modes': {'baseline': {'status': 'emitted', 'jump_to_next_label': 44}, 'allocated': {'status': 'emitted', 'jump_to_next_label': 0}, 'optimized': {'status': 'emitted', 'jump_to_next_label': 0}}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'qbe_link_flags': []}
+{'target': 'riscv64-linux', 'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '1b3421d5ef0741309a2b9f14f57ada4ba8fb85052d27f792b1632c6062a9c9f2', 'caller_sha256': '7a1f9a59c83bce11d84a2bb08d4f3ab79f1a24ffa54249d03c31af93fa74073a', 'emitted_checks_per_mode': 9728, 'executed_checks_per_mode': 0, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}
+{
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "script_sha256": "dd66a82d91111b31e5c422e0711a3199762fb3da02b2d366caedd57763e8fb19",
+  "source_sha256": "966b2c88712cb679267bd171fb92fb1c0fc3fa93796c563e7c7f504a8831eeed",
+  "caller_sha256": "dd41287f8e1df199c5da5d4f23a3742f62e68613b56fbbd12d7035ed29c9fead",
+  "target": "x86_64-macos",
+  "modes": {
+    "baseline": {
+      "assembly_sha256": "dfbbc771976f4beb785389e1619b2a11c716f7531d19906be67a90368b20e6ea",
+      "execution": "not-run"
+    },
+    "allocated": {
+      "assembly_sha256": "15e37663ec07207a746cbc909e05b2e6051935574fbfdf554fee968b11f87c5b",
+      "execution": "not-run",
+      "extra_bank_home_writes": {
+        "pressure": {
+          "8": 1,
+          "9": 1
+        },
+        "gp4": {
+          "8": 1,
+          "9": 1
+        },
+        "hidden": {
+          "8": 1,
+          "9": 1
+        },
+        "blit": {
+          "8": 1,
+          "9": 1
+        },
+        "dynamic": {
+          "8": 1,
+          "9": 1
+        },
+        "frame": {
+          "8": 1,
+          "9": 1
+        },
+        "loop": {
+          "8": 1,
+          "9": 1
+        },
+        "variadic": {
+          "8": 1,
+          "9": 1
+        },
+        "environment_target": {
+          "8": 1,
+          "9": 1
+        },
+        "mixed": {
+          "8": 1,
+          "9": 1
+        },
+        "rollback": {
+          "8": 2,
+          "9": 2
+        },
+        "subword_sb": {
+          "8": 1,
+          "9": 1
+        },
+        "subword_ub": {
+          "8": 1,
+          "9": 1
+        },
+        "subword_sh": {
+          "8": 1,
+          "9": 1
+        },
+        "subword_uh": {
+          "8": 1,
+          "9": 1
+        },
+        "raw_s": {
+          "8": 1,
+          "9": 1
+        },
+        "convert_s": {
+          "8": 1,
+          "9": 1
+        },
+        "raw_d": {
+          "8": 1,
+          "9": 1
+        },
+        "convert_d": {
+          "8": 1,
+          "9": 1
+        }
+      },
+      "extra_bank_occurrences": {
+        "pressure": {
+          "8": 2,
+          "9": 2
+        },
+        "gp4": {
+          "8": 2,
+          "9": 2
+        },
+        "hidden": {
+          "8": 2,
+          "9": 2
+        },
+        "blit": {
+          "8": 2,
+          "9": 2
+        },
+        "dynamic": {
+          "8": 2,
+          "9": 2
+        },
+        "frame": {
+          "8": 2,
+          "9": 2
+        },
+        "loop": {
+          "8": 2,
+          "9": 2
+        },
+        "variadic": {
+          "8": 3,
+          "9": 3
+        },
+        "environment_target": {
+          "8": 2,
+          "9": 2
+        },
+        "mixed": {
+          "8": 2,
+          "9": 2
+        },
+        "rollback": {
+          "8": 3,
+          "9": 3
+        },
+        "subword_sb": {
+          "8": 2,
+          "9": 2
+        },
+        "subword_ub": {
+          "8": 2,
+          "9": 2
+        },
+        "subword_sh": {
+          "8": 2,
+          "9": 2
+        },
+        "subword_uh": {
+          "8": 2,
+          "9": 2
+        },
+        "raw_s": {
+          "8": 2,
+          "9": 2
+        },
+        "convert_s": {
+          "8": 2,
+          "9": 2
+        },
+        "raw_d": {
+          "8": 2,
+          "9": 2
+        },
+        "convert_d": {
+          "8": 2,
+          "9": 2
+        }
+      }
+    },
+    "optimized": {
+      "assembly_sha256": "13a3b526735cc9b444ef166238b6680c067e4de067462d6fb7f682ad7fbefe83",
+      "execution": "not-run",
+      "extra_bank_home_writes": {
+        "pressure": {
+          "8": 1,
+          "9": 1
+        },
+        "gp4": {
+          "8": 1,
+          "9": 1
+        },
+        "hidden": {
+          "8": 1,
+          "9": 1
+        },
+        "blit": {
+          "8": 1,
+          "9": 1
+        },
+        "dynamic": {
+          "8": 1,
+          "9": 1
+        },
+        "frame": {
+          "8": 1,
+          "9": 1
+        },
+        "loop": {
+          "8": 1,
+          "9": 1
+        },
+        "variadic": {
+          "8": 1,
+          "9": 1
+        },
+        "environment_target": {
+          "8": 1,
+          "9": 1
+        },
+        "mixed": {
+          "8": 1,
+          "9": 1
+        },
+        "rollback": {
+          "8": 2,
+          "9": 2
+        },
+        "subword_sb": {
+          "8": 1,
+          "9": 1
+        },
+        "subword_ub": {
+          "8": 1,
+          "9": 1
+        },
+        "subword_sh": {
+          "8": 1,
+          "9": 1
+        },
+        "subword_uh": {
+          "8": 1,
+          "9": 1
+        },
+        "raw_s": {
+          "8": 1,
+          "9": 1
+        },
+        "convert_s": {
+          "8": 1,
+          "9": 1
+        },
+        "raw_d": {
+          "8": 1,
+          "9": 1
+        },
+        "convert_d": {
+          "8": 1,
+          "9": 1
+        }
+      },
+      "extra_bank_occurrences": {
+        "pressure": {
+          "8": 2,
+          "9": 2
+        },
+        "gp4": {
+          "8": 2,
+          "9": 2
+        },
+        "hidden": {
+          "8": 2,
+          "9": 2
+        },
+        "blit": {
+          "8": 2,
+          "9": 2
+        },
+        "dynamic": {
+          "8": 2,
+          "9": 2
+        },
+        "frame": {
+          "8": 2,
+          "9": 2
+        },
+        "loop": {
+          "8": 2,
+          "9": 2
+        },
+        "variadic": {
+          "8": 3,
+          "9": 3
+        },
+        "environment_target": {
+          "8": 2,
+          "9": 2
+        },
+        "mixed": {
+          "8": 2,
+          "9": 2
+        },
+        "rollback": {
+          "8": 3,
+          "9": 3
+        },
+        "subword_sb": {
+          "8": 2,
+          "9": 2
+        },
+        "subword_ub": {
+          "8": 2,
+          "9": 2
+        },
+        "subword_sh": {
+          "8": 2,
+          "9": 2
+        },
+        "subword_uh": {
+          "8": 2,
+          "9": 2
+        },
+        "raw_s": {
+          "8": 2,
+          "9": 2
+        },
+        "convert_s": {
+          "8": 2,
+          "9": 2
+        },
+        "raw_d": {
+          "8": 2,
+          "9": 2
+        },
+        "convert_d": {
+          "8": 2,
+          "9": 2
+        }
+      }
+    }
+  },
+  "executed_checks": 0
+}
+{'target': 'x86_64-linux', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'binary_checks_per_mode': 0, 'additional_checks_per_mode': 0, 'call_result_corruption_detected': False, 'qbe_arithmetic_checks': 0, 'qbe_profile': 'arithmetic/bitwise constants and legal immediate shifts only; C independently checks all LCB cases, including extra narrowing/ABI/TLS controls'}
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '466fef70b8e0f6ea678930ffa53fbc4f2eec51d979970f5f188e744ba9ca1b1b', 'caller_sha256': '6b428ca83568d35a6100417fea43fe9253eb900e90a1246b2aecf2bf7f8d2ccd', 'qbe_sha256': None, 'target': 'x86_64-macos', 'functions': 810, 'seeds': 190, 'checks_per_mode': 0, 'generated_checks_per_mode': 153900, 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'wrong_immediate_detected': False, 'qbe_profile': 'all arithmetic/bitwise/multiply constants, variable and LHS-constant operands; only 0 <= constant shift < width; TLS supplement LCB-only (original QBE failures retained separately)', 'qbe_functions': 573, 'qbe_checks': 0}
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '466fef70b8e0f6ea678930ffa53fbc4f2eec51d979970f5f188e744ba9ca1b1b', 'caller_sha256': '6b428ca83568d35a6100417fea43fe9253eb900e90a1246b2aecf2bf7f8d2ccd', 'qbe_sha256': None, 'target': 'x86_64-linux', 'functions': 810, 'seeds': 190, 'checks_per_mode': 0, 'generated_checks_per_mode': 153900, 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'wrong_immediate_detected': False, 'qbe_profile': 'all arithmetic/bitwise/multiply constants, variable and LHS-constant operands; only 0 <= constant shift < width; TLS supplement LCB-only (original QBE failures retained separately)', 'qbe_functions': 573, 'qbe_checks': 0}
+{'target': 'x86_64-linux', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'binary_checks_per_mode': 0, 'additional_checks_per_mode': 0, 'call_result_corruption_detected': False, 'qbe_arithmetic_checks': 0, 'qbe_profile': 'arithmetic/bitwise constants and legal immediate shifts only; C independently checks all LCB cases, including extra narrowing/ABI/TLS controls'}
+x86_64-linux: empty variadic markers: {'target': 'x86_64-linux', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'calls_per_mode': 0, 'negative_lcb_cases': 12, 'marker_loss_detected': False, 'source_sha256': '013e00e725bc7fe0a6d73d4b5ac5d1b9d9f93f74b541a746bc3d5be6e57e91b3'}
+x86_64-linux: unused-env variadic definitions, seven GP/FP boundary signatures, 126 interpreter and 0 C calls per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; explicit-env calls and used-env definitions remain rejected
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '466fef70b8e0f6ea678930ffa53fbc4f2eec51d979970f5f188e744ba9ca1b1b', 'caller_sha256': '6b428ca83568d35a6100417fea43fe9253eb900e90a1246b2aecf2bf7f8d2ccd', 'qbe_sha256': None, 'target': 'x86_64-macos', 'functions': 810, 'seeds': 190, 'checks_per_mode': 0, 'generated_checks_per_mode': 153900, 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'wrong_immediate_detected': False, 'qbe_profile': 'all arithmetic/bitwise/multiply constants, variable and LHS-constant operands; only 0 <= constant shift < width; TLS supplement LCB-only (original QBE failures retained separately)', 'qbe_functions': 573, 'qbe_checks': 0}
+{'target': 'x86_64-macos', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'binary_checks_per_mode': 0, 'additional_checks_per_mode': 0, 'call_result_corruption_detected': False, 'qbe_arithmetic_checks': 0, 'qbe_profile': 'arithmetic/bitwise constants and legal immediate shifts only; C independently checks all LCB cases, including extra narrowing/ABI/TLS controls'}
+x86_64-macos: empty variadic markers: {'target': 'x86_64-macos', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'calls_per_mode': 0, 'negative_lcb_cases': 12, 'marker_loss_detected': False, 'source_sha256': '013e00e725bc7fe0a6d73d4b5ac5d1b9d9f93f74b541a746bc3d5be6e57e91b3'}
+x86_64-macos: unused-env variadic definitions, seven GP/FP boundary signatures, 126 interpreter and 0 C calls per mode; {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}; explicit-env calls and used-env definitions remain rejected
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '62fdc4aa4626263f14d229b7d5e2bfe6490f672b07a01eb0104f54bdbaabb037', 'caller_sha256': '3be2ad20bab41adf40ef37c6c82d5d339c3f5c2657e590f60d21875c6831db77', 'target': 'aarch64-linux', 'checks_per_mode': 0, 'emitted_checks_per_mode': 10496, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}
+{'target': 'aarch64-linux', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'large_expanded_function': {}}
+{'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '62fdc4aa4626263f14d229b7d5e2bfe6490f672b07a01eb0104f54bdbaabb037', 'caller_sha256': '3be2ad20bab41adf40ef37c6c82d5d339c3f5c2657e590f60d21875c6831db77', 'target': 'aarch64-macos', 'checks_per_mode': 0, 'emitted_checks_per_mode': 10496, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}
+{'target': 'aarch64-macos', 'modes': {'baseline': 'emitted', 'allocated': 'emitted', 'optimized': 'emitted'}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'large_expanded_function': {}}
+aarch64-linux ELF retain checks passed; executed modes 0
+aarch64-linux 5628 checks per mode passed; execution False
+aarch64-macos ELF retain checks passed; executed modes 0
+aarch64-macos 5628 checks per mode passed; execution False
+x86_64-linux ELF retain checks passed; executed modes 0
+x86_64-linux 5628 checks per mode passed; execution False
+x86_64-macos ELF retain checks passed; executed modes 0
+x86_64-macos 5628 checks per mode passed; execution False
+riscv64-linux ELF retain checks passed; executed modes 0
+riscv64-linux 5628 checks per mode passed; execution False
+{'target': 'x86_64-linux', 'modes': {'baseline': {'status': 'emitted', 'jump_to_next_label': 44}, 'allocated': {'status': 'emitted', 'jump_to_next_label': 0}, 'optimized': {'status': 'emitted', 'jump_to_next_label': 0}}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'qbe_link_flags': []}
+{'target': 'x86_64-macos', 'modes': {'baseline': {'status': 'emitted', 'jump_to_next_label': 44}, 'allocated': {'status': 'emitted', 'jump_to_next_label': 0}, 'optimized': {'status': 'emitted', 'jump_to_next_label': 0}}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'qbe_link_flags': []}
+{'target': 'riscv64-linux', 'modes': {'baseline': {'status': 'emitted', 'jump_to_next_label': 44}, 'allocated': {'status': 'emitted', 'jump_to_next_label': 0}, 'optimized': {'status': 'emitted', 'jump_to_next_label': 0}}, 'c_checks_per_mode': 0, 'wrong_target_detected': False, 'original_qbe': 'not_executed', 'qbe_link_flags': []}
+{'target': 'riscv64-linux', 'compiler_identity': 'ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92', 'compiler_sha256': 'cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9', 'source_sha256': '1b3421d5ef0741309a2b9f14f57ada4ba8fb85052d27f792b1632c6062a9c9f2', 'caller_sha256': '7a1f9a59c83bce11d84a2bb08d4f3ab79f1a24ffa54249d03c31af93fa74073a', 'emitted_checks_per_mode': 9728, 'executed_checks_per_mode': 0, 'modes': {'baseline': {'structural': 'passed', 'execution': 'not-run'}, 'allocated': {'structural': 'passed', 'execution': 'not-run'}, 'optimized': {'structural': 'passed', 'execution': 'not-run'}}, 'negative_control': 'not-run'}
+Emission-only target helpers passed with missing tools and an execution guard

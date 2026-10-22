@@ -13,7 +13,7 @@ All 15 combined matrices, three complete Linux gates, fresh units and 147 unchan
 audit statements pass. All 1,305 corpus assemblies, 15 refusals and 432 workload
 assemblies remain identical. The workload bridge reuses prior exact-output runtime
 qualification, including QBE self-compilation on predecessor identity5e174. Full
-host/Rosetta gate is running; aggregate signature aliases are privately qualified
+host/Rosetta gate also passes; aggregate signature aliases are privately qualified
 and reviewed but not yet integrated. Unqualified stale-comparison/wrong-IR-path
 harness attempts are retained separately from fresh successful reruns.
 
