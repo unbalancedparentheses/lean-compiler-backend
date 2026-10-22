@@ -18,7 +18,7 @@ the combined scalar change and is not the main qualification identity. No new
 proof-path feature or Windows support is claimed; arbitrary section escapes and
 assembler suffixes remain outside the bounded qualification. All three complete
 Linux regression gates now pass on this combined identity. Full host/Rosetta
-qualification is running separately.
+qualification also passes.
 
 [LZ4 1.10.0](benchmarks/lz4/README.md) now passes native Linux ARM64 and QEMU x86/RV qualification:
 all six original C units, 370 functions / 64,135 IR lines, upstream unit/fixed-seed
@@ -65,7 +65,7 @@ passes 6,400 C checks and five corruptions; units/emission and the unchanged
 147-report audit pass. Corpus assemblies/refusals are all unchanged. Existing
 native call/indirect/variadic gates pass after correcting a stale rejection test.
 The subsequent combined scalar+section identity passes all three Linux gates;
-its full host gate is running. Preceding
+its full host gate also passes. Preceding
 Symbols full gates passed. No native emitter or ABI layout was changed.
 
 ## Repository and current compiler
