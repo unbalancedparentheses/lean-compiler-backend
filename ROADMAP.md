@@ -58,6 +58,9 @@ The requested Linux architectures now generate executable assembly: ARM64,
 x86-64 and RV64, alongside Apple ARM64 and x86-64. Each current target emits 75/76 retained
 upstream fixtures; the remaining fixture omits a required aggregate argument.
 This fixture count does not mean the full port is complete.
+[Supplementary callers](docs/benchmarks/upstream-development/README.md) now execute
+three unchanged underscore-prefixed development fixtures on all five targets;
+they do not change the original driver count.
 
 AMD64 word normalization now removes redundant EAX self-moves after already
 normalized operations. Both target gates and independent C matrices pass;

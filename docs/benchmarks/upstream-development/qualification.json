@@ -1,0 +1,25 @@
+{
+  "status": "passed",
+  "compiler_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+  "fixtures": [
+    "_gcm1.ssa",
+    "_fix3.ssa",
+    "_fix4.ssa"
+  ],
+  "targets": {
+    "aarch64-macos": "native Apple ARM",
+    "aarch64-linux": "native Linux ARM VM",
+    "x86_64-macos": "Rosetta",
+    "x86_64-linux": "QEMU x86_64 Linux",
+    "riscv64-linux": "QEMU RV64 Linux"
+  },
+  "supplementary_cases_per_lcb_mode_per_target": 770,
+  "successful_program_executions": 60,
+  "detected_wrong_return_controls": 5,
+  "emission_only_missing_tool_profiles": 5,
+  "bound_files": 357,
+  "guest_host_digests": "passed",
+  "scope": "Three underscore-prefixed development fixtures with new independent callers, not additional original upstream drivers. Exact originalSSA hash preserved. Append-only assembly tailadapter exposes private test functions. _fix4 oracle independent sieve also checks upper32bits of64-bit$a untouched.",
+  "qbe": "Unchanged originalQBE executed for allfive targetprofiles; RV original linked-no-pie explicitly.",
+  "qualification": "Existing58 original executable +17 assembly-only inventory unchanged; report supplementary caller coverage separately."
+}

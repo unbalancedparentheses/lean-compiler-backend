@@ -214,6 +214,9 @@ def main():
     for failure in failures: print(failure, flush=True)
     assert not failures, f'{len(failures)} Linux ARM64 failures'
 
+    from upstream_development import exercise as development_tests
+    development_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+
     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
     print('Actual compiler emission modes:', emission_modes, flush=True)
     report['emission_mode_counts'] = emission_modes

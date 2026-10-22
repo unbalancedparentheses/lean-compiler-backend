@@ -199,6 +199,7 @@ python3 scripts/names.py "$@"
 python3 scripts/quoted_names.py "$@"
 python3 scripts/debug_locations.py "$@"
 python3 scripts/linkage.py "$@"
+python3 scripts/upstream_development.py
 python3 scripts/upstream_suite.py "$@"
 python3 scripts/linux_arm64.py
 python3 scripts/linux_targets.py

@@ -5,6 +5,7 @@ import subprocess
 import tempfile
 from fuzz import ROOT, LCB
 from amd_leaf_bank import exercise as amd_leaf_bank
+from upstream_development import exercise as upstream_development
 from arm_indexed_load import exercise as arm_indexed_load
 from arm_phi_identity import exercise as arm_phi_identity
 from arm_leaf_bank import exercise as arm_leaf_bank
@@ -54,6 +55,8 @@ def main():
             branches = arm_branches(LCB, work/target, run, cc, target, False, qbe, 'arm64', large=False)
             assert branches['c_checks_per_mode'] == 0 and branches['original_qbe'] == 'not_executed'
         for target in ['aarch64-linux','aarch64-macos','x86_64-linux','x86_64-macos','riscv64-linux']:
+            development = upstream_development(LCB,work/target,run,cc,target,False,qbe)
+            assert development['checks_per_lcb_mode'] == 0 and development['original_qbe'] == 'not-run'
             signed = signed_one(LCB,work/target,run,cc,target,False,qbe,'missing-target')
             assert signed['executed_checks_per_mode'] == 0 and signed['qbe_sha256'] is None
         for target in ['x86_64-linux','x86_64-macos','riscv64-linux']:

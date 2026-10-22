@@ -186,6 +186,9 @@ def main():
     for failure in failures:print(str(failure)[:3000],flush=True)
     assert not failures, f'{len(failures)} target failures'
 
+    from upstream_development import exercise as development_tests
+    development_tests(compiler,work,run,cc,args.target,execute,qbe)
+
     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
     print('Actual compiler emission modes:', emission_modes, flush=True)
     report['emission_mode_counts'] = emission_modes

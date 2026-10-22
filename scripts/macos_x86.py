@@ -176,6 +176,9 @@ def main():
         from constant_fold import exercise as fold
         fold(compiler, work, run, cc, 'x86_64-macos', execute)
 
+    from upstream_development import exercise as development_tests
+    development_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+
     assert all(emission_modes.values()), ('missing actual lowering mode', emission_modes)
     print('Actual compiler emission modes:', emission_modes, flush=True)
     report['emission_mode_counts'] = emission_modes

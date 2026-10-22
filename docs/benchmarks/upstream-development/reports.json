@@ -1,0 +1,492 @@
+{
+  "aarch64-macos": {
+    "scope": "Supplementary independent callers, distinct from58 original upstream executable fixtures. Original SSA files unchanged; append-only assembly tail adapter for private functions.",
+    "target": "aarch64-macos",
+    "compiler_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "compiler_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "execution": true,
+    "checks_per_lcb_mode": 770,
+    "fixtures": {
+      "_gcm1.ssa": {
+        "original_ir_sha256": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+        "caller_sha256": "8cf839ac16c506261273f46774b4a779be91cda37dddff598ac8f21adaeabe43",
+        "checks_per_backend": 768,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "e3fb3ec6863c3de27dc677a8a24b6d966ed08af35f3223211292ea43f9166f50",
+            "caller_assembly_sha256": "e3fb3ec6863c3de27dc677a8a24b6d966ed08af35f3223211292ea43f9166f50",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "5b1da63426a4e7d51983771b1b43f77e19235c7dca1f8e65f63128bb965f2cb9",
+            "caller_assembly_sha256": "5b1da63426a4e7d51983771b1b43f77e19235c7dca1f8e65f63128bb965f2cb9",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "93a198e6d22f7f51ad9c12b3bf0ae2e61ad59a76666cb3acdca7911b4f33380d",
+            "caller_assembly_sha256": "93a198e6d22f7f51ad9c12b3bf0ae2e61ad59a76666cb3acdca7911b4f33380d",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "d9f3bfc01d391a6b55a45a82389c8db2f3a2f0ec6734e46748cdd123b40aa2dc",
+            "caller_assembly_sha256": "d9f3bfc01d391a6b55a45a82389c8db2f3a2f0ec6734e46748cdd123b40aa2dc",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix3.ssa": {
+        "original_ir_sha256": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+        "caller_sha256": "91691c562b7d08858ffb41c0a2a550f813412409ff65733065593945cf0ca4c0",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "7bff3a8413ef9d6e90d96a97b79e9302eaa4a216b2c4a95dade3a5a36d683f17",
+            "caller_assembly_sha256": "cdcb3659956afc51a6ebb2eeb22d86a05a48b5278fe734305da1d5d596b79f97",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "4bd8d839280c887aeccb379aae64d3d7606878bf4e5732e0f6e9880dbe246b84",
+            "caller_assembly_sha256": "867df4b092ea3b152ca3f33d07941e532a6ae8ce24d1e42ca39127b7d84c8c2a",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "4bd8d839280c887aeccb379aae64d3d7606878bf4e5732e0f6e9880dbe246b84",
+            "caller_assembly_sha256": "867df4b092ea3b152ca3f33d07941e532a6ae8ce24d1e42ca39127b7d84c8c2a",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "07dea05912f27f3ace64aae34239ea269abb5468dd25cc5503da84aa28733025",
+            "caller_assembly_sha256": "01f43b68b33bba457eb909155e3a5b5f922dfaf3efcdfeab6199278be0f6359d",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix4.ssa": {
+        "original_ir_sha256": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+        "caller_sha256": "308f7a17a3d3663ef52d3b1ac8671be9a2c96fea7bf308d097c58f4dee222153",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "160eef159efb24618327e9748c8e95a1a3a5e47ee405d4e340a529a8a289072e",
+            "caller_assembly_sha256": "fb4af96e9c8c59a82168f9612a0134fa7e4a2d354a37c27e16982285bece39c0",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "0f6ac58a06dd31fcafee26f11945edc0b74dbe6fe54cb2ae4a14464f5b0fc48a",
+            "caller_assembly_sha256": "3de16043ad8eef1dbc6aaef16839cd8d0c157a370fa93dd3ffeed259bacaef4c",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "abd7d3f247f5b4fac1d9865307cb4c0d6611cfe0ac60188efa2826d827208cd1",
+            "caller_assembly_sha256": "3fa7d0ae2a718631fd0b6e6eb54327d7be2372f41238a791f52b56bf1007e2f5",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "2e27420a278e2e92132e5f493a1867e563f676e94b2052321dd774e434fa561a",
+            "caller_assembly_sha256": "99e230c4e1d12d92d8725ab59ee10fbb8daaa7d34752a371dc2dd6de2f34fa43",
+            "execution": "passed"
+          }
+        }
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1
+    },
+    "original_qbe": "passed",
+    "original_qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "execution_mode": "native Apple ARM"
+  },
+  "aarch64-linux": {
+    "scope": "Supplementary independent callers, distinct from58 original upstream executable fixtures. Original SSA files unchanged; append-only assembly tail adapter for private functions.",
+    "target": "aarch64-linux",
+    "compiler_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "compiler_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "execution": true,
+    "checks_per_lcb_mode": 770,
+    "fixtures": {
+      "_gcm1.ssa": {
+        "original_ir_sha256": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+        "caller_sha256": "8cf839ac16c506261273f46774b4a779be91cda37dddff598ac8f21adaeabe43",
+        "checks_per_backend": 768,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "d3bb9824a3da950e3c3bab8a922003424f21511b6e6c9adf661e1be40ff3e14b",
+            "caller_assembly_sha256": "d3bb9824a3da950e3c3bab8a922003424f21511b6e6c9adf661e1be40ff3e14b",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "26af75fde7e9be59b3174cdd08e1a07fc284a02c90d737549429d1d3b8fefa13",
+            "caller_assembly_sha256": "26af75fde7e9be59b3174cdd08e1a07fc284a02c90d737549429d1d3b8fefa13",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "32ca1e91fd5b97860110d75d2e3096ceec7a9d581d873b71558ddd2f39b765ad",
+            "caller_assembly_sha256": "32ca1e91fd5b97860110d75d2e3096ceec7a9d581d873b71558ddd2f39b765ad",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "3440f0c1cf72a5afa46be0fa1f1c109c09eb7d0db746dd82d2b910b9df3fac3b",
+            "caller_assembly_sha256": "3440f0c1cf72a5afa46be0fa1f1c109c09eb7d0db746dd82d2b910b9df3fac3b",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix3.ssa": {
+        "original_ir_sha256": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+        "caller_sha256": "91691c562b7d08858ffb41c0a2a550f813412409ff65733065593945cf0ca4c0",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "93e6478d4bab2c893349e52206f48ac0e6335c4e9ceb27a17fd31a520cdce0f0",
+            "caller_assembly_sha256": "b6e25eddc36136f65874b009e50c39978bd9950b2349addb94713a2bcff54135",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "85b5e3d9727b6f88f284922b8d7f1f246f0c27917ec940c5b91438fa9de639dd",
+            "caller_assembly_sha256": "cbef586c8b54578f1eb372da51d49f47eac52d948c18aea7ea1ec7c2e9071e08",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "85b5e3d9727b6f88f284922b8d7f1f246f0c27917ec940c5b91438fa9de639dd",
+            "caller_assembly_sha256": "cbef586c8b54578f1eb372da51d49f47eac52d948c18aea7ea1ec7c2e9071e08",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "9ae0d90d1416eba94ec1e034ee9f24511d2c149495834e4dba98bacb2445ffc0",
+            "caller_assembly_sha256": "19f5078f6a4ba616ab66f13467297173b2c2bab9c25c08db3796d6589fe29eb5",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix4.ssa": {
+        "original_ir_sha256": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+        "caller_sha256": "308f7a17a3d3663ef52d3b1ac8671be9a2c96fea7bf308d097c58f4dee222153",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "65be4f8702601829a75ab55bf93594802fd16136370b149aadb51df98c0f5dc2",
+            "caller_assembly_sha256": "9cb3cb1675891a1a45fab2c46d0809a6bac08a09699df6e3403a8dc81f5301bb",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "1088e4d35425f146733563f0588b7e3a3bf84c407750e17d2d75ad71101154f4",
+            "caller_assembly_sha256": "be01b171cd51623a5da0feecaeb4e29c5ebb81faecf375be286ec5e8527b0973",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "ea35a00f63ecfc133cc2d9a5c47bd8d6be29e283689b1a3a72f8d1cfe4e95194",
+            "caller_assembly_sha256": "fbc0b6051a507bf1c5423b11d60f6ef54b6dbadbd9da4353091232e8486de2f8",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "30e9619859383799c8c78c1bbd39711ba0421667adb89b82ac494d87f24dcfa7",
+            "caller_assembly_sha256": "e48681ebbeb95d03874f5fc1868d2a397798f4565208a95db1f7814e82dd96a5",
+            "execution": "passed"
+          }
+        }
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1
+    },
+    "original_qbe": "passed",
+    "original_qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+    "execution_mode": "native Linux ARM VM"
+  },
+  "x86_64-macos": {
+    "scope": "Supplementary independent callers, distinct from58 original upstream executable fixtures. Original SSA files unchanged; append-only assembly tail adapter for private functions.",
+    "target": "x86_64-macos",
+    "compiler_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "compiler_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "execution": true,
+    "checks_per_lcb_mode": 770,
+    "fixtures": {
+      "_gcm1.ssa": {
+        "original_ir_sha256": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+        "caller_sha256": "8cf839ac16c506261273f46774b4a779be91cda37dddff598ac8f21adaeabe43",
+        "checks_per_backend": 768,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "e4aaefa2f69772c869fdeeb92f6c5d829358698c045573c711b7810ec4875c7d",
+            "caller_assembly_sha256": "e4aaefa2f69772c869fdeeb92f6c5d829358698c045573c711b7810ec4875c7d",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "5844e83a033655713e403b98ce91d985b7acb614976c4cdbca6aa6553d82cc69",
+            "caller_assembly_sha256": "5844e83a033655713e403b98ce91d985b7acb614976c4cdbca6aa6553d82cc69",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "cc75c519e34a7c7e5938a16180d252b5a0f70bd7e3004c865442d86607ef430d",
+            "caller_assembly_sha256": "cc75c519e34a7c7e5938a16180d252b5a0f70bd7e3004c865442d86607ef430d",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "d4fb95e457b763ae0c470cd74ed65a5645af9d3cda9e9812c32a8eea85f9a5ee",
+            "caller_assembly_sha256": "d4fb95e457b763ae0c470cd74ed65a5645af9d3cda9e9812c32a8eea85f9a5ee",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix3.ssa": {
+        "original_ir_sha256": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+        "caller_sha256": "91691c562b7d08858ffb41c0a2a550f813412409ff65733065593945cf0ca4c0",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "3cc962eab158305ce69b1807882f371aad5ce60dc7133ec361459e7dd14f6e01",
+            "caller_assembly_sha256": "eee6bee0740f067899639ce957069dcdbc8bf70883c8fcf88410d85e3948db95",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "3d93992692321cb368a40f428c46f539765ca881812d6577085c1c030673cad6",
+            "caller_assembly_sha256": "15e81194f326fb9162ff29afa62483601f307c8914bd53875e5e5379825b13e6",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "03a70893cb97405a26eba42fd3a9324771eab0c353d1adbce78e3600ef9a3424",
+            "caller_assembly_sha256": "14efe3dbb330113435050db8d5816746a19283b5688cb1a470366510be2cd311",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "660ef94f8abee763854c48ba7927c37506fb4cbe744d7d1e43024700a974738f",
+            "caller_assembly_sha256": "b5cce4f4ebb6ea4630a7e645e9f2930d9e12849449e0a159bb8b41683162dadd",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix4.ssa": {
+        "original_ir_sha256": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+        "caller_sha256": "308f7a17a3d3663ef52d3b1ac8671be9a2c96fea7bf308d097c58f4dee222153",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "6a27933199a70a1fde6405cdf41cb13ea42f2a0894177d92f5e556e5283036bf",
+            "caller_assembly_sha256": "57b0aa140c911dd841f751d6fe95b1b903f6f6b8de1ba9a83451d9fddf0a0966",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "ea37942e3c2ac393500069f39fd4785d55d189b039e3a7406cae14d7fdf8f361",
+            "caller_assembly_sha256": "1b6d37119cbd14887de5b0ca9985867f4a43eb27fe3adb77f3382076fefa2d8e",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "66bbdb133938a97d10c8d09a91df961c4c3f3c5977718ab422101fa8d8176670",
+            "caller_assembly_sha256": "9ceeab73a9682cc51edc7fa9fc27d75b4bfa7bffa18f04a7eccfe420941e269f",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "734efafac200728751503f761f6a42251ab39ca361055829a6247ec8148ba845",
+            "caller_assembly_sha256": "37f31a2a9a3aedfd48acc339c128105e1b64409fe575c40432c5244ffe822535",
+            "execution": "passed"
+          }
+        }
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1
+    },
+    "original_qbe": "passed",
+    "original_qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "execution_mode": "Rosetta"
+  },
+  "x86_64-linux": {
+    "scope": "Supplementary independent callers, distinct from58 original upstream executable fixtures. Original SSA files unchanged; append-only assembly tail adapter for private functions.",
+    "target": "x86_64-linux",
+    "compiler_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "compiler_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "execution": true,
+    "checks_per_lcb_mode": 770,
+    "fixtures": {
+      "_gcm1.ssa": {
+        "original_ir_sha256": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+        "caller_sha256": "8cf839ac16c506261273f46774b4a779be91cda37dddff598ac8f21adaeabe43",
+        "checks_per_backend": 768,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "bf074b5410fb4287e6911f88863c6fbe553365ea3365185df2c5a241f7e516ac",
+            "caller_assembly_sha256": "bf074b5410fb4287e6911f88863c6fbe553365ea3365185df2c5a241f7e516ac",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "71201aa63d724ad4bd98da422da31cd2dff611f7ec65aad84eeaa8909389574d",
+            "caller_assembly_sha256": "71201aa63d724ad4bd98da422da31cd2dff611f7ec65aad84eeaa8909389574d",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "d2af837b4bb87d2fbd677ada9ed80227172ae89cb260123f6e815e5157059a15",
+            "caller_assembly_sha256": "d2af837b4bb87d2fbd677ada9ed80227172ae89cb260123f6e815e5157059a15",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "c29f5c178c544b12033a8337c8256db6f5c4525f90de8f2e4f48bab556629bef",
+            "caller_assembly_sha256": "c29f5c178c544b12033a8337c8256db6f5c4525f90de8f2e4f48bab556629bef",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix3.ssa": {
+        "original_ir_sha256": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+        "caller_sha256": "91691c562b7d08858ffb41c0a2a550f813412409ff65733065593945cf0ca4c0",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "01c94eaac9e4742c202be81fa1b83e02e474ed174689b048fccaf7089aeedb51",
+            "caller_assembly_sha256": "0e6987a36ecaaae5fce64c03bb65ca9f48921750f667e21db7e14b820cfb5d44",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "81eaf056eec8121e06723a43eb3dc2f569eb742ac616b2cd767a09f15e3a454a",
+            "caller_assembly_sha256": "652ed0dc6200130117b933f859db2475c68a3e27b760ea57a5fb8ab925a28cbd",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "d690098aacc69b2ca0b266a3d15a56f891c52203c80e073646f00266a2c848a4",
+            "caller_assembly_sha256": "a60221685eb6dc937437aa4da82e292b5e3c7cef29ced75a2b3c7ae1f486fbb1",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "4ab0544d58919e3b0945cb86b35b32e947932274b50364490893ad39de46c796",
+            "caller_assembly_sha256": "9e3058962148a1faa6cf6f374ef5c1961d53cd695da37f9407922f08fdbd9cc6",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix4.ssa": {
+        "original_ir_sha256": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+        "caller_sha256": "308f7a17a3d3663ef52d3b1ac8671be9a2c96fea7bf308d097c58f4dee222153",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "281ffa008a1a24d810640a6698155a18bca560787565213a19e7b744d09add5c",
+            "caller_assembly_sha256": "f05fbedfe1d6bb6048401a15c4e95cbfa224a41a4fff1e6ee870ee83fcda3f58",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "b28a349e0dc2d0f5a7a2d94341df4c3317614d40b18fb59f66219d6c003d688c",
+            "caller_assembly_sha256": "b6babe645e07088c4688157d63440d3147ae715ef8a929cb3f8904f0883a5a57",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "4cc26becd6bc42390ac1e37afc77831f6a43fbcf4a145609f0ae36154a8044cc",
+            "caller_assembly_sha256": "179285f8a5ba2c17232b01933b944fc7662ace2ce44233118d8d5f7f2c6ba6f7",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "c72ef18363da71dc57f6b0e77c4e2d8e3a1a1d1e2fc91e51bf5ea77382ce13d8",
+            "caller_assembly_sha256": "676a193a20805d63632179d4f09f55ea26bc1d932f0ad3309c97125e8f63360c",
+            "execution": "passed"
+          }
+        }
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1
+    },
+    "original_qbe": "passed",
+    "original_qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+    "execution_mode": "QEMU x86_64 Linux"
+  },
+  "riscv64-linux": {
+    "scope": "Supplementary independent callers, distinct from58 original upstream executable fixtures. Original SSA files unchanged; append-only assembly tail adapter for private functions.",
+    "target": "riscv64-linux",
+    "compiler_identity": "e1166d5552d429214b74b5815154890a9ce5cf6c1ba9411df050301a2bdca9d4",
+    "compiler_sha256": "039b6e64e95880c0de978b5ff6ec781bc56412a5cd3dd4f41a525cc7f3d57998",
+    "execution": true,
+    "checks_per_lcb_mode": 770,
+    "fixtures": {
+      "_gcm1.ssa": {
+        "original_ir_sha256": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+        "caller_sha256": "8cf839ac16c506261273f46774b4a779be91cda37dddff598ac8f21adaeabe43",
+        "checks_per_backend": 768,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "7dd0dae2be1f9862d25e32f2b0ffd6e88afca7bda7b84889e833b1572e0ce4cc",
+            "caller_assembly_sha256": "7dd0dae2be1f9862d25e32f2b0ffd6e88afca7bda7b84889e833b1572e0ce4cc",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "b6144361dd9190e0ddb82b3c47ea7540dcad3c3e6efc73a20249d9a396245c4b",
+            "caller_assembly_sha256": "b6144361dd9190e0ddb82b3c47ea7540dcad3c3e6efc73a20249d9a396245c4b",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "c786103cba12aa8dc5c46dcf3eee0087fa6e27bd4004a7d3859feb848a3a8635",
+            "caller_assembly_sha256": "c786103cba12aa8dc5c46dcf3eee0087fa6e27bd4004a7d3859feb848a3a8635",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "bf81321ef8d6de241fbd296e644179045f3b1d6ebb3b4cc774de1ff84188c392",
+            "caller_assembly_sha256": "bf81321ef8d6de241fbd296e644179045f3b1d6ebb3b4cc774de1ff84188c392",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix3.ssa": {
+        "original_ir_sha256": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+        "caller_sha256": "91691c562b7d08858ffb41c0a2a550f813412409ff65733065593945cf0ca4c0",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "8fe00bea96f7177c4b4c404434265e87e8903784ff3875726487d2c5a128bf3a",
+            "caller_assembly_sha256": "98153243f47465cb54dcfaca082fef3be262084c5141cb4864fa9b4cb5449f90",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "2aea2cebb3dd653c3b410aa6b18c92e01bf057a5fda327c765e0d8a4a2e94aac",
+            "caller_assembly_sha256": "bbc2abd9ba91620ad7300edc05fa67f07902f2952b73ac0b128dcb92d6d9bcf9",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "7b118a9cf746e002075cea539fc72742d568c4f1164972ec02bff37248fd4fea",
+            "caller_assembly_sha256": "a8636a7711dbad8ac6dc2f31ff86eaf8f7aaefdea681ffeadf8b283c641596e1",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "b9be4df957842357a549267fed1d4e9d76d1f2e525f893c4039571f678e8c926",
+            "caller_assembly_sha256": "27432b8afc534c503f5c71cdb627020763ce954bc88402a84c08fd2dc7ba7785",
+            "execution": "passed"
+          }
+        }
+      },
+      "_fix4.ssa": {
+        "original_ir_sha256": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+        "caller_sha256": "308f7a17a3d3663ef52d3b1ac8671be9a2c96fea7bf308d097c58f4dee222153",
+        "checks_per_backend": 1,
+        "backends": {
+          "baseline": {
+            "assembly_sha256": "a11e4503b5f6fbeeae2b5910bf1290029485f17bf7ecc6dae4c60325c8315f38",
+            "caller_assembly_sha256": "73503a57cdd2e8ad12448d3ea9a85f46b4e1aa7979f4355e7e3c2a5d25d6bef0",
+            "execution": "passed"
+          },
+          "allocated": {
+            "assembly_sha256": "51f7f245c6728baed7d1a50d172eab02eca1bb5f1486e79b5cf330005630d1bd",
+            "caller_assembly_sha256": "75d8e0e14689a2a3a6ef8d3a4d5e8ecf3178ff69cbbfe0358935c939bddd61ac",
+            "execution": "passed"
+          },
+          "optimized": {
+            "assembly_sha256": "e91a3d4debd75ec4fe29c12431f5b75e19a66fc7610a004b8b562071b9d9a51a",
+            "caller_assembly_sha256": "93915beb8be9792eaffe01071b4a69f477201c6ac3a9f4bb7c82171d2f12afac",
+            "execution": "passed"
+          },
+          "qbe": {
+            "assembly_sha256": "b46c193b0db9f27ba374f06c13b5064d6e860064a987815e12e9ff1793e47e64",
+            "caller_assembly_sha256": "eff6e99e564e2a01ebdfe56d517e9941818a7c8ae6f49fd43c7986b18cb9d309",
+            "execution": "passed"
+          }
+        }
+      }
+    },
+    "negative_control": {
+      "status": "detected",
+      "exit": 1
+    },
+    "original_qbe": "passed",
+    "original_qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+    "execution_mode": "QEMU RV64 Linux"
+  }
+}

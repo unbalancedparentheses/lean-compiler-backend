@@ -20,6 +20,13 @@ unchanged GCC objects are shared across all mixed builds. Seven binaries pass
 an independent probe and two reduced official suite profiles each. Internal
 API/opcode, locale and soft/portable exclusions remain; 944 files are bound.
 
+[Supplementary original development fixtures](benchmarks/upstream-development/README.md)
+now execute unchanged `_gcm1`, `_fix3` and `_fix4` against independent arithmetic/
+sieve callers on all five targets, all three LCB modes and original QBE. All
+60 executions and five corruption controls pass. They remain separate from the
+58 original upstream drivers; original underscore fixtures are deliberately
+excluded by QBE's normal suite glob.
+
 ## Repository and current compiler
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
