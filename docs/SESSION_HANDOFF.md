@@ -10,7 +10,15 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`59bd88b6aa90e73f6a5d3778ed871c36931d6b367b3d1a3dd3a6467bc32f94dc`.
+`f9998cdd7f047ad5ac6ce1234797f2a68ecf71a84bdd911427a472cc9f4cc135`.
+
+[RV64 result normalization](benchmarks/rv-result-normalization/README.md)
+removes redundant masks only from already-normalized operations. The complete
+RV gate, independent integer/FP/conversion matrices, unchanged 147-report audit
+and before/after zlib executable checks pass. Optimized zlib text shrinks 0.52%.
+CI for e837ce3 and 991f463 is fully green; newer checkpoints remain pending.
+The pinned 402-input YAML corpus also passes all three LCB modes on all three
+Linux targets: [scope and original-reference distinctions](benchmarks/libyaml-corpus/README.md).
 
 [AMD64 immediate selection](benchmarks/amd-immediates/README.md) now passes
 153,900 independent C checks per mode/target and both full AMD gates. Optimized

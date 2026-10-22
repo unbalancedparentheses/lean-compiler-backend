@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""AMD regression helpers must emit without invoking unavailable target tools."""
+"""Target regression helpers must emit without invoking unavailable target tools."""
 from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from rv_result_normalization import exercise as rv_normalization
 from amd_immediates import exercise as immediates
 from amd_word_normalization import exercise as normalization
 from empty_variadic_calls import exercise as empty_variadic
@@ -27,7 +28,10 @@ def main():
             normalization(LCB, case, run, cc, target, False, qbe, qtarget)
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
-        print('Emission-only AMD helpers passed with missing target tools and an execution guard')
+        rv = rv_normalization(LCB, work, run, cc, execute=False)
+        assert rv['executed_checks_per_mode'] == 0 and rv['negative_control'] == 'not-run'
+        assert all(v['execution'] == 'not-run' for v in rv['modes'].values())
+        print('Emission-only target helpers passed with missing tools and an execution guard')
 
 
 if __name__ == '__main__':

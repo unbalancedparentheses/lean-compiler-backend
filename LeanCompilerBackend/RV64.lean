@@ -289,8 +289,15 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
     if let some k := inst.callSubword then lines := lines ++ extend .word k.extension
   | .vaArg list =>
     lines := (← load c .long "t0" list) ++ ["\tld t1, 0(t0)", "\taddi t2, t1, 8", "\tsd t2, 0(t0)", s!"\t{if w == Width.word then "lwu" else "ld"} t0, 0(t1)"]
+  -- These paths already produce a zero-extended word bit pattern. Keep
+  -- normalization for arithmetic, signed extensions, calls and integer
+  -- conversions, whose RV64 instructions may sign-extend a word result.
   let normalization := match inst.operation with
     | .load kind _ => loadNorm w kind
+    | .copy _ | .cast _ | .compare .. | .floatCompare .. | .vaArg _ => []
+    | .unary .unsignedByte _ | .unary .unsignedHalf _ | .unary .unsignedWord _ => []
+    | .floatBinary .. | .floatNegate _ => []
+    | .convert op _ => if op.resultFloating then [] else norm w "t0"
     | _ => norm w "t0"
   pure (lines ++ normalization ++ (← store c inst.destination))
 

@@ -156,6 +156,8 @@ def main():
         rv_load_tests(compiler,work,run,cc,execute=execute)
         from rv_immediates import exercise as rv_immediate_tests
         rv_immediate_tests(compiler,work,run,cc,execute=execute,qbe=qbe,qtarget=qtarget)
+        from rv_result_normalization import exercise as rv_result_tests
+        rv_result_tests(compiler,work,run,cc,execute=execute)
     if args.target == 'x86_64-linux':
         from extern_flags import exercise as flags_tests
         flags_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)

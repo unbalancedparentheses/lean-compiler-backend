@@ -1,0 +1,89 @@
+{
+  "status": "isolated qualification passed",
+  "before_identity": "59bd88b6aa90e73f6a5d3778ed871c36931d6b367b3d1a3dd3a6467bc32f94dc",
+  "after_identity": "f9998cdd7f047ad5ac6ce1234797f2a68ecf71a84bdd911427a472cc9f4cc135",
+  "before_sha256": "7897a897dcef6ed29217fdb2a676abe2519e75d75706e54c92cc2bd9cc8a0a4e",
+  "after_sha256": "c65e4837c619002dff5bcb01007a6e94484bce13e96395ca15ac910d0f0f2f3b",
+  "patches": [
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/rv-result-normalization.patch",
+      "sha256": "79e7245cd28ef29c956b8c2a436c243d193ed22055f43644fedf151557349df0"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/rv-result-normalization-tests.patch",
+      "sha256": "d212568fd82aebdd8a5d4a1c969f6d03ebb6cf33883afe4e426e34ee3358d699"
+    }
+  ],
+  "reports": [
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-result-combined-zlib-review/report.json",
+      "sha256": "71603ddb6fc282f93f368dcf24b93f327b279b4d798b94b5460521108674836d"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-result-combined-review/rv-result-normalization/report.json",
+      "sha256": "2cb08600b592fd46ef0f80101d38f71643f14ddad546b9bfdcfc8501e7d254c7"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-result-combined-review/rv-load-normalization/report.json",
+      "sha256": "0bd2024403532c25e64c1dd5db0788f7c504935c529e15113299e2db1c5d739e"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-result-combined-review/emission-only/rv-result-normalization/report.json",
+      "sha256": "b10dcde5ad3060bb6e7d1a1f67d306281f655b66ad319d18bd04a73d13559eb1"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/rv-result-combined-review/broad/report.json",
+      "sha256": "98341395481dc44bba189c030f9c21a50098f56dacbd96c7c4d77820ad183b7b"
+    }
+  ],
+  "units": {
+    "path": "/tmp/lcb-rv-result-normalization/.build/review/combined-units.log",
+    "sha256": "0e109229a42a00bdfcf41660b80f68c20e08a5540be47e2d6cedcc7fe84f4bf6"
+  },
+  "harnesses": [
+    {
+      "path": "/tmp/lcb-rv-result-normalization/scripts/rv_result_normalization.py",
+      "sha256": "4b060ec7137cb62cbbfe343fac7c4e4f9533cc5f7ace689c1f7624925695261d"
+    },
+    {
+      "path": "/tmp/lcb-rv-result-normalization/.build/review/combined-run.py",
+      "sha256": "ff8eac47d80a2ff8fa96af4471bee378ee15693cdaccf27a7bd2257873f1314c"
+    },
+    {
+      "path": "/tmp/lcb-rv-result-normalization/.build/review/combined-broad.py",
+      "sha256": "8c41544e696e0993f11d8150698cf7a1e3d6d1088a6e90f2ec65ef3674f48f56"
+    },
+    {
+      "path": "/tmp/lcb-rv-result-normalization/.build/review/combined-zlib-size.py",
+      "sha256": "723ff29c46a583e0d956d93fcb5a2d4b467055302c8e67979cc928cea480f602"
+    }
+  ],
+  "zlib": {
+    "baseline": {
+      "units": 17,
+      "before_text_bytes": 573892,
+      "after_text_bytes": 564456,
+      "saved_bytes": 9436,
+      "saved_percent": 1.644211802917622,
+      "removed_pairs": 1569
+    },
+    "allocated": {
+      "units": 17,
+      "before_text_bytes": 355464,
+      "after_text_bytes": 352400,
+      "saved_bytes": 3064,
+      "saved_percent": 0.8619719577791282,
+      "removed_pairs": 509
+    },
+    "optimized": {
+      "units": 17,
+      "before_text_bytes": 258600,
+      "after_text_bytes": 257252,
+      "saved_bytes": 1348,
+      "saved_percent": 0.5212683681361175,
+      "removed_pairs": 225
+    }
+  },
+  "semantic_scope": "Remove only final normalization for copy/cast, integer/floating compares, unsigned unary, floating arithmetic/negation, floating-result conversions, vaArg. Existing load narrowing, signed unary, calls, integer conversions and all binary operations unchanged.",
+  "qualification": "RV64 Linux GCC C oracles executed under QEMU. No original-QBE qualification newly performed in this slice. No runtime speed measurement. Earlier isolated RV-only identity56ee reports retained separately."
+}
