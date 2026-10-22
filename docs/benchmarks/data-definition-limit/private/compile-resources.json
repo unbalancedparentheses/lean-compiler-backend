@@ -1,0 +1,39 @@
+{
+  "qualification": "Diagnostic resource observations under shared load; no benchmark claim",
+  "rows": [
+    {
+      "definitions": 1024,
+      "command": [
+        "/usr/bin/time",
+        "-l",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/diagnostic-1023.s"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "        0.03 real         0.03 user         0.00 sys\n            41992192  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                2581  page reclaims\n                 162  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   2  voluntary context switches\n                  19  involuntary context switches\n           709319339  instructions retired\n           158029327  cycles elapsed\n            10273344  peak memory footprint\n"
+    },
+    {
+      "definitions": 4096,
+      "command": [
+        "/usr/bin/time",
+        "-l",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/diagnostic-4095.s"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "        0.24 real         0.23 user         0.00 sys\n            47185920  maximum resident set size\n                   0  average shared memory size\n                   0  average unshared data size\n                   0  average unshared stack size\n                2927  page reclaims\n                 133  page faults\n                   0  swaps\n                   0  block input operations\n                   0  block output operations\n                   0  messages sent\n                   0  messages received\n                   0  signals received\n                   3  voluntary context switches\n                  28  involuntary context switches\n          4880210595  instructions retired\n          1016208130  cycles elapsed\n            15467072  peak memory footprint\n"
+    }
+  ]
+}

@@ -1,0 +1,1097 @@
+{
+  "target": "x86_64-macos",
+  "compiler_identity": "f43121d2a1572c43766ad0d7e143c7c5f61b2d3cb9782f3a655a12d54b50da30",
+  "compiler_sha256": "c5c2f2871d0d365d6eb2d6bc691cdc6b0f23efee2c531832a6a7b6c590c22af6",
+  "helper_sha256": "327c492d42cbcc281582d6158d28e3de0f65cca692be081efeca5319ec1233b6",
+  "results": [
+    {
+      "definitions": 1024,
+      "source_sha256": "5ec562dd3e8f6bf4ff953258713257e7cbf3856913d2a9995fff7bc64eef9bda",
+      "caller_sha256": "17193d4e80743a37c89072b08c8f180e097b3f73896c413037c10a0b707526fc",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "de09bd246c531b60a7a98d3bc781657d83659f222ccf0bcc9b97f47ff21bfb7b",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "de09bd246c531b60a7a98d3bc781657d83659f222ccf0bcc9b97f47ff21bfb7b",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "de09bd246c531b60a7a98d3bc781657d83659f222ccf0bcc9b97f47ff21bfb7b",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "4d30bed02fe3d3d44857ef106868b3dc608f7dcfdf785fe0e2a7b7a780e74560",
+          "execution": "passed",
+          "objects_checked": 1024
+        }
+      ]
+    },
+    {
+      "definitions": 1025,
+      "source_sha256": "3cb1dadf100c00461ee5a489e7d20d19be04bd26bd4b9549c70843b690931f9a",
+      "caller_sha256": "2be78226ffc4f1f5aa1a3bfa8c9158c0a7aed96c4320a913db4160fde18baef4",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "355b6f68db6b65e2348ba962cae2756e9258c9a138e195b2660dce3ffbed401a",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "355b6f68db6b65e2348ba962cae2756e9258c9a138e195b2660dce3ffbed401a",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "355b6f68db6b65e2348ba962cae2756e9258c9a138e195b2660dce3ffbed401a",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "2d971f15b7e9475aac0ffd9f186f19e9f45699d6c91f9f91ddd2e01a27bfc432",
+          "execution": "passed",
+          "objects_checked": 1025
+        }
+      ]
+    },
+    {
+      "definitions": 4096,
+      "source_sha256": "0409b38798a1d3508c93725f36a38c8a66ed0e82459a73d36ac940c9f92e914f",
+      "caller_sha256": "788da5a317ddb9b42179272e87fb6612eecdc535435f73722fb8a10a3a6500e0",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "66f9902a68c8090c9529f12c84b7102a0b7920500c0a985e8ccf93de8d05e5fe",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "66f9902a68c8090c9529f12c84b7102a0b7920500c0a985e8ccf93de8d05e5fe",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "66f9902a68c8090c9529f12c84b7102a0b7920500c0a985e8ccf93de8d05e5fe",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "e8598f085085b5d5df53980ecdadb90238d634e4c86c7151cfb731c00d21a9d9",
+          "execution": "passed",
+          "objects_checked": 4096
+        }
+      ]
+    },
+    {
+      "definitions": 4097,
+      "source_sha256": "9a4724d177922724f8abaa49ebcc610c02bb18202e41ec95fd0959799360ddc2",
+      "caller_sha256": "92da0e612b5dfbdd47cf8a1e35fccdea47597a54a9d2216e4194d14b92914b3f",
+      "backends": [
+        {
+          "mode": "baseline",
+          "refused": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "allocated",
+          "refused": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "optimized",
+          "refused": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "c6caacddfad81221b89f5f4c8d93ca8335ad70e46c3de0e4b46255e85624bf6a",
+          "execution": "passed",
+          "objects_checked": 4097
+        }
+      ]
+    }
+  ],
+  "controls": {
+    "wrong_last": "exit1 detected",
+    "interpreter_budget": "1 MiB retained"
+  },
+  "checks_per_backend": 6145,
+  "before_equivalence": "passed",
+  "negative_cases": 13,
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "f43121d2a1572c43766ad0d7e143c7c5f61b2d3cb9782f3a655a12d54b50da30\n",
+      "stderr": "",
+      "seconds_diagnostic": 0.019713499990757555
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.02783566596917808
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1389540420495905
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-1024.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-baseline.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.16006329201627523
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.624625500000548
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.033175499993376434
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.033853458997327834
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-1024.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-allocated.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.1517596670310013
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 7.419339874992147
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04286995797883719
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03781925002112985
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-1024.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-optimized.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.15675412502605468
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.596470625023358
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-qbe.s",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1024.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.006470708001870662
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-1024.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-qbe.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.1640786660136655
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1024-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 9.346254916978069
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.14097187499282882
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.22105391701916233
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-1025.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-baseline.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.17209375003585592
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.478893457970116
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03795458300737664
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03495574998669326
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-1025.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-allocated.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.17425291700055823
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 5.895797749981284
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.032953707966953516
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.02622608299134299
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-1025.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-optimized.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.17297629202948883
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 5.975920625030994
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-qbe.s",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-1025.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.006294541992247105
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-1025.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-qbe.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.17425395804457366
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/1025-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 5.761220541025978
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.10350479098269716
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.04560733295511454
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-baseline.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.19230154098477215
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 5.636016707983799
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.11787791695678607
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.04245795798487961
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-allocated.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.1977163749979809
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.253168541996274
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1686714999959804
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03888216696213931
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-optimized.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.18723258300451562
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.335914750001393
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-qbe.s",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4096.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.008261917042545974
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-qbe.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.17677029100013897
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4096-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.4691720840055496
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4097-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03663720900658518
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4097-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.04012800002237782
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4097-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.039263833954464644
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4097-qbe.s",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/data-4097.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.009792040975298733
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-4097.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4097-qbe.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4097-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.17390158295165747
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/4097-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.2840742919943295
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/wrong-last.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/wrong-last.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1403677499620244
+    },
+    {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/wrong-last.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/wrong-last"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n",
+      "seconds_diagnostic": 0.17768908402649686
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/wrong-last"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.773282292007934
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.0606314999749884
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.07074225001269951
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.06956512498436496
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.03849933302262798
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.04040420800447464
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.040416540985461324
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.02167033398291096
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.022296625014860183
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.022273416980169713
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "--eval",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/x86_64-macos/data-definition-limit/interpreter-budget.ssa",
+        "entry"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data exceeds the 1 MiB interpreter initialization budget\n",
+      "seconds_diagnostic": 0.022706959047354758
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7\n",
+      "stderr": "",
+      "seconds_diagnostic": 0.018830457993317395
+    }
+  ]
+}

@@ -1,0 +1,2532 @@
+[
+  {
+    "strings": 1023,
+    "data_definitions": 1024,
+    "target": "aarch64-macos",
+    "ir_bytes": 73710,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1023.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-macos-lcb.s"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-1023.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-1023.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1023,
+    "data_definitions": 1024,
+    "target": "x86_64-macos",
+    "ir_bytes": 73710,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1023.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-macos-lcb.s"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-1023.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-1023.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "c_execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1023,
+    "data_definitions": 1024,
+    "target": "aarch64-linux",
+    "ir_bytes": 73710,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1023.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-linux-lcb.s"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-aarch64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1023.c",
+        "/work/frontend-data-count-probe-v2/1023-aarch64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1023-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/1023-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1023.c",
+        "/work/frontend-data-count-probe-v2/catalog-1023.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1023-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/1023-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1023,
+    "data_definitions": 1024,
+    "target": "x86_64-linux",
+    "ir_bytes": 73710,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1023.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-linux-lcb.s"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-x86_64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1023.c",
+        "/work/frontend-data-count-probe-v2/1023-x86_64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1023-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/1023-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1023.c",
+        "/work/frontend-data-count-probe-v2/catalog-1023.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1023-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/1023-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1023,
+    "data_definitions": 1024,
+    "target": "riscv64-linux",
+    "ir_bytes": 73710,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1023.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-riscv64-linux-lcb.s"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1023-riscv64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1023.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1023.c",
+        "/work/frontend-data-count-probe-v2/1023-riscv64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1023-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/1023-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1023.c",
+        "/work/frontend-data-count-probe-v2/catalog-1023.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1023-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/1023-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1024,
+    "data_definitions": 1025,
+    "target": "aarch64-macos",
+    "ir_bytes": 73784,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1024.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-macos-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-1024.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-1024.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1024,
+    "data_definitions": 1025,
+    "target": "x86_64-macos",
+    "ir_bytes": 73784,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1024.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-macos-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-1024.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-1024.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "c_execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1024,
+    "data_definitions": 1025,
+    "target": "aarch64-linux",
+    "ir_bytes": 73784,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1024.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-aarch64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1024.c",
+        "/work/frontend-data-count-probe-v2/1024-aarch64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1024-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/1024-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1024.c",
+        "/work/frontend-data-count-probe-v2/catalog-1024.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1024-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/1024-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1024,
+    "data_definitions": 1025,
+    "target": "x86_64-linux",
+    "ir_bytes": 73784,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1024.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-x86_64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1024.c",
+        "/work/frontend-data-count-probe-v2/1024-x86_64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1024-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/1024-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1024.c",
+        "/work/frontend-data-count-probe-v2/catalog-1024.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1024-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/1024-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 1024,
+    "data_definitions": 1025,
+    "target": "riscv64-linux",
+    "ir_bytes": 73784,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-1024.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-riscv64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/1024-riscv64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-1024.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1024.c",
+        "/work/frontend-data-count-probe-v2/1024-riscv64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1024-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/1024-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-1024.c",
+        "/work/frontend-data-count-probe-v2/catalog-1024.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/1024-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/1024-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 2047,
+    "data_definitions": 2048,
+    "target": "aarch64-macos",
+    "ir_bytes": 149486,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-2047.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-macos-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-2047.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-2047.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 2047,
+    "data_definitions": 2048,
+    "target": "x86_64-macos",
+    "ir_bytes": 149486,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-2047.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-macos-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-2047.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-2047.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "c_execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 2047,
+    "data_definitions": 2048,
+    "target": "aarch64-linux",
+    "ir_bytes": 149486,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-2047.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-aarch64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-2047.c",
+        "/work/frontend-data-count-probe-v2/2047-aarch64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/2047-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/2047-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-2047.c",
+        "/work/frontend-data-count-probe-v2/catalog-2047.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/2047-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/2047-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 2047,
+    "data_definitions": 2048,
+    "target": "x86_64-linux",
+    "ir_bytes": 149486,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-2047.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-x86_64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-2047.c",
+        "/work/frontend-data-count-probe-v2/2047-x86_64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/2047-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/2047-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-2047.c",
+        "/work/frontend-data-count-probe-v2/catalog-2047.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/2047-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/2047-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 2047,
+    "data_definitions": 2048,
+    "target": "riscv64-linux",
+    "ir_bytes": 149486,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-2047.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-riscv64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/2047-riscv64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-2047.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-2047.c",
+        "/work/frontend-data-count-probe-v2/2047-riscv64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/2047-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/2047-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-2047.c",
+        "/work/frontend-data-count-probe-v2/catalog-2047.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/2047-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/2047-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4095,
+    "data_definitions": 4096,
+    "target": "aarch64-macos",
+    "ir_bytes": 301038,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4095.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-macos-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-4095.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-4095.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4095,
+    "data_definitions": 4096,
+    "target": "x86_64-macos",
+    "ir_bytes": 301038,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4095.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-macos-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-4095.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-4095.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "c_execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4095,
+    "data_definitions": 4096,
+    "target": "aarch64-linux",
+    "ir_bytes": 301038,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4095.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-aarch64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4095.c",
+        "/work/frontend-data-count-probe-v2/4095-aarch64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4095-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/4095-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4095.c",
+        "/work/frontend-data-count-probe-v2/catalog-4095.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4095-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/4095-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4095,
+    "data_definitions": 4096,
+    "target": "x86_64-linux",
+    "ir_bytes": 301038,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4095.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-x86_64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4095.c",
+        "/work/frontend-data-count-probe-v2/4095-x86_64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4095-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/4095-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4095.c",
+        "/work/frontend-data-count-probe-v2/catalog-4095.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4095-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/4095-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4095,
+    "data_definitions": 4096,
+    "target": "riscv64-linux",
+    "ir_bytes": 301038,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4095.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-riscv64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4095-riscv64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4095.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4095.c",
+        "/work/frontend-data-count-probe-v2/4095-riscv64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4095-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/4095-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4095.c",
+        "/work/frontend-data-count-probe-v2/catalog-4095.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4095-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/4095-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4096,
+    "data_definitions": 4097,
+    "target": "aarch64-macos",
+    "ir_bytes": 301112,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4096.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-macos-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4096,
+    "data_definitions": 4097,
+    "target": "x86_64-macos",
+    "ir_bytes": 301112,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4096.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-macos-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-macos.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-macos.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-macos"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "cc",
+        "-arch",
+        "x86_64",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.c",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    "c_execute": {
+      "command": [
+        "arch",
+        "-x86_64",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-macos-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4096,
+    "data_definitions": 4097,
+    "target": "aarch64-linux",
+    "ir_bytes": 301112,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4096.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-aarch64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4096.c",
+        "/work/frontend-data-count-probe-v2/4096-aarch64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4096-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/4096-aarch64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4096.c",
+        "/work/frontend-data-count-probe-v2/catalog-4096.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4096-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/frontend-data-count-probe-v2/4096-aarch64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4096,
+    "data_definitions": 4097,
+    "target": "x86_64-linux",
+    "ir_bytes": 301112,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4096.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-x86_64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4096.c",
+        "/work/frontend-data-count-probe-v2/4096-x86_64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4096-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/4096-x86_64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4096.c",
+        "/work/frontend-data-count-probe-v2/catalog-4096.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4096-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-x86_64",
+        "-L",
+        "/usr/x86_64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/4096-x86_64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  },
+  {
+    "strings": 4096,
+    "data_definitions": 4097,
+    "target": "riscv64-linux",
+    "ir_bytes": 301112,
+    "frontend": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "/work/combined-scaled-v2-cproc-aarch64-linux/cproc-source/cproc-qbe",
+        "-t",
+        "aarch64",
+        "-o",
+        "/work/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "/work/frontend-data-count-probe-v2/catalog-4096.c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "lcb": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-riscv64-linux-lcb.s"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa: module exceeds the 1024-data-definition resource limit\n"
+    },
+    "qbe": {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/4096-riscv64-linux.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "link": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4096.c",
+        "/work/frontend-data-count-probe-v2/4096-riscv64-linux.s",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4096-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/4096-riscv64-linux"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_build": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "riscv64-linux-gnu-gcc",
+        "-O2",
+        "/work/frontend-data-count-probe-v2/caller-4096.c",
+        "/work/frontend-data-count-probe-v2/catalog-4096.c",
+        "-o",
+        "/work/frontend-data-count-probe-v2/4096-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    "c_execute": {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "qemu-riscv64",
+        "-L",
+        "/usr/riscv64-linux-gnu",
+        "/work/frontend-data-count-probe-v2/4096-riscv64-linux-c"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  }
+]

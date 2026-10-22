@@ -27,6 +27,12 @@ word normalization. Both AMD targets pass private independent tests; zlib loses
 1,745 optimized text bytes per target. Fresh main units and unchanged proof
 audit pass on the exact qualified source; combined replay/full gates follow.
 
+[Data-definition admission](docs/benchmarks/data-definition-limit/README.md) now
+allows 4,096 globals, covering frontend-generated message catalogs that exceeded
+the old 1,024 cap. Combined identity e095ed59 passes all five actual-main boundary
+matrices, unchanged catalog execution, units and unchanged proof audit. Byte and
+parser budgets remain bounded; combined full regression/CI qualification follows.
+
 ## Active execution order
 
 1. Close remaining language, resource-limit and ABI gaps (P05–P07) with real

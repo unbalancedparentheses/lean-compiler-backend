@@ -1,0 +1,454 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+  "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+  "helper_sha256": "327c492d42cbcc281582d6158d28e3de0f65cca692be081efeca5319ec1233b6",
+  "results": [
+    {
+      "definitions": 1024,
+      "source_sha256": "5ec562dd3e8f6bf4ff953258713257e7cbf3856913d2a9995fff7bc64eef9bda",
+      "caller_sha256": "17193d4e80743a37c89072b08c8f180e097b3f73896c413037c10a0b707526fc",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "not-run"
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "not-run"
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "not-run"
+        }
+      ]
+    },
+    {
+      "definitions": 1025,
+      "source_sha256": "3cb1dadf100c00461ee5a489e7d20d19be04bd26bd4b9549c70843b690931f9a",
+      "caller_sha256": "2be78226ffc4f1f5aa1a3bfa8c9158c0a7aed96c4320a913db4160fde18baef4",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "not-run"
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "not-run"
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "not-run"
+        }
+      ]
+    },
+    {
+      "definitions": 4096,
+      "source_sha256": "0409b38798a1d3508c93725f36a38c8a66ed0e82459a73d36ac940c9f92e914f",
+      "caller_sha256": "788da5a317ddb9b42179272e87fb6612eecdc535435f73722fb8a10a3a6500e0",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "not-run"
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "not-run"
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "not-run"
+        }
+      ]
+    },
+    {
+      "definitions": 4097,
+      "source_sha256": "9a4724d177922724f8abaa49ebcc610c02bb18202e41ec95fd0959799360ddc2",
+      "caller_sha256": "92da0e612b5dfbdd47cf8a1e35fccdea47597a54a9d2216e4194d14b92914b3f",
+      "backends": [
+        {
+          "mode": "baseline",
+          "refused": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "allocated",
+          "refused": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "optimized",
+          "refused": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        }
+      ]
+    }
+  ],
+  "controls": {
+    "interpreter_budget": "1 MiB retained"
+  },
+  "checks_per_backend": 0,
+  "before_equivalence": "skipped: no before snapshot",
+  "negative_cases": 13,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+      "stderr": "",
+      "seconds_diagnostic": 0.027021749992854893
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/1024-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03311966703040525
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/1024-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03420345898484811
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/1024-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.0348077499656938
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/1025-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.034329290967434645
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/1025-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.05066633300157264
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/1025-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.050060082983691245
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/4096-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.11234937503468245
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/4096-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.11049258301500231
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/4096-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.17747904203133658
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/4097-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.041556333017069846
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/4097-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.05294479097938165
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/4097-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.05181766703026369
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.10053583298576996
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.08094841695856303
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.08012825000332668
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.04474316700361669
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.042310416989494115
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.045092917047441006
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.029741583042778075
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.024395582964643836
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.024571667017880827
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/emission/aarch64-macos/data-definition-limit/interpreter-budget.ssa",
+        "entry"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data exceeds the 1 MiB interpreter initialization budget\n",
+      "seconds_diagnostic": 0.024548624991439283
+    }
+  ]
+}

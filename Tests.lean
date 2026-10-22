@@ -212,4 +212,13 @@ def main : IO Unit := do
     "single-variant unions must retain their ABI identity"
   require (isFailure (Parser.parse "type :record = { w } function w $f() { @s ret 0 }"))
     "function-only parsing must not silently discard aggregate types"
+  let dataOnly : Module := { data := (List.range 4096).toArray.map fun i =>
+    { name := s!"count_{i}", items := #[.integer .byte (Int.ofNat (i % 256))] } }
+  require (!isFailure (validateModule dataOnly)) "4096 data-only definitions must validate"
+  let onePast := dataOnly.data.push { name := "one_past", items := #[.zeroes 0] }
+  require (isFailure (validateModule { dataOnly with data := onePast })) "4097 data definitions must refuse"
+  let duplicate := dataOnly.data.set! 4095 { name := "count_0", items := #[.zeroes 0] }
+  require (isFailure (validateModule { dataOnly with data := duplicate })) "duplicate final data symbol must refuse"
+  require (isFailure (validateModule { data := #[{ name := "too_large", items := #[.zeroes (256*1024*1024+1)] }] }))
+    "module data byte budget must remain bounded"
   IO.println "unit checks passed"

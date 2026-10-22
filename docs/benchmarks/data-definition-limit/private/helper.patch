@@ -1,0 +1,81 @@
+diff --git a/scripts/data_definition_limit.py b/scripts/data_definition_limit.py
+new file mode 100644
+index 0000000..6df5cf7
+--- /dev/null
++++ b/scripts/data_definition_limit.py
+@@ -0,0 +1,75 @@
++#!/usr/bin/env python3
++"""Bounded 4096-data-definition compatibility profile, with independent C byte checks."""
++from pathlib import Path
++import hashlib,json,time
++TARGETS={'aarch64-macos':'arm64_apple','x86_64-macos':'amd64_apple','aarch64-linux':'arm64','x86_64-linux':'amd64_sysv','riscv64-linux':'rv64'}
++def fixture(n):
++ rows=[]
++ for i in range(n):
++  k=i%9;v=[f'b {(i*37+19)%256}',f'h {(i*257+123)%65536}',f'w {0x80000000+i*65539}',f'l {0xfedcba9876000000+i}',f's {0x3f800000+i}',f'd {0x3ff0000000000000+i}',f'z {i%13+1}',f'b "catalog-{i:04d}"',f'l $entry_0 + {i%7}'][k]
++  rows.append(f'export data $entry_{i} = align {1 << min(k,6)} {{ {v} }}')
++ return '\n'.join(rows)+'\n'
++def caller(n):
++ return '#include <stdint.h>\n#include <stdio.h>\n#include <string.h>\n'+''.join(f'extern unsigned char entry_{i}[];\n' for i in range(n))+'static unsigned char *entries[]={'+','.join(f'entry_{i}' for i in range(n))+'};\n'+r'''
++int main(void) { for(unsigned i=0;i<sizeof(entries)/sizeof(entries[0]);i++) {
++ unsigned k=i%9,n=0; uint64_t v=0; unsigned char expected[32]={0};
++ if((uintptr_t)entries[i] % (1u<<(k<6?k:6)))return 2;
++ switch(k){
++ case 0:v=(i*37u+19u)&255;n=1;break;
++ case 1:v=(i*257u+123u)&65535;n=2;break;
++ case 2:v=UINT64_C(0x80000000)+i*65539u;n=4;break;
++ case 3:v=UINT64_C(0xfedcba9876000000)+i;n=8;break;
++ case 4:v=UINT64_C(0x3f800000)+i;n=4;break;
++ case 5:v=UINT64_C(0x3ff0000000000000)+i;n=8;break;
++ case 6:n=i%13+1;break;
++ case 7:n=snprintf((char*)expected,sizeof expected,"catalog-%04u",i);break;
++ case 8:v=(uintptr_t)entry_0+i%7;n=8;break;
++ }
++ if(k!=7)for(unsigned j=0;j<n && j<8;j++)expected[j]=(unsigned char)(v>>(8*j));
++ if(memcmp(entries[i],expected,n))return 1;
++ } return 0; }
++'''
++def exercise(compiler,work,run,cc,target,execute=True,qbe=None,before=None):
++ d=Path(work)/'data-definition-limit';d.mkdir(parents=True,exist_ok=True);cc=[str(cc)] if isinstance(cc,(str,Path)) else list(map(str,cc));sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();commands=[]
++ def invoke(cmd,inside=False,ok=True):
++  start=time.monotonic();p=run(list(map(str,cmd)),inside);commands.append(dict(command=list(map(str,cmd)),inside=inside,exit=p.returncode,stdout=p.stdout,stderr=p.stderr,seconds_diagnostic=time.monotonic()-start));assert not ok or p.returncode==0,commands[-1];return p
++ r=dict(target=target,compiler_identity=invoke([compiler,'--build-identity']).stdout.strip(),compiler_sha256=sha(compiler),helper_sha256=sha(__file__),results=[],controls={},checks_per_backend=6145 if execute else 0,before_equivalence='skipped: no before snapshot' if before is None else 'passed')
++ modes=[('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]
++ for n in [1024,1025,4096,4097]:
++  src=d/f'data-{n}.ssa';src.write_text(fixture(n));c=d/f'caller-{n}.c';c.write_text(caller(n));row=dict(definitions=n,source_sha256=sha(src),caller_sha256=sha(c),backends=[]);r['results'].append(row)
++  for label,flags in modes+([('qbe',None)] if execute and qbe else []):
++   asm=d/f'{n}-{label}.s';cmd=[qbe,'-t',TARGETS[target],'-o',asm,src] if label=='qbe' else [compiler,src,'--target',target,*flags,'-o',asm]
++   p=invoke(cmd,label=='qbe',n<=4096 or label=='qbe')
++   if n>4096 and label!='qbe':assert p.returncode!=0 and '4096-data-definition resource limit' in p.stderr;row['backends'].append(dict(mode=label,refused=p.stderr));continue
++   b=dict(mode=label,assembly_sha256=sha(asm),execution='not-run');row['backends'].append(b)
++   if before and label!='qbe':
++    old=d/f'{n}-{label}-before.s';p=invoke([before,src,'--target',target,*flags,'-o',old],ok=n<=1024)
++    if n<=1024:assert old.read_bytes()==asm.read_bytes()
++    else:assert p.returncode!=0 and '1024-data-definition resource limit' in p.stderr
++   if execute:
++    exe=d/f'{n}-{label}';invoke([*cc,'-O2',c,asm,'-o',exe],True);invoke([exe],True);b['execution']='passed';b['objects_checked']=n
++  if n<=4096:
++   texts=[(d/f'{n}-{label}.s').read_bytes() for label,_ in modes];assert texts[0]==texts[1]==texts[2]
++ if execute:
++  src=d/'wrong-last.ssa';original=fixture(4096);needle=f'export data $entry_4095 = align 1 {{ b {(4095*37+19)%256} }}';assert needle in original
++  # Use a valid, same-size initializer mutation rather than changing object layout.
++  src.write_text(original.replace(needle,'export data $entry_4095 = align 1 { b 0 }'));asm=d/'wrong-last.s';exe=d/'wrong-last';invoke([compiler,src,'--target',target,'--optimize','-o',asm]);invoke([*cc,'-O2',d/'caller-4096.c',asm,'-o',exe],True);p=invoke([exe],True,False);assert p.returncode==1;r['controls']['wrong_last']='exit1 detected'
++ for name,text,expected in [('duplicate',fixture(4096).replace('$entry_4095','$entry_0'),'duplicate module symbol'),('tls-relocation',fixture(4096).replace('export data $entry_0','export thread data $entry_0'),'thread-local address'),('bytes','data $huge = { z 268435456 }\ndata $extra = { b 0 }\n','256 MiB resource limit')]:
++  src=d/(name+'.ssa');src.write_text(text)
++  for label,flags in modes:
++   p=invoke([compiler,src,'--target',target,*flags,'-o',d/(name+'-'+label+'.s')],ok=False);assert p.returncode!=0 and expected in p.stderr
++ src=d/'interpreter-budget.ssa';src.write_text('data $huge = { z 1048577 }\nfunction w $entry() { @s ret 0 }\n');p=invoke([compiler,'--eval',src,'entry'],ok=False);assert p.returncode!=0 and '1 MiB interpreter initialization budget' in p.stderr
++ r['controls']['interpreter_budget']='1 MiB retained'
++ r['negative_cases']=13
++ if execute and qbe:r['qbe_sha256']=invoke(['python3','-c','import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())',qbe],True).stdout.strip()
++ r['commands']=commands;(d/'report.json').write_text(json.dumps(r,indent=2));return r
++
++def main():
++ import argparse,os,platform,subprocess,tempfile
++ from fuzz import LCB
++ p=argparse.ArgumentParser(description=__doc__);p.add_argument('--compiler',type=Path,default=LCB);p.add_argument('--before',type=Path);p.add_argument('--qbe',type=Path);p.add_argument('--target');p.add_argument('--emission-only',action='store_true');p.add_argument('--require-native',action='store_true');args=p.parse_args()
++ native={('Darwin','arm64'):'aarch64-macos',('Darwin','x86_64'):'x86_64-macos',('Linux','aarch64'):'aarch64-linux',('Linux','arm64'):'aarch64-linux',('Linux','x86_64'):'x86_64-linux',('Linux','riscv64'):'riscv64-linux'}.get((platform.system(),platform.machine().lower()));target=args.target or native or 'aarch64-macos';execute=not args.emission_only and target==native
++ if args.require_native:assert execute,'native target required'
++ def run(cmd,inside=False):return subprocess.run(list(map(str,cmd)),capture_output=True,text=True,timeout=180)
++ with tempfile.TemporaryDirectory(prefix='lcb-data-definition-limit-') as tmp:print(json.dumps(exercise(args.compiler.resolve(),Path(tmp),run,os.environ.get('LCB_CC','cc'),target,execute,args.qbe,args.before),indent=2))
++if __name__=='__main__':main()

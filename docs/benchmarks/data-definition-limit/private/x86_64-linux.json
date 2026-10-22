@@ -1,0 +1,1069 @@
+{
+  "target": "x86_64-linux",
+  "compiler_identity": "f43121d2a1572c43766ad0d7e143c7c5f61b2d3cb9782f3a655a12d54b50da30",
+  "compiler_sha256": "c5c2f2871d0d365d6eb2d6bc691cdc6b0f23efee2c531832a6a7b6c590c22af6",
+  "helper_sha256": "327c492d42cbcc281582d6158d28e3de0f65cca692be081efeca5319ec1233b6",
+  "results": [
+    {
+      "definitions": 1024,
+      "source_sha256": "5ec562dd3e8f6bf4ff953258713257e7cbf3856913d2a9995fff7bc64eef9bda",
+      "caller_sha256": "17193d4e80743a37c89072b08c8f180e097b3f73896c413037c10a0b707526fc",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "e058910aa2f228b4645ed0e82378a61fb21cc6c0e783825a21d47438203ad007",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "e058910aa2f228b4645ed0e82378a61fb21cc6c0e783825a21d47438203ad007",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "e058910aa2f228b4645ed0e82378a61fb21cc6c0e783825a21d47438203ad007",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "9dbb7ed49271f5cdd03349043c26103dbfc564574f22feb6c4e82de706823341",
+          "execution": "passed",
+          "objects_checked": 1024
+        }
+      ]
+    },
+    {
+      "definitions": 1025,
+      "source_sha256": "3cb1dadf100c00461ee5a489e7d20d19be04bd26bd4b9549c70843b690931f9a",
+      "caller_sha256": "2be78226ffc4f1f5aa1a3bfa8c9158c0a7aed96c4320a913db4160fde18baef4",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "e5c0861c9888ce473f17125856814e3dced4bbd1724f4fc21b774974752ce880",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "e5c0861c9888ce473f17125856814e3dced4bbd1724f4fc21b774974752ce880",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "e5c0861c9888ce473f17125856814e3dced4bbd1724f4fc21b774974752ce880",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "782391f5a05820cf5172aaf2435de6e65c97ae7e1a5ad01552190559218e1f30",
+          "execution": "passed",
+          "objects_checked": 1025
+        }
+      ]
+    },
+    {
+      "definitions": 4096,
+      "source_sha256": "0409b38798a1d3508c93725f36a38c8a66ed0e82459a73d36ac940c9f92e914f",
+      "caller_sha256": "788da5a317ddb9b42179272e87fb6612eecdc535435f73722fb8a10a3a6500e0",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "cba3af65722a848f30bd767a92376750c5ca1bea759495d12b61fa22d9d34887",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "cba3af65722a848f30bd767a92376750c5ca1bea759495d12b61fa22d9d34887",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "cba3af65722a848f30bd767a92376750c5ca1bea759495d12b61fa22d9d34887",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "9b525c0d7ced9181e6dd58395b3bdfd95985c3e52829659d4b7f89cbd6b9f028",
+          "execution": "passed",
+          "objects_checked": 4096
+        }
+      ]
+    },
+    {
+      "definitions": 4097,
+      "source_sha256": "9a4724d177922724f8abaa49ebcc610c02bb18202e41ec95fd0959799360ddc2",
+      "caller_sha256": "92da0e612b5dfbdd47cf8a1e35fccdea47597a54a9d2216e4194d14b92914b3f",
+      "backends": [
+        {
+          "mode": "baseline",
+          "refused": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "allocated",
+          "refused": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "optimized",
+          "refused": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "d03201bc5eb149dd55efede665c5350f6d647fd29458fe513651773e39046d50",
+          "execution": "passed",
+          "objects_checked": 4097
+        }
+      ]
+    }
+  ],
+  "controls": {
+    "wrong_last": "exit1 detected",
+    "interpreter_budget": "1 MiB retained"
+  },
+  "checks_per_backend": 6145,
+  "before_equivalence": "passed",
+  "negative_cases": 13,
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "f43121d2a1572c43766ad0d7e143c7c5f61b2d3cb9782f3a655a12d54b50da30\n",
+      "stderr": "",
+      "seconds_diagnostic": 0.029081999964546412
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03388908301712945
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03733137500239536
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-1024.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.2947436660178937
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.07809879200067371
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.027081042004283518
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.02608570799930021
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-1024.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.16691866697510704
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04208433401072398
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.02980158297577873
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1024.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.02908700000261888
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-1024.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.15988691698294133
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04234079195884988
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1024.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.10841687495121732
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-1024.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.16655112500302494
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1024-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04151883296435699
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.029860291979275644
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.027433042007032782
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-1025.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.427533499954734
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04307812498882413
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.027271958999335766
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.022530082962475717
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-1025.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1677111669559963
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04636691597988829
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03409741702489555
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.023018500010948628
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-1025.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.16330654203193262
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.06495383300352842
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-1025.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.10683945898199454
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-1025.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.16748029203154147
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/1025-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.07842329097911716
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.10722733399597928
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.04129783296957612
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1918815840035677
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.049339584016706795
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.08884625002974644
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03556066699093208
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1975156670087017
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.046842416981235147
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.12512374995276332
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03395854204427451
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.20447891700314358
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.044395499979145825
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4096.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.13047129102051258
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.2196650829864666
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4096-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.044738124997820705
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4097-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03520062501775101
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4097-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.040426415973342955
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4097-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.034888042020611465
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4097-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/data-4097.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.10641395801212639
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-4097.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4097-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4097-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.2573643749929033
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/4097-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04277858301065862
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/wrong-last.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/wrong-last.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.12461712496588007
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/caller-4096.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/wrong-last.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/wrong-last"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.20347545901313424
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/wrong-last"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04230312496656552
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.0625650419970043
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.056068832986056805
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.059827207995112985
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.03570195898646489
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.03476958302780986
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.035314416978508234
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.023230082995723933
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.023040165950078517
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.019305124995298684
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-definition-limit-v1-x86_64-linux/data-definition-limit/interpreter-budget.ssa",
+        "entry"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data exceeds the 1 MiB interpreter initialization budget\n",
+      "seconds_diagnostic": 0.018743541033472866
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": "",
+      "seconds_diagnostic": 0.04219583299709484
+    }
+  ]
+}

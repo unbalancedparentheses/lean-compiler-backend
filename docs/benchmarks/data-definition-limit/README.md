@@ -1,0 +1,13 @@
+# Modules with up to 4,096 data definitions
+
+A cproc-generated message catalog with 1,024 distinct strings and a pointer table exceeded the previous 1,024-definition limit despite using only a small amount of data. The compatibility validator now admits up to 4,096 data definitions. Native total data remains capped at 256 MiB, interpreter initialization at 1 MiB, and parser input at 8 MiB/600,000 tokens. This is a bounded admission change; symbol lookup and code generation are unchanged.
+
+The combined AMD64/data-limit compiler has source identity `e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e`. Fresh main build, units and all 147 existing proof-audit statements pass unchanged. [Actual-main qualification](main/qualification.json) passes all five targets, with exact source/helper/compiler/oracle bindings before and after execution and Linux guest/host digest barriers.
+
+The data-only fixtures cover exactly 1,024, 1,025 and 4,096 definitions, every object's bytes/alignment, and nine initializer/layout classes including relocations with addends. All three LCB modes pass 92,175 object checks; unchanged QBE passes 51,210, including its separately admitted 4,097-definition case. LCB continues to refuse that count. Sixty-five rejection/budget controls and five deliberately corrupted final objects are detected. Existing 1,024-definition output remains identical to the before snapshot.
+
+The unchanged 4,096-definition cproc catalog also executes on the combined compiler in all three Linux ARM modes, checking every one of its 4,095 strings. The frontend is not rerun in this replay; its exact producer and retained input are bound. The [private discovery campaign](private/README.md) independently compiled the catalog through pinned cproc and compared original QBE with platform C on all five targets through 4,097 definitions. Diagnostic resource samples under shared load are not performance benchmarks.
+
+Linux ARM and Apple ARM execute natively; Linux x86/RV use QEMU and Apple x86 uses Rosetta. Missing-tool emission and native CLI checks pass. The main full Linux/host regression gates, fresh bootstrap refresh and CI are recorded at subsequent checkpoints; they are not yet claimed complete for this identity. This does not establish unrestricted QBE parity or end-to-end correctness.
+
+Large assembly/IR/C artifacts are losslessly gzip-compressed; `main/compressed-artifacts.json` maps original names and hashes. Compiled binaries are omitted with hashes. Original raw manifests describe their original work trees; the publication manifest binds the repository copy.

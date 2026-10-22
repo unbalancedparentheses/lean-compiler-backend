@@ -1,0 +1,1069 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "f43121d2a1572c43766ad0d7e143c7c5f61b2d3cb9782f3a655a12d54b50da30",
+  "compiler_sha256": "c5c2f2871d0d365d6eb2d6bc691cdc6b0f23efee2c531832a6a7b6c590c22af6",
+  "helper_sha256": "327c492d42cbcc281582d6158d28e3de0f65cca692be081efeca5319ec1233b6",
+  "results": [
+    {
+      "definitions": 1024,
+      "source_sha256": "5ec562dd3e8f6bf4ff953258713257e7cbf3856913d2a9995fff7bc64eef9bda",
+      "caller_sha256": "17193d4e80743a37c89072b08c8f180e097b3f73896c413037c10a0b707526fc",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "4d30bed02fe3d3d44857ef106868b3dc608f7dcfdf785fe0e2a7b7a780e74560",
+          "execution": "passed",
+          "objects_checked": 1024
+        }
+      ]
+    },
+    {
+      "definitions": 1025,
+      "source_sha256": "3cb1dadf100c00461ee5a489e7d20d19be04bd26bd4b9549c70843b690931f9a",
+      "caller_sha256": "2be78226ffc4f1f5aa1a3bfa8c9158c0a7aed96c4320a913db4160fde18baef4",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "2d971f15b7e9475aac0ffd9f186f19e9f45699d6c91f9f91ddd2e01a27bfc432",
+          "execution": "passed",
+          "objects_checked": 1025
+        }
+      ]
+    },
+    {
+      "definitions": 4096,
+      "source_sha256": "0409b38798a1d3508c93725f36a38c8a66ed0e82459a73d36ac940c9f92e914f",
+      "caller_sha256": "788da5a317ddb9b42179272e87fb6612eecdc535435f73722fb8a10a3a6500e0",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "e8598f085085b5d5df53980ecdadb90238d634e4c86c7151cfb731c00d21a9d9",
+          "execution": "passed",
+          "objects_checked": 4096
+        }
+      ]
+    },
+    {
+      "definitions": 4097,
+      "source_sha256": "9a4724d177922724f8abaa49ebcc610c02bb18202e41ec95fd0959799360ddc2",
+      "caller_sha256": "92da0e612b5dfbdd47cf8a1e35fccdea47597a54a9d2216e4194d14b92914b3f",
+      "backends": [
+        {
+          "mode": "baseline",
+          "refused": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "allocated",
+          "refused": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "optimized",
+          "refused": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "qbe",
+          "assembly_sha256": "c6caacddfad81221b89f5f4c8d93ca8335ad70e46c3de0e4b46255e85624bf6a",
+          "execution": "passed",
+          "objects_checked": 4097
+        }
+      ]
+    }
+  ],
+  "controls": {
+    "wrong_last": "exit1 detected",
+    "interpreter_budget": "1 MiB retained"
+  },
+  "checks_per_backend": 6145,
+  "before_equivalence": "passed",
+  "negative_cases": 13,
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "f43121d2a1572c43766ad0d7e143c7c5f61b2d3cb9782f3a655a12d54b50da30\n",
+      "stderr": "",
+      "seconds_diagnostic": 0.019674041017424315
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04531266598496586
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.042170833970885724
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-1024.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-baseline.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.31024162500398234
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 65.21710200002417
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.030720666982233524
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.152111875009723
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-1024.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-allocated.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.19663879199652
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 58.66684520902345
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1754658329882659
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.15440195804694667
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-1024.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-optimized.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.16462383401812986
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 55.67533850000473
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-qbe.s",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1024.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.005914999986998737
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-1024.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-qbe.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.23069279099581763
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1024-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 39.327280332974624
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.14355870801955462
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.2180658340221271
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-1025.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-baseline.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.17541433300357312
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 27.443212416023016
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.029665375011973083
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.02753758302424103
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-1025.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-allocated.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.16949399997247383
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 19.3513900830294
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.028445083007682115
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.028774542035534978
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-1025.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-optimized.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.13618787500308827
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 11.140188833000138
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-qbe.s",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-1025.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.004022957989946008
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-1025.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-qbe.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1376616249908693
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/1025-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 8.769247042015195
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.08127783297095448
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.046420208003837615
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-baseline.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1630844579776749
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 7.910784957988653
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.08106524997856468
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.04368125001201406
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-allocated.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.20408345898613334
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 7.839312916039489
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.13668675004737452
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-arm-scaled-main",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa: module exceeds the 1024-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03651920799165964
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-optimized.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.18667358299717307
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 7.430337750003673
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-qbe.s",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4096.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.010161624988541007
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-qbe.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.18799479102017358
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4096-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 7.249099290987942
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4097-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.046410208044108
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4097-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03630549996159971
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4097-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.035380041983444244
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4097-qbe.s",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/data-4097.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.008614041958935559
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-4097.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4097-qbe.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4097-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1829167500254698
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/4097-qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.424321625032462
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/wrong-last.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/wrong-last.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.12944099999731407
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/caller-4096.c",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/wrong-last.s",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/wrong-last"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.17589216597843915
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/wrong-last"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 6.968519708025269
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.06423975003417581
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.06024233397329226
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.06659420899813995
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.04004737501963973
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.03694274998269975
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.037718750012572855
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.0202679589856416
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.02053500001784414
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.02019825001480058
+    },
+    {
+      "command": [
+        "/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "--eval",
+        "/tmp/lcb-data-definition-limit/.build/data-limit/v1/aarch64-macos/data-definition-limit/interpreter-budget.ssa",
+        "entry"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data exceeds the 1 MiB interpreter initialization budget\n",
+      "seconds_diagnostic": 0.02381391596281901
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7\n",
+      "stderr": "",
+      "seconds_diagnostic": 0.022709916986059397
+    }
+  ]
+}

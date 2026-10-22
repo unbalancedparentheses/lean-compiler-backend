@@ -6,6 +6,14 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Data-definition admission](benchmarks/data-definition-limit/README.md) now allows
+4,096 definitions. Combined identity `e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e`
+passes fresh units, 147 unchanged audit statements and all five actual-main
+matrices: 92,175 LCB object checks, 51,210 original-QBE checks, 65 rejection/budget
+controls and five corrupted-final-object controls. The unchanged cproc catalog
+also passes all three ARM modes. Full Linux gates, actual AMD/zlib replay and
+fresh QBE/cproc builds are running; final full host gate follows. No timing claim.
+
 [AMD64 folded loads](benchmarks/amd-folded-loads/README.md) remove redundant EAX
 self-copies after word loads. Integrated identity `7e441df0` exactly matches the
 qualified private candidate; fresh main build, units and 147 unchanged audit

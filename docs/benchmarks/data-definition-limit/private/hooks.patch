@@ -1,0 +1,72 @@
+diff --git a/scripts/check.sh b/scripts/check.sh
+index 90b1e57..9ec6f4a 100644
+--- a/scripts/check.sh
++++ b/scripts/check.sh
+@@ -189,6 +189,7 @@ python3 scripts/section_names.py "$@"
+ python3 scripts/elf_section_names.py "$@"
+ python3 scripts/custom_tls_sections.py "$@"
+ python3 scripts/retained_tls.py "$@"
++python3 scripts/data_definition_limit.py "$@"
+ python3 scripts/large_aggregate_abi.py "$@"
+ python3 scripts/elf_retain.py "$@"
+ python3 scripts/data_relocations.py "$@"
+diff --git a/scripts/emission_only.py b/scripts/emission_only.py
+index 83980ec..b77181d 100644
+--- a/scripts/emission_only.py
++++ b/scripts/emission_only.py
+@@ -7,6 +7,7 @@ from fuzz import ROOT, LCB
+ from aggregate_signature_aliases import exercise as aggregate_signature_aliases
+ from mutable_integer_widths import exercise as mutable_integer_widths
+ from elf_section_names import exercise as elf_section_names
++from data_definition_limit import exercise as data_definition_limit
+ from retained_tls import exercise as retained_tls
+ from custom_tls_sections import exercise as custom_tls_sections
+ from elf_retain import exercise as elf_retain
+@@ -73,6 +74,8 @@ def main():
+             assert widths['checks_per_backend'] == 0 and 'qbe' not in widths['backends']
+             elf_names = elf_section_names(LCB,work/target,run,cc,target,False,qbe)
+             assert elf_names['executed_modes'] == 0 and elf_names['qbe_sha256'] is None
++            data_limit = data_definition_limit(LCB,work/target,run,cc,target,False,qbe)
++            assert data_limit["checks_per_backend"] == 0
+             retained = retained_tls(LCB,work/target,run,cc,target,False,qbe)
+             assert retained['checks_per_backend'] == 0 and 'qbe_sha256' not in retained
+             tls = custom_tls_sections(LCB,work/target,run,cc,target,False,qbe)
+diff --git a/scripts/linux_arm64.py b/scripts/linux_arm64.py
+index 950781a..5022267 100644
+--- a/scripts/linux_arm64.py
++++ b/scripts/linux_arm64.py
+@@ -176,6 +176,8 @@ def main():
+     elf_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from retained_tls import exercise as retained_tls_tests
+     retained_tls_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
++    from data_definition_limit import exercise as data_definition_limit_tests
++    data_definition_limit_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from custom_tls_sections import exercise as custom_tls_tests
+     custom_tls_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from aggregate_signature_aliases import exercise as aggregate_alias_tests
+diff --git a/scripts/linux_targets.py b/scripts/linux_targets.py
+index 6b3f8f8..62af3f5 100644
+--- a/scripts/linux_targets.py
++++ b/scripts/linux_targets.py
+@@ -126,6 +126,8 @@ def main():
+     elf_name_tests(compiler,work,run,cc,args.target,execute,qbe)
+     from retained_tls import exercise as retained_tls_tests
+     retained_tls_tests(compiler,work,run,cc,args.target,execute,qbe)
++    from data_definition_limit import exercise as data_definition_limit_tests
++    data_definition_limit_tests(compiler,work,run,cc,args.target,execute,qbe)
+     from custom_tls_sections import exercise as custom_tls_tests
+     custom_tls_tests(compiler,work,run,cc,args.target,execute,qbe)
+     from aggregate_signature_aliases import exercise as aggregate_alias_tests
+diff --git a/scripts/macos_x86.py b/scripts/macos_x86.py
+index 5ead174..62db1f2 100644
+--- a/scripts/macos_x86.py
++++ b/scripts/macos_x86.py
+@@ -116,6 +116,8 @@ def main():
+     elf_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+     from retained_tls import exercise as retained_tls_tests
+     retained_tls_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
++    from data_definition_limit import exercise as data_definition_limit_tests
++    data_definition_limit_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+     from custom_tls_sections import exercise as custom_tls_tests
+     custom_tls_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+     from aggregate_signature_aliases import exercise as aggregate_alias_tests

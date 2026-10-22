@@ -1,0 +1,14 @@
+name = "lean-compiler-backend"
+version = "0.1.0"
+defaultTargets = ["lcb"]
+
+[[lean_lib]]
+name = "LeanCompilerBackend"
+
+[[lean_exe]]
+name = "lcb"
+root = "Main"
+
+[[lean_exe]]
+name = "lcb-tests"
+root = "Tests"

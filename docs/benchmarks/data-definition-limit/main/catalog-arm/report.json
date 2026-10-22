@@ -1,0 +1,122 @@
+{
+  "definitions": 4096,
+  "strings_checked_per_mode": 4095,
+  "compiler_identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+  "source_sha256": "6fbbd32885ea806496666ea5bcbf17a358ff43d5888d75a48d7914fe109f6f36",
+  "caller_sha256": "f1eeeccd5bc7ebeb6e3d61b4ef48f626d0baa356b6a5599e3e7c52150333d56c",
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/catalog-4095.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/caller-4095.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/catalog-4095.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/caller-4095.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/compiler",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/catalog-4095.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/frozen/caller-4095.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-limit-main-review/catalog-arm/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

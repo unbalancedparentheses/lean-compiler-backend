@@ -1,0 +1,89 @@
+{
+  "qualification": "Diagnostic wall duration under concurrent regression/test load, not a performance comparison or guarantee",
+  "rows": [
+    {
+      "definitions": 1024,
+      "iteration": 0,
+      "seconds": 0.03475400002207607,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 1024,
+      "iteration": 1,
+      "seconds": 0.035761083010584116,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 1024,
+      "iteration": 2,
+      "seconds": 0.029588042001705617,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 1025,
+      "iteration": 0,
+      "seconds": 0.02983633300755173,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 1025,
+      "iteration": 1,
+      "seconds": 0.029380832973401994,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 1025,
+      "iteration": 2,
+      "seconds": 0.03000925004016608,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 4096,
+      "iteration": 0,
+      "seconds": 0.09085829195100814,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 4096,
+      "iteration": 1,
+      "seconds": 0.09907787502743304,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 4096,
+      "iteration": 2,
+      "seconds": 0.11033374996623024,
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "definitions": 4097,
+      "iteration": 0,
+      "seconds": 0.05107754102209583,
+      "exit": 1,
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa: module exceeds the 4096-data-definition resource limit\n"
+    },
+    {
+      "definitions": 4097,
+      "iteration": 1,
+      "seconds": 0.050481915997806937,
+      "exit": 1,
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa: module exceeds the 4096-data-definition resource limit\n"
+    },
+    {
+      "definitions": 4097,
+      "iteration": 2,
+      "seconds": 0.049987791979219764,
+      "exit": 1,
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/frontend-data-count-probe-v2/catalog-4096.ssa: module exceeds the 4096-data-definition resource limit\n"
+    }
+  ]
+}

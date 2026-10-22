@@ -1,0 +1,730 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "f43121d2a1572c43766ad0d7e143c7c5f61b2d3cb9782f3a655a12d54b50da30",
+  "compiler_sha256": "c5c2f2871d0d365d6eb2d6bc691cdc6b0f23efee2c531832a6a7b6c590c22af6",
+  "helper_sha256": "327c492d42cbcc281582d6158d28e3de0f65cca692be081efeca5319ec1233b6",
+  "results": [
+    {
+      "definitions": 1024,
+      "source_sha256": "5ec562dd3e8f6bf4ff953258713257e7cbf3856913d2a9995fff7bc64eef9bda",
+      "caller_sha256": "17193d4e80743a37c89072b08c8f180e097b3f73896c413037c10a0b707526fc",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "passed",
+          "objects_checked": 1024
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "343f2248df4381acaa0e875beca56b15739db8627dbe7d2c2b2e7f765df14aa7",
+          "execution": "passed",
+          "objects_checked": 1024
+        }
+      ]
+    },
+    {
+      "definitions": 1025,
+      "source_sha256": "3cb1dadf100c00461ee5a489e7d20d19be04bd26bd4b9549c70843b690931f9a",
+      "caller_sha256": "2be78226ffc4f1f5aa1a3bfa8c9158c0a7aed96c4320a913db4160fde18baef4",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "passed",
+          "objects_checked": 1025
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "637c386f27fb3f7de8da1860ed42e9bcfbdfd35f91f98add683f25e42f67e84d",
+          "execution": "passed",
+          "objects_checked": 1025
+        }
+      ]
+    },
+    {
+      "definitions": 4096,
+      "source_sha256": "0409b38798a1d3508c93725f36a38c8a66ed0e82459a73d36ac940c9f92e914f",
+      "caller_sha256": "788da5a317ddb9b42179272e87fb6612eecdc535435f73722fb8a10a3a6500e0",
+      "backends": [
+        {
+          "mode": "baseline",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "allocated",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "passed",
+          "objects_checked": 4096
+        },
+        {
+          "mode": "optimized",
+          "assembly_sha256": "9938fa86d4af869a8a4a855942f290524bfdb56d5bbc315642ee48a85aeef099",
+          "execution": "passed",
+          "objects_checked": 4096
+        }
+      ]
+    },
+    {
+      "definitions": 4097,
+      "source_sha256": "9a4724d177922724f8abaa49ebcc610c02bb18202e41ec95fd0959799360ddc2",
+      "caller_sha256": "92da0e612b5dfbdd47cf8a1e35fccdea47597a54a9d2216e4194d14b92914b3f",
+      "backends": [
+        {
+          "mode": "baseline",
+          "refused": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "allocated",
+          "refused": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        },
+        {
+          "mode": "optimized",
+          "refused": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n"
+        }
+      ]
+    }
+  ],
+  "controls": {
+    "wrong_last": "exit1 detected",
+    "interpreter_budget": "1 MiB retained"
+  },
+  "checks_per_backend": 6145,
+  "before_equivalence": "skipped: no before snapshot",
+  "negative_cases": 13,
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "f43121d2a1572c43766ad0d7e143c7c5f61b2d3cb9782f3a655a12d54b50da30\n",
+      "stderr": "",
+      "seconds_diagnostic": 0.025137834018096328
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.04014525003731251
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-1024.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-baseline.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.19621208298485726
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 66.19543637498282
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.031853375025093555
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-1024.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-allocated.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.15303633303847164
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 58.99705066700699
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-1024.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.02799812500597909
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-1024.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-optimized.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.13953216600930318
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1024-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 54.93546295800479
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1365804999950342
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-1025.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-baseline.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.14404354197904468
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 39.30886529199779
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03708629199536517
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-1025.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-allocated.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.2352499170228839
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 27.25445991702145
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-1025.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.03386062500067055
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-1025.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-optimized.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.18401004100451246
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/1025-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 19.369635791983455
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.08674391696695238
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-4096.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-baseline.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.16048083401983604
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 11.003818208992016
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.07902358402498066
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-4096.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-allocated.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.15848854201612994
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 8.678033083037008
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4096.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.1292692910064943
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-4096.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-optimized.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.16587608301779255
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4096-optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 7.909373458009213
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4097-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.04533654201077297
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4097-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03758850001031533
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/4097-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/data-4097.ssa: module exceeds the 4096-data-definition resource limit\n",
+      "seconds_diagnostic": 0.03578199999174103
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/wrong-last.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/wrong-last.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.14262487494852394
+    },
+    {
+      "command": [
+        "cc",
+        "-O2",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/caller-4096.c",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/wrong-last.s",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/wrong-last"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 0.19743654201738536
+    },
+    {
+      "command": [
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/wrong-last"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "",
+      "seconds_diagnostic": 7.7321634169784375
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.058842166035901755
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.0559447500272654
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/duplicate.ssa: duplicate module symbol $entry_0\n",
+      "seconds_diagnostic": 0.06205470900749788
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.043177666957490146
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.04311591596342623
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/tls-relocation.ssa: thread-local address cannot be a static data initializer\n",
+      "seconds_diagnostic": 0.03658329200698063
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.02144920901628211
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.02068195800529793
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/bytes.ssa: module data exceeds the 256 MiB resource limit\n",
+      "seconds_diagnostic": 0.02186341700144112
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-data-definition-limit/.build/data-limit/after",
+        "--eval",
+        "/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-data-definition-limit-k070o9vh/data-definition-limit/interpreter-budget.ssa",
+        "entry"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data exceeds the 1 MiB interpreter initialization budget\n",
+      "seconds_diagnostic": 0.02046937501290813
+    }
+  ]
+}

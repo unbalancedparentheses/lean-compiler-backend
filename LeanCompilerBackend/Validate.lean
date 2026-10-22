@@ -366,7 +366,8 @@ def validateModule (module : Module) : Except String Unit := do
   if module.functions.isEmpty && module.data.isEmpty && module.types.isEmpty then
     throw "module contains no definitions"
   if !module.functions.isEmpty then validate module.functions (Aggregate.signatureAliases module.types)
-  if module.data.size > 1024 then throw "module exceeds the 1024-data-definition resource limit"
+  if module.data.size > maxCompatibilityDataDefinitions then
+    throw s!"module exceeds the {maxCompatibilityDataDefinitions}-data-definition resource limit"
   let mut names := module.functions.toList.map (·.name)
   let mut total := 0
   for data in module.data do
