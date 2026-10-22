@@ -10,7 +10,12 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`41d5798117ef24c3cc3dd249da3dfdd7def1bff5e8fdfacf575b919eb5516d4b`.
+`3c25a0a8aaf94a6a53adf6c5d6cec78872809b1d7bebc66f45ad5d4c5202a40f`.
+
+Decimal integer magnitudes through UINT64_MAX now accept QBE modular negation
+across operand, data, layout and debug contexts. The
+[five-target qualification](benchmarks/integer-patterns/README.md) preserves
+resource refusals and independently checks returned bits and packed layout.
 
 RV64 now selects encodable arithmetic/bitwise immediates and modulo-width
 immediate shifts. The [current-identity qualification](benchmarks/rv-immediates/README.md)

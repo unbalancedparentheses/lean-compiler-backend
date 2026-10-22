@@ -132,6 +132,24 @@ private def parseABIType : P (Width × Bool × Option Subword × Option String) 
   let (width, floating) ← parseValueType
   pure (width, floating, none, none)
 
+/-- QBE accumulates a decimal magnitude in uint64_t before modular negation.
+    Keep the compatibility magnitude bound; do not admit arbitrary overflow. -/
+private def checkedInteger (value : Int) : P Int := do
+  let maximum := (2 ^ 64 : Int) - 1
+  if value < -maximum || value > maximum then
+    failAt "constant is outside the supported 64-bit QBE bit-pattern domain"
+  return if value < -(2 ^ 63 : Int) then value + 2 ^ 64 else value
+
+private def parseInteger (description : String) : P Int := do
+  let token ← take
+  let some value := token.toInt? | failAt description
+  checkedInteger value
+
+private def parseNonnegativeInteger (description : String) : P Nat := do
+  let value ← parseInteger description
+  if value < 0 then failAt description
+  return value.toNat
+
 private def parseOperand : P Operand := do
   let token ← peek
   match token with
@@ -156,8 +174,7 @@ private def parseOperand : P Operand := do
       | .error reason => failAt reason
     match s.toInt? with
     | some n =>
-      if n < -(2 ^ 63 : Int) || n > (2 ^ 64 : Int) - 1 then
-        failAt "constant is outside the supported 64-bit QBE bit-pattern domain"
+      let n ← checkedInteger n
       discard take
       return .constant n
     | none => failAt "unsupported operand: expected temporary, symbol or decimal integer"
@@ -364,10 +381,10 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
   for _ in [:cursor.tokens.size - cursor.position + 1] do
     if (← peek) == some "dbgloc" then
       discard take
-      let some line := (← take).toNat? | failAt "expected nonnegative debug line"
+      let line ← parseNonnegativeInteger "expected nonnegative debug line"
       let column ← if (← peek) == some "," then do
         discard take
-        let some value := (← take).toNat? | failAt "expected nonnegative debug column"
+        let value ← parseNonnegativeInteger "expected nonnegative debug column"
         pure value
       else pure 0
       if line >= 2^29 || column >= 2^29 then failAt "debug location exceeds 29-bit QBE limit"
@@ -451,12 +468,8 @@ private def parseFunction (exported : Bool) : P Function := do
   expect "}"
   return { name, exported, resultWidth, resultFloating, resultSubword, resultAggregate, parameters, variadic, blocks, debugFile := (← get).debugFile }
 
-private def parseDataInteger : P Int := do
-  let token ← take
-  let some value := token.toInt? | failAt "expected decimal integer data initializer"
-  if value < -(2 ^ 63 : Int) || value > (2 ^ 64 : Int) - 1 then
-    failAt "data constant is outside the supported 64-bit domain"
-  pure value
+private def parseDataInteger : P Int :=
+  parseInteger "expected decimal integer data initializer"
 
 private def parseDataBits : P Int := do
   let token := (← peek).getD ""
@@ -555,7 +568,9 @@ private def parseData (exported threadLocal : Bool) : P DataDefinition := do
             let symbol ← parseName '$'
             let offset ← if (← peek) == some "+" then do
                 discard take
-                parseDataInteger
+                let value ← parseDataInteger
+                -- Native assemblers receive the same signed int64 addend QBE emits.
+                pure (if value >= 2 ^ 63 then value - 2 ^ 64 else value)
               else pure 0
             pure (DataItem.address width symbol offset)
           else pure (.integer width (← parseDataBits))
@@ -582,9 +597,9 @@ private def parseAggregateFields : P (Array AggregateField) := do
         | "w" => pure (.scalar .word false) | "l" => pure (.scalar .long false)
         | "s" => pure (.scalar .word true) | "d" => pure (.scalar .long true)
         | _ => failAt "expected aggregate member b/h/w/l/s/d or named type"
-    let count ← match ((← peek).getD "").toNat? with
-      | some n => discard take; pure n
-      | none => pure 1
+    let count ← if ((← peek).getD "").toInt?.isSome then
+        parseNonnegativeInteger "expected nonnegative aggregate repetition"
+      else pure 1
     fields := fields.push { member, count }
     if (← peek) == some "," then discard take
     else if (← peek) != some "}" then failAt "expected ',' or '}' after aggregate member"
@@ -596,14 +611,14 @@ private def parseAggregate : P AggregateType := do
   expect "="
   let alignment ← if (← peek) == some "align" then do
       discard take
-      let some n := (← take).toNat? | failAt "expected aggregate alignment"
+      let n ← parseNonnegativeInteger "expected aggregate alignment"
       pure (some n)
     else pure none
   -- Inspect the first body token without consuming the record's opening brace.
   let saved ← get
   expect "{"
-  if let some size := ((← peek).getD "").toNat? then
-    discard take
+  if ((← peek).getD "").toInt?.isSome then
+    let size ← parseNonnegativeInteger "expected nonnegative opaque size"
     expect "}"
     return { name, alignment, opaqueSize := some size }
   if (← peek) == some "{" then

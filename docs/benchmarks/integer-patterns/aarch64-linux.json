@@ -1,0 +1,772 @@
+{
+  "target": "aarch64-linux",
+  "compiler_identity": "3c25a0a8aaf94a6a53adf6c5d6cec78872809b1d7bebc66f45ad5d4c5202a40f",
+  "compiler_sha256": "5110f0906f2181f018145a61b9e56c135e3394b0342c2b2306217d1945a8441d",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "source_sha256": "ff3136b63a2eba311bc2d0089458f17bab5c7860888ec88e71733bcd0ac01c17",
+  "caller_sha256": "a5371ef6bc552222df919f9bfc8dd9271171b3efdb083d01d1eeea9cbce678b9",
+  "byte_checks": 169,
+  "value_checks": 22,
+  "interpreter_checks": 24,
+  "negative_cases": 13,
+  "results": [
+    {
+      "backend": "baseline",
+      "assembly_sha256": "4a24172926923df36261c76fa0a832875539029213961e169493db7686785b51",
+      "qualified": true,
+      "default_link": {
+        "command": [
+          "gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/baseline"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/baseline"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "integer patterns passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "backend": "allocated",
+      "assembly_sha256": "60546657cacd748d64426c368acba1c8cd356fe2e9b4d75b3991e09acaaf93f0",
+      "qualified": true,
+      "default_link": {
+        "command": [
+          "gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/allocated"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/allocated"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "integer patterns passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "backend": "optimized",
+      "assembly_sha256": "60546657cacd748d64426c368acba1c8cd356fe2e9b4d75b3991e09acaaf93f0",
+      "qualified": true,
+      "default_link": {
+        "command": [
+          "gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/optimized"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/optimized"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "integer patterns passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "backend": "original-qbe",
+      "assembly_sha256": "9e72fc8ae96bbf46729b9b758fdecd0ee3e3223dab655b6c9504974363d3a4dc",
+      "qualified": true,
+      "default_link": {
+        "command": [
+          "gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/original-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/original-qbe"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/original-qbe"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "integer patterns passed\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "control": {
+    "command": [
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/wrong"
+    ],
+    "inside": true,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": ""
+  },
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "checked 28 function(s), 4 data definition(s); initial QBE subset\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_0"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_0"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_1"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "2\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_1"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "2\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_2"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "8\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_2"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "8\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_3"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "4294967295\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_3"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "9223372036854775807\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_4"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_4"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "9223372036854775808\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_5"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "4294967295\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_5"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "18446744073709551615\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_6"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_6"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_7"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_7"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_8"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "4294967295\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_8"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "9223372036854775807\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_9"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_9"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "9223372036854775808\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_w_10"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "4294967295\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "value_l_10"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "18446744073709551615\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "size_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "93\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "reloc_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "2\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--target",
+        "aarch64-linux",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/baseline"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/baseline"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "integer patterns passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/allocated"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/allocated"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "integer patterns passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/optimized"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/optimized"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "integer patterns passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/qbe-snapshot",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/input.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/original-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/original-qbe"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/original-qbe"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "integer patterns passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/positive_overflow.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/positive_overflow.ssa: line 1 near '18446744073709551616': constant is outside the supported 64-bit QBE bit-pattern domain\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/negative_overflow.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/negative_overflow.ssa: line 1 near '-18446744073709551616': constant is outside the supported 64-bit QBE bit-pattern domain\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/data_overflow.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/data_overflow.ssa: line 1 near '}': constant is outside the supported 64-bit QBE bit-pattern domain\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/addend_overflow.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/addend_overflow.ssa: line 1 near '}': constant is outside the supported 64-bit QBE bit-pattern domain\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/bad_number.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/bad_number.ssa: line 1 near '}': expected decimal integer data initializer\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/zero_negative.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/zero_negative.ssa: line 1 near '}': zero fill size must be in 0..268435456\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/alignment_negative.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/alignment_negative.ssa: line 1 near '{': data alignment must be a power of two in 1..64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/repetition_negative.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/repetition_negative.ssa: line 1 near '}': expected nonnegative aggregate repetition\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/opaque_negative.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/opaque_negative.ssa: line 1 near '}': expected nonnegative opaque size\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/type_alignment_negative.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/type_alignment_negative.ssa: line 1 near '{': expected aggregate alignment\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/debug_negative.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/debug_negative.ssa: line 1 near 'ret': expected nonnegative debug line\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/data_size_limit.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/data_size_limit.ssa: line 1 near '}': zero fill size must be in 0..268435456\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/aggregate_size_limit.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/aggregate_size_limit.ssa: aggregate repetition limit exceeded (1048576)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--target",
+        "aarch64-linux",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/wrong.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/wrong.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/wrong.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/wrong"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/integer-pattern-main-aarch64-linux/wrong"
+      ],
+      "inside": true,
+      "returncode": 2,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/integer-pattern-main-review/lcb-snapshot",
+        "--build-identity"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "3c25a0a8aaf94a6a53adf6c5d6cec78872809b1d7bebc66f45ad5d4c5202a40f\n",
+      "stderr": ""
+    }
+  ],
+  "note": "Bounded decimal magnitudes <=UINT64_MAX only. Original QBE unchanged; RV reference-only non-PIE retry separately recorded."
+}

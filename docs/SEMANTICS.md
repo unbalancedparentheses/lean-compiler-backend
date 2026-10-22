@@ -15,7 +15,7 @@ not a certification claim.
 | --- | --- |
 | Integers | Separate `BitVec 32`/`BitVec 64` values; wrapping add/sub/mul and bitwise and/or/xor. No signed-overflow traps or poison. |
 | Comparisons | Equality and unsigned less-than at either width produce a word 0/1. |
-| Constants | Reduce modulo 2^width at import; negative literals are bit patterns. Text parsing retains the existing signed/unsigned 64-bit literal bounds. |
+| Constants | Reduce modulo 2^width at import; negative literals are bit patterns. Text parsing admits decimal magnitudes through 2^64-1; negative values below -2^63 reduce modulo 2^64 before contextual checks. |
 | Widths | Exact temporary operand widths. Compatibility-mode implicit long-to-word narrowing is rejected by this profile. |
 | State | Block ID, body instruction position and an array of optional typed values. Uninitialized values never default to zero. |
 | Control flow | Every body instruction and terminator is a separate step. Word conditions test all bits for nonzero. Phi operands are read from the predecessor environment before any destination changes. |
@@ -875,3 +875,18 @@ unknown annotation words are rejected. The `thread` flag retains thread-local
 address semantics. The original ARM/RV Linux QBE emitters refuse combined
 external/thread flags; native LCB comparisons use independent C TLS mutation
 checks and preserve those original-QBE failures separately.
+
+## Bounded decimal magnitudes
+
+QBE accumulates decimal constants as unsigned 64-bit values before applying
+modular negation. The parser accepts magnitudes through `2^64-1` with either
+sign. For example, `-18446744073709551615` denotes the bit pattern 1. Values
+below signed 64-bit minimum are normalized before operand, packed-data, size,
+alignment, aggregate repetition/opaque-size and debug-location checks. Existing
+nonnegative, layout, 29-bit debug and resource limits still apply to the resulting
+value. Magnitudes beyond `2^64-1` remain outside this bounded parser profile.
+
+Static symbol addends render as signed 64-bit values, matching QBE's assembly
+form; positive `2^64-1` therefore renders as -1. Existing Apple native tests already
+accepted the previous positive rendering, so this is canonicalization rather
+than a claim that positive addends previously produced wrong code.

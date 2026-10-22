@@ -43,7 +43,8 @@ The parser treats newlines as whitespace; upstream QBE also uses them as syntax
 separators. Tests shared with QBE use its canonical multiline format. This is a
 restricted compatible operation subset, not a claim of full QBE compatibility.
 Unquoted names follow QBE's ASCII grammar, including dots and embedded dollar
-signs, with a letter, underscore or dot first. Integer literals are decimal bit patterns in [-2^63, 2^64-1].
+signs, with a letter, underscore or dot first. Integer literals are decimal bit patterns with magnitude at most 2^64-1.
+Negative magnitudes below -2^63 are reduced modulo 2^64 before contextual checks.
 
 Compatibility functions have at most 1024 arguments, 70000 instructions/phi nodes
 and 4096 blocks; programs have at most 4096 functions, 16384 top-level parsing items, 8 MiB of input and 600000

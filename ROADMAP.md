@@ -186,7 +186,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   zero-fill definitions now pass native section/coalescing tests. Quoted globals
   and existing Linux/Apple TLS conventions are implemented; additional section
   forms remain; Windows conventions are deferred. Hexadecimal data-string escapes
-  and either/repeated extern/thread operand annotation order are supported, with
+  and either/repeated extern/thread operand annotation order are supported.
+  Decimal magnitudes through UINT64_MAX accept modular negation consistently
+  across operands/data/layout/debug contexts, retaining contextual bounds, with
   independent byte and TLS mutation checks and explicit oracle limitations.
   Local single/double arithmetic, comparisons, casts, memory and phi values are
   implemented, including numeric conversions, scalar floating calls/returns and
