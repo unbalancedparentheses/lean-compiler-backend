@@ -1,0 +1,146 @@
+{
+  "target": "aarch64-linux",
+  "compiler_identity": "1902411287790994d88c0700305e3916b276da8ea01b7d57ccb26fcfea7887d9",
+  "compiler_sha256": "f43fa5c0e53b4b0aaa5971c0f42901804ecbea1dc28c0749dfb0fc6a868b23ef",
+  "helper_sha256": "813e7c55b19f54c31832526ee3af1d07ec8f75e78459ba3851befd19fb02960c",
+  "source_sha256": "ed9ba688a360afa72eb91bd9cef8b80375af75e8c1b15a22387b1e248700f410",
+  "caller_sha256": "77d6ef34b305aa08b5003857875353e06a72c9cde1fd39530df7826798825a21",
+  "checks_per_backend": 11520,
+  "backends": {
+    "baseline": {
+      "assembly_sha256": "f561f543ea38128e16d2e664a96e13db45310833e108c0ba14e5cc1eae2456ad",
+      "execution": "passed"
+    },
+    "allocated": {
+      "assembly_sha256": "56d42399beda015f181ec3a921aa3c1a6dbecc2d50e9cdd8c2e222b0457b82da",
+      "execution": "passed"
+    },
+    "optimized": {
+      "assembly_sha256": "35c327ccadec85bccbb9b656379be9195619864581e7588df0a8483e605b5f11",
+      "execution": "passed"
+    },
+    "qbe": {
+      "assembly_sha256": "ac26960b4b26f092a043f9c575736f8a3cb4dd6922491bcc7b68b7a937719c19",
+      "execution": "passed"
+    }
+  },
+  "negatives": {
+    "copy": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/copy.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/copy.ssa:7: invalid type for first operand %v in copy\n"
+    },
+    "add_left": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/add_left.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/add_left.ssa:7: invalid type for first operand %v in add\n"
+    },
+    "add_right": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/add_right.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/add_right.ssa:7: invalid type for second operand %v in add\n"
+    },
+    "divide": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/divide.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/divide.ssa:7: invalid type for second operand %v in div\n"
+    },
+    "compare": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/compare.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/compare.ssa:7: invalid type for first operand %v in ceql\n"
+    },
+    "cast": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/cast.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/cast.ssa:7: invalid type for first operand %v in cast\n"
+    },
+    "float_copy": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/float_copy.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/float_copy.ssa:7: invalid type for first operand %v in copy\n"
+    },
+    "float_arithmetic": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/float_arithmetic.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/float_arithmetic.ssa:7: invalid type for first operand %v in add\n"
+    },
+    "float_compare": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/float_compare.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/float_compare.ssa:7: invalid type for first operand %v in ceqs\n"
+    },
+    "conversion": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/conversion.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/conversion.ssa:7: invalid type for first operand %v in sltof\n"
+    },
+    "load": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/load.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/load.ssa:7: invalid type for first operand %v in loadsw\n"
+    },
+    "store_address": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/store_address.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/store_address.ssa:7: invalid type for second operand %v in storew\n"
+    },
+    "store_value": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/store_value.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/store_value.ssa:7: invalid type for first operand %v in storel\n"
+    },
+    "call_argument": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/call_argument.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/call_argument.ssa:7: invalid type for first operand %v in arg\n"
+    },
+    "void_call": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/void_call.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/void_call.ssa:7: invalid type for first operand %v in arg\n"
+    },
+    "indirect": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/indirect.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/indirect.ssa:7: invalid type for first operand %v in call\n"
+    },
+    "environment": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/environment.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/environment.ssa:7: invalid type for first operand %v in arge\n"
+    },
+    "allocation": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/allocation.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/allocation.ssa:7: invalid type for first operand %v in alloc8\n"
+    },
+    "vastart": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/vastart.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/vastart.ssa:5: cannot use vastart in non-variadic function\n"
+    },
+    "vaarg": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/vaarg.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/vaarg.ssa:7: invalid type for first operand %v in vaarg\n"
+    },
+    "blit_source": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/blit_source.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/blit_source.ssa:7: invalid type for first operand %v in blit0\n"
+    },
+    "blit_destination": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/blit_destination.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/blit_destination.ssa:7: invalid type for second operand %v in blit0\n"
+    },
+    "return": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/return.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/return.ssa:6: invalid type for jump argument %v in block @s\n"
+    },
+    "before_narrow": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/before_narrow.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/before_narrow.ssa:7: invalid type for first operand %v in add\n"
+    },
+    "dead_long": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/dead_long.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/dead_long.ssa:9: invalid type for first operand %v in copy\n"
+    },
+    "dead_definition": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/dead_definition.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/dead_definition.ssa:9: invalid type for first operand %v in add\n"
+    },
+    "phi": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/phi.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/phi.ssa:9: invalid type for operand %v in phi %r\n"
+    },
+    "mixed_float": {
+      "lcb": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/mixed_float.ssa: SSA construction: inconsistent types for mutable temporary %v\n",
+      "qbe": "qbe:/work/mutable-width-main-review/aarch64-linux/mutable-integer-widths/mixed_float.ssa:7: temporary %v is assigned with multiple types\n"
+    }
+  },
+  "interpreter_checks": 30,
+  "first_path": "refused",
+  "before_refusal": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/mutable-width-main-review/aarch64-linux/mutable-integer-widths/mutable.ssa: SSA construction: inconsistent types for mutable temporary %v\n",
+  "wrong_word_control": "exit1 detected",
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+}

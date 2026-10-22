@@ -1,0 +1,38 @@
+[
+  {
+    "case": "dead_long",
+    "label": "qbe",
+    "exit": 1,
+    "stderr": "qbe:.build/mutable-widths/dead_long.ssa:9: invalid type for first operand %v in add\n"
+  },
+  {
+    "case": "dead_long",
+    "label": "after",
+    "exit": 1,
+    "stderr": "error: .build/mutable-widths/dead_long.ssa: SSA construction: mixed w/l temporary %v requires a word use\n"
+  },
+  {
+    "case": "dead_definition",
+    "label": "qbe",
+    "exit": 1,
+    "stderr": "qbe:.build/mutable-widths/dead_definition.ssa:9: invalid type for first operand %v in add\n"
+  },
+  {
+    "case": "dead_definition",
+    "label": "after",
+    "exit": 1,
+    "stderr": "error: .build/mutable-widths/dead_definition.ssa: SSA construction: mixed w/l temporary %v requires a word use\n"
+  },
+  {
+    "case": "explicit_phi",
+    "label": "qbe",
+    "exit": -6,
+    "stderr": "ssa.c: dying: %v violates ssa invariant\n"
+  },
+  {
+    "case": "explicit_phi",
+    "label": "after",
+    "exit": 1,
+    "stderr": "error: .build/mutable-widths/explicit_phi.ssa: function $f: constructed SSA failed validation: %lcb.ssa.2: implicit w-to-l extension is unsupported; use an explicit conversion\n"
+  }
+]

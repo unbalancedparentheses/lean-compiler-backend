@@ -6,14 +6,22 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Mutable integer widths](benchmarks/mutable-integer-widths/README.md) are integrated
+on identity `1902411287790994d88c0700305e3916b276da8ea01b7d57ccb26fcfea7887d9`.
+All five original-QBE/C matrices, fresh units, 147 exact audit statements, existing
+SSA regression and missing-tool/CLI controls pass. Corpus and all 432 workload
+assemblies remain identical. Complete regression gates are pending the upcoming
+combined checkpoint. Retained TLS is ready privately; scaled ARM loads passed
+two timing windows, but external background CPU activity invalidates a quiet-window
+interpretation. Those timings are diagnostics only; clean performance remains
+unresolved. Correctness/static savings support further bounded review.
+
 [Exact aggregate signature aliases](benchmarks/aggregate-signature-aliases/README.md)
 are integrated on identity `859f5c81657dcdb85c13513a19c5c3635e6e3ef55f600e9e2adaaa20f5e2963d`.
 Five original-QBE/C matrices, all three full Linux gates, fresh units and 147 exact
 audit statements pass. Corpus output and all 432 workload assemblies are identical.
-Full host qualification has not yet run on this identity. Mixed mutable integer
-widths and retained TLS are independently qualified/reviewed private candidates,
-queued for integration. ARM scaled loads remain private pending paired full-API
-zlib measurements; no speed improvement is yet claimed.
+Full host qualification has not yet run on this identity. The mixed-width checkpoint above follows this identity; retained TLS and scaled
+ARM loads remain private until subsequent integration.
 
 [Printable ELF section names](benchmarks/elf-section-name-bytes/README.md) are integrated
 on identity `ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92`.

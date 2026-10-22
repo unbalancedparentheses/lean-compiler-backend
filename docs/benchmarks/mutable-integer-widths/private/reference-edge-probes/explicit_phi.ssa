@@ -1,0 +1,13 @@
+function w $f(w %c){
+@s
+ jnz %c,@a,@b
+@a
+ %v =l copy 4294967297
+ jmp @j
+@b
+ %v =w copy 2
+ jmp @j
+@j
+ %v =l phi @a %v,@b %v
+ ret %v
+}

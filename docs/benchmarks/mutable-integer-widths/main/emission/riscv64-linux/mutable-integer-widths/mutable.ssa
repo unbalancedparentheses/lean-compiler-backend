@@ -1,0 +1,97 @@
+export function w $long_then_word(l %input, w %n) {
+@s
+ %v =l copy %input
+ %v =w add %v, 1
+ ret %v
+}
+export function w $word_then_long(l %input, w %n) {
+@s
+ %v =w copy %n
+ %v =l add %input, 3
+ ret %v
+}
+export function w $parameter_long(l %input, w %n) {
+@s
+ %input =w add %input, 17
+ ret %input
+}
+export function w $parameter_word(l %input, w %n) {
+@s
+ %n =l add %input, 23
+ ret %n
+}
+export function w $branch(l %input, w %n) {
+@s
+ %flag =w and %n, 1
+ jnz %flag, @wide, @narrow
+@wide
+ %v =l add %input, 7
+ jmp @join
+@narrow
+ %v =w add %input, 13
+ jmp @join
+@join
+ %v =w xor %v, 305419896
+ ret %v
+}
+export function w $loop(l %input, w %n) {
+@s
+ %v =l copy %input
+ %i =w copy 0
+ jnz %n, @body, @done
+@body
+ %v =w add %v, 3
+ %wide =l extuw %v
+ %v =l add %wide, 7
+ %i =w add %i, 1
+ %more =w cultw %i, %n
+ jnz %more, @body, @done
+@done
+ ret %v
+}
+export function w $shift(l %input, w %n) {
+@s
+ %v =l copy %input
+ %v =w add %v, %n
+ %wide =l shl %input, %v
+ %r =w copy %wide
+ ret %r
+}
+function w $called(w %x) {
+@s
+ %r =w mul %x, 7
+ ret %r
+}
+export function w $call_word(l %input, w %n) {
+@s
+ %v =l copy %input
+ %v =w add %v, %n
+ %r =w call $called(w %v)
+ ret %r
+}
+export function w $word_roles(l %input, w %n) {
+@s
+ %v =l copy %input
+ %v =w xor %v, %n
+ %f =s cast %v
+ %bits =w cast %f
+ %p =l alloc8 8
+ storew %bits, %p
+ %r =w loadw %p
+ ret %r
+}
+function $effect(w %x, l %p) {
+@s
+ storew %x, %p
+ ret
+}
+export function w $void_call_word(l %input, w %n) {
+@s
+ %v =l copy %input
+ %v =w add %v, %n
+ %p =l alloc8 8
+ storew 0, %p
+ call $effect(w %v, l %p)
+ %r =w loadw %p
+ ret %r
+}

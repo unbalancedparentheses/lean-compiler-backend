@@ -1,0 +1,146 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "53a64ae791d30a1bc83b31fc994b37403597620dbf4f787d09a4499df8833491",
+  "compiler_sha256": "0e2f8c981e5ddf57860270635fab444c1c6cc3dad303103d6e961e2364b8fe79",
+  "helper_sha256": "813e7c55b19f54c31832526ee3af1d07ec8f75e78459ba3851befd19fb02960c",
+  "source_sha256": "ed9ba688a360afa72eb91bd9cef8b80375af75e8c1b15a22387b1e248700f410",
+  "caller_sha256": "77d6ef34b305aa08b5003857875353e06a72c9cde1fd39530df7826798825a21",
+  "checks_per_backend": 11520,
+  "backends": {
+    "baseline": {
+      "assembly_sha256": "d28e4f6af060b4bd636c8e298f699d25436ecadceccd0ecbaf30f8fb3ec3ece7",
+      "execution": "passed"
+    },
+    "allocated": {
+      "assembly_sha256": "3692543da6bb9bcb46a39c8821df6e4218605948c37519e58b660c2f0e520b78",
+      "execution": "passed"
+    },
+    "optimized": {
+      "assembly_sha256": "3f6682d3ad81313e172c5e4fd04ba349b3cf9493cf93df754e057882f131d69a",
+      "execution": "passed"
+    },
+    "qbe": {
+      "assembly_sha256": "ab77ca1a79a5e7da076da641be00a76270b8c9793848c212504b6bcc2004653e",
+      "execution": "passed"
+    }
+  },
+  "negatives": {
+    "copy": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/copy.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/copy.ssa:7: invalid type for first operand %v in copy\n"
+    },
+    "add_left": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/add_left.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/add_left.ssa:7: invalid type for first operand %v in add\n"
+    },
+    "add_right": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/add_right.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/add_right.ssa:7: invalid type for second operand %v in add\n"
+    },
+    "divide": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/divide.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/divide.ssa:7: invalid type for second operand %v in div\n"
+    },
+    "compare": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/compare.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/compare.ssa:7: invalid type for first operand %v in ceql\n"
+    },
+    "cast": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/cast.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/cast.ssa:7: invalid type for first operand %v in cast\n"
+    },
+    "float_copy": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/float_copy.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/float_copy.ssa:7: invalid type for first operand %v in copy\n"
+    },
+    "float_arithmetic": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/float_arithmetic.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/float_arithmetic.ssa:7: invalid type for first operand %v in add\n"
+    },
+    "float_compare": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/float_compare.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/float_compare.ssa:7: invalid type for first operand %v in ceqs\n"
+    },
+    "conversion": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/conversion.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/conversion.ssa:7: invalid type for first operand %v in sltof\n"
+    },
+    "load": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/load.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/load.ssa:7: invalid type for first operand %v in loadsw\n"
+    },
+    "store_address": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/store_address.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/store_address.ssa:7: invalid type for second operand %v in storew\n"
+    },
+    "store_value": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/store_value.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/store_value.ssa:7: invalid type for first operand %v in storel\n"
+    },
+    "call_argument": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/call_argument.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/call_argument.ssa:7: invalid type for first operand %v in arg\n"
+    },
+    "void_call": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/void_call.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/void_call.ssa:7: invalid type for first operand %v in arg\n"
+    },
+    "indirect": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/indirect.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/indirect.ssa:7: invalid type for first operand %v in call\n"
+    },
+    "environment": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/environment.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/environment.ssa:7: invalid type for first operand %v in arge\n"
+    },
+    "allocation": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/allocation.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/allocation.ssa:7: invalid type for first operand %v in alloc8\n"
+    },
+    "vastart": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/vastart.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/vastart.ssa:5: cannot use vastart in non-variadic function\n"
+    },
+    "vaarg": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/vaarg.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/vaarg.ssa:7: invalid type for first operand %v in vaarg\n"
+    },
+    "blit_source": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/blit_source.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/blit_source.ssa:7: invalid type for first operand %v in blit0\n"
+    },
+    "blit_destination": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/blit_destination.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/blit_destination.ssa:7: invalid type for second operand %v in blit0\n"
+    },
+    "return": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/return.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/return.ssa:6: invalid type for jump argument %v in block @s\n"
+    },
+    "before_narrow": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/before_narrow.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/before_narrow.ssa:7: invalid type for first operand %v in add\n"
+    },
+    "dead_long": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/dead_long.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/dead_long.ssa:9: invalid type for first operand %v in copy\n"
+    },
+    "dead_definition": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/dead_definition.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/dead_definition.ssa:9: invalid type for first operand %v in add\n"
+    },
+    "phi": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/phi.ssa: SSA construction: mixed w/l temporary %v requires a word use\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/phi.ssa:9: invalid type for operand %v in phi %r\n"
+    },
+    "mixed_float": {
+      "lcb": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/mixed_float.ssa: SSA construction: inconsistent types for mutable temporary %v\n",
+      "qbe": "qbe:/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/mixed_float.ssa:7: temporary %v is assigned with multiple types\n"
+    }
+  },
+  "interpreter_checks": 30,
+  "first_path": "refused",
+  "before_refusal": "error: /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-mutable-widths-yl30ao7h/mutable-integer-widths/mutable.ssa: SSA construction: inconsistent types for mutable temporary %v\n",
+  "wrong_word_control": "exit1 detected",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+}

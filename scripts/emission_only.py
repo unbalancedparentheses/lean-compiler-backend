@@ -5,6 +5,7 @@ import subprocess
 import tempfile
 from fuzz import ROOT, LCB
 from aggregate_signature_aliases import exercise as aggregate_signature_aliases
+from mutable_integer_widths import exercise as mutable_integer_widths
 from elf_section_names import exercise as elf_section_names
 from custom_tls_sections import exercise as custom_tls_sections
 from elf_retain import exercise as elf_retain
@@ -63,6 +64,8 @@ def main():
         for target in ['aarch64-linux','aarch64-macos','x86_64-linux','x86_64-macos','riscv64-linux']:
             aliases = aggregate_signature_aliases(LCB,work/target,run,cc,target,False,qbe)
             assert aliases['checks_per_backend'] == 0 and 'qbe' not in aliases['backends']
+            widths = mutable_integer_widths(LCB,work/target,run,cc,target,False,qbe)
+            assert widths['checks_per_backend'] == 0 and 'qbe' not in widths['backends']
             elf_names = elf_section_names(LCB,work/target,run,cc,target,False,qbe)
             assert elf_names['executed_modes'] == 0 and elf_names['qbe_sha256'] is None
             tls = custom_tls_sections(LCB,work/target,run,cc,target,False,qbe)

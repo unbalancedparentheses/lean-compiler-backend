@@ -1,0 +1,141 @@
+diff --git a/LeanCompilerBackend/SSA.lean b/LeanCompilerBackend/SSA.lean
+index b57ffdc..d083679 100644
+--- a/LeanCompilerBackend/SSA.lean
++++ b/LeanCompilerBackend/SSA.lean
+@@ -157,11 +157,76 @@ private def addType (types : Std.HashMap String (Width × Bool)) (name : String)
+     (floating : Bool) : Except String (Std.HashMap String (Width × Bool)) := do
+   if !validIdentifier name then throw "SSA construction: invalid temporary name"
+   if let some (oldWidth, oldFloating) := types[name]? then
+-    if oldWidth != width || oldFloating != floating then
++    if oldFloating != floating || (floating && oldWidth != width) then
+       throw s!"SSA construction: inconsistent types for mutable temporary %{name}"
+-    return types
++    let merged := if oldWidth == .word || width == .word then Width.word else .long
++    return types.insert name (merged, floating)
+   pure (types.insert name (width, floating))
+ 
++/-- QBE merges mutable integer w/l definitions to a word class before SSA.
++    Check only these newly admitted names against raw operand roles, including
++    dead blocks. Renaming must not hide an invalid long use of the merged name.
++    Other operand validation remains in the ordinary validator. -/
++private def checkMixedUses (f : Function) (types : Std.HashMap String (Width × Bool))
++    : Except String Unit := do
++  let mixed := f.locals.foldl (fun names (name, width) =>
++    if width == .long && types[name]? == some (.word, false) then names.insert name else names)
++      ({} : Std.HashSet String)
++  if mixed.isEmpty then return
++  let check := fun (width : Width) (floating : Bool) (value : Operand) => do
++    if let .temporary name := value then
++      if mixed.contains name && (width != .word || floating) then
++        throw s!"SSA construction: mixed w/l temporary %{name} requires a word use"
++  let call := fun (target : CallTarget) (args : Array CallArgument) => do
++    if let .indirect value := target then check .long false value
++    for arg in args do check arg.width arg.floating arg.value
++  for block in f.blocks do
++    for phi in block.phis do
++      -- QBE checks explicit phi inputs against the destination's merged class.
++      let (width, floating) := (types[phi.destination]?).getD (phi.width, phi.floating)
++      for (_, value) in phi.incoming do check width floating value
++    for statement in block.instructions do
++      match statement with
++      | .store width value address =>
++        check width.valueWidth false value
++        check .long false address
++      | .storeFloat width value address =>
++        check width true value
++        check .long false address
++      | .callVoid target args _ => call target args
++      | .vaStart address => check .long false address
++      | .blit source destination _ =>
++        check .long false source
++        check .long false destination
++      | .assign inst =>
++        match inst.operation with
++        | .copy value => check inst.width inst.floating value
++        | .cast value => check inst.width (!inst.floating) value
++        | .convert op value => check op.inputWidth op.inputFloating value
++        | .unary op value => check (op.inputWidth inst.width) false value
++        | .binary op a b =>
++          check inst.width false a
++          check (op.rhsWidth inst.width) false b
++        | .divide _ a b =>
++          check inst.width false a
++          check inst.width false b
++        | .compare _ width a b =>
++          check width false a
++          check width false b
++        | .floatBinary _ a b =>
++          check inst.width true a
++          check inst.width true b
++        | .floatNegate value => check inst.width true value
++        | .floatCompare _ width a b =>
++          check width true a
++          check width true b
++        | .load _ address | .vaArg address | .allocate _ address => check .long false address
++        | .call target args _ => call target args
++    match block.terminator with
++    | .ret (some value) => check (f.resultWidth.getD .word) f.resultFloating value
++    | .branch value _ _ => check .word false value
++    | _ => pure ()
++
+ /-- Leave already-SSA inputs unchanged; mutable input is renamed and validated.
+     The original first-path importer does not invoke this pass. -/
+ def construct (f : Function) : Except String Function := do
+@@ -189,6 +254,7 @@ def construct (f : Function) : Except String Function := do
+     for phi in block.phis do types ← addType types phi.destination phi.width phi.floating
+     for statement in block.instructions do
+       if let .assign inst := statement then types ← addType types inst.destination inst.width inst.floating
++  checkMixedUses f types
+   let namePrefix := freshNamePrefix "lcb.ssa." names.toArray
+   let build : M Function := do
+     let parameters ← f.parameters.mapM fun p => do
+@@ -260,6 +326,7 @@ private def checkRawLocals (f : Function) : Except String Unit := do
+     for p in b.phis do types ← addType types p.destination p.width p.floating
+     for s in b.instructions do
+       if let .assign i := s then types ← addType types i.destination i.width i.floating
++  checkMixedUses f types
+   let defined := fun v => match v with
+     | .temporary name => if types.contains name then pure () else throw s!"undefined temporary %{name}"
+     | _ => pure ()
+diff --git a/Tests.lean b/Tests.lean
+index 37b138d..3bab166 100644
+--- a/Tests.lean
++++ b/Tests.lean
+@@ -28,6 +28,37 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool
+   | .error _ => false
+ 
+ def main : IO Unit := do
++  let mixedSource := "export function w $long_then_word(l %input, w %n) {\n@s\n %v =l copy %input\n %v =w add %v, 1\n ret %v\n}\nexport function w $word_then_long(l %input, w %n) {\n@s\n %v =w copy %n\n %v =l add %input, 3\n ret %v\n}\nexport function w $parameter_long(l %input, w %n) {\n@s\n %input =w add %input, 17\n ret %input\n}\nexport function w $parameter_word(l %input, w %n) {\n@s\n %n =l add %input, 23\n ret %n\n}\nexport function w $branch(l %input, w %n) {\n@s\n %flag =w and %n, 1\n jnz %flag, @wide, @narrow\n@wide\n %v =l add %input, 7\n jmp @join\n@narrow\n %v =w add %input, 13\n jmp @join\n@join\n %v =w xor %v, 305419896\n ret %v\n}\nexport function w $loop(l %input, w %n) {\n@s\n %v =l copy %input\n %i =w copy 0\n jnz %n, @body, @done\n@body\n %v =w add %v, 3\n %wide =l extuw %v\n %v =l add %wide, 7\n %i =w add %i, 1\n %more =w cultw %i, %n\n jnz %more, @body, @done\n@done\n ret %v\n}\nexport function w $shift(l %input, w %n) {\n@s\n %v =l copy %input\n %v =w add %v, %n\n %wide =l shl %input, %v\n %r =w copy %wide\n ret %r\n}\nfunction w $called(w %x) {\n@s\n %r =w mul %x, 7\n ret %r\n}\nexport function w $call_word(l %input, w %n) {\n@s\n %v =l copy %input\n %v =w add %v, %n\n %r =w call $called(w %v)\n ret %r\n}\nexport function w $word_roles(l %input, w %n) {\n@s\n %v =l copy %input\n %v =w xor %v, %n\n %f =s cast %v\n %bits =w cast %f\n %p =l alloc8 8\n storew %bits, %p\n %r =w loadw %p\n ret %r\n}\n"
++  let mixed ← match Parser.parseModule mixedSource >>= SSA.constructModule with
++    | .ok m => pure m
++    | .error e => throw (IO.userError e)
++  require (valueEquals (Semantics.evaluateModule mixed "long_then_word" #[4294967295, 0]) (some 0))
++    "mixed mutable long-to-word arithmetic must wrap"
++  require (valueEquals (Semantics.evaluateModule mixed "word_then_long" #[4294967295, 0]) (some 2))
++    "mixed mutable word-to-long definitions preserve low-word results"
++  require (valueEquals (Semantics.evaluateModule mixed "parameter_long" #[4294967295, 0]) (some 16))
++    "mixed mutable parameter widths must preserve incoming ABI width"
++  require (valueEquals (Semantics.evaluateModule mixed "loop" #[4294967295, 8]) (some 79))
++    "mixed mutable loop joins must use word phis"
++  let loop := (mixed.functions.find? (·.name == "loop")).getD default
++  require (loop.blocks.any (fun b => b.phis.any (fun p => p.width == .word)))
++    "mixed mutable loop must retain word-class SSA joins"
++  require (loop.blocks.any (fun b => b.instructions.any (fun s => match s with
++      | .assign i => i.width == .long
++      | _ => false))) "mixed mutable lowering must retain long instruction widths"
++  require (isFailure (Parser.parseModule "function w $bad(l %input){\n@s\n %v =l copy %input\n %r =l add %v,1\n %v =w copy 1\n ret 0\n}\n" >>= SSA.constructModule))
++    "raw mixed class must reject invalid before_narrow"
++  require (isFailure (Parser.parseModule "function w $bad(l %input) {\n@s\n %v =l copy %input\n %v =w copy 1\n ret %v\n@dead\n %r =l copy %v\n ret 0\n}\n" >>= SSA.constructModule))
++    "raw mixed class must reject invalid dead_long"
++  require (isFailure (Parser.parseModule "function w $bad(l %input){\n@s\n %v =l copy %input\n %r =l add %v,1\n ret 0\n@dead\n %v =w copy 1\n ret 0\n}\n" >>= SSA.constructModule))
++    "raw mixed class must reject invalid dead_definition"
++  require (isFailure (Parser.parseModule "function w $bad(l %input) {\n@s\n %v =l copy %input\n %v =w copy 1\n %v =s copy s_1\n ret 0\n}\n" >>= SSA.constructModule))
++    "raw mixed class must reject invalid mixed_float"
++  let rawMixed ← match Parser.parseModule "function w $bad(l %input){\n@s\n %v =l copy %input\n %r =l add %v,1\n %v =w copy 1\n ret 0\n}\n" with
++    | .ok m => pure m
++    | .error e => throw (IO.userError e)
++  require (isFailure (SSA.construct rawMixed.functions[0]!))
++    "public SSA construction must enforce raw mixed-use guard"
+   let printable := String.ofList ((List.range 95).map fun n => Char.ofNat (n+32))
+   require (valueEquals (Section.checkTarget false (some ⟨printable, some "aw"⟩)) ())
+     "ELF printable ASCII names rejected"

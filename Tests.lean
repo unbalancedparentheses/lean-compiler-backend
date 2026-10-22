@@ -28,6 +28,37 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
   | .error _ => false
 
 def main : IO Unit := do
+  let mixedSource := "export function w $long_then_word(l %input, w %n) {\n@s\n %v =l copy %input\n %v =w add %v, 1\n ret %v\n}\nexport function w $word_then_long(l %input, w %n) {\n@s\n %v =w copy %n\n %v =l add %input, 3\n ret %v\n}\nexport function w $parameter_long(l %input, w %n) {\n@s\n %input =w add %input, 17\n ret %input\n}\nexport function w $parameter_word(l %input, w %n) {\n@s\n %n =l add %input, 23\n ret %n\n}\nexport function w $branch(l %input, w %n) {\n@s\n %flag =w and %n, 1\n jnz %flag, @wide, @narrow\n@wide\n %v =l add %input, 7\n jmp @join\n@narrow\n %v =w add %input, 13\n jmp @join\n@join\n %v =w xor %v, 305419896\n ret %v\n}\nexport function w $loop(l %input, w %n) {\n@s\n %v =l copy %input\n %i =w copy 0\n jnz %n, @body, @done\n@body\n %v =w add %v, 3\n %wide =l extuw %v\n %v =l add %wide, 7\n %i =w add %i, 1\n %more =w cultw %i, %n\n jnz %more, @body, @done\n@done\n ret %v\n}\nexport function w $shift(l %input, w %n) {\n@s\n %v =l copy %input\n %v =w add %v, %n\n %wide =l shl %input, %v\n %r =w copy %wide\n ret %r\n}\nfunction w $called(w %x) {\n@s\n %r =w mul %x, 7\n ret %r\n}\nexport function w $call_word(l %input, w %n) {\n@s\n %v =l copy %input\n %v =w add %v, %n\n %r =w call $called(w %v)\n ret %r\n}\nexport function w $word_roles(l %input, w %n) {\n@s\n %v =l copy %input\n %v =w xor %v, %n\n %f =s cast %v\n %bits =w cast %f\n %p =l alloc8 8\n storew %bits, %p\n %r =w loadw %p\n ret %r\n}\n"
+  let mixed ← match Parser.parseModule mixedSource >>= SSA.constructModule with
+    | .ok m => pure m
+    | .error e => throw (IO.userError e)
+  require (valueEquals (Semantics.evaluateModule mixed "long_then_word" #[4294967295, 0]) (some 0))
+    "mixed mutable long-to-word arithmetic must wrap"
+  require (valueEquals (Semantics.evaluateModule mixed "word_then_long" #[4294967295, 0]) (some 2))
+    "mixed mutable word-to-long definitions preserve low-word results"
+  require (valueEquals (Semantics.evaluateModule mixed "parameter_long" #[4294967295, 0]) (some 16))
+    "mixed mutable parameter widths must preserve incoming ABI width"
+  require (valueEquals (Semantics.evaluateModule mixed "loop" #[4294967295, 8]) (some 79))
+    "mixed mutable loop joins must use word phis"
+  let loop := (mixed.functions.find? (·.name == "loop")).getD default
+  require (loop.blocks.any (fun b => b.phis.any (fun p => p.width == .word)))
+    "mixed mutable loop must retain word-class SSA joins"
+  require (loop.blocks.any (fun b => b.instructions.any (fun s => match s with
+      | .assign i => i.width == .long
+      | _ => false))) "mixed mutable lowering must retain long instruction widths"
+  require (isFailure (Parser.parseModule "function w $bad(l %input){\n@s\n %v =l copy %input\n %r =l add %v,1\n %v =w copy 1\n ret 0\n}\n" >>= SSA.constructModule))
+    "raw mixed class must reject invalid before_narrow"
+  require (isFailure (Parser.parseModule "function w $bad(l %input) {\n@s\n %v =l copy %input\n %v =w copy 1\n ret %v\n@dead\n %r =l copy %v\n ret 0\n}\n" >>= SSA.constructModule))
+    "raw mixed class must reject invalid dead_long"
+  require (isFailure (Parser.parseModule "function w $bad(l %input){\n@s\n %v =l copy %input\n %r =l add %v,1\n ret 0\n@dead\n %v =w copy 1\n ret 0\n}\n" >>= SSA.constructModule))
+    "raw mixed class must reject invalid dead_definition"
+  require (isFailure (Parser.parseModule "function w $bad(l %input) {\n@s\n %v =l copy %input\n %v =w copy 1\n %v =s copy s_1\n ret 0\n}\n" >>= SSA.constructModule))
+    "raw mixed class must reject invalid mixed_float"
+  let rawMixed ← match Parser.parseModule "function w $bad(l %input){\n@s\n %v =l copy %input\n %r =l add %v,1\n %v =w copy 1\n ret 0\n}\n" with
+    | .ok m => pure m
+    | .error e => throw (IO.userError e)
+  require (isFailure (SSA.construct rawMixed.functions[0]!))
+    "public SSA construction must enforce raw mixed-use guard"
   for source in ["type :a = { l 2 } type :b = { l, l }",
       "type :a = { d, l } type :b = { l, d }",
       "type :x = { l } type :y = { d } type :a = { :x } type :b = { :y }"] do

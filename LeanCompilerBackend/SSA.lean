@@ -157,10 +157,75 @@ private def addType (types : Std.HashMap String (Width × Bool)) (name : String)
     (floating : Bool) : Except String (Std.HashMap String (Width × Bool)) := do
   if !validIdentifier name then throw "SSA construction: invalid temporary name"
   if let some (oldWidth, oldFloating) := types[name]? then
-    if oldWidth != width || oldFloating != floating then
+    if oldFloating != floating || (floating && oldWidth != width) then
       throw s!"SSA construction: inconsistent types for mutable temporary %{name}"
-    return types
+    let merged := if oldWidth == .word || width == .word then Width.word else .long
+    return types.insert name (merged, floating)
   pure (types.insert name (width, floating))
+
+/-- QBE merges mutable integer w/l definitions to a word class before SSA.
+    Check only these newly admitted names against raw operand roles, including
+    dead blocks. Renaming must not hide an invalid long use of the merged name.
+    Other operand validation remains in the ordinary validator. -/
+private def checkMixedUses (f : Function) (types : Std.HashMap String (Width × Bool))
+    : Except String Unit := do
+  let mixed := f.locals.foldl (fun names (name, width) =>
+    if width == .long && types[name]? == some (.word, false) then names.insert name else names)
+      ({} : Std.HashSet String)
+  if mixed.isEmpty then return
+  let check := fun (width : Width) (floating : Bool) (value : Operand) => do
+    if let .temporary name := value then
+      if mixed.contains name && (width != .word || floating) then
+        throw s!"SSA construction: mixed w/l temporary %{name} requires a word use"
+  let call := fun (target : CallTarget) (args : Array CallArgument) => do
+    if let .indirect value := target then check .long false value
+    for arg in args do check arg.width arg.floating arg.value
+  for block in f.blocks do
+    for phi in block.phis do
+      -- QBE checks explicit phi inputs against the destination's merged class.
+      let (width, floating) := (types[phi.destination]?).getD (phi.width, phi.floating)
+      for (_, value) in phi.incoming do check width floating value
+    for statement in block.instructions do
+      match statement with
+      | .store width value address =>
+        check width.valueWidth false value
+        check .long false address
+      | .storeFloat width value address =>
+        check width true value
+        check .long false address
+      | .callVoid target args _ => call target args
+      | .vaStart address => check .long false address
+      | .blit source destination _ =>
+        check .long false source
+        check .long false destination
+      | .assign inst =>
+        match inst.operation with
+        | .copy value => check inst.width inst.floating value
+        | .cast value => check inst.width (!inst.floating) value
+        | .convert op value => check op.inputWidth op.inputFloating value
+        | .unary op value => check (op.inputWidth inst.width) false value
+        | .binary op a b =>
+          check inst.width false a
+          check (op.rhsWidth inst.width) false b
+        | .divide _ a b =>
+          check inst.width false a
+          check inst.width false b
+        | .compare _ width a b =>
+          check width false a
+          check width false b
+        | .floatBinary _ a b =>
+          check inst.width true a
+          check inst.width true b
+        | .floatNegate value => check inst.width true value
+        | .floatCompare _ width a b =>
+          check width true a
+          check width true b
+        | .load _ address | .vaArg address | .allocate _ address => check .long false address
+        | .call target args _ => call target args
+    match block.terminator with
+    | .ret (some value) => check (f.resultWidth.getD .word) f.resultFloating value
+    | .branch value _ _ => check .word false value
+    | _ => pure ()
 
 /-- Leave already-SSA inputs unchanged; mutable input is renamed and validated.
     The original first-path importer does not invoke this pass. -/
@@ -189,6 +254,7 @@ def construct (f : Function) : Except String Function := do
     for phi in block.phis do types ← addType types phi.destination phi.width phi.floating
     for statement in block.instructions do
       if let .assign inst := statement then types ← addType types inst.destination inst.width inst.floating
+  checkMixedUses f types
   let namePrefix := freshNamePrefix "lcb.ssa." names.toArray
   let build : M Function := do
     let parameters ← f.parameters.mapM fun p => do
@@ -260,6 +326,7 @@ private def checkRawLocals (f : Function) : Except String Unit := do
     for p in b.phis do types ← addType types p.destination p.width p.floating
     for s in b.instructions do
       if let .assign i := s then types ← addType types i.destination i.width i.floating
+  checkMixedUses f types
   let defined := fun v => match v with
     | .temporary name => if types.contains name then pure () else throw s!"undefined temporary %{name}"
     | _ => pure ()
