@@ -145,6 +145,8 @@ def main():
     from signed_division_one import exercise as signed_one_tests
     signed_one_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
     if args.target == 'x86_64-linux':
+        from amd_leaf_bank import exercise as amd_leaf_tests
+        amd_leaf_tests(compiler,work,run,cc,args.target,execute)
         from amd_word_normalization import exercise as amd_word_tests
         amd_word_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
         from amd_immediates import exercise as amd_immediate_tests

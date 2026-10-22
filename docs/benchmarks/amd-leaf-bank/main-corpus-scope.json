@@ -1,0 +1,767 @@
+{
+  "identical_assemblies": 1267,
+  "matching_refusals": 15,
+  "changed_assemblies": [
+    {
+      "input": "tests/regressions/qbe-rv64-exact-fp-capacity.ssa",
+      "source_sha256": "14ce8b2aa7876a4d14e64df67d0b6100439bd2c6e746a0c48c20fb6d658ae109",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "cebaea6c71bb0891c6825f9cbb87329d48d6d070d446a0d8d6cb22864d42eedb"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "7bb84f4eb81bf66040b19363c01e30c92a3886a1dc6c9e303aedd0f4bbe7cce9"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "tests/regressions/qbe-rv64-exact-fp-capacity.ssa",
+      "source_sha256": "14ce8b2aa7876a4d14e64df67d0b6100439bd2c6e746a0c48c20fb6d658ae109",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "cebaea6c71bb0891c6825f9cbb87329d48d6d070d446a0d8d6cb22864d42eedb"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "7bb84f4eb81bf66040b19363c01e30c92a3886a1dc6c9e303aedd0f4bbe7cce9"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "tests/regressions/qbe-rv64-exact-fp-capacity.ssa",
+      "source_sha256": "14ce8b2aa7876a4d14e64df67d0b6100439bd2c6e746a0c48c20fb6d658ae109",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "18df981019f3b54210c56c7d65b5c8a08fbb89f36e17da439f7cca247f63832a"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "78d360071b744ed5f6fbe7254377c1cd1a794f3b1322db1a014bab35a8b7b591"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "tests/regressions/qbe-rv64-exact-fp-capacity.ssa",
+      "source_sha256": "14ce8b2aa7876a4d14e64df67d0b6100439bd2c6e746a0c48c20fb6d658ae109",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "18df981019f3b54210c56c7d65b5c8a08fbb89f36e17da439f7cca247f63832a"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "78d360071b744ed5f6fbe7254377c1cd1a794f3b1322db1a014bab35a8b7b591"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_alt.ssa",
+      "source_sha256": "5bd52cf1e30b1f0bc038c20ae80ffc605c520a635a693923fea47b817e6ab1af",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "daa78ea6d75bed9cfc41dcea9a0f0941c82c97387a238e0a0d89d7bb4c310469"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "8df55072542a34ca5afed59e671b7ee62cffb81aa53131a424c13d55ca37fb7b"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_alt.ssa",
+      "source_sha256": "5bd52cf1e30b1f0bc038c20ae80ffc605c520a635a693923fea47b817e6ab1af",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "3cd5b92c5a072b3a1a2569551749c61f7e4165e4d12930b79c8a32b28bf8b0b2"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "bfad20f70306b5efab31fe1e2446f339f18537d5d709d2460178d57d303e902c"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "source_sha256": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "41bac9baf560698d83d323d2acbc69487d466832225ad0cffe8c5d19b0569129"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "4bf681de9e9ef4a3977c6b0b34a45793b9b0bd6d767c11e53d1406b9dafbf04d"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "source_sha256": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "63022c3209effc794778ca01b2326c918f52ca82d04d26cd20b3be7cbbb3146c"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "c7b7ea339ed600d35961afe71c4b1787c31f7fdf26cfb10bff47cfc2a0da449e"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "source_sha256": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "5d56e392ca73d99ed6c90bd2fc151811588cc1d49e834d16486b7eaee773e184"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a6c2ae6589a33f1416fde0d0e4c26bcaa43274d6aff08fd8c3a2fb613c7225be"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "source_sha256": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "e4c56acbae5ad2fc50ff551c15561920f56f0ddf34889627cda3e2356ce02567"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "ed33465af3e1bd4d1c4d04686115595c1c9c1e1e4bc0d5589a21c937353a18a4"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_spill2.ssa",
+      "source_sha256": "74ac81e0f6de3b2ffd9b110121e461da1e6e84003ca28938601353598b199b27",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "e3351e0b92eeac6eeea6a0e2cb878ab2f0347294cbb19082084a400b435c8450"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "e8c8553d4387f54a24939f106a10b33f8ed5b82bb6aa9766a89859684be5a1ae"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_spill2.ssa",
+      "source_sha256": "74ac81e0f6de3b2ffd9b110121e461da1e6e84003ca28938601353598b199b27",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "f3ddaa37ac3138829c075bde38f6f408533fd9ee300ffd1c1db5832a660307e2"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "93c8d9e7b60002a3418df809801740ec5e2539f7c40040ff15975fe8f8271ab4"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_spill3.ssa",
+      "source_sha256": "fa68a2000e7a5940c33e45b5d2456367250959d66e15bfc425962cf0ee594836",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "6dd63888618f1830c4d9243a4b636f0cc484138fbd09adaef145b7ca48747086"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "888b48c1ab5e9f8159f7332fc40b874d8d8c0b3fb417d655d5754c5a31ac8c34"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/_spill3.ssa",
+      "source_sha256": "fa68a2000e7a5940c33e45b5d2456367250959d66e15bfc425962cf0ee594836",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "03ec7481afd0ace795d422cb23025ea8e52edcf36550d2493e2050e394e81224"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "09be3a2a253c1bf28e7811744bd6bad97d19cd4f75d072ea32cfe56e3b9b9b79"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "source_sha256": "8b9b7aa9b409c8e5b63bc9b0d237baccbd992a81cfc2d93fb522589c1746b445",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "8a2429daf91f451f5927eded389d9be127569694b42df89639a3c667eb3448e7"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "396e812e04af0b82e417d1ec6c33dee29901bd9d1f00eaf49cb178d0af1887a2"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "source_sha256": "8b9b7aa9b409c8e5b63bc9b0d237baccbd992a81cfc2d93fb522589c1746b445",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "3da695bc9a973884bd2d15b5f8e9a064a34168371457a66ea2df7125914bc5de"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "95865e62df5f4a25944965880b109fdddbbc74740a8592e39fadfde225de76b9"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "source_sha256": "8b9b7aa9b409c8e5b63bc9b0d237baccbd992a81cfc2d93fb522589c1746b445",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "50d47f8a710197815392db7a63b588a414d15bb9f1fbee43270673d1880ba306"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "5ad23dc4475f23d15b47bffb7bdfa9b0631d691e5ca15ffe498afcd07123b0b5"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "source_sha256": "8b9b7aa9b409c8e5b63bc9b0d237baccbd992a81cfc2d93fb522589c1746b445",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "793cd4f22a38514b36c9cc8c45e5fd38d43b19599445754ed49eeca369762d7b"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "b0bf831a8e80f4193c09b27538e1078e48b70e9386cb4062f5cdc27a22cf2cdf"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/cprime.ssa",
+      "source_sha256": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "623fa4b97ec4786e8aded8605df5ba3bb5e8f3959bd485ded701f06728cbdcaa"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "275b14833bb2e9250eb7440b5575ac65f35d8107a67876a64aa3f36f1122360f"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/cprime.ssa",
+      "source_sha256": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a6216a0ab2236b786d8166951b34a0468180a2d12cdd37ec47326b64bd09f55e"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a7e62d721e8972f1e1153ece9e59f6009a53030fe174545d48a783988e160eeb"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/cprime.ssa",
+      "source_sha256": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "63d6e2d39b5c675ada79c2bf8a7e00b2abb00818738ed7a0a7a58d09f063a155"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "b36a30b98e45b284fd7a4b6cd3e6216092d2a66af445b4264727cdc987fa2f8e"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/cprime.ssa",
+      "source_sha256": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "e0f307697b8408f7d038b995125fa7ab46b1a3aa6b1ce4a36f26855abd574b5c"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "ab793aee5fcf9ff21d3bf97847e69dac26ffaa6e95f263d6cd4fd702a084ea71"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/mandel.ssa",
+      "source_sha256": "5f6ddb545e276d159570ea7ec3f91aa374acf449eb2759cfe77d373fc72e8c7b",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "67fe041201abe82528e5f5f06461933f9e428b03c39a58e8ed4184057898166d"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "e75a2a10f6af9cab694ba0ed092b085fe2a1f9f17ed4913ce1f545a67bc5dc6f"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/mandel.ssa",
+      "source_sha256": "5f6ddb545e276d159570ea7ec3f91aa374acf449eb2759cfe77d373fc72e8c7b",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "e5ca418688e01ee0146532ea0ee14fd519ee641f00e1586e233b7070205d253d"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "aa85624ca78156117a0eb5945ce97bb42e8cc3fea29127f58d00289c6bcfbe8a"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/mandel.ssa",
+      "source_sha256": "5f6ddb545e276d159570ea7ec3f91aa374acf449eb2759cfe77d373fc72e8c7b",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "309e692f0d587b7b62c4fc32ae74569b2a1cc5f514b8eb8a0ac6340218a787b6"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "48dd19bbb6751a2d99db4c966f5c94ed2b7b653f1a354239759ce454163603b5"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/mandel.ssa",
+      "source_sha256": "5f6ddb545e276d159570ea7ec3f91aa374acf449eb2759cfe77d373fc72e8c7b",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "96d9d7541614acfc41b806f0c26f245908d055c69e8cb898005bb23f84fdc246"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "c96f02e37094a76d8e1b4bb28fb2ccfb9c0bc8b256f2139a8386ba244fe44100"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/queen.ssa",
+      "source_sha256": "414170ef76a28aa2a6e87841bba8a93f8959fe2ebaae3c01a8ab6a015155b90d",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a9b5c4f9568c58fe279bd45e2a497887e7d60c2a5fc0142be7ce640919de7e6d"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "990f865a0a727b76be54172bd6f418ad8de22cce43cb44334f62a08e756e8fc1"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/queen.ssa",
+      "source_sha256": "414170ef76a28aa2a6e87841bba8a93f8959fe2ebaae3c01a8ab6a015155b90d",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "545b1d0a4eec0c813d7cac42e4681b159afbb9c075e90c61a507e34abef9be37"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "0f3bc392effef3afab4e4e7e689c0fc13365d55d42ab16fb8f2df1c386eb9da2"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/queen.ssa",
+      "source_sha256": "414170ef76a28aa2a6e87841bba8a93f8959fe2ebaae3c01a8ab6a015155b90d",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "27d981141d1439fa31435e6d8d7b4f66a2a6f3d319b011ceb66cba43fc34f5f2"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "0e0a7c026640f5282f7bc66ee1d5caa61079b72267025dbbd683d201c02cfcbc"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/queen.ssa",
+      "source_sha256": "414170ef76a28aa2a6e87841bba8a93f8959fe2ebaae3c01a8ab6a015155b90d",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "4adceab55c3ef09494eef7932502fc321d55dfa26bb02aa039ef22e2f6aceacf"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "d459d85f65bde74d6e76f84dfda0551d8907833d589508b3709aeae400651851"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/spill1.ssa",
+      "source_sha256": "7d3300e5a50b700bac4f583c0d9aad897b76340673c89c67a565e3444ea836e6",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "6ef67894a8616f86a7889fdadabcdbcae343be7b96f893d6eedee6668e8d238a"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "0426361bdb2d60c76615ae095c54346e21fb89185f2a7353d20bbef3b1fbc62b"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/spill1.ssa",
+      "source_sha256": "7d3300e5a50b700bac4f583c0d9aad897b76340673c89c67a565e3444ea836e6",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a6f34be5cdf40bbde1d889ea528d2bd7a1a5f03fad8151a29f439b6d63341dd3"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "4dc4fc80297dd0276896257841ffe6765c91397df7926b6b472b3c438ef2171b"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/spill1.ssa",
+      "source_sha256": "7d3300e5a50b700bac4f583c0d9aad897b76340673c89c67a565e3444ea836e6",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "dffae1ec3bfec08b663cc26a3d60c3dbf7383da0bba6683e916d2b1568588875"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "8144e60baee6f08566a64a8d40b1faca41cb82ac77c988a49157b5f6d72f776f"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/spill1.ssa",
+      "source_sha256": "7d3300e5a50b700bac4f583c0d9aad897b76340673c89c67a565e3444ea836e6",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "c53bbeb174b8bcaf9bcda340ade028c0272d8e7973b4024a774ab22c23b8e5d4"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "baa3a85391615317094df824ecce1c4a66a118ff7d78ad2b115ab1412309e5e1"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/strspn.ssa",
+      "source_sha256": "3657178e2a2bc77cdea75d659b440d05f533ee190679d002fc9e17d171d8aefc",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "afaf411319a2ae760f912f2db5f22224b6dac098d119d8a1bfa255be84b4b604"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "8a5d1068185195edc0d025b1e2d735147268600ad065e1fdc0933c21c7e54c6a"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/strspn.ssa",
+      "source_sha256": "3657178e2a2bc77cdea75d659b440d05f533ee190679d002fc9e17d171d8aefc",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "2dfd706f6cd40cd59b5924eb6199eaf1e653412fd27a7f9ed8687b2f08708e6f"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "c83ee603752ba802cb5cfaa72dbb327419a9db63c34818c70cc6622c897c8693"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/strspn.ssa",
+      "source_sha256": "3657178e2a2bc77cdea75d659b440d05f533ee190679d002fc9e17d171d8aefc",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "c1244a1c180df22b7b20e65a65dc1afc0f2da98bcee0aa9a5fb1549cb8859d77"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "2007921355899a993077c2762d7581f9a0a9d9cbb658bae76794cd13c4c471c4"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    },
+    {
+      "input": "third_party/qbe/test/strspn.ssa",
+      "source_sha256": "3657178e2a2bc77cdea75d659b440d05f533ee190679d002fc9e17d171d8aefc",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "77e70ffee5ffdfb9567fd5cb25ac81105830ad52a9a900c63af19fac9fd7ca1d"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "b83f7f7e9ca27a2b425fd67db813fdfde68afd3d281321ee14a3961b49a248d3"
+      },
+      "failure": "AssertionError('assembly bytes differ')"
+    }
+  ],
+  "scope": "Only x86 allocated/optimized assemblies change; all baseline, ARM and RV byte-identical. Correctness is qualified by executable target gates, not textual equivalence."
+}

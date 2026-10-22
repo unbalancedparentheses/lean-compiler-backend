@@ -1,5 +1,6 @@
 import LeanCompilerBackend
 import LeanCompilerBackend.AArch64.Tests
+import LeanCompilerBackend.AMD64.Tests
 import LeanCompilerBackend.Driver.Tests
 import LeanCompilerBackend.CFG.Tests
 import LeanCompilerBackend.Liveness.Tests
@@ -28,6 +29,7 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
 
 def main : IO Unit := do
   AArch64.Tests.run
+  AMD64.Tests.run
   Driver.Tests.run
   CFG.Tests.run
   Liveness.Tests.run

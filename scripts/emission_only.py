@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from amd_leaf_bank import exercise as amd_leaf_bank
 from arm_phi_identity import exercise as arm_phi_identity
 from arm_leaf_bank import exercise as arm_leaf_bank
 from arm_extuw import exercise as arm_extuw
@@ -32,6 +33,8 @@ def main():
             assert result['checks_per_mode'] == result['qbe_checks'] == 0
             assert result['qbe_sha256'] is None and not result['wrong_immediate_detected']
             assert all(status == 'emitted' for status in result['modes'].values())
+            leaf = amd_leaf_bank(LCB,case,run,cc,target,False)
+            assert leaf['executed_checks'] == 0
             normalization(LCB, case, run, cc, target, False, qbe, qtarget)
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)

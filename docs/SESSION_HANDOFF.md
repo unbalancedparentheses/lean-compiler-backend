@@ -19,7 +19,7 @@ cproc rejects three required volatile stores before any backend invocation.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`e7ef407580b7f70044b148f5b0dd6fcd9b74b780ef0cc14b92b7b54472fb18d8`.
+`1fb34f883f3d1b0a8cec71544974df3fc5a9b4a23c7c300a144677eae3e4bcfc`.
 
 [ARM leaf registers](benchmarks/arm-leaf-bank/README.md) admit x16/x17/x8 only
 for bounded call/TLS-free functions. Both native ARM independent ABI matrices,
@@ -39,9 +39,13 @@ about 1.72x original QBE / 3.95x GCC time at the leaf checkpoint.
 same-width same-home transfers. Both native ARM matrices and full Linux ARM gate
 pass; 147 proof reports stay unchanged. Zlib loses another 5,460 text bytes per ARM
 target. Two new quiet timing windows show about 25% less CRC32 time relative to
-leaf, though CRC remains about 1.28–1.29x QBE. Restricted AMD leaf registers and
-ARM indexed loads remain subsequent independently tested candidates. CI through
-f7dd7fc is green; 6d84890 remains in progress at this checkpoint.
+leaf, though CRC remains about 1.28–1.29x QBE. [Restricted AMD leaf registers](benchmarks/amd-leaf-bank/README.md) now use r8/r9
+only when calls/TLS are absent and the actual incoming ABI GP count is at most4.
+Both full x86 gates and fresh units pass; target-configured zlib shrinks672bytes
+and its executed candidate assemblies exactly match this main identity. The
+private stale-unit claim is explicitly retracted; corrected main units were
+rebuilt and executed. ARM indexed loads remain a qualified candidate awaiting
+integration. CI through6d84890 is green;735a572 remains in progress.
 
 [ARM typed extuw](benchmarks/arm-extuw/README.md) omits same-home unsigned
 word extensions only for declared word sources. Both native ARM matrices, full

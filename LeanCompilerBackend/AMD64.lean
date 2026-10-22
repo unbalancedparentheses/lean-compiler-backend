@@ -1,6 +1,6 @@
 /- Baseline Linux/macOS AMD64/System V lowering. ABI reference: pinned QBE amd64/sysv.c.
    Baseline values use unique stack slots; optional allocation uses checked
-   callee-saved GP homes and reusable spill slots (including floating bit patterns). -/
+   target-admitted GP homes and reusable spill slots (including floating bit patterns). -/
 import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Selection
 import LeanCompilerBackend.Allocation
@@ -378,7 +378,7 @@ private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
   | .store width value _ =>
     let (s, r) := match width with | .byte => ("b", "%al") | .half => ("w", "%ax") | .word => ("l", "%eax") | .long => ("q", "%rax")
     -- Materializing the value preserves r10, including TLS resolution.
-    -- Allocated homes remain the original callee-saved registers or spills.
+    -- Allocated homes remain outside the reserved scratch bank.
     return some ((← load c .long "r10" pointer) ++ (← load c width.valueWidth "rax" value) ++
       [s!"\tmov{s} {r}, {offset}(%r10)"])
   | .storeFloat width value _ =>
@@ -398,6 +398,33 @@ private def edge (c : Context) (f : Function) (source target : String) : Except 
     lines := lines ++ [s!"\tmovq -{c.stage+i*8}(%rbp), %rax"] ++ (← store c block.phis[i]!.destination)
   pure lines
 
+private def leafGP : Array String := savedGP ++ #["r8", "r9"]
+
+/-- No explicit calls or TLS materialization in any operand context. -/
+def leafBankEligible (f : Function) : Bool :=
+  let tls := fun v => match v with | Operand.threadSymbol _ => true | _ => false
+  !(f.blocks.any fun b =>
+    b.instructions.any (fun s => s.callSite.isSome || s.operands.any tls) ||
+    b.phis.any (fun p => p.incoming.any (fun (_,v) => tls v)) ||
+    match b.terminator with
+    | .ret (some v) | .branch v .. => tls v
+    | _ => false)
+
+private def parameterArguments (f : Function) : Array CallArgument :=
+  f.parameters.map fun p => { width := p.width, value := Operand.temporary p.name, floating := p.floating, subword := p.subword, environment := p.environment, aggregate := p.aggregate }
+
+/-- Check physical homes independently of allocation. Recompute the incoming ABI
+    plan: an early home write must not overwrite a later named r8/r9 argument.
+    Hidden result pointers and aggregate rollback are included by the ABI plan.
+    Variadic argument banks are saved before any home write. -/
+def checkPhysicalBank (f : Function) (types : Array Info) (bank : Array String) : Except String Unit := do
+  if bank == savedGP then return ()
+  if bank != leafGP then throw "AMD64 physical register bank is not supported"
+  if !leafBankEligible f then throw "AMD64 caller-saved bank requires a call-free TLS-free function"
+  let resultInfo ← f.resultAggregate.mapM (AMD64ABI.find types)
+  let incoming ← plan types (parameterArguments f) (resultInfo.any (·.memory))
+  if incoming.ngp > 4 then throw "AMD64 caller-saved bank overlaps incoming GP arguments"
+
 private def emitFunction (f : Function) (types : Array Info) (locals : List String) (fileId : Nat) (darwin : Bool) (allocate : Bool) : Except String String := do
   validateFunction f true
   Assembly.checkTargetSection darwin f.customSection
@@ -411,13 +438,16 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
       | .error _ => throw "AMD64 System V does not support variadic functions with a used environment parameter"
     else pure f
   let resultInfo ← f.resultAggregate.mapM (AMD64ABI.find types)
-  let params := f.parameters.map fun p => { width := p.width, value := Operand.temporary p.name, floating := p.floating, subword := p.subword, environment := p.environment, aggregate := p.aggregate : CallArgument }
+  let params := parameterArguments f
   let incoming ← plan types params (resultInfo.any (·.memory))
-  let homes ← if allocate then Allocation.allocate f savedGP.size else pure (Allocation.baseline f)
+  let bank := if allocate && leafBankEligible f && incoming.ngp <= 4 then leafGP else savedGP
+  checkPhysicalBank f types bank
+  let homes ← if allocate then Allocation.allocate f bank.size else pure (Allocation.baseline f)
+  let saved := savedGP.extract 0 (min homes.registers savedGP.size)
   let maxPhi := f.blocks.foldl (fun n b => max n b.phis.size) 0
   let mut fixed := (homes.spills + maxPhi)*8
   let savedBase := fixed+8
-  fixed := fixed+homes.registers*8
+  fixed := fixed+saved.size*8
   let resultPointer := fixed + 8
   if resultInfo.any (·.memory) then fixed := fixed+8
   let mut objects := []
@@ -433,14 +463,14 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
   let frame := align (if f.variadic then saveArea else fixed)
   if frame > 1024*1024 then throw "AMD64 frame exceeds 1 MiB"
   -- Lookup-only tables preserve layout order; reversing retains List.lookup first-match behavior.
-  let c : Context := { darwin, slots := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,(i-homes.registerCount+1)*8) else none)).reverse), registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none)).reverse), objects, types, resultPointer, locals, stage := (homes.spills+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
+  let c : Context := { darwin, slots := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,(i-homes.registerCount+1)*8) else none)).reverse), registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,bank[i]!) else none)).reverse), objects, types, resultPointer, locals, stage := (homes.spills+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
   let symbol := Assembly.symbolName darwin f.name
   let mut lines := Assembly.LineBuffer.ofList [f.customSection.map (Assembly.sectionDirective darwin) |>.getD ".text", ".p2align 4"]
   if !darwin then lines := lines ++ [s!".type {symbol}, @function"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
   lines := lines ++ [s!"{symbol}:", "\tpushq %rbp", "\tmovq %rsp, %rbp"]
   if frame != 0 then lines := lines ++ [s!"\tsubq ${frame}, %rsp"]
-  for i in [:homes.registers] do lines := lines ++ [s!"\tmovq %{savedGP[i]!}, -{savedBase+i*8}(%rbp)"]
+  for i in [:saved.size] do lines := lines ++ [s!"\tmovq %{saved[i]!}, -{savedBase+i*8}(%rbp)"]
   if resultInfo.any (·.memory) then lines := lines ++ [s!"\tmovq %rdi, -{resultPointer}(%rbp)"]
   if f.variadic then
     for i in [:6] do lines := lines ++ [s!"\tmovq %{gp[i]!}, -{saveArea-i*8}(%rbp)"]
@@ -514,7 +544,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
           lines := lines ++ (← load c width "rax" value)
           if let some kind := f.resultSubword then lines := lines ++ extend .word kind.extension
           if f.resultFloating then lines := lines ++ [s!"\tmov{if width == .word then "d" else "q"} {reg width "rax"}, %xmm0"]
-      for i in [:homes.registers] do lines := lines ++ [s!"\tmovq -{savedBase+i*8}(%rbp), %{savedGP[i]!}"]
+      for i in [:saved.size] do lines := lines ++ [s!"\tmovq -{savedBase+i*8}(%rbp), %{saved[i]!}"]
       lines := lines ++ ["\tleave", "\tret"]
     | .halt => lines := lines ++ ["\tud2"]
     | .jump target =>

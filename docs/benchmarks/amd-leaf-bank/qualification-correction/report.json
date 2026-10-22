@@ -1,0 +1,22 @@
+{
+  "status": "unit qualification retracted",
+  "reason": "AMD64.Tests build failed at line28. units-expanded.log came from pre-existing lcb-tests and lacks AMD64 suite. Earlier fresh-units-pass claim was incorrect.",
+  "exact_failed_lean_command": "See test-build.log trace; enclosing shell command was not retained, so it cannot be independently reconstructed.",
+  "logs": {
+    "test-build.log": "f84a0e1a641d79c9fac32bd1525a80870c6c80f257475e3237a2bf951468bdaa",
+    "units-expanded.log": "370c22d8bf4831ccbd6cbaa395b8845bf8156f041e0f54c270e5c0bc9214df46",
+    "units.log": "370c22d8bf4831ccbd6cbaa395b8845bf8156f041e0f54c270e5c0bc9214df46",
+    "build.log": "f4194f39cc30837d272cc7a6388a82473be339ecf86eca1064efdbf3982ee14c"
+  },
+  "all_exported_patch_results_match_private_sources": {
+    "LeanCompilerBackend/AMD64.lean": true,
+    "LeanCompilerBackend/AMD64/Tests.lean": true,
+    "Tests.lean": true,
+    "scripts/amd_leaf_bank.py": true
+  },
+  "compiler_identity_check": "compiler source/build identity: consistent",
+  "compiler_snapshot_matches_current_built_lcb": true,
+  "compiler_sha256": "8a14c39ffa867245d2ac21aaf77edd32232c59b5bcd5fc749053e11069ebdde3",
+  "new_amd_units": "not qualified; parent owns corrected main build/test",
+  "old_unit_execution": "existing pre-AMD-suite tests only; not evidence for the added checker cases"
+}

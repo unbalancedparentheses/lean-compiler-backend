@@ -134,6 +134,8 @@ def main():
     fallthrough_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
     from signed_division_one import exercise as signed_one_tests
     signed_one_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
+    from amd_leaf_bank import exercise as amd_leaf_tests
+    amd_leaf_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from amd_word_normalization import exercise as amd_word_tests
     amd_word_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
     from amd_immediates import exercise as amd_immediate_tests

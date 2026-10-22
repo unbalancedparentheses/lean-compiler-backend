@@ -1,0 +1,132 @@
+{
+  "upstream": [
+    {
+      "label": "before-baseline",
+      "command": [
+        "docker",
+        "exec",
+        "-w",
+        "/work/amd-leaf-bank-x86-zlib-review/before-baseline",
+        "lcb-parity-linux",
+        "make",
+        "QEMU_RUN=qemu-x86_64 -L /usr/x86_64-linux-gnu",
+        "-s",
+        "-f",
+        "/work/zlib-benchmark-x86_64/zlib/Makefile",
+        "-o",
+        "static",
+        "teststatic"
+      ],
+      "returncode": 0,
+      "stdout": "hello world\nzlib version 1.3.1 = 0x1310, compile flags = 0xa9\nuncompress(): hello, hello!\ngzread(): hello, hello!\ngzgets() after gzseek:  hello!\ninflate(): hello, hello!\nlarge_inflate(): OK\nafter inflateSync(): hello, hello!\ninflate with dictionary: hello, hello!\n\t\t*** zlib test OK ***\n",
+      "stderr": ""
+    },
+    {
+      "label": "after-baseline",
+      "command": [
+        "docker",
+        "exec",
+        "-w",
+        "/work/amd-leaf-bank-x86-zlib-review/after-baseline",
+        "lcb-parity-linux",
+        "make",
+        "QEMU_RUN=qemu-x86_64 -L /usr/x86_64-linux-gnu",
+        "-s",
+        "-f",
+        "/work/zlib-benchmark-x86_64/zlib/Makefile",
+        "-o",
+        "static",
+        "teststatic"
+      ],
+      "returncode": 0,
+      "stdout": "hello world\nzlib version 1.3.1 = 0x1310, compile flags = 0xa9\nuncompress(): hello, hello!\ngzread(): hello, hello!\ngzgets() after gzseek:  hello!\ninflate(): hello, hello!\nlarge_inflate(): OK\nafter inflateSync(): hello, hello!\ninflate with dictionary: hello, hello!\n\t\t*** zlib test OK ***\n",
+      "stderr": ""
+    },
+    {
+      "label": "before-allocated",
+      "command": [
+        "docker",
+        "exec",
+        "-w",
+        "/work/amd-leaf-bank-x86-zlib-review/before-allocated",
+        "lcb-parity-linux",
+        "make",
+        "QEMU_RUN=qemu-x86_64 -L /usr/x86_64-linux-gnu",
+        "-s",
+        "-f",
+        "/work/zlib-benchmark-x86_64/zlib/Makefile",
+        "-o",
+        "static",
+        "teststatic"
+      ],
+      "returncode": 0,
+      "stdout": "hello world\nzlib version 1.3.1 = 0x1310, compile flags = 0xa9\nuncompress(): hello, hello!\ngzread(): hello, hello!\ngzgets() after gzseek:  hello!\ninflate(): hello, hello!\nlarge_inflate(): OK\nafter inflateSync(): hello, hello!\ninflate with dictionary: hello, hello!\n\t\t*** zlib test OK ***\n",
+      "stderr": ""
+    },
+    {
+      "label": "after-allocated",
+      "command": [
+        "docker",
+        "exec",
+        "-w",
+        "/work/amd-leaf-bank-x86-zlib-review/after-allocated",
+        "lcb-parity-linux",
+        "make",
+        "QEMU_RUN=qemu-x86_64 -L /usr/x86_64-linux-gnu",
+        "-s",
+        "-f",
+        "/work/zlib-benchmark-x86_64/zlib/Makefile",
+        "-o",
+        "static",
+        "teststatic"
+      ],
+      "returncode": 0,
+      "stdout": "hello world\nzlib version 1.3.1 = 0x1310, compile flags = 0xa9\nuncompress(): hello, hello!\ngzread(): hello, hello!\ngzgets() after gzseek:  hello!\ninflate(): hello, hello!\nlarge_inflate(): OK\nafter inflateSync(): hello, hello!\ninflate with dictionary: hello, hello!\n\t\t*** zlib test OK ***\n",
+      "stderr": ""
+    },
+    {
+      "label": "before-optimized",
+      "command": [
+        "docker",
+        "exec",
+        "-w",
+        "/work/amd-leaf-bank-x86-zlib-review/before-optimized",
+        "lcb-parity-linux",
+        "make",
+        "QEMU_RUN=qemu-x86_64 -L /usr/x86_64-linux-gnu",
+        "-s",
+        "-f",
+        "/work/zlib-benchmark-x86_64/zlib/Makefile",
+        "-o",
+        "static",
+        "teststatic"
+      ],
+      "returncode": 0,
+      "stdout": "hello world\nzlib version 1.3.1 = 0x1310, compile flags = 0xa9\nuncompress(): hello, hello!\ngzread(): hello, hello!\ngzgets() after gzseek:  hello!\ninflate(): hello, hello!\nlarge_inflate(): OK\nafter inflateSync(): hello, hello!\ninflate with dictionary: hello, hello!\n\t\t*** zlib test OK ***\n",
+      "stderr": ""
+    },
+    {
+      "label": "after-optimized",
+      "command": [
+        "docker",
+        "exec",
+        "-w",
+        "/work/amd-leaf-bank-x86-zlib-review/after-optimized",
+        "lcb-parity-linux",
+        "make",
+        "QEMU_RUN=qemu-x86_64 -L /usr/x86_64-linux-gnu",
+        "-s",
+        "-f",
+        "/work/zlib-benchmark-x86_64/zlib/Makefile",
+        "-o",
+        "static",
+        "teststatic"
+      ],
+      "returncode": 0,
+      "stdout": "hello world\nzlib version 1.3.1 = 0x1310, compile flags = 0xa9\nuncompress(): hello, hello!\ngzread(): hello, hello!\ngzgets() after gzseek:  hello!\ninflate(): hello, hello!\nlarge_inflate(): OK\nafter inflateSync(): hello, hello!\ninflate with dictionary: hello, hello!\n\t\t*** zlib test OK ***\n",
+      "stderr": ""
+    }
+  ],
+  "payload_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-leaf-bank-x86-zlib-review/execution-payload-report.json",
+  "note": "Correctness checks only; no runtime samples or speed claim."
+}

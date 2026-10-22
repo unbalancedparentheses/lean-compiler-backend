@@ -1,0 +1,741 @@
+{
+  "before_identity": "15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c",
+  "after_identity": "6d04f020fb4465e117645cb3afef287de5a9e88a421048e681d58504ae60672b",
+  "before_sha256": "1f513bdf3933c6a2c4da3e7290621dc1834777d02f31aab103ab41c9b74ae692",
+  "after_sha256": "8a14c39ffa867245d2ac21aaf77edd32232c59b5bcd5fc749053e11069ebdde3",
+  "script_sha256": "dd66a82d91111b31e5c422e0711a3199762fb3da02b2d366caedd57763e8fb19",
+  "macos": {
+    "compiler_sha256": "8a14c39ffa867245d2ac21aaf77edd32232c59b5bcd5fc749053e11069ebdde3",
+    "identity": "6d04f020fb4465e117645cb3afef287de5a9e88a421048e681d58504ae60672b",
+    "script_sha256": "dd66a82d91111b31e5c422e0711a3199762fb3da02b2d366caedd57763e8fb19",
+    "source_sha256": "966b2c88712cb679267bd171fb92fb1c0fc3fa93796c563e7c7f504a8831eeed",
+    "caller_sha256": "dd41287f8e1df199c5da5d4f23a3742f62e68613b56fbbd12d7035ed29c9fead",
+    "target": "x86_64-macos",
+    "modes": {
+      "baseline": {
+        "assembly_sha256": "dfbbc771976f4beb785389e1619b2a11c716f7531d19906be67a90368b20e6ea",
+        "execution": "passed"
+      },
+      "allocated": {
+        "assembly_sha256": "15e37663ec07207a746cbc909e05b2e6051935574fbfdf554fee968b11f87c5b",
+        "execution": "passed",
+        "extra_bank_home_writes": {
+          "pressure": {
+            "8": 1,
+            "9": 1
+          },
+          "gp4": {
+            "8": 1,
+            "9": 1
+          },
+          "hidden": {
+            "8": 1,
+            "9": 1
+          },
+          "blit": {
+            "8": 1,
+            "9": 1
+          },
+          "dynamic": {
+            "8": 1,
+            "9": 1
+          },
+          "frame": {
+            "8": 1,
+            "9": 1
+          },
+          "loop": {
+            "8": 1,
+            "9": 1
+          },
+          "variadic": {
+            "8": 1,
+            "9": 1
+          },
+          "environment_target": {
+            "8": 1,
+            "9": 1
+          },
+          "mixed": {
+            "8": 1,
+            "9": 1
+          },
+          "rollback": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_sb": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_ub": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_sh": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_uh": {
+            "8": 1,
+            "9": 1
+          },
+          "raw_s": {
+            "8": 1,
+            "9": 1
+          },
+          "convert_s": {
+            "8": 1,
+            "9": 1
+          },
+          "raw_d": {
+            "8": 1,
+            "9": 1
+          },
+          "convert_d": {
+            "8": 1,
+            "9": 1
+          }
+        },
+        "extra_bank_occurrences": {
+          "pressure": {
+            "8": 2,
+            "9": 2
+          },
+          "gp4": {
+            "8": 2,
+            "9": 2
+          },
+          "hidden": {
+            "8": 2,
+            "9": 2
+          },
+          "blit": {
+            "8": 2,
+            "9": 2
+          },
+          "dynamic": {
+            "8": 2,
+            "9": 2
+          },
+          "frame": {
+            "8": 2,
+            "9": 2
+          },
+          "loop": {
+            "8": 2,
+            "9": 2
+          },
+          "variadic": {
+            "8": 3,
+            "9": 3
+          },
+          "environment_target": {
+            "8": 2,
+            "9": 2
+          },
+          "mixed": {
+            "8": 2,
+            "9": 2
+          },
+          "rollback": {
+            "8": 3,
+            "9": 3
+          },
+          "subword_sb": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_ub": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_sh": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_uh": {
+            "8": 2,
+            "9": 2
+          },
+          "raw_s": {
+            "8": 2,
+            "9": 2
+          },
+          "convert_s": {
+            "8": 2,
+            "9": 2
+          },
+          "raw_d": {
+            "8": 2,
+            "9": 2
+          },
+          "convert_d": {
+            "8": 2,
+            "9": 2
+          }
+        }
+      },
+      "optimized": {
+        "assembly_sha256": "13a3b526735cc9b444ef166238b6680c067e4de067462d6fb7f682ad7fbefe83",
+        "execution": "passed",
+        "extra_bank_home_writes": {
+          "pressure": {
+            "8": 1,
+            "9": 1
+          },
+          "gp4": {
+            "8": 1,
+            "9": 1
+          },
+          "hidden": {
+            "8": 1,
+            "9": 1
+          },
+          "blit": {
+            "8": 1,
+            "9": 1
+          },
+          "dynamic": {
+            "8": 1,
+            "9": 1
+          },
+          "frame": {
+            "8": 1,
+            "9": 1
+          },
+          "loop": {
+            "8": 1,
+            "9": 1
+          },
+          "variadic": {
+            "8": 1,
+            "9": 1
+          },
+          "environment_target": {
+            "8": 1,
+            "9": 1
+          },
+          "mixed": {
+            "8": 1,
+            "9": 1
+          },
+          "rollback": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_sb": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_ub": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_sh": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_uh": {
+            "8": 1,
+            "9": 1
+          },
+          "raw_s": {
+            "8": 1,
+            "9": 1
+          },
+          "convert_s": {
+            "8": 1,
+            "9": 1
+          },
+          "raw_d": {
+            "8": 1,
+            "9": 1
+          },
+          "convert_d": {
+            "8": 1,
+            "9": 1
+          }
+        },
+        "extra_bank_occurrences": {
+          "pressure": {
+            "8": 2,
+            "9": 2
+          },
+          "gp4": {
+            "8": 2,
+            "9": 2
+          },
+          "hidden": {
+            "8": 2,
+            "9": 2
+          },
+          "blit": {
+            "8": 2,
+            "9": 2
+          },
+          "dynamic": {
+            "8": 2,
+            "9": 2
+          },
+          "frame": {
+            "8": 2,
+            "9": 2
+          },
+          "loop": {
+            "8": 2,
+            "9": 2
+          },
+          "variadic": {
+            "8": 3,
+            "9": 3
+          },
+          "environment_target": {
+            "8": 2,
+            "9": 2
+          },
+          "mixed": {
+            "8": 2,
+            "9": 2
+          },
+          "rollback": {
+            "8": 3,
+            "9": 3
+          },
+          "subword_sb": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_ub": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_sh": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_uh": {
+            "8": 2,
+            "9": 2
+          },
+          "raw_s": {
+            "8": 2,
+            "9": 2
+          },
+          "convert_s": {
+            "8": 2,
+            "9": 2
+          },
+          "raw_d": {
+            "8": 2,
+            "9": 2
+          },
+          "convert_d": {
+            "8": 2,
+            "9": 2
+          }
+        }
+      }
+    },
+    "executed_checks": 18432,
+    "before_sha256": "1f513bdf3933c6a2c4da3e7290621dc1834777d02f31aab103ab41c9b74ae692",
+    "negative_controls": {
+      "calling": {
+        "exit": 4,
+        "status": "detected"
+      },
+      "gp5": {
+        "exit": 4,
+        "status": "detected",
+        "early_home_write_offset": 184,
+        "later_incoming_read_offset": 321
+      },
+      "gp6": {
+        "exit": 4,
+        "status": "detected",
+        "early_home_write_offset": 184,
+        "later_incoming_read_offset": 360
+      }
+    }
+  },
+  "linux": {
+    "compiler_sha256": "8a14c39ffa867245d2ac21aaf77edd32232c59b5bcd5fc749053e11069ebdde3",
+    "identity": "6d04f020fb4465e117645cb3afef287de5a9e88a421048e681d58504ae60672b",
+    "script_sha256": "dd66a82d91111b31e5c422e0711a3199762fb3da02b2d366caedd57763e8fb19",
+    "source_sha256": "966b2c88712cb679267bd171fb92fb1c0fc3fa93796c563e7c7f504a8831eeed",
+    "caller_sha256": "dd41287f8e1df199c5da5d4f23a3742f62e68613b56fbbd12d7035ed29c9fead",
+    "target": "x86_64-linux",
+    "modes": {
+      "baseline": {
+        "assembly_sha256": "3a4e56641e36ab4da976708cd736eb9002a3c931af60f6002717192ac5913c8d",
+        "execution": "passed"
+      },
+      "allocated": {
+        "assembly_sha256": "9012f7aaa48716c0e61902f4c6d50325ebfc4f3245b88a3f4240f86eb84f265b",
+        "execution": "passed",
+        "extra_bank_home_writes": {
+          "pressure": {
+            "8": 1,
+            "9": 1
+          },
+          "gp4": {
+            "8": 1,
+            "9": 1
+          },
+          "hidden": {
+            "8": 1,
+            "9": 1
+          },
+          "blit": {
+            "8": 1,
+            "9": 1
+          },
+          "dynamic": {
+            "8": 1,
+            "9": 1
+          },
+          "frame": {
+            "8": 1,
+            "9": 1
+          },
+          "loop": {
+            "8": 1,
+            "9": 1
+          },
+          "variadic": {
+            "8": 1,
+            "9": 1
+          },
+          "environment_target": {
+            "8": 1,
+            "9": 1
+          },
+          "mixed": {
+            "8": 1,
+            "9": 1
+          },
+          "rollback": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_sb": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_ub": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_sh": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_uh": {
+            "8": 1,
+            "9": 1
+          },
+          "raw_s": {
+            "8": 1,
+            "9": 1
+          },
+          "convert_s": {
+            "8": 1,
+            "9": 1
+          },
+          "raw_d": {
+            "8": 1,
+            "9": 1
+          },
+          "convert_d": {
+            "8": 1,
+            "9": 1
+          }
+        },
+        "extra_bank_occurrences": {
+          "pressure": {
+            "8": 2,
+            "9": 2
+          },
+          "gp4": {
+            "8": 2,
+            "9": 2
+          },
+          "hidden": {
+            "8": 2,
+            "9": 2
+          },
+          "blit": {
+            "8": 2,
+            "9": 2
+          },
+          "dynamic": {
+            "8": 2,
+            "9": 2
+          },
+          "frame": {
+            "8": 2,
+            "9": 2
+          },
+          "loop": {
+            "8": 2,
+            "9": 2
+          },
+          "variadic": {
+            "8": 3,
+            "9": 3
+          },
+          "environment_target": {
+            "8": 2,
+            "9": 2
+          },
+          "mixed": {
+            "8": 2,
+            "9": 2
+          },
+          "rollback": {
+            "8": 3,
+            "9": 3
+          },
+          "subword_sb": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_ub": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_sh": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_uh": {
+            "8": 2,
+            "9": 2
+          },
+          "raw_s": {
+            "8": 2,
+            "9": 2
+          },
+          "convert_s": {
+            "8": 2,
+            "9": 2
+          },
+          "raw_d": {
+            "8": 2,
+            "9": 2
+          },
+          "convert_d": {
+            "8": 2,
+            "9": 2
+          }
+        }
+      },
+      "optimized": {
+        "assembly_sha256": "5d67d5311835a09a4db6f069a8315e66db040c4d2abc6ee4b48bde27a497ae00",
+        "execution": "passed",
+        "extra_bank_home_writes": {
+          "pressure": {
+            "8": 1,
+            "9": 1
+          },
+          "gp4": {
+            "8": 1,
+            "9": 1
+          },
+          "hidden": {
+            "8": 1,
+            "9": 1
+          },
+          "blit": {
+            "8": 1,
+            "9": 1
+          },
+          "dynamic": {
+            "8": 1,
+            "9": 1
+          },
+          "frame": {
+            "8": 1,
+            "9": 1
+          },
+          "loop": {
+            "8": 1,
+            "9": 1
+          },
+          "variadic": {
+            "8": 1,
+            "9": 1
+          },
+          "environment_target": {
+            "8": 1,
+            "9": 1
+          },
+          "mixed": {
+            "8": 1,
+            "9": 1
+          },
+          "rollback": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_sb": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_ub": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_sh": {
+            "8": 1,
+            "9": 1
+          },
+          "subword_uh": {
+            "8": 1,
+            "9": 1
+          },
+          "raw_s": {
+            "8": 1,
+            "9": 1
+          },
+          "convert_s": {
+            "8": 1,
+            "9": 1
+          },
+          "raw_d": {
+            "8": 1,
+            "9": 1
+          },
+          "convert_d": {
+            "8": 1,
+            "9": 1
+          }
+        },
+        "extra_bank_occurrences": {
+          "pressure": {
+            "8": 2,
+            "9": 2
+          },
+          "gp4": {
+            "8": 2,
+            "9": 2
+          },
+          "hidden": {
+            "8": 2,
+            "9": 2
+          },
+          "blit": {
+            "8": 2,
+            "9": 2
+          },
+          "dynamic": {
+            "8": 2,
+            "9": 2
+          },
+          "frame": {
+            "8": 2,
+            "9": 2
+          },
+          "loop": {
+            "8": 2,
+            "9": 2
+          },
+          "variadic": {
+            "8": 3,
+            "9": 3
+          },
+          "environment_target": {
+            "8": 2,
+            "9": 2
+          },
+          "mixed": {
+            "8": 2,
+            "9": 2
+          },
+          "rollback": {
+            "8": 3,
+            "9": 3
+          },
+          "subword_sb": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_ub": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_sh": {
+            "8": 2,
+            "9": 2
+          },
+          "subword_uh": {
+            "8": 2,
+            "9": 2
+          },
+          "raw_s": {
+            "8": 2,
+            "9": 2
+          },
+          "convert_s": {
+            "8": 2,
+            "9": 2
+          },
+          "raw_d": {
+            "8": 2,
+            "9": 2
+          },
+          "convert_d": {
+            "8": 2,
+            "9": 2
+          }
+        }
+      }
+    },
+    "executed_checks": 18432,
+    "before_sha256": "1f513bdf3933c6a2c4da3e7290621dc1834777d02f31aab103ab41c9b74ae692",
+    "negative_controls": {
+      "calling": {
+        "exit": 4,
+        "status": "detected"
+      },
+      "gp5": {
+        "exit": 4,
+        "status": "detected",
+        "early_home_write_offset": 183,
+        "later_incoming_read_offset": 320
+      },
+      "gp6": {
+        "exit": 4,
+        "status": "detected",
+        "early_home_write_offset": 183,
+        "later_incoming_read_offset": 359
+      }
+    }
+  },
+  "execution_modes": {
+    "macos": "Rosetta x86_64 translation on AppleARM",
+    "linux": "QEMU x86_64 user emulation in LinuxARM container"
+  },
+  "units": {
+    "status": "retracted: added AMD64 unit suite did not build",
+    "evidence": "qualification-correction/report.json",
+    "failed_build": "test-build.log",
+    "stale_execution": "units-expanded.log"
+  },
+  "profile": "../profile-x86/report.json",
+  "source_config_ir_binding": "../profile-x86/manifest.json",
+  "input_bindings_postvalidated": true,
+  "workload_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-leaf-bank-x86-zlib-review/report.json",
+  "workload_execution": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-leaf-bank-x86-zlib-review/execution-report.json",
+  "workload_payload": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-leaf-bank-x86-zlib-review/execution-payload-report.json",
+  "payload_guest_host_sha256": "145f8e7792303150cf612b467e9c9cb5c543da75a571dcd3766988c715665d72",
+  "workload_artifact_hashes": "workload-artifact-hashes.json",
+  "historical_qbe": "Original/corrected statuses in retainedtargetreference manifest only; no freshQBEexecution in this campaign",
+  "unqualified_attempt": "zlib-arm-input-refusal.json",
+  "patches": {
+    "amd-leaf-bank-core.patch": "d069ce338ef554cd3b510cfd549de77433a702d9882a1b04e79c34783c1c1f5b",
+    "amd-leaf-bank-units.patch": "8108370f15a1f101b33bb5fad252febf09c94e8915f3ebdb0d448bd95da91a1a",
+    "amd-leaf-bank-tests.patch": "b0311e036bd12b574fd29497d76bd903162d807fc6cccbaf9a3a82bb5043dff6"
+  },
+  "note": "No main edits/commits; no native x86 runtime measurements or proof claims."
+}

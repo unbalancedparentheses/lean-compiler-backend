@@ -94,6 +94,11 @@ allocation across calls, FP banks and machine-level proofs remain open.
 [In-process zlib measurements](docs/benchmarks/zlib-inprocess/README.md) now
 separate API execution from startup/I/O; CRC remains a measured optimization gap.
 
+AMD64 [restricted leaf allocation](docs/benchmarks/amd-leaf-bank/README.md) admits
+r8/r9 for call/TLS-free functions with at most four incoming ABI GP slots. Both
+x86 target gates pass, with target-configured zlib executable qualification and
+672 fewer optimized text bytes. General caller-saved allocation remains open.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
