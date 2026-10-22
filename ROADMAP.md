@@ -48,6 +48,8 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Assembler-dependent octal escapes](docs/benchmarks/octal-escape-boundary/README.md) remain an explicit reference-compatibility boundary. Original QBE forwards raw strings: GNU and Apple differ on overflow and non-octal digits; accepted `\378` has different Linux bytes from LCB. No universal overflow rule was inferred or merged, and reduced exact-length object/C probes retain errors and refusals separately.
+
 [ELF custom TLS and retained sections](docs/benchmarks/elf-custom-sections/README.md) now support explicit writable `awT` thread-data storage and ordinary `R` retention flags. Three-target C/original-QBE matrices verify thread isolation, exact metadata and real linker garbage collection; all three full Linux gates pass. Apple behavior remains unchanged. Additional flag combinations and wider section-name grammar remain separate bounded work.
 
 [Large aggregate ABI copies](docs/benchmarks/large-aggregate-abi/README.md) now use compact exact loops above 128 bytes and admit object layouts through 1 MiB. All five target matrices and three full Linux gates pass; frame/outgoing-area limits still apply. Original QBE comparison reaches 65,537 bytes, while maximum-size guard tests use independent C. No partial-overlap or new proof claim.

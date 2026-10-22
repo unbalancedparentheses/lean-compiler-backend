@@ -6,6 +6,11 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Octal escape boundary](benchmarks/octal-escape-boundary/README.md) now records
+assembler-dependent original-QBE behavior, including the accepted Linux `\378`
+byte discrepancy. Reduced exact-length object/C probes replace an unqualified
+mixed-fixture overread preflight. No compiler/parser change was made.
+
 [ELF custom TLS and retained sections](benchmarks/elf-custom-sections/README.md)
 are integrated on identity `5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e`.
 Fresh build/units and 147 unchanged audit statements pass. Separate TLS/R matrices

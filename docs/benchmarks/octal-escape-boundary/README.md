@@ -1,0 +1,15 @@
+# Octal data-string compatibility probe
+
+Read-only exploration; no compiler change recommended. Unchanged QBE passes quoted data strings through to assembler `.ascii`; its IL data-string grammar does not specify octal overflow or invalid octal-digit semantics.
+
+Final reduced run: `python3 /tmp/lcb-octal-probe/reduced.py`. Five cases × five targets × two compilers = 50 emit attempts; 36 exact raw-object comparisons and bounded independent C executions passed their explicitly labeled expectations. Ten LCB refusals and four Apple original-QBE assembler errors are retained, not passes. All 256 overflow escapes \400 through \777 were tested together between A/Z sentinels: GNU assemblers truncate modulo256 without warnings; Apple assemblers reject them. For `X\4000Y`, GNU emits X/NUL/0/Y; Apple rejects and LCB refuses. For `X\378Y`, GNU original-QBE emits X/NUL/Y (3bytes), whereas LCB on all targets and Apple original-QBE emit X/0x1f/8/Y (4bytes). Both compilers agree on embedded \000 and \377 on every target. Each final C caller reads exactly its independently specified profile length, and runs only after exact object bytes/length match.
+
+This is implementation/toolchain behavior, not evidence of a universal defined QBE overflow contract. Keep current bounded octal restriction; scripts/data_matrix.py already tests rejection of \777. A platform-specific parser behavior change would require an explicit policy and risks changing existing portable semantics.
+
+Initial run.py/report.json are exploratory preflight only: the combined non-octal-digit fixture shrank under GNU, causing its original common-length C comparator to read one byte past the object. Do not cite those C runs. Reduced run isolates all profiles and fixes this issue; original bytes/logs remain intact. Reports include every command and assembler stderr. Linux ARM executes natively in Docker, Linux x86/RV under QEMU, Apple ARM natively and Apple x86 under Rosetta. No timing claims.
+
+The accepted `\378` input produces different bytes under original QBE with GNU assemblers. This remains a Linux reference-compatibility boundary; it is not classified as universally invalid QBE input. The documentation supplies no escape-overflow contract. Overflow refusals and Apple assembler errors remain recorded failures.
+
+`artifacts/` preserves exact IR, per-profile C expectations, assembly, objects and executables. The final report records raw object bytes and expected bytes. `unqualified-preflight/` retains the initial overread comparator and all its artifacts solely as disqualified historical evidence. `reduced-manifest.json` is the original source-location binding; `manifest.json` binds this self-contained publication by relative path.
+
+This published package includes source, exact-byte expectations, commands and reports. Compiled objects/executables remain in the original work directories; `omitted-binaries.json` records their paths and hashes. The accepted Linux `\378` discrepancy remains a reference-compatibility boundary, not a claim that the input is universally invalid.

@@ -1,0 +1,2618 @@
+{
+  "lcb_identity": "a23afe3b4889b9da79c50d5ddf5b7e3e4affe2ba26d1e2c5072ed14c73cbdaaa",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "rows": [
+    {
+      "case": "wide_only",
+      "target": "aarch64-macos",
+      "label": "lcb",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-aarch64-macos-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "wide_only",
+      "target": "aarch64-macos",
+      "label": "qbe",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-aarch64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-aarch64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-aarch64-macos-qbe.o"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-aarch64-macos-qbe.s:5:9: error: invalid octal escape sequence (out of range)\n .ascii \"A\\400\\401\\402\\403\\404\\405\\406\\407\\410\\411\\412\\413\\414\\415\\416\\417\\420\\421\\422\\423\\424\\425\\426\\427\\430\\431\\432\\433\\434\\435\\436\\437\\440\\441\\442\\443\\444\\445\\446\\447\\450\\451\\452\\453\\454\\455\\456\\457\\460\\461\\462\\463\\464\\465\\466\\467\\470\\471\\472\\473\\474\\475\\476\\477\\500\\501\\502\\503\\504\\505\\506\\507\\510\\511\\512\\513\\514\\515\\516\\517\\520\\521\\522\\523\\524\\525\\526\\527\\530\\531\\532\\533\\534\\535\\536\\537\\540\\541\\542\\543\\544\\545\\546\\547\\550\\551\\552\\553\\554\\555\\556\\557\\560\\561\\562\\563\\564\\565\\566\\567\\570\\571\\572\\573\\574\\575\\576\\577\\600\\601\\602\\603\\604\\605\\606\\607\\610\\611\\612\\613\\614\\615\\616\\617\\620\\621\\622\\623\\624\\625\\626\\627\\630\\631\\632\\633\\634\\635\\636\\637\\640\\641\\642\\643\\644\\645\\646\\647\\650\\651\\652\\653\\654\\655\\656\\657\\660\\661\\662\\663\\664\\665\\666\\667\\670\\671\\672\\673\\674\\675\\676\\677\\700\\701\\702\\703\\704\\705\\706\\707\\710\\711\\712\\713\\714\\715\\716\\717\\720\\721\\722\\723\\724\\725\\726\\727\\730\\731\\732\\733\\734\\735\\736\\737\\740\\741\\742\\743\\744\\745\\746\\747\\750\\751\\752\\753\\754\\755\\756\\757\\760\\761\\762\\763\\764\\765\\766\\767\\770\\771\\772\\773\\774\\775\\776\\777Z\"\n        ^\n"
+      }
+    },
+    {
+      "case": "wide_only",
+      "target": "x86_64-macos",
+      "label": "lcb",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-x86_64-macos-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "wide_only",
+      "target": "x86_64-macos",
+      "label": "qbe",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-x86_64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-x86_64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-x86_64-macos-qbe.o"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-x86_64-macos-qbe.s:5:9: error: invalid octal escape sequence (out of range)\n .ascii \"A\\400\\401\\402\\403\\404\\405\\406\\407\\410\\411\\412\\413\\414\\415\\416\\417\\420\\421\\422\\423\\424\\425\\426\\427\\430\\431\\432\\433\\434\\435\\436\\437\\440\\441\\442\\443\\444\\445\\446\\447\\450\\451\\452\\453\\454\\455\\456\\457\\460\\461\\462\\463\\464\\465\\466\\467\\470\\471\\472\\473\\474\\475\\476\\477\\500\\501\\502\\503\\504\\505\\506\\507\\510\\511\\512\\513\\514\\515\\516\\517\\520\\521\\522\\523\\524\\525\\526\\527\\530\\531\\532\\533\\534\\535\\536\\537\\540\\541\\542\\543\\544\\545\\546\\547\\550\\551\\552\\553\\554\\555\\556\\557\\560\\561\\562\\563\\564\\565\\566\\567\\570\\571\\572\\573\\574\\575\\576\\577\\600\\601\\602\\603\\604\\605\\606\\607\\610\\611\\612\\613\\614\\615\\616\\617\\620\\621\\622\\623\\624\\625\\626\\627\\630\\631\\632\\633\\634\\635\\636\\637\\640\\641\\642\\643\\644\\645\\646\\647\\650\\651\\652\\653\\654\\655\\656\\657\\660\\661\\662\\663\\664\\665\\666\\667\\670\\671\\672\\673\\674\\675\\676\\677\\700\\701\\702\\703\\704\\705\\706\\707\\710\\711\\712\\713\\714\\715\\716\\717\\720\\721\\722\\723\\724\\725\\726\\727\\730\\731\\732\\733\\734\\735\\736\\737\\740\\741\\742\\743\\744\\745\\746\\747\\750\\751\\752\\753\\754\\755\\756\\757\\760\\761\\762\\763\\764\\765\\766\\767\\770\\771\\772\\773\\774\\775\\776\\777Z\"\n        ^\n"
+      }
+    },
+    {
+      "case": "wide_only",
+      "target": "aarch64-linux",
+      "label": "lcb",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-aarch64-linux-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "wide_only",
+      "target": "aarch64-linux",
+      "label": "qbe",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-aarch64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/wide_only-aarch64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/wide_only-aarch64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/octal-readonly-probe-reduced/wide_only-aarch64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/wide_only-aarch64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/wide_only-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/octal-readonly-probe-reduced/wide_only-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "wide_only",
+      "target": "x86_64-linux",
+      "label": "lcb",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-x86_64-linux-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "wide_only",
+      "target": "x86_64-linux",
+      "label": "qbe",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_sysv",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-x86_64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/wide_only-x86_64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/wide_only-x86_64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/wide_only-x86_64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/wide_only-x86_64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/wide_only-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/wide_only-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "wide_only",
+      "target": "riscv64-linux",
+      "label": "lcb",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-riscv64-linux-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "wide_only",
+      "target": "riscv64-linux",
+      "label": "qbe",
+      "expected_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "rv64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only-riscv64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/wide_only.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/wide_only-riscv64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/wide_only-riscv64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "41000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff5a",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/wide_only-riscv64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/wide_only-riscv64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/wide_only-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-riscv64",
+          "-L",
+          "/usr/riscv64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/wide_only-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "aarch64-macos",
+      "label": "lcb",
+      "expected_hex": "581f3859",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-lcb.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "581f3859",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-lcb.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-lcb.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "aarch64-macos",
+      "label": "qbe",
+      "expected_hex": "581f3859",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "581f3859",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-qbe.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-qbe.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "x86_64-macos",
+      "label": "lcb",
+      "expected_hex": "581f3859",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-lcb.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "581f3859",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-lcb.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-lcb.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+      },
+      "execute": {
+        "command": [
+          "arch",
+          "-x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "x86_64-macos",
+      "label": "qbe",
+      "expected_hex": "581f3859",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "581f3859",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-qbe.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-qbe.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+      },
+      "execute": {
+        "command": [
+          "arch",
+          "-x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "aarch64-linux",
+      "label": "lcb",
+      "expected_hex": "581f3859",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "581f3859",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "aarch64-linux",
+      "label": "qbe",
+      "expected_hex": "580059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "x86_64-linux",
+      "label": "lcb",
+      "expected_hex": "581f3859",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "581f3859",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "x86_64-linux",
+      "label": "qbe",
+      "expected_hex": "580059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_sysv",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "riscv64-linux",
+      "label": "lcb",
+      "expected_hex": "581f3859",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "581f3859",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-riscv64",
+          "-L",
+          "/usr/riscv64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "non_octal_digit",
+      "target": "riscv64-linux",
+      "label": "qbe",
+      "expected_hex": "580059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "rv64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/non_octal_digit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-riscv64",
+          "-L",
+          "/usr/riscv64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/non_octal_digit-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "aarch64-macos",
+      "label": "lcb",
+      "expected_hex": "58003059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-aarch64-macos-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "aarch64-macos",
+      "label": "qbe",
+      "expected_hex": "58003059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-aarch64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-aarch64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-aarch64-macos-qbe.o"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-aarch64-macos-qbe.s:5:9: error: invalid octal escape sequence (out of range)\n .ascii \"X\\4000Y\"\n        ^\n"
+      }
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "x86_64-macos",
+      "label": "lcb",
+      "expected_hex": "58003059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-x86_64-macos-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "x86_64-macos",
+      "label": "qbe",
+      "expected_hex": "58003059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-x86_64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-x86_64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-x86_64-macos-qbe.o"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-x86_64-macos-qbe.s:5:9: error: invalid octal escape sequence (out of range)\n .ascii \"X\\4000Y\"\n        ^\n"
+      }
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "aarch64-linux",
+      "label": "lcb",
+      "expected_hex": "58003059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-aarch64-linux-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "aarch64-linux",
+      "label": "qbe",
+      "expected_hex": "58003059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-aarch64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-aarch64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-aarch64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58003059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-aarch64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-aarch64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "x86_64-linux",
+      "label": "lcb",
+      "expected_hex": "58003059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-x86_64-linux-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "x86_64-linux",
+      "label": "qbe",
+      "expected_hex": "58003059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_sysv",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-x86_64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-x86_64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-x86_64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58003059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-x86_64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-x86_64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "riscv64-linux",
+      "label": "lcb",
+      "expected_hex": "58003059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-riscv64-linux-lcb.s"
+        ],
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa: line 1 near '}': octal string escape exceeds one byte\n"
+      }
+    },
+    {
+      "case": "three_digit_limit",
+      "target": "riscv64-linux",
+      "label": "qbe",
+      "expected_hex": "58003059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "rv64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit-riscv64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/three_digit_limit.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-riscv64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-riscv64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58003059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-riscv64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-riscv64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-riscv64",
+          "-L",
+          "/usr/riscv64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/three_digit_limit-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "aarch64-macos",
+      "label": "lcb",
+      "expected_hex": "580059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-lcb.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-lcb.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-lcb.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "aarch64-macos",
+      "label": "qbe",
+      "expected_hex": "580059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-qbe.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-qbe.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "x86_64-macos",
+      "label": "lcb",
+      "expected_hex": "580059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-lcb.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-lcb.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-lcb.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+      },
+      "execute": {
+        "command": [
+          "arch",
+          "-x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "x86_64-macos",
+      "label": "qbe",
+      "expected_hex": "580059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-qbe.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-qbe.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+      },
+      "execute": {
+        "command": [
+          "arch",
+          "-x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "aarch64-linux",
+      "label": "lcb",
+      "expected_hex": "580059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "aarch64-linux",
+      "label": "qbe",
+      "expected_hex": "580059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-aarch64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/octal-readonly-probe-reduced/nul-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "x86_64-linux",
+      "label": "lcb",
+      "expected_hex": "580059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "x86_64-linux",
+      "label": "qbe",
+      "expected_hex": "580059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_sysv",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-x86_64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/nul-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "riscv64-linux",
+      "label": "lcb",
+      "expected_hex": "580059",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-riscv64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-riscv64",
+          "-L",
+          "/usr/riscv64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "nul",
+      "target": "riscv64-linux",
+      "label": "qbe",
+      "expected_hex": "580059",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "rv64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul-riscv64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/nul.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "580059",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-riscv64",
+          "-L",
+          "/usr/riscv64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/nul-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "aarch64-macos",
+      "label": "lcb",
+      "expected_hex": "58ff59",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-lcb.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-lcb.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-lcb.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "aarch64-macos",
+      "label": "qbe",
+      "expected_hex": "58ff59",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-qbe.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-qbe.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "x86_64-macos",
+      "label": "lcb",
+      "expected_hex": "58ff59",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-lcb.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-lcb.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-lcb.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+      },
+      "execute": {
+        "command": [
+          "arch",
+          "-x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "x86_64-macos",
+      "label": "qbe",
+      "expected_hex": "58ff59",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-qbe.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-qbe.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+      },
+      "execute": {
+        "command": [
+          "arch",
+          "-x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-macos-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "aarch64-linux",
+      "label": "lcb",
+      "expected_hex": "58ff59",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "aarch64-linux",
+      "label": "qbe",
+      "expected_hex": "58ff59",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "arm64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-aarch64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "/work/octal-readonly-probe-reduced/max_byte-aarch64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "x86_64-linux",
+      "label": "lcb",
+      "expected_hex": "58ff59",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "x86_64-linux",
+      "label": "qbe",
+      "expected_hex": "58ff59",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "amd64_sysv",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-x86_64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/max_byte-x86_64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "riscv64-linux",
+      "label": "lcb",
+      "expected_hex": "58ff59",
+      "oracle_profile": "octal digit interpretation",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-aggregate-main",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-riscv64-linux-lcb.s"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-lcb.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-lcb.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-lcb.c",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-lcb.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-riscv64",
+          "-L",
+          "/usr/riscv64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-lcb"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    },
+    {
+      "case": "max_byte",
+      "target": "riscv64-linux",
+      "label": "qbe",
+      "expected_hex": "58ff59",
+      "oracle_profile": "GNU assembler pass-through",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "rv64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte-riscv64-linux-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/octal-readonly-probe-reduced/max_byte.ssa"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "assemble": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "-c",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-qbe.s",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-qbe.o"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "object_hex": "58ff59",
+      "object_matches": true,
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-qbe.c",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-qbe.o",
+          "-o",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execute": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-riscv64",
+          "-L",
+          "/usr/riscv64-linux-gnu",
+          "/work/octal-readonly-probe-reduced/max_byte-riscv64-linux-qbe"
+        ],
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "runtime_matches": true
+    }
+  ]
+}
