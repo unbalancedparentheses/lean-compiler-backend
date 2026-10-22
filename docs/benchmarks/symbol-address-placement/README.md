@@ -58,8 +58,9 @@ its report is preserved rather than presented as an equivalence pass.
 
 All three Linux target gates pass: native ARM and QEMU x86/RV, each with 58
 original executable drivers and 17 assembly-only fixtures per backend. Full host
-gate is still running at this checkpoint; the independent five-target matrix
-above already passed. Emission-only integration passes. The full target gates
+gate now also passes: native Apple ARM, Rosetta Apple x86, and emission-only
+Linux wrappers. The separate native/emulated Linux gates above execute their
+respective targets. Emission-only integration passes. The full target gates
 also exercise existing global-address, TLS, calls, loops and fresh-name tests.
 
 The [fresh zlib replay](zlib/README.md) passes six upstream examples and 72 exact

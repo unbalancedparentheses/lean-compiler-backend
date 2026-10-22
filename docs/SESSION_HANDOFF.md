@@ -33,8 +33,8 @@ entry hoisting elsewhere at eight addresses. The 512-global disjoint-use stress
 case drops from 515 live values / 502 spills to 4 / 0; this is not a universal
 pressure bound. All five independent target matrices pass 8,320 C checks and
 five corruption controls. All three Linux gates, fresh strict units, emission
-checks and unchanged 147-report audit pass. Full host gate is still running at
-this checkpoint. Fresh zlib replay passes; all 102 assembly pairs are unchanged.
+checks and unchanged 147-report audit pass. Full host gate also passes (native Apple ARM, Rosetta Apple x86, emission-only
+Linux wrappers). Fresh zlib replay passes; all 102 assembly pairs are unchanged.
 
 [Indexed-load diagnostics](benchmarks/arm-indexed-load/diagnostics/README.txt)
 now retain two targeted object-hybrid windows. Both reproduce the slowdown;
