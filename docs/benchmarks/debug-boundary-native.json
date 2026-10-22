@@ -1,0 +1,230 @@
+{
+  "schema": 1,
+  "compiler_identity": "4469809638285e6dd88609ede9cfdbe4247378755084b9c57ef4e99212b1360a",
+  "compiler_sha256": "8c4c8d0ddf318f9d1fc19ad87ad5b1f78f7967db9ed3b32084401dfab34236cf",
+  "original_qbe_binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "source_sha256": "17f53ea762b267d37dbddcb89dc4ad31a301b9f38de6b083d044b07543499fa1",
+  "host_platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "source_debug_records": 70000,
+  "backends": {
+    "lcb": {
+      "name": "lcb",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-snapshot",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/input.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb.s"
+        ],
+        "exit": 0,
+        "seconds": 5.730733291013166,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-emit.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-emit.stderr"
+      },
+      "assembly_sha256": "e4fbc1f5e8c94e7bf2cea84270998104d103ffaa1a82f63e3ba8b253dc5e4a4b",
+      "loc_count": 70000,
+      "loc_min": 1,
+      "loc_max": 70000,
+      "loc_exact_1_through_70000": true,
+      "assemble": {
+        "command": [
+          "clang",
+          "-g",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb.o"
+        ],
+        "exit": 0,
+        "seconds": 1.018871832988225,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-assemble.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-assemble.stderr"
+      },
+      "link": {
+        "command": [
+          "clang",
+          "-g",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb"
+        ],
+        "exit": 0,
+        "seconds": 0.05906158301513642,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-link.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-link.stderr"
+      },
+      "execute": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb"
+        ],
+        "exit": 0,
+        "seconds": 0.2540137500036508,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-execute.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-execute.stderr"
+      },
+      "dsym": {
+        "command": [
+          "xcrun",
+          "dsymutil",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb.dSYM"
+        ],
+        "exit": 0,
+        "seconds": 0.030720415990799665,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-dsym.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-dsym.stderr"
+      },
+      "object_dwarf": {
+        "command": [
+          "xcrun",
+          "dwarfdump",
+          "--debug-line",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb.o"
+        ],
+        "exit": 0,
+        "seconds": 0.03729420795571059,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-object_dwarf.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-object_dwarf.stderr",
+        "rows": 70001,
+        "max_line": 70000,
+        "has_final_line_70000": true
+      },
+      "linked_dwarf": {
+        "command": [
+          "xcrun",
+          "dwarfdump",
+          "--debug-line",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb.dSYM"
+        ],
+        "exit": 0,
+        "seconds": 0.02040154195856303,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-linked_dwarf.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/lcb-linked_dwarf.stderr",
+        "rows": 0,
+        "max_line": null,
+        "has_final_line_70000": false
+      },
+      "object_sha256": "5ac650ee35ba3b4dc5384c5674032411235878b5cf3a2a643d7369b4ba8f1a8d",
+      "executable_sha256": "fafc20ea750feceb287fc00b5b19fb60235b01b1ba397cae05156986d9483414",
+      "dsym_no_debug_symbols_warning": true,
+      "object_line_qualification": true
+    },
+    "qbe": {
+      "name": "qbe",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-snapshot",
+          "-t",
+          "arm64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/input.ssa"
+        ],
+        "exit": 0,
+        "seconds": 1.6394305829890072,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-emit.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-emit.stderr"
+      },
+      "assembly_sha256": "d4a1561557bfaae4be99c1ee5d7a9c1ea13d47e059aa969e68a145a231fc0e0c",
+      "loc_count": 70000,
+      "loc_min": 1,
+      "loc_max": 70000,
+      "loc_exact_1_through_70000": true,
+      "assemble": {
+        "command": [
+          "clang",
+          "-g",
+          "-c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe.o"
+        ],
+        "exit": 0,
+        "seconds": 0.0982844170066528,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-assemble.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-assemble.stderr"
+      },
+      "link": {
+        "command": [
+          "clang",
+          "-g",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe.o",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe"
+        ],
+        "exit": 0,
+        "seconds": 0.0575646249926649,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-link.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-link.stderr"
+      },
+      "execute": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe"
+        ],
+        "exit": 0,
+        "seconds": 0.34931000001961365,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-execute.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-execute.stderr"
+      },
+      "dsym": {
+        "command": [
+          "xcrun",
+          "dsymutil",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe.dSYM"
+        ],
+        "exit": 0,
+        "seconds": 0.024720292014535517,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-dsym.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-dsym.stderr"
+      },
+      "object_dwarf": {
+        "command": [
+          "xcrun",
+          "dwarfdump",
+          "--debug-line",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe.o"
+        ],
+        "exit": 0,
+        "seconds": 0.03739816602319479,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-object_dwarf.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-object_dwarf.stderr",
+        "rows": 70001,
+        "max_line": 70000,
+        "has_final_line_70000": true
+      },
+      "linked_dwarf": {
+        "command": [
+          "xcrun",
+          "dwarfdump",
+          "--debug-line",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe.dSYM"
+        ],
+        "exit": 0,
+        "seconds": 0.018803709011990577,
+        "stdout_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-linked_dwarf.stdout",
+        "stderr_file": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/debug-boundary-native-review/qbe-linked_dwarf.stderr",
+        "rows": 0,
+        "max_line": null,
+        "has_final_line_70000": false
+      },
+      "object_sha256": "e17598050effe5116705959da505956b5bbd6d94ecc538972f496d5df2e30d9a",
+      "executable_sha256": "d31eeb17e7f3d57fca03f08bd23f115dc90b0071dec303f6a2d3fc4a17bf270a",
+      "dsym_no_debug_symbols_warning": true,
+      "object_line_qualification": true
+    }
+  },
+  "status": "passed_object_line_qualification",
+  "notes": [
+    "Unchanged identical input is supplied to LCB baseline and original QBE.",
+    "LCB must preserve every .loc directive; original QBE optimization may retain fewer directives, so its coverage is reported separately.",
+    "DWARF line rows inspected in native object files and linked executable dSYM bundles.",
+    "LCB object line table contains final line70000; dsymutil reports no debug symbols and linked dSYM has no line table. This is recorded separately from object DWARF qualification.",
+    "Original QBE has the same no-debug-symbols dsymutil warning and empty linked dSYM line table; this experiment does not establish an LCB-specific dSYM regression."
+  ],
+  "harness_sha256": "0620219eb4db246f53cde28bfb12dee649cf9c43978d9e965061c1d3a39fe44f"
+}

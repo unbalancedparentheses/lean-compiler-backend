@@ -8,12 +8,43 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`810b573be417b6b0783220fb69a31e8451bb2deef970ff48d2e8030b2984a90f`.
+`4469809638285e6dd88609ede9cfdbe4247378755084b9c57ef4e99212b1360a`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
 caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
+
+## Debug records and instruction budgets
+
+Debug directives no longer consume the instruction/phi allowance. Previously,
+70,000 copies with one `dbgloc` each failed halfway through parsing, although
+original QBE admitted the unchanged input. Parsing now has a separate token-based
+iteration bound and explicitly checks the instruction/phi count. New boundary
+cases cover 70,000 copies with debug records, 70,001 rejection, phi accounting,
+trailing debug records and implicit fallthrough; phi-after-debug stays rejected.
+[Native validation](benchmarks/debug-boundary-native.json) confirms that both
+LCB and original QBE preserve all 70,000 `.loc` directives, retain the final line
+in object DWARF and run successfully. Both yield an empty linked dSYM without
+a debug compile unit; this does not establish a LCB-specific dSYM regression.
+The normal fixture corpus still emits 1,305 byte-identical assemblies and retains
+15 identical refusals. The complete local regression gate and proof audit pass.
+This does not change the certified profile.
+
+The [current large-structure comparison](benchmarks/large-struct-65537-timed.json)
+retains compiler, harness and original-QBE hashes and separates compile/link,
+IR emission and execution timings. The unchanged 65,537-byte structure workload
+passes GCC O0/O2, original QBE and all LCB modes. On this single concurrent run,
+ARM64 emission took 9.941 s baseline, 10.856 s allocated, 60.770 s optimized and
+2.452 s original QBE. Optimized compilation is still substantially slower;
+execution timings include Docker launch overhead and are too short for a runtime
+performance conclusion.
+
+[Additional original-QBE cross-checks](benchmarks/large-struct-65537-cross-original-qbe.json)
+match the same checksum on x86 with default linking and RV64 with explicit
+`-no-pie`. Original RV64's default-link relocation failure is retained separately;
+all LCB cross-target runs use default linking. These checks use unchanged QBE,
+not the corrected oracle.
 
 ## Compiler scaling without emission changes
 
@@ -73,9 +104,13 @@ matches, eight GCC O0 timeouts and one 16,384-instruction admission refusal
 [the same complete 32-seed batch](benchmarks/csmith-amd-cap-32.json) yields 24
 common matches / 268,328 IR lines, eight reference timeouts and no LCB failures.
 The previously refused 43,227-line program now matches GCC O0/O2 and unchanged
-original QBE with checksum `534A8C01` in all three LCB modes. The corrupted-return
+original QBE with checksum `534A8C01` in baseline and optimized LCB modes. The corrupted-return
 control is detected. Replayed seeds are not new independent random samples.
-No new proof scope.
+A separate [fresh x86 batch](benchmarks/csmith-x86-cap-fresh-32.json), seeds
+20267000–20267031, qualifies 24 common cases / 238,899 IR lines against GCC O0/O2 and
+unchanged QBE, with baseline and optimized LCB matching. Eight GCC reference
+timeouts remain excluded; the corrupted-return control is detected. No new
+proof scope.
 
 ## RV64 adjacent memory offsets and cross-target generated C
 
@@ -299,7 +334,7 @@ original QBE and all three LCB modes with checksum `154a4b0ba4aa02e0`. Pinned
 cproc expands these assignments into scalar loads/stores, so this is separate
 from direct blit qualification. The unchanged 65537-byte workload now passes GCC O0/O2, original QBE and all
 three LCB modes with checksum `b424c67700bbdde0`; see
-[the current-identity report](benchmarks/large-struct-65537-qualified.json).
+[the initial cap qualification](benchmarks/large-struct-65537-qualified.json).
 The same unchanged IR also executes correctly in all three modes under
 [RV64/QEMU](benchmarks/large-struct-65537-rv.json) and
 [x86/QEMU](benchmarks/large-struct-65537-x86.json). These cross-target runs use

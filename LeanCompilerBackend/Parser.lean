@@ -354,7 +354,9 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
   let mut phis := #[]
   let mut instructions := #[]
   let mut debugLocations := #[]
-  for _ in [:limit] do
+  -- Debug directives consume tokens, but are not IR instructions.
+  let cursor ← get
+  for _ in [:cursor.tokens.size - cursor.position + 1] do
     if (← peek) == some "dbgloc" then
       discard take
       let some line := (← take).toNat? | failAt "expected nonnegative debug line"
@@ -392,6 +394,8 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
         -- QBE permits fallthrough when the next label begins a new block.
         return (phis, instructions, .jump (String.ofList token.toList.tail), debugLocations)
       else
+        if phis.size + instructions.size >= limit - 1 then
+          failAt "instruction parsing limit exceeded"
         let definition ← if let some width := storeWidth token then
           Sum.inr <$> parseStore width
         else if token == "stores" || token == "stored" then do

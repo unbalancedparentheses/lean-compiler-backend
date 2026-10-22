@@ -110,6 +110,30 @@ int main(void) {
                 f' ret %v{count-1}\n}}\n')
             if count==70000: run([LCB,'--check',source])
             else: reject([LCB,'--check',source],'70000-instruction/phi limit')
+        # Debug locations consume tokens, not the instruction/phi allowance.
+        # Unique SSA names keep these focused on parsing and admission.
+        def debug_copies(count):
+            return ''.join(f' dbgloc {i+1}\n %v{i} =w copy {i}\n' for i in range(count))
+        header='dbgfile "boundary.c"\nfunction w $debug_limit() {\n@entry\n'
+        for count in [70000,70001]:
+            text=header+debug_copies(count)+f' dbgloc {count+1}\n ret %v{count-1}\n}}\n'
+            # This generated subset has only '=' punctuation adjacent to text.
+            assert len(text.replace('=', ' = ').split())<600000
+            source.write_text(text)
+            if count==70000: run([LCB,'--check',source])
+            else: reject([LCB,'--check',source],'instruction parsing limit exceeded')
+        # A phi counts toward the same 70000-definition bound, while the entry
+        # terminator and final debug record do not count as definitions.
+        source.write_text(header+' jmp @body\n@body\n %initial =w phi @entry 1\n'+
+            debug_copies(69999)+' dbgloc 70000\n ret %v69998\n}\n')
+        run([LCB,'--check',source])
+        # Fallthrough terminates a full block without consuming another slot.
+        source.write_text(header+debug_copies(70000)+
+            ' dbgloc 70001\n@tail\n ret %v69999\n}\n')
+        run([LCB,'--check',source])
+        source.write_text(header+' jmp @body\n@body\n dbgloc 1\n'+
+            ' %initial =w phi @entry 1\n ret %initial\n}\n')
+        reject([LCB,'--check',source],'phi definitions must precede ordinary instructions')
         # Each data definition has six fixed tokens: data, name, =, {, b, }.
         # Sixteen definitions with 37494 byte initializers each total exactly
         # 600000 tokens, below individual initializer and module data limits.

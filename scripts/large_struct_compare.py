@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 import os
+import platform
 from pathlib import Path
 import re
 import shutil
@@ -80,36 +81,60 @@ def main():
     assert not sizes,'re-audit the comparison if this pinned frontend begins emitting blit'
     qbesrc=work/'qbe-host'
     if not qbesrc.exists():shutil.copytree(ROOT/'third_party/qbe',qbesrc)
+    pinned=ROOT/'third_party/qbe'
+    qbe_sources={str(p.relative_to(pinned)):hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in pinned.rglob('*') if p.suffix in ('.c','.h') and p.name!='config.h'}
+    def check_qbe_sources():
+        assert all(hashlib.sha256((qbesrc/name).read_bytes()).hexdigest()==digest
+            for name,digest in qbe_sources.items()),'private QBE source differs from pinned original'
+    check_qbe_sources()
+    command(['make','-C',qbesrc,'clean'])
     command(['make','-C',qbesrc,'-j4','CC='+os.environ.get('LCB_CC','cc'),'CFLAGS=-std=c99 -O2'])
+    check_qbe_sources()
     report={'schema':1,'program':'generated large-struct C assignment regression','target':'aarch64-linux',
         'execution':docker(['uname','-a']).stdout.strip(),'compiler_identity':command([compiler,'--build-identity']).stdout.strip(),
+        'compiler_sha256':hashlib.sha256(compiler.read_bytes()).hexdigest(),
+        'harness_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'host_platform':platform.platform(),'host_machine':platform.machine(),
+        'c_compiler':docker(['gcc','--version']).stdout.strip(),
+        'qbe_version':'1.3 (unchanged pinned source)','qbe_source_sha256':qbe_sources,
+        'qbe_binary_sha256':hashlib.sha256((qbesrc/'qbe').read_bytes()).hexdigest(),
         'cproc_commit':CPROC,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
         'ir_sha256':hashlib.sha256(ir.read_bytes()).hexdigest(),'ir_lines':len(ir.read_text().splitlines()),
         'payload_bytes':args.payload_bytes,'blit_sizes':sizes,'copy_strategy':'cproc scalar load/store expansion; this is not direct blit qualification','backends':{},'notes':['Same unchanged generated C source is compiled directly by GCC O0/O2.',
         'LCB baseline/allocated/optimized and original QBE consume byte-identical cproc IR.',
         'Pointer arguments remain scalar; this does not enlarge the aggregate-call ABI domain.',
-        'Original QBE is retained unchanged; no corrected oracle is needed for this regression.']}
+        'Original QBE is retained unchanged; no corrected oracle is needed for this regression.',
+        'seconds measures executable wall time. build_seconds measures per-backend compile plus link, including host/guest assembly synchronization; GCC combines C compilation and linking.',
+        'emission_seconds measures only the QBE/LCB IR compiler invocation. Refused builds record time until refusal, without linking.',
+        'Timing excludes frontend generation and toolchain builds; these are single observations under concurrent load, not benchmark distributions.']}
     expected=None
     for label in ['gcc-O0','gcc-O2','baseline','allocated','optimized','qbe']:
         exe=work/label
+        build_start=time.monotonic();emission_seconds=None
         if label.startswith('gcc-'):
             docker(['gcc','-'+label.split('-')[1],inside(source),'-o',inside(exe)])
         else:
             asm=work/(label+'.s')
+            emission_start=time.monotonic()
             compiled=command([qbesrc/'qbe','-t','arm64','-o',asm,ir] if label=='qbe' else
                 [compiler,ir,'--target','aarch64-linux',*({'baseline':[],'allocated':['--allocate'],'optimized':['--optimize']}[label]),'-o',asm],check=False)
+            emission_seconds=time.monotonic()-emission_start
             if compiled.returncode:
                 assert args.allow_resource_refusal and label!='qbe' and '500000-token compatibility limit' in compiled.stderr,(label,compiled.stderr)
-                report['backends'][label]={'qualified':False,'phase':'admission','diagnostic':compiled.stderr.strip()}
+                report['backends'][label]={'qualified':False,'phase':'admission','diagnostic':compiled.stderr.strip(),
+                    'build_seconds':time.monotonic()-build_start,'emission_seconds':emission_seconds}
                 print(f'large struct {label}: token-budget refusal retained as unqualified',flush=True)
                 continue
             host_file(asm,base,args.docker_container)
             docker(['gcc',inside(asm),'-o',inside(exe)])
+        build_seconds=time.monotonic()-build_start
         start=time.monotonic();result=docker([inside(exe)]);elapsed=time.monotonic()-start
         if expected is None:expected=result.stdout
         assert result.stdout==expected,(label,result.stdout,expected)
-        report['backends'][label]={'qualified':True,'stdout':result.stdout.strip(),'seconds':elapsed,'size':docker(['size',inside(exe)]).stdout.strip(),
+        report['backends'][label]={'qualified':True,'stdout':result.stdout.strip(),'seconds':elapsed,'build_seconds':build_seconds,'size':docker(['size',inside(exe)]).stdout.strip(),
             'executable_sha256':docker(['sha256sum',inside(exe)]).stdout.split()[0]}
+        if emission_seconds is not None: report['backends'][label]['emission_seconds']=emission_seconds
         print(f'large struct {label}: 16 patterned copies, local/global assignments and guards passed: {result.stdout.strip()}',flush=True)
     if args.allow_resource_refusal:
         assert any(not v['qualified'] for v in report['backends'].values()),'resource refusal no longer applies; update the qualification'
