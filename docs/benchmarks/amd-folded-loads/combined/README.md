@@ -1,0 +1,9 @@
+# Actual combined-main AMD folded-load qualification
+
+Final compiler e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e combines AMD normalization deletion and the separately qualified data-catalog limit change. Predecessor is210a515a. Immutable snapshots are copied by the runner; exact source/helper/hook/QBE/runner pre/post bindings and guest-host artifact barriers are retained. No compiler builds/source edits or timing measurements in this replay.
+
+Both AMD targets pass before/after all3modes against independent raw-byte C oracles:128functions/2048checks per LCB execution; originalQBE legal-displacement subset112functions/1792checks. Wrong-signedness mutation is detected. Signed/unsigned widths,FP32/64rawbits,pressure,debug/shared-use exclusions,signed32displacement boundaries, outside-bound fallback and exact-width guard-page ends are covered. Rosetta and LinuxQEMU are explicitly the execution modes. Emission-only missing-tool guards, default emission CLI and explicit Rosetta CLI pass. OriginalQBE out-of-range displacement refusal remains in the private precursor evidence, not counted as a reference pass here.
+
+Zlib17target-configured units:102before/after assembly pairs pass exact-deletion audit; all204assemblies bridge byte-for-byte to corresponding private qualified snapshots. Each AMD target optimized889self-copies removed/text-1745B; allocated1276/text-2578B; baseline unchanged. Object text includes assembler branch relaxation/alignment. Fresh LinuxQEMU6examples+72exactGCC/Pythonstreams pass; Appleworkload objects only. No speed claim.
+
+Current corpus:1275identicalassemblies+15identicalrefusals;30AMDallocated/optimized changed outputs contain exactly34expectedself-copy deletions. Every baseline/nonAMD output unchanged. Raw comparator's intended byte-difference failures are retained alongside the exhaustive structural audit.

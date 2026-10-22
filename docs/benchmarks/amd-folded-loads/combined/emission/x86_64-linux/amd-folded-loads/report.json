@@ -1,0 +1,83 @@
+{
+  "identity": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e",
+  "compiler_sha256": "6e3110034d5f324b3b9a55fd74fa43385cf6123e6a905383b770cd18892b30fb",
+  "helper_sha256": "cc07876e4bc2614d7fc8478bc3a10501115f9581a7960575f8713a05628dfc63",
+  "source_sha256": "7dd6c7d9edddc2636a8a3986f16b05594120d9a5a901bca646db907717c6db91",
+  "caller_sha256": "065a46ca112a67c55a2f32c3db9019d4a7d460eecb94e40111736b7c1d32bbb4",
+  "target": "x86_64-linux",
+  "functions": 128,
+  "checks_per_execution": 2048,
+  "rows": [
+    {
+      "label": "baseline",
+      "assembly_sha256": "7131da1f03199ba5ed7c0b54d7565f21d0387dfb5948d4440ecb2c81db023e5b",
+      "execution": "not-run"
+    },
+    {
+      "label": "allocated",
+      "assembly_sha256": "c526a68ec3d9a41a41e0116f1ff1c85b7c79f9879109fec03e81600d114ed32b",
+      "execution": "not-run"
+    },
+    {
+      "label": "optimized",
+      "assembly_sha256": "5e2e8933fbdb5d0b11b0f185d6aa8f9c3f7df0414a551312ea3fe05b5521ae84",
+      "execution": "not-run"
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/emission/x86_64-linux/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/emission/x86_64-linux/amd-folded-loads/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/emission/x86_64-linux/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/emission/x86_64-linux/amd-folded-loads/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/emission/x86_64-linux/amd-folded-loads/input.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-folded-main-review/emission/x86_64-linux/amd-folded-loads/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

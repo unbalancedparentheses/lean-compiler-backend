@@ -1,0 +1,639 @@
+{
+  "status": "passed",
+  "raw_comparator_status": "failed",
+  "identical_assemblies": 1275,
+  "identical_refusals": 15,
+  "changed": [
+    {
+      "input": "tests/regressions/qbe-storew-overlapping-load.ssa",
+      "source_sha256": "9a05327351a7f2f0512fa6a4bfbb9d1454539b07a553cea95c74cc53ccc3eae2",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "fe19edf488c30eceed4a4c1605bb62ea8946c74a7ea6e69d7ad2400d9063e137"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "7c7f4145b62a8b5adb0ea20bf98b29b2ac140c7f7d436f2370cdab2d30358756"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "tests/regressions/qbe-storew-overlapping-load.ssa",
+      "source_sha256": "9a05327351a7f2f0512fa6a4bfbb9d1454539b07a553cea95c74cc53ccc3eae2",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "fe19edf488c30eceed4a4c1605bb62ea8946c74a7ea6e69d7ad2400d9063e137"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "7c7f4145b62a8b5adb0ea20bf98b29b2ac140c7f7d436f2370cdab2d30358756"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "tests/regressions/qbe-storew-overlapping-load.ssa",
+      "source_sha256": "9a05327351a7f2f0512fa6a4bfbb9d1454539b07a553cea95c74cc53ccc3eae2",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "45a0e4309102d8bf0cdd429754e64f65548b0a1f316c05e1aedff60fc6509857"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "73b8dd3adb1c5e9ca2aa52f9795f18bbd7b41af634927403d5f3e42d8586e5e7"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "tests/regressions/qbe-storew-overlapping-load.ssa",
+      "source_sha256": "9a05327351a7f2f0512fa6a4bfbb9d1454539b07a553cea95c74cc53ccc3eae2",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "45a0e4309102d8bf0cdd429754e64f65548b0a1f316c05e1aedff60fc6509857"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "73b8dd3adb1c5e9ca2aa52f9795f18bbd7b41af634927403d5f3e42d8586e5e7"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "source_sha256": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "c7b7ea339ed600d35961afe71c4b1787c31f7fdf26cfb10bff47cfc2a0da449e"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a859692cd886b038832f2c3405403ab5da8fe33eda962f1c7d661a467e367d3b"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "source_sha256": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "ed33465af3e1bd4d1c4d04686115595c1c9c1e1e4bc0d5589a21c937353a18a4"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "d1def57f500c43a5f9f2fb61ad452613fca0a4a0374da01da7c793eb63c5961d"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/_load-elim.ssa",
+      "source_sha256": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "157a54798a62e15f467d447e950845e9a6f16b6b4196a91f4d4f291734438a18"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "b18e2655de0b4052065ab6b4fbf86484189e29d5e9df2f345031fab75d4dbb1a"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 2
+    },
+    {
+      "input": "third_party/qbe/test/_load-elim.ssa",
+      "source_sha256": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "157a54798a62e15f467d447e950845e9a6f16b6b4196a91f4d4f291734438a18"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "b18e2655de0b4052065ab6b4fbf86484189e29d5e9df2f345031fab75d4dbb1a"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 2
+    },
+    {
+      "input": "third_party/qbe/test/_load-elim.ssa",
+      "source_sha256": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "0ba545e5ad39cca1484c2fc9535b6f5e1afa490a360fd69bd985f72af2aafe52"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "4f613a1986dd1ae7682199943948a0a5db47d23449df6400260ef83d6b727438"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 2
+    },
+    {
+      "input": "third_party/qbe/test/_load-elim.ssa",
+      "source_sha256": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "0ba545e5ad39cca1484c2fc9535b6f5e1afa490a360fd69bd985f72af2aafe52"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "4f613a1986dd1ae7682199943948a0a5db47d23449df6400260ef83d6b727438"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 2
+    },
+    {
+      "input": "third_party/qbe/test/abi2.ssa",
+      "source_sha256": "7164037f72c213a348f5ab580e63f3f6924f92f179d9b5f647691dda0e00dc30",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "ae18a13f0b92c82c9aa00a0d4e224c9e58636730564d859dcf1ca04d075f286c"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "9f1c2ec6342746fe3ec5da0b794d4fe2151410196f25bd3de91f14d970216b84"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/abi2.ssa",
+      "source_sha256": "7164037f72c213a348f5ab580e63f3f6924f92f179d9b5f647691dda0e00dc30",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "ae18a13f0b92c82c9aa00a0d4e224c9e58636730564d859dcf1ca04d075f286c"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "9f1c2ec6342746fe3ec5da0b794d4fe2151410196f25bd3de91f14d970216b84"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/abi2.ssa",
+      "source_sha256": "7164037f72c213a348f5ab580e63f3f6924f92f179d9b5f647691dda0e00dc30",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "7b1bf57e90dc350786e55585f447469e5aa6d2a460bd87d66d153ac6d19fcbae"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "6cd96b6bce4173640443f9ae542145e878f134d57a7a52da9e6fa706ec56b2ff"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/abi2.ssa",
+      "source_sha256": "7164037f72c213a348f5ab580e63f3f6924f92f179d9b5f647691dda0e00dc30",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "7b1bf57e90dc350786e55585f447469e5aa6d2a460bd87d66d153ac6d19fcbae"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "6cd96b6bce4173640443f9ae542145e878f134d57a7a52da9e6fa706ec56b2ff"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/abi5.ssa",
+      "source_sha256": "38fb92ec37f473dc2ea64d150004c18e45ec2f1b79e9a3c5c260750ba84055ff",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "00b3b6bf06cbb06458a783ba51a25af5070cffc2acd8286b20c2a15e45af3a12"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "ff84fd103e86d736cf2ae9f3c8a93aed99ee5d7d1ee5bae87796d12fb55608a7"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/abi5.ssa",
+      "source_sha256": "38fb92ec37f473dc2ea64d150004c18e45ec2f1b79e9a3c5c260750ba84055ff",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "dce647f26362dbf5afea8844f05bef52e753a97f9f40b88cf326633f64fde102"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "56c8ed2ead5a29c65a7f0ce15bec841421b1af145b121a50083465e945bdb1f5"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/abi5.ssa",
+      "source_sha256": "38fb92ec37f473dc2ea64d150004c18e45ec2f1b79e9a3c5c260750ba84055ff",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "eaad274c4bbd314663de95c53e86d7d8d7e1a27c87243fd9402d4fa874516052"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "35cd6f1231a89c4884778e6bccfbfe07d63e89953cb59cadc2b6dca2dc9d5929"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/abi5.ssa",
+      "source_sha256": "38fb92ec37f473dc2ea64d150004c18e45ec2f1b79e9a3c5c260750ba84055ff",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a2cc64d68165a1671839328e43eb77b135812bfbab474ca326571b1125207250"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "d6c0e02f94cc05e53ef877efd9cc3ec9b187eece8da5bf034e3211aaf20386f3"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/conaddr.ssa",
+      "source_sha256": "49941972ad1ca03a76ff6c4bf8e85f9c2e91517b1e3b4e414234d35cee8c43f1",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "e4d48a41953d9f2e4990bbddef85a9737d7584350874ab69bcc4cd2fd35404bc"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "23e34059d14101e859268c52506e9876eb06a9f773554531300c2d7d580bf6ac"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/conaddr.ssa",
+      "source_sha256": "49941972ad1ca03a76ff6c4bf8e85f9c2e91517b1e3b4e414234d35cee8c43f1",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "7370d7bbd3c702c290a21e160c64f24491fa942cc64816a524a8767114e75e17"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "4a997c6adeaa4d1ff3b150a40bbfdc82a90357057c66fb339e16363781188b1b"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/conaddr.ssa",
+      "source_sha256": "49941972ad1ca03a76ff6c4bf8e85f9c2e91517b1e3b4e414234d35cee8c43f1",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "34947f0dc5a2044b81f3b9fb007a4282d5ed95db1ea2de3130060703f3d4215a"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "9f29a681883fc4dfe7d4af966ea5acf472f3ec67f4f6ed6b584ba0450b922f7d"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/conaddr.ssa",
+      "source_sha256": "49941972ad1ca03a76ff6c4bf8e85f9c2e91517b1e3b4e414234d35cee8c43f1",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "f138ce63b35207516ec6b368af342cbbd04e3e1499b381085d53a3673660ad0b"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "14029272ac660721c462c12511623b3a8a87017c9061d3758f87de76ee138ee7"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/load3.ssa",
+      "source_sha256": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "0e7d2fc3c576d886ef2ce960b63ec0b5fa0c8300b4d373319ab610cdabcaf401"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "743b41f170ea9a6db5384914c396b1ade03d889d18c5b6e629d04d1f673006f0"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/load3.ssa",
+      "source_sha256": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "0e7d2fc3c576d886ef2ce960b63ec0b5fa0c8300b4d373319ab610cdabcaf401"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "743b41f170ea9a6db5384914c396b1ade03d889d18c5b6e629d04d1f673006f0"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/load3.ssa",
+      "source_sha256": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "8f9f8586048c307ed15daeaccb2f0c6db317273a11113274fd2c2dd9bb435069"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "c5fa7a35d49e68138910250881500033d69b27db0041fe1cdedad11a0131e03f"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/load3.ssa",
+      "source_sha256": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "8f9f8586048c307ed15daeaccb2f0c6db317273a11113274fd2c2dd9bb435069"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "c5fa7a35d49e68138910250881500033d69b27db0041fe1cdedad11a0131e03f"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/mem2.ssa",
+      "source_sha256": "95e7b786aa8205555700b7003a1c0e2cfcd9774cc2560df80ddb47e4abd5d3e4",
+      "target": "x86_64-macos",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "8bb4e0b201ca0eb0870eb85139dc55a17bbf5c57942f7c64490d5b525fca7665"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "84121be9d64e3bc45bd4f512c0369d599a77167dd825dfe2678f0cfcb614e5bf"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/mem2.ssa",
+      "source_sha256": "95e7b786aa8205555700b7003a1c0e2cfcd9774cc2560df80ddb47e4abd5d3e4",
+      "target": "x86_64-macos",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "8bb4e0b201ca0eb0870eb85139dc55a17bbf5c57942f7c64490d5b525fca7665"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "84121be9d64e3bc45bd4f512c0369d599a77167dd825dfe2678f0cfcb614e5bf"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/mem2.ssa",
+      "source_sha256": "95e7b786aa8205555700b7003a1c0e2cfcd9774cc2560df80ddb47e4abd5d3e4",
+      "target": "x86_64-linux",
+      "mode": "allocated",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a2fa0033ac04503a5fa6a3ef27b601072c977f6c713968e8fb626edadbea77e8"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "797f2e4118db03ac4c66b57a6953d416341f911c2e98f8a4f5287c6b01164015"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    },
+    {
+      "input": "third_party/qbe/test/mem2.ssa",
+      "source_sha256": "95e7b786aa8205555700b7003a1c0e2cfcd9774cc2560df80ddb47e4abd5d3e4",
+      "target": "x86_64-linux",
+      "mode": "optimized",
+      "status": "failed",
+      "before": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "a2fa0033ac04503a5fa6a3ef27b601072c977f6c713968e8fb626edadbea77e8"
+      },
+      "after": {
+        "exit": 0,
+        "stdout": "",
+        "stderr": "",
+        "assembly_sha256": "797f2e4118db03ac4c66b57a6953d416341f911c2e98f8a4f5287c6b01164015"
+      },
+      "failure": "AssertionError('assembly bytes differ')",
+      "deleted_redundant_normalizations": 1
+    }
+  ],
+  "scope": "Every difference is exactly deletion of redundant EAX self-copy after displacement word load. All baseline and nonAMD bytes unchanged."
+}

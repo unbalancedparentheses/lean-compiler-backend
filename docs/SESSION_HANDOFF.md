@@ -11,14 +11,16 @@ deferred at the user’s request and is not a current completion blocker.
 passes fresh units, 147 unchanged audit statements and all five actual-main
 matrices: 92,175 LCB object checks, 51,210 original-QBE checks, 65 rejection/budget
 controls and five corrupted-final-object controls. The unchanged cproc catalog
-also passes all three ARM modes. Full Linux gates, actual AMD/zlib replay and
-fresh QBE/cproc builds are running; final full host gate follows. No timing claim.
+also passes all three ARM modes. Actual combined AMD/zlib replay and corpus audit also pass: 102 audited pairs,
+204 private/main assembly matches, six examples and 72 exact streams. Full Linux
+gates and fresh QBE/cproc builds are running; final full host gate follows. No timing claim.
 
 [AMD64 folded loads](benchmarks/amd-folded-loads/README.md) remove redundant EAX
 self-copies after word loads. Integrated identity `7e441df0` exactly matches the
 qualified private candidate; fresh main build, units and 147 unchanged audit
 statements pass. Both AMD matrices, zlib and corpus delta audit pass privately.
-Combined-main replay and full gates are next; no runtime speed claim.
+Combined-main replay now passes as recorded above; full gates are running.
+No runtime speed claim.
 
 [ELF assembler profiles](benchmarks/elf-section-assembler-profiles/README.md) correct
 the GNU-only section-name expectation that failed both Linux Clang CI jobs.

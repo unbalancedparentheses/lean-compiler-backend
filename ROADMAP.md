@@ -25,7 +25,8 @@ load are diagnostic only. Proof scope remains unchanged.
 [AMD64 folded loads](docs/benchmarks/amd-folded-loads/README.md) omit redundant
 word normalization. Both AMD targets pass private independent tests; zlib loses
 1,745 optimized text bytes per target. Fresh main units and unchanged proof
-audit pass on the exact qualified source; combined replay/full gates follow.
+audit pass on the exact qualified source. Combined e095ed59 replay, corpus and
+fresh zlib checks also pass; complete regression gates/CI are running.
 
 [Data-definition admission](docs/benchmarks/data-definition-limit/README.md) now
 allows 4,096 globals, covering frontend-generated message catalogs that exceeded
