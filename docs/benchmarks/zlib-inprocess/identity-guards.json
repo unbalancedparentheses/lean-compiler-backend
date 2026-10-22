@@ -1,0 +1,12 @@
+{
+  "binary": {
+    "exit": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/work/zlib-inprocess-identity-guards/binary/probe.py\", line 10, in <module>\n    for label in labels:assert sha(root/label/'driver')==manifest['backends'][label]['executable_sha256'],label\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: leaf\n",
+    "before_execution": true
+  },
+  "payload": {
+    "exit": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/work/zlib-inprocess-identity-guards/payload/probe.py\", line 11, in <module>\n    for p,h in manifest['payload_hashes'].items():assert sha(root/p)==h,p\n                                                         ^^^^^^^^^^^^^^\nAssertionError: random.bin\n",
+    "before_execution": true
+  }
+}

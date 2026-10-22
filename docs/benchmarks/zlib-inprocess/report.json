@@ -1,0 +1,330 @@
+{
+  "status": "passed",
+  "runs": {
+    "first": {
+      "work": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-inprocess-leaf",
+      "compiler_identities": {
+        "extuw": "5ce9e7a3011f06f269e630fb6685db716de6a9d5850c99f4dedc6df83dcfc8fa",
+        "leaf": "e68cba4f67d269e10062a4382a16bf6c551d2ad38ccdde0d14f65580b37ca5fd"
+      },
+      "compiler_hashes": {
+        "extuw": "8cd66c28eef69a0e22176779ffb4bd0ab602c76ca2b64ccca0d457fb6c3bb6d5",
+        "leaf": "dba7c313efbc21bc0723e2cf7319c1101e52eca4556ecb271b1986d083d0ec35"
+      },
+      "driver_hashes": {
+        "qbe-original": "f8b21e14dccb8ce0dc8fa3b9811207a999970cbe7a3a5b97d0eac3d47a909964",
+        "qbe-corrected": "c7c161823aea2388c0bc015dd940fe1826a394bb0aa590db1faab2725c394b02",
+        "gcc": "aefee11cdc36e6e5a94797ec83987e4d032f40a32315e37be3900d482f1cd08d",
+        "extuw": "9dbcbab897329f25efc14de6ef228ef4c7c41d03010f1b2daefdc3e77cc80ea5",
+        "leaf": "48c7a43af0281c7f66c96137a7e606bff395b21725e92e17ec84053297849577"
+      },
+      "raw_samples": 135,
+      "cpu": 0,
+      "payloads": [
+        {
+          "name": "empty",
+          "path": "empty.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "timed": false
+        },
+        {
+          "name": "byte-range",
+          "path": "byte-range.bin",
+          "bytes": 4096,
+          "sha256": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+          "timed": false
+        },
+        {
+          "name": "repeated",
+          "path": "repeated.bin",
+          "bytes": 270336,
+          "sha256": "cff145c5ad3d3ec01897823e86a13785ac8398eea25dd284d8a2d422d220f9bb",
+          "timed": true
+        },
+        {
+          "name": "random",
+          "path": "random.bin",
+          "bytes": 262144,
+          "sha256": "6917187aefba099df2fef2b9b8e89c80b98f83dbf32375ed16ab7d527dd921fc",
+          "timed": true
+        },
+        {
+          "name": "mixed",
+          "path": "mixed.bin",
+          "bytes": 172032,
+          "sha256": "79ed5bd99e5a777bcecc968dd60cb6997eb6178caa8857c84bf65ad0a3561a7b",
+          "timed": true
+        }
+      ],
+      "summaries": {
+        "repeated": {
+          "compress": {
+            "leaf_extuw_ratio": 0.9934712289583131,
+            "paired_bootstrap95": [
+              0.9684983585959266,
+              1.0004672715726937
+            ],
+            "paired_cv": 0.016792435024976522
+          },
+          "uncompress": {
+            "leaf_extuw_ratio": 0.9958763406554603,
+            "paired_bootstrap95": [
+              0.9836761547471362,
+              1.0060998114235666
+            ],
+            "paired_cv": 0.01389231803796126
+          },
+          "crc32": {
+            "leaf_extuw_ratio": 1.0054664869049563,
+            "paired_bootstrap95": [
+              0.9867399354174948,
+              1.0167526191840504
+            ],
+            "paired_cv": 0.017831686342157396
+          }
+        },
+        "random": {
+          "compress": {
+            "leaf_extuw_ratio": 0.908159657732872,
+            "paired_bootstrap95": [
+              0.894512937672731,
+              0.9186476228573476
+            ],
+            "paired_cv": 0.02639330075941719
+          },
+          "uncompress": {
+            "leaf_extuw_ratio": 0.9995600778403445,
+            "paired_bootstrap95": [
+              0.9956159982939037,
+              1.0067237890014116
+            ],
+            "paired_cv": 0.0046918469767718764
+          },
+          "crc32": {
+            "leaf_extuw_ratio": 0.9980234850214222,
+            "paired_bootstrap95": [
+              0.9899028897732404,
+              1.0075909073205709
+            ],
+            "paired_cv": 0.01381004195375769
+          }
+        },
+        "mixed": {
+          "compress": {
+            "leaf_extuw_ratio": 0.9821739197861931,
+            "paired_bootstrap95": [
+              0.9723721590208773,
+              0.9885461339390659
+            ],
+            "paired_cv": 0.010467153348288443
+          },
+          "uncompress": {
+            "leaf_extuw_ratio": 1.0111697763492027,
+            "paired_bootstrap95": [
+              0.9886181656148029,
+              1.0139374781947625
+            ],
+            "paired_cv": 0.011366263680706947
+          },
+          "crc32": {
+            "leaf_extuw_ratio": 1.0007341061079695,
+            "paired_bootstrap95": [
+              0.9902017244131165,
+              1.0281758078272532
+            ],
+            "paired_cv": 0.01776392029304385
+          }
+        }
+      }
+    },
+    "qualified": {
+      "work": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-inprocess-leaf-qualified",
+      "compiler_identities": {
+        "extuw": "5ce9e7a3011f06f269e630fb6685db716de6a9d5850c99f4dedc6df83dcfc8fa",
+        "leaf": "15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c"
+      },
+      "compiler_hashes": {
+        "extuw": "8cd66c28eef69a0e22176779ffb4bd0ab602c76ca2b64ccca0d457fb6c3bb6d5",
+        "leaf": "1f513bdf3933c6a2c4da3e7290621dc1834777d02f31aab103ab41c9b74ae692"
+      },
+      "driver_hashes": {
+        "qbe-original": "f8b21e14dccb8ce0dc8fa3b9811207a999970cbe7a3a5b97d0eac3d47a909964",
+        "qbe-corrected": "c7c161823aea2388c0bc015dd940fe1826a394bb0aa590db1faab2725c394b02",
+        "gcc": "aefee11cdc36e6e5a94797ec83987e4d032f40a32315e37be3900d482f1cd08d",
+        "extuw": "9dbcbab897329f25efc14de6ef228ef4c7c41d03010f1b2daefdc3e77cc80ea5",
+        "leaf": "48c7a43af0281c7f66c96137a7e606bff395b21725e92e17ec84053297849577"
+      },
+      "raw_samples": 135,
+      "cpu": 0,
+      "payloads": [
+        {
+          "name": "empty",
+          "path": "empty.bin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "timed": false
+        },
+        {
+          "name": "byte-range",
+          "path": "byte-range.bin",
+          "bytes": 4096,
+          "sha256": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+          "timed": false
+        },
+        {
+          "name": "repeated",
+          "path": "repeated.bin",
+          "bytes": 270336,
+          "sha256": "cff145c5ad3d3ec01897823e86a13785ac8398eea25dd284d8a2d422d220f9bb",
+          "timed": true
+        },
+        {
+          "name": "random",
+          "path": "random.bin",
+          "bytes": 262144,
+          "sha256": "6917187aefba099df2fef2b9b8e89c80b98f83dbf32375ed16ab7d527dd921fc",
+          "timed": true
+        },
+        {
+          "name": "mixed",
+          "path": "mixed.bin",
+          "bytes": 172032,
+          "sha256": "79ed5bd99e5a777bcecc968dd60cb6997eb6178caa8857c84bf65ad0a3561a7b",
+          "timed": true
+        }
+      ],
+      "summaries": {
+        "repeated": {
+          "compress": {
+            "leaf_extuw_ratio": 0.9953424706855784,
+            "paired_bootstrap95": [
+              0.9676580894583052,
+              1.0043467313937635
+            ],
+            "paired_cv": 0.018734192501456953,
+            "leaf_ns_per_call": 872992.91902834,
+            "leaf_gcc_ratio": 2.290273199972268,
+            "leaf_original_qbe_ratio": 0.9199660420222477,
+            "leaf_corrected_qbe_ratio": 0.9178519900350902
+          },
+          "uncompress": {
+            "leaf_extuw_ratio": 0.9940947663667208,
+            "paired_bootstrap95": [
+              0.9624494946757018,
+              1.009495390555235
+            ],
+            "paired_cv": 0.029054795678714232,
+            "leaf_ns_per_call": 130989.60570824525,
+            "leaf_gcc_ratio": 1.3219311595185284,
+            "leaf_original_qbe_ratio": 0.9581854633797199,
+            "leaf_corrected_qbe_ratio": 0.963165281725805
+          },
+          "crc32": {
+            "leaf_extuw_ratio": 1.0024959463763974,
+            "paired_bootstrap95": [
+              0.9915308206080982,
+              1.0091829645889103
+            ],
+            "paired_cv": 0.007039849883959058,
+            "leaf_ns_per_call": 134117.5183759188,
+            "leaf_gcc_ratio": 3.973797660326501,
+            "leaf_original_qbe_ratio": 1.7249456735257624,
+            "leaf_corrected_qbe_ratio": 1.722145418044895
+          }
+        },
+        "random": {
+          "compress": {
+            "leaf_extuw_ratio": 0.9077180367951078,
+            "paired_bootstrap95": [
+              0.8818302491479245,
+              0.9314163688058718
+            ],
+            "paired_cv": 0.023312437246870467,
+            "leaf_ns_per_call": 4754036.46875,
+            "leaf_gcc_ratio": 1.5784435940431951,
+            "leaf_original_qbe_ratio": 0.993609099369562,
+            "leaf_corrected_qbe_ratio": 0.9692812816683342
+          },
+          "uncompress": {
+            "leaf_extuw_ratio": 1.0117078645790525,
+            "paired_bootstrap95": [
+              0.9375295913121493,
+              1.0312307958463045
+            ],
+            "paired_cv": 0.04661370998087957,
+            "leaf_ns_per_call": 66652.23525377229,
+            "leaf_gcc_ratio": 1.0391285660632668,
+            "leaf_original_qbe_ratio": 0.9250506599099134,
+            "leaf_corrected_qbe_ratio": 0.939517547447377
+          },
+          "crc32": {
+            "leaf_extuw_ratio": 1.0005690550336341,
+            "paired_bootstrap95": [
+              0.9924076354703172,
+              1.0042097165753634
+            ],
+            "paired_cv": 0.006102595444413684,
+            "leaf_ns_per_call": 130082.79763113367,
+            "leaf_gcc_ratio": 3.9782473293049323,
+            "leaf_original_qbe_ratio": 1.72262671129884,
+            "leaf_corrected_qbe_ratio": 1.7269779316776468
+          }
+        },
+        "mixed": {
+          "compress": {
+            "leaf_extuw_ratio": 0.9780100203329715,
+            "paired_bootstrap95": [
+              0.97375547638587,
+              0.9906384968524673
+            ],
+            "paired_cv": 0.010872089326924014,
+            "leaf_ns_per_call": 785512.20703125,
+            "leaf_gcc_ratio": 1.9973154306703123,
+            "leaf_original_qbe_ratio": 0.8923487715747255,
+            "leaf_corrected_qbe_ratio": 0.8930020657552452
+          },
+          "uncompress": {
+            "leaf_extuw_ratio": 0.99285911734255,
+            "paired_bootstrap95": [
+              0.9622691274247782,
+              1.0379559482525758
+            ],
+            "paired_cv": 0.03130912002478398,
+            "leaf_ns_per_call": 218157.08146964858,
+            "leaf_gcc_ratio": 1.4585756386817232,
+            "leaf_original_qbe_ratio": 1.2441109112960806,
+            "leaf_corrected_qbe_ratio": 1.232794752462375
+          },
+          "crc32": {
+            "leaf_extuw_ratio": 1.0024021068500013,
+            "paired_bootstrap95": [
+              0.9973750122088899,
+              1.0064203870432067
+            ],
+            "paired_cv": 0.007191938791598097,
+            "leaf_ns_per_call": 85449.87761441292,
+            "leaf_gcc_ratio": 3.9295624544679715,
+            "leaf_original_qbe_ratio": 1.7282496304432209,
+            "leaf_corrected_qbe_ratio": 1.7263856412562855
+          }
+        }
+      }
+    }
+  },
+  "qualifications": [
+    "All runtimes are native ARM Linux VM on pinned guest CPU0, not general cross-platform speed claims.",
+    "First e68 source and release15ce differ only by compiler source comments; source identities and actual binary hashes are retained separately.",
+    "First run independently postvalidated485files; final run validates485files on both host/guest before and after correctness and timing, with report digest barriers.",
+    "Clock intervals include batched API calls and tiny common loop bookkeeping, exclude startup and file/pipe I/O.",
+    "Both runs match on random and mixed compression improvements; other7 API/payload confidence intervals include1.",
+    "Bootstrap intervals describe nine paired local observations, not a proof of universal speedup."
+  ],
+  "driver_bytes_identical_across_runs": {
+    "qbe-original": true,
+    "qbe-corrected": true,
+    "gcc": true,
+    "extuw": true,
+    "leaf": true
+  }
+}
