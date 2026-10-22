@@ -19,7 +19,10 @@ parity and two overlapping it. Longer batches did not eliminate variability.
 slowdown in two targeted windows and localize its largest signal to `deflate.o`.
 Deflate-only is about 6.1–6.3% slower; trees-only stays near parity. Layout/cache
 controls shift about 2%, so this does not prove individual-instruction latency.
-Two exact function-body mixtures are correctness-qualified but not yet timed.
+Two [function-mixture windows](diagnostics/function-timings-v2/README.md) now
+complete all provenance checks: longest_match-only stays near parity, while the
+rest of deflate retains a slowdown. The failed first summary attempt is retained
+as unqualified; both successful windows use a corrected, separately bound protocol.
 The regression remains unresolved. Repeated/mixed CRC medians improve with intervals below parity
 in all four windows. All raw windows, separate protocols and summaries are retained.
 

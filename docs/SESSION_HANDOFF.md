@@ -40,7 +40,9 @@ Linux wrappers). Fresh zlib replay passes; all 102 assembly pairs are unchanged.
 now retain two targeted object-hybrid windows. Both reproduce the slowdown;
 deflate-only is about 6.1–6.3% slower, trees-only near parity. Layout/cache controls
 also shift, so this is localization evidence, not an instruction-level causal
-proof. Two function-body mixtures pass correctness/provenance but remain untimed.
+proof. Two function-body timing windows now complete provenance checks: longest_match
+alone stays near parity; the remaining deflate mixture retains slowdown. A v1
+summary-script failure is retained unqualified; two fresh v2 windows are separate.
 
 [Scalar-result discard](benchmarks/scalar-result-discard/README.md) now accepts
 effect-only calls to defined scalar-return functions, preserving effects and

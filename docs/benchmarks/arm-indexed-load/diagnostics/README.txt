@@ -43,7 +43,7 @@ this control includes possible linked-layout AND cache-preconditioning effects.
 Window 1 was noisier than window 2. All results remain retained; intervals have
 no multiple-comparison correction. No universal performance claim is made.
 
-Function diagnostics: NOT timed
+Function diagnostics: initial untimed qualification
 ------------------------------
 function-hybrids includes eight correctness-qualified labels. longest-only uses
 phi deflate.s except for indexed longest_match. deflate-except-longest uses
@@ -61,7 +61,8 @@ and relocation type/symbol multisets match originals. Relocation offsets and
 section-relative addends can change with layout and were NOT asserted equal;
 raw nm/readelf output is retained. Debug and local-label text remains within
 its exact copied function region. This is finite execution qualification,
-not a machine-code proof. No function-level timing result exists yet.
+not a machine-code proof. Subsequent function timing results and the failed v1 summary preflight are
+retained separately in function-timings-v2/README.md.
 
 The deflate map has 32 indexed sites: 23 byte and 9 half loads, including six
 byte and one half in longest_match. No word/long sites occur. A narrow-load-only
@@ -109,3 +110,7 @@ package-files.json records exact source paths, SHA-256 and byte lengths of all
 Per-window archive-hashes.json records the original archived file hashes.
 The earlier four full API/payload windows remain in the parent directory and
 are not replaced or silently pooled with this targeted protocol.
+
+Later protocol-v2 timing supersedes the untimed status above; retain these initial
+preparation files unchanged. Use the archived v2 probes rather than the original
+v1 function probe, whose removed-label summary reference was defective.

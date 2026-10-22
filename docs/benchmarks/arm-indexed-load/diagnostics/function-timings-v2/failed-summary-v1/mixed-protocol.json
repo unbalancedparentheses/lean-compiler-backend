@@ -1,0 +1,20 @@
+{
+  "name": "private mixed-compression hybrid diagnostic v1",
+  "probe_sha256": "82160de8e7d4b4151d56a48065c450de915a718d165e84ae0bc5f0a57bf16b16",
+  "adapter_sha256": "6154492c9f497abf47d6ac9bde2881a35f24cf6acfe22945c04692229d290958",
+  "manifest_sha256": "29dc39ecde13073c2dcfc18ccbae1b0c168d0b7718b8f3b891adc32f6a320c0c",
+  "bindings_sha256": "d18b52090c259e36df51178b706b8af0a9a4ee8d73cf66550ffd4a9d4288e172",
+  "caller_sha256": "495fcc70214c1ae1bf43777ea9585b94e8067e481a6b026fc54d5e0f3fbed452",
+  "caller_object_sha256": "5e887cd741ce00714447fd94e84b0f4e04ba7da235381b8dbdcbe6ee1601ef74",
+  "payload_sha256": "79ed5bd99e5a777bcecc968dd60cb6997eb6178caa8857c84bf65ad0a3561a7b",
+  "default_protocol": {
+    "rounds": 9,
+    "gcc_batch_ms": 500,
+    "warmups": 2,
+    "other_api_loops": 1,
+    "level": 6,
+    "random_order_seed": 20261023
+  },
+  "qualification": "Private function-body diagnostic protocol prepared;8 labels independently correctness qualified; no timing.",
+  "crc32_control_caveat": "CRC is not called inside measured compression, but unchanged warmups call CRC and may affect cache preconditioning in addition to code layout."
+}
