@@ -55,7 +55,7 @@ def exercise(compiler, work, run, cc, target, execute=True, qbe=None, qtarget=No
                 r=run([compiler,'--target',target,*flags,bad,'-o',case/'bad.s'])
                 assert r.returncode != 0 and 'variadic environment calls' in r.stderr,r.stderr
                 rejected += 1
-            if qbe:
+            if qbe and execute:
                 r=run([qbe,'-t',qtarget,'-o',case/'bad-qbe.s',bad],True)
                 assert r.returncode != 0 and 'variadic env calls' in r.stderr,r.stderr
     if execute:
@@ -65,7 +65,7 @@ def exercise(compiler, work, run, cc, target, execute=True, qbe=None, qtarget=No
         r=run([compiler,'--target',target,mutant,'-o',asm]); assert r.returncode==0,r.stderr
         r=run([cc,caller,probe,asm,'-o',exe],True); assert r.returncode==0,r.stderr
         r=run([exe],True); assert r.returncode==1,'lost marker escaped independent AL probe'
-    report={'target':target,'modes':modes,'calls_per_mode':20,'negative_lcb_cases':rejected,'marker_loss_detected':execute,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest()}
+    report={'target':target,'modes':modes,'calls_per_mode':20 if execute else 0,'negative_lcb_cases':rejected,'marker_loss_detected':execute,'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest()}
     (case/'report.json').write_text(json.dumps(report,indent=2)+'\n')
     print(f'{target}: empty variadic markers: {report}',flush=True)
     return report

@@ -65,3 +65,10 @@ run requires no corrected x86 oracle; its report remains distinct from ARM.
 The RV64 bootstrap (QEMU) passes the same 19-file/196-test checks in baseline,
 optimized and corrected-QBE modes. Unchanged QBE fails to link with the known
 external-GOT-addend issue; that failure is retained separately.
+
+CI at `43b91b0` exposed an emission-only harness bug: the new negative tests
+attempted an unavailable QBE executable when target execution was disabled.
+Oracle checks now require both an oracle and executable target qualification.
+A guard callback with deliberately nonexistent C/QBE paths verifies both AMD64
+emission-only profiles without target tool invocations; executed call counts are
+zero in those reports. Existing native comparisons are unchanged.

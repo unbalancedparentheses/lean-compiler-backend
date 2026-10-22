@@ -83,7 +83,7 @@ def exercise(compiler,work,run,cc,target,execute=True,qbe=None,qtarget=None):
         text+=' %r =l call '+('%fn' if indirect else '$f')+'(env 123,l 1,...,l 2)\n ret %r\n}\n';path.write_text(text)
         for flags in [[],['--allocate'],['--optimize']]:
             r=run([compiler,'--target',target,*flags,path,'-o',case/'explicit.s']);assert r.returncode!=0 and 'variadic environment calls' in r.stderr,r.stderr
-        if qbe:
+        if qbe and execute:
             r=run([qbe,'-t',qtarget,'-o',case/'explicit-qbe.s',path],True);assert r.returncode!=0 and 'variadic env calls' in r.stderr,r.stderr
     for n,(gp,fp) in enumerate(SIGNATURES):
         for seed in SEEDS:
@@ -122,9 +122,9 @@ def exercise(compiler,work,run,cc,target,execute=True,qbe=None,qtarget=None):
         r=run([compiler,'--target',target,mutant,'-o',asm]);assert r.returncode==0,r.stderr
         r=run([cc,obj,asm,'-o',exe],True);assert r.returncode==0,r.stderr
         r=run([exe],True);assert r.returncode==1,'corrupt return escaped C oracle'
-    report={'target':target,'compiler_identity':run([compiler,'--build-identity']).stdout.strip(),'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'caller_sha256':hashlib.sha256(caller.read_bytes()).hexdigest(),'signatures':SIGNATURES,'modes':modes,'interpreter_cases':126,'c_calls_per_mode':315,'explicit_environment_calls':'rejected in all LCB modes and original QBE','used_environment_definitions':'rejected in all LCB modes','corruption_detected':execute}
+    report={'target':target,'compiler_identity':run([compiler,'--build-identity']).stdout.strip(),'source_sha256':hashlib.sha256(source.read_bytes()).hexdigest(),'caller_sha256':hashlib.sha256(caller.read_bytes()).hexdigest(),'signatures':SIGNATURES,'modes':modes,'interpreter_cases':126,'c_calls_per_mode':315 if execute else 0,'explicit_environment_calls':'rejected in all LCB modes' + (' and original QBE' if qbe and execute else ''),'used_environment_definitions':'rejected in all LCB modes','corruption_detected':execute}
     (case/'report.json').write_text(json.dumps(report,indent=2)+'\n')
-    print(f'{target}: unused-env variadic definitions, seven GP/FP boundary signatures, 126 interpreter and 315 C calls per mode; {modes}; explicit-env calls and used-env definitions remain rejected',flush=True)
+    print(f'{target}: unused-env variadic definitions, seven GP/FP boundary signatures, 126 interpreter and {report['c_calls_per_mode']} C calls per mode; {modes}; explicit-env calls and used-env definitions remain rejected',flush=True)
     return report
 
 
