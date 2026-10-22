@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Decoded printable ELF section names, exact bytes and quoting isolation."""
+"""Printable ELF section names: explicit GNU/LLVM byte profiles and quoting isolation."""
 import argparse,hashlib,json,os,shlex,subprocess
 from pathlib import Path
 from data_relocations import native_host,QBE_TARGET
@@ -39,25 +39,40 @@ def exercise(compiler,work,run,cc,target,execute=True,qbe=None,before=None):
         cmd=list(map(str,cmd));p=run(cmd,inside);commands.append(dict(command=cmd,inside=inside,exit=p.returncode,stdout=p.stdout,stderr=p.stderr))
         if ok:assert p.returncode==0,commands[-1]
         return p
-    identity=invoke([compiler,'--build-identity']).stdout.strip();text,c,expected,names=fixture();src=work/'input.ssa';src.write_text(text);caller=work/'caller.c';caller.write_text(c)
+    identity=invoke([compiler,'--build-identity']).stdout.strip();text,c,expected,names=fixture();decoded_expected=expected.copy();profile={'name':'not measured: emission/refusal only'};src=work/'input.ssa';src.write_text(text);caller=work/'caller.c';caller.write_text(c)
     ordinary=work/'ordinary.ssa';ordinary.write_text(APPLE if apple else ORDINARY)
     modes=[('baseline',[]),('allocated',['--allocate']),('optimized',['--optimize'])]
     for label,flags in modes:
         asm=work/(label+'-ordinary.s');invoke([compiler,ordinary,'--target',target,*flags,'-o',asm])
         if before:
             old=work/(label+'-ordinary-before.s');invoke([before,ordinary,'--target',target,*flags,'-o',old]);assert asm.read_bytes()==old.read_bytes()
-    def metadata(obj):
+    if execute and not apple:
+        # Independent fixed assembly distinguishes the two supported assembler
+        # string conventions. Never derive expected fixture names from LCB output.
+        decoded='lcb"probe\\tail'
+        escaped=decoded.replace('\\','\\\\').replace('"','\\"')
+        probe=work/'assembler-profile.s';probe.write_text('.section '+quote(decoded)+',"aw"\n.byte 1\n')
+        obj=work/'assembler-profile.o';invoke([*cc,'-c',probe,'-o',obj],True)
+        probe_rows=json.loads(invoke(['python3','-c',ELF_READ,obj],True).stdout)
+        choices={decoded.encode().hex():'GNU-decoded',escaped.encode().hex():'LLVM-literal'}
+        matches=[row for row in probe_rows if row['name'] in choices]
+        assert len(matches)==1 and matches[0]['flags']==3 and matches[0]['type']==1 and matches[0]['size']==1, ('unknown assembler section-name profile',probe_rows)
+        profile={'name':choices[matches[0]['name']], 'probe_source_sha256':sha(probe),'probe_object_sha256':sha(obj),'section':matches[0]}
+        if profile['name']=='LLVM-literal':
+            expected={bytes.fromhex(name).decode('ascii').replace('\\','\\\\').replace('"','\\"').encode().hex():flags for name,flags in expected.items()}
+    def metadata(obj,wanted=None):
+        wanted=expected if wanted is None else wanted
         result=json.loads(invoke(['python3','-c',ELF_READ,obj],True).stdout)
-        matched=[x for x in result if x['name'] in expected]
-        assert len(matched)==len(expected), 'duplicate or missing custom section header'
-        actual={x['name']:x for x in matched};assert set(actual)==set(expected),(actual.keys(),expected.keys())
-        for name,flags in expected.items():assert actual[name]['flags']==flags and actual[name]['type']==1,(name,actual[name])
+        matched=[x for x in result if x['name'] in wanted]
+        assert len(matched)==len(wanted), 'duplicate or missing custom section header'
+        actual={x['name']:x for x in matched};assert set(actual)==set(wanted),(actual.keys(),wanted.keys())
+        for name,flags in wanted.items():assert actual[name]['flags']==flags and actual[name]['type']==1,(name,actual[name])
         ordinary_names={b''.hex(),b'.text'.hex(),b'.data'.hex(),b'.bss'.hex(),b'.note.GNU-stack'.hex(),b'.symtab'.hex(),b'.strtab'.hex(),b'.shstrtab'.hex()}
         if target=='riscv64-linux':
             attr=next(x for x in result if x['name']==b'.riscv.attributes'.hex())
             assert attr['type']==0x70000003 and attr['flags']==0,attr
             ordinary_names.add(b'.riscv.attributes'.hex())
-        extra=[x for x in result if x['name'] not in expected and x['name'] not in ordinary_names and x['type'] not in [4,9]]
+        extra=[x for x in result if x['name'] not in wanted and x['name'] not in ordinary_names and x['type'] not in [4,9]]
         assert not extra,extra
         output=invoke(['nm','-g','--defined-only',obj],True).stdout
         syms=sorted(x.split()[-1] for x in output.splitlines() if len(x.split())>=3);assert syms==names,syms
@@ -72,8 +87,15 @@ def exercise(compiler,work,run,cc,target,execute=True,qbe=None,before=None):
             asm=work/(label+'.s');obj=work/(label+'.o');exe=work/label
             invoke([qbe,'-t',QBE_TARGET[target],'-o',asm,src],True) if label=='qbe' else invoke([compiler,src,'--target',target,*flags,'-o',asm])
             row=dict(mode=label,executed=False)
+            wanted=expected.copy()
+            if label=='qbe' and profile['name']=='LLVM-literal':
+                # Original QBE retains the two raw source spellings; LCB decodes
+                # them before emission. Preserve this reference boundary explicitly.
+                wanted[b'd\\040space'.hex()]=3;wanted[b'd\\x20space'.hex()]=3
+                row['reference_spelling_boundary']='LLVM preserves two additional raw QBE escape spellings; LCB canonicalizes decoded names'
+            row['expected_names']=wanted
             if execute:
-                invoke([*cc,'-c',asm,'-o',obj],True);row['sections']=metadata(obj)
+                invoke([*cc,'-c',asm,'-o',obj],True);row['sections']=metadata(obj,wanted)
                 invoke([*cc,caller,obj,'-o',exe],True);invoke([exe],True);row['executed']=True
             rows.append(row)
         if execute:
@@ -91,7 +113,7 @@ def exercise(compiler,work,run,cc,target,execute=True,qbe=None,before=None):
         assert invoke([compiler,'--first-path',src],ok=False).returncode!=0
     qhash=None
     if execute and qbe and not apple:qhash=invoke(['python3','-c','import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],"rb").read()).hexdigest())',qbe],True).stdout.strip()
-    report=dict(status='passed',target=target,compiler_identity=identity,compiler_sha256=sha(compiler),before_sha256=sha(before) if before else None,helper_sha256=sha(__file__),source_sha256=sha(src),caller_sha256=sha(caller),qbe_sha256=qhash,results=rows,controls=controls,executed_modes=sum(x['executed'] for x in rows),ordinary_equivalence='passed' if before else 'skipped: no before snapshot supplied',expected_names=expected,commands=commands,scope='14data/function name pairs +3equivalent spellings; exact29custom section names and31global symbols. PrintableASCII1..128 decodedbytes only. Linux executes independentC; Apple unchanged fixture emission/negatives only. No timing claim.')
+    report=dict(status='passed',target=target,compiler_identity=identity,compiler_sha256=sha(compiler),before_sha256=sha(before) if before else None,helper_sha256=sha(__file__),source_sha256=sha(src),caller_sha256=sha(caller),qbe_sha256=qhash,results=rows,controls=controls,executed_modes=sum(x['executed'] for x in rows),ordinary_equivalence='passed' if before else 'skipped: no before snapshot supplied',expected_names=expected,decoded_expected_names=decoded_expected,section_name_profile=profile,commands=commands,scope='14data/function name pairs +3equivalent spellings; exact29LCB custom section names and31global symbols; originalQBE+LLVM has31custom headers because raw equivalent spellings remain distinct. PrintableASCII1..128 decoded input bytes. GNU assembler decodes quoted escapes; LLVM preserves them literally. A fixed independent assembly probe selects the exact expected object-name profile; both retain all31global symbols and C execution. Linux executes independentC; Apple unchanged fixture emission/negatives only. No timing claim.')
     (work/'report.json').write_text(json.dumps(report,indent=2)+'\n');return report
 
 def main():

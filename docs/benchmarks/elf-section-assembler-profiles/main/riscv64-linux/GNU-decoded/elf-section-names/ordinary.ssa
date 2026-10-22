@@ -1,0 +1,6 @@
+section "foo,bar" "aw" export data $ordinary = { l 31 }
+export function l $get_ordinary() {
+@s
+ %v =l loadl $ordinary
+ ret %v
+}

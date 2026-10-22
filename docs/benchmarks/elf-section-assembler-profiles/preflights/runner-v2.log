@@ -1,0 +1,11 @@
+aarch64-linux GNU-decoded passed
+Traceback (most recent call last):
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/elf-name-assembler-profiles-v2.py", line 38, in <module>
+    r=helper.exercise(compiler,work,run,[cc],target,True,Path('/tmp/qbe/qbe'))
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/elf_section_names.py", line 90, in exercise
+    invoke([*cc,'-c',asm,'-o',obj],True);row['sections']=metadata(obj)
+                                                         ~~~~~~~~^^^^^
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/elf_section_names.py", line 75, in metadata
+    assert not extra,extra
+           ^^^^^^^^^
+AssertionError: [{'name': '645c3034307370616365', 'flags': 3, 'type': 1, 'size': 8}, {'name': '645c7832307370616365', 'flags': 3, 'type': 1, 'size': 8}]

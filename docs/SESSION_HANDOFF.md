@@ -6,6 +6,15 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[ELF assembler profiles](benchmarks/elf-section-assembler-profiles/README.md) correct
+the GNU-only section-name expectation that failed both Linux Clang CI jobs.
+Six GNU/LLVM profiles pass on all three Linux targets using committed identity4b41;
+LLVM preserves quoted escapes literally and original QBE keeps two extra raw
+spellings. Exact header/symbol/runtime checks remain; a CI rerun is pending.
+The ARM scaled-load candidate remains uncommitted locally on identity210a515a,
+with all Linux gates and fresh zlib/Lua/QBE/cproc checks passing; full host gate
+is running. Its timing evidence is diagnostic only under background load.
+
 [Retained writable TLS](benchmarks/retained-tls/README.md) is integrated on identity
 `4b41bddbd06b27174a3729ad2eca3888525a2f6e3e31d737a1057c18d22287bc`.
 Optional R now composes with awT. All three Linux C/original-QBE thread/metadata/GC

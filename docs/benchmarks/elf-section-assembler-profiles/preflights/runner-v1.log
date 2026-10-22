@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/elf-name-assembler-profiles.py", line 38, in <module>
+    r=helper.exercise(compiler,work,run,[cc],target,True,Path('/tmp/qbe/qbe'))
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/elf_section_names.py", line 56, in exercise
+    probe_rows=json.loads(invoke(['python3','-c',ELF_READ,obj],True).stdout)
+                          ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/elf_section_names.py", line 39, in invoke
+    cmd=list(map(str,cmd));p=run(cmd,inside);commands.append(dict(command=cmd,inside=inside,exit=p.returncode,stdout=p.stdout,stderr=p.stderr))
+                             ~~~^^^^^^^^^^^^
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/elf-name-assembler-profiles.py", line 29, in run
+    if p.is_file() and p.is_relative_to(base):docker_sync.host_file(p,base,'lcb-parity-linux')
+       ~~~~~~~~~^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/pathlib/_abc.py", line 482, in is_file
+    return S_ISREG(self.stat(follow_symlinks=follow_symlinks).st_mode)
+                   ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/pathlib/_local.py", line 515, in stat
+    return os.stat(self, follow_symlinks=follow_symlinks)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+OSError: [Errno 63] File name too long: "import struct,json,sys\nb=open(sys.argv[1],'rb').read();assert b[:6]==b'\\x7fELF\\x02\\x01'\no=struct.unpack_from('<Q',b,40)[0];s,n,k=struct.unpack_from('<HHH',b,58)\nh=[struct.unpack_from('<IIQQQQIIQQ',b,o+i*s) for i in range(n)];t=h[k];names=b[t[4]:t[4]+t[5]]\nprint(json.dumps([{'name':names[x[0]:names.index(b'\\0',x[0])].hex(),'flags':x[2],'type':x[1],'size':x[5]} for x in h]))\n"

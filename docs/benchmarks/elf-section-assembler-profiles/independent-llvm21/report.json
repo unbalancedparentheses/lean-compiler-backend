@@ -1,0 +1,1128 @@
+{
+  "status": "passed-corrected-all-custom-headers",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "input_sha256": "07350fa37a932a36822263f0cc98d5868ec2ab90d54c5c95c74878d9043b962b",
+  "helper_sha256_at_import": "846d9c0cec464c38f823706fa8c36ce207d4d3de27f991ed56549f51197b0a0f",
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-section-llvm-review/qbe",
+        "-t",
+        "arm64",
+        "-o",
+        "/tmp/lcb-section-llvm-review/aarch64-linux.s",
+        "/tmp/lcb-section-llvm-review/input.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "clang",
+        "--target=aarch64-linux-gnu",
+        "-c",
+        "/tmp/lcb-section-llvm-review/aarch64-linux.s",
+        "-o",
+        "/tmp/lcb-section-llvm-review/aarch64-linux.o"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "Warning: supplying the --target aarch64-linux-gnu != arm64-apple-darwin argument to a nix-wrapped compiler may not work correctly - cc-wrapper is currently not designed with multi-target compilers in mind. You may want to use an un-wrapped compiler instead.\nclang: warning: argument unused during compilation: '-fzero-call-used-regs=used-gpr' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-D _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fstack-protector-strong' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '--param ssp-buffer-size=4' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-O2' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-U _FORTIFY_SOURCE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fwrapv' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-mmacos-version-min=14.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fno-omit-frame-pointer' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-mno-omit-leaf-frame-pointer' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-U _FORTIFY_SOURCE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-D _FORTIFY_SOURCE=2' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-idirafter /nix/store/vjydavmlhy14zj3bwklssnkp3rp80yvn-libSystem-B/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/vjydavmlhy14zj3bwklssnkp3rp80yvn-libSystem-B/include=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libSystem-B/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-frandom-seed=lfyp7axp64' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-lean4-4.28.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-llvm-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ncurses-6.6-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.1-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-z3-4.15.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-bash-interactive-5.3p9-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gnumake-4.4.1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-python3-3.13.12-env' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-109.100.2-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-91-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-lean4-4.28.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-llvm-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ncurses-6.6-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.1-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-z3-4.15.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-bash-interactive-5.3p9-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gnumake-4.4.1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-python3-3.13.12-env' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-109.100.2-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-91-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-cxx-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1' [-Wunused-command-line-argument]\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-section-llvm-review/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/tmp/lcb-section-llvm-review/x86_64-linux.s",
+        "/tmp/lcb-section-llvm-review/input.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "clang",
+        "--target=x86_64-linux-gnu",
+        "-c",
+        "/tmp/lcb-section-llvm-review/x86_64-linux.s",
+        "-o",
+        "/tmp/lcb-section-llvm-review/x86_64-linux.o"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "Warning: supplying the --target x86_64-linux-gnu != arm64-apple-darwin argument to a nix-wrapped compiler may not work correctly - cc-wrapper is currently not designed with multi-target compilers in mind. You may want to use an un-wrapped compiler instead.\nclang: warning: argument unused during compilation: '-fzero-call-used-regs=used-gpr' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-D _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fstack-protector-strong' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '--param ssp-buffer-size=4' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-O2' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-U _FORTIFY_SOURCE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fwrapv' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-mmacos-version-min=14.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fno-omit-frame-pointer' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-mno-omit-leaf-frame-pointer' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-U _FORTIFY_SOURCE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-D _FORTIFY_SOURCE=2' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-idirafter /nix/store/vjydavmlhy14zj3bwklssnkp3rp80yvn-libSystem-B/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/vjydavmlhy14zj3bwklssnkp3rp80yvn-libSystem-B/include=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libSystem-B/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-frandom-seed=lfyp7axp64' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-lean4-4.28.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-llvm-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ncurses-6.6-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.1-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-z3-4.15.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-bash-interactive-5.3p9-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gnumake-4.4.1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-python3-3.13.12-env' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-109.100.2-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-91-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-lean4-4.28.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-llvm-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ncurses-6.6-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.1-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-z3-4.15.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-bash-interactive-5.3p9-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gnumake-4.4.1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-python3-3.13.12-env' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-109.100.2-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-91-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-cxx-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1' [-Wunused-command-line-argument]\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-section-llvm-review/qbe",
+        "-t",
+        "rv64",
+        "-o",
+        "/tmp/lcb-section-llvm-review/riscv64-linux.s",
+        "/tmp/lcb-section-llvm-review/input.ssa"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "clang",
+        "--target=riscv64-linux-gnu",
+        "-c",
+        "/tmp/lcb-section-llvm-review/riscv64-linux.s",
+        "-o",
+        "/tmp/lcb-section-llvm-review/riscv64-linux.o"
+      ],
+      "exit": 0,
+      "stdout": "",
+      "stderr": "Warning: supplying the --target riscv64-linux-gnu != arm64-apple-darwin argument to a nix-wrapped compiler may not work correctly - cc-wrapper is currently not designed with multi-target compilers in mind. You may want to use an un-wrapped compiler instead.\nclang: warning: argument unused during compilation: '-fzero-call-used-regs=used-gpr' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-D _LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fstack-protector-strong' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '--param ssp-buffer-size=4' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-O2' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-U _FORTIFY_SOURCE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fwrapv' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-mmacos-version-min=14.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fno-omit-frame-pointer' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-mno-omit-leaf-frame-pointer' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-U _FORTIFY_SOURCE' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-D _FORTIFY_SOURCE=2' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-idirafter /nix/store/vjydavmlhy14zj3bwklssnkp3rp80yvn-libSystem-B/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/vjydavmlhy14zj3bwklssnkp3rp80yvn-libSystem-B/include=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libSystem-B/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-frandom-seed=lfyp7axp64' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-lean4-4.28.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-llvm-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ncurses-6.6-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.1-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-z3-4.15.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-bash-interactive-5.3p9-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gnumake-4.4.1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-python3-3.13.12-env' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-109.100.2-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-91-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/wn2mcy9wh2ab79ig01c0fb8p25j7yyqr-lean4-4.28.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-lean4-4.28.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/d3cxzbxgc4d5rx608c5kis89ym54bl5i-llvm-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-llvm-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/25wxz2cv5qrrmfdhcd7dk4zd83fdhwal-ncurses-6.6-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-ncurses-6.6-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/5knzc9w31z2yd666mnzv4sh67f1vhlka-zlib-1.3.1-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-zlib-1.3.1-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/xky7dgwkilg3ww9pzcmfi1rmdln7mbc8-z3-4.15.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-z3-4.15.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/c8kngjch0m8mwdqcwv2zv7yz67aw5z4k-bash-interactive-5.3p9-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-bash-interactive-5.3p9-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/l8jkq4dnsknlxz436w6gw5rcm09mvq6p-gnumake-4.4.1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-gnumake-4.4.1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-python3-3.13.12-env' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/2adqlqhmwxglc2f0r7fxa5wdlavjn21r-compiler-rt-libc-21.1.8-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-compiler-rt-libc-21.1.8-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/gkyk559bh4zzxh0wfvzqi6zj3rdn0d9q-libiconv-109.100.2-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libiconv-109.100.2-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/y02fcdl0bx02pkmbsbxks8nmy7yxvanf-libresolv-91-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libresolv-91-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-isystem /nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev/include' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/w1q5dsq93j18clmn9pzqgl88n7v5j2v9-libsbuf-14.1.0-dev=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libsbuf-14.1.0-dev' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-cxx-isystem /nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1' [-Wunused-command-line-argument]\nclang: warning: argument unused during compilation: '-fmacro-prefix-map=/nix/store/g0r7lnyajlqwkkshzwcasa1swnqlr6fs-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1=/nix/store/eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee-libcxx-20.1.0+apple-sdk-26.0/include/c++/v1' [-Wunused-command-line-argument]\n"
+    }
+  ],
+  "targets": [
+    {
+      "target": "aarch64-linux",
+      "profile": "LLVM-literal",
+      "expected": {
+        "64": 3,
+        "66": 6,
+        "64706c61696e": 3,
+        "66706c61696e": 6,
+        "647370616365206e616d65": 3,
+        "667370616365206e616d65": 6,
+        "64636f6c6f6e3a6e616d65": 3,
+        "66636f6c6f6e3a6e616d65": 6,
+        "64736c6173682f6e616d65": 3,
+        "66736c6173682f6e616d65": 6,
+        "64706c75732b6e616d65": 3,
+        "66706c75732b6e616d65": 6,
+        "646174406e616d65": 3,
+        "666174406e616d65": 6,
+        "6471756f74655c226e616d65": 3,
+        "6671756f74655c226e616d65": 6,
+        "646261636b5c5c6e616d65": 3,
+        "666261636b5c5c6e616d65": 6,
+        "646c69746572616c5c5c6e": 3,
+        "666c69746572616c5c5c6e": 6,
+        "64785c223b202e676c6f626c20696e6a65637465643b2023": 3,
+        "66785c223b202e676c6f626c20696e6a65637465643b2023": 6,
+        "64785c5c5c223b202e73656374696f6e20696e6a65637465643b2023": 3,
+        "66785c5c5c223b202e73656374696f6e20696e6a65637465643b2023": 6,
+        "6420215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e": 3,
+        "6620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e": 6,
+        "6478787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878": 3,
+        "6678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878": 6,
+        "64207370616365": 3,
+        "645c3034307370616365": 3,
+        "645c7832307370616365": 3
+      },
+      "sections": [
+        {
+          "name": "",
+          "flags": 0,
+          "type": 0,
+          "size": 0
+        },
+        {
+          "name": "2e737472746162",
+          "flags": 0,
+          "type": 3,
+          "size": 1108
+        },
+        {
+          "name": "2e74657874",
+          "flags": 6,
+          "type": 1,
+          "size": 0
+        },
+        {
+          "name": "64",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c6166",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "64706c61696e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66706c61696e",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c6166706c61696e",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "647370616365206e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "667370616365206e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c61667370616365206e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "64636f6c6f6e3a6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66636f6c6f6e3a6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c6166636f6c6f6e3a6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "64736c6173682f6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66736c6173682f6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c6166736c6173682f6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "64706c75732b6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66706c75732b6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c6166706c75732b6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "646174406e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666174406e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c61666174406e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "6471756f74655c226e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6671756f74655c226e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c616671756f74655c226e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "646261636b5c5c6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666261636b5c5c6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c61666261636b5c5c6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "646c69746572616c5c5c6e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666c69746572616c5c5c6e",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c61666c69746572616c5c5c6e",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "64785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c6166785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "64785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c6166785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "6420215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c616620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "6478787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 6,
+          "type": 1,
+          "size": 32
+        },
+        {
+          "name": "2e72656c616678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 64,
+          "type": 4,
+          "size": 48
+        },
+        {
+          "name": "64207370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "645c3034307370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "645c7832307370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "2e6e6f74652e474e552d737461636b",
+          "flags": 0,
+          "type": 1,
+          "size": 0
+        },
+        {
+          "name": "2e73796d746162",
+          "flags": 0,
+          "type": 2,
+          "size": 1512
+        }
+      ],
+      "assembly_sha256": "8c8be2e4a6bf85bb2e62b62163110fd9b81096aa877d5e456e2f60f9cddd073e",
+      "object_sha256": "0bff963e5ff8f9d70b9a788eaedb1c684ce1a3130dd509394e942ac6671cf056",
+      "scope": "Unchanged QBE fixture and host LLVM cross-assembler: exact31custom section headers/names/flags with no extras, including separate8-byte d space/d\\040space/d\\x20space. Object-only; no link/runtime or global-symbol-check claim.",
+      "custom_section_count": 31,
+      "unexpected_custom_sections": []
+    },
+    {
+      "target": "x86_64-linux",
+      "profile": "LLVM-literal",
+      "expected": {
+        "64": 3,
+        "66": 6,
+        "64706c61696e": 3,
+        "66706c61696e": 6,
+        "647370616365206e616d65": 3,
+        "667370616365206e616d65": 6,
+        "64636f6c6f6e3a6e616d65": 3,
+        "66636f6c6f6e3a6e616d65": 6,
+        "64736c6173682f6e616d65": 3,
+        "66736c6173682f6e616d65": 6,
+        "64706c75732b6e616d65": 3,
+        "66706c75732b6e616d65": 6,
+        "646174406e616d65": 3,
+        "666174406e616d65": 6,
+        "6471756f74655c226e616d65": 3,
+        "6671756f74655c226e616d65": 6,
+        "646261636b5c5c6e616d65": 3,
+        "666261636b5c5c6e616d65": 6,
+        "646c69746572616c5c5c6e": 3,
+        "666c69746572616c5c5c6e": 6,
+        "64785c223b202e676c6f626c20696e6a65637465643b2023": 3,
+        "66785c223b202e676c6f626c20696e6a65637465643b2023": 6,
+        "64785c5c5c223b202e73656374696f6e20696e6a65637465643b2023": 3,
+        "66785c5c5c223b202e73656374696f6e20696e6a65637465643b2023": 6,
+        "6420215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e": 3,
+        "6620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e": 6,
+        "6478787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878": 3,
+        "6678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878": 6,
+        "64207370616365": 3,
+        "645c3034307370616365": 3,
+        "645c7832307370616365": 3
+      },
+      "sections": [
+        {
+          "name": "",
+          "flags": 0,
+          "type": 0,
+          "size": 0
+        },
+        {
+          "name": "2e737472746162",
+          "flags": 0,
+          "type": 3,
+          "size": 1104
+        },
+        {
+          "name": "2e74657874",
+          "flags": 6,
+          "type": 1,
+          "size": 0
+        },
+        {
+          "name": "64",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c6166",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "64706c61696e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66706c61696e",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c6166706c61696e",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "647370616365206e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "667370616365206e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c61667370616365206e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "64636f6c6f6e3a6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66636f6c6f6e3a6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c6166636f6c6f6e3a6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "64736c6173682f6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66736c6173682f6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c6166736c6173682f6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "64706c75732b6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66706c75732b6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c6166706c75732b6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "646174406e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666174406e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c61666174406e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "6471756f74655c226e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6671756f74655c226e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c616671756f74655c226e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "646261636b5c5c6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666261636b5c5c6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c61666261636b5c5c6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "646c69746572616c5c5c6e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666c69746572616c5c5c6e",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c61666c69746572616c5c5c6e",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "64785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c6166785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "64785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c6166785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "6420215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c616620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "6478787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 6,
+          "type": 1,
+          "size": 12
+        },
+        {
+          "name": "2e72656c616678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 64,
+          "type": 4,
+          "size": 24
+        },
+        {
+          "name": "64207370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "645c3034307370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "645c7832307370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "2e6e6f74652e474e552d737461636b",
+          "flags": 0,
+          "type": 1,
+          "size": 0
+        },
+        {
+          "name": "2e73796d746162",
+          "flags": 0,
+          "type": 2,
+          "size": 768
+        }
+      ],
+      "assembly_sha256": "584a20b72fd689bea98da13eb650d5760fc9cd6419a725b7052ed27c5667bf29",
+      "object_sha256": "c695909e674455c82d57ca59c80fd121a02c9489b786af69624e50a97fc8b166",
+      "scope": "Unchanged QBE fixture and host LLVM cross-assembler: exact31custom section headers/names/flags with no extras, including separate8-byte d space/d\\040space/d\\x20space. Object-only; no link/runtime or global-symbol-check claim.",
+      "custom_section_count": 31,
+      "unexpected_custom_sections": []
+    },
+    {
+      "target": "riscv64-linux",
+      "profile": "LLVM-literal",
+      "expected": {
+        "64": 3,
+        "66": 6,
+        "64706c61696e": 3,
+        "66706c61696e": 6,
+        "647370616365206e616d65": 3,
+        "667370616365206e616d65": 6,
+        "64636f6c6f6e3a6e616d65": 3,
+        "66636f6c6f6e3a6e616d65": 6,
+        "64736c6173682f6e616d65": 3,
+        "66736c6173682f6e616d65": 6,
+        "64706c75732b6e616d65": 3,
+        "66706c75732b6e616d65": 6,
+        "646174406e616d65": 3,
+        "666174406e616d65": 6,
+        "6471756f74655c226e616d65": 3,
+        "6671756f74655c226e616d65": 6,
+        "646261636b5c5c6e616d65": 3,
+        "666261636b5c5c6e616d65": 6,
+        "646c69746572616c5c5c6e": 3,
+        "666c69746572616c5c5c6e": 6,
+        "64785c223b202e676c6f626c20696e6a65637465643b2023": 3,
+        "66785c223b202e676c6f626c20696e6a65637465643b2023": 6,
+        "64785c5c5c223b202e73656374696f6e20696e6a65637465643b2023": 3,
+        "66785c5c5c223b202e73656374696f6e20696e6a65637465643b2023": 6,
+        "6420215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e": 3,
+        "6620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e": 6,
+        "6478787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878": 3,
+        "6678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878": 6,
+        "64207370616365": 3,
+        "645c3034307370616365": 3,
+        "645c7832307370616365": 3
+      },
+      "sections": [
+        {
+          "name": "",
+          "flags": 0,
+          "type": 0,
+          "size": 0
+        },
+        {
+          "name": "2e737472746162",
+          "flags": 0,
+          "type": 3,
+          "size": 1298
+        },
+        {
+          "name": "2e74657874",
+          "flags": 6,
+          "type": 1,
+          "size": 0
+        },
+        {
+          "name": "64",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c6166",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "64706c61696e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66706c61696e",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c6166706c61696e",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "647370616365206e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "667370616365206e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c61667370616365206e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "64636f6c6f6e3a6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66636f6c6f6e3a6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c6166636f6c6f6e3a6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "64736c6173682f6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66736c6173682f6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c6166736c6173682f6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "64706c75732b6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66706c75732b6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c6166706c75732b6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "646174406e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666174406e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c61666174406e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "6471756f74655c226e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6671756f74655c226e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c616671756f74655c226e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "646261636b5c5c6e616d65",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666261636b5c5c6e616d65",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c61666261636b5c5c6e616d65",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "646c69746572616c5c5c6e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "666c69746572616c5c5c6e",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c61666c69746572616c5c5c6e",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "64785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c6166785c223b202e676c6f626c20696e6a65637465643b2023",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "64785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "66785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c6166785c5c5c223b202e73656374696f6e20696e6a65637465643b2023",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "6420215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c616620215c22232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "6478787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "6678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 6,
+          "type": 1,
+          "size": 48
+        },
+        {
+          "name": "2e72656c616678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878",
+          "flags": 64,
+          "type": 4,
+          "size": 120
+        },
+        {
+          "name": "64207370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "645c3034307370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "645c7832307370616365",
+          "flags": 3,
+          "type": 1,
+          "size": 8
+        },
+        {
+          "name": "2e6e6f74652e474e552d737461636b",
+          "flags": 0,
+          "type": 1,
+          "size": 0
+        },
+        {
+          "name": "2e72697363762e61747472696275746573",
+          "flags": 0,
+          "type": 1879048195,
+          "size": 102
+        },
+        {
+          "name": "2e73796d746162",
+          "flags": 0,
+          "type": 2,
+          "size": 1872
+        }
+      ],
+      "assembly_sha256": "05c34906621af82ad3c414a422ac131663cd84fc4b392f8472e1a866212ee8d5",
+      "object_sha256": "f43d23a1cd707b00e9f4b12d2bf94795d0a87f73b1bca540c0d0919fa105ec2c",
+      "scope": "Unchanged QBE fixture and host LLVM cross-assembler: exact31custom section headers/names/flags with no extras, including separate8-byte d space/d\\040space/d\\x20space. Object-only; no link/runtime or global-symbol-check claim.",
+      "custom_section_count": 31,
+      "unexpected_custom_sections": []
+    }
+  ],
+  "superseded_report_sha256": "c4e92d2aae6fcf253fc2e7d2a9bc1e3c3e769297f6b8cb11d9e6929ce75e7019",
+  "correction": "Earlier independent probe checked expected29-header subset only and failed to reject2extra reference-only custom sections. Its no-extra/complete profile interpretation is withdrawn. This corrected audit requires all31original-QBE/LLVM custom sections; LCB canonicalizes the three equivalent IR spellings into one section, whereas QBE preserves octal/hex spelling under LLVM."
+}

@@ -48,6 +48,8 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[ELF assembler profiles](docs/benchmarks/elf-section-assembler-profiles/README.md) now explicitly distinguish GNU-decoded and LLVM-literal quoted section names. Both profiles pass all three Linux C/original-QBE matrices; original QBE preserves two raw equivalent spellings under LLVM (31 reference versus 29 LCB custom sections). This is a remaining scoped metadata compatibility boundary, not universal canonical object-name parity. The previous GNU-only expectation caused Clang CI failures; the corrected independent profile oracle preserves strict exact-header checks.
+
 [Retained writable TLS](docs/benchmarks/retained-tls/README.md) now composes optional R with required awT flags. Three Linux C/original-QBE matrices verify exact metadata, thread state and real linker garbage collection; Apple refusal and other flag restrictions remain. This supersedes the earlier bounded awTR refusal without rewriting historical evidence.
 
 [Mutable integer widths](docs/benchmarks/mutable-integer-widths/README.md) now merge mixed w/l definitions to word class before SSA, preserving original instruction widths and rejecting raw long/FP uses before pruning. All five independent C/original-QBE matrices, interpreter/refusal controls and 147 unchanged audit statements pass. Explicit original-long phi self-definition remains outside this bounded slice.
