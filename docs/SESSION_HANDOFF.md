@@ -16,8 +16,16 @@ including 156 new interpreter cases. Runtime sources and compiler identity remai
 unchanged. Proof modules are imported by the test target and excluded from runtime
 identity like existing proof-only modules. No whole-pass or end-to-end claim.
 The refactor CI completed successfully on all three runners; new proof-checkpoint
-CI has not yet completed. ELF excluded-section compatibility is under development
-in an isolated worktree and is not part of this proof checkpoint.
+CI has not yet completed. The subsequent [ELF excluded-section checkpoint](benchmarks/elf-exclude/README.md) is a separate compatibility change.
+
+Ordinary ELF section flags now admit `e` with `a/w/x/R`; TLS and Apple rules stay
+unchanged. Actual-main identity `803fc0258d24899011d3f26fdf23b3c3e4cd6f9721ee25722f7a4ad4c012c759`
+passes all six GNU/LLVM assembler/three-Linux profiles and two Apple preservation
+profiles, fresh build/units, 164 identical audit statements, 1,305 identical corpus
+assemblies/15 identical refusals and the complete missing-tool execution guard.
+LLVM assembly uses GNU target linking; x86/RV runtime is QEMU. Early harness
+failures, original-QBE bindings and expected excluded-symbol link refusals are
+retained. Full host/Linux gates were not rerun on this identity; CI is pending.
 
 The user subsequently requested an updated README and safe code organization.
 README and the design pipeline now reflect current capabilities, target scope and

@@ -1,0 +1,602 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "803fc0258d24899011d3f26fdf23b3c3e4cd6f9721ee25722f7a4ad4c012c759",
+  "compiler_sha256": "efe89d0e3e3c854f8bd78a9b11d595b44b7a36f7ad05b29a7b50c385e8228846",
+  "helper_sha256": "166f4d42b162e10c6f8311e013ee99772322dc4baf210cff6ce8b6c25f8492b3",
+  "metadata_reader_sha256": "71cd51b137c1a331136cb2fc8e6b48db53acc0f940ce6174b2a8e8d81f087f6e",
+  "rows": [],
+  "controls": {},
+  "execution": false,
+  "negative_cases": 24,
+  "source_hashes": {
+    "excluded.ssa": "6852fefefae027b7b42dc8563094bf9a13d3e505d7b6e6537d09b780b6f19baa",
+    "without-e.ssa": "eaefacf3dfff7eb285f67b75ac8f39b660851dd7df1b11f2732a969197171d58",
+    "caller.c": "650ca6e53161e977a94ba8954ef7a84c6d75c711622876f3363847f9a0804f0d",
+    "reference.c": "fbd0a4609a2a558da4eb90648acf1debd25a3cd790d1eecf2726b134374d95c9",
+    "ordinary.ssa": "34cc71450676eb2899c74b539876fed9816097a27ca57144c3d03664978728b8"
+  },
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "803fc0258d24899011d3f26fdf23b3c3e4cd6f9721ee25722f7a4ad4c012c759\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aarch64-module-refactor/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/excluded.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal-baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aarch64-module-refactor/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal-baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aarch64-module-refactor/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/excluded.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal-allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aarch64-module-refactor/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal-allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aarch64-module-refactor/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/ordinary-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/excluded.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal-optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/aarch64-module-refactor/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/apple-literal-optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-0.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-0.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-0.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-0.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-0.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-0.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-1.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-1.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-1.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-1.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-1.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-1.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-2.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-2.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-2.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-2.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-2.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-2.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-3.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-3.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-3.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-3.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-3.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-3.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-4.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-4.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-4.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-4.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-4.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-4.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-5.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-5.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-5.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-5.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-5.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-5.ssa: unsupported ELF section flags (accepted: a, w, x, R, e)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-6.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-6.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-6.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-6.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-6.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-6.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-7.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-7.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-7.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-7.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/lcb-elf-exclude-main",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-7.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-main/aarch64-macos/elf-exclude/invalid-7.ssa: custom TLS section requires allocatable writable TLS flags (awT, optional R)\n"
+    }
+  ]
+}

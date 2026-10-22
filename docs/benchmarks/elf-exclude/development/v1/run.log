@@ -1,0 +1,14 @@
+aarch64-linux GNU passed
+aarch64-linux LLVM passed
+x86_64-linux GNU passed
+x86_64-linux LLVM passed
+Traceback (most recent call last):
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-candidate/run.py", line 29, in <module>
+    r=elf_exclude.exercise(compiler,d,run,gcc,target,True,Path('/tmp/qbe/qbe'),before);report['rows'].append({'target':target,'assembler':profile,'linker':'GNU via target GCC','report_sha256':sha(d/'elf-exclude/report.json'),'status':'passed'});save();print(target,profile,'passed',flush=True)
+  File "/tmp/lcb-elf-exclude/scripts/elf_exclude.py", line 64, in exercise
+    invoke([*cc,'-c',asm,'-o',obj],True);row['object_sections']=metadata(obj,fixture(excluded)[1])
+                                                                ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-elf-exclude/scripts/elf_exclude.py", line 42, in metadata
+    assert got['size']==want['size'] if want['size'] is not None else got['size']>0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

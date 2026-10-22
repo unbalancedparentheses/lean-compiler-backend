@@ -1,0 +1,13 @@
+aarch64-linux GNU passed
+aarch64-linux LLVM passed
+x86_64-linux GNU passed
+x86_64-linux LLVM passed
+riscv64-linux GNU passed
+riscv64-linux LLVM passed
+Traceback (most recent call last):
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-exclude-candidate-v2/run.py", line 32, in <module>
+    r=elf_exclude.exercise(compiler,out/target,local,'/missing-cc',target,False,None,before);report['rows'].append({'target':target,'scope':'Apple grammar and before/after assembly preservation','status':'passed'});save()
+  File "/tmp/lcb-elf-exclude/scripts/elf_exclude.py", line 84, in exercise
+    for label,options in modes:assert invoke([compiler,p,'--target',target,*options,'-o',work/'invalid.s'],ok=False).returncode!=0
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

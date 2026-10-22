@@ -2,8 +2,8 @@
 
 QBE 1.3 compatibility on the five in-scope Linux/macOS targets is the immediate
 development priority. Complete the language, ABIs and optimization pipeline on
-those targets before expanding formal proof
-coverage. Preserve executable semantics, reproducible function boundaries, existing
+those targets while reserving roughly 20% of effort for focused proofs tied to
+implemented helpers and pass branches. Broader certification remains a later gate. Preserve executable semantics, reproducible function boundaries, existing
 proofs and strong testing throughout. Certification is a separate later milestone
 and is not a prerequisite for compatibility work. QBE is the starting baseline
 and a fallible comparison implementation, not a permanent constraint on the IR.
@@ -47,8 +47,11 @@ oracle distinctions and existing qualification limits. A fresh five-label ARM zl
    native RV64/Intel macOS evidence. Windows AMD64 remains deferred.
 4. Close full-suite and performance qualification (P11–P12). These checks start
    now and grow throughout the port; they are not deferred until feature completion.
-5. Resume C01–C03 and expand V01–V05 proof coverage against the established
-   implementation. Full compatibility and full certification have separate gates.
+5. Alongside compatibility work, reserve roughly 20% for bounded proofs of actual
+   implemented helpers/pass branches, with exact dependency auditing. The first
+   slice covers fresh-name collision facts and thirteen local zero/one rewrites.
+   Resume broader C01–C03/V01–V05 composition after compatibility; full compatibility
+   and full certification keep separate gates.
 
 The current compatibility slice includes scalar integer/floating arithmetic and
 conversions, global data, indirect calls, variadics, env arguments and dynamic
@@ -67,6 +70,8 @@ invariants documented so later verification remains feasible. Commit and push
 validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
+
+[Ordinary ELF excluded sections](docs/benchmarks/elf-exclude/README.md) now admit `e` with existing `a/w/x/R` flags. Six GNU/LLVM assembler profiles across the three Linux targets pass exact object metadata, independent C, remove-flag controls and expected referenced-symbol link failures; GNU linking is explicit. Apple grammar and custom TLS restrictions remain unchanged. Actual-main build/units, all 164 audit statements, corpus equality and the full missing-tool gate pass; no new proof or performance claim.
 
 [ELF assembler profiles](docs/benchmarks/elf-section-assembler-profiles/README.md) now explicitly distinguish GNU-decoded and LLVM-literal quoted section names. Both profiles pass all three Linux C/original-QBE matrices; original QBE preserves two raw equivalent spellings under LLVM (31 reference versus 29 LCB custom sections). This is a remaining scoped metadata compatibility boundary, not universal canonical object-name parity. The previous GNU-only expectation caused Clang CI failures; the corrected independent profile oracle preserves strict exact-header checks.
 
@@ -174,7 +179,7 @@ full Lua frontend qualification and excluded internal/locale tests remain open.
 
 A [fresh cproc bootstrap](docs/benchmarks/cproc-aggregate-refresh/README.md) on the large-aggregate compiler passes all three Linux targets: 18 frontend units, 19 identical stage-two IR files and 196 original tests per LCB mode. Original and corrected QBE outcomes remain separate; fresh work directories preserve older evidence.
 
-Next bounded work, before proof expansion:
+Next bounded compatibility work, alongside focused proofs:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
    review implementation limits (4096 functions, 1024 arguments, bounded object/frame
@@ -510,11 +515,15 @@ Exit gate: one useful restricted pipeline has a composed preservation statement,
 not only arithmetic opcode lemmas. Memory and calls already implemented outside
 that domain remain explicitly tested but uncertified until covered.
 
-## Verification workstream — proof expansion deferred until after compatibility
+## Verification workstream — focused proofs now, broad composition later
 
-Maintain existing proofs and executable semantics during the port. The following
-proof expansion and composition obligations resume after full QBE compatibility;
-they do not block implementation milestones in the uncertified pipeline.
+Maintain existing proofs and executable semantics during the port. Roughly 20% of
+effort now targets bounded facts about actual implementation helpers and rewrite
+branches; the [fresh-name](docs/proofs/FRESH_NAMES.md) and
+[local algebra](docs/SEMANTICS.md#local-algebra-proof-checkpoint) checkpoints add
+seventeen audited facts without claiming whole-pass preservation. The broader
+proof expansion and composition obligations below remain later certification
+gates and do not block implementation milestones in the uncertified pipeline.
 
 - [ ] V01 — Precise source IR and target-machine semantics, including UB/traps,
   memory and external interactions. Begin in F01 and extend with each feature.
@@ -555,7 +564,8 @@ assembly theorem or successful decoding alone does not close the machine-code ga
   history-dependent incremental-linking mode.
 
 These stages describe acceptance gates. The active execution order above takes
-priority: complete compatibility before resuming formal proof expansion;
+priority: compatibility stays primary, with focused proofs alongside it and
+broad certification later;
 E03 can begin once job/artifact contracts stabilize, and encoding work can begin
 once typed target lowering is stable. Beyond-QBE optimizations and consumers must
 not displace full QBE compatibility. No universal performance or
