@@ -1,0 +1,65 @@
+{
+  "status": "unqualified",
+  "qualification": "operational load thresholds only, not hardware isolation",
+  "manifest_sha256": "bf4f19f26e7dd5a2a7c7e3be416b0e853fc0a59e43fe4ced102b662b2da9271f",
+  "monitor_sha256": "3d44b07b74ba20d167b0fe11519803d7ee543bed366438ae125592cae0693fb7",
+  "logical_cpus": 18,
+  "thresholds": {
+    "external_host_aggregate_core_equivalents": 0.25,
+    "external_host_max_process_core_equivalents": 0.1,
+    "guest_nonbenchmark_core_equivalents": 0.1,
+    "maximum_gap_seconds": 5
+  },
+  "samples": [
+    {
+      "utc": 1792678524.2984414,
+      "host_total_core_equivalents": 15.20534223706177,
+      "outside_host_core_equivalents": 15.195330908201075,
+      "maximum_outside_process_core_equivalents": 0.8459572886423951,
+      "host_load": [
+        26.1806640625,
+        32.3525390625,
+        45.41064453125
+      ],
+      "host_process_count": 992,
+      "guest_busy_core_equivalents": 0.0,
+      "guest_nonbenchmark_core_equivalents": 0,
+      "guest_per_core_busy_fractions": {
+        "cpu0": 0.0049504950495049506,
+        "cpu1": 0.0,
+        "cpu2": 0.0,
+        "cpu3": 0.0,
+        "cpu4": 0.0,
+        "cpu5": 0.0,
+        "cpu6": 0.0,
+        "cpu7": 0.0,
+        "cpu8": 0.0,
+        "cpu9": 0.0,
+        "cpu10": 0.0,
+        "cpu11": 0.0,
+        "cpu12": 0.0,
+        "cpu13": 0.0,
+        "cpu14": 0.0,
+        "cpu15": 0.0,
+        "cpu16": 0.0,
+        "cpu17": 0.0
+      },
+      "guest_steal_delta_seconds": 0.0,
+      "guest_runnable_count": 1,
+      "guest_load": [
+        0.00048828125,
+        0.0,
+        0.03564453125
+      ],
+      "guest_process_count": 2,
+      "guest_active_controllers": 0,
+      "host_gap_seconds": 1.9977367920218967,
+      "guest_gap_seconds": 2.006886525952723,
+      "violations": [
+        "host aggregate load",
+        "host individual load"
+      ]
+    }
+  ],
+  "error": "AssertionError: host aggregate load, host individual load"
+}

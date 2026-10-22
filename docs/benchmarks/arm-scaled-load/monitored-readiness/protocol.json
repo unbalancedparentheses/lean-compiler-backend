@@ -1,0 +1,79 @@
+{
+  "status": "Fresh actual-main five-label build/correctness/provenance completed and passed; timing deferred pending operational readiness",
+  "before_identity_prefix": "4b41bddb",
+  "after_identity_prefix": "e095ed59",
+  "labels": [
+    "gcc",
+    "predecessor",
+    "combined-scaled",
+    "qbe-original",
+    "qbe-corrected"
+  ],
+  "measurement": {
+    "windows": 2,
+    "rounds": 9,
+    "payloads": 3,
+    "apis": [
+      "compress",
+      "uncompress",
+      "crc32"
+    ],
+    "gcc_batch_ms": 250,
+    "warmups": 2,
+    "randomized_paired_order": true,
+    "guest_affinity_cpu": 0
+  },
+  "estimated_cost": {
+    "fresh_build_and_correctness_minutes": "2-4, before any quiet window",
+    "quiet_preflight_minutes": 2,
+    "two_windows_minutes": "10-12, approximate; no timing deadline truncation",
+    "archive_and_postvalidation_minutes": "1-2",
+    "reserve_minutes": 18
+  },
+  "preconditions": [
+    "Root explicitly releases all compiler gates/builds/bootstrap jobs",
+    "Immutable before/after snapshots, unchanged exact caller/probe and separately bound original/corrected QBE",
+    "Fresh15profiles/label correctness and sinks pass",
+    "No unrelated process is stopped or altered"
+  ],
+  "monitoring": {
+    "period_seconds": 2,
+    "host_cpu_method": "Interval differences of cumulative host CPU counters and process CPU times, not ps lifetime/decayed percent as an instantaneous sample",
+    "host_summary_only": [
+      "timestamp",
+      "logical_cpu_count",
+      "aggregate_cpu_core_equivalents",
+      "aggregate_load",
+      "outside_benchmark_cpu_core_equivalents",
+      "maximum_outside_process_cpu_core_equivalents",
+      "process_count",
+      "monitor_gap_seconds"
+    ],
+    "private_classification": "Only benchmark VM/controller/monitor exact process identities may be excluded from outside load; do not exclude unrelated compiler/git/indexer processes. Do not publish raw pid/command/cwd/path listings.",
+    "guest_summary_only": [
+      "timestamp",
+      "aggregate/per-core busy fractions",
+      "non-benchmark process CPU aggregate",
+      "runnable_count",
+      "steal_time",
+      "monitor_gap_seconds"
+    ],
+    "preflight_and_continuous_outside_limits": {
+      "maximum_process_core_equivalents": 0.1,
+      "aggregate_core_equivalents": 0.25
+    },
+    "other_limits": {
+      "maximum_sampling_gap_seconds": 5,
+      "guest_nonbenchmark_aggregate_core_equivalents": 0.1
+    },
+    "failure_rule": "Any exceeded limit, monitor failure or source/executable binding failure makes that entire window unqualified for clean performance interpretation. Retain all samples and monitor data. No sample trimming or selective favorable rerun. This campaign prespecifies two windows; any scientifically justified later rerun is a separately labeled new campaign within authorized scope/time, never a substitute for failed windows."
+  },
+  "limitations": [
+    "Thresholds must be fixed before execution; they are an operational load qualification, not proof of exclusive hardware isolation",
+    "Process exits between samples and short bursts may be missed; aggregate counters help but cannot attribute all interference",
+    "Host frequency/thermal behavior and VM scheduling can remain uncontrolled even when load thresholds pass",
+    "Publish every API/payload/window ratio and interval with dispersion and no multiple-comparison-adjusted claim",
+    "Earlier windows remain withdrawn noisy diagnostics; do not pool them with any future monitored windows"
+  ],
+  "current_recommendation": "Fresh actual-main build/correctness/provenance passed. Timing remains deferred pending readiness: unrelated indexing/Git CPU activity was observed alongside compiler work. If a stable qualifying window and18minute reserve are unavailable, skip the performance claim."
+}

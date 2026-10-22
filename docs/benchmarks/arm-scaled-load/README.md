@@ -13,3 +13,5 @@ Fresh units and all 147 exact proof-audit statements pass unchanged. All three c
 [Private candidate evidence](private/) predates integration and binds a different identity. Its [two timing windows](timing/README.md) overlapped unrelated background CPU load. Earlier quiet-window interpretation is withdrawn; samples are diagnostic only, and clean performance remains unresolved. No speedup or absence-of-regression claim follows from these timings. Independent correctness and static code-size reductions support this change.
 
 [Fresh combined-source ARM build/correctness](combined-correctness/README.md) also passes on e095ed59 versus retained-TLS predecessor 4b41bddb, with freshly rebuilt GCC, unchanged QBE and corrected QBE labels. Each of five labels passes fifteen correctness profiles; both 485-file host/guest barriers and all 78 source/helper/snapshot bindings pass. No timing phase has run for this fresh build.
+
+A subsequent [monitored readiness attempt](monitored-readiness/README.md) on the fresh combined build refused to start timing because outside-host load exceeded the prespecified limits. No new timing samples or performance claims resulted.

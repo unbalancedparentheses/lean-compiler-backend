@@ -9,8 +9,7 @@ deferred at the user’s request and is not a current completion blocker.
 A [fresh five-label ARM zlib build](benchmarks/arm-scaled-load/combined-correctness/README.md)
 passes all fifteen correctness profiles per label on combined e095ed59 versus
 retained-TLS predecessor, fresh GCC, original QBE and corrected QBE. All source
-and 485-file guest/host bindings pass. No timing phase has run; a monitored
-low-load replay remains conditional on readiness after the final host gate.
+and 485-file guest/host bindings pass. No timing phase has run. After the full host gate passed, the [monitored readiness preflight](benchmarks/arm-scaled-load/monitored-readiness/README.md) refused to start timing: outside-host load was about 15.2 cores versus the fixed 0.25-core limit; the guest was idle. No unrelated jobs were changed. A clean performance claim remains deferred.
 
 The first combined full-host rerun hit an AMD helper output-directory collision
 after the preceding Linux gate. The helper now permits reuse and passes two
