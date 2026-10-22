@@ -5,6 +5,7 @@ import LeanCompilerBackend.Semantics
 import LeanCompilerBackend.Allocation
 import LeanCompilerBackend.Assembly
 import LeanCompilerBackend.RV64ABI
+import LeanCompilerBackend.Selection
 
 namespace LeanCompilerBackend.RV64
 
@@ -159,6 +160,23 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
     lines := lines ++ ["\tmv a0, t2"]
   pure lines
 
+private def signedComparison (op : Comparison) : Bool :=
+  match op with | .signedLE | .signedLT | .signedGE | .signedGT => true | _ => false
+
+private def comparisonOperands (c : Context) (op : Comparison) (w : Width) (x y : Operand)
+    : Except String (List String) := do
+  let lines := (← load c w "t0" x) ++ (← load c w "t1" y)
+  pure (lines ++ if signedComparison op && w == .word then ["\tsext.w t0, t0", "\tsext.w t1, t1"] else [])
+
+private def inverseComparisonBranch (op : Comparison) (destination : String) : String :=
+  let (mnemonic, x, y) := match op with
+    | .eq => ("bne", "t0", "t1") | .ne => ("beq", "t0", "t1")
+    | .signedLT => ("bge", "t0", "t1") | .signedGE => ("blt", "t0", "t1")
+    | .signedLE => ("blt", "t1", "t0") | .signedGT => ("bge", "t1", "t0")
+    | .unsignedLT => ("bgeu", "t0", "t1") | .unsignedGE => ("bltu", "t0", "t1")
+    | .unsignedLE => ("bltu", "t1", "t0") | .unsignedGT => ("bgeu", "t1", "t0")
+  s!"\t{mnemonic} {x}, {y}, {destination}"
+
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
   let w := inst.width
   let ws := if w == .word then "w" else ""
@@ -178,10 +196,8 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
     let mnemonic := match op with | .signedDiv => "div" | .unsignedDiv => "divu" | .signedRem => "rem" | .unsignedRem => "remu"
     lines := lines ++ [s!"\t{mnemonic}{ws} t0, t0, t1"]
   | .compare op ow x y =>
-    lines := (← load c ow "t0" x) ++ (← load c ow "t1" y)
-    let signed := match op with | .signedLE | .signedLT | .signedGE | .signedGT => true | _ => false
-    if signed && ow == .word then lines := lines ++ ["\tsext.w t0, t0", "\tsext.w t1, t1"]
-    let cmp := if signed then "slt" else "sltu"
+    lines := ← comparisonOperands c op ow x y
+    let cmp := if signedComparison op then "slt" else "sltu"
     lines := lines ++ (match op with
       | .eq => ["\txor t0, t0, t1", "\tseqz t0, t0"]
       | .ne => ["\txor t0, t0, t1", "\tsnez t0, t0"]
@@ -323,7 +339,9 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
     lines := lines ++ getValue p.width arg.chunks[0]!.place
     if let some k := p.subword then lines := lines ++ extend .word k.extension
     lines := lines ++ norm p.width "t0" ++ (← store c p.name)
+  let uses := if allocate then Selection.useCounts f else {}
   for b in f.blocks do
+    let branchCompare := if allocate then Selection.branchComparison uses b else none
     lines := lines ++ [label f b.label ++ ":"]
     let mut debugIndex := 0
     for i in [:b.instructions.size+1] do
@@ -333,7 +351,11 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
           lines := lines ++ [s!"\t.loc {fileId} {loc.line} {loc.column}"]
           debugIndex := debugIndex+1
         else break
-      if let some inst := b.instructions[i]? then lines := lines ++ (← emitStatement c inst)
+      if let some inst := b.instructions[i]? then
+        if let some (op, width, x, y) := branchCompare then
+          if i+1 == b.instructions.size then lines := lines ++ (← comparisonOperands c op width x y)
+          else lines := lines ++ (← emitStatement c inst)
+        else lines := lines ++ (← emitStatement c inst)
     match b.terminator with
     | .ret value =>
       if let some v := value then
@@ -356,7 +378,11 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
     | .jump dst => lines := lines ++ (← edge c f b.label dst) ++ [s!"\tj {label f dst}"]
     | .branch v yes no =>
       let other := s!".L_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{b.label}"
-      lines := lines ++ (← load c .word "t0" v) ++ [s!"\tbeqz t0, {other}"] ++ (← edge c f b.label yes) ++
+      if let some (op, _, _, _) := branchCompare then
+        lines := lines ++ [inverseComparisonBranch op other]
+      else
+        lines := lines ++ (← load c .word "t0" v) ++ [s!"\tbeqz t0, {other}"]
+      lines := lines ++ (← edge c f b.label yes) ++
         [s!"\tj {label f yes}", other ++ ":"] ++ (← edge c f b.label no) ++ [s!"\tj {label f no}"]
   lines := lines ++ [s!".size {f.name}, .-{f.name}"]
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines

@@ -8,12 +8,38 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`80a20e067d8d30ff9785f44a1df43beaee829c7e00a921db34c81cf4031a96d8`.
+`fc3e23c77fb09b605432c0e34275bb76f3e8862fde2adb7bea0229230aac6f2c`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
 caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
+
+## RV64 comparison branches
+
+RV64 also selects final sole-use integer comparisons directly into inverse
+conditional branches. Signed word comparisons preserve zero normalization followed
+by scratch-register sign extension; phi-edge effects occur only after the branch.
+Baseline lowering is unchanged. Independent review found no defect. The Linux
+RV64/QEMU suite passes 176,400 independent cases per mode, all ten predicates,
+width/constant boundaries, live/shared/phi/spilled operands and an inverted-branch
+negative control, with actual lowering-mode counts. Raw cross-target seeds
+20263000–20263031 pass all LCB modes, Python/interpreter and unchanged QBE
+(256 functions / 3,328 inputs); this is a rerun of existing seeds on the RV64
+selection identity, not 32 additional unique seeds. A disjoint fresh campaign
+20264000–20264031 also passes all paths and its corruption control (another
+256 functions / 3,328 inputs), retained in `cross-fuzz-rv-branch-fresh-32.json`.
+
+`zlib-rv-branch.json` retains upstream static tests and 12 exact gzip streams
+per qualified backend. Optimized linked text falls from 288,552 to 266,316 bytes
+(22,236 fewer) against the preceding RV64 extension measurement with identical
+source. `qbe-rv-branch.json` qualifies 455 exact fixture assemblies across six
+output targets, 32 self-IR assemblies and 58 original ARM64 runtime tests;
+optimized object text is 671,024 bytes and linked text 695,623 bytes. Original
+RV64 QBE link failures remain unqualified and separate from the corrected oracle.
+Execution is QEMU for the RV64 programs, not native RV64 hardware. Proof scope
+is unchanged. The complete local gate passed in
+`.build/rv-branch-full-check.log`.
 
 ## AMD64 comparison branches
 

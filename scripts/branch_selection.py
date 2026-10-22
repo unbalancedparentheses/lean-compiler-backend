@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Independent integer branch oracles for ARM64/AMD64 flag-based compare selection."""
+"""Independent integer branch oracles for ARM64/AMD64/RV64 direct compare selection."""
 import argparse
 import os
 from pathlib import Path
@@ -102,6 +102,10 @@ def exercise(compiler,work,run,cc,target,execute=True):
             for op in ['e','ne','l','le','g','ge','b','be','a','ae']:
                 assert '\tj'+op+' ' in assembly,op
             assert '\tset' in assembly and '\ttestl %eax, %eax' in assembly
+        if target.startswith('riscv64') and label=='allocated':
+            for op in ['beq','bne','blt','bge','bltu','bgeu']:
+                assert '\t'+op+' ' in assembly,op
+            assert '\tbeqz t0, ' in assembly and '\tseqz t0, t0' in assembly
         if execute:
             r=run([cc,obj,asm,'-o',exe],True);assert r.returncode==0,r.stderr
             r=run([exe],True);assert r.returncode==0,(label,r.returncode,r.stderr)
@@ -115,6 +119,11 @@ def exercise(compiler,work,run,cc,target,execute=True):
                 bad,badexe=case/'inverted.s',case/'inverted';bad.write_text(damaged)
                 r=run([cc,obj,bad,'-o',badexe],True);assert r.returncode==0,r.stderr
                 r=run([badexe],True);assert r.returncode!=0,'inverted AMD64 branch escaped C oracle'
+            if target.startswith('riscv64') and label=='allocated':
+                damaged=assembly.replace('\tbne t0, t1, ','\tbeq t0, t1, ',1);assert damaged!=assembly
+                bad,badexe=case/'inverted.s',case/'inverted';bad.write_text(damaged)
+                r=run([cc,obj,bad,'-o',badexe],True);assert r.returncode==0,r.stderr
+                r=run([badexe],True);assert r.returncode!=0,'inverted RV64 branch escaped C oracle'
     print(f'{target}: integer branch selection: {count} independent cases per mode; ten predicates, both widths, constants, phi/shared/nonadjacent uses and pressure; execution={execute}',flush=True)
 
 
