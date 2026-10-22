@@ -32,7 +32,8 @@ fresh zlib checks also pass; complete regression gates/CI are running.
 allows 4,096 globals, covering frontend-generated message catalogs that exceeded
 the old 1,024 cap. Combined identity e095ed59 passes all five actual-main boundary
 matrices, unchanged catalog execution, units and unchanged proof audit. Byte and
-parser budgets remain bounded; combined full regression/CI qualification follows.
+parser budgets remain bounded. All three complete Linux gates pass; final host,
+bootstrap refresh and CI qualification are running.
 
 ## Active execution order
 

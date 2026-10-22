@@ -12,8 +12,8 @@ passes fresh units, 147 unchanged audit statements and all five actual-main
 matrices: 92,175 LCB object checks, 51,210 original-QBE checks, 65 rejection/budget
 controls and five corrupted-final-object controls. The unchanged cproc catalog
 also passes all three ARM modes. Actual combined AMD/zlib replay and corpus audit also pass: 102 audited pairs,
-204 private/main assembly matches, six examples and 72 exact streams. Full Linux
-gates and fresh QBE/cproc builds are running; final full host gate follows. No timing claim.
+204 private/main assembly matches, six examples and 72 exact streams. All three complete Linux gates pass. Fresh QBE/cproc builds and the final full
+host gate are running; combined-source CI is pending. No timing claim.
 
 [AMD64 folded loads](benchmarks/amd-folded-loads/README.md) remove redundant EAX
 self-copies after word loads. Integrated identity `7e441df0` exactly matches the
