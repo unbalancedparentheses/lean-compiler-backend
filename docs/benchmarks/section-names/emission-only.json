@@ -1,0 +1,1899 @@
+{
+  "aarch64-linux": {
+    "harness_sha256": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+    "target": "aarch64-linux",
+    "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+    "runs": [
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--build-identity"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/runtime.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/baseline.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/runtime.ssa",
+          "--target",
+          "aarch64-linux",
+          "--allocate",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/allocated.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/runtime.ssa",
+          "--target",
+          "aarch64-linux",
+          "--optimize",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/optimized.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect0.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect0.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect1.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect1.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect2.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect2.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect3.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect3.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect4.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect4.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect5.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect5.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect6.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/inspect6.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad0.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad0.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad0.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad1.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad1.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad1.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad2.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad2.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad2.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad3.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad3.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad3.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad4.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad4.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad4.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad5.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad5.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad5.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad6.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad6.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad6.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad7.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad7.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad7.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad8.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad8.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad8.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad9.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad9.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad9.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad10.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad10.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad11.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad11.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/bad11.ssa: unsupported Apple section type\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-linux/section-names/bad12.ssa",
+          "--target",
+          "aarch64-linux",
+          "-o",
+          ".build/section-main/emission-aarch64-linux/section-names/bad12.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-aarch64-linux/section-names/linkage-bad0.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/linkage-bad0.ssa: thread data cannot have custom section or common linkage\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-aarch64-linux/section-names/linkage-bad1.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-linux/section-names/linkage-bad1.ssa: common data cannot have custom section\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--first-path",
+          ".build/section-main/emission-aarch64-linux/section-names/runtime.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: module data/types are outside the first-path profile\n"
+      }
+    ],
+    "executed_c_checks": 0,
+    "original_qbe": "not-run",
+    "negative_control": "not-run",
+    "notes": [
+      "Unflagged ELF names are assembly/object-inspection cases only, not runtime-qualified.",
+      "ELF retains both string boundaries and literal commas. Apple preserves LCB unquoted combined directives and 16-byte names, deliberately differing from QBE quoted section-name bytes."
+    ],
+    "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+    "source_sha256": "00d080ed41a2b54df877af373cdda90863843315fc018f7227239eeaf17ecd78",
+    "caller_sha256": "03fcb978e41060d92391feade0f8ad5767fadcc800ab8e1b9905a7c6d3f6a782",
+    "status": "passed"
+  },
+  "x86_64-linux": {
+    "harness_sha256": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+    "target": "x86_64-linux",
+    "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+    "runs": [
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--build-identity"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/runtime.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/baseline.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/runtime.ssa",
+          "--target",
+          "x86_64-linux",
+          "--allocate",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/allocated.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/runtime.ssa",
+          "--target",
+          "x86_64-linux",
+          "--optimize",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/optimized.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect0.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect0.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect1.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect1.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect2.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect2.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect3.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect3.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect4.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect4.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect5.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect5.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect6.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/inspect6.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad0.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad0.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad0.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad1.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad1.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad1.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad2.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad2.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad2.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad3.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad3.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad3.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad4.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad4.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad4.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad5.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad5.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad5.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad6.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad6.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad6.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad7.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad7.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad7.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad8.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad8.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad8.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad9.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad9.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad9.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad10.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad10.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad11.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad11.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/bad11.ssa: unsupported Apple section type\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-linux/section-names/bad12.ssa",
+          "--target",
+          "x86_64-linux",
+          "-o",
+          ".build/section-main/emission-x86_64-linux/section-names/bad12.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-x86_64-linux/section-names/linkage-bad0.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/linkage-bad0.ssa: thread data cannot have custom section or common linkage\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-x86_64-linux/section-names/linkage-bad1.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-linux/section-names/linkage-bad1.ssa: common data cannot have custom section\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--first-path",
+          ".build/section-main/emission-x86_64-linux/section-names/runtime.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: module data/types are outside the first-path profile\n"
+      }
+    ],
+    "executed_c_checks": 0,
+    "original_qbe": "not-run",
+    "negative_control": "not-run",
+    "notes": [
+      "Unflagged ELF names are assembly/object-inspection cases only, not runtime-qualified.",
+      "ELF retains both string boundaries and literal commas. Apple preserves LCB unquoted combined directives and 16-byte names, deliberately differing from QBE quoted section-name bytes."
+    ],
+    "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+    "source_sha256": "00d080ed41a2b54df877af373cdda90863843315fc018f7227239eeaf17ecd78",
+    "caller_sha256": "03fcb978e41060d92391feade0f8ad5767fadcc800ab8e1b9905a7c6d3f6a782",
+    "status": "passed"
+  },
+  "riscv64-linux": {
+    "harness_sha256": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+    "target": "riscv64-linux",
+    "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+    "runs": [
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--build-identity"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/runtime.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/baseline.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/runtime.ssa",
+          "--target",
+          "riscv64-linux",
+          "--allocate",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/allocated.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/runtime.ssa",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/optimized.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect0.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect0.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect1.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect1.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect2.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect2.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect3.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect3.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect4.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect4.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect5.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect5.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect6.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/inspect6.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad0.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad0.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad0.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad1.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad1.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad1.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad2.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad2.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad2.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad3.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad3.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad3.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad4.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad4.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad4.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad5.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad5.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad5.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad6.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad6.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad6.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad7.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad7.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad7.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad8.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad8.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad8.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad9.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad9.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad9.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad10.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad10.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad11.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad11.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/bad11.ssa: unsupported Apple section type\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-riscv64-linux/section-names/bad12.ssa",
+          "--target",
+          "riscv64-linux",
+          "-o",
+          ".build/section-main/emission-riscv64-linux/section-names/bad12.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-riscv64-linux/section-names/linkage-bad0.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/linkage-bad0.ssa: thread data cannot have custom section or common linkage\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-riscv64-linux/section-names/linkage-bad1.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-riscv64-linux/section-names/linkage-bad1.ssa: common data cannot have custom section\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--first-path",
+          ".build/section-main/emission-riscv64-linux/section-names/runtime.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: module data/types are outside the first-path profile\n"
+      }
+    ],
+    "executed_c_checks": 0,
+    "original_qbe": "not-run",
+    "negative_control": "not-run",
+    "notes": [
+      "Unflagged ELF names are assembly/object-inspection cases only, not runtime-qualified.",
+      "ELF retains both string boundaries and literal commas. Apple preserves LCB unquoted combined directives and 16-byte names, deliberately differing from QBE quoted section-name bytes."
+    ],
+    "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+    "source_sha256": "00d080ed41a2b54df877af373cdda90863843315fc018f7227239eeaf17ecd78",
+    "caller_sha256": "03fcb978e41060d92391feade0f8ad5767fadcc800ab8e1b9905a7c6d3f6a782",
+    "status": "passed"
+  },
+  "aarch64-macos": {
+    "harness_sha256": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+    "target": "aarch64-macos",
+    "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+    "runs": [
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--build-identity"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/runtime.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/baseline.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/runtime.ssa",
+          "--target",
+          "aarch64-macos",
+          "--allocate",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/allocated.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/runtime.ssa",
+          "--target",
+          "aarch64-macos",
+          "--optimize",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/optimized.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/inspect0.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/inspect0.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/inspect1.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/inspect1.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/inspect2.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/inspect2.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/legacy.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/legacy.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/apple-sixteen.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/apple-sixteen.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad0.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad0.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad0.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad1.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad1.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad1.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad2.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad2.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad2.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad3.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad3.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad3.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad4.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad4.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad4.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad5.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad5.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad5.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad6.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad6.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad6.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad7.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad7.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad7.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad8.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad8.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/bad8.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad9.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad9.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad10.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad10.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported Apple section type\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad11.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad11.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported Apple section attribute\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad12.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad12.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: Apple section requires segment,section[,type[,attributes]]\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-aarch64-macos/section-names/bad13.ssa",
+          "--target",
+          "aarch64-macos",
+          "-o",
+          ".build/section-main/emission-aarch64-macos/section-names/bad13.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: Apple section requires segment,section[,type[,attributes]]\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-aarch64-macos/section-names/linkage-bad0.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/linkage-bad0.ssa: thread data cannot have custom section or common linkage\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-aarch64-macos/section-names/linkage-bad1.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-aarch64-macos/section-names/linkage-bad1.ssa: common data cannot have custom section\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--first-path",
+          ".build/section-main/emission-aarch64-macos/section-names/runtime.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: module data/types are outside the first-path profile\n"
+      }
+    ],
+    "executed_c_checks": 0,
+    "original_qbe": "not-run",
+    "negative_control": "not-run",
+    "notes": [
+      "Unflagged ELF names are assembly/object-inspection cases only, not runtime-qualified.",
+      "ELF retains both string boundaries and literal commas. Apple preserves LCB unquoted combined directives and 16-byte names, deliberately differing from QBE quoted section-name bytes."
+    ],
+    "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+    "source_sha256": "c2ef5a62b9007dc644479538f1fe1d126b2fec483377c3935d0dab86c4444224",
+    "caller_sha256": "03fcb978e41060d92391feade0f8ad5767fadcc800ab8e1b9905a7c6d3f6a782",
+    "status": "passed"
+  },
+  "x86_64-macos": {
+    "harness_sha256": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+    "target": "x86_64-macos",
+    "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+    "runs": [
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--build-identity"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6\n",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/runtime.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/baseline.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/runtime.ssa",
+          "--target",
+          "x86_64-macos",
+          "--allocate",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/allocated.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/runtime.ssa",
+          "--target",
+          "x86_64-macos",
+          "--optimize",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/optimized.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/inspect0.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/inspect0.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/inspect1.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/inspect1.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/inspect2.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/inspect2.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/legacy.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/legacy.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/apple-sixteen.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/apple-sixteen.s"
+        ],
+        "inside": false,
+        "exit": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad0.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad0.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad0.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad1.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad1.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad1.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad2.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad2.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad2.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad3.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad3.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad3.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad4.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad4.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad4.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad5.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad5.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad5.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad6.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad6.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad6.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad7.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad7.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad7.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad8.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad8.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/bad8.ssa: ELF section requires 1..128 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad9.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad9.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad10.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad10.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported Apple section type\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad11.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad11.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: unsupported Apple section attribute\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad12.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad12.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: Apple section requires segment,section[,type[,attributes]]\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          ".build/section-main/emission-x86_64-macos/section-names/bad13.ssa",
+          "--target",
+          "x86_64-macos",
+          "-o",
+          ".build/section-main/emission-x86_64-macos/section-names/bad13.s"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: custom section syntax does not match the selected object format: Apple section requires segment,section[,type[,attributes]]\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-x86_64-macos/section-names/linkage-bad0.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/linkage-bad0.ssa: thread data cannot have custom section or common linkage\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--check",
+          ".build/section-main/emission-x86_64-macos/section-names/linkage-bad1.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: .build/section-main/emission-x86_64-macos/section-names/linkage-bad1.ssa: common data cannot have custom section\n"
+      },
+      {
+        "command": [
+          ".build/section-main/lcb",
+          "--first-path",
+          ".build/section-main/emission-x86_64-macos/section-names/runtime.ssa"
+        ],
+        "inside": false,
+        "exit": 1,
+        "stdout": "",
+        "stderr": "error: module data/types are outside the first-path profile\n"
+      }
+    ],
+    "executed_c_checks": 0,
+    "original_qbe": "not-run",
+    "negative_control": "not-run",
+    "notes": [
+      "Unflagged ELF names are assembly/object-inspection cases only, not runtime-qualified.",
+      "ELF retains both string boundaries and literal commas. Apple preserves LCB unquoted combined directives and 16-byte names, deliberately differing from QBE quoted section-name bytes."
+    ],
+    "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+    "source_sha256": "c2ef5a62b9007dc644479538f1fe1d126b2fec483377c3935d0dab86c4444224",
+    "caller_sha256": "03fcb978e41060d92391feade0f8ad5767fadcc800ab8e1b9905a7c6d3f6a782",
+    "status": "passed"
+  }
+}

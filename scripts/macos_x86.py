@@ -110,6 +110,8 @@ def main():
         objects(compiler, work, selected_run, cc, qbe, 'x86_64-macos', 'amd64_apple')
     from quoted_names import exercise as quoted
     from zero_alloc import exercise as zero
+    from section_names import exercise as section_name_tests
+    section_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
     from integer_patterns import exercise as integer_pattern_tests
     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],'x86_64-macos',execute)
     from syntax_edges import exercise as syntax_edge_tests

@@ -1,4 +1,5 @@
 import LeanCompilerBackend.IR
+import LeanCompilerBackend.Section
 
 namespace LeanCompilerBackend.Assembly
 
@@ -35,16 +36,15 @@ def localName (name : String) : String :=
   else name
 
 
-def sectionDirective (darwin : Bool) (customSection : String) : String :=
-  if darwin then ".section " ++ customSection
-  else match customSection.splitOn "," with
-    | name :: flags :: _ => s!".section {name},\"{flags}\""
-    | _ => ".section " ++ customSection
+def sectionDirective (darwin : Bool) (customSection : SectionSpec) : String :=
+  -- Validation excludes quotes, escapes and control bytes from both fields.
+  if darwin then
+    ".section " ++ customSection.name ++ (customSection.flags.map ("," ++ ·)).getD ""
+  else
+    ".section \"" ++ customSection.name ++ "\"" ++
+      (customSection.flags.map (fun flags => ",\"" ++ flags ++ "\"")).getD ""
 
-def checkTargetSection (darwin : Bool) (customSection : Option String) : Except String Unit := do
-  if let some name := customSection then
-    if darwin == name.startsWith "." then
-      throw "custom section syntax does not match the selected object format"
+def checkTargetSection := Section.checkTarget
 
 /-- Quote UTF-8 bytes using assembler octal escapes, including quotes and backslashes. -/
 def debugFilename (name : String) : String :=

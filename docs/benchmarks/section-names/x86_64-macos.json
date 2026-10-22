@@ -1,0 +1,784 @@
+{
+  "harness_sha256": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+  "target": "x86_64-macos",
+  "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+  "runs": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/runtime.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/runtime.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/runtime.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/runtime.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "otool",
+        "-l",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0.o:\nMach header\n      magic cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags\n 0xfeedfacf 16777223          3  0x00           1     4        360 0x00002000\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 232\n  segname \n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000000008\n  fileoff 392\n filesize 8\n  maxprot 0x00000007\n initprot 0x00000007\n   nsects 2\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000000\n      size 0x0000000000000000\n    offset 392\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x80000000\n reserved1 0\n reserved2 0\nSection\n  sectname ax\n   segname foo\n      addr 0x0000000000000000\n      size 0x0000000000000008\n    offset 392\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n       cmd LC_BUILD_VERSION\n   cmdsize 24\n  platform 1\n       sdk n/a\n     minos 14.0\n    ntools 0\nLoad command 2\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 400\n   nsyms 1\n  stroff 416\n strsize 16\nLoad command 3\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 0\n     iextdefsym 0\n     nextdefsym 1\n      iundefsym 1\n      nundefsym 0\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 0\n  nindirectsyms 0\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "otool",
+        "-l",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect0-qbe.o:\nMach header\n      magic cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags\n 0xfeedfacf 16777223          3  0x00           1     4        360 0x00000000\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 232\n  segname \n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000000008\n  fileoff 392\n filesize 8\n  maxprot 0x00000007\n initprot 0x00000007\n   nsects 2\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000000\n      size 0x0000000000000000\n    offset 392\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x80000000\n reserved1 0\n reserved2 0\nSection\n  sectname \"ax\"\n   segname foo\n      addr 0x0000000000000000\n      size 0x0000000000000008\n    offset 392\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n       cmd LC_BUILD_VERSION\n   cmdsize 24\n  platform 1\n       sdk n/a\n     minos 14.0\n    ntools 0\nLoad command 2\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 400\n   nsyms 1\n  stroff 416\n strsize 16\nLoad command 3\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 0\n     iextdefsym 0\n     nextdefsym 1\n      iundefsym 1\n      nundefsym 0\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 0\n  nindirectsyms 0\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "otool",
+        "-l",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1.o:\nMach header\n      magic cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags\n 0xfeedfacf 16777223          3  0x00           1     4        360 0x00002000\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 232\n  segname \n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000000008\n  fileoff 392\n filesize 8\n  maxprot 0x00000007\n initprot 0x00000007\n   nsects 2\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000000\n      size 0x0000000000000000\n    offset 392\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x80000000\n reserved1 0\n reserved2 0\nSection\n  sectname sect\n   segname .SEG\n      addr 0x0000000000000000\n      size 0x0000000000000008\n    offset 392\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n       cmd LC_BUILD_VERSION\n   cmdsize 24\n  platform 1\n       sdk n/a\n     minos 14.0\n    ntools 0\nLoad command 2\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 400\n   nsyms 1\n  stroff 416\n strsize 16\nLoad command 3\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 0\n     iextdefsym 0\n     nextdefsym 1\n      iundefsym 1\n      nundefsym 0\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 0\n  nindirectsyms 0\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "otool",
+        "-l",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect1-qbe.o:\nMach header\n      magic cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags\n 0xfeedfacf 16777223          3  0x00           1     4        360 0x00000000\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 232\n  segname \n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000000008\n  fileoff 392\n filesize 8\n  maxprot 0x00000007\n initprot 0x00000007\n   nsects 2\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000000\n      size 0x0000000000000000\n    offset 392\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x80000000\n reserved1 0\n reserved2 0\nSection\n  sectname \"sect\"\n   segname .SEG\n      addr 0x0000000000000000\n      size 0x0000000000000008\n    offset 392\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n       cmd LC_BUILD_VERSION\n   cmdsize 24\n  platform 1\n       sdk n/a\n     minos 14.0\n    ntools 0\nLoad command 2\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 400\n   nsyms 1\n  stroff 416\n strsize 16\nLoad command 3\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 0\n     iextdefsym 0\n     nextdefsym 1\n      iundefsym 1\n      nundefsym 0\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 0\n  nindirectsyms 0\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "otool",
+        "-l",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2.o:\nMach header\n      magic cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags\n 0xfeedfacf 16777223          3  0x00           1     4        360 0x00002000\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 232\n  segname \n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000000008\n  fileoff 392\n filesize 8\n  maxprot 0x00000007\n initprot 0x00000007\n   nsects 2\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000000\n      size 0x0000000000000000\n    offset 392\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x80000000\n reserved1 0\n reserved2 0\nSection\n  sectname nnnnnnnnnnnnnn\n   segname __DATA\n      addr 0x0000000000000000\n      size 0x0000000000000008\n    offset 392\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n       cmd LC_BUILD_VERSION\n   cmdsize 24\n  platform 1\n       sdk n/a\n     minos 14.0\n    ntools 0\nLoad command 2\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 400\n   nsyms 1\n  stroff 416\n strsize 16\nLoad command 3\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 0\n     iextdefsym 0\n     nextdefsym 1\n      iundefsym 1\n      nundefsym 0\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 0\n  nindirectsyms 0\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "otool",
+        "-l",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/inspect2-qbe.o:\nMach header\n      magic cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags\n 0xfeedfacf 16777223          3  0x00           1     4        360 0x00000000\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 232\n  segname \n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000000008\n  fileoff 392\n filesize 8\n  maxprot 0x00000007\n initprot 0x00000007\n   nsects 2\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000000\n      size 0x0000000000000000\n    offset 392\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x80000000\n reserved1 0\n reserved2 0\nSection\n  sectname \"nnnnnnnnnnnnnn\"\n   segname __DATA\n      addr 0x0000000000000000\n      size 0x0000000000000008\n    offset 392\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n       cmd LC_BUILD_VERSION\n   cmdsize 24\n  platform 1\n       sdk n/a\n     minos 14.0\n    ntools 0\nLoad command 2\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 400\n   nsyms 1\n  stroff 416\n strsize 16\nLoad command 3\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 0\n     iextdefsym 0\n     nextdefsym 1\n      iundefsym 1\n      nundefsym 0\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 0\n  nindirectsyms 0\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/legacy.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/legacy.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/legacy.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/legacy.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "otool",
+        "-l",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/legacy.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/legacy.o:\nMach header\n      magic cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags\n 0xfeedfacf 16777223          3  0x00           1     4        360 0x00002000\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 232\n  segname \n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000000008\n  fileoff 392\n filesize 8\n  maxprot 0x00000007\n initprot 0x00000007\n   nsects 2\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000000\n      size 0x0000000000000000\n    offset 392\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x80000000\n reserved1 0\n reserved2 0\nSection\n  sectname __legacy\n   segname __DATA\n      addr 0x0000000000000000\n      size 0x0000000000000008\n    offset 392\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x10000000\n reserved1 0\n reserved2 0\nLoad command 1\n       cmd LC_BUILD_VERSION\n   cmdsize 24\n  platform 1\n       sdk n/a\n     minos 14.0\n    ntools 0\nLoad command 2\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 400\n   nsyms 1\n  stroff 416\n strsize 16\nLoad command 3\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 1\n     iextdefsym 1\n     nextdefsym 0\n      iundefsym 1\n      nundefsym 0\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 0\n  nindirectsyms 0\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "otool",
+        "-l",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen.o:\nMach header\n      magic cputype cpusubtype  caps    filetype ncmds sizeofcmds      flags\n 0xfeedfacf 16777223          3  0x00           1     4        360 0x00002000\nLoad command 0\n      cmd LC_SEGMENT_64\n  cmdsize 232\n  segname \n   vmaddr 0x0000000000000000\n   vmsize 0x0000000000000008\n  fileoff 392\n filesize 8\n  maxprot 0x00000007\n initprot 0x00000007\n   nsects 2\n    flags 0x0\nSection\n  sectname __text\n   segname __TEXT\n      addr 0x0000000000000000\n      size 0x0000000000000000\n    offset 392\n     align 2^0 (1)\n    reloff 0\n    nreloc 0\n     flags 0x80000000\n reserved1 0\n reserved2 0\nSection\n  sectname nnnnnnnnnnnnnnnn\n   segname __DATA\n      addr 0x0000000000000000\n      size 0x0000000000000008\n    offset 392\n     align 2^3 (8)\n    reloff 0\n    nreloc 0\n     flags 0x00000000\n reserved1 0\n reserved2 0\nLoad command 1\n       cmd LC_BUILD_VERSION\n   cmdsize 24\n  platform 1\n       sdk n/a\n     minos 14.0\n    ntools 0\nLoad command 2\n     cmd LC_SYMTAB\n cmdsize 24\n  symoff 400\n   nsyms 1\n  stroff 416\n strsize 16\nLoad command 3\n            cmd LC_DYSYMTAB\n        cmdsize 80\n      ilocalsym 0\n      nlocalsym 1\n     iextdefsym 1\n     nextdefsym 0\n      iundefsym 1\n      nundefsym 0\n         tocoff 0\n           ntoc 0\n      modtaboff 0\n        nmodtab 0\n   extrefsymoff 0\n    nextrefsyms 0\n indirectsymoff 0\n  nindirectsyms 0\n      extreloff 0\n        nextrel 0\n      locreloff 0\n        nlocrel 0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "amd64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen-qbe.o"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/apple-sixteen-qbe.s:1:10: error: mach-o section specifier requires a section whose length is between 1 and 16 characters\n.section \"__DATA\",\"nnnnnnnnnnnnnnnn\"\n         ^\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad0.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad0.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad0.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad1.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad1.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad1.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad2.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad2.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad2.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad3.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad3.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad3.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad4.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad4.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad4.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad5.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad5.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad5.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad6.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad6.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad6.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad7.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad7.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad7.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad8.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad8.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad8.ssa: ELF section requires 1..128 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad9.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad9.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad10.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad10.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported Apple section type\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad11.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad11.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported Apple section attribute\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad12.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad12.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section requires segment,section[,type[,attributes]]\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad13.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/bad13.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section requires segment,section[,type[,attributes]]\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/linkage-bad0.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/linkage-bad0.ssa: thread data cannot have custom section or common linkage\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/linkage-bad1.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/linkage-bad1.ssa: common data cannot have custom section\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "--first-path",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/runtime.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data/types are outside the first-path profile\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/wrong-value.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/wrong-value.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/cc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/fixed-caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/wrong-value.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "ld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/wrong-value"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "executed_c_checks": 252,
+  "original_qbe": "passed",
+  "negative_control": "wrong global value detected",
+  "notes": [
+    "Unflagged ELF names are assembly/object-inspection cases only, not runtime-qualified.",
+    "ELF retains both string boundaries and literal commas. Apple preserves LCB unquoted combined directives and 16-byte names, deliberately differing from QBE quoted section-name bytes."
+  ],
+  "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+  "source_sha256": "c2ef5a62b9007dc644479538f1fe1d126b2fec483377c3935d0dab86c4444224",
+  "caller_sha256": "03fcb978e41060d92391feade0f8ad5767fadcc800ab8e1b9905a7c6d3f6a782",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "apple_qbe_16_byte_section": "assembler refusal: quotes exceed section-name capacity; LCB case passed separately",
+  "status": "passed"
+}

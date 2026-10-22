@@ -168,6 +168,8 @@ def main():
     module_tests(compiler,work, selected_run,cc,'aarch64-linux',native)
     from extern_offsets import exercise as extern_offset_tests
     extern_offset_tests(compiler,work,run,cc,qbe,native)
+    from section_names import exercise as section_name_tests
+    section_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
     from integer_patterns import exercise as integer_pattern_tests
     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],'aarch64-linux',native)
     from syntax_edges import exercise as syntax_edge_tests

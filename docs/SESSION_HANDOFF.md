@@ -6,6 +6,18 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Typed custom sections](benchmarks/section-names/README.md) now preserve the two
+QBE section fields on combined main identity `f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6`.
+Bounded ELF bare/hyphen/literal-comma names and optional awx flags pass all five
+target matrices (252 independent C checks each), existing linkage/ELF helpers,
+five emission-only controls, fresh units and all 147 proof-audit statements.
+Apple's existing unquoted names, 16-byte capacity and attributes are retained;
+original QBE's literal section-name quote bytes and boundary assembler refusal
+are recorded separately. The private candidate `4d77c3de…` was qualified before
+the combined scalar change and is not the main qualification identity. No new
+proof-path feature or Windows support is claimed; arbitrary section escapes and
+assembler suffixes remain outside the bounded qualification.
+
 [LZ4 1.10.0](benchmarks/lz4/README.md) now passes native Linux ARM64 and QEMU x86/RV qualification:
 all six original C units, 370 functions / 64,135 IR lines, upstream unit/fixed-seed
 tests and 15 exact compression/cross-decompression profiles per backend. All three

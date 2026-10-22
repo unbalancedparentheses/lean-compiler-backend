@@ -1,0 +1,55 @@
+{
+  "status": "passed",
+  "base_commit": "fdacae9d60727b47d09c7f1e3c3ad35c9089b8cf",
+  "compiler_identity": "4d77c3deef6c16f193e52af8031448a94de6179cd836b7d333ce492ebd9228a6",
+  "compiler_sha256": "679461122f9f52a9bdf6f60ac068160de98a6f9b746bed97f9e280b19d844b2e",
+  "compiler": "/private/tmp/lcb-section-names/.build/section-review/preserve-apple",
+  "harness_sha256": "c9af9ec49a9fb4e4e83ec73d4c017ffafb5f3095addb7c1563635feec48d37f7",
+  "patches": {
+    "section-tests.patch": "da5864d15945073316ee6930f8ea0dca0f125a81bf7608c7d93ef59e60139ea3",
+    "section-core.patch": "d0a5ed6efaa6fb06795b1a8bd685031d27cf6a38fa17411446dfc017c0304b5b"
+  },
+  "reports": {
+    "aarch64-linux": {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/section-names-preserve-apple-aarch64-linux/section-names/report.json",
+      "sha256": "05d4c0cffabd2eebf10ea455486b322622b0d549e920a17620bee0c198f41fb5",
+      "checks": 252
+    },
+    "x86_64-linux": {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/section-names-preserve-apple-x86_64-linux/section-names/report.json",
+      "sha256": "54a808718786a600b5754d0dd515f0cba03ed31e5ce00ef730d7df7acc8fab9f",
+      "checks": 252
+    },
+    "riscv64-linux": {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/section-names-preserve-apple-riscv64-linux/section-names/report.json",
+      "sha256": "ae6530f90760208d494e180ffca04e1a4490d166ddae2326ed7dcaa8e4f98ce5",
+      "checks": 252
+    },
+    "aarch64-macos": {
+      "path": "/private/tmp/lcb-section-names/.build/section-review/preserve-apple-arm/section-names/report.json",
+      "sha256": "87c342327edde957ab119d43b0a0f17ceaf7a723c13164a4d1e8a20e0dd42285",
+      "checks": 252
+    },
+    "x86_64-macos": {
+      "path": "/private/tmp/lcb-section-names/.build/section-review/preserve-apple-x86/section-names/report.json",
+      "sha256": "f93819c020dda66b1dab9b9181760cf52a4e92c219266a11a37d2a14e6ee0571",
+      "checks": 252
+    }
+  },
+  "units": {
+    "log": "/private/tmp/lcb-section-names/.build/section-review/preserve-apple-units.log",
+    "sha256": "2ad3d3800ba5745d95aca1fcbd45143620a0beee4c7a984a0ea85723de23e017",
+    "exit": 0
+  },
+  "existing_linkage_exit": 0,
+  "existing_elf_sections_exit": 0,
+  "emission_only_targets": 5,
+  "source_manifest": "/private/tmp/lcb-section-names/.build/section-review/qbe-source-manifest.json",
+  "limitations": [
+    "Private base fdacae9; main scalar changes not included in this private identity.",
+    "ELF scoped to bounded unescaped ASCII names plus hyphen/comma and optional awx flags; arbitrary assembler suffixes excluded.",
+    "Existing section escape decoding retained; no full raw escaped-token equivalence claim.",
+    "Mach-O retains LCB combined unquoted directive semantics and 16-byte names. Original QBE includes literal second-field quote bytes; original-QBE 16-byte name assembly refusal retained, not counted as a common section-boundary pass.",
+    "Earlier flat-field prototype and quoted-Apple experiment superseded; their partial/failing artifacts retained separately."
+  ]
+}

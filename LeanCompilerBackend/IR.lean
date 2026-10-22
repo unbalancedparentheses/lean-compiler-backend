@@ -8,6 +8,12 @@ import Std
 
 namespace LeanCompilerBackend
 
+/-- Preserve the two QBE section strings; ELF name commas are not flag separators. -/
+structure SectionSpec where
+  name : String
+  flags : Option String := none
+  deriving BEq, DecidableEq, Repr, Inhabited
+
 /-- Compatibility resource bounds are independent of the certified-profile plan. -/
 def maxCompatibilityFunctions : Nat := 4096
 def maxCompatibilityBlocks : Nat := 4096
@@ -300,7 +306,7 @@ structure Function where
   variadic : Bool := false
   blocks : Array Block
   debugFile : Option String := none
-  customSection : Option String := none
+  customSection : Option SectionSpec := none
   deriving Repr, Inhabited
 
 def Function.locals (f : Function) : Array (String × Width) :=
@@ -331,7 +337,7 @@ structure DataDefinition where
   alignment : Nat := 8
   threadLocal : Bool := false
   common : Bool := false
-  customSection : Option String := none
+  customSection : Option SectionSpec := none
   items : Array DataItem
   deriving Repr, Inhabited
 

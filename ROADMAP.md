@@ -255,8 +255,13 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   entry/nonentry tests cover tails, calls and page offsets near the bound. Apple ARM64 TLS data/address access
   is tested with concurrent C threads. Apple custom code/data sections and common
   zero-fill definitions now pass native section/coalescing tests. Quoted globals
-  and existing Linux/Apple TLS conventions are implemented; additional section
-  forms remain; Windows conventions are deferred. Hexadecimal data-string escapes
+  and existing Linux/Apple TLS conventions are implemented. Typed section fields
+  now preserve ELF literal commas and optional flags, with bare/hyphen names and
+  target-selected validation qualified on all five targets; Apple retains its
+  existing unquoted 16-byte names/attributes. The original-QBE Apple quoting
+  discrepancy and remaining bounded grammar limits are recorded in
+  [section qualification](docs/benchmarks/section-names/README.md). Additional
+  section forms remain; Windows conventions are deferred. Hexadecimal data-string escapes
   and either/repeated extern/thread operand annotation order are supported.
   Decimal magnitudes through UINT64_MAX accept modular negation consistently
   across operands/data/layout/debug contexts, retaining contextual bounds, with

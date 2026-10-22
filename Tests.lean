@@ -28,6 +28,19 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
   | .error _ => false
 
 def main : IO Unit := do
+  let sectionModule ← match Parser.parseModule
+      "section \"foo,ax\" data $literal = { l 1 } section \"foo,ax\" \"aw\" data $flagged = { l 2 } section \"foo\" \"ax\" function $code() { @s ret }" with
+    | .ok m => pure m
+    | .error e => throw (IO.userError e)
+  require (sectionModule.data[0]!.customSection == some ⟨"foo,ax", none⟩)
+    "section parser must preserve a literal comma without inventing flags"
+  require (sectionModule.data[1]!.customSection == some ⟨"foo,ax", some "aw"⟩)
+    "section parser must retain explicit flags separately from a comma-containing name"
+  require (sectionModule.functions[0]!.customSection == some ⟨"foo", some "ax"⟩)
+    "function section parser must retain the original two-string boundary"
+  for darwin in [false, true] do
+    require (valueEquals (Section.checkTarget darwin sectionModule.functions[0]!.customSection) ())
+      "ambiguous two-string sections must be interpreted by the selected target"
   let discardedSource := "data $seen = { l 0 } function d $floating() { @s storel 41, $seen ret d_1.5 } function sb $narrow() { @s %v =l loadl $seen %n =l add %v, 1 storel %n, $seen ret 255 } function $nothing() { @s ret } export function l $discarded() { @s call $floating() call $narrow() call $nothing() %r =l loadl $seen ret %r }"
   let discarded ← match Parser.parseModule discardedSource >>= SSA.constructModule with
     | .ok m => pure m

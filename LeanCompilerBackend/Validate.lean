@@ -6,6 +6,7 @@
 -/
 import LeanCompilerBackend.Aggregate
 import LeanCompilerBackend.CFG
+import LeanCompilerBackend.Section
 
 namespace LeanCompilerBackend
 
@@ -120,32 +121,7 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
     seenVariadic := seenVariadic || argument.variadic
     (if argument.floating then checkFloat else check) argument.width argument.value
 
-private def checkSection (customSection : Option String) : Except String Unit := do
-  let some customSection := customSection | pure ()
-  let parts := customSection.splitOn ","
-  if customSection.startsWith "." then
-    if parts.length > 2 then throw "ELF section accepts a name and optional awx flags"
-    let name := parts[0]!
-    if name.utf8ByteSize > 128 || !name.toList.all (fun c =>
-        c.isAlphanum && c.toNat < 128 || c == '_' || c == '.' || c == '$') then
-      throw "ELF section requires at most 128 ASCII name characters"
-    if let some flags := parts[1]? then
-      if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x') then
-        throw "unsupported ELF section flags (accepted: a, w, x)"
-    return ()
-  if parts.length < 2 || parts.length > 4 then throw "Apple section requires segment,section[,type[,attributes]]"
-  for name in parts.take 2 do
-    if name.isEmpty || name.utf8ByteSize > 16 || !name.toList.all (fun c =>
-        c.isAlphanum && c.toNat < 128 || c == '_' || c == '.' || c == '$') then
-      throw "Apple section names must contain 1..16 ASCII name characters"
-  if let some kind := parts[2]? then
-    if !["regular", "cstring_literals", "4byte_literals", "8byte_literals", "16byte_literals",
-        "literal_pointers", "mod_init_funcs", "mod_term_funcs", "coalesced"].contains kind then
-      throw "unsupported Apple section type"
-  if let some attributes := parts[3]? then
-    for attr in attributes.splitOn "+" do
-      if !["pure_instructions", "some_instructions", "no_dead_strip", "live_support"].contains attr then
-        throw "unsupported Apple section attribute"
+private def checkSection := Section.checkAny
 
 def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
   checkSection f.customSection

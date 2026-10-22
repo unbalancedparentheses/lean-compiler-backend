@@ -1,0 +1,17 @@
+[
+  {
+    "length": 14,
+    "exit": 0,
+    "stderr": ""
+  },
+  {
+    "length": 15,
+    "exit": 1,
+    "stderr": ".build/section-review/quoted-probes/len15.s:1:10: error: mach-o section specifier requires a section whose length is between 1 and 16 characters\n.section \"__DATA\",\"nnnnnnnnnnnnnnn\"\n         ^\n"
+  },
+  {
+    "length": 16,
+    "exit": 1,
+    "stderr": ".build/section-review/quoted-probes/len16.s:1:10: error: mach-o section specifier requires a section whose length is between 1 and 16 characters\n.section \"__DATA\",\"nnnnnnnnnnnnnnnn\"\n         ^\n"
+  }
+]

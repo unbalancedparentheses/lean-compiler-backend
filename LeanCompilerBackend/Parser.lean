@@ -675,9 +675,9 @@ private def parseDefinitions (fuel : Nat) : P Module := do
         let flags ← if ((← peek).getD "").startsWith "\"" then do
           let bytes ← parseDataString
           let some flags := String.fromUTF8? ⟨bytes⟩ | failAt "section flags must be UTF-8"
-          pure ("," ++ flags)
-        else pure ""
-        customSection := some (name ++ flags)
+          pure (some flags)
+        else pure none
+        customSection := some { name, flags }
       else break
     if (← peek) == some "data" then
       let data ← parseData exported threadLocal

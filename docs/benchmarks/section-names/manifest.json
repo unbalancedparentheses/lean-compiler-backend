@@ -1,0 +1,114 @@
+{
+  "compiler_identity": "f159cc758be1a944534240d32728bb47d7f8e7f6abe77b0e2d1fd9446106b8f6",
+  "compiler_sha256": "d9d12aa3af4f0763e64a1320688a998a3471a17ec052a29fba7cffb59877026f",
+  "snapshot": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/lcb",
+  "harness_sha256": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+  "base_commit": "c1d56674841c4a314810b0623c11a0c0e98cb3c5",
+  "source_hashes": {
+    "LeanCompilerBackend/IR.lean": "e9f9615bca1fa560ad8a37bef3b35219427583db5676b04a2e18a0b7c191fa86",
+    "LeanCompilerBackend/Parser.lean": "29d4ccc487ae93e327957b9c9d07d3e3a1b8afdb7b5ccf190d8c97d006b873f0",
+    "LeanCompilerBackend/Section.lean": "9cf673907343653e8f19f401b4351412f7b424b181576137d446ab293dd8848b",
+    "LeanCompilerBackend/Assembly.lean": "e21fa30defca2c7621536819e095b08e034afa017cf61aa455e4c2df32cc7282",
+    "LeanCompilerBackend/Validate.lean": "2b3c46603819386b7dac4aba80d925cd5d76238d37cd824dbadc22790b37c36b"
+  },
+  "commands": {
+    "build": "lake build lcb lcb-tests",
+    "identity": "python3 scripts/build_identity.py --check-binary",
+    "units": ".lake/build/bin/lcb-tests",
+    "audit": "lake env lean scripts/ProofAudit.lean (all 147 check.sh expected statements compared)",
+    "linux": "python3 .build/section-main/run-linux.py",
+    "apple_arm": "python3 scripts/section_names.py --compiler .build/section-main/lcb --work .build/section-main/apple-arm --target aarch64-macos --qbe .build/syntax-main-review/qbe-snapshot --require-native",
+    "apple_x86": "python3 .build/section-main/run-apple-x86.py",
+    "linkage": "python3 scripts/linkage.py --require-native"
+  },
+  "files": {
+    "aarch64-linux.json": {
+      "sha256": "186a4f63b5aea93c0cac265cbfcd401ab96df8a37982171513565282f765cccb",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/section-main-aarch64-linux/section-names/report.json"
+    },
+    "x86_64-linux.json": {
+      "sha256": "222f13abf68a04f93882af47bbeedad2ccb2aec12c707175c740f3b416984954",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/section-main-x86_64-linux/section-names/report.json"
+    },
+    "riscv64-linux.json": {
+      "sha256": "198b68f6896b383808d1e1cf4a4247d3d338f14b19b8ed348a06b0464bc49cc7",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/section-main-riscv64-linux/section-names/report.json"
+    },
+    "aarch64-macos.json": {
+      "sha256": "a381c3cb72c3601391900ea37cf62a717139b66483632274454e4a4114e22a33",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-arm/section-names/report.json"
+    },
+    "x86_64-macos.json": {
+      "sha256": "55745fb8743a57059b2c53435a5172846113cf4dcddcdb159d9539b646157289",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/apple-x86/section-names/report.json"
+    },
+    "emission-only.json": {
+      "sha256": "737d91afc368bcc685e240182b26f4f3526c5c7e42bfa6b3c91b85c18fa621a0",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/emission-reports.json"
+    },
+    "units.log": {
+      "sha256": "2ad3d3800ba5745d95aca1fcbd45143620a0beee4c7a984a0ea85723de23e017",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/units.log"
+    },
+    "proof-audit.log": {
+      "sha256": "c555a9f334c34e0fbd082393488a072028ef92d77aec14bc7ba5c40e70fafad8",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/proof-audit.log"
+    },
+    "proof-audit-check.json": {
+      "sha256": "18c03c3a3b0e6bfa5f21029d817d62425c38cbeaf9abeffd9e472ef51320afd4",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/proof-audit-check.json"
+    },
+    "build.log": {
+      "sha256": "3a5bdbe49d18455268495c3c9d6189fb408501e3ac268af1874ddd1af214c280",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main-build.log"
+    },
+    "linkage.log": {
+      "sha256": "3e9a651f0496ccc27ac18cb04413c9d615aef6e4c797aaf351ef356812da3430",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/linkage.log"
+    },
+    "linux.log": {
+      "sha256": "5fddd98a70172a92fae44ff4ffc556c19e001fa944bac5d7e2a18dc5ba9dc67c",
+      "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/section-main/linux.log"
+    },
+    "qbe-source-manifest.json": {
+      "sha256": "b72e5a8bd3056ec9952fc048b2a64e0edc494f42259c5ff24b59c1fd5ace85fb",
+      "source": "/tmp/lcb-section-names/.build/section-review/qbe-source-manifest.json"
+    },
+    "private-qualification.json": {
+      "sha256": "7e352f4de6815fcee196a033f4276156a54719d01562291cc6406000dbcf10f0",
+      "source": "/tmp/lcb-section-names/.build/section-review/qualification.json"
+    },
+    "apple-assembler-length-probes.json": {
+      "sha256": "4d7b69676dea0d4fab3dc2fbcfa084449cab1535d3404f39404befc8be64c068",
+      "source": "/tmp/lcb-section-names/.build/section-review/quoted-probes/lengths.json"
+    }
+  },
+  "execution": {
+    "aarch64-linux": "native ARM64 Linux Docker",
+    "x86_64-linux": "QEMU x86_64 Linux",
+    "riscv64-linux": "QEMU RV64 Linux",
+    "aarch64-macos": "native ARM64 macOS",
+    "x86_64-macos": "Rosetta x86_64 macOS"
+  },
+  "no_commit": true,
+  "final_unit_build": {
+    "log": "final-unit-build.log",
+    "sha256": "12a86180b3b6da9a550dcb5794d97a576415c0e605efe3828aab6eab0588c051",
+    "exit": 0
+  },
+  "qualification_files": {
+    "Tests.lean": "8ecf8f951324a7289206a67fbf57bc81820d258616d7565b06bf6a50714c1777",
+    "scripts/section_names.py": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+    "scripts/check.sh": "09a6fdb97246877b9b4ffd1085b190e3615da13915549e3c7c912c2b40770c7c",
+    "scripts/elf_sections.py": "18cdd55ad325b38fea75f724af46d665c6dfb58c3d05af779e41c2a6acff18a7",
+    "scripts/linux_arm64.py": "2d111450a3731c8823ff25af294d141e4665f0578cd850c4df65faee60c7dc81",
+    "scripts/linux_targets.py": "3c8244c8281bb4e8a46ba4e064c850c83b722e848bfef312a01d834e63b77026",
+    "scripts/macos_x86.py": "8afb69f3dd9c232d75ce40589dabfa7d3c7d5b574050441d6beabd84ec06fb2e"
+  },
+  "helper_snapshot_sha256": "e92d39d5781f0570a27fb952e4bfb4d90c360277eb9c3f244b6534b0eb88872d",
+  "compiler_snapshot_matches_main_after_tests": true,
+  "runner_sources": {
+    "run-linux.py": "6f13595631af4a690a89f301241396c4fa53aa53498756651cc96d2f023e7f01",
+    "run-apple-x86.py": "ebe7d5bce85ad591b697993d0d3addf991f31054de61b990478b0f1650a82968"
+  }
+}
