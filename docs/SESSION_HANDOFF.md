@@ -16,7 +16,7 @@ The first combined full-host rerun hit an AMD helper output-directory collision
 after the preceding Linux gate. The helper now permits reuse and passes two
 consecutive emission/Rosetta profiles; failure and exact helper versions are
 retained in [repeatability evidence](benchmarks/amd-folded-loads/repeatability/README.md).
-Compiler identity is unchanged; full host v2 is running with the fixed helper.
+Compiler identity is unchanged; complete full host v2 passed with the fixed helper. Its full log is retained in benchmarks/data-definition-limit/gates/full-host-v2.log.
 
 [Data-definition admission](benchmarks/data-definition-limit/README.md) now allows
 4,096 definitions. Combined identity `e095ed5999bf703a2f710ec2edb3aead02704c051dda196a0daeb310ad2e839e`
@@ -27,13 +27,13 @@ also passes all three ARM modes. Actual combined AMD/zlib replay and corpus audi
 204 private/main assembly matches, six examples and 72 exact streams. All three complete Linux gates pass. [Fresh QBE/cproc qualification](benchmarks/amd-data-bootstrap/README.md) also passes
 on all three Linux targets: 2,922 exact assemblies/348 runtime tests and 114 exact
 IR reproductions/1,176 upstream tests. Original/corrected references remain
-separate. The final full host gate is running. Combined-source CI run39786374097 passes Linux ARM64, Linux x86-64 and macOS. No timing claim.
+separate. The complete final host gate passed. Combined-source CI run39786374097 passes Linux ARM64, Linux x86-64 and macOS. No timing claim.
 
 [AMD64 folded loads](benchmarks/amd-folded-loads/README.md) remove redundant EAX
 self-copies after word loads. Integrated identity `7e441df0` exactly matches the
 qualified private candidate; fresh main build, units and 147 unchanged audit
 statements pass. Both AMD matrices, zlib and corpus delta audit pass privately.
-Combined-main replay now passes as recorded above; full gates are running.
+Combined-main replay and all full local gates now pass as recorded above.
 No runtime speed claim.
 
 [ELF assembler profiles](benchmarks/elf-section-assembler-profiles/README.md) correct
