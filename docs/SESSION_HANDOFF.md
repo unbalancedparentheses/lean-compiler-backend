@@ -10,7 +10,12 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`57fc5bc6422b27e130dec860ce564e399dbda062f4b48041c7fb4b0b8e1b6577`.
+`821344c8800eb9e481a9a8275385296a4730a68dfd23e55085f36481c113c588`.
+
+Hexadecimal data-string escapes and either/repeated extern/thread annotation
+order now pass [five-target independent byte/TLS checks](benchmarks/syntax-edges/README.md).
+Original QBE Linux ARM/RV combined-annotation refusals and assembler escape
+limitations remain separate from the passing LCB profiles.
 
 Explicit variadic markers now survive empty anonymous tails through SSA and
 optimization; AMD64 initializes AL even when only named FP arguments are present.

@@ -185,7 +185,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   is tested with concurrent C threads. Apple custom code/data sections and common
   zero-fill definitions now pass native section/coalescing tests. Quoted globals
   and existing Linux/Apple TLS conventions are implemented; additional section
-  forms remain; Windows conventions are deferred.
+  forms remain; Windows conventions are deferred. Hexadecimal data-string escapes
+  and either/repeated extern/thread operand annotation order are supported, with
+  independent byte and TLS mutation checks and explicit oracle limitations.
   Local single/double arithmetic, comparisons, casts, memory and phi values are
   implemented, including numeric conversions, scalar floating calls/returns and
   variadics. Float-to-integer interpretation rejects non-finite/out-of-range inputs.

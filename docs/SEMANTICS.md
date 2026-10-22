@@ -858,3 +858,20 @@ plain loads, phi combinations and floating values do not acquire this fact.
 Structural units check the exclusions and retained memory operations; independent
 C execution checks signed edges and mutations between the load and extension.
 This transformation has no formal preservation proof.
+
+## Data-string hexadecimal escapes and symbol annotations
+
+Data strings accept `\x` followed by one or more hexadecimal digits, consuming
+through the first non-hexadecimal character and storing the low byte. Scanning
+reduces modulo 256 at each digit, so long escapes do not grow intermediate
+integers. Missing digits are rejected. Existing octal range restrictions remain;
+this is not a claim that every assembler-specific escape has identical behavior.
+In particular, the existing `\a`/`\v` spellings differ from original QBE's
+assembler-dependent strings; portable byte tests spell these values in octal.
+
+Operand annotations `extern` and `thread` may occur in either order and repeat
+idempotently, matching QBE's parser. A following symbol is required;
+unknown annotation words are rejected. The `thread` flag retains thread-local
+address semantics. The original ARM/RV Linux QBE emitters refuse combined
+external/thread flags; native LCB comparisons use independent C TLS mutation
+checks and preserve those original-QBE failures separately.

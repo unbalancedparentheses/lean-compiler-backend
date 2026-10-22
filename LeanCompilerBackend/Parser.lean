@@ -135,13 +135,17 @@ private def parseABIType : P (Width × Bool × Option Subword × Option String) 
 private def parseOperand : P Operand := do
   let token ← peek
   match token with
-  | some "thread" => discard take; return .threadSymbol (← parseName '$')
-  | some "extern" => do
-    discard take
-    if (← peek) == some "thread" then
-      discard take
-      return .threadSymbol (← parseName '$')
-    return .symbol (← parseName '$')
+  | some "thread" | some "extern" => do
+    -- QBE parses either annotation order and treats repeated flags idempotently.
+    let cursor ← get
+    let mut threadLocal := false
+    for _ in [:cursor.tokens.size - cursor.position] do
+      match ← peek with
+      | some "thread" => discard take; threadLocal := true
+      | some "extern" => discard take
+      | _ => break
+    let name ← parseName '$'
+    return if threadLocal then .threadSymbol name else .symbol name
   | some s =>
     if s.startsWith "%" then return .temporary (← parseName '%')
     if s.startsWith "$" then return .symbol (← parseName '$')
@@ -480,7 +484,24 @@ private def parseDataString : P (Array UInt8) := do
       if index >= chars.size - 1 then failAt "unterminated string escape"
       let escape := chars[index]!
       index := index + 1
-      if '0' <= escape && escape <= '7' then
+      if escape == 'x' then
+        -- Both supported assembler families consume every hexadecimal digit
+        -- and retain the low byte. Reduce as we scan to bound intermediate size.
+        let mut value := 0
+        let mut digits := 0
+        for _ in [:chars.size - index - 1] do
+          let c := chars[index]!
+          let digit := if '0' <= c && c <= '9' then some (c.toNat - '0'.toNat)
+            else if 'a' <= c && c <= 'f' then some (c.toNat - 'a'.toNat + 10)
+            else if 'A' <= c && c <= 'F' then some (c.toNat - 'A'.toNat + 10)
+            else none
+          let some digit := digit | break
+          value := (value * 16 + digit) % 256
+          index := index + 1
+          digits := digits + 1
+        if digits == 0 then failAt "hexadecimal string escape requires a digit"
+        result := result.push value.toUInt8
+      else if '0' <= escape && escape <= '7' then
         let mut value := escape.toNat - '0'.toNat
         for _ in [:2] do
           if index < chars.size - 1 && '0' <= chars[index]! && chars[index]! <= '7' then

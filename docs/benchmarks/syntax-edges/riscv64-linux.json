@@ -1,0 +1,941 @@
+{
+  "target": "riscv64-linux",
+  "compiler_sha256": "4d1eee17db02ce48dada974eb44ecfea32ad850403cde62d33fbfa0d3ba6d570",
+  "compiler_identity": "821344c8800eb9e481a9a8275385296a4730a68dfd23e55085f36481c113c588",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "results": [
+    {
+      "case": "hex",
+      "backend": "baseline",
+      "checks": 314,
+      "source_sha256": "738d9dfa5ef2b86578d35f6fa4783c967dc47179ba83f2a4747a552d3f5e1703",
+      "caller_sha256": "fbce4294c5539d318a2c8ec67c1d249ce0a63dcf7eae497aa43891ecba9156d3",
+      "emission": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+          "--target",
+          "riscv64-linux",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-baseline.s"
+        ],
+        "inside": false,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "assembly_sha256": "adcd7bfcb8dab1f451a4d9a18c15315c1b9280355a2c5d1c85f318aa877a1d30",
+      "default_link": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-baseline"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-baseline"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "hex bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "hex",
+      "backend": "allocated",
+      "checks": 314,
+      "source_sha256": "738d9dfa5ef2b86578d35f6fa4783c967dc47179ba83f2a4747a552d3f5e1703",
+      "caller_sha256": "fbce4294c5539d318a2c8ec67c1d249ce0a63dcf7eae497aa43891ecba9156d3",
+      "emission": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+          "--target",
+          "riscv64-linux",
+          "--allocate",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-allocated.s"
+        ],
+        "inside": false,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "assembly_sha256": "6b4ce4f10c8d50a9386b9033c81b9dc1d88a4576181aff944f35495d0269b06d",
+      "default_link": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-allocated"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-allocated"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "hex bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "hex",
+      "backend": "optimized",
+      "checks": 314,
+      "source_sha256": "738d9dfa5ef2b86578d35f6fa4783c967dc47179ba83f2a4747a552d3f5e1703",
+      "caller_sha256": "fbce4294c5539d318a2c8ec67c1d249ce0a63dcf7eae497aa43891ecba9156d3",
+      "emission": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-optimized.s"
+        ],
+        "inside": false,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "assembly_sha256": "6b4ce4f10c8d50a9386b9033c81b9dc1d88a4576181aff944f35495d0269b06d",
+      "default_link": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-optimized"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-optimized"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "hex bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "hex",
+      "backend": "original-qbe",
+      "checks": 314,
+      "source_sha256": "738d9dfa5ef2b86578d35f6fa4783c967dc47179ba83f2a4747a552d3f5e1703",
+      "caller_sha256": "fbce4294c5539d318a2c8ec67c1d249ce0a63dcf7eae497aa43891ecba9156d3",
+      "emission": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "rv64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa"
+        ],
+        "inside": false,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "assembly_sha256": "dbf7ab102c29b9665124d9f64851f814356de6d205d60edda3d9a71cf438479f",
+      "default_link": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "/usr/lib/gcc-cross/riscv64-linux-gnu/13/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccZMp9GH.o: relocation R_RISCV_HI20 against `bytes' can not be used when making a shared object; recompile with -fPIC\ncollect2: error: ld returned 1 exit status\n"
+      },
+      "link_profile": "explicit-no-pie-reference-only",
+      "explicit_no_pie_link": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe.s",
+          "-no-pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "hex bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "annotations",
+      "backend": "baseline",
+      "checks": 25,
+      "source_sha256": "2ffad9970cd98827e9eadba0477599873970db125076c02e2a28bca2d4b9db56",
+      "caller_sha256": "db88b52934864beaaec57b0215ea9f2eb42d3a546236316427d92771ddbf9b71",
+      "emission": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+          "--target",
+          "riscv64-linux",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-baseline.s"
+        ],
+        "inside": false,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "assembly_sha256": "e506402f8b59f8524798b7477a44386c77997dfb562b5082ed0bedb96aa27ab6",
+      "default_link": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-baseline"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-baseline"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "annotations passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "annotations",
+      "backend": "allocated",
+      "checks": 25,
+      "source_sha256": "2ffad9970cd98827e9eadba0477599873970db125076c02e2a28bca2d4b9db56",
+      "caller_sha256": "db88b52934864beaaec57b0215ea9f2eb42d3a546236316427d92771ddbf9b71",
+      "emission": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+          "--target",
+          "riscv64-linux",
+          "--allocate",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-allocated.s"
+        ],
+        "inside": false,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "assembly_sha256": "f4b7f968a28b9d82b514f1e6915431df2c6a7be8a5bcd6a2c2f5eaf1e1eab561",
+      "default_link": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-allocated"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-allocated"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "annotations passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "annotations",
+      "backend": "optimized",
+      "checks": 25,
+      "source_sha256": "2ffad9970cd98827e9eadba0477599873970db125076c02e2a28bca2d4b9db56",
+      "caller_sha256": "db88b52934864beaaec57b0215ea9f2eb42d3a546236316427d92771ddbf9b71",
+      "emission": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+          "--target",
+          "riscv64-linux",
+          "--optimize",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-optimized.s"
+        ],
+        "inside": false,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "assembly_sha256": "f4b7f968a28b9d82b514f1e6915431df2c6a7be8a5bcd6a2c2f5eaf1e1eab561",
+      "default_link": {
+        "command": [
+          "riscv64-linux-gnu-gcc",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-optimized"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link_profile": "default",
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-optimized"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "annotations passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "case": "annotations",
+      "backend": "original-qbe",
+      "checks": 25,
+      "source_sha256": "2ffad9970cd98827e9eadba0477599873970db125076c02e2a28bca2d4b9db56",
+      "caller_sha256": "db88b52934864beaaec57b0215ea9f2eb42d3a546236316427d92771ddbf9b71",
+      "emission": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+          "-t",
+          "rv64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa"
+        ],
+        "inside": false,
+        "returncode": -6,
+        "stdout": "",
+        "stderr": "rv64/emit.c: dying: extern thread unavailable on rv64\n"
+      },
+      "qualified": false
+    }
+  ],
+  "negative_cases": 5,
+  "controls": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-wrong"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-wrong"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "checked 1 function(s), 1 data definition(s); initial QBE subset\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "byte_at",
+        "0"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "byte_at",
+        "65"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "65\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "byte_at",
+        "255"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "255\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "byte_at",
+        "256"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "0\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "byte_at",
+        "258"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "255\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "byte_at",
+        "259"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "52\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "byte_at",
+        "260"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "255\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "byte_at",
+        "261"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "255\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--target",
+        "riscv64-linux",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-baseline"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-baseline"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "hex bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-allocated"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-allocated"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "hex bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-optimized"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-optimized"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "hex bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "/usr/lib/gcc-cross/riscv64-linux-gnu/13/../../../../riscv64-linux-gnu/bin/ld: /tmp/ccZMp9GH.o: relocation R_RISCV_HI20 against `bytes' can not be used when making a shared object; recompile with -fPIC\ncollect2: error: ld returned 1 exit status\n"
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe.s",
+        "-no-pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-original-qbe"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "hex bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--target",
+        "riscv64-linux",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-wrong.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-wrong.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-wrong.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-wrong"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex-wrong"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "checked 5 function(s), 2 data definition(s); initial QBE subset\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--target",
+        "riscv64-linux",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-baseline"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-baseline"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "annotations passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-allocated"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-allocated"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "annotations passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-optimized"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-optimized"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "annotations passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/qbe-snapshot",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.ssa"
+      ],
+      "inside": false,
+      "returncode": -6,
+      "stdout": "",
+      "stderr": "rv64/emit.c: dying: extern thread unavailable on rv64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--target",
+        "riscv64-linux",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-wrong.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-wrong.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-wrong.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-wrong"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/annotations-wrong"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex_empty.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex_empty.ssa: line 1 near '}': hexadecimal string escape requires a digit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex_bad.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/hex_bad.ssa: line 1 near '}': hexadecimal string escape requires a digit\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/bare_extern.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/bare_extern.ssa: end of input: expected a $-prefixed name\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/bare_thread.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/bare_thread.ssa: end of input: expected a $-prefixed name\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/unknown_annotation.ssa"
+      ],
+      "inside": false,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/syntax-main-matrix-riscv64-linux/unknown_annotation.ssa: line 1 near '$x': expected a $-prefixed name\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/lcb-snapshot",
+        "--build-identity"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "821344c8800eb9e481a9a8275385296a4730a68dfd23e55085f36481c113c588\n",
+      "stderr": ""
+    }
+  ],
+  "note": "Original QBE unchanged. ARM/RV Linux extern-thread emitter refusals retained separately; not an executable pass. Hex digits consume through first nonhex character and reduce modulo256; one digit required. Existing octal range restriction unchanged."
+}

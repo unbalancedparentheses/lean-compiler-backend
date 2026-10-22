@@ -1,0 +1,23 @@
+{
+  "scope": "Pre-existing escape behavior, observed before main syntax patch; not a hex-escape regression.",
+  "observations": [
+    {
+      "escape": "\\a",
+      "lcb": "existing semantics decode bell byte7",
+      "GNU_assembler_original_QBE": "emits literal a byte97; independent C expected7 returned1 at index276",
+      "Apple_assembler_original_QBE": "rejects unrecognized escape"
+    },
+    {
+      "escape": "\\v",
+      "lcb": "existing semantics decode vertical-tab byte11",
+      "Apple_assembler_original_QBE": "rejects unrecognized escape",
+      "GNU_assembler_original_QBE": "passed vertical-tab byte11 in preceding C byte comparisons"
+    }
+  ],
+  "logs": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/preexisting-alarm-x86.log": "2f7c1af1938de11eb9dfd521477dee13d60a9356a02004daf3645c158fc0b750",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/preexisting-alarm-linux.log": "3723d583ba03a0ff16613223dc41f9860c81e4a9e58cd9986e879bc3537379e0",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/syntax-main-review/preexisting-alarm-apple.log": "983eae59f70abd78b4b8d0e5ce7f592170bffb44017504144b4a241280779421"
+  },
+  "note": "Current common-success fixture spells bell and vertical tab as octal \\007 and \\013. No source or oracle is corrected for current matrix."
+}
