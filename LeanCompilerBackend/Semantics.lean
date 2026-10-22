@@ -90,7 +90,7 @@ private def operand (symbols locals : List (String × UInt64)) (width : Width)
     | some v => return normalize width v
     | none => throw s!"undefined temporary %{name}"
 
-private def resolveCallTarget (functions : Program) (symbols locals : List (String × UInt64))
+private def resolveCallTarget (aliases : Array (String × String)) (functions : Program) (symbols locals : List (String × UInt64))
     (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) (resultFloating : Bool) (resultSubword : Option Subword) (resultAggregate : Option String) : Except String String := do
   match target with
   | .direct name => pure name
@@ -102,9 +102,9 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
       | throw "indirect call target is not a defined function; result not evaluated"
     let (callee, arguments) ← effectiveCallSignature callee arguments
     let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
-    if !callResultMatches callee resultWidth resultFloating resultSubword resultAggregate || callee.parameters.size != fixed ||
+    if !callResultMatches callee resultWidth resultFloating resultSubword resultAggregate aliases || callee.parameters.size != fixed ||
         (!callee.variadic && arguments.size != fixed) ||
-        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating || p.subword != a.subword || p.aggregate != a.aggregate) then
+        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating || p.subword != a.subword || !Aggregate.signatureMatches aliases p.aggregate a.aggregate) then
       throw "indirect call signature disagrees with target definition; result not evaluated"
     pure name
 
@@ -118,6 +118,7 @@ private structure ExecutionState where
   symbols : List (String × UInt64) := []
   functions : Program := #[]
   types : Array AggregateABI.TypeInfo := #[]
+  signatureAliases : Array (String × String) := #[]
   variadicStart : Option UInt64 := none
   remainingBlocks : Nat := 100000
   resultObjects : List (String × UInt64) := []
@@ -178,7 +179,7 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
       | none => normalize inst.width value
     pure (extended, state)
   | .call target arguments _ =>
-    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width) inst.floating inst.callSubword inst.callAggregate
+    let target ← resolveCallTarget state.signatureAliases state.functions state.symbols locals target arguments (some inst.width) inst.floating inst.callSubword inst.callAggregate
     let values ← arguments.mapM fun argument => do
       let value ← operand state.symbols locals argument.width argument.value
       pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
@@ -208,7 +209,7 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
       let memory ← state.memory.write address width.bytes value
       state := { state with memory }
     | .callVoid target arguments _ =>
-      let target ← resolveCallTarget state.functions state.symbols locals target arguments none false none none
+      let target ← resolveCallTarget state.signatureAliases state.functions state.symbols locals target arguments none false none none
       let values ← arguments.mapM fun argument => do
         let value ← operand state.symbols locals argument.width argument.value
         pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
@@ -379,7 +380,7 @@ private def initializeModule (module : Module) : Except String ExecutionState :=
           | throw s!"external symbol ${name} has no interpreter model; result not evaluated"
         memory ← memory.write (base + offset.toUInt64) width.bytes (address + constant .long addend)
       offset := offset + item.byteSize
-  return { memory, symbols, functions := module.functions, types := ← AggregateABI.classify module.types }
+  return { memory, symbols, functions := module.functions, signatureAliases := Aggregate.signatureAliases module.types, types := ← AggregateABI.classify module.types }
 
 def evaluateModule (module : Module) (name : String) (arguments : Array UInt64)
     : Except String (Option UInt64) := do

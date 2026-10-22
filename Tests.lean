@@ -28,6 +28,31 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
   | .error _ => false
 
 def main : IO Unit := do
+  for source in ["type :a = { l 2 } type :b = { l, l }",
+      "type :a = { d, l } type :b = { l, d }",
+      "type :x = { l } type :y = { d } type :a = { :x } type :b = { :y }"] do
+    let shapes ← match Parser.parseModule source with
+      | .ok m => pure m
+      | .error e => throw (IO.userError e)
+    require (!Aggregate.signatureMatches (Aggregate.signatureAliases shapes.types) (some "a") (some "b"))
+      "aggregate aliases must preserve repetition, field order and nested scalar class"
+  let aliasSource := "type :a = { l } type :b = { l } type :outera = { :a } type :outerb = { :b } function :outera $echo(:outera %p) { @s ret %p } export function l $alias() { @s %p =l alloc8 8 storel 42, %p %fp =l copy $echo %r =:outerb call %fp(:outerb %p) %v =l loadl %r ret %v }"
+  let aliases ← match Parser.parseModule aliasSource >>= SSA.constructModule with
+    | .ok m => pure m
+    | .error e => throw (IO.userError e)
+  require (valueEquals (Semantics.evaluateModule aliases "alias" #[]) (some 42))
+    "nested aggregate aliases must agree in indirect interpreter signatures"
+  let directAliases ← match Parser.parseModule (aliasSource.replace "call %fp" "call $echo") >>= SSA.constructModule with
+    | .ok m => pure m
+    | .error e => throw (IO.userError e)
+  require (valueEquals (Semantics.evaluateModule directAliases "alias" #[]) (some 42))
+    "nested aggregate aliases must agree in direct interpreter signatures"
+  require (isFailure (validate directAliases.functions))
+    "Program-only validation without aggregate declarations remains nominal"
+  for replacement in ["type :b = { d }", "type :b = align 8 { l }",
+      "type :b = { { l } }", "type :b = align 8 { 8 }"] do
+    require (isFailure (Parser.parseModule ((aliasSource.replace "call %fp" "call $echo").replace "type :b = { l }" replacement) >>= SSA.constructModule))
+      "aggregate signature equivalence must preserve exact declaration shape"
   let printable := String.ofList ((List.range 95).map fun n => Char.ofNat (n+32))
   require (valueEquals (Section.checkTarget false (some ⟨printable, some "aw"⟩)) ())
     "ELF printable ASCII names rejected"

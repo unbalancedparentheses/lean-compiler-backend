@@ -1,0 +1,177 @@
+diff --git a/LeanCompilerBackend/Aggregate.lean b/LeanCompilerBackend/Aggregate.lean
+index f987d08..d799d78 100644
+--- a/LeanCompilerBackend/Aggregate.lean
++++ b/LeanCompilerBackend/Aggregate.lean
+@@ -74,4 +74,28 @@ def layouts (types : Array AggregateType) : Except String (Array Layout) := do
+       result := result.push ⟨type.name, size, maxAlignment, false, variants⟩
+   return result
+ 
++/-- Exact declaration shapes modulo previously defined aggregate names. This is
++    deliberately stricter than target-specific ABI equivalence. Checked layouts
++    must precede this computation; forward/cyclic type references are not admitted. -/
++def signatureAliases (types : Array AggregateType) : Array (String × String) := Id.run do
++  let mut aliases : Array (String × String) := #[]
++  let mut shapes : Array (AggregateType × String) := #[]
++  for type in types do
++    let variants := type.variants.map fun fields => fields.map fun field =>
++      match field.member with
++      | .scalar _ _ => field
++      | .named name =>
++        let canonical := ((aliases.find? (·.1 == name)).map (·.2)).getD name
++        { field with member := .named canonical }
++    let shape := { type with name := "", variants := variants }
++    let canonical := ((shapes.find? (·.1 == shape)).map (·.2)).getD type.name
++    aliases := aliases.push (type.name, canonical)
++    shapes := shapes.push (shape, canonical)
++  return aliases
++
++/-- Without module type metadata, retain nominal matching. -/
++def signatureMatches (aliases : Array (String × String)) (a b : Option String) : Bool :=
++  let canonical := fun name => ((aliases.find? (·.1 == name)).map (·.2)).getD name
++  a == b || a.map canonical == b.map canonical
++
+ end LeanCompilerBackend.Aggregate
+diff --git a/LeanCompilerBackend/Semantics.lean b/LeanCompilerBackend/Semantics.lean
+index fb2eb8d..9181121 100644
+--- a/LeanCompilerBackend/Semantics.lean
++++ b/LeanCompilerBackend/Semantics.lean
+@@ -90,7 +90,7 @@ private def operand (symbols locals : List (String × UInt64)) (width : Width)
+     | some v => return normalize width v
+     | none => throw s!"undefined temporary %{name}"
+ 
+-private def resolveCallTarget (functions : Program) (symbols locals : List (String × UInt64))
++private def resolveCallTarget (aliases : Array (String × String)) (functions : Program) (symbols locals : List (String × UInt64))
+     (target : CallTarget) (arguments : Array CallArgument) (resultWidth : Option Width) (resultFloating : Bool) (resultSubword : Option Subword) (resultAggregate : Option String) : Except String String := do
+   match target with
+   | .direct name => pure name
+@@ -102,9 +102,9 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
+       | throw "indirect call target is not a defined function; result not evaluated"
+     let (callee, arguments) ← effectiveCallSignature callee arguments
+     let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
+-    if !callResultMatches callee resultWidth resultFloating resultSubword resultAggregate || callee.parameters.size != fixed ||
++    if !callResultMatches callee resultWidth resultFloating resultSubword resultAggregate aliases || callee.parameters.size != fixed ||
+         (!callee.variadic && arguments.size != fixed) ||
+-        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating || p.subword != a.subword || p.aggregate != a.aggregate) then
++        (callee.parameters.zip arguments).any (fun (p, a) => p.width != a.width || p.floating != a.floating || p.subword != a.subword || !Aggregate.signatureMatches aliases p.aggregate a.aggregate) then
+       throw "indirect call signature disagrees with target definition; result not evaluated"
+     pure name
+ 
+@@ -118,6 +118,7 @@ private structure ExecutionState where
+   symbols : List (String × UInt64) := []
+   functions : Program := #[]
+   types : Array AggregateABI.TypeInfo := #[]
++  signatureAliases : Array (String × String) := #[]
+   variadicStart : Option UInt64 := none
+   remainingBlocks : Nat := 100000
+   resultObjects : List (String × UInt64) := []
+@@ -178,7 +179,7 @@ private def evaluateOperation (call : CallHandler) (inst : Instruction)
+       | none => normalize inst.width value
+     pure (extended, state)
+   | .call target arguments _ =>
+-    let target ← resolveCallTarget state.functions state.symbols locals target arguments (some inst.width) inst.floating inst.callSubword inst.callAggregate
++    let target ← resolveCallTarget state.signatureAliases state.functions state.symbols locals target arguments (some inst.width) inst.floating inst.callSubword inst.callAggregate
+     let values ← arguments.mapM fun argument => do
+       let value ← operand state.symbols locals argument.width argument.value
+       pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
+@@ -208,7 +209,7 @@ private def evaluateInstructions (call : CallHandler) (instructions : Array Stat
+       let memory ← state.memory.write address width.bytes value
+       state := { state with memory }
+     | .callVoid target arguments _ =>
+-      let target ← resolveCallTarget state.functions state.symbols locals target arguments none false none none
++      let target ← resolveCallTarget state.signatureAliases state.functions state.symbols locals target arguments none false none none
+       let values ← arguments.mapM fun argument => do
+         let value ← operand state.symbols locals argument.width argument.value
+         pure (match argument.subword with | some kind => unary .word kind.extension value | none => value)
+@@ -379,7 +380,7 @@ private def initializeModule (module : Module) : Except String ExecutionState :=
+           | throw s!"external symbol ${name} has no interpreter model; result not evaluated"
+         memory ← memory.write (base + offset.toUInt64) width.bytes (address + constant .long addend)
+       offset := offset + item.byteSize
+-  return { memory, symbols, functions := module.functions, types := ← AggregateABI.classify module.types }
++  return { memory, symbols, functions := module.functions, signatureAliases := Aggregate.signatureAliases module.types, types := ← AggregateABI.classify module.types }
+ 
+ def evaluateModule (module : Module) (name : String) (arguments : Array UInt64)
+     : Except String (Option UInt64) := do
+diff --git a/LeanCompilerBackend/Validate.lean b/LeanCompilerBackend/Validate.lean
+index 83be260..bcafcc7 100644
+--- a/LeanCompilerBackend/Validate.lean
++++ b/LeanCompilerBackend/Validate.lean
+@@ -315,15 +315,15 @@ def effectiveCallSignature (callee : Function) (arguments : Array CallArgument)
+     to consume the result as l. Used floating/subword/void signatures remain
+     exact; effect-only calls may discard scalar results, never aggregates. -/
+ def callResultMatches (callee : Function) (width : Option Width) (floating : Bool)
+-    (subword : Option Subword) (aggregate : Option String := none) : Bool :=
++    (subword : Option Subword) (aggregate : Option String := none) (aliases : Array (String × String) := #[]) : Bool :=
+   -- An effect-only call may ignore any scalar return register. Aggregate
+   -- returns can require caller-provided storage, so they remain exact.
+   (width.isNone && !floating && subword.isNone && aggregate.isNone && callee.resultAggregate.isNone) ||
+-    (aggregate == callee.resultAggregate && floating == callee.resultFloating && subword == callee.resultSubword &&
++    (Aggregate.signatureMatches aliases aggregate callee.resultAggregate && floating == callee.resultFloating && subword == callee.resultSubword &&
+       (width == callee.resultWidth ||
+         (!floating && subword.isNone && aggregate.isNone && callee.resultWidth == some .word && width == some .long)))
+ 
+-def validate (program : Program) : Except String Unit := do
++def validate (program : Program) (aliases : Array (String × String) := #[]) : Except String Unit := do
+   if program.isEmpty then throw "program contains no functions"
+   if program.size > maxCompatibilityFunctions then throw s!"program exceeds {maxCompatibilityFunctions}-function limit"
+   let mut definitions : Std.HashMap String Function := {}
+@@ -341,13 +341,13 @@ def validate (program : Program) : Except String Unit := do
+         if let some (.direct target, arguments, resultWidth) := statement.callSite then
+           if let some callee := definitions[target]? then
+             let (callee, arguments) ← effectiveCallSignature callee arguments
+-            if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword statement.resultAggregate then
++            if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword statement.resultAggregate aliases then
+               throw s!"call ${target}: result type disagrees with its definition"
+             let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
+             if fixed != callee.parameters.size || (!callee.variadic && arguments.size != fixed) then
+               throw s!"call ${target}: argument count/variadic boundary disagrees with its definition"
+             for i in [:callee.parameters.size] do
+-              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword || arguments[i]!.aggregate != callee.parameters[i]!.aggregate then
++              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword || !Aggregate.signatureMatches aliases arguments[i]!.aggregate callee.parameters[i]!.aggregate then
+                 throw s!"call ${target}: argument type disagrees with its definition"
+ 
+ def validateModule (module : Module) : Except String Unit := do
+@@ -365,7 +365,7 @@ def validateModule (module : Module) : Except String Unit := do
+           for argument in arguments do checkType argument.aggregate
+   if module.functions.isEmpty && module.data.isEmpty && module.types.isEmpty then
+     throw "module contains no definitions"
+-  if !module.functions.isEmpty then validate module.functions
++  if !module.functions.isEmpty then validate module.functions (Aggregate.signatureAliases module.types)
+   if module.data.size > 1024 then throw "module exceeds the 1024-data-definition resource limit"
+   let mut names := module.functions.toList.map (·.name)
+   let mut total := 0
+diff --git a/Tests.lean b/Tests.lean
+index c749f8a..c9a7614 100644
+--- a/Tests.lean
++++ b/Tests.lean
+@@ -28,6 +28,31 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool
+   | .error _ => false
+ 
+ def main : IO Unit := do
++  for source in ["type :a = { l 2 } type :b = { l, l }",
++      "type :a = { d, l } type :b = { l, d }",
++      "type :x = { l } type :y = { d } type :a = { :x } type :b = { :y }"] do
++    let shapes ← match Parser.parseModule source with
++      | .ok m => pure m
++      | .error e => throw (IO.userError e)
++    require (!Aggregate.signatureMatches (Aggregate.signatureAliases shapes.types) (some "a") (some "b"))
++      "aggregate aliases must preserve repetition, field order and nested scalar class"
++  let aliasSource := "type :a = { l } type :b = { l } type :outera = { :a } type :outerb = { :b } function :outera $echo(:outera %p) { @s ret %p } export function l $alias() { @s %p =l alloc8 8 storel 42, %p %fp =l copy $echo %r =:outerb call %fp(:outerb %p) %v =l loadl %r ret %v }"
++  let aliases ← match Parser.parseModule aliasSource >>= SSA.constructModule with
++    | .ok m => pure m
++    | .error e => throw (IO.userError e)
++  require (valueEquals (Semantics.evaluateModule aliases "alias" #[]) (some 42))
++    "nested aggregate aliases must agree in indirect interpreter signatures"
++  let directAliases ← match Parser.parseModule (aliasSource.replace "call %fp" "call $echo") >>= SSA.constructModule with
++    | .ok m => pure m
++    | .error e => throw (IO.userError e)
++  require (valueEquals (Semantics.evaluateModule directAliases "alias" #[]) (some 42))
++    "nested aggregate aliases must agree in direct interpreter signatures"
++  require (isFailure (validate directAliases.functions))
++    "Program-only validation without aggregate declarations remains nominal"
++  for replacement in ["type :b = { d }", "type :b = align 8 { l }",
++      "type :b = { { l } }", "type :b = align 8 { 8 }"] do
++    require (isFailure (Parser.parseModule ((aliasSource.replace "call %fp" "call $echo").replace "type :b = { l }" replacement) >>= SSA.constructModule))
++      "aggregate signature equivalence must preserve exact declaration shape"
+   for flags in ["aR", "awR", "axR", "Rwa", "Ra", "R"] do
+     require (valueEquals (Section.checkTarget false (some ⟨".retain", some flags⟩)) ())
+       "ELF retain flag rejected"

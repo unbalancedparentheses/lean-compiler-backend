@@ -48,6 +48,8 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Exact aggregate signature aliases](docs/benchmarks/aggregate-signature-aliases/README.md) now admit separately named declarations with identical structure, including prior nested aliases. Direct validation and indirect interpretation agree; exact alignment options, field counts/order, union/opaque identity and scalar classes remain distinct. All five C/original-QBE matrices, three full Linux gates and 147 unchanged audit statements pass. Broader ABI-equivalent shapes remain outside this slice.
+
 [Printable ELF section names](docs/benchmarks/elf-section-name-bytes/README.md) now preserve 1–128 decoded printable ASCII bytes, including quotes and backslashes. Exact ELF metadata and independent C/original-QBE matrices pass on all three Linux targets; Apple syntax stays unchanged. All Linux gates, units and 147 unchanged audit statements pass; full host/Rosetta gate also passes. The corpus and 432 previously executed workload assemblies remain identical.
 
 [Fresh QBE self-compilation](docs/benchmarks/qbe-elf-refresh/README.md) on historical compiler `5e174e1d` passes all three Linux targets: 487 exact assembly comparisons and 58 ARM-output runtime tests per LCB mode. Unchanged/corrected QBE and unqualified overlapping first attempts remain separate; the reusable harness now isolates work and locks the upstream runner. No timing or expanded target-support claim.

@@ -174,6 +174,8 @@ def main():
     elf_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
     from custom_tls_sections import exercise as custom_tls_tests
     custom_tls_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+    from aggregate_signature_aliases import exercise as aggregate_alias_tests
+    aggregate_alias_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
     from large_aggregate_abi import exercise as aggregate_copy_tests
     aggregate_copy_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
     from elf_retain import exercise as elf_retain_tests

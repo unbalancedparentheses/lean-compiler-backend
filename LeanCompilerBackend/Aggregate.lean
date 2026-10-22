@@ -74,4 +74,28 @@ def layouts (types : Array AggregateType) : Except String (Array Layout) := do
       result := result.push ⟨type.name, size, maxAlignment, false, variants⟩
   return result
 
+/-- Exact declaration shapes modulo previously defined aggregate names. This is
+    deliberately stricter than target-specific ABI equivalence. Checked layouts
+    must precede this computation; forward/cyclic type references are not admitted. -/
+def signatureAliases (types : Array AggregateType) : Array (String × String) := Id.run do
+  let mut aliases : Array (String × String) := #[]
+  let mut shapes : Array (AggregateType × String) := #[]
+  for type in types do
+    let variants := type.variants.map fun fields => fields.map fun field =>
+      match field.member with
+      | .scalar _ _ => field
+      | .named name =>
+        let canonical := ((aliases.find? (·.1 == name)).map (·.2)).getD name
+        { field with member := .named canonical }
+    let shape := { type with name := "", variants := variants }
+    let canonical := ((shapes.find? (·.1 == shape)).map (·.2)).getD type.name
+    aliases := aliases.push (type.name, canonical)
+    shapes := shapes.push (shape, canonical)
+  return aliases
+
+/-- Without module type metadata, retain nominal matching. -/
+def signatureMatches (aliases : Array (String × String)) (a b : Option String) : Bool :=
+  let canonical := fun name => ((aliases.find? (·.1 == name)).map (·.2)).getD name
+  a == b || a.map canonical == b.map canonical
+
 end LeanCompilerBackend.Aggregate

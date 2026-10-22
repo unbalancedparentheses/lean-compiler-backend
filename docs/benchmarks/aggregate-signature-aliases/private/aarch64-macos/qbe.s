@@ -1,0 +1,3252 @@
+.text
+.balign 4
+_echo_integer:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	mov	x4, #8
+	add	x3, x29, #32
+	add	x3, x3, x4
+	str	x1, [x3]
+	mov	x3, #0
+	add	x1, x29, #32
+	add	x1, x1, x3
+	str	x0, [x1]
+	cmp	w2, #0
+	beq	L2
+	mov	w0, #1
+	sub	w2, w2, w0
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x1, sp, x0
+	mov	x0, #91
+	str	x0, [x1]
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x3, #0
+	add	x0, x29, #32
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_integer
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x2, #0
+	add	x0, x29, #16
+	add	x0, x0, x2
+	ldr	x0, [x0]
+	b	L3
+L2:
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x2, #0
+	add	x0, x29, #32
+	add	x0, x0, x2
+	ldr	x0, [x0]
+L3:
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function echo_integer */
+
+.text
+.balign 4
+.globl _probe_integer_direct
+_probe_integer_direct:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	w2, #2
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_integer
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_integer_direct */
+
+.text
+.balign 4
+.globl _probe_integer_indirect
+_probe_integer_indirect:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	w2, #2
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_integer
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_integer_indirect */
+
+.text
+.balign 4
+_echo_floating:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	mov	x2, #8
+	add	x1, x29, #32
+	add	x1, x1, x2
+	str	d1, [x1]
+	mov	x2, #0
+	add	x1, x29, #32
+	add	x1, x1, x2
+	str	d0, [x1]
+	cmp	w0, #0
+	beq	L10
+	mov	w1, #1
+	sub	w0, w0, w1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	x2, #8
+	add	x1, x29, #32
+	add	x1, x1, x2
+	ldr	d1, [x1]
+	mov	x2, #0
+	add	x1, x29, #32
+	add	x1, x1, x2
+	ldr	d0, [x1]
+	bl	_echo_floating
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x0, x0, x1
+	str	d1, [x0]
+	mov	x1, #0
+	add	x0, x29, #16
+	add	x0, x0, x1
+	str	d0, [x0]
+	mov	x0, #16
+	add	sp, sp, x0
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x0, x0, x1
+	ldr	d1, [x0]
+	mov	x1, #0
+	add	x0, x29, #16
+	add	x0, x0, x1
+	ldr	d0, [x0]
+	b	L11
+L10:
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	d1, [x0]
+	mov	x1, #0
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	d0, [x0]
+L11:
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function echo_floating */
+
+.text
+.balign 4
+.globl _probe_floating_direct
+_probe_floating_direct:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, x0
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x2, sp, x0
+	mov	x0, #91
+	str	x0, [x2]
+	mov	w0, #2
+	mov	x2, #8
+	add	x2, x1, x2
+	ldr	d1, [x2]
+	mov	x2, #0
+	add	x1, x1, x2
+	ldr	d0, [x1]
+	bl	_echo_floating
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x0, x0, x1
+	str	d1, [x0]
+	mov	x1, #0
+	add	x0, x29, #16
+	add	x0, x0, x1
+	str	d0, [x0]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_floating_direct */
+
+.text
+.balign 4
+.globl _probe_floating_indirect
+_probe_floating_indirect:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, x0
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x2, sp, x0
+	mov	x0, #91
+	str	x0, [x2]
+	mov	w0, #2
+	mov	x2, #8
+	add	x2, x1, x2
+	ldr	d1, [x2]
+	mov	x2, #0
+	add	x1, x1, x2
+	ldr	d0, [x1]
+	bl	_echo_floating
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x0, x0, x1
+	str	d1, [x0]
+	mov	x1, #0
+	add	x0, x29, #16
+	add	x0, x0, x1
+	str	d0, [x0]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_floating_indirect */
+
+.text
+.balign 4
+_echo_mixed:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	mov	x4, #8
+	add	x3, x29, #32
+	add	x3, x3, x4
+	str	x1, [x3]
+	mov	x3, #0
+	add	x1, x29, #32
+	add	x1, x1, x3
+	str	x0, [x1]
+	cmp	w2, #0
+	beq	L18
+	mov	w0, #1
+	sub	w2, w2, w0
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x1, sp, x0
+	mov	x0, #91
+	str	x0, [x1]
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x3, #0
+	add	x0, x29, #32
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_mixed
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x2, #0
+	add	x0, x29, #16
+	add	x0, x0, x2
+	ldr	x0, [x0]
+	b	L19
+L18:
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x2, #0
+	add	x0, x29, #32
+	add	x0, x0, x2
+	ldr	x0, [x0]
+L19:
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function echo_mixed */
+
+.text
+.balign 4
+.globl _probe_mixed_direct
+_probe_mixed_direct:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	w2, #2
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_mixed
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_mixed_direct */
+
+.text
+.balign 4
+.globl _probe_mixed_indirect
+_probe_mixed_indirect:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	w2, #2
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_mixed
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_mixed_indirect */
+
+.text
+.balign 4
+_echo_hidden:
+	hint	#34
+	stp	x29, x30, [sp, -96]!
+	mov	x29, sp
+	str	x19, [x29, 88]
+	cmp	w1, #0
+	beq	L26
+	mov	w2, #1
+	sub	w1, w1, w2
+	mov	x2, #0
+	add	x2, x0, x2
+	ldr	x2, [x2]
+	mov	x4, #0
+	add	x3, x29, #16
+	add	x3, x3, x4
+	str	x2, [x3]
+	mov	x2, #8
+	add	x2, x0, x2
+	ldr	x2, [x2]
+	mov	x4, #8
+	add	x3, x29, #16
+	add	x3, x3, x4
+	str	x2, [x3]
+	mov	x2, #16
+	add	x2, x0, x2
+	ldr	x2, [x2]
+	mov	x4, #16
+	add	x3, x29, #16
+	add	x3, x3, x4
+	str	x2, [x3]
+	mov	x2, #24
+	add	x0, x0, x2
+	ldr	x0, [x0]
+	mov	x3, #24
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x0, [x2]
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x2, sp, x0
+	mov	x0, #91
+	str	x0, [x2]
+	add	x0, x29, #16
+	mov	x19, x8
+	add	x8, x29, #48
+	bl	_echo_hidden
+	mov	x8, x19
+	mov	x0, #16
+	add	sp, sp, x0
+	mov	x1, #0
+	add	x0, x29, #48
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #0
+	add	x1, x8, x1
+	str	x0, [x1]
+	mov	x1, #8
+	add	x0, x29, #48
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #8
+	add	x1, x8, x1
+	str	x0, [x1]
+	mov	x1, #16
+	add	x0, x29, #48
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #16
+	add	x1, x8, x1
+	str	x0, [x1]
+	mov	x1, #24
+	add	x0, x29, #48
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #24
+	add	x1, x8, x1
+	str	x0, [x1]
+	b	L27
+L26:
+	mov	x1, #0
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x2, #0
+	add	x2, x8, x2
+	str	x1, [x2]
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x2, #8
+	add	x2, x8, x2
+	str	x1, [x2]
+	mov	x1, #16
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x2, #16
+	add	x2, x8, x2
+	str	x1, [x2]
+	mov	x1, #24
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #24
+	add	x1, x8, x1
+	str	x0, [x1]
+L27:
+	ldr	x19, [x29, 88]
+	ldp	x29, x30, [sp], 96
+	ret
+/* end function echo_hidden */
+
+.text
+.balign 4
+.globl _probe_hidden_direct
+_probe_hidden_direct:
+	hint	#34
+	stp	x29, x30, [sp, -96]!
+	mov	x29, sp
+	str	x19, [x29, 88]
+	mov	x19, x1
+	mov	x1, #0
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #16
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #16
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #24
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x2, #24
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x1, sp, x0
+	mov	x0, #91
+	str	x0, [x1]
+	mov	w1, #2
+	add	x0, x29, #16
+	add	x8, x29, #48
+	bl	_echo_hidden
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #48
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #16
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #16
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #17
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #17
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #18
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #18
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #19
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #19
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #20
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #20
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #21
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #21
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #22
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #22
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #23
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #23
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #24
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #24
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #25
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #25
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #26
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #26
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #27
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #27
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #28
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #28
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #29
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #29
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #30
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #30
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #31
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #31
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 88]
+	ldp	x29, x30, [sp], 96
+	ret
+/* end function probe_hidden_direct */
+
+.text
+.balign 4
+.globl _probe_hidden_indirect
+_probe_hidden_indirect:
+	hint	#34
+	stp	x29, x30, [sp, -96]!
+	mov	x29, sp
+	str	x19, [x29, 88]
+	mov	x19, x1
+	mov	x1, #0
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #16
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #16
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #24
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x2, #24
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x1, sp, x0
+	mov	x0, #91
+	str	x0, [x1]
+	mov	w1, #2
+	add	x0, x29, #16
+	add	x8, x29, #48
+	bl	_echo_hidden
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #48
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #16
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #16
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #17
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #17
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #18
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #18
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #19
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #19
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #20
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #20
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #21
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #21
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #22
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #22
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #23
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #23
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #24
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #24
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #25
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #25
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #26
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #26
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #27
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #27
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #28
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #28
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #29
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #29
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #30
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #30
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #31
+	add	x1, x29, #48
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #31
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 88]
+	ldp	x29, x30, [sp], 96
+	ret
+/* end function probe_hidden_indirect */
+
+.text
+.balign 4
+_echo_union:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	mov	x4, #8
+	add	x3, x29, #32
+	add	x3, x3, x4
+	str	x1, [x3]
+	mov	x3, #0
+	add	x1, x29, #32
+	add	x1, x1, x3
+	str	x0, [x1]
+	cmp	w2, #0
+	beq	L34
+	mov	w0, #1
+	sub	w2, w2, w0
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x1, sp, x0
+	mov	x0, #91
+	str	x0, [x1]
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x3, #0
+	add	x0, x29, #32
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_union
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x2, #0
+	add	x0, x29, #16
+	add	x0, x0, x2
+	ldr	x0, [x0]
+	b	L35
+L34:
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x2, #0
+	add	x0, x29, #32
+	add	x0, x0, x2
+	ldr	x0, [x0]
+L35:
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function echo_union */
+
+.text
+.balign 4
+.globl _probe_union_direct
+_probe_union_direct:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	w2, #2
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_union
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_union_direct */
+
+.text
+.balign 4
+.globl _probe_union_indirect
+_probe_union_indirect:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	w2, #2
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_union
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_union_indirect */
+
+.text
+.balign 4
+_echo_opaque:
+	hint	#34
+	stp	x29, x30, [sp, -80]!
+	mov	x29, sp
+	str	x19, [x29, 72]
+	cmp	w1, #0
+	beq	L42
+	mov	w2, #1
+	sub	w1, w1, w2
+	mov	x2, #0
+	add	x2, x0, x2
+	ldr	x2, [x2]
+	mov	x4, #0
+	add	x3, x29, #16
+	add	x3, x3, x4
+	str	x2, [x3]
+	mov	x2, #8
+	add	x2, x0, x2
+	ldr	x2, [x2]
+	mov	x4, #8
+	add	x3, x29, #16
+	add	x3, x3, x4
+	str	x2, [x3]
+	mov	x2, #16
+	add	x0, x0, x2
+	ldr	x0, [x0]
+	mov	x3, #16
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x0, [x2]
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x2, sp, x0
+	mov	x0, #91
+	str	x0, [x2]
+	add	x0, x29, #16
+	mov	x19, x8
+	add	x8, x29, #40
+	bl	_echo_opaque
+	mov	x8, x19
+	mov	x0, #16
+	add	sp, sp, x0
+	mov	x1, #0
+	add	x0, x29, #40
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #0
+	add	x1, x8, x1
+	str	x0, [x1]
+	mov	x1, #8
+	add	x0, x29, #40
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #8
+	add	x1, x8, x1
+	str	x0, [x1]
+	mov	x1, #16
+	add	x0, x29, #40
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #16
+	add	x1, x8, x1
+	str	x0, [x1]
+	b	L43
+L42:
+	mov	x1, #0
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x2, #0
+	add	x2, x8, x2
+	str	x1, [x2]
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x2, #8
+	add	x2, x8, x2
+	str	x1, [x2]
+	mov	x1, #16
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x1, #16
+	add	x1, x8, x1
+	str	x0, [x1]
+L43:
+	ldr	x19, [x29, 72]
+	ldp	x29, x30, [sp], 80
+	ret
+/* end function echo_opaque */
+
+.text
+.balign 4
+.globl _probe_opaque_direct
+_probe_opaque_direct:
+	hint	#34
+	stp	x29, x30, [sp, -80]!
+	mov	x29, sp
+	str	x19, [x29, 72]
+	mov	x19, x1
+	mov	x1, #0
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #16
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x2, #16
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x1, sp, x0
+	mov	x0, #91
+	str	x0, [x1]
+	mov	w1, #2
+	add	x0, x29, #16
+	add	x8, x29, #40
+	bl	_echo_opaque
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #40
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #16
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #16
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #17
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #17
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #18
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #18
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #19
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #19
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #20
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #20
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #21
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #21
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #22
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #22
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #23
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #23
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 72]
+	ldp	x29, x30, [sp], 80
+	ret
+/* end function probe_opaque_direct */
+
+.text
+.balign 4
+.globl _probe_opaque_indirect
+_probe_opaque_indirect:
+	hint	#34
+	stp	x29, x30, [sp, -80]!
+	mov	x29, sp
+	str	x19, [x29, 72]
+	mov	x19, x1
+	mov	x1, #0
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x1, #16
+	add	x0, x0, x1
+	ldr	x0, [x0]
+	mov	x2, #16
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x1, sp, x0
+	mov	x0, #91
+	str	x0, [x1]
+	mov	w1, #2
+	add	x0, x29, #16
+	add	x8, x29, #40
+	bl	_echo_opaque
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #40
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #16
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #16
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #17
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #17
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #18
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #18
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #19
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #19
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #20
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #20
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #21
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #21
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #22
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #22
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #23
+	add	x1, x29, #40
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #23
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 72]
+	ldp	x29, x30, [sp], 80
+	ret
+/* end function probe_opaque_indirect */
+
+.text
+.balign 4
+_echo_nested:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	mov	x4, #8
+	add	x3, x29, #32
+	add	x3, x3, x4
+	str	x1, [x3]
+	mov	x3, #0
+	add	x1, x29, #32
+	add	x1, x1, x3
+	str	x0, [x1]
+	cmp	w2, #0
+	beq	L50
+	mov	w0, #1
+	sub	w2, w2, w0
+	mov	x0, #16
+	sub	sp, sp, x0
+	mov	x0, #0
+	add	x1, sp, x0
+	mov	x0, #91
+	str	x0, [x1]
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x3, #0
+	add	x0, x29, #32
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_nested
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x2, #0
+	add	x0, x29, #16
+	add	x0, x0, x2
+	ldr	x0, [x0]
+	b	L51
+L50:
+	mov	x1, #8
+	add	x0, x29, #32
+	add	x0, x0, x1
+	ldr	x1, [x0]
+	mov	x2, #0
+	add	x0, x29, #32
+	add	x0, x0, x2
+	ldr	x0, [x0]
+L51:
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function echo_nested */
+
+.text
+.balign 4
+.globl _probe_nested_direct
+_probe_nested_direct:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	w2, #2
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_nested
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_nested_direct */
+
+.text
+.balign 4
+.globl _probe_nested_indirect
+_probe_nested_indirect:
+	hint	#34
+	stp	x29, x30, [sp, -48]!
+	mov	x29, sp
+	str	x19, [x29, 40]
+	mov	x19, x1
+	mov	x1, #16
+	sub	sp, sp, x1
+	mov	x1, #0
+	add	x2, sp, x1
+	mov	x1, #91
+	str	x1, [x2]
+	mov	w2, #2
+	mov	x1, #8
+	add	x1, x0, x1
+	ldr	x1, [x1]
+	mov	x3, #0
+	add	x0, x0, x3
+	ldr	x0, [x0]
+	bl	_echo_nested
+	mov	x3, #8
+	add	x2, x29, #16
+	add	x2, x2, x3
+	str	x1, [x2]
+	mov	x2, #0
+	add	x1, x29, #16
+	add	x1, x1, x2
+	str	x0, [x1]
+	mov	x0, #16
+	add	sp, sp, x0
+	add	x0, x29, #16
+	ldrb	w0, [x0]
+	strb	w0, [x19]
+	mov	x2, #1
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #1
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #2
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #2
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #3
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #3
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #4
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #4
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #5
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #5
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #6
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #6
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #7
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #7
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #8
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #8
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #9
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #9
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #10
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #10
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #11
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #11
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #12
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #12
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #13
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #13
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #14
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #14
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	mov	x2, #15
+	add	x1, x29, #16
+	add	x1, x1, x2
+	ldrb	w1, [x1]
+	mov	x2, #15
+	add	x2, x19, x2
+	strb	w1, [x2]
+	add	x0, x0, x1
+	ldr	x19, [x29, 40]
+	ldp	x29, x30, [sp], 48
+	ret
+/* end function probe_nested_indirect */
+
+.text
+.balign 4
+.globl _interpreted
+_interpreted:
+	hint	#34
+	stp	x29, x30, [sp, -64]!
+	mov	x29, sp
+	add	x1, x29, #16
+	mov	x0, #1800
+	movk	x0, #0x506, lsl #16
+	movk	x0, #0x304, lsl #32
+	movk	x0, #0x102, lsl #48
+	str	x0, [x1]
+	mov	x1, #8
+	add	x0, x29, #16
+	add	x1, x0, x1
+	mov	x0, #1800
+	movk	x0, #0x506, lsl #16
+	movk	x0, #0x304, lsl #32
+	movk	x0, #0x102, lsl #48
+	str	x0, [x1]
+	add	x1, x29, #48
+	add	x0, x29, #16
+	bl	_probe_nested_indirect
+	ldp	x29, x30, [sp], 64
+	ret
+/* end function interpreted */
+

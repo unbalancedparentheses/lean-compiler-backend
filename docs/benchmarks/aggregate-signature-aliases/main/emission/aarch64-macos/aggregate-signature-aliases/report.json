@@ -1,0 +1,51 @@
+{
+  "target": "aarch64-macos",
+  "compiler_identity": "859f5c81657dcdb85c13513a19c5c3635e6e3ef55f600e9e2adaaa20f5e2963d",
+  "compiler_sha256": "34dc5d91e0af48145e5d99714d56a27cd7916e92ddc43910a39841665fc56927",
+  "helper_sha256": "6741a8565b1d53f86706980043a98b899e775c821504e4d28cc7e74e6008cc1b",
+  "source_sha256": "b82302aa0fee504a0ab02687a1c33dc8d1e749425c7a3f82b587d278c38c7810",
+  "caller_sha256": "9e56f180cc125399a954932f0829d32c967cd43fcfdac356f60a202ae5197b46",
+  "checks_per_backend": 0,
+  "backends": {
+    "baseline": {
+      "assembly_sha256": "5c6099375429d88c2e1af1247f58eb23c1c6c779fd26c4d1820e7249025765d5",
+      "execution": "not-run"
+    },
+    "allocated": {
+      "assembly_sha256": "e150bbeadb34a3e16730b1a646e6880bce29cb69b9978106699d98fb4dfe1c47",
+      "execution": "not-run"
+    },
+    "optimized": {
+      "assembly_sha256": "29010430b1edb88d68f7dd12e9c0cf47cd7542de04c3985c1ae482bd9f4f3072",
+      "execution": "not-run"
+    }
+  },
+  "negative_controls": {
+    "first_path": "error: module data/types are outside the first-path profile\n",
+    "recursive_type": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/recursive_type.ssa: type :a: undefined or forward aggregate reference :a\n",
+    "forward_type": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/forward_type.ssa: type :a: undefined or forward aggregate reference :b\n",
+    "fp_argument": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-fp-argument.ssa: call $f: argument type disagrees with its definition\n",
+    "fp_result": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-fp-result.ssa: call $f: result type disagrees with its definition\n",
+    "fp_indirect": "error: indirect call signature disagrees with target definition; result not evaluated\n",
+    "union_argument": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-union-argument.ssa: call $f: argument type disagrees with its definition\n",
+    "union_result": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-union-result.ssa: call $f: result type disagrees with its definition\n",
+    "union_indirect": "error: indirect call signature disagrees with target definition; result not evaluated\n",
+    "opaque_argument": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-opaque-argument.ssa: call $f: argument type disagrees with its definition\n",
+    "opaque_result": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-opaque-result.ssa: call $f: result type disagrees with its definition\n",
+    "opaque_indirect": "error: indirect call signature disagrees with target definition; result not evaluated\n",
+    "explicit_alignment_argument": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-explicit_alignment-argument.ssa: call $f: argument type disagrees with its definition\n",
+    "explicit_alignment_result": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-explicit_alignment-result.ssa: call $f: result type disagrees with its definition\n",
+    "explicit_alignment_indirect": "error: indirect call signature disagrees with target definition; result not evaluated\n",
+    "alignment_argument": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-alignment-argument.ssa: call $f: argument type disagrees with its definition\n",
+    "alignment_result": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-alignment-result.ssa: call $f: result type disagrees with its definition\n",
+    "alignment_indirect": "error: indirect call signature disagrees with target definition; result not evaluated\n",
+    "count_argument": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-count-argument.ssa: call $f: argument type disagrees with its definition\n",
+    "count_result": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-count-result.ssa: call $f: result type disagrees with its definition\n",
+    "count_indirect": "error: indirect call signature disagrees with target definition; result not evaluated\n",
+    "width_argument": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-width-argument.ssa: call $f: argument type disagrees with its definition\n",
+    "width_result": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/negative-width-result.ssa: call $f: result type disagrees with its definition\n",
+    "width_indirect": "error: indirect call signature disagrees with target definition; result not evaluated\n"
+  },
+  "interpreter": "nested indirect + recursive variadic return passed",
+  "before_refusal": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/aggregate-alias-main-review/emission/aarch64-macos/aggregate-signature-aliases/aliases.ssa: call $echo_integer: result type disagrees with its definition\n"
+}

@@ -1,0 +1,1541 @@
+type :innerA = { l }
+type :innerB = { l }
+type :integerA = { l 2 }
+type :integerB = { l 2 }
+type :floatingA = { d 2 }
+type :floatingB = { d 2 }
+type :mixedA = { d, l }
+type :mixedB = { d, l }
+type :hiddenA = { l 4 }
+type :hiddenB = { l 4 }
+type :unionA = { { l 2 } { d 2 } }
+type :unionB = { { l 2 } { d 2 } }
+type :opaqueA = align 8 { 24 }
+type :opaqueB = align 8 { 24 }
+type :nestedA = { :innerA 2 }
+type :nestedB = { :innerB 2 }
+function :integerA $echo_integer(:integerA %p, w %depth, ...) {
+@s
+ %done =w ceqw %depth, 0
+ jnz %done, @end, @recur
+@recur
+ %n =w sub %depth, 1
+ %q =:integerB call $echo_integer(:integerB %p, w %n, ..., l 91)
+ ret %q
+@end
+ storeb 0, %p
+ ret %p
+}
+export function l $probe_integer_direct(l %p, l %out) {
+@s
+ %r =:integerB call $echo_integer(:integerB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+export function l $probe_integer_indirect(l %p, l %out) {
+@s
+ %fn =l copy $echo_integer
+ %r =:integerB call %fn(:integerB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+function :floatingA $echo_floating(:floatingA %p, w %depth, ...) {
+@s
+ %done =w ceqw %depth, 0
+ jnz %done, @end, @recur
+@recur
+ %n =w sub %depth, 1
+ %q =:floatingB call $echo_floating(:floatingB %p, w %n, ..., l 91)
+ ret %q
+@end
+ ret %p
+}
+export function l $probe_floating_direct(l %p, l %out) {
+@s
+ %r =:floatingB call $echo_floating(:floatingB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+export function l $probe_floating_indirect(l %p, l %out) {
+@s
+ %fn =l copy $echo_floating
+ %r =:floatingB call %fn(:floatingB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+function :mixedA $echo_mixed(:mixedA %p, w %depth, ...) {
+@s
+ %done =w ceqw %depth, 0
+ jnz %done, @end, @recur
+@recur
+ %n =w sub %depth, 1
+ %q =:mixedB call $echo_mixed(:mixedB %p, w %n, ..., l 91)
+ ret %q
+@end
+ ret %p
+}
+export function l $probe_mixed_direct(l %p, l %out) {
+@s
+ %r =:mixedB call $echo_mixed(:mixedB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+export function l $probe_mixed_indirect(l %p, l %out) {
+@s
+ %fn =l copy $echo_mixed
+ %r =:mixedB call %fn(:mixedB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+function :hiddenA $echo_hidden(:hiddenA %p, w %depth, ...) {
+@s
+ %done =w ceqw %depth, 0
+ jnz %done, @end, @recur
+@recur
+ %n =w sub %depth, 1
+ %q =:hiddenB call $echo_hidden(:hiddenB %p, w %n, ..., l 91)
+ ret %q
+@end
+ ret %p
+}
+export function l $probe_hidden_direct(l %p, l %out) {
+@s
+ %r =:hiddenB call $echo_hidden(:hiddenB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ %p16 =l add %r, 16
+ %b16 =l loadub %p16
+ %o16 =l add %out, 16
+ storeb %b16, %o16
+ %h16 =l add %h15, %b16
+ %p17 =l add %r, 17
+ %b17 =l loadub %p17
+ %o17 =l add %out, 17
+ storeb %b17, %o17
+ %h17 =l add %h16, %b17
+ %p18 =l add %r, 18
+ %b18 =l loadub %p18
+ %o18 =l add %out, 18
+ storeb %b18, %o18
+ %h18 =l add %h17, %b18
+ %p19 =l add %r, 19
+ %b19 =l loadub %p19
+ %o19 =l add %out, 19
+ storeb %b19, %o19
+ %h19 =l add %h18, %b19
+ %p20 =l add %r, 20
+ %b20 =l loadub %p20
+ %o20 =l add %out, 20
+ storeb %b20, %o20
+ %h20 =l add %h19, %b20
+ %p21 =l add %r, 21
+ %b21 =l loadub %p21
+ %o21 =l add %out, 21
+ storeb %b21, %o21
+ %h21 =l add %h20, %b21
+ %p22 =l add %r, 22
+ %b22 =l loadub %p22
+ %o22 =l add %out, 22
+ storeb %b22, %o22
+ %h22 =l add %h21, %b22
+ %p23 =l add %r, 23
+ %b23 =l loadub %p23
+ %o23 =l add %out, 23
+ storeb %b23, %o23
+ %h23 =l add %h22, %b23
+ %p24 =l add %r, 24
+ %b24 =l loadub %p24
+ %o24 =l add %out, 24
+ storeb %b24, %o24
+ %h24 =l add %h23, %b24
+ %p25 =l add %r, 25
+ %b25 =l loadub %p25
+ %o25 =l add %out, 25
+ storeb %b25, %o25
+ %h25 =l add %h24, %b25
+ %p26 =l add %r, 26
+ %b26 =l loadub %p26
+ %o26 =l add %out, 26
+ storeb %b26, %o26
+ %h26 =l add %h25, %b26
+ %p27 =l add %r, 27
+ %b27 =l loadub %p27
+ %o27 =l add %out, 27
+ storeb %b27, %o27
+ %h27 =l add %h26, %b27
+ %p28 =l add %r, 28
+ %b28 =l loadub %p28
+ %o28 =l add %out, 28
+ storeb %b28, %o28
+ %h28 =l add %h27, %b28
+ %p29 =l add %r, 29
+ %b29 =l loadub %p29
+ %o29 =l add %out, 29
+ storeb %b29, %o29
+ %h29 =l add %h28, %b29
+ %p30 =l add %r, 30
+ %b30 =l loadub %p30
+ %o30 =l add %out, 30
+ storeb %b30, %o30
+ %h30 =l add %h29, %b30
+ %p31 =l add %r, 31
+ %b31 =l loadub %p31
+ %o31 =l add %out, 31
+ storeb %b31, %o31
+ %h31 =l add %h30, %b31
+ ret %h31
+}
+export function l $probe_hidden_indirect(l %p, l %out) {
+@s
+ %fn =l copy $echo_hidden
+ %r =:hiddenB call %fn(:hiddenB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ %p16 =l add %r, 16
+ %b16 =l loadub %p16
+ %o16 =l add %out, 16
+ storeb %b16, %o16
+ %h16 =l add %h15, %b16
+ %p17 =l add %r, 17
+ %b17 =l loadub %p17
+ %o17 =l add %out, 17
+ storeb %b17, %o17
+ %h17 =l add %h16, %b17
+ %p18 =l add %r, 18
+ %b18 =l loadub %p18
+ %o18 =l add %out, 18
+ storeb %b18, %o18
+ %h18 =l add %h17, %b18
+ %p19 =l add %r, 19
+ %b19 =l loadub %p19
+ %o19 =l add %out, 19
+ storeb %b19, %o19
+ %h19 =l add %h18, %b19
+ %p20 =l add %r, 20
+ %b20 =l loadub %p20
+ %o20 =l add %out, 20
+ storeb %b20, %o20
+ %h20 =l add %h19, %b20
+ %p21 =l add %r, 21
+ %b21 =l loadub %p21
+ %o21 =l add %out, 21
+ storeb %b21, %o21
+ %h21 =l add %h20, %b21
+ %p22 =l add %r, 22
+ %b22 =l loadub %p22
+ %o22 =l add %out, 22
+ storeb %b22, %o22
+ %h22 =l add %h21, %b22
+ %p23 =l add %r, 23
+ %b23 =l loadub %p23
+ %o23 =l add %out, 23
+ storeb %b23, %o23
+ %h23 =l add %h22, %b23
+ %p24 =l add %r, 24
+ %b24 =l loadub %p24
+ %o24 =l add %out, 24
+ storeb %b24, %o24
+ %h24 =l add %h23, %b24
+ %p25 =l add %r, 25
+ %b25 =l loadub %p25
+ %o25 =l add %out, 25
+ storeb %b25, %o25
+ %h25 =l add %h24, %b25
+ %p26 =l add %r, 26
+ %b26 =l loadub %p26
+ %o26 =l add %out, 26
+ storeb %b26, %o26
+ %h26 =l add %h25, %b26
+ %p27 =l add %r, 27
+ %b27 =l loadub %p27
+ %o27 =l add %out, 27
+ storeb %b27, %o27
+ %h27 =l add %h26, %b27
+ %p28 =l add %r, 28
+ %b28 =l loadub %p28
+ %o28 =l add %out, 28
+ storeb %b28, %o28
+ %h28 =l add %h27, %b28
+ %p29 =l add %r, 29
+ %b29 =l loadub %p29
+ %o29 =l add %out, 29
+ storeb %b29, %o29
+ %h29 =l add %h28, %b29
+ %p30 =l add %r, 30
+ %b30 =l loadub %p30
+ %o30 =l add %out, 30
+ storeb %b30, %o30
+ %h30 =l add %h29, %b30
+ %p31 =l add %r, 31
+ %b31 =l loadub %p31
+ %o31 =l add %out, 31
+ storeb %b31, %o31
+ %h31 =l add %h30, %b31
+ ret %h31
+}
+function :unionA $echo_union(:unionA %p, w %depth, ...) {
+@s
+ %done =w ceqw %depth, 0
+ jnz %done, @end, @recur
+@recur
+ %n =w sub %depth, 1
+ %q =:unionB call $echo_union(:unionB %p, w %n, ..., l 91)
+ ret %q
+@end
+ ret %p
+}
+export function l $probe_union_direct(l %p, l %out) {
+@s
+ %r =:unionB call $echo_union(:unionB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+export function l $probe_union_indirect(l %p, l %out) {
+@s
+ %fn =l copy $echo_union
+ %r =:unionB call %fn(:unionB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+function :opaqueA $echo_opaque(:opaqueA %p, w %depth, ...) {
+@s
+ %done =w ceqw %depth, 0
+ jnz %done, @end, @recur
+@recur
+ %n =w sub %depth, 1
+ %q =:opaqueB call $echo_opaque(:opaqueB %p, w %n, ..., l 91)
+ ret %q
+@end
+ ret %p
+}
+export function l $probe_opaque_direct(l %p, l %out) {
+@s
+ %r =:opaqueB call $echo_opaque(:opaqueB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ %p16 =l add %r, 16
+ %b16 =l loadub %p16
+ %o16 =l add %out, 16
+ storeb %b16, %o16
+ %h16 =l add %h15, %b16
+ %p17 =l add %r, 17
+ %b17 =l loadub %p17
+ %o17 =l add %out, 17
+ storeb %b17, %o17
+ %h17 =l add %h16, %b17
+ %p18 =l add %r, 18
+ %b18 =l loadub %p18
+ %o18 =l add %out, 18
+ storeb %b18, %o18
+ %h18 =l add %h17, %b18
+ %p19 =l add %r, 19
+ %b19 =l loadub %p19
+ %o19 =l add %out, 19
+ storeb %b19, %o19
+ %h19 =l add %h18, %b19
+ %p20 =l add %r, 20
+ %b20 =l loadub %p20
+ %o20 =l add %out, 20
+ storeb %b20, %o20
+ %h20 =l add %h19, %b20
+ %p21 =l add %r, 21
+ %b21 =l loadub %p21
+ %o21 =l add %out, 21
+ storeb %b21, %o21
+ %h21 =l add %h20, %b21
+ %p22 =l add %r, 22
+ %b22 =l loadub %p22
+ %o22 =l add %out, 22
+ storeb %b22, %o22
+ %h22 =l add %h21, %b22
+ %p23 =l add %r, 23
+ %b23 =l loadub %p23
+ %o23 =l add %out, 23
+ storeb %b23, %o23
+ %h23 =l add %h22, %b23
+ ret %h23
+}
+export function l $probe_opaque_indirect(l %p, l %out) {
+@s
+ %fn =l copy $echo_opaque
+ %r =:opaqueB call %fn(:opaqueB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ %p16 =l add %r, 16
+ %b16 =l loadub %p16
+ %o16 =l add %out, 16
+ storeb %b16, %o16
+ %h16 =l add %h15, %b16
+ %p17 =l add %r, 17
+ %b17 =l loadub %p17
+ %o17 =l add %out, 17
+ storeb %b17, %o17
+ %h17 =l add %h16, %b17
+ %p18 =l add %r, 18
+ %b18 =l loadub %p18
+ %o18 =l add %out, 18
+ storeb %b18, %o18
+ %h18 =l add %h17, %b18
+ %p19 =l add %r, 19
+ %b19 =l loadub %p19
+ %o19 =l add %out, 19
+ storeb %b19, %o19
+ %h19 =l add %h18, %b19
+ %p20 =l add %r, 20
+ %b20 =l loadub %p20
+ %o20 =l add %out, 20
+ storeb %b20, %o20
+ %h20 =l add %h19, %b20
+ %p21 =l add %r, 21
+ %b21 =l loadub %p21
+ %o21 =l add %out, 21
+ storeb %b21, %o21
+ %h21 =l add %h20, %b21
+ %p22 =l add %r, 22
+ %b22 =l loadub %p22
+ %o22 =l add %out, 22
+ storeb %b22, %o22
+ %h22 =l add %h21, %b22
+ %p23 =l add %r, 23
+ %b23 =l loadub %p23
+ %o23 =l add %out, 23
+ storeb %b23, %o23
+ %h23 =l add %h22, %b23
+ ret %h23
+}
+function :nestedA $echo_nested(:nestedA %p, w %depth, ...) {
+@s
+ %done =w ceqw %depth, 0
+ jnz %done, @end, @recur
+@recur
+ %n =w sub %depth, 1
+ %q =:nestedB call $echo_nested(:nestedB %p, w %n, ..., l 91)
+ ret %q
+@end
+ ret %p
+}
+export function l $probe_nested_direct(l %p, l %out) {
+@s
+ %r =:nestedB call $echo_nested(:nestedB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+export function l $probe_nested_indirect(l %p, l %out) {
+@s
+ %fn =l copy $echo_nested
+ %r =:nestedB call %fn(:nestedB %p, w 2, ..., l 91)
+ %p0 =l add %r, 0
+ %b0 =l loadub %p0
+ %o0 =l add %out, 0
+ storeb %b0, %o0
+ %h0 =l add 0, %b0
+ %p1 =l add %r, 1
+ %b1 =l loadub %p1
+ %o1 =l add %out, 1
+ storeb %b1, %o1
+ %h1 =l add %h0, %b1
+ %p2 =l add %r, 2
+ %b2 =l loadub %p2
+ %o2 =l add %out, 2
+ storeb %b2, %o2
+ %h2 =l add %h1, %b2
+ %p3 =l add %r, 3
+ %b3 =l loadub %p3
+ %o3 =l add %out, 3
+ storeb %b3, %o3
+ %h3 =l add %h2, %b3
+ %p4 =l add %r, 4
+ %b4 =l loadub %p4
+ %o4 =l add %out, 4
+ storeb %b4, %o4
+ %h4 =l add %h3, %b4
+ %p5 =l add %r, 5
+ %b5 =l loadub %p5
+ %o5 =l add %out, 5
+ storeb %b5, %o5
+ %h5 =l add %h4, %b5
+ %p6 =l add %r, 6
+ %b6 =l loadub %p6
+ %o6 =l add %out, 6
+ storeb %b6, %o6
+ %h6 =l add %h5, %b6
+ %p7 =l add %r, 7
+ %b7 =l loadub %p7
+ %o7 =l add %out, 7
+ storeb %b7, %o7
+ %h7 =l add %h6, %b7
+ %p8 =l add %r, 8
+ %b8 =l loadub %p8
+ %o8 =l add %out, 8
+ storeb %b8, %o8
+ %h8 =l add %h7, %b8
+ %p9 =l add %r, 9
+ %b9 =l loadub %p9
+ %o9 =l add %out, 9
+ storeb %b9, %o9
+ %h9 =l add %h8, %b9
+ %p10 =l add %r, 10
+ %b10 =l loadub %p10
+ %o10 =l add %out, 10
+ storeb %b10, %o10
+ %h10 =l add %h9, %b10
+ %p11 =l add %r, 11
+ %b11 =l loadub %p11
+ %o11 =l add %out, 11
+ storeb %b11, %o11
+ %h11 =l add %h10, %b11
+ %p12 =l add %r, 12
+ %b12 =l loadub %p12
+ %o12 =l add %out, 12
+ storeb %b12, %o12
+ %h12 =l add %h11, %b12
+ %p13 =l add %r, 13
+ %b13 =l loadub %p13
+ %o13 =l add %out, 13
+ storeb %b13, %o13
+ %h13 =l add %h12, %b13
+ %p14 =l add %r, 14
+ %b14 =l loadub %p14
+ %o14 =l add %out, 14
+ storeb %b14, %o14
+ %h14 =l add %h13, %b14
+ %p15 =l add %r, 15
+ %b15 =l loadub %p15
+ %o15 =l add %out, 15
+ storeb %b15, %o15
+ %h15 =l add %h14, %b15
+ ret %h15
+}
+export function l $interpreted() {
+@s
+ %p =l alloc8 32
+ storel 72623859790382856, %p
+ %p8 =l add %p, 8
+ storel 72623859790382856, %p8
+ %out =l alloc8 16
+ %r =l call $probe_nested_indirect(l %p, l %out)
+ ret %r
+}

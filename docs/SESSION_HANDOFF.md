@@ -6,6 +6,15 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Exact aggregate signature aliases](benchmarks/aggregate-signature-aliases/README.md)
+are integrated on identity `859f5c81657dcdb85c13513a19c5c3635e6e3ef55f600e9e2adaaa20f5e2963d`.
+Five original-QBE/C matrices, all three full Linux gates, fresh units and 147 exact
+audit statements pass. Corpus output and all 432 workload assemblies are identical.
+Full host qualification has not yet run on this identity. Mixed mutable integer
+widths and retained TLS are independently qualified/reviewed private candidates,
+queued for integration. ARM scaled loads remain private pending paired full-API
+zlib measurements; no speed improvement is yet claimed.
+
 [Printable ELF section names](benchmarks/elf-section-name-bytes/README.md) are integrated
 on identity `ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92`.
 Names preserve 1–128 printable ASCII bytes with explicit quote/backslash escaping.
@@ -13,8 +22,7 @@ All 15 combined matrices, three complete Linux gates, fresh units and 147 unchan
 audit statements pass. All 1,305 corpus assemblies, 15 refusals and 432 workload
 assemblies remain identical. The workload bridge reuses prior exact-output runtime
 qualification, including QBE self-compilation on predecessor identity5e174. Full
-host/Rosetta gate also passes; aggregate signature aliases are privately qualified
-and reviewed but not yet integrated. Unqualified stale-comparison/wrong-IR-path
+host/Rosetta gate also passes; aggregate signature aliases were integrated in the subsequent checkpoint above. Unqualified stale-comparison/wrong-IR-path
 harness attempts are retained separately from fresh successful reruns.
 
 [Fresh QBE bootstrap qualification](benchmarks/qbe-elf-refresh/README.md) uses historical identity `5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e`: all three Linux targets pass 487 exact comparisons and 58 ARM-output runtime tests per LCB mode. The applied helper adds isolated work, provenance barriers and a shared upstream-runner lock. All overlapping v1 attempts remain unqualified; sequential v2 and final locked v3 evidence are distinct, as are original/corrected QBE outcomes. No compiler rebuild, timing claim or Windows-support extension.

@@ -315,15 +315,15 @@ def effectiveCallSignature (callee : Function) (arguments : Array CallArgument)
     to consume the result as l. Used floating/subword/void signatures remain
     exact; effect-only calls may discard scalar results, never aggregates. -/
 def callResultMatches (callee : Function) (width : Option Width) (floating : Bool)
-    (subword : Option Subword) (aggregate : Option String := none) : Bool :=
+    (subword : Option Subword) (aggregate : Option String := none) (aliases : Array (String × String) := #[]) : Bool :=
   -- An effect-only call may ignore any scalar return register. Aggregate
   -- returns can require caller-provided storage, so they remain exact.
   (width.isNone && !floating && subword.isNone && aggregate.isNone && callee.resultAggregate.isNone) ||
-    (aggregate == callee.resultAggregate && floating == callee.resultFloating && subword == callee.resultSubword &&
+    (Aggregate.signatureMatches aliases aggregate callee.resultAggregate && floating == callee.resultFloating && subword == callee.resultSubword &&
       (width == callee.resultWidth ||
         (!floating && subword.isNone && aggregate.isNone && callee.resultWidth == some .word && width == some .long)))
 
-def validate (program : Program) : Except String Unit := do
+def validate (program : Program) (aliases : Array (String × String) := #[]) : Except String Unit := do
   if program.isEmpty then throw "program contains no functions"
   if program.size > maxCompatibilityFunctions then throw s!"program exceeds {maxCompatibilityFunctions}-function limit"
   let mut definitions : Std.HashMap String Function := {}
@@ -341,13 +341,13 @@ def validate (program : Program) : Except String Unit := do
         if let some (.direct target, arguments, resultWidth) := statement.callSite then
           if let some callee := definitions[target]? then
             let (callee, arguments) ← effectiveCallSignature callee arguments
-            if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword statement.resultAggregate then
+            if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword statement.resultAggregate aliases then
               throw s!"call ${target}: result type disagrees with its definition"
             let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
             if fixed != callee.parameters.size || (!callee.variadic && arguments.size != fixed) then
               throw s!"call ${target}: argument count/variadic boundary disagrees with its definition"
             for i in [:callee.parameters.size] do
-              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword || arguments[i]!.aggregate != callee.parameters[i]!.aggregate then
+              if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword || !Aggregate.signatureMatches aliases arguments[i]!.aggregate callee.parameters[i]!.aggregate then
                 throw s!"call ${target}: argument type disagrees with its definition"
 
 def validateModule (module : Module) : Except String Unit := do
@@ -365,7 +365,7 @@ def validateModule (module : Module) : Except String Unit := do
           for argument in arguments do checkType argument.aggregate
   if module.functions.isEmpty && module.data.isEmpty && module.types.isEmpty then
     throw "module contains no definitions"
-  if !module.functions.isEmpty then validate module.functions
+  if !module.functions.isEmpty then validate module.functions (Aggregate.signatureAliases module.types)
   if module.data.size > 1024 then throw "module exceeds the 1024-data-definition resource limit"
   let mut names := module.functions.toList.map (·.name)
   let mut total := 0

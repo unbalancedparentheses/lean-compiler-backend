@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/private/tmp/lcb-aggregate-aliases/.build/aggregate-aliases/run.py", line 17, in <module>
+    r=t.exercise(private/'.build/aggregate-aliases/after',work,run,cc,target,qbe=Path('/tmp/qbe/qbe') if linux else root/'.build/syntax-main-review/qbe-snapshot',before=root/'.build/lcb-aggregate-main');reports.append(dict(target=target,report=str(work/'aggregate-signature-aliases/report.json')));print(target,'passed',flush=True)
+  File "/tmp/lcb-aggregate-aliases/scripts/aggregate_signature_aliases.py", line 52, in exercise
+    qt={'aarch64-macos':'arm64_apple','aarch64-linux':'arm64','x86_64-macos':'amd64_apple','x86_64-linux':'amd64_sysv','riscv64-linux':'rv64'}[target];cc=[str(cc)] if isinstance(cc,(str,Path)) else list(map(str,cc))
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+KeyError: '%fn'

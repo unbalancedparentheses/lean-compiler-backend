@@ -1,0 +1,15 @@
+type :a = { l }
+type :b = align 8 { l }
+function :a $f(:a %p) {
+@s
+ ret %p
+}
+function l $bad() {
+@s
+ %p =l alloc16 32
+ storel 1, %p
+ %fn =l copy $f
+ %r =:b call $f(:a %p)
+ %v =l loadl %r
+ ret %v
+}
