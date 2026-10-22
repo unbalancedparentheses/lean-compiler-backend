@@ -33,7 +33,9 @@ allows 4,096 globals, covering frontend-generated message catalogs that exceeded
 the old 1,024 cap. Combined identity e095ed59 passes all five actual-main boundary
 matrices, unchanged catalog execution, units and unchanged proof audit. Byte and
 parser budgets remain bounded. All three complete Linux gates pass; final host,
-bootstrap refresh and CI qualification are running.
+CI qualification are running. [Fresh QBE/cproc builds](docs/benchmarks/amd-data-bootstrap/README.md)
+pass all three Linux targets on the combined source, retaining original/corrected
+oracle distinctions and existing qualification limits.
 
 ## Active execution order
 

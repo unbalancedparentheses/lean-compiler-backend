@@ -1,0 +1,99 @@
+[
+  {
+    "program": "qbe",
+    "target": "aarch64-linux",
+    "command": [
+      "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/bin/python3",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/invoke.py",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/scripts/qbe_bootstrap.py",
+      "--compiler",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/lcb-snapshot",
+      "--target",
+      "aarch64-linux",
+      "--work",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-aarch64-linux",
+      "--report",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-aarch64-linux/report.json",
+      "--repetitions",
+      "1"
+    ],
+    "exit": 0,
+    "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-aarch64-linux/report.json",
+    "original_qbe_failure": {
+      "target": "arm64",
+      "input": "_alt.ssa",
+      "exit": 1,
+      "reference_exit": 0,
+      "stderr": "qbe:/work/combined-amd-data-v1-qbe-aarch64-linux/source/test/_alt.ssa:25: missing second operand in copy\n",
+      "phase": "assembly reproduction",
+      "assembly_sha256": null,
+      "reference_assembly_sha256": "5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd"
+    },
+    "original_qbe_build_failure": null,
+    "report_sha256": "26c5cda77f37d8ab8e8ad0a7d70f33e4a1a786864c3dfd97ea673af9acac9dcd",
+    "report_guest_host": "passed"
+  },
+  {
+    "program": "qbe",
+    "target": "x86_64-linux",
+    "command": [
+      "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/bin/python3",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/invoke.py",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/scripts/qbe_bootstrap.py",
+      "--compiler",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/lcb-snapshot",
+      "--target",
+      "x86_64-linux",
+      "--work",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-x86_64-linux",
+      "--report",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-x86_64-linux/report.json",
+      "--repetitions",
+      "1"
+    ],
+    "exit": 0,
+    "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-x86_64-linux/report.json",
+    "original_qbe_failure": {
+      "target": "arm64_apple",
+      "input": "abi8.ssa",
+      "exit": 0,
+      "reference_exit": 0,
+      "stderr": "",
+      "phase": "assembly reproduction",
+      "assembly_sha256": "a39731a5d5204d4ff75ea23d9fe5ed98b78fb78571979fbade2f7daf72603774",
+      "reference_assembly_sha256": "77bf98f2480660bbeb2bce534270af3a69d3ae7e18aa40a2f75c9436d4d45844"
+    },
+    "original_qbe_build_failure": null,
+    "report_sha256": "ab46dbe5e257050c455c34992e816bff8aaa9a46822f798f4e9469127134fdcd",
+    "report_guest_host": "passed"
+  },
+  {
+    "program": "qbe",
+    "target": "riscv64-linux",
+    "command": [
+      "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/bin/python3",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/invoke.py",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/scripts/qbe_bootstrap.py",
+      "--compiler",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-qbe/lcb-snapshot",
+      "--target",
+      "riscv64-linux",
+      "--work",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-riscv64-linux",
+      "--report",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-riscv64-linux/report.json",
+      "--repetitions",
+      "1"
+    ],
+    "exit": 0,
+    "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-qbe-riscv64-linux/report.json",
+    "original_qbe_failure": {
+      "phase": "link",
+      "exit": 1,
+      "stderr": "/work/combined-amd-data-v1-qbe-riscv64-linux/main-qbe.o: in function `data':\n(.text+0x3ea): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/util-qbe.o: in function `igroup':\n(.text+0xf78): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/parse-qbe.o: in function `typecheck':\n(.text+0x2b30): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/cfg-qbe.o: in function `ifgraph':\n(.text+0x1928): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/mem-qbe.o: in function `promote':\n(.text+0x590): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/ssa-qbe.o: in function `renblk':\n(.text+0x1402): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/load-qbe.o: in function `loadopt':\n(.text+0x234c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/copy-qbe.o: in function `narrowpars':\n(.text+0x107a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/fold-qbe.o: in function `opfold':\n(.text+0x120a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/gvn-qbe.o: in function `rcmp':\n(.text+0xb0a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/gcm-qbe.o: in function `isdivwl':\n(.text+0x3f8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/simpl-qbe.o: in function `ins':\n(.text+0x80c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/ifopt-qbe.o: in function `convert':\n(.text+0x7d2): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/live-qbe.o: in function `filllive':\n(.text+0x712): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/spill-qbe.o: in function `tmpuse':\n(.text+0x51e): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/rega-qbe.o: in function `rref':\n(.text+0x690): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/emit-qbe.o: in function `bshas':\n(.text+0x37e): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/amd64-sysv-qbe.o: in function `selcall':\n(.text+0x1c98): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/amd64-isel-qbe.o: in function `fixarg':\n(.text+0x71c): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/amd64-emit-qbe.o: in function `slot':\n(.text+0x404): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/amd64-winabi-qbe.o: in function `lower_vastart':\n(.text+0x2142): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/arm64-abi-qbe.o: in function `selret':\n(.text+0xd08): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/arm64-isel-qbe.o: in function `fixarg':\n(.text+0x658): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/arm64-emit-qbe.o: in function `rname':\n(.text+0x5f8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/rv64-abi-qbe.o: in function `selcall':\n(.text+0x2100): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-qbe-riscv64-linux/rv64-isel-qbe.o: in function `fixarg':\n(.text+0x7ce): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\ncollect2: error: ld returned 1 exit status\n"
+    },
+    "original_qbe_build_failure": null,
+    "report_sha256": "10edde602104c83725a21c3a2f6f0ff6343b4890554f486ac1d4ec2a7dad2ec3",
+    "report_guest_host": "passed"
+  }
+]

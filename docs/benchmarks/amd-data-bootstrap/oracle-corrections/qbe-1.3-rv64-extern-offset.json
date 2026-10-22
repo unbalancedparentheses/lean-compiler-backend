@@ -1,0 +1,7 @@
+{
+  "upstream": "QBE 1.3",
+  "source": "rv64/isel.c",
+  "description": "Test-oracle-only correction: split long external symbol addresses into a zero-addend GOT load and explicit integer offset addition. Original pinned sources and IR remain unchanged.",
+  "before": "\t\tc = &fn->con[r0.val];\n\t\tif (c->type == CAddr && memarg(r, op, i))\n",
+  "after": "\t\tc = &fn->con[r0.val];\n\t\tif (k == Kl && c->type == CAddr\n\t\t&& c->sym.type == SExt && c->bits.i) {\n\t\t\tCon base = *c, offset = {.type = CBits};\n\t\t\tRef address = newtmp(\"isel\", Kl, fn);\n\t\t\tRef displacement = newtmp(\"isel\", Kl, fn);\n\t\t\toffset.bits.i = c->bits.i;\n\t\t\tbase.bits.i = 0;\n\t\t\tr1 = newtmp(\"isel\", Kl, fn);\n\t\t\temit(Oadd, Kl, r1, address, displacement);\n\t\t\temit(Ocopy, Kl, displacement, newcon(&offset, fn), R);\n\t\t\temit(Ocopy, Kl, address, newcon(&base, fn), R);\n\t\t\tbreak;\n\t\t}\n\t\tif (c->type == CAddr && memarg(r, op, i))\n"
+}

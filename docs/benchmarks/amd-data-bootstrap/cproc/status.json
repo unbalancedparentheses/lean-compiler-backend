@@ -1,0 +1,79 @@
+[
+  {
+    "program": "cproc",
+    "target": "aarch64-linux",
+    "command": [
+      "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/bin/python3",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/invoke.py",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/scripts/cproc_bootstrap.py",
+      "--compiler",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/lcb-snapshot",
+      "--target",
+      "aarch64-linux",
+      "--work",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-aarch64-linux",
+      "--report",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-aarch64-linux/report.json"
+    ],
+    "exit": 0,
+    "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-aarch64-linux/report.json",
+    "original_qbe_failure": {
+      "input": "attr",
+      "exit": 139,
+      "stderr": ""
+    },
+    "original_qbe_build_failure": null,
+    "report_sha256": "1c3dbe1dc5dc1d35f19c52809bbcaad418154aa516edcbd43b928586f94fff2d",
+    "report_guest_host": "passed"
+  },
+  {
+    "program": "cproc",
+    "target": "x86_64-linux",
+    "command": [
+      "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/bin/python3",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/invoke.py",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/scripts/cproc_bootstrap.py",
+      "--compiler",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/lcb-snapshot",
+      "--target",
+      "x86_64-linux",
+      "--work",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-x86_64-linux",
+      "--report",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-x86_64-linux/report.json"
+    ],
+    "exit": 0,
+    "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-x86_64-linux/report.json",
+    "original_qbe_failure": null,
+    "original_qbe_build_failure": null,
+    "report_sha256": "ef29f3f5993af3ad1c707aa8daef8a3af5f49464c4116834b371fa50f70ed4a5",
+    "report_guest_host": "passed"
+  },
+  {
+    "program": "cproc",
+    "target": "riscv64-linux",
+    "command": [
+      "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/bin/python3",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/invoke.py",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/scripts/cproc_bootstrap.py",
+      "--compiler",
+      "/tmp/lcb-combined-final-replay/combined-amd-data-v1-cproc/lcb-snapshot",
+      "--target",
+      "riscv64-linux",
+      "--work",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-riscv64-linux",
+      "--report",
+      "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-riscv64-linux/report.json"
+    ],
+    "exit": 0,
+    "report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/combined-amd-data-v1-cproc-riscv64-linux/report.json",
+    "original_qbe_failure": {
+      "phase": "link",
+      "exit": 1,
+      "stderr": "/work/combined-amd-data-v1-cproc-riscv64-linux/attr-qbe.o: in function `parseattr':\n(.text+0x2c8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/decl-qbe.o: in function `storageclass':\n(.text+0x378): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/eval-qbe.o: in function `eval':\n(.text+0xb80): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/expr-qbe.o: in function `mkunaryexpr':\n(.text+0x586): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/init-qbe.o: in function `subobj':\n(.text+0x3e8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/main-qbe.o: in function `main':\n(.text+0x4b2): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/pp-qbe.o: in function `define':\n(.text+0xb4a): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/stmt-qbe.o: in function `label':\n(.text+0x270): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/targ-qbe.o: in function `targinit':\n(.text+0xc4): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/type-qbe.o: in function `mkbitinttype':\n(.text+0x220): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\n/work/combined-amd-data-v1-cproc-riscv64-linux/qbe-qbe.o: in function `__uint64_identity':\n(.text+0x1ce): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\ncollect2: error: ld returned 1 exit status\n"
+    },
+    "original_qbe_build_failure": null,
+    "report_sha256": "b6a414049e4a284e2f67530b840318452e4ce23b6841193be3e4a272faa273e6",
+    "report_guest_host": "passed"
+  }
+]
