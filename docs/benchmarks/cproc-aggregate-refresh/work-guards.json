@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/tmp/lcb-cproc-refresh/outside",
+    "exit": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/tmp/lcb-cproc-refresh/cproc_bootstrap.py\", line 274, in <module>\n    if __name__ == '__main__': main()\n                               ~~~~^^\n  File \"/tmp/lcb-cproc-refresh/cproc_bootstrap.py\", line 59, in main\n    assert work != base and work.is_relative_to(base), '--work must be beneath the mounted .build/linux-arm64 directory'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: --work must be beneath the mounted .build/linux-arm64 directory\n"
+  },
+  {
+    "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cproc-refresh-guard",
+    "exit": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/tmp/lcb-cproc-refresh/cproc_bootstrap.py\", line 274, in <module>\n    if __name__ == '__main__': main()\n                               ~~~~^^\n  File \"/tmp/lcb-cproc-refresh/cproc_bootstrap.py\", line 60, in main\n    assert not work.exists() or not any(work.iterdir()), '--work must be fresh and empty; preserve existing evidence'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: --work must be fresh and empty; preserve existing evidence\n"
+  }
+]

@@ -1,0 +1,9 @@
+external GOT offset: Lean baseline/optimized and corrected oracle pass; original QBE returns the wrong pointer
+Traceback (most recent call last):
+  File "/tmp/lcb-cproc-refresh/cproc_bootstrap.py", line 274, in <module>
+    if __name__ == '__main__': main()
+                               ~~~~^^
+  File "/tmp/lcb-cproc-refresh/cproc_bootstrap.py", line 181, in main
+    assert 'ret 37' in control_ir.read_text(), 'sentinel lowering changed; re-audit mutation'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: sentinel lowering changed; re-audit mutation

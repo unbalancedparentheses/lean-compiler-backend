@@ -136,6 +136,8 @@ unchanged volatile-containing units use identical GCC objects in every mixed
 build. All seven compiler/oracle binaries pass two reduced official test profiles;
 full Lua frontend qualification and excluded internal/locale tests remain open.
 
+A [fresh cproc bootstrap](docs/benchmarks/cproc-aggregate-refresh/README.md) on the large-aggregate compiler passes all three Linux targets: 18 frontend units, 19 identical stage-two IR files and 196 original tests per LCB mode. Original and corrected QBE outcomes remain separate; fresh work directories preserve older evidence.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and

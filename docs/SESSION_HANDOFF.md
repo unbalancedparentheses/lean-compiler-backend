@@ -6,6 +6,13 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Fresh cproc self-compilation](benchmarks/cproc-aggregate-refresh/README.md) now
+passes on aggregate identity `a23afe3b…`: all three Linux targets, both LCB modes,
+18 frontend units, 19 identical stage-two IR files and 196 original tests each.
+Original ARM/RV QBE failures remain separate from corrected references. The
+new `--work` option isolates fresh source/configuration/build directories, and
+all source/binary/IR provenance barriers pass. Compile times are diagnostic only.
+
 [Large aggregate copying](benchmarks/large-aggregate-abi/README.md) is now integrated
 on identity `a23afe3b4889b9da79c50d5ddf5b7e3e4affe2ba26d1e2c5072ed14c73cbdaaa`.
 Fresh build/units and all 147 unchanged proof-audit statements pass. All five
