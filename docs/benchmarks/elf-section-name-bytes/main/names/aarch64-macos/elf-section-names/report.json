@@ -1,0 +1,372 @@
+{
+  "status": "passed",
+  "target": "aarch64-macos",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "before_sha256": "83169d061c897c9142941714e7ba8fb5e900a756c7062d33096837da91bdc7a1",
+  "helper_sha256": "5a2e46143fc943c16a6b90d52060b1ce1eafaf39618504211d5ebbe7d02ce4b7",
+  "source_sha256": "07350fa37a932a36822263f0cc98d5868ec2ab90d54c5c95c74878d9043b962b",
+  "caller_sha256": "9fc2af98f69bfe40baec0180b582ca278dfec8bf655ecd485e58c3b652361800",
+  "qbe_sha256": null,
+  "results": [
+    {
+      "scope": "Apple negative and ordinary fixture emission only",
+      "executed": false
+    }
+  ],
+  "controls": [],
+  "executed_modes": 0,
+  "ordinary_equivalence": "passed",
+  "expected_names": {
+    "64": 3,
+    "66": 6,
+    "64706c61696e": 3,
+    "66706c61696e": 6,
+    "647370616365206e616d65": 3,
+    "667370616365206e616d65": 6,
+    "64636f6c6f6e3a6e616d65": 3,
+    "66636f6c6f6e3a6e616d65": 6,
+    "64736c6173682f6e616d65": 3,
+    "66736c6173682f6e616d65": 6,
+    "64706c75732b6e616d65": 3,
+    "66706c75732b6e616d65": 6,
+    "646174406e616d65": 3,
+    "666174406e616d65": 6,
+    "6471756f7465226e616d65": 3,
+    "6671756f7465226e616d65": 6,
+    "646261636b5c6e616d65": 3,
+    "666261636b5c6e616d65": 6,
+    "646c69746572616c5c6e": 3,
+    "666c69746572616c5c6e": 6,
+    "6478223b202e676c6f626c20696e6a65637465643b2023": 3,
+    "6678223b202e676c6f626c20696e6a65637465643b2023": 6,
+    "64785c223b202e73656374696f6e20696e6a65637465643b2023": 3,
+    "66785c223b202e73656374696f6e20696e6a65637465643b2023": 6,
+    "64202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e": 3,
+    "66202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e": 6,
+    "6478787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878": 3,
+    "6678787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878787878": 6,
+    "64207370616365": 3
+  },
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/baseline-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/baseline-ordinary-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/allocated-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/allocated-ordinary-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/optimized-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/ordinary.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/optimized-ordinary-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-0.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-0.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-0.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-1.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-1.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-1.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-2.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-2.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-2.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-3.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-3.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-3.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-4.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-4.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/apple-4.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/names/aarch64-macos/elf-section-names/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: Apple section names must contain 1..16 ASCII name characters\n"
+    }
+  ],
+  "scope": "14data/function name pairs +3equivalent spellings; exact29custom section names and31global symbols. PrintableASCII1..128 decodedbytes only. Linux executes independentC; Apple unchanged fixture emission/negatives only. No timing claim."
+}

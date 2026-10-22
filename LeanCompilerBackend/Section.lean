@@ -9,8 +9,8 @@ private def nameChar (c : Char) : Bool :=
 def checkELF (customSection : SectionSpec) : Except String Unit := do
   let name := customSection.name
   if name.isEmpty || name.utf8ByteSize > 128 ||
-      !name.toList.all (fun c => nameChar c || c == '-' || c == ',') then
-    throw "ELF section requires 1..128 ASCII name characters"
+      !name.toList.all (fun c => 32 <= c.toNat && c.toNat <= 126) then
+    throw "ELF section requires 1..128 printable ASCII name bytes"
   if let some flags := customSection.flags then
     if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x' || c == 'R') then
       throw "unsupported ELF section flags (accepted: a, w, x, R)"

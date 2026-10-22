@@ -28,6 +28,19 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
   | .error _ => false
 
 def main : IO Unit := do
+  let printable := String.ofList ((List.range 95).map fun n => Char.ofNat (n+32))
+  require (valueEquals (Section.checkTarget false (some ⟨printable, some "aw"⟩)) ())
+    "ELF printable ASCII names rejected"
+  for name in ["", String.ofList (List.replicate 129 'a'), "a\n", "a\t", "a" ++ String.singleton (Char.ofNat 127), "λ"] do
+    require (isFailure (Section.checkTarget false (some ⟨name, some "aw"⟩)))
+      "ELF invalid decoded name admitted"
+  let escaped := Assembly.sectionDirective false ⟨"a\"b\\c", some "aw"⟩
+  require (escaped == ".section \"a\\\"b\\\\c\",\"aw\"")
+    "ELF section quote/backslash escaping changed decoded bytes"
+  require (Assembly.sectionDirective false ⟨"foo,bar", some "aw"⟩ == ".section \"foo,bar\",\"aw\"")
+    "ordinary ELF section spelling changed"
+  require (isFailure (Section.checkTarget true (some ⟨"a b", some "aw"⟩)))
+    "Apple section grammar broadened with ELF"
   for flags in ["aR", "awR", "axR", "Rwa", "Ra", "R"] do
     require (valueEquals (Section.checkTarget false (some ⟨".retain", some flags⟩)) ())
       "ELF retain flag rejected"

@@ -66,7 +66,9 @@ def exercise(compiler,work,run,cc,target,execute=True,qbe=None,before=None):
                 qr=invoke([*cc,'-c',qa,'-o',d/'apple-sixteen-qbe.o'],True,ok=False)
                 assert qr.returncode!=0 and 'length' in qr.stderr
                 report['apple_qbe_16_byte_section']='assembler refusal: quotes exceed section-name capacity; LCB case passed separately'
-    bad=['""','"bad name"','"bad;injected"','"bad\\n.globl injected"','"bad\\tname"','"bad\\000name"','"bad\\\"name"','"bad\\\\name"','"café"']
+    bad=['""','"bad\\n.globl injected"','"bad\\tname"','"bad\\000name"','"bad\\177name"','"café"']
+    if apple:
+        bad += ['"bad name"','"bad;injected"','"bad\\\"name"','"bad\\\\name"']
     bad += (['"__DATA" "'+'x'*17+'"','"__DATA,__x,unknown"','"__DATA,__x,regular,unknown"','"custom"','".foo-bar"'] if apple else ['"'+'n'*129+'"','"custom" "aT"','"custom" "aw,extra"','"__DATA" "__custom"'])
     for i,form in enumerate(bad):
         src=d/f'bad{i}.ssa';src.write_text(f'section {form} data $bad = {{ l 1 }}\n');r=invoke([compiler,src,'--target',target,'-o',d/f'bad{i}.s'],ok=False);assert r.returncode!=0,form

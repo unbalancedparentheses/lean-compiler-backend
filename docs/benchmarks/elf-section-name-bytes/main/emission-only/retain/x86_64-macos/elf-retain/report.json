@@ -1,0 +1,98 @@
+{
+  "status": "passed",
+  "target": "x86_64-macos",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "helper_sha256": "f62e3c028f5a77ed1acbf4cf823f8d999055ea68767afa4742e35a34289c3c42",
+  "source_sha256": "93a6b0f00f0063ff2ff8571a921bc10f10a1e166b77504cd592a46e726a14c31",
+  "caller_sha256": "7998e254b3fc3d7c66078ac0a633991db250633615b5212a433bdd5bc0d3d83a",
+  "before_sha256": null,
+  "qbe_sha256": null,
+  "results": [
+    {
+      "mode": "baseline",
+      "execution": "not-run",
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    },
+    {
+      "mode": "allocated",
+      "execution": "not-run",
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    },
+    {
+      "mode": "optimized",
+      "execution": "not-run",
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    }
+  ],
+  "controls": [],
+  "executed_modes": 0,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/retain/x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/retain/x86_64-macos/elf-retain/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/retain/x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/retain/x86_64-macos/elf-retain/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/retain/x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/retain/x86_64-macos/elf-retain/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "--first-path",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/retain/x86_64-macos/elf-retain/input.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data/types are outside the first-path profile\n"
+    }
+  ],
+  "scope": "ELF R retention in default link profile with --gc-sections; C references only anchor and ref_data. Post-link numeric offsets create no linker roots. Apple emission/literal-name behavior only. No timing claim."
+}

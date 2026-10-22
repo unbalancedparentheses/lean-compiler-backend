@@ -1,0 +1,12 @@
+aarch64-macos ELF retain checks passed; executed modes 0
+x86_64-macos ELF retain checks passed; executed modes 0
+Traceback (most recent call last):
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/elf-names-main-runner.py", line 82, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/elf-names-main-runner.py", line 52, in main
+    r=module.exercise(compiler,work,run,cc,target,True,Path(a.qbe_guest) if linux else None,before)
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review/snapshots/elf_retain.py", line 77, in exercise
+    assert invoke([before,source,'--target',target,'-o',work/'before.s'],ok=False).returncode!=0
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

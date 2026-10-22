@@ -1,0 +1,49 @@
+section "custom" "aw" export data $v0 = { l 100 }
+section "custom_code" "ax" export function l $f0(l %x) {
+@s
+ %v =l loadl $v0
+ %r =l add %v,%x
+ ret %r
+}
+section ".foo-bar" "aw" export data $v1 = { l 101 }
+section ".foo-bar_code" "ax" export function l $f1(l %x) {
+@s
+ %v =l loadl $v1
+ %r =l add %v,%x
+ ret %r
+}
+section "foo-bar" "aw" export data $v2 = { l 102 }
+section "foo-bar_code" "ax" export function l $f2(l %x) {
+@s
+ %v =l loadl $v2
+ %r =l add %v,%x
+ ret %r
+}
+section "with_under" "aw" export data $v3 = { l 103 }
+section "with_under_code" "ax" export function l $f3(l %x) {
+@s
+ %v =l loadl $v3
+ %r =l add %v,%x
+ ret %r
+}
+section "with.dot" "aw" export data $v4 = { l 104 }
+section "with.dot_code" "ax" export function l $f4(l %x) {
+@s
+ %v =l loadl $v4
+ %r =l add %v,%x
+ ret %r
+}
+section "with$dollar" "aw" export data $v5 = { l 105 }
+section "with$dollar_code" "ax" export function l $f5(l %x) {
+@s
+ %v =l loadl $v5
+ %r =l add %v,%x
+ ret %r
+}
+section "literal,comma" "aw" export data $v6 = { l 106 }
+section "literal,comma_code" "ax" export function l $f6(l %x) {
+@s
+ %v =l loadl $v6
+ %r =l add %v,%x
+ ret %r
+}

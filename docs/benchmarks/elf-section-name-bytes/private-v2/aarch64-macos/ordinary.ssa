@@ -1,0 +1,6 @@
+section "__DATA,__safe" export data $ordinary = { l 31 }
+export function l $get_ordinary() {
+@s
+ %v =l loadl $ordinary
+ ret %v
+}

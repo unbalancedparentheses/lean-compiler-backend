@@ -6,6 +6,17 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Printable ELF section names](benchmarks/elf-section-name-bytes/README.md) are integrated
+on identity `ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92`.
+Names preserve 1–128 printable ASCII bytes with explicit quote/backslash escaping.
+All 15 combined matrices, three complete Linux gates, fresh units and 147 unchanged
+audit statements pass. All 1,305 corpus assemblies, 15 refusals and 432 workload
+assemblies remain identical. The workload bridge reuses prior exact-output runtime
+qualification, including QBE self-compilation on predecessor identity5e174. Full
+host/Rosetta gate is running; aggregate signature aliases are privately qualified
+and reviewed but not yet integrated. Unqualified stale-comparison/wrong-IR-path
+harness attempts are retained separately from fresh successful reruns.
+
 [Fresh QBE bootstrap qualification](benchmarks/qbe-elf-refresh/README.md) uses historical identity `5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e`: all three Linux targets pass 487 exact comparisons and 58 ARM-output runtime tests per LCB mode. The applied helper adds isolated work, provenance barriers and a shared upstream-runner lock. All overlapping v1 attempts remain unqualified; sequential v2 and final locked v3 evidence are distinct, as are original/corrected QBE outcomes. No compiler rebuild, timing claim or Windows-support extension.
 
 [Octal escape boundary](benchmarks/octal-escape-boundary/README.md) now records

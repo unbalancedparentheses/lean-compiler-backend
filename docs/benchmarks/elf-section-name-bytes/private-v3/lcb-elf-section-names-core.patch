@@ -1,0 +1,58 @@
+diff --git a/LeanCompilerBackend/Assembly.lean b/LeanCompilerBackend/Assembly.lean
+index 9a0e6aa..1f2ebe6 100644
+--- a/LeanCompilerBackend/Assembly.lean
++++ b/LeanCompilerBackend/Assembly.lean
+@@ -37,11 +37,12 @@ def localName (name : String) : String :=
+ 
+ 
+ def sectionDirective (darwin : Bool) (customSection : SectionSpec) : String :=
+-  -- Validation excludes quotes, escapes and control bytes from both fields.
++  -- ELF names are decoded printable ASCII. Re-escape assembler string delimiters
++  -- and escapes; preserve every other byte. Apple keeps its existing grammar.
+   if darwin then
+     ".section " ++ customSection.name ++ (customSection.flags.map ("," ++ ·)).getD ""
+   else
+-    ".section \"" ++ customSection.name ++ "\"" ++
++    ".section \"" ++ (customSection.name.replace "\\" "\\\\").replace "\"" "\\\"" ++ "\"" ++
+       (customSection.flags.map (fun flags => ",\"" ++ flags ++ "\"")).getD ""
+ 
+ def checkTargetSection := Section.checkTarget
+diff --git a/LeanCompilerBackend/Section.lean b/LeanCompilerBackend/Section.lean
+index a299bcb..1c2440d 100644
+--- a/LeanCompilerBackend/Section.lean
++++ b/LeanCompilerBackend/Section.lean
+@@ -9,8 +9,8 @@ private def nameChar (c : Char) : Bool :=
+ def checkELF (customSection : SectionSpec) : Except String Unit := do
+   let name := customSection.name
+   if name.isEmpty || name.utf8ByteSize > 128 ||
+-      !name.toList.all (fun c => nameChar c || c == '-' || c == ',') then
+-    throw "ELF section requires 1..128 ASCII name characters"
++      !name.toList.all (fun c => 32 <= c.toNat && c.toNat <= 126) then
++    throw "ELF section requires 1..128 printable ASCII name bytes"
+   if let some flags := customSection.flags then
+     if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x') then
+       throw "unsupported ELF section flags (accepted: a, w, x)"
+diff --git a/Tests.lean b/Tests.lean
+index 19badfc..92bc1e8 100644
+--- a/Tests.lean
++++ b/Tests.lean
+@@ -28,6 +28,19 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool
+   | .error _ => false
+ 
+ def main : IO Unit := do
++  let printable := String.ofList ((List.range 95).map fun n => Char.ofNat (n+32))
++  require (valueEquals (Section.checkTarget false (some ⟨printable, some "aw"⟩)) ())
++    "ELF printable ASCII names rejected"
++  for name in ["", String.ofList (List.replicate 129 'a'), "a\n", "a\t", "a" ++ String.singleton (Char.ofNat 127), "λ"] do
++    require (isFailure (Section.checkTarget false (some ⟨name, some "aw"⟩)))
++      "ELF invalid decoded name admitted"
++  let escaped := Assembly.sectionDirective false ⟨"a\"b\\c", some "aw"⟩
++  require (escaped == ".section \"a\\\"b\\\\c\",\"aw\"")
++    "ELF section quote/backslash escaping changed decoded bytes"
++  require (Assembly.sectionDirective false ⟨"foo,bar", some "aw"⟩ == ".section \"foo,bar\",\"aw\"")
++    "ordinary ELF section spelling changed"
++  require (isFailure (Section.checkTarget true (some ⟨"a b", some "aw"⟩)))
++    "Apple section grammar broadened with ELF"
+   let sectionModule ← match Parser.parseModule
+       "section \"foo,ax\" data $literal = { l 1 } section \"foo,ax\" \"aw\" data $flagged = { l 2 } section \"foo\" \"ax\" function $code() { @s ret }" with
+     | .ok m => pure m

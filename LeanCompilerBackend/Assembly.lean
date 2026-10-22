@@ -37,11 +37,12 @@ def localName (name : String) : String :=
 
 
 def sectionDirective (darwin : Bool) (customSection : SectionSpec) : String :=
-  -- Validation excludes quotes, escapes and control bytes from both fields.
+  -- ELF names are decoded printable ASCII. Re-escape assembler string delimiters
+  -- and escapes; preserve every other byte. Apple keeps its existing grammar.
   if darwin then
     ".section " ++ customSection.name ++ (customSection.flags.map ("," ++ ·)).getD ""
   else
-    ".section \"" ++ customSection.name ++ "\"" ++
+    ".section \"" ++ (customSection.name.replace "\\" "\\\\").replace "\"" "\\\"" ++ "\"" ++
       (customSection.flags.map (fun flags => ",\"" ++ flags ++ "\"")).getD ""
 
 def checkTargetSection := Section.checkTarget

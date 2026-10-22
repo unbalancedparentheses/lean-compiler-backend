@@ -1,0 +1,680 @@
+{
+  "status": "passed",
+  "target": "riscv64-linux",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "helper_sha256": "f62e3c028f5a77ed1acbf4cf823f8d999055ea68767afa4742e35a34289c3c42",
+  "source_sha256": "93a6b0f00f0063ff2ff8571a921bc10f10a1e166b77504cd592a46e726a14c31",
+  "caller_sha256": "7998e254b3fc3d7c66078ac0a633991db250633615b5212a433bdd5bc0d3d83a",
+  "before_sha256": null,
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "results": [
+    {
+      "mode": "baseline",
+      "execution": "passed",
+      "metadata": {
+        ".lcb.keep_rw": "WAR",
+        ".lcb.keep_ro": "AR",
+        ".lcb.keep_code": "AXR",
+        ".lcb.drop_data": "WA",
+        ".lcb.drop_code": "AX",
+        ".lcb.ref_data": "WA",
+        ".lcb.ref_code": "AX"
+      },
+      "runtime_offsets": [
+        "6120",
+        "40",
+        "-36"
+      ]
+    },
+    {
+      "mode": "allocated",
+      "execution": "passed",
+      "metadata": {
+        ".lcb.keep_rw": "WAR",
+        ".lcb.keep_ro": "AR",
+        ".lcb.keep_code": "AXR",
+        ".lcb.drop_data": "WA",
+        ".lcb.drop_code": "AX",
+        ".lcb.ref_data": "WA",
+        ".lcb.ref_code": "AX"
+      },
+      "runtime_offsets": [
+        "6120",
+        "40",
+        "-36"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "execution": "passed",
+      "metadata": {
+        ".lcb.keep_rw": "WAR",
+        ".lcb.keep_ro": "AR",
+        ".lcb.keep_code": "AXR",
+        ".lcb.drop_data": "WA",
+        ".lcb.drop_code": "AX",
+        ".lcb.ref_data": "WA",
+        ".lcb.ref_code": "AX"
+      },
+      "runtime_offsets": [
+        "6120",
+        "40",
+        "-36"
+      ]
+    },
+    {
+      "mode": "qbe",
+      "execution": "passed",
+      "metadata": {
+        ".lcb.keep_rw": "WAR",
+        ".lcb.keep_ro": "AR",
+        ".lcb.keep_code": "AXR",
+        ".lcb.drop_data": "WA",
+        ".lcb.drop_code": "AX",
+        ".lcb.ref_data": "WA",
+        ".lcb.ref_code": "AX"
+      },
+      "runtime_offsets": [
+        "6104",
+        "40",
+        "-48"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "mode": "optimized",
+      "control": "removedR detected in metadata and linked symbols"
+    },
+    {
+      "mode": "qbe",
+      "control": "removedR detected in metadata and linked symbols"
+    },
+    {
+      "control": "retained wrong value detected by C",
+      "exit": 1
+    }
+  ],
+  "executed_modes": 4,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 19 section headers, starting at offset 0x4e0:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  2\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_code    PROGBITS        0000000000000000 000040 000024 00 AXR  0   0  4\n  [ 5] .rela.lcb.keep_code RELA            0000000000000000 0003d8 000018 18   I 16   4  8\n  [ 6] .lcb.drop_code    PROGBITS        0000000000000000 000064 000024 00  AX  0   0  4\n  [ 7] .rela.lcb.drop_code RELA            0000000000000000 0003f0 000018 18   I 16   6  8\n  [ 8] .lcb.ref_code     PROGBITS        0000000000000000 000088 000024 00  AX  0   0  4\n  [ 9] .rela.lcb.ref_code RELA            0000000000000000 000408 000018 18   I 16   8  8\n  [10] .lcb.keep_rw      PROGBITS        0000000000000000 0000b0 000008 00 WAR  0   0  8\n  [11] .lcb.keep_ro      PROGBITS        0000000000000000 0000b8 000008 00  AR  0   0  8\n  [12] .lcb.drop_data    PROGBITS        0000000000000000 0000c0 000008 00  WA  0   0  8\n  [13] .lcb.ref_data     PROGBITS        0000000000000000 0000c8 000008 00  WA  0   0  8\n  [14] .note.GNU-stack   PROGBITS        0000000000000000 0000d0 000000 00      0   0  1\n  [15] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0000d0 000051 00      0   0  1\n  [16] .symtab           SYMTAB          0000000000000000 000128 000228 18     17  16  8\n  [17] .strtab           STRTAB          0000000000000000 000350 000081 00      0   0  1\n  [18] .shstrtab         STRTAB          0000000000000000 000420 0000c0 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/baseline.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "00000000000002b8 r __abi_tag\n00000000000005f0 a _PROCEDURE_LINKAGE_TABLE_\n0000000000000630 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000630 T _start\n0000000000000652 t load_gp\n000000000000065e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000065e t deregister_tm_clones\n000000000000068e t register_tm_clones\n00000000000006c8 t __do_global_dtors_aux\n0000000000000708 t frame_dummy\n0000000000000714 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000714 T main\n00000000000007fc t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000007fc T keep_code\n0000000000000820 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000820 T anchor\n0000000000000848 R keep_ro\n0000000000000850 r __GNU_EH_FRAME_HDR\n00000000000008c0 r __FRAME_END__\n0000000000001da8 d __frame_dummy_init_array_entry\n0000000000001db0 d __do_global_dtors_aux_fini_array_entry\n0000000000001db8 a _DYNAMIC\n0000000000001fc8 a _GLOBAL_OFFSET_TABLE_\n0000000000002000 D __DATA_BEGIN__\n0000000000002000 D __dso_handle\n0000000000002008 D __TMC_END__\n0000000000002008 D keep_rw\n0000000000002010 D ref_data\n0000000000002018 D __SDATA_BEGIN__\n0000000000002018 B __bss_start\n0000000000002018 D _edata\n0000000000002018 b completed.0\n0000000000002020 B __BSS_END__\n0000000000002020 B _end\n0000000000002800 A __global_pointer$\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/baseline",
+        "6120",
+        "40",
+        "-36"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 19 section headers, starting at offset 0x4e0:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  2\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_code    PROGBITS        0000000000000000 000040 000024 00 AXR  0   0  4\n  [ 5] .rela.lcb.keep_code RELA            0000000000000000 0003d8 000018 18   I 16   4  8\n  [ 6] .lcb.drop_code    PROGBITS        0000000000000000 000064 000024 00  AX  0   0  4\n  [ 7] .rela.lcb.drop_code RELA            0000000000000000 0003f0 000018 18   I 16   6  8\n  [ 8] .lcb.ref_code     PROGBITS        0000000000000000 000088 000024 00  AX  0   0  4\n  [ 9] .rela.lcb.ref_code RELA            0000000000000000 000408 000018 18   I 16   8  8\n  [10] .lcb.keep_rw      PROGBITS        0000000000000000 0000b0 000008 00 WAR  0   0  8\n  [11] .lcb.keep_ro      PROGBITS        0000000000000000 0000b8 000008 00  AR  0   0  8\n  [12] .lcb.drop_data    PROGBITS        0000000000000000 0000c0 000008 00  WA  0   0  8\n  [13] .lcb.ref_data     PROGBITS        0000000000000000 0000c8 000008 00  WA  0   0  8\n  [14] .note.GNU-stack   PROGBITS        0000000000000000 0000d0 000000 00      0   0  1\n  [15] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0000d0 000051 00      0   0  1\n  [16] .symtab           SYMTAB          0000000000000000 000128 000228 18     17  16  8\n  [17] .strtab           STRTAB          0000000000000000 000350 000081 00      0   0  1\n  [18] .shstrtab         STRTAB          0000000000000000 000420 0000c0 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/allocated.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "00000000000002b8 r __abi_tag\n00000000000005f0 a _PROCEDURE_LINKAGE_TABLE_\n0000000000000630 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000630 T _start\n0000000000000652 t load_gp\n000000000000065e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000065e t deregister_tm_clones\n000000000000068e t register_tm_clones\n00000000000006c8 t __do_global_dtors_aux\n0000000000000708 t frame_dummy\n0000000000000714 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000714 T main\n00000000000007fc t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000007fc T keep_code\n0000000000000820 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000820 T anchor\n0000000000000848 R keep_ro\n0000000000000850 r __GNU_EH_FRAME_HDR\n00000000000008c0 r __FRAME_END__\n0000000000001da8 d __frame_dummy_init_array_entry\n0000000000001db0 d __do_global_dtors_aux_fini_array_entry\n0000000000001db8 a _DYNAMIC\n0000000000001fc8 a _GLOBAL_OFFSET_TABLE_\n0000000000002000 D __DATA_BEGIN__\n0000000000002000 D __dso_handle\n0000000000002008 D __TMC_END__\n0000000000002008 D keep_rw\n0000000000002010 D ref_data\n0000000000002018 D __SDATA_BEGIN__\n0000000000002018 B __bss_start\n0000000000002018 D _edata\n0000000000002018 b completed.0\n0000000000002020 B __BSS_END__\n0000000000002020 B _end\n0000000000002800 A __global_pointer$\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/allocated",
+        "6120",
+        "40",
+        "-36"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/input.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 19 section headers, starting at offset 0x4e0:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  2\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_code    PROGBITS        0000000000000000 000040 000024 00 AXR  0   0  4\n  [ 5] .rela.lcb.keep_code RELA            0000000000000000 0003d8 000018 18   I 16   4  8\n  [ 6] .lcb.drop_code    PROGBITS        0000000000000000 000064 000024 00  AX  0   0  4\n  [ 7] .rela.lcb.drop_code RELA            0000000000000000 0003f0 000018 18   I 16   6  8\n  [ 8] .lcb.ref_code     PROGBITS        0000000000000000 000088 000024 00  AX  0   0  4\n  [ 9] .rela.lcb.ref_code RELA            0000000000000000 000408 000018 18   I 16   8  8\n  [10] .lcb.keep_rw      PROGBITS        0000000000000000 0000b0 000008 00 WAR  0   0  8\n  [11] .lcb.keep_ro      PROGBITS        0000000000000000 0000b8 000008 00  AR  0   0  8\n  [12] .lcb.drop_data    PROGBITS        0000000000000000 0000c0 000008 00  WA  0   0  8\n  [13] .lcb.ref_data     PROGBITS        0000000000000000 0000c8 000008 00  WA  0   0  8\n  [14] .note.GNU-stack   PROGBITS        0000000000000000 0000d0 000000 00      0   0  1\n  [15] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0000d0 000051 00      0   0  1\n  [16] .symtab           SYMTAB          0000000000000000 000128 000228 18     17  16  8\n  [17] .strtab           STRTAB          0000000000000000 000350 000081 00      0   0  1\n  [18] .shstrtab         STRTAB          0000000000000000 000420 0000c0 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "00000000000002b8 r __abi_tag\n00000000000005f0 a _PROCEDURE_LINKAGE_TABLE_\n0000000000000630 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000630 T _start\n0000000000000652 t load_gp\n000000000000065e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000065e t deregister_tm_clones\n000000000000068e t register_tm_clones\n00000000000006c8 t __do_global_dtors_aux\n0000000000000708 t frame_dummy\n0000000000000714 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000714 T main\n00000000000007fc t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000007fc T keep_code\n0000000000000820 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000820 T anchor\n0000000000000848 R keep_ro\n0000000000000850 r __GNU_EH_FRAME_HDR\n00000000000008c0 r __FRAME_END__\n0000000000001da8 d __frame_dummy_init_array_entry\n0000000000001db0 d __do_global_dtors_aux_fini_array_entry\n0000000000001db8 a _DYNAMIC\n0000000000001fc8 a _GLOBAL_OFFSET_TABLE_\n0000000000002000 D __DATA_BEGIN__\n0000000000002000 D __dso_handle\n0000000000002008 D __TMC_END__\n0000000000002008 D keep_rw\n0000000000002010 D ref_data\n0000000000002018 D __SDATA_BEGIN__\n0000000000002018 B __bss_start\n0000000000002018 D _edata\n0000000000002018 b completed.0\n0000000000002020 B __BSS_END__\n0000000000002020 B _end\n0000000000002800 A __global_pointer$\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized",
+        "6120",
+        "40",
+        "-36"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 19 section headers, starting at offset 0x500:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  2\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_rw      PROGBITS        0000000000000000 000040 000008 00 WAR  0   0  8\n  [ 5] .lcb.keep_ro      PROGBITS        0000000000000000 000048 000008 00  AR  0   0  8\n  [ 6] .lcb.drop_data    PROGBITS        0000000000000000 000050 000008 00  WA  0   0  8\n  [ 7] .lcb.ref_data     PROGBITS        0000000000000000 000058 000008 00  WA  0   0  8\n  [ 8] .lcb.keep_code    PROGBITS        0000000000000000 000060 000030 00 AXR  0   0 16\n  [ 9] .rela.lcb.keep_code RELA            0000000000000000 0003f8 000018 18   I 16   8  8\n  [10] .lcb.drop_code    PROGBITS        0000000000000000 000090 000030 00  AX  0   0 16\n  [11] .rela.lcb.drop_code RELA            0000000000000000 000410 000018 18   I 16  10  8\n  [12] .lcb.ref_code     PROGBITS        0000000000000000 0000c0 000030 00  AX  0   0 16\n  [13] .rela.lcb.ref_code RELA            0000000000000000 000428 000018 18   I 16  12  8\n  [14] .note.GNU-stack   PROGBITS        0000000000000000 0000f0 000000 00      0   0  1\n  [15] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0000f0 000051 00      0   0  1\n  [16] .symtab           SYMTAB          0000000000000000 000148 000228 18     17  16  8\n  [17] .strtab           STRTAB          0000000000000000 000370 000081 00      0   0  1\n  [18] .shstrtab         STRTAB          0000000000000000 000440 0000c0 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "00000000000002b8 r __abi_tag\n00000000000005f0 a _PROCEDURE_LINKAGE_TABLE_\n0000000000000630 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000630 T _start\n0000000000000652 t load_gp\n000000000000065e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000065e t deregister_tm_clones\n000000000000068e t register_tm_clones\n00000000000006c8 t __do_global_dtors_aux\n0000000000000708 t frame_dummy\n0000000000000714 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000714 T main\n0000000000000800 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000800 T keep_code\n0000000000000830 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000830 T anchor\n0000000000000858 R keep_ro\n0000000000000860 r __GNU_EH_FRAME_HDR\n00000000000008d0 r __FRAME_END__\n0000000000001da8 d __frame_dummy_init_array_entry\n0000000000001db0 d __do_global_dtors_aux_fini_array_entry\n0000000000001db8 a _DYNAMIC\n0000000000001fc8 a _GLOBAL_OFFSET_TABLE_\n0000000000002000 D __DATA_BEGIN__\n0000000000002000 D __dso_handle\n0000000000002008 D __TMC_END__\n0000000000002008 D keep_rw\n0000000000002010 D ref_data\n0000000000002018 D __SDATA_BEGIN__\n0000000000002018 B __bss_start\n0000000000002018 D _edata\n0000000000002018 b completed.0\n0000000000002020 B __BSS_END__\n0000000000002020 B _end\n0000000000002800 A __global_pointer$\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe",
+        "6104",
+        "40",
+        "-48"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized-noR.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized-noR.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized-noR.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized-noR.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized-noR.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 19 section headers, starting at offset 0x4e0:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  2\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_code    PROGBITS        0000000000000000 000040 000024 00  AX  0   0  4\n  [ 5] .rela.lcb.keep_code RELA            0000000000000000 0003d8 000018 18   I 16   4  8\n  [ 6] .lcb.drop_code    PROGBITS        0000000000000000 000064 000024 00  AX  0   0  4\n  [ 7] .rela.lcb.drop_code RELA            0000000000000000 0003f0 000018 18   I 16   6  8\n  [ 8] .lcb.ref_code     PROGBITS        0000000000000000 000088 000024 00  AX  0   0  4\n  [ 9] .rela.lcb.ref_code RELA            0000000000000000 000408 000018 18   I 16   8  8\n  [10] .lcb.keep_rw      PROGBITS        0000000000000000 0000b0 000008 00  WA  0   0  8\n  [11] .lcb.keep_ro      PROGBITS        0000000000000000 0000b8 000008 00   A  0   0  8\n  [12] .lcb.drop_data    PROGBITS        0000000000000000 0000c0 000008 00  WA  0   0  8\n  [13] .lcb.ref_data     PROGBITS        0000000000000000 0000c8 000008 00  WA  0   0  8\n  [14] .note.GNU-stack   PROGBITS        0000000000000000 0000d0 000000 00      0   0  1\n  [15] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0000d0 000051 00      0   0  1\n  [16] .symtab           SYMTAB          0000000000000000 000128 000228 18     17  16  8\n  [17] .strtab           STRTAB          0000000000000000 000350 000081 00      0   0  1\n  [18] .shstrtab         STRTAB          0000000000000000 000420 0000c0 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized-noR.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized-noR"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/optimized-noR"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "00000000000002b8 r __abi_tag\n00000000000005f0 a _PROCEDURE_LINKAGE_TABLE_\n0000000000000630 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000630 T _start\n0000000000000652 t load_gp\n000000000000065e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000065e t deregister_tm_clones\n000000000000068e t register_tm_clones\n00000000000006c8 t __do_global_dtors_aux\n0000000000000708 t frame_dummy\n0000000000000714 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000714 T main\n00000000000007fc t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000007fc T anchor\n0000000000000820 r __GNU_EH_FRAME_HDR\n0000000000000890 r __FRAME_END__\n0000000000001da8 d __frame_dummy_init_array_entry\n0000000000001db0 d __do_global_dtors_aux_fini_array_entry\n0000000000001db8 a _DYNAMIC\n0000000000001fc8 a _GLOBAL_OFFSET_TABLE_\n0000000000002000 D __DATA_BEGIN__\n0000000000002000 D __dso_handle\n0000000000002008 D __TMC_END__\n0000000000002008 D ref_data\n0000000000002010 D __SDATA_BEGIN__\n0000000000002010 B __bss_start\n0000000000002010 D _edata\n0000000000002010 b completed.0\n0000000000002018 B __BSS_END__\n0000000000002018 B _end\n0000000000002800 A __global_pointer$\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "rv64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe-noR.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe-noR.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe-noR.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe-noR.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe-noR.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 19 section headers, starting at offset 0x500:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  2\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_rw      PROGBITS        0000000000000000 000040 000008 00  WA  0   0  8\n  [ 5] .lcb.keep_ro      PROGBITS        0000000000000000 000048 000008 00   A  0   0  8\n  [ 6] .lcb.drop_data    PROGBITS        0000000000000000 000050 000008 00  WA  0   0  8\n  [ 7] .lcb.ref_data     PROGBITS        0000000000000000 000058 000008 00  WA  0   0  8\n  [ 8] .lcb.keep_code    PROGBITS        0000000000000000 000060 000030 00  AX  0   0 16\n  [ 9] .rela.lcb.keep_code RELA            0000000000000000 0003f8 000018 18   I 16   8  8\n  [10] .lcb.drop_code    PROGBITS        0000000000000000 000090 000030 00  AX  0   0 16\n  [11] .rela.lcb.drop_code RELA            0000000000000000 000410 000018 18   I 16  10  8\n  [12] .lcb.ref_code     PROGBITS        0000000000000000 0000c0 000030 00  AX  0   0 16\n  [13] .rela.lcb.ref_code RELA            0000000000000000 000428 000018 18   I 16  12  8\n  [14] .note.GNU-stack   PROGBITS        0000000000000000 0000f0 000000 00      0   0  1\n  [15] .riscv.attributes RISCV_ATTRIBUTES 0000000000000000 0000f0 000051 00      0   0  1\n  [16] .symtab           SYMTAB          0000000000000000 000148 000228 18     17  16  8\n  [17] .strtab           STRTAB          0000000000000000 000370 000081 00      0   0  1\n  [18] .shstrtab         STRTAB          0000000000000000 000440 0000c0 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe-noR.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe-noR"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/qbe-noR"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "00000000000002b8 r __abi_tag\n00000000000005f0 a _PROCEDURE_LINKAGE_TABLE_\n0000000000000630 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000630 T _start\n0000000000000652 t load_gp\n000000000000065e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000065e t deregister_tm_clones\n000000000000068e t register_tm_clones\n00000000000006c8 t __do_global_dtors_aux\n0000000000000708 t frame_dummy\n0000000000000714 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000714 T main\n0000000000000800 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000800 T anchor\n0000000000000824 r __GNU_EH_FRAME_HDR\n0000000000000890 r __FRAME_END__\n0000000000001da8 d __frame_dummy_init_array_entry\n0000000000001db0 d __do_global_dtors_aux_fini_array_entry\n0000000000001db8 a _DYNAMIC\n0000000000001fc8 a _GLOBAL_OFFSET_TABLE_\n0000000000002000 D __DATA_BEGIN__\n0000000000002000 D __dso_handle\n0000000000002008 D __TMC_END__\n0000000000002008 D ref_data\n0000000000002010 D __SDATA_BEGIN__\n0000000000002010 B __bss_start\n0000000000002010 D _edata\n0000000000002010 b completed.0\n0000000000002018 B __BSS_END__\n0000000000002018 B _end\n0000000000002800 A __global_pointer$\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/wrong-value.ssa",
+        "--target",
+        "riscv64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/wrong-value.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "riscv64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/wrong-value.s",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "00000000000002b8 r __abi_tag\n00000000000005f0 a _PROCEDURE_LINKAGE_TABLE_\n0000000000000630 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000630 T _start\n0000000000000652 t load_gp\n000000000000065e t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n000000000000065e t deregister_tm_clones\n000000000000068e t register_tm_clones\n00000000000006c8 t __do_global_dtors_aux\n0000000000000708 t frame_dummy\n0000000000000714 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000714 T main\n00000000000007fc t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n00000000000007fc T keep_code\n0000000000000820 t $xrv64i2p1_m2p0_a2p1_f2p2_d2p2_c2p0_zicsr2p0_zifencei2p0_zmmul1p0\n0000000000000820 T anchor\n0000000000000848 R keep_ro\n0000000000000850 r __GNU_EH_FRAME_HDR\n00000000000008c0 r __FRAME_END__\n0000000000001da8 d __frame_dummy_init_array_entry\n0000000000001db0 d __do_global_dtors_aux_fini_array_entry\n0000000000001db8 a _DYNAMIC\n0000000000001fc8 a _GLOBAL_OFFSET_TABLE_\n0000000000002000 D __DATA_BEGIN__\n0000000000002000 D __dso_handle\n0000000000002008 D __TMC_END__\n0000000000002008 D keep_rw\n0000000000002010 D ref_data\n0000000000002018 D __SDATA_BEGIN__\n0000000000002018 B __bss_start\n0000000000002018 D _edata\n0000000000002018 b completed.0\n0000000000002020 B __BSS_END__\n0000000000002020 B _end\n0000000000002800 A __global_pointer$\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/wrong-value",
+        "6120",
+        "40",
+        "-36"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad-aT.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad-aG.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad-aR_extra.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad-aR_extra.ssa: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad-aZ.ssa",
+        "--target",
+        "riscv64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "--first-path",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/riscv64-linux/elf-retain/input.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data/types are outside the first-path profile\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "ELF R retention in default link profile with --gc-sections; C references only anchor and ref_data. Post-link numeric offsets create no linker roots. Apple emission/literal-name behavior only. No timing claim."
+}

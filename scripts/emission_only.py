@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from elf_section_names import exercise as elf_section_names
 from custom_tls_sections import exercise as custom_tls_sections
 from elf_retain import exercise as elf_retain
 from amd_leaf_bank import exercise as amd_leaf_bank
@@ -59,6 +60,8 @@ def main():
             branches = arm_branches(LCB, work/target, run, cc, target, False, qbe, 'arm64', large=False)
             assert branches['c_checks_per_mode'] == 0 and branches['original_qbe'] == 'not_executed'
         for target in ['aarch64-linux','aarch64-macos','x86_64-linux','x86_64-macos','riscv64-linux']:
+            elf_names = elf_section_names(LCB,work/target,run,cc,target,False,qbe)
+            assert elf_names['executed_modes'] == 0 and elf_names['qbe_sha256'] is None
             tls = custom_tls_sections(LCB,work/target,run,cc,target,False,qbe)
             assert tls['executed_round_groups'] == 0 and tls['qbe_sha256'] is None
             assert tls['ordinary_equivalence'] == 'skipped: no before snapshot supplied'

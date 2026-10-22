@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/elf-names-main-workload-bridge.py", line 31, in <module>
+    stem=unit.removesuffix('.c').replace('/','-');source=qdir/(stem+'.ssa');old=qdir/(stem+'-'+mode+'.s');assert sha(source)==meta['ir_sha256']
+                                                                                                                 ~~~^^^^^^^^
+  File "/Users/unbalancedparen/projects/lean-compiler-backend/.build/elf-names-main-workload-bridge.py", line 3, in <lambda>
+    root=Path('/Users/unbalancedparen/projects/lean-compiler-backend');base=root/'.build/linux-arm64';compiler=root/'.build/lcb-elf-names-main';out=root/'.build/elf-names-main-workload-bridge';out.mkdir(exist_ok=False);sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest();initial=sha(compiler);identity=subprocess.check_output([compiler,'--build-identity'],text=True).strip();rows=[]
+                                                                                                                                                                                                                                                       ~~~~~~~~~~~~~~~~~~^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/pathlib/_abc.py", line 625, in read_bytes
+    with self.open(mode='rb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/pathlib/_local.py", line 537, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/qbe-bootstrap-elf-main-v3-aarch64-linux/main.ssa'

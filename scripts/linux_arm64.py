@@ -170,6 +170,8 @@ def main():
     extern_offset_tests(compiler,work,run,cc,qbe,native)
     from section_names import exercise as section_name_tests
     section_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+    from elf_section_names import exercise as elf_name_tests
+    elf_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
     from custom_tls_sections import exercise as custom_tls_tests
     custom_tls_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
     from large_aggregate_abi import exercise as aggregate_copy_tests

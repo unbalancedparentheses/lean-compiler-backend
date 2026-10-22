@@ -1,0 +1,87 @@
+section "d" "aw" export data $value0 = { l 37 }
+section "f" "ax" export function l $get0() {
+@s
+ %v =l loadl $value0
+ ret %v
+}
+section "dplain" "aw" export data $value1 = { l 38 }
+section "fplain" "ax" export function l $get1() {
+@s
+ %v =l loadl $value1
+ ret %v
+}
+section "dspace name" "aw" export data $value2 = { l 39 }
+section "fspace name" "ax" export function l $get2() {
+@s
+ %v =l loadl $value2
+ ret %v
+}
+section "dcolon:name" "aw" export data $value3 = { l 40 }
+section "fcolon:name" "ax" export function l $get3() {
+@s
+ %v =l loadl $value3
+ ret %v
+}
+section "dslash/name" "aw" export data $value4 = { l 41 }
+section "fslash/name" "ax" export function l $get4() {
+@s
+ %v =l loadl $value4
+ ret %v
+}
+section "dplus+name" "aw" export data $value5 = { l 42 }
+section "fplus+name" "ax" export function l $get5() {
+@s
+ %v =l loadl $value5
+ ret %v
+}
+section "dat@name" "aw" export data $value6 = { l 43 }
+section "fat@name" "ax" export function l $get6() {
+@s
+ %v =l loadl $value6
+ ret %v
+}
+section "dquote\"name" "aw" export data $value7 = { l 44 }
+section "fquote\"name" "ax" export function l $get7() {
+@s
+ %v =l loadl $value7
+ ret %v
+}
+section "dback\\name" "aw" export data $value8 = { l 45 }
+section "fback\\name" "ax" export function l $get8() {
+@s
+ %v =l loadl $value8
+ ret %v
+}
+section "dliteral\\n" "aw" export data $value9 = { l 46 }
+section "fliteral\\n" "ax" export function l $get9() {
+@s
+ %v =l loadl $value9
+ ret %v
+}
+section "dx\"; .globl injected; #" "aw" export data $value10 = { l 47 }
+section "fx\"; .globl injected; #" "ax" export function l $get10() {
+@s
+ %v =l loadl $value10
+ ret %v
+}
+section "dx\\\"; .section injected; #" "aw" export data $value11 = { l 48 }
+section "fx\\\"; .section injected; #" "ax" export function l $get11() {
+@s
+ %v =l loadl $value11
+ ret %v
+}
+section "d !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" "aw" export data $value12 = { l 49 }
+section "f !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~" "ax" export function l $get12() {
+@s
+ %v =l loadl $value12
+ ret %v
+}
+section "dxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "aw" export data $value13 = { l 50 }
+section "fxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" "ax" export function l $get13() {
+@s
+ %v =l loadl $value13
+ ret %v
+}
+section "d space" "aw" export data $equiv0 = { l 91 }
+section "d\040space" "aw" export data $equiv1 = { l 92 }
+section "d\x20space" "aw" export data $equiv2 = { l 93 }

@@ -112,6 +112,8 @@ def main():
     from zero_alloc import exercise as zero
     from section_names import exercise as section_name_tests
     section_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+    from elf_section_names import exercise as elf_name_tests
+    elf_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
     from custom_tls_sections import exercise as custom_tls_tests
     custom_tls_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
     from large_aggregate_abi import exercise as aggregate_copy_tests

@@ -1,0 +1,428 @@
+{
+  "target": "x86_64-macos",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "before_sha256": "83169d061c897c9142941714e7ba8fb5e900a756c7062d33096837da91bdc7a1",
+  "ordinary_equivalence": "passed",
+  "helper_sha256": "45cf328ab3e28a49bb7a20a187c471923653b89abacda17c1e1818524f7a16f0",
+  "input_sha256": "22fdb3f21dba940faba201fb14b62e83cb45fa3ebbeef759b72fe0b6fbe5a3c2",
+  "caller_sha256": "24e23ee9f3b38f3dd6f381306d2add7cef011afe6393906b00754ed2f424c158",
+  "qbe_sha256": null,
+  "results": [
+    {
+      "apple_custom_tls": "refused",
+      "ordinary_tls": "byte-identical in three modes"
+    }
+  ],
+  "executed_round_groups": 0,
+  "negative_cases": 18,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/baseline-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/baseline-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/allocated-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/allocated-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/optimized-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/optimized-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/emission-only/tls/x86_64-macos/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    }
+  ],
+  "scope": "ELF explicit awT permutations only; read-only aT excluded; custom zero initialization remains PROGBITS. Four sequential child threads each perform128 read/write rounds; same main-thread state retained. Ordinary TLS emission required; optional before equivalence status recorded separately. Apple custom TLS refused. No timing claim."
+}

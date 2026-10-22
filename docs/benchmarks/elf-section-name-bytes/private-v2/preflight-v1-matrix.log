@@ -1,0 +1,12 @@
+aarch64-linux passed
+x86_64-linux passed
+Traceback (most recent call last):
+  File "/private/tmp/lcb-elf-section-names/.build/section-names/run.py", line 17, in <module>
+    r=t.exercise(private/'.build/section-names/after',work,run,cc,target,qbe=Path('/tmp/qbe/qbe') if linux else None,before=private/'.build/section-names/before');reports.append(dict(target=target,report=str(work/'elf-section-names/report.json')));print(target,'passed',flush=True)
+  File "/tmp/lcb-elf-section-names/scripts/elf_section_names.py", line 70, in exercise
+    invoke([*cc,'-c',asm,'-o',obj],True);row['sections']=metadata(obj)
+                                                         ~~~~~~~~^^^^^
+  File "/tmp/lcb-elf-section-names/scripts/elf_section_names.py", line 55, in metadata
+    assert not extra,extra
+           ^^^^^^^^^
+AssertionError: [{'name': '2e72697363762e61747472696275746573', 'flags': 0, 'type': 1879048195, 'size': 81}]

@@ -1,0 +1,243 @@
+{
+  "status": "passed",
+  "identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "before_identity": "5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "tls_helper_sha256": "45cf328ab3e28a49bb7a20a187c471923653b89abacda17c1e1818524f7a16f0",
+  "retain_helper_sha256": "f62e3c028f5a77ed1acbf4cf823f8d999055ea68767afa4742e35a34289c3c42",
+  "matrices": [
+    {
+      "suite": "tls",
+      "target": "aarch64-macos",
+      "execution": "emission/refusal/equivalence only",
+      "bound_artifacts": 16,
+      "guest_host_barrier": false,
+      "round_groups": 0,
+      "executed_modes": null,
+      "negative_cases": 18,
+      "controls": null,
+      "qbe_sha256": null
+    },
+    {
+      "suite": "tls",
+      "target": "x86_64-macos",
+      "execution": "emission/refusal/equivalence only",
+      "bound_artifacts": 16,
+      "guest_host_barrier": false,
+      "round_groups": 0,
+      "executed_modes": null,
+      "negative_cases": 18,
+      "controls": null,
+      "qbe_sha256": null
+    },
+    {
+      "suite": "tls",
+      "target": "aarch64-linux",
+      "execution": "native Linux ARM VM",
+      "bound_artifacts": 33,
+      "guest_host_barrier": true,
+      "round_groups": 2048,
+      "executed_modes": null,
+      "negative_cases": 24,
+      "controls": null,
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "suite": "tls",
+      "target": "x86_64-linux",
+      "execution": "QEMU user-mode",
+      "bound_artifacts": 33,
+      "guest_host_barrier": true,
+      "round_groups": 2048,
+      "executed_modes": null,
+      "negative_cases": 24,
+      "controls": null,
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "suite": "tls",
+      "target": "riscv64-linux",
+      "execution": "QEMU user-mode",
+      "bound_artifacts": 33,
+      "guest_host_barrier": true,
+      "round_groups": 2048,
+      "executed_modes": null,
+      "negative_cases": 24,
+      "controls": null,
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "suite": "retain",
+      "target": "aarch64-macos",
+      "execution": "emission/refusal/equivalence only",
+      "bound_artifacts": 6,
+      "guest_host_barrier": false,
+      "round_groups": null,
+      "executed_modes": 0,
+      "negative_cases": null,
+      "controls": [],
+      "qbe_sha256": null
+    },
+    {
+      "suite": "retain",
+      "target": "x86_64-macos",
+      "execution": "emission/refusal/equivalence only",
+      "bound_artifacts": 6,
+      "guest_host_barrier": false,
+      "round_groups": null,
+      "executed_modes": 0,
+      "negative_cases": null,
+      "controls": [],
+      "qbe_sha256": null
+    },
+    {
+      "suite": "retain",
+      "target": "aarch64-linux",
+      "execution": "native Linux ARM VM",
+      "bound_artifacts": 30,
+      "guest_host_barrier": true,
+      "round_groups": null,
+      "executed_modes": 4,
+      "negative_cases": null,
+      "controls": [
+        {
+          "mode": "optimized",
+          "control": "removedR detected in metadata and linked symbols"
+        },
+        {
+          "mode": "qbe",
+          "control": "removedR detected in metadata and linked symbols"
+        },
+        {
+          "control": "retained wrong value detected by C",
+          "exit": 1
+        }
+      ],
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "suite": "retain",
+      "target": "x86_64-linux",
+      "execution": "QEMU user-mode",
+      "bound_artifacts": 30,
+      "guest_host_barrier": true,
+      "round_groups": null,
+      "executed_modes": 4,
+      "negative_cases": null,
+      "controls": [
+        {
+          "mode": "optimized",
+          "control": "removedR detected in metadata and linked symbols"
+        },
+        {
+          "mode": "qbe",
+          "control": "removedR detected in metadata and linked symbols"
+        },
+        {
+          "control": "retained wrong value detected by C",
+          "exit": 1
+        }
+      ],
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "suite": "retain",
+      "target": "riscv64-linux",
+      "execution": "QEMU user-mode",
+      "bound_artifacts": 30,
+      "guest_host_barrier": true,
+      "round_groups": null,
+      "executed_modes": 4,
+      "negative_cases": null,
+      "controls": [
+        {
+          "mode": "optimized",
+          "control": "removedR detected in metadata and linked symbols"
+        },
+        {
+          "mode": "qbe",
+          "control": "removedR detected in metadata and linked symbols"
+        },
+        {
+          "control": "retained wrong value detected by C",
+          "exit": 1
+        }
+      ],
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "suite": "names",
+      "target": "aarch64-macos",
+      "execution": "emission/refusal/equivalence only",
+      "bound_artifacts": 15,
+      "guest_host_barrier": false,
+      "round_groups": null,
+      "executed_modes": 0,
+      "negative_cases": null,
+      "controls": [],
+      "qbe_sha256": null
+    },
+    {
+      "suite": "names",
+      "target": "x86_64-macos",
+      "execution": "emission/refusal/equivalence only",
+      "bound_artifacts": 15,
+      "guest_host_barrier": false,
+      "round_groups": null,
+      "executed_modes": 0,
+      "negative_cases": null,
+      "controls": [],
+      "qbe_sha256": null
+    },
+    {
+      "suite": "names",
+      "target": "aarch64-linux",
+      "execution": "native Linux ARM VM",
+      "bound_artifacts": 35,
+      "guest_host_barrier": true,
+      "round_groups": null,
+      "executed_modes": 4,
+      "negative_cases": null,
+      "controls": [
+        "wrong exact section name detected",
+        "wrong value detected by C"
+      ],
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "suite": "names",
+      "target": "x86_64-linux",
+      "execution": "QEMU user-mode",
+      "bound_artifacts": 35,
+      "guest_host_barrier": true,
+      "round_groups": null,
+      "executed_modes": 4,
+      "negative_cases": null,
+      "controls": [
+        "wrong exact section name detected",
+        "wrong value detected by C"
+      ],
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    },
+    {
+      "suite": "names",
+      "target": "riscv64-linux",
+      "execution": "QEMU user-mode",
+      "bound_artifacts": 35,
+      "guest_host_barrier": true,
+      "round_groups": null,
+      "executed_modes": 4,
+      "negative_cases": null,
+      "controls": [
+        "wrong exact section name detected",
+        "wrong value detected by C"
+      ],
+      "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757"
+    }
+  ],
+  "emission_controls": 15,
+  "default_cli_checks": 3,
+  "combined_tls_R_refusals": 9,
+  "all_artifacts_bound": 653,
+  "PIE_executables_checked": 36
+}

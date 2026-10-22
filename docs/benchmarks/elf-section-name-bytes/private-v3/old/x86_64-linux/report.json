@@ -1,0 +1,928 @@
+{
+  "harness_sha256": "0fac00af5c01f08afee2a53d5c4e889dd2acc19a6b37eaee5bb8f11dbf83140b",
+  "target": "x86_64-linux",
+  "compiler_sha256": "35f500d4dea82b7ec6e9a4314fbc1122876e1021c706ace4f1c1c0f55ef8d568",
+  "runs": [
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "60e510e707c849ca375d8257d60a64972246624466c90712cf63ef3bec74fd4e\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/runtime.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/runtime.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/runtime.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/runtime.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] foo               PROGBITS        0000000000000000 000040 000008 00  AX  0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000040 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect0-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] foo               PROGBITS        0000000000000000 000040 000008 00  AX  0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000040 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] foo,ax            PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000043 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect1-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] foo,ax            PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000043 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] foo,ax            PROGBITS        0000000000000000 000040 000008 00  WA  0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000043 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect2-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] foo,ax            PROGBITS        0000000000000000 000040 000008 00  WA  0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000043 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] custom            PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000043 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect3-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] custom            PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000043 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .foo-bar          PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000045 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect4-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .foo-bar          PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000045 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] foo-bar           PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000044 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect5-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0xc8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] foo-bar           PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 000044 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0x140:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 0000bd 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/inspect6-qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 9 section headers, starting at offset 0x140:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] nnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnnn PROGBITS        0000000000000000 000040 000008 00      0   0  8\n  [ 5] .note.GNU-stack   PROGBITS        0000000000000000 000048 000000 00      0   0  1\n  [ 6] .symtab           SYMTAB          0000000000000000 000048 000030 18      7   1  8\n  [ 7] .strtab           STRTAB          0000000000000000 000078 00000a 00      0   0  1\n  [ 8] .shstrtab         STRTAB          0000000000000000 000082 0000bd 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad0.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad0.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad0.ssa: ELF section requires 1..128 printable ASCII name bytes\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad1.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad1.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad1.ssa: ELF section requires 1..128 printable ASCII name bytes\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad2.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad2.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad2.ssa: ELF section requires 1..128 printable ASCII name bytes\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad3.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad3.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad3.ssa: ELF section requires 1..128 printable ASCII name bytes\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad4.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad4.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad4.ssa: ELF section requires 1..128 printable ASCII name bytes\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad5.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad5.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad5.ssa: ELF section requires 1..128 printable ASCII name bytes\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad6.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad6.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad6.ssa: ELF section requires 1..128 printable ASCII name bytes\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad7.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad7.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad8.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad8.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad8.ssa: unsupported Apple section type\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad9.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/bad9.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/linkage-bad0.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/linkage-bad0.ssa: thread data cannot have custom section or common linkage\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/linkage-bad1.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/linkage-bad1.ssa: common data cannot have custom section\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "--first-path",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/runtime.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data/types are outside the first-path profile\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-section-names/.build/section-names/after",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/wrong-value.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/wrong-value.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/fixed-caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/wrong-value.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/old-section-names-v3-x86_64-linux/section-names/wrong-value"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "executed_c_checks": 252,
+  "original_qbe": "passed",
+  "negative_control": "wrong global value detected",
+  "notes": [
+    "Unflagged ELF names are assembly/object-inspection cases only, not runtime-qualified.",
+    "ELF retains both string boundaries and literal commas. Apple preserves LCB unquoted combined directives and 16-byte names, deliberately differing from QBE quoted section-name bytes."
+  ],
+  "compiler_identity": "60e510e707c849ca375d8257d60a64972246624466c90712cf63ef3bec74fd4e",
+  "source_sha256": "00d080ed41a2b54df877af373cdda90863843315fc018f7227239eeaf17ecd78",
+  "caller_sha256": "03fcb978e41060d92391feade0f8ad5767fadcc800ab8e1b9905a7c6d3f6a782",
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "status": "passed"
+}

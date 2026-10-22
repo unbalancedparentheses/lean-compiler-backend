@@ -1,0 +1,680 @@
+{
+  "status": "passed",
+  "target": "x86_64-linux",
+  "compiler_identity": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92",
+  "compiler_sha256": "cebcfe1c2a1f9f1307770e588f5f8d7b3c45ceadb30cc98f8ef57c987e0b96c9",
+  "helper_sha256": "f62e3c028f5a77ed1acbf4cf823f8d999055ea68767afa4742e35a34289c3c42",
+  "source_sha256": "93a6b0f00f0063ff2ff8571a921bc10f10a1e166b77504cd592a46e726a14c31",
+  "caller_sha256": "7998e254b3fc3d7c66078ac0a633991db250633615b5212a433bdd5bc0d3d83a",
+  "before_sha256": null,
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "results": [
+    {
+      "mode": "baseline",
+      "execution": "passed",
+      "metadata": {
+        ".lcb.keep_rw": "WAR",
+        ".lcb.keep_ro": "AR",
+        ".lcb.keep_code": "AXR",
+        ".lcb.drop_data": "WA",
+        ".lcb.drop_code": "AX",
+        ".lcb.ref_data": "WA",
+        ".lcb.ref_code": "AX"
+      },
+      "runtime_offsets": [
+        "11704",
+        "3504",
+        "-16"
+      ]
+    },
+    {
+      "mode": "allocated",
+      "execution": "passed",
+      "metadata": {
+        ".lcb.keep_rw": "WAR",
+        ".lcb.keep_ro": "AR",
+        ".lcb.keep_code": "AXR",
+        ".lcb.drop_data": "WA",
+        ".lcb.drop_code": "AX",
+        ".lcb.ref_data": "WA",
+        ".lcb.ref_code": "AX"
+      },
+      "runtime_offsets": [
+        "11704",
+        "3504",
+        "-16"
+      ]
+    },
+    {
+      "mode": "optimized",
+      "execution": "passed",
+      "metadata": {
+        ".lcb.keep_rw": "WAR",
+        ".lcb.keep_ro": "AR",
+        ".lcb.keep_code": "AXR",
+        ".lcb.drop_data": "WA",
+        ".lcb.drop_code": "AX",
+        ".lcb.ref_data": "WA",
+        ".lcb.ref_code": "AX"
+      },
+      "runtime_offsets": [
+        "11704",
+        "3504",
+        "-16"
+      ]
+    },
+    {
+      "mode": "qbe",
+      "execution": "passed",
+      "metadata": {
+        ".lcb.keep_rw": "WAR",
+        ".lcb.keep_ro": "AR",
+        ".lcb.keep_code": "AXR",
+        ".lcb.drop_data": "WA",
+        ".lcb.drop_code": "AX",
+        ".lcb.ref_data": "WA",
+        ".lcb.ref_code": "AX"
+      },
+      "runtime_offsets": [
+        "11704",
+        "3504",
+        "-16"
+      ]
+    }
+  ],
+  "controls": [
+    {
+      "mode": "optimized",
+      "control": "removedR detected in metadata and linked symbols"
+    },
+    {
+      "mode": "qbe",
+      "control": "removedR detected in metadata and linked symbols"
+    },
+    {
+      "control": "retained wrong value detected by C",
+      "exit": 1
+    }
+  ],
+  "executed_modes": 4,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "ce3e8012b7d5a57f7d37cbe435b1078bea1a3f70bbaa4f7f41764399f3c1ef92\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/input.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 15 section headers, starting at offset 0x230:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_code    PROGBITS        0000000000000000 000040 000010 00 AXR  0   0 16\n  [ 5] .lcb.drop_code    PROGBITS        0000000000000000 000050 000010 00  AX  0   0 16\n  [ 6] .lcb.ref_code     PROGBITS        0000000000000000 000060 000010 00  AX  0   0 16\n  [ 7] .lcb.keep_rw      PROGBITS        0000000000000000 000070 000008 00 WAR  0   0  8\n  [ 8] .lcb.keep_ro      PROGBITS        0000000000000000 000078 000008 00  AR  0   0  8\n  [ 9] .lcb.drop_data    PROGBITS        0000000000000000 000080 000008 00  WA  0   0  8\n  [10] .lcb.ref_data     PROGBITS        0000000000000000 000088 000008 00  WA  0   0  8\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 000090 000000 00      0   0  1\n  [12] .symtab           SYMTAB          0000000000000000 000090 0000c0 18     13   1  8\n  [13] .strtab           STRTAB          0000000000000000 000150 00003f 00      0   0  1\n  [14] .shstrtab         STRTAB          0000000000000000 00018f 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/baseline.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "000000000000037c r __abi_tag\n0000000000001000 T _init\n0000000000001050 T _start\n0000000000001080 t deregister_tm_clones\n00000000000010b0 t register_tm_clones\n00000000000010f0 t __do_global_dtors_aux\n0000000000001130 t frame_dummy\n0000000000001139 T main\n0000000000001240 T keep_code\n0000000000001250 T anchor\n0000000000001260 T _fini\n0000000000002000 R keep_ro\n0000000000002008 r __GNU_EH_FRAME_HDR\n00000000000020c8 r __FRAME_END__\n0000000000003db8 d __frame_dummy_init_array_entry\n0000000000003dc0 d __do_global_dtors_aux_fini_array_entry\n0000000000003dc8 d _DYNAMIC\n0000000000003fb8 d _GLOBAL_OFFSET_TABLE_\n0000000000004000 D __dso_handle\n0000000000004008 D __TMC_END__\n0000000000004008 D keep_rw\n0000000000004010 D ref_data\n0000000000004018 B __bss_start\n0000000000004018 D _edata\n0000000000004018 b completed.0\n0000000000004020 B _end\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/baseline",
+        "11704",
+        "3504",
+        "-16"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/input.ssa",
+        "--target",
+        "x86_64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 15 section headers, starting at offset 0x230:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_code    PROGBITS        0000000000000000 000040 000010 00 AXR  0   0 16\n  [ 5] .lcb.drop_code    PROGBITS        0000000000000000 000050 000010 00  AX  0   0 16\n  [ 6] .lcb.ref_code     PROGBITS        0000000000000000 000060 000010 00  AX  0   0 16\n  [ 7] .lcb.keep_rw      PROGBITS        0000000000000000 000070 000008 00 WAR  0   0  8\n  [ 8] .lcb.keep_ro      PROGBITS        0000000000000000 000078 000008 00  AR  0   0  8\n  [ 9] .lcb.drop_data    PROGBITS        0000000000000000 000080 000008 00  WA  0   0  8\n  [10] .lcb.ref_data     PROGBITS        0000000000000000 000088 000008 00  WA  0   0  8\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 000090 000000 00      0   0  1\n  [12] .symtab           SYMTAB          0000000000000000 000090 0000c0 18     13   1  8\n  [13] .strtab           STRTAB          0000000000000000 000150 00003f 00      0   0  1\n  [14] .shstrtab         STRTAB          0000000000000000 00018f 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/allocated.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "000000000000037c r __abi_tag\n0000000000001000 T _init\n0000000000001050 T _start\n0000000000001080 t deregister_tm_clones\n00000000000010b0 t register_tm_clones\n00000000000010f0 t __do_global_dtors_aux\n0000000000001130 t frame_dummy\n0000000000001139 T main\n0000000000001240 T keep_code\n0000000000001250 T anchor\n0000000000001260 T _fini\n0000000000002000 R keep_ro\n0000000000002008 r __GNU_EH_FRAME_HDR\n00000000000020c8 r __FRAME_END__\n0000000000003db8 d __frame_dummy_init_array_entry\n0000000000003dc0 d __do_global_dtors_aux_fini_array_entry\n0000000000003dc8 d _DYNAMIC\n0000000000003fb8 d _GLOBAL_OFFSET_TABLE_\n0000000000004000 D __dso_handle\n0000000000004008 D __TMC_END__\n0000000000004008 D keep_rw\n0000000000004010 D ref_data\n0000000000004018 B __bss_start\n0000000000004018 D _edata\n0000000000004018 b completed.0\n0000000000004020 B _end\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/allocated",
+        "11704",
+        "3504",
+        "-16"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/input.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 15 section headers, starting at offset 0x230:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_code    PROGBITS        0000000000000000 000040 000010 00 AXR  0   0 16\n  [ 5] .lcb.drop_code    PROGBITS        0000000000000000 000050 000010 00  AX  0   0 16\n  [ 6] .lcb.ref_code     PROGBITS        0000000000000000 000060 000010 00  AX  0   0 16\n  [ 7] .lcb.keep_rw      PROGBITS        0000000000000000 000070 000008 00 WAR  0   0  8\n  [ 8] .lcb.keep_ro      PROGBITS        0000000000000000 000078 000008 00  AR  0   0  8\n  [ 9] .lcb.drop_data    PROGBITS        0000000000000000 000080 000008 00  WA  0   0  8\n  [10] .lcb.ref_data     PROGBITS        0000000000000000 000088 000008 00  WA  0   0  8\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 000090 000000 00      0   0  1\n  [12] .symtab           SYMTAB          0000000000000000 000090 0000c0 18     13   1  8\n  [13] .strtab           STRTAB          0000000000000000 000150 00003f 00      0   0  1\n  [14] .shstrtab         STRTAB          0000000000000000 00018f 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "000000000000037c r __abi_tag\n0000000000001000 T _init\n0000000000001050 T _start\n0000000000001080 t deregister_tm_clones\n00000000000010b0 t register_tm_clones\n00000000000010f0 t __do_global_dtors_aux\n0000000000001130 t frame_dummy\n0000000000001139 T main\n0000000000001240 T keep_code\n0000000000001250 T anchor\n0000000000001260 T _fini\n0000000000002000 R keep_ro\n0000000000002008 r __GNU_EH_FRAME_HDR\n00000000000020c8 r __FRAME_END__\n0000000000003db8 d __frame_dummy_init_array_entry\n0000000000003dc0 d __do_global_dtors_aux_fini_array_entry\n0000000000003dc8 d _DYNAMIC\n0000000000003fb8 d _GLOBAL_OFFSET_TABLE_\n0000000000004000 D __dso_handle\n0000000000004008 D __TMC_END__\n0000000000004008 D keep_rw\n0000000000004010 D ref_data\n0000000000004018 B __bss_start\n0000000000004018 D _edata\n0000000000004018 b completed.0\n0000000000004020 B _end\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized",
+        "11704",
+        "3504",
+        "-16"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 15 section headers, starting at offset 0x230:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_rw      PROGBITS        0000000000000000 000040 000008 00 WAR  0   0  8\n  [ 5] .lcb.keep_ro      PROGBITS        0000000000000000 000048 000008 00  AR  0   0  8\n  [ 6] .lcb.drop_data    PROGBITS        0000000000000000 000050 000008 00  WA  0   0  8\n  [ 7] .lcb.ref_data     PROGBITS        0000000000000000 000058 000008 00  WA  0   0  8\n  [ 8] .lcb.keep_code    PROGBITS        0000000000000000 000060 00000a 00 AXR  0   0 16\n  [ 9] .lcb.drop_code    PROGBITS        0000000000000000 000070 00000a 00  AX  0   0 16\n  [10] .lcb.ref_code     PROGBITS        0000000000000000 000080 00000a 00  AX  0   0 16\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 00008a 000000 00      0   0  1\n  [12] .symtab           SYMTAB          0000000000000000 000090 0000c0 18     13   1  8\n  [13] .strtab           STRTAB          0000000000000000 000150 00003f 00      0   0  1\n  [14] .shstrtab         STRTAB          0000000000000000 00018f 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  R (retain), D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "000000000000037c r __abi_tag\n0000000000001000 T _init\n0000000000001050 T _start\n0000000000001080 t deregister_tm_clones\n00000000000010b0 t register_tm_clones\n00000000000010f0 t __do_global_dtors_aux\n0000000000001130 t frame_dummy\n0000000000001139 T main\n0000000000001240 T keep_code\n0000000000001250 T anchor\n000000000000125c T _fini\n0000000000002000 R keep_ro\n0000000000002008 r __GNU_EH_FRAME_HDR\n00000000000020c8 r __FRAME_END__\n0000000000003db8 d __frame_dummy_init_array_entry\n0000000000003dc0 d __do_global_dtors_aux_fini_array_entry\n0000000000003dc8 d _DYNAMIC\n0000000000003fb8 d _GLOBAL_OFFSET_TABLE_\n0000000000004000 D __dso_handle\n0000000000004008 D __TMC_END__\n0000000000004008 D keep_rw\n0000000000004010 D ref_data\n0000000000004018 B __bss_start\n0000000000004018 D _edata\n0000000000004018 b completed.0\n0000000000004020 B _end\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe",
+        "11704",
+        "3504",
+        "-16"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized-noR.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized-noR.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized-noR.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized-noR.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized-noR.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 15 section headers, starting at offset 0x230:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_code    PROGBITS        0000000000000000 000040 000010 00  AX  0   0 16\n  [ 5] .lcb.drop_code    PROGBITS        0000000000000000 000050 000010 00  AX  0   0 16\n  [ 6] .lcb.ref_code     PROGBITS        0000000000000000 000060 000010 00  AX  0   0 16\n  [ 7] .lcb.keep_rw      PROGBITS        0000000000000000 000070 000008 00  WA  0   0  8\n  [ 8] .lcb.keep_ro      PROGBITS        0000000000000000 000078 000008 00   A  0   0  8\n  [ 9] .lcb.drop_data    PROGBITS        0000000000000000 000080 000008 00  WA  0   0  8\n  [10] .lcb.ref_data     PROGBITS        0000000000000000 000088 000008 00  WA  0   0  8\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 000090 000000 00      0   0  1\n  [12] .symtab           SYMTAB          0000000000000000 000090 0000c0 18     13   1  8\n  [13] .strtab           STRTAB          0000000000000000 000150 00003f 00      0   0  1\n  [14] .shstrtab         STRTAB          0000000000000000 00018f 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized-noR.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized-noR"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/optimized-noR"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "000000000000037c r __abi_tag\n0000000000001000 T _init\n0000000000001050 T _start\n0000000000001080 t deregister_tm_clones\n00000000000010b0 t register_tm_clones\n00000000000010f0 t __do_global_dtors_aux\n0000000000001130 t frame_dummy\n0000000000001139 T main\n0000000000001240 T anchor\n0000000000001250 T _fini\n0000000000002000 r __GNU_EH_FRAME_HDR\n00000000000020c0 r __FRAME_END__\n0000000000003db8 d __frame_dummy_init_array_entry\n0000000000003dc0 d __do_global_dtors_aux_fini_array_entry\n0000000000003dc8 d _DYNAMIC\n0000000000003fb8 d _GLOBAL_OFFSET_TABLE_\n0000000000004000 D __dso_handle\n0000000000004008 D __TMC_END__\n0000000000004008 D ref_data\n0000000000004010 B __bss_start\n0000000000004010 D _edata\n0000000000004010 b completed.0\n0000000000004018 B _end\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "amd64_sysv",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe-noR.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe-noR.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe-noR.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe-noR.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe-noR.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 15 section headers, starting at offset 0x230:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000000 00  AX  0   0  1\n  [ 2] .data             PROGBITS        0000000000000000 000040 000000 00  WA  0   0  1\n  [ 3] .bss              NOBITS          0000000000000000 000040 000000 00  WA  0   0  1\n  [ 4] .lcb.keep_rw      PROGBITS        0000000000000000 000040 000008 00  WA  0   0  8\n  [ 5] .lcb.keep_ro      PROGBITS        0000000000000000 000048 000008 00   A  0   0  8\n  [ 6] .lcb.drop_data    PROGBITS        0000000000000000 000050 000008 00  WA  0   0  8\n  [ 7] .lcb.ref_data     PROGBITS        0000000000000000 000058 000008 00  WA  0   0  8\n  [ 8] .lcb.keep_code    PROGBITS        0000000000000000 000060 00000a 00  AX  0   0 16\n  [ 9] .lcb.drop_code    PROGBITS        0000000000000000 000070 00000a 00  AX  0   0 16\n  [10] .lcb.ref_code     PROGBITS        0000000000000000 000080 00000a 00  AX  0   0 16\n  [11] .note.GNU-stack   PROGBITS        0000000000000000 00008a 000000 00      0   0  1\n  [12] .symtab           SYMTAB          0000000000000000 000090 0000c0 18     13   1  8\n  [13] .strtab           STRTAB          0000000000000000 000150 00003f 00      0   0  1\n  [14] .shstrtab         STRTAB          0000000000000000 00018f 00009f 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), l (large), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe-noR.o",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe-noR"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/qbe-noR"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "000000000000037c r __abi_tag\n0000000000001000 T _init\n0000000000001050 T _start\n0000000000001080 t deregister_tm_clones\n00000000000010b0 t register_tm_clones\n00000000000010f0 t __do_global_dtors_aux\n0000000000001130 t frame_dummy\n0000000000001139 T main\n0000000000001240 T anchor\n000000000000124c T _fini\n0000000000002000 r __GNU_EH_FRAME_HDR\n00000000000020c0 r __FRAME_END__\n0000000000003db8 d __frame_dummy_init_array_entry\n0000000000003dc0 d __do_global_dtors_aux_fini_array_entry\n0000000000003dc8 d _DYNAMIC\n0000000000003fb8 d _GLOBAL_OFFSET_TABLE_\n0000000000004000 D __dso_handle\n0000000000004008 D __TMC_END__\n0000000000004008 D ref_data\n0000000000004010 B __bss_start\n0000000000004010 D _edata\n0000000000004010 b completed.0\n0000000000004018 B _end\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/wrong-value.ssa",
+        "--target",
+        "x86_64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/wrong-value.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "x86_64-linux-gnu-gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/wrong-value.s",
+        "-Wl,--gc-sections",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "nm",
+        "-n",
+        "--defined-only",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "000000000000037c r __abi_tag\n0000000000001000 T _init\n0000000000001050 T _start\n0000000000001080 t deregister_tm_clones\n00000000000010b0 t register_tm_clones\n00000000000010f0 t __do_global_dtors_aux\n0000000000001130 t frame_dummy\n0000000000001139 T main\n0000000000001240 T keep_code\n0000000000001250 T anchor\n0000000000001260 T _fini\n0000000000002000 R keep_ro\n0000000000002008 r __GNU_EH_FRAME_HDR\n00000000000020c8 r __FRAME_END__\n0000000000003db8 d __frame_dummy_init_array_entry\n0000000000003dc0 d __do_global_dtors_aux_fini_array_entry\n0000000000003dc8 d _DYNAMIC\n0000000000003fb8 d _GLOBAL_OFFSET_TABLE_\n0000000000004000 D __dso_handle\n0000000000004008 D __TMC_END__\n0000000000004008 D keep_rw\n0000000000004010 D ref_data\n0000000000004018 B __bss_start\n0000000000004018 D _edata\n0000000000004018 b completed.0\n0000000000004020 B _end\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/wrong-value",
+        "11704",
+        "3504",
+        "-16"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad-aT.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad-aG.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad-aR_extra.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad-aR_extra.ssa: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad-aZ.ssa",
+        "--target",
+        "x86_64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/snapshots/lcb",
+        "--first-path",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-names-main-review-v2/retain/x86_64-linux/elf-retain/input.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data/types are outside the first-path profile\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "ELF R retention in default link profile with --gc-sections; C references only anchor and ref_data. Post-link numeric offsets create no linker roots. Apple emission/literal-name behavior only. No timing claim."
+}

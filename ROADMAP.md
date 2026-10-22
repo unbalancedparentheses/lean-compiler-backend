@@ -48,11 +48,13 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Printable ELF section names](docs/benchmarks/elf-section-name-bytes/README.md) now preserve 1–128 decoded printable ASCII bytes, including quotes and backslashes. Exact ELF metadata and independent C/original-QBE matrices pass on all three Linux targets; Apple syntax stays unchanged. All Linux gates, units and 147 unchanged audit statements pass; full host gate is pending. The corpus and 432 previously executed workload assemblies remain identical.
+
 [Fresh QBE self-compilation](docs/benchmarks/qbe-elf-refresh/README.md) on historical compiler `5e174e1d` passes all three Linux targets: 487 exact assembly comparisons and 58 ARM-output runtime tests per LCB mode. Unchanged/corrected QBE and unqualified overlapping first attempts remain separate; the reusable harness now isolates work and locks the upstream runner. No timing or expanded target-support claim.
 
 [Assembler-dependent octal escapes](docs/benchmarks/octal-escape-boundary/README.md) remain an explicit reference-compatibility boundary. Original QBE forwards raw strings: GNU and Apple differ on overflow and non-octal digits; accepted `\378` has different Linux bytes from LCB. No universal overflow rule was inferred or merged, and reduced exact-length object/C probes retain errors and refusals separately.
 
-[ELF custom TLS and retained sections](docs/benchmarks/elf-custom-sections/README.md) now support explicit writable `awT` thread-data storage and ordinary `R` retention flags. Three-target C/original-QBE matrices verify thread isolation, exact metadata and real linker garbage collection; all three full Linux gates pass. Apple behavior remains unchanged. Additional flag combinations and wider section-name grammar remain separate bounded work.
+[ELF custom TLS and retained sections](docs/benchmarks/elf-custom-sections/README.md) now support explicit writable `awT` thread-data storage and ordinary `R` retention flags. Three-target C/original-QBE matrices verify thread isolation, exact metadata and real linker garbage collection; all three full Linux gates pass. Apple behavior remains unchanged. Additional flag combinations remain separate bounded work; the printable section-name extension is recorded above.
 
 [Large aggregate ABI copies](docs/benchmarks/large-aggregate-abi/README.md) now use compact exact loops above 128 bytes and admit object layouts through 1 MiB. All five target matrices and three full Linux gates pass; frame/outgoing-area limits still apply. Original QBE comparison reaches 65,537 bytes, while maximum-size guard tests use independent C. No partial-overlap or new proof claim.
 

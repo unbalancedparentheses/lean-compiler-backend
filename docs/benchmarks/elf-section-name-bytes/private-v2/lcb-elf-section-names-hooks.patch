@@ -1,0 +1,72 @@
+diff --git a/scripts/check.sh b/scripts/check.sh
+index 2f2bfa0..dae42e7 100644
+--- a/scripts/check.sh
++++ b/scripts/check.sh
+@@ -184,6 +184,7 @@ python3 scripts/data.py "$@"
+ python3 scripts/syntax_edges.py "$@"
+ python3 scripts/integer_patterns.py "$@"
+ python3 scripts/section_names.py "$@"
++python3 scripts/elf_section_names.py "$@"
+ python3 scripts/large_aggregate_abi.py "$@"
+ python3 scripts/data_relocations.py "$@"
+ python3 scripts/data_matrix.py "$@"
+diff --git a/scripts/emission_only.py b/scripts/emission_only.py
+index 755d0a3..b528c60 100644
+--- a/scripts/emission_only.py
++++ b/scripts/emission_only.py
+@@ -4,6 +4,7 @@ from pathlib import Path
+ import subprocess
+ import tempfile
+ from fuzz import ROOT, LCB
++from elf_section_names import exercise as elf_section_names
+ from amd_leaf_bank import exercise as amd_leaf_bank
+ from upstream_development import exercise as upstream_development
+ from symbol_address_pressure import exercise as symbol_pressure
+@@ -57,6 +58,8 @@ def main():
+             branches = arm_branches(LCB, work/target, run, cc, target, False, qbe, 'arm64', large=False)
+             assert branches['c_checks_per_mode'] == 0 and branches['original_qbe'] == 'not_executed'
+         for target in ['aarch64-linux','aarch64-macos','x86_64-linux','x86_64-macos','riscv64-linux']:
++            elf_names = elf_section_names(LCB,work/target,run,cc,target,False,qbe)
++            assert elf_names['executed_modes'] == 0 and elf_names['qbe_sha256'] is None
+             development = upstream_development(LCB,work/target,run,cc,target,False,qbe)
+             assert development['checks_per_lcb_mode'] == 0 and development['original_qbe'] == 'not-run'
+             discarded = scalar_discard(LCB,work/target,run,cc,target,False,qbe)
+diff --git a/scripts/linux_arm64.py b/scripts/linux_arm64.py
+index edc3cb4..0435173 100644
+--- a/scripts/linux_arm64.py
++++ b/scripts/linux_arm64.py
+@@ -170,6 +170,8 @@ def main():
+     extern_offset_tests(compiler,work,run,cc,qbe,native)
+     from section_names import exercise as section_name_tests
+     section_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
++    from elf_section_names import exercise as elf_name_tests
++    elf_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from large_aggregate_abi import exercise as aggregate_copy_tests
+     aggregate_copy_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
+diff --git a/scripts/linux_targets.py b/scripts/linux_targets.py
+index e26d813..7844aa2 100644
+--- a/scripts/linux_targets.py
++++ b/scripts/linux_targets.py
+@@ -122,6 +122,8 @@ def main():
+     extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
+     from section_names import exercise as section_name_tests
+     section_name_tests(compiler,work,run,cc,args.target,execute,qbe)
++    from elf_section_names import exercise as elf_name_tests
++    elf_name_tests(compiler,work,run,cc,args.target,execute,qbe)
+     from large_aggregate_abi import exercise as aggregate_copy_tests
+     aggregate_copy_tests(compiler,work,run,cc,args.target,execute,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
+diff --git a/scripts/macos_x86.py b/scripts/macos_x86.py
+index f5e10ed..95e1a8c 100644
+--- a/scripts/macos_x86.py
++++ b/scripts/macos_x86.py
+@@ -112,6 +112,8 @@ def main():
+     from zero_alloc import exercise as zero
+     from section_names import exercise as section_name_tests
+     section_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
++    from elf_section_names import exercise as elf_name_tests
++    elf_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+     from large_aggregate_abi import exercise as aggregate_copy_tests
+     aggregate_copy_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
