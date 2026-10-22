@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Verified.FreshNameProofs
 import LeanCompilerBackend.Verified.SimulationProofs
 import LeanCompilerBackend.Verified.ComparisonProofs
 import LeanCompilerBackend.Verified.ArithmeticProofs
@@ -201,3 +202,8 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.instruction_length
 #print axioms LeanCompilerBackend.Verified.source_instruction_invert
 #print axioms LeanCompilerBackend.Verified.simulate_instruction
+
+-- Actual shared name generator; no pass-preservation claim.
+#print axioms LeanCompilerBackend.SSA.freshNamePrefix_append_ne
+#print axioms LeanCompilerBackend.SSA.freshNamePrefix_not_prefix
+#print axioms LeanCompilerBackend.SSA.freshNamePrefix_counter_ne

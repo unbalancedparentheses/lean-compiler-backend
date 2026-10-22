@@ -6,6 +6,9 @@ python3 scripts/cli_protocol.py "$@"
 python3 scripts/port_inventory.py
 audit=$(lake env lean scripts/ProofAudit.lean)
 printf '%s\n' "$audit"
+grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_append_ne' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_not_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_counter_ne' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.AArch64.select_preserves' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Source.run_return_sound' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Source.step_deterministic' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
