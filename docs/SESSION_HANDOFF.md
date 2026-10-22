@@ -40,7 +40,13 @@ against Python/interpreter in every LCB mode on Linux ARM64/x86/RV. Unchanged
 QBE qualifies all 32 ARM64/RV seeds and one x86 seed; 31 x86 assembler failures
 from oversized immediate shifts remain excluded and documented separately.
 Reports `cross-fuzz-{arm64,x86,rv64}-raw.json` preserve both denominators and
-negative controls. Proof scope is unchanged.
+negative controls. The separate explicit-shift-mask profile preserves the Python
+oracle and sends identical masked IR to every backend. On the same AMD64
+checkpoint identity it qualifies all 32 x86 seeds (256 functions / 3,328 inputs)
+against unchanged QBE, plus two-seed ARM64/RV64 sanity checks. Reports
+`cross-fuzz-{x86,arm64,rv64}-masked.json` retain raw/transformed hashes and mask
+counts. These are additional profiles of existing seeds, not new unique seeds;
+they do not erase the raw reference failures. Proof scope is unchanged.
 
 ## Redundant extending-load extensions
 

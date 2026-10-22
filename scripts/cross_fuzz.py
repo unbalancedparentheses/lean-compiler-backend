@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import re
 import shutil
 import subprocess
 import tempfile
@@ -18,10 +19,37 @@ def digest(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def profile_source(raw, profile):
+    """Mask shift counts in generated IR without changing the Python oracle."""
+    if profile == 'raw':
+        return raw, 0
+    assert profile == 'explicit-shift-mask'
+    names = set(re.findall(r'%([A-Za-z0-9_.$]+)', raw))
+    prefix = 'lcb.shift.mask.'
+    while any(name.startswith(prefix) for name in names):
+        prefix += 'x.'
+    shift = re.compile(r'^(\s*)(%[^ ]+) =([wl]) (shl|shr|sar) ([^,]+), (.+)$')
+    lines, count = [], 0
+    for line in raw.splitlines():
+        match = shift.fullmatch(line)
+        if match:
+            indent, destination, width, operation, left, right = match.groups()
+            name = prefix + str(count)
+            count += 1
+            # QBE shift RHS has word class. Low 5/6 bits are unchanged by
+            # narrowing a long operand, including negative/wide constants.
+            lines.append(f'{indent}%{name} =w and {right}, {31 if width == "w" else 63}')
+            line = f'{indent}{destination} ={width} {operation} {left}, %{name}'
+        lines.append(line)
+    return '\n'.join(lines) + ('\n' if raw.endswith('\n') else ''), count
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--target', required=True, choices=['aarch64-linux','x86_64-linux','riscv64-linux'])
     ap.add_argument('--compiler', required=True, type=Path)
+    ap.add_argument('--profile', choices=['raw','explicit-shift-mask'], default='raw',
+                    help='raw preserves generated IR; explicit-shift-mask inserts width-1 ANDs before shifts')
     ap.add_argument('--seed-start', type=int, default=20263000)
     ap.add_argument('--seeds', type=int, default=2)
     ap.add_argument('--samples', type=int, default=8, help='random pairs in addition to five fixed edge pairs')
@@ -34,10 +62,10 @@ def main():
     assert 0 <= args.samples <= 10000 and 1 <= args.steps <= 480
     mount = fuzz.ROOT/'.build/linux-arm64'
     mount.mkdir(parents=True, exist_ok=True)
-    work = Path(tempfile.mkdtemp(prefix='cross-fuzz-'+args.target+'-', dir=mount))
+    work = Path(tempfile.mkdtemp(prefix='cross-fuzz-'+args.target+'-'+args.profile+'-', dir=mount))
     compiler = work/'lcb-snapshot'
     shutil.copy2(args.compiler.resolve(), compiler)
-    report = {'schema':1, 'target':args.target, 'work':str(work), 'status':'running',
+    report = {'schema':1, 'profile':args.profile, 'target':args.target, 'work':str(work), 'status':'running',
               'host':platform.platform(), 'compiler_sha256':digest(compiler),
               'seed_start':args.seed_start, 'seeds_requested':args.seeds,
               'functions_per_seed':args.functions, 'random_samples':args.samples,
@@ -50,7 +78,10 @@ def main():
               'notes':['LCB and interpreter qualification is separate from unchanged original-QBE qualification.',
                        'Original QBE RV64 uses explicit -no-pie linking; all LCB modes retain default linking.',
                        'Reference failures retain assembly and diagnostics and cause a nonzero campaign exit.',
-                       'QEMU execution is not native target-hardware qualification.']}
+                       'QEMU execution is not native target-hardware qualification.',
+                       'The selected profile sends identical IR to the interpreter, all LCB modes and unchanged original QBE.',
+                       'Python expected values use the original untransformed generator semantics.',
+                       'Raw and explicit-shift-mask qualification counts are separate profiles; masked results do not erase raw reference failures.']}
     args.report = args.report.resolve()
     args.report.parent.mkdir(parents=True, exist_ok=True)
     def save():
@@ -104,10 +135,15 @@ def main():
             arguments = fuzz.inputs(seed,args.samples)
             expected = [f.evaluate(a,b) for f in functions for a,b in arguments]
             source, caller, obj = case/'input.ssa', case/'caller.c', case/'caller.o'
-            source.write_text('\n'.join(f.source() for f in functions)+'\n')
+            raw = '\n'.join(f.source() for f in functions)+'\n'
+            transformed, masks = profile_source(raw,args.profile)
+            raw_source = case/'raw-input.ssa';raw_source.write_text(raw)
+            source.write_text(transformed)
             caller.write_text(fuzz.driver(functions,arguments))
             row = {'seed':seed,'input_cases':len(expected),'status':'running',
-                   'source_sha256':digest(source),'caller_sha256':digest(caller),
+                   'source_sha256':digest(source),'raw_source_sha256':digest(raw_source),
+                   'transformed_source_sha256':digest(source),'inserted_masks':masks,
+                   'caller_sha256':digest(caller),
                    'arguments':arguments,'expected':expected,'modes':{}}
             report['cases'].append(row);save()
             command([compiler,'--check',source])
@@ -159,6 +195,7 @@ def main():
             row['status'] = 'reference_failed' if seed in report['reference_failures'] else 'passed';save()
             print(f'{args.target}: seed {seed}: {row["status"]} ({len(expected)} cases; LCB/interpreter passed, QBE {row["modes"]["qbe"]["status"]})',flush=True)
         report['status'] = 'reference_failed' if report['reference_failures'] else 'passed'
+        report['inserted_masks_total'] = sum(r['inserted_masks'] for r in report['cases'])
         report['generated_functions'] = args.seeds*args.functions
         report['input_cases_per_path'] = sum(r['input_cases'] for r in report['cases'])
         qualified = [r for r in report['cases'] if r.get('interpreter') == 'passed' and

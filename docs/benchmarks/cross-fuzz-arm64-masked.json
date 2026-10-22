@@ -1,0 +1,605 @@
+{
+  "schema": 1,
+  "profile": "explicit-shift-mask",
+  "target": "aarch64-linux",
+  "work": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk",
+  "status": "passed",
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "compiler_sha256": "cb744e636ee3828736149094152d80e629027446816d68d653e411f35e3d2156",
+  "seed_start": 20263000,
+  "seeds_requested": 2,
+  "functions_per_seed": 8,
+  "random_samples": 8,
+  "fixed_samples": 5,
+  "steps": 32,
+  "control_flow": true,
+  "generator_sha256": "8b8f49c12f52eb4f62492e22f9cf9238ffadda908c16ac2f8f2642d3cb5db485",
+  "harness_sha256": "68e6818c45697dbe8ec8e6f95633a199cff6ac3f63b4bab9576bebcbcf0d897d",
+  "upstream_lock_sha256": "3f603cdf6df27a43352ab3d06fecd55ce9aa371680c16f1690f236cfc2b60bc4",
+  "flake_lock_sha256": "d0a75387719c81fc35e16c0242b7b099f896235959d3936ec510cd2e9c0d9a3d",
+  "cases": [
+    {
+      "seed": 20263000,
+      "input_cases": 104,
+      "status": "passed",
+      "source_sha256": "f4abdd1f01ed72a869bb238b028d415b3e01c897f305f38eaea510f55a2895e7",
+      "raw_source_sha256": "4cc71ff3de69ff813aaadd91eba0be0a6d201674bab179306292fc06e8acb8fd",
+      "transformed_source_sha256": "f4abdd1f01ed72a869bb238b028d415b3e01c897f305f38eaea510f55a2895e7",
+      "inserted_masks": 62,
+      "caller_sha256": "12c6c6369e2404eb4c6e0d6ca7875ccafca8ea5036ecbc373001fab6d07bfe66",
+      "arguments": [
+        [
+          0,
+          0
+        ],
+        [
+          18446744073709551615,
+          1
+        ],
+        [
+          9223372036854775808,
+          18446744073709551615
+        ],
+        [
+          2147483648,
+          4294967295
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2102781832613909433,
+          11655196313699494649
+        ],
+        [
+          10730919103191827440,
+          14910530754235106679
+        ],
+        [
+          16869566818971777050,
+          15443208662350286178
+        ],
+        [
+          1340259089128910456,
+          4497831201377746132
+        ],
+        [
+          6446068437645658625,
+          8480734165678135792
+        ],
+        [
+          11769060397475946803,
+          3522107601486011955
+        ],
+        [
+          6164360473260116708,
+          9774510957911108116
+        ],
+        [
+          13901590916090199348,
+          13737767489905236648
+        ]
+      ],
+      "expected": [
+        1,
+        1,
+        1,
+        524289,
+        1,
+        3677,
+        4,
+        6175,
+        2520,
+        1,
+        59,
+        1,
+        50,
+        0,
+        0,
+        4611686018427387905,
+        0,
+        18446744073709551614,
+        11895228700359620254,
+        7609793138343227146,
+        17652585607688115542,
+        11548878298700322118,
+        7184224486498886142,
+        14204799197812614384,
+        6432275771304377066,
+        1869937743493659168,
+        0,
+        7,
+        1431875069,
+        0,
+        1,
+        1927752777,
+        1637073901,
+        2324123662,
+        3389341304,
+        1427638272,
+        17342768,
+        335579364,
+        1146629428,
+        0,
+        9223372036854775810,
+        0,
+        13879985614369062912,
+        0,
+        0,
+        2571555387228553216,
+        17991767409958060032,
+        3578708038271369216,
+        16814507799307728560,
+        8038925334856335360,
+        9378964751935078400,
+        4795014189196247040,
+        0,
+        4294967295,
+        0,
+        2147483648,
+        0,
+        4287437011,
+        4294967243,
+        4294967295,
+        788,
+        12253,
+        4294848175,
+        4294811910,
+        4293340478,
+        0,
+        0,
+        1152921504606846976,
+        268435456,
+        0,
+        1,
+        4765,
+        31422016804,
+        2,
+        402879277352853664,
+        653,
+        11212906,
+        385,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        33554431,
+        7,
+        2047,
+        0,
+        511,
+        0,
+        8307487420471881463,
+        18446744073709551612,
+        0,
+        0,
+        8307487420471881462,
+        0,
+        2908362492038086656,
+        1852345582525977968,
+        13779539226635254208,
+        10793476797379949305,
+        2578273756300516036,
+        15039886824918892784,
+        14917631592816967680
+      ],
+      "modes": {
+        "baseline": {
+          "emit_command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/lcb-snapshot",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/input.ssa",
+            "--target",
+            "aarch64-linux",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/baseline.s"
+          ],
+          "link_command": [
+            "gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/caller.o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/baseline.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/baseline"
+          ],
+          "assembly_sha256": "aa2f57d8552e6c5c41e7672e5f86986aa4d9b66b49b6ee4787ecbc5513bc0103",
+          "status": "passed"
+        },
+        "allocated": {
+          "emit_command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/lcb-snapshot",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/input.ssa",
+            "--target",
+            "aarch64-linux",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/allocated.s"
+          ],
+          "link_command": [
+            "gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/caller.o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/allocated.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/allocated"
+          ],
+          "assembly_sha256": "a764f01d1be8643b20c00b458809273538d546a84aa52ab0b47e8bcbd5357060",
+          "status": "passed"
+        },
+        "optimized": {
+          "emit_command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/lcb-snapshot",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/input.ssa",
+            "--target",
+            "aarch64-linux",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/optimized.s"
+          ],
+          "link_command": [
+            "gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/caller.o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/optimized.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/optimized"
+          ],
+          "assembly_sha256": "9798baf018a5651f84cb36e55f554f115f7604a5f9ce36340fde96cd0b86c59a",
+          "status": "passed"
+        },
+        "qbe": {
+          "emit_command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/oracle/qbe",
+            "-t",
+            "arm64",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/qbe.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/input.ssa"
+          ],
+          "link_command": [
+            "gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/caller.o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/qbe.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263000/qbe"
+          ],
+          "assembly_sha256": "9ec8387fa89b10dbd26603bc8be306b4991da22fba6b4debffc90ee02fc2a638",
+          "status": "passed"
+        }
+      },
+      "interpreter": "passed"
+    },
+    {
+      "seed": 20263001,
+      "input_cases": 104,
+      "status": "passed",
+      "source_sha256": "9d1753e03751dafe617b8ed49ba3dcf15cf716ed821d0dac07e431303bf3d972",
+      "raw_source_sha256": "485ba13a1628430f7908923789202042a6d0dd8edaf144da791bbef6cb2a0072",
+      "transformed_source_sha256": "9d1753e03751dafe617b8ed49ba3dcf15cf716ed821d0dac07e431303bf3d972",
+      "inserted_masks": 68,
+      "caller_sha256": "62bb5589227102997c0e70a591c6c34a153ae7909ed7f0ab5e1c6a6e702ba25e",
+      "arguments": [
+        [
+          0,
+          0
+        ],
+        [
+          18446744073709551615,
+          1
+        ],
+        [
+          9223372036854775808,
+          18446744073709551615
+        ],
+        [
+          2147483648,
+          4294967295
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          10829188587808939830,
+          17821526450109188559
+        ],
+        [
+          6969714618300044642,
+          7458992433555198940
+        ],
+        [
+          90067350268582247,
+          10620091383145984768
+        ],
+        [
+          3612126694586830938,
+          10133904080064306819
+        ],
+        [
+          1800664664457252114,
+          14480700025278004590
+        ],
+        [
+          17344065510433247024,
+          8283528086605906117
+        ],
+        [
+          11642267301396008520,
+          5995555440229787568
+        ],
+        [
+          8752597539707812995,
+          17200826047851388435
+        ]
+      ],
+      "expected": [
+        0,
+        0,
+        2147483647,
+        2147483647,
+        0,
+        4294962852,
+        0,
+        2573569280,
+        0,
+        20746,
+        1154865509,
+        574707792,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2970515429,
+        0,
+        0,
+        0,
+        2970515428,
+        0,
+        0,
+        2432722560,
+        0,
+        0,
+        0,
+        0,
+        0,
+        2,
+        0,
+        3,
+        68719476727,
+        9223372036854775806,
+        18446744073709551580,
+        16258,
+        18348273126038187273,
+        18446744073604559424,
+        18446744029663229288,
+        8589280190,
+        1602125818,
+        1007392560090,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        2147483648,
+        0,
+        9223372036854775807,
+        1,
+        8589934593,
+        3,
+        11595742825524101433,
+        17926463581254160258,
+        13745052998688679337,
+        14079380809369781089,
+        13403067656317603986,
+        3816801545338114079,
+        11410971945878683656,
+        684977340350333883,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295,
+        9121423942264583129,
+        9121423942264583128,
+        0,
+        0,
+        9121423942264583128,
+        0,
+        0,
+        1209225643021598654,
+        44,
+        0,
+        0,
+        0,
+        0
+      ],
+      "modes": {
+        "baseline": {
+          "emit_command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/lcb-snapshot",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/input.ssa",
+            "--target",
+            "aarch64-linux",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/baseline.s"
+          ],
+          "link_command": [
+            "gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/caller.o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/baseline.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/baseline"
+          ],
+          "assembly_sha256": "302f874c865773627427e9773daa708232bea308c324ba5bef4b165461cb1c4c",
+          "status": "passed"
+        },
+        "allocated": {
+          "emit_command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/lcb-snapshot",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/input.ssa",
+            "--target",
+            "aarch64-linux",
+            "--allocate",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/allocated.s"
+          ],
+          "link_command": [
+            "gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/caller.o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/allocated.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/allocated"
+          ],
+          "assembly_sha256": "24997d3b79d20f674df370d19ddd7f3b517491a8a4ecf7c723f8b37d66dd1529",
+          "status": "passed"
+        },
+        "optimized": {
+          "emit_command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/lcb-snapshot",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/input.ssa",
+            "--target",
+            "aarch64-linux",
+            "--optimize",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/optimized.s"
+          ],
+          "link_command": [
+            "gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/caller.o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/optimized.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/optimized"
+          ],
+          "assembly_sha256": "6d08769d328506ade375cea57fa12a1ba96abd8c27142412f0c917849b9e13a3",
+          "status": "passed"
+        },
+        "qbe": {
+          "emit_command": [
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/oracle/qbe",
+            "-t",
+            "arm64",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/qbe.s",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/input.ssa"
+          ],
+          "link_command": [
+            "gcc",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/caller.o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/qbe.s",
+            "-o",
+            "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/cross-fuzz-aarch64-linux-explicit-shift-mask-jarl_wwk/20263001/qbe"
+          ],
+          "assembly_sha256": "77c30193479aa406ed3df283467b8ff6096a1b7dc402576db417142fe158c172",
+          "status": "passed"
+        }
+      },
+      "interpreter": "passed"
+    }
+  ],
+  "negative_control": "corrupted optimized return detected",
+  "reference_failures": [],
+  "notes": [
+    "LCB and interpreter qualification is separate from unchanged original-QBE qualification.",
+    "Original QBE RV64 uses explicit -no-pie linking; all LCB modes retain default linking.",
+    "Reference failures retain assembly and diagnostics and cause a nonzero campaign exit.",
+    "QEMU execution is not native target-hardware qualification.",
+    "The selected profile sends identical IR to the interpreter, all LCB modes and unchanged original QBE.",
+    "Python expected values use the original untransformed generator semantics.",
+    "Raw and explicit-shift-mask qualification counts are separate profiles; masked results do not erase raw reference failures."
+  ],
+  "compiler_identity": "80a20e067d8d30ff9785f44a1df43beaee829c7e00a921db34c81cf4031a96d8",
+  "compiler_version": "lean-compiler-backend 0.1.0 (experimental)",
+  "execution_mode": "Linux ARM64 container",
+  "guest_uname": "Linux 36d787fe752f 7.2.9-orbstack-00391-g2b298d05fbd4 #1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+  "cc_version": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "qbe_source_sha256": {
+    "util.c": "833a66c4c703cd47d7855cfd4b9f77642bdd0d35c6914c0baa3cd555031e35dd",
+    "fold.c": "3544071a30cc049320838f3bf44c1f83171117735fd2bb67959b2bc0a4431be8",
+    "all.h": "61bc106ffb07e0abe0b418f95ac7e1a9e4c6bcf8c308d8743562299129056519",
+    "cfg.c": "99099b6c39fbf9de442811c9e5e57417d6ef13ffa534ff6c82cade4fcadcf438",
+    "ssa.c": "a06727f6e5f6786e6fb1f30912631896007b9867dfd64e3e27a754ee9a9332c8",
+    "emit.c": "48af42e44d5017102e6ec7bec00465304f324f89160a93825f4952a257702031",
+    "mem.c": "4229d499db4186086b2d02ac78c983a6f31012d350bd281128ea61c037af4b65",
+    "spill.c": "d8b5367c4531faedbd4e073ccd955557a8e2333f9240d9f186f62dde777baebe",
+    "live.c": "19f084507c5f38f213e90193c11111e6079a06e3dd13f80df4b9e2c65b6a5eb5",
+    "abi.c": "923a5ea94e088e8ee4435924b38c0efaa601e4fc3b65b1964d70903491533103",
+    "gcm.c": "6af05af2af79bdd217b53133735e1d98fede157ee46ca1aac54c337a817ac586",
+    "rega.c": "167270237fb1a6a528f7f53bda895eb46074d42ac1d4a41ae9489706f10ae9ff",
+    "copy.c": "f1b6ebcb4802e2aa32239c905ae47aea0c6d1335cedcbb2a0e3aad8d18f4e06f",
+    "simpl.c": "0c14d2e5cc81bf6250a92f4c54eb8d453334100e127796b7a2e84f40b6e00254",
+    "main.c": "a6a9a128d2dc5f9db117a2d25843c0124d80609d1f1c176e3c71de188fd0ade1",
+    "gvn.c": "d09e291f14d1b777c2a27ddbf128eae02c7d649ccd88b2d180c29c2bf6b0e6a9",
+    "alias.c": "c210400e482f4ad2576d238d8cc411e0b1984ca57fb5d5ec849ed83fb6fd404f",
+    "ops.h": "39a2fe3c63ef4ab9c67d894ba83324ff6f9cdcdb3c5fe81f96efedf0350cf8ba",
+    "parse.c": "e762d78e1890af5c06daa581cfd40b30fcaa840450f32ca9cf2b141740a869da",
+    "load.c": "1b35c950499fa6c8d8a562ced54a531cd39adc384fc637922e69498e6bbb8b71",
+    "ifopt.c": "b4d49edd190dabc6b183453de5237d2ba33607739b61d6d9f1a2c8c1369f2f86",
+    "rv64/targ.c": "82668853f271d1dc20b914a2e0f402764e42951a75059ba29d4e0f77fe85cb83",
+    "rv64/isel.c": "95500527dcc4036b239b2ab62525aa1df0a645df142647756756526343a87846",
+    "rv64/all.h": "2636f565c1e4a2e4aff1fe9501c40220a4eb67e905e650f4f734ab8714d53d5f",
+    "rv64/emit.c": "4d76c3878e19a8d22a060300d43feab4fb54b589b341bb94e34d2fa4393999d3",
+    "rv64/abi.c": "c9ad2cfcb7ee56d8cd99e3cae2d4961929e099fc47f6e2b4a82162ed1fd92f22",
+    "tools/pmov.c": "3b3eb463f34424035ec79513f1ff64b749c4d382c17e4d73355508a7d9ea4964",
+    "tools/lexh.c": "4e6183a33f9abf412d7ea267897a07da4c972804d3b17d171dd68bcc2eced5d6",
+    "tools/log2.c": "ed282110b0e7cabf3e69a6fcb6c4dc44bf37369b97b904e8991211b61625db57",
+    "amd64/targ.c": "e53960a60eb5c1d3364bb8595bb64b3f5827db9436f886432de368cbb4e22211",
+    "amd64/isel.c": "049096f821fdb5035a68838f313c2f6431e8a5178a8958a9259bf566ef977eb5",
+    "amd64/all.h": "8ce357c9b3c7970a0160bc02c3ef61197bb1d469b06a93b08e0ac5b9061f55e3",
+    "amd64/emit.c": "b2563a49370154419246b11c4f6f2cd45e0f7c1327e491a2c7d2a2d4c8f8c36f",
+    "amd64/winabi.c": "abea8f315c09fc26a5df7abbbc98470a6113d08a866bbbdf7928825d10dc6ec9",
+    "amd64/sysv.c": "d7b867b243dba484924e46062ccb3ff1ca44243ad06004f8a7b8f6cd937d6ec0",
+    "minic/yacc.c": "42a71ff6fb0f5eb861923682833dbd53a3d6cdabb1f0fab8bd3cb9f0fcda4d59",
+    "arm64/targ.c": "5215bee5bae89d5d95cec3a4ddaea32ff15e6d35952c248f1d49653609c6dac7",
+    "arm64/isel.c": "3e7eab441eb37ae1cc29916586a6bfe1c55012400766e733d30dbc528f5747ef",
+    "arm64/all.h": "0c7503dd82c3efd65e1876865e4dcb2b6af287e43942cf9452ddbdd0473df52d",
+    "arm64/emit.c": "3dc7280fe44797b56c00194091d2686b90317f673b2175a87df89fa0a6f3cabf",
+    "arm64/abi.c": "1e881c0d2443e8a37b54ec9cb4474963bd5635286a5067df611e11ab250cccb5",
+    "minic/test/mandel.c": "835dc25eb3c7afb3aa0f89b2f5aa369f926990ac6b5a266511f9d49d982c1164",
+    "minic/test/knight.c": "a1b4f6c89d47c2e6ff2bff91a580a8525470ec638f02577aa4343b5e61ee128d",
+    "minic/test/queen.c": "7e01a19ba293d5c68425250cb85a613900b8e2ea77f02ae94c33b92aa0b89493",
+    "minic/test/collatz.c": "08962ec9ae1148ed40d29c9100e9ea72f4517375114cb8ad6e4f20cc5a10ccdb",
+    "minic/test/prime.c": "910ff8512e54e6b1b6fcf2a1656ecea2b3d475131c4acdb5b27fb05ac542b86c",
+    "minic/test/euler9.c": "4fcd8d845a822e7a52db18249283a5c7d87a01fb627214126c2707c15fc05f44"
+  },
+  "qbe_host_cc_version": "clang version 21.1.8\nTarget: arm64-apple-darwin\nThread model: posix\nInstalledDir: /nix/store/rr64nnycczvx7s1b110qmvqrlfcb6lsm-clang-21.1.8/bin\n",
+  "qbe_binary_sha256": "9d32ed2efb810cddab510519a1286d7f9f5110e03ae7f541441628f122a5aa27",
+  "negative_control_assembly_sha256": "c1ef4d2c7259926151562f000b9f21eddb69cab825210b155c2b9c6d92e66c52",
+  "inserted_masks_total": 130,
+  "generated_functions": 16,
+  "input_cases_per_path": 208,
+  "lcb_qualified": {
+    "seeds": 2,
+    "functions": 16,
+    "input_cases_per_path": 208
+  },
+  "original_qbe_common_qualified": {
+    "seeds": 2,
+    "functions": 16,
+    "input_cases_per_path": 208
+  }
+}
