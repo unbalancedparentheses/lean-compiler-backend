@@ -10,7 +10,14 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`11be972e96d4fc9de4c6df28cd1fe7f5ddf5c728ff01348bd6d1398eef1748b4`.
+`59bd88b6aa90e73f6a5d3778ed871c36931d6b367b3d1a3dd3a6467bc32f94dc`.
+
+[AMD64 immediate selection](benchmarks/amd-immediates/README.md) now passes
+153,900 independent C checks per mode/target and both full AMD gates. Optimized
+17-unit zlib text falls another 6.28%; exact compressed-byte and decompression
+comparisons pass. Original QBE shift/TLS failures remain separately qualified.
+The exact 991f463 full host gate completed successfully (native Apple ARM and
+Rosetta execution; Linux wrappers emission-only). Newer CI remains pending.
 
 [Libyaml 0.2.5](benchmarks/libyaml/README.md) now qualifies all 21 original
 translation units (351 functions, 70,576 IR lines) in all three LCB modes on all
@@ -25,7 +32,7 @@ The [fresh qualification](benchmarks/amd-word-normalization/README.md) passes bo
 full AMD target gates and 112,672 independent C checks per mode/target. Seventeen
 zlib units shrink by 5,322 text bytes (2.12%); executable stream checks pass.
 No timing improvement or new formal proof is claimed. Current CI is pending;
-prior 991f463 full host gate is still running independently.
+prior 991f463 full host gate has passed independently.
 
 Decimal integer magnitudes through UINT64_MAX now accept QBE modular negation
 across operand, data, layout and debug contexts. The

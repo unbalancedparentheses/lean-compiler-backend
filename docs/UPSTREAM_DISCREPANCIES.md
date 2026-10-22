@@ -294,3 +294,14 @@ overflow offset. A definition with an unused environment parameter reads stack
 varargs one byte late. The [reduced input and qualification](benchmarks/variadic-markers/README.md)
 retain unchanged original failures, independent C checks, and a separately passing
 register-only signature. Removing the environment is a diagnostic control only.
+
+## AMD64 word TLS subtraction
+
+The [minimal retained comparison](benchmarks/amd-immediates/minimal-tls-word-sub.json)
+uses a word subtraction of one from a TLS address, explicitly widened with extuw.
+All three LCB modes match independent C on Linux and macOS x86. Original QBE
+emits a Linux TPOFF32 relocation that fails default linking and an Apple
+`addq $4294967295,%rax` that fails assembly. The original reference is unchanged;
+TLS remains mandatory in the LCB immediate matrix and is excluded only from its
+separately qualified original-QBE profile. Oversized constant-shift assembler
+failures are also retained separately in that matrix's raw reports.

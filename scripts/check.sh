@@ -224,3 +224,5 @@ python3 scripts/fuzz.py --optimize "$@"
 
 python3 scripts/rv_immediates.py
 python3 scripts/amd_word_normalization.py
+python3 scripts/amd_immediates.py
+python3 scripts/emission_only.py

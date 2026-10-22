@@ -56,7 +56,9 @@ This fixture count does not mean the full port is complete.
 AMD64 word normalization now removes redundant EAX self-moves after already
 normalized operations. Both target gates and independent C matrices pass;
 [17-unit zlib measurement](docs/benchmarks/amd-word-normalization/README.md)
-records 2.12% smaller text with matching executable results. Runtime performance
+records 2.12% smaller text with matching executable results. Subsequent
+[encodable arithmetic/shift immediates](docs/benchmarks/amd-immediates/README.md)
+reduce optimized zlib text a further 6.28%, with both AMD gates passing. Runtime performance
 and broader allocation remain separate qualification work.
 
 Next bounded work, before proof expansion:

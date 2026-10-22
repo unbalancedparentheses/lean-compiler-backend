@@ -1,0 +1,39 @@
+[
+  {
+    "target": "x86_64-macos",
+    "source": "/private/tmp/lcb-amd-immediates-review/.build/review/apple-x86-expanded/amd-immediates/failed-tls-qbe-profile.ssa",
+    "source_sha256": "7d27fb48acd0c62bc4e633c3fb4bf8e2c97850ddc261b5e77a8e5697f3d00593",
+    "assembly_sha256": "37f5e03b01ce83b2ed91ba7858c8fbddcc37f1224e6a220b9cadc2e1dc3c2e75",
+    "caller_sha256": "4950f9711cd7458df526d70e7dfabfc30eb97e0cdc2cdb388d199869eb67cbd4",
+    "command": [
+      "cc",
+      "-arch",
+      "x86_64",
+      "/private/tmp/lcb-amd-immediates-review/.build/review/apple-x86-expanded/amd-immediates/failed-tls-qbe-profile.o",
+      "/private/tmp/lcb-amd-immediates-review/.build/review/apple-x86-expanded/amd-immediates/failed-tls-qbe.s",
+      "-o",
+      "/private/tmp/lcb-amd-immediates-review/.build/review/apple-x86-expanded/amd-immediates/failed-tls-reference"
+    ],
+    "returncode": 1,
+    "stderr": "/private/tmp/lcb-amd-immediates-review/.build/review/apple-x86-expanded/amd-immediates/failed-tls-qbe.s:5597:7: error: invalid operand for instruction\n addq $4294967295, %rax\n      ^~~~~~~~~~~\n"
+  },
+  {
+    "target": "x86_64-linux",
+    "source": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediates-review/amd-immediates/failed-tls-qbe-profile.ssa",
+    "source_sha256": "7d27fb48acd0c62bc4e633c3fb4bf8e2c97850ddc261b5e77a8e5697f3d00593",
+    "assembly_sha256": "fe0ce0e58f8b3e7e735493f7e0252bed93d982cdbbd7940652b91c71ffd8d770",
+    "caller_sha256": "4950f9711cd7458df526d70e7dfabfc30eb97e0cdc2cdb388d199869eb67cbd4",
+    "command": [
+      "docker",
+      "exec",
+      "lcb-parity-linux",
+      "x86_64-linux-gnu-gcc",
+      "/work/amd-immediates-review/amd-immediates/failed-tls-qbe-profile.o",
+      "/work/amd-immediates-review/amd-immediates/failed-tls-qbe.s",
+      "-o",
+      "/work/amd-immediates-review/amd-immediates/failed-tls-reference"
+    ],
+    "returncode": 1,
+    "stderr": "/tmp/ccqpe2Ib.o: in function `tls_32_sub':\n(.text+0x2560): relocation truncated to fit: R_X86_64_TPOFF32 against symbol `tls_slot' defined in .tdata section in /tmp/ccqpe2Ib.o\ncollect2: error: ld returned 1 exit status\n"
+  }
+]

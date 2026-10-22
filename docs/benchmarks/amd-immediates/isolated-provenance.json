@@ -1,0 +1,94 @@
+{
+  "status": "passed isolated candidate qualification",
+  "base_commit": "688e421",
+  "before_identity": "11be972e96d4fc9de4c6df28cd1fe7f5ddf5c728ff01348bd6d1398eef1748b4",
+  "after_identity": "59bd88b6aa90e73f6a5d3778ed871c36931d6b367b3d1a3dd3a6467bc32f94dc",
+  "compiler_sha256": "7897a897dcef6ed29217fdb2a676abe2519e75d75706e54c92cc2bd9cc8a0a4e",
+  "patches": [
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-immediates.patch",
+      "sha256": "b9d1093a132baba3996eca24747ebba7fc3a71cdee7afa9fe9a67ed6fe3702eb"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/amd-immediates-tests.patch",
+      "sha256": "bb8e14c6075d4f4a2940a6494ec74527563b4422b72681485973cc15eec0b139"
+    }
+  ],
+  "test_script": {
+    "path": "/tmp/lcb-amd-immediates-review/scripts/amd_immediates.py",
+    "sha256": "97dc178bdf0f81fc737c6639810f508feb063270790750958ef7105c159386b9"
+  },
+  "reports": [
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediates-review-final/amd-immediates/report.json",
+      "sha256": "ef0399a92375533fc48f4d3aa9c02b9d0587ba88caba1daaf4ec4b2b5465e4d3"
+    },
+    {
+      "path": "/tmp/lcb-amd-immediates-review/.build/review/apple-x86-final/amd-immediates/report.json",
+      "sha256": "89b807e15e0d56944e45ebff874157b6208bb0bdd1f7ef48cb1cbeb307eb9e44"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/report.json",
+      "sha256": "9a08c57d8395ab72fddadc9a2a2efb756b77c71cb3b5286bbb80501cad9e93a7"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/execution-report.json",
+      "sha256": "82735d1d956d208d37992de5c547e334c46897b5a3005ffb07f3018445cd5d2e"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/execution-payload-report.json",
+      "sha256": "50d54a44923635e91dac7308d501481bb07f30d65244d41327f5feef30eca6e6"
+    },
+    {
+      "path": "/tmp/lcb-amd-immediates-review/.build/review/raw-reference-report.json",
+      "sha256": "a50f726ec85f15aa07620cc535d6e018d0ea2b0a20d4fc6e5ab827c2c6630ab0"
+    },
+    {
+      "path": "/tmp/lcb-amd-immediates-review/.build/review/qbe-tls-failures.json",
+      "sha256": "05cdba226821cbe604795618128c39a430d7b056278db4daa5e58c77e20a5634"
+    }
+  ],
+  "units": {
+    "path": "/tmp/lcb-amd-immediates-review/.build/review/units.log",
+    "sha256": "954622c050293f29bf1361de3d09ea75616b21424d6c8469d9ad2acf9d1f8966"
+  },
+  "zlib_text_totals": {
+    "baseline": {
+      "units": 17,
+      "before_text_bytes": 553360,
+      "after_text_bytes": 507643,
+      "saved_bytes": 45717,
+      "saved_percent": 8.261710279022697,
+      "changed_pairs": 6007,
+      "exact_expected_transformation": true
+    },
+    "allocated": {
+      "units": 17,
+      "before_text_bytes": 334535,
+      "after_text_bytes": 313266,
+      "saved_bytes": 21269,
+      "saved_percent": 6.357780202370455,
+      "changed_pairs": 3063,
+      "exact_expected_transformation": true
+    },
+    "optimized": {
+      "units": 17,
+      "before_text_bytes": 245583,
+      "after_text_bytes": 230162,
+      "saved_bytes": 15421,
+      "saved_percent": 6.279343439896084,
+      "changed_pairs": 2597,
+      "exact_expected_transformation": true
+    }
+  },
+  "zlib_execution": {
+    "upstream_teststatic_passes": 6,
+    "gcc_and_python_payload_profiles": 72
+  },
+  "limitations": [
+    "No runtime speed measurement or claim.",
+    "Original QBE raw shift assembly failures and TLS supplement failures are retained separately; its passing profile has 573 functions/108870 checks, versus LCB 810 functions/153900 checks per mode.",
+    "All compiler changes and builds isolated; parent must qualify integrated main identity."
+  ],
+  "patch_apply_check": "Both patches apply cleanly to current main a2879ae."
+}

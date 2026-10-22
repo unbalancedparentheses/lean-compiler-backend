@@ -1,0 +1,875 @@
+{
+  "before_identity": "11be972e96d4fc9de4c6df28cd1fe7f5ddf5c728ff01348bd6d1398eef1748b4",
+  "after_identity": "59bd88b6aa90e73f6a5d3778ed871c36931d6b367b3d1a3dd3a6467bc32f94dc",
+  "before_sha256": "54280aa79aa39f6cee413bb4c1a38dcbd15aa0362731c917805410d1262f0c84",
+  "after_sha256": "7897a897dcef6ed29217fdb2a676abe2519e75d75706e54c92cc2bd9cc8a0a4e",
+  "rows": [
+    {
+      "unit": "adler32",
+      "mode": "baseline",
+      "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+      "before": {
+        "assembly_sha256": "2ea87b4dff4d93973eb43057ed1bfe3d5c2038bac63e7c2f081876575a2eea1f",
+        "text_bytes": 15305,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/adler32-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "a11296a61a2d4524479a942957273134e54557d59fedf3794febf48d85c5e1ae",
+        "text_bytes": 14617,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/adler32-baseline-after.s"
+      },
+      "changed_pairs": 120,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "adler32",
+      "mode": "allocated",
+      "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+      "before": {
+        "assembly_sha256": "55bd70a84a86b18873907e0c8f505d73ed2bbf779065d188d59d9bf33acf4cc8",
+        "text_bytes": 10562,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/adler32-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "5fe1747c63c4f18f9b8b6789a4b83949778c8a8a60a8f25681d3acbb32e97822",
+        "text_bytes": 9826,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/adler32-allocated-after.s"
+      },
+      "changed_pairs": 120,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "adler32",
+      "mode": "optimized",
+      "ir_sha256": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+      "before": {
+        "assembly_sha256": "ca92059d9c02b04f6bdab982d5e17992e4eff11a08e975d66ef86e72291506da",
+        "text_bytes": 5107,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/adler32-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "570e79cade6c669aaa2a9fbef07e027c10c7375c9fec98575829b9aa39ed0c4f",
+        "text_bytes": 4803,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/adler32-optimized-after.s"
+      },
+      "changed_pairs": 55,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "compress",
+      "mode": "baseline",
+      "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+      "before": {
+        "assembly_sha256": "94fcf0b6294dc87c947d0f75d58265700236db72ac8e4de1d06624eb3e343ed3",
+        "text_bytes": 4018,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/compress-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "9b3809a1f0d1109d4baeb55c48e4c1cf5708a1b166825097296fef0b9b216825",
+        "text_bytes": 3798,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/compress-baseline-after.s"
+      },
+      "changed_pairs": 40,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "compress",
+      "mode": "allocated",
+      "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+      "before": {
+        "assembly_sha256": "f75a827d8af81e3a0525244a44e436882866b845d00f01fbbba4ece443766ddf",
+        "text_bytes": 3098,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/compress-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "b7037994e419454ad55af02a0e0019e6a430c574e9db9db056816f5c4f786af9",
+        "text_bytes": 2974,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/compress-allocated-after.s"
+      },
+      "changed_pairs": 26,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "compress",
+      "mode": "optimized",
+      "ir_sha256": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+      "before": {
+        "assembly_sha256": "badef8138a1448df7b36e867c7a54a600887272d4cf6a66eca4d864fece9685b",
+        "text_bytes": 1998,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/compress-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "55e28afbf482b40ef10beb1fd54d3afd54144edc5b8c7982e583538a28a044f6",
+        "text_bytes": 1865,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/compress-optimized-after.s"
+      },
+      "changed_pairs": 29,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "crc32",
+      "mode": "baseline",
+      "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+      "before": {
+        "assembly_sha256": "aa3968d91da0657f9015f6f02a27654ebd5ca947a6a3ed81cac0e8f40629fbd2",
+        "text_bytes": 20916,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/crc32-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "e2de3d389af1e44d03e099736cb119281faf49baaaf41dd32b7fc18258030708",
+        "text_bytes": 19796,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/crc32-baseline-after.s"
+      },
+      "changed_pairs": 167,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "crc32",
+      "mode": "allocated",
+      "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+      "before": {
+        "assembly_sha256": "4c1b714baa80458eb460b97d52bdaf14323c622a716ac6631de6eeeb173c571e",
+        "text_bytes": 15480,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/crc32-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "b6a97a54964e870e2a74db69cef20bebcb6cd4839c84f8a1d9230b0338dfbaf1",
+        "text_bytes": 14296,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/crc32-allocated-after.s"
+      },
+      "changed_pairs": 167,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "crc32",
+      "mode": "optimized",
+      "ir_sha256": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+      "before": {
+        "assembly_sha256": "9967fbc721a7b4bedac579f2148d88b6743c52105cf9ac84d2488b5106fc25d1",
+        "text_bytes": 9684,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/crc32-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "718010dbd3e367d366b1f3d21b538b096957dee198c7491493f90cf8f6161e5d",
+        "text_bytes": 8788,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/crc32-optimized-after.s"
+      },
+      "changed_pairs": 169,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "deflate",
+      "mode": "baseline",
+      "ir_sha256": "45f5757bdc239040fa4a51949b2c9ebb0f487274da25af3808294e4802eed785",
+      "before": {
+        "assembly_sha256": "f8613c45099fa4a049da4b367c6e42732fc06d290881b25edb33e156873e8f49",
+        "text_bytes": 147191,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/deflate-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "1244560ef96787b342c988ca4d502969b2d8947661c43d51b90440089f2fa3c2",
+        "text_bytes": 133011,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/deflate-baseline-after.s"
+      },
+      "changed_pairs": 1803,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "deflate",
+      "mode": "allocated",
+      "ir_sha256": "45f5757bdc239040fa4a51949b2c9ebb0f487274da25af3808294e4802eed785",
+      "before": {
+        "assembly_sha256": "c9b947331f3f5d18b3690949562457cf00d0731857bd833e2c17b0d7ff467751",
+        "text_bytes": 78756,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/deflate-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "20e336a61c6740923ed044ecf0551c390359b2ae9062b89b4ed5d32d07136dd0",
+        "text_bytes": 73872,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/deflate-allocated-after.s"
+      },
+      "changed_pairs": 658,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "deflate",
+      "mode": "optimized",
+      "ir_sha256": "45f5757bdc239040fa4a51949b2c9ebb0f487274da25af3808294e4802eed785",
+      "before": {
+        "assembly_sha256": "e7c8b6a33f03ae320c42a8a0f2069cf258f02e9a436499045a4e7d0328973c56",
+        "text_bytes": 52679,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/deflate-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "e1f3f1956c1d69ee5c24b7f5ea856a3b3e439ee430a5c52ddd87bac77d40551d",
+        "text_bytes": 49077,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/deflate-optimized-after.s"
+      },
+      "changed_pairs": 562,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzclose",
+      "mode": "baseline",
+      "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+      "before": {
+        "assembly_sha256": "499e39158a6581ec762680f84b506d97d45c0baedea3b227c0c23be9f1bbc2e5",
+        "text_bytes": 1714,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzclose-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "908cc0a0b170f1578ffc8ca25b2d8d14d0cbd678042a50c04b24e427a381483c",
+        "text_bytes": 1625,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzclose-baseline-after.s"
+      },
+      "changed_pairs": 24,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzclose",
+      "mode": "allocated",
+      "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+      "before": {
+        "assembly_sha256": "018bd4020ba2ee45f3d11dbfd044a8bed454237335628b9bde0acc5c5e10455d",
+        "text_bytes": 1539,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzclose-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "983401ecc1e832852560ce482831a5886d34da2fbb4fa101d06b6c2a04e20b6e",
+        "text_bytes": 1427,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzclose-allocated-after.s"
+      },
+      "changed_pairs": 23,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzclose",
+      "mode": "optimized",
+      "ir_sha256": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+      "before": {
+        "assembly_sha256": "0827899c852dbfbc82e07b7a743aed801c4c4306fb5eaa4fd8ce91667e2e89c3",
+        "text_bytes": 1004,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzclose-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "8a8345640492f39f9b193c923e9bf8dbdba2868cdfad226ee17b2220b3faab42",
+        "text_bytes": 908,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzclose-optimized-after.s"
+      },
+      "changed_pairs": 23,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzlib",
+      "mode": "baseline",
+      "ir_sha256": "30c35e28efd706c389fc26148e30a5e5c395152023ab621c2e86a488d8855a10",
+      "before": {
+        "assembly_sha256": "e980a182e999a2ad650ce32f970d679acb3ed50579935bf876db91d12071a894",
+        "text_bytes": 21421,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzlib-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "9de1eeab324e23e975b0aa844723cb6da46da67e57fe4273bea11da5898a2ed0",
+        "text_bytes": 19997,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzlib-baseline-after.s"
+      },
+      "changed_pairs": 171,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzlib",
+      "mode": "allocated",
+      "ir_sha256": "30c35e28efd706c389fc26148e30a5e5c395152023ab621c2e86a488d8855a10",
+      "before": {
+        "assembly_sha256": "feeac047d5f9e2cf26ffc9104716e46d7139bccea34ef1fd3ea974384da3a1d7",
+        "text_bytes": 13741,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzlib-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "2a58332f39d2ff3e0cbbfd65685306997a3bd8e90d03e078132de0b11f891af7",
+        "text_bytes": 13389,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzlib-allocated-after.s"
+      },
+      "changed_pairs": 53,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzlib",
+      "mode": "optimized",
+      "ir_sha256": "30c35e28efd706c389fc26148e30a5e5c395152023ab621c2e86a488d8855a10",
+      "before": {
+        "assembly_sha256": "47161174cb16d11ceb981d8d31eb337f44099d63f4d97b07dd882459d7e45af9",
+        "text_bytes": 9149,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzlib-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "e1a0050af71466a55b2f7c80fab701040e4503a433e876e8905219d7fe0433a9",
+        "text_bytes": 8813,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzlib-optimized-after.s"
+      },
+      "changed_pairs": 53,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzread",
+      "mode": "baseline",
+      "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+      "before": {
+        "assembly_sha256": "066966a4e55ce028bbefd8c2c301d7d1569d9aa6e132b91567bba5537e507b85",
+        "text_bytes": 29449,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzread-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "5b3c73da4cfc05cda69fb2844b4d2a98026e6931e7a9d3a4fad22f8cfc2df1fd",
+        "text_bytes": 26803,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzread-baseline-after.s"
+      },
+      "changed_pairs": 316,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzread",
+      "mode": "allocated",
+      "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+      "before": {
+        "assembly_sha256": "481142e59c44990cef39b10bc31f7ade013b40c630531eacd272aeb8fd84ac33",
+        "text_bytes": 18605,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzread-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "40e5f064d9af134074edc23f09a0db64e92536bdfaef0ba6ed8ced3b67656760",
+        "text_bytes": 17430,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzread-allocated-after.s"
+      },
+      "changed_pairs": 149,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzread",
+      "mode": "optimized",
+      "ir_sha256": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+      "before": {
+        "assembly_sha256": "b55e1f408e9216e064316ec74a3bbdc9d0558d7d33ac6ec7eef7aa812f0793a4",
+        "text_bytes": 11410,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzread-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "a9c52276b463ecb678cf0ea25f436b888a80137c323935aef3e96c382aa00b95",
+        "text_bytes": 10827,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzread-optimized-after.s"
+      },
+      "changed_pairs": 82,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzwrite",
+      "mode": "baseline",
+      "ir_sha256": "4763e615e6f614278c716e8157d99141e283026463474b8a0d8f192a1860b9d0",
+      "before": {
+        "assembly_sha256": "d586a172a4f9decf0ea203b1c1f06276be7ccde4e38ee7276ae13d70a8912ea6",
+        "text_bytes": 26863,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzwrite-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "e815f34b59752dcc1e0bdcbd26103848db276d1c131cbf4af734ce2e375d0c3e",
+        "text_bytes": 24860,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzwrite-baseline-after.s"
+      },
+      "changed_pairs": 245,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzwrite",
+      "mode": "allocated",
+      "ir_sha256": "4763e615e6f614278c716e8157d99141e283026463474b8a0d8f192a1860b9d0",
+      "before": {
+        "assembly_sha256": "136567572e27b7684d042361352b88b4caf6f9ced6ed445c2e5a412c94985340",
+        "text_bytes": 17041,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzwrite-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "c3e34270af90a68ca7b6700059719ab392ba97c4adea6c3f32b75c8ee8685bed",
+        "text_bytes": 16474,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzwrite-allocated-after.s"
+      },
+      "changed_pairs": 83,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "gzwrite",
+      "mode": "optimized",
+      "ir_sha256": "4763e615e6f614278c716e8157d99141e283026463474b8a0d8f192a1860b9d0",
+      "before": {
+        "assembly_sha256": "beeedaf59a795c0efba6bd994878ed5c6cf4fe07f28d4ba37df12198292fdcb2",
+        "text_bytes": 10524,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzwrite-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "21b1cb00f406086afff18061894220ea0c45402b74967d13e82e396c46801603",
+        "text_bytes": 10108,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/gzwrite-optimized-after.s"
+      },
+      "changed_pairs": 67,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "infback",
+      "mode": "baseline",
+      "ir_sha256": "598c146de35089a3b6963cb08e0a30fe09be3018e9bea2901797439f42fce671",
+      "before": {
+        "assembly_sha256": "2e1cc92ef5691c320f5fcedee9a99ce92ce4a7309bbef957396ea33633c1c34f",
+        "text_bytes": 39073,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/infback-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "5f05eb493f88b80de61020eca62a91ad7121897e673f8dfc1b3fda8fe3046915",
+        "text_bytes": 35979,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/infback-baseline-after.s"
+      },
+      "changed_pairs": 421,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "infback",
+      "mode": "allocated",
+      "ir_sha256": "598c146de35089a3b6963cb08e0a30fe09be3018e9bea2901797439f42fce671",
+      "before": {
+        "assembly_sha256": "a5ce2391b9651afeecedfcb48bd4c5917061036138c0e8cbc1e517da1930c80c",
+        "text_bytes": 22499,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/infback-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "0c826e68818e25e7d35df861f47a768bac00c188113b2ed9f7831acfe13959cc",
+        "text_bytes": 21299,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/infback-allocated-after.s"
+      },
+      "changed_pairs": 200,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "infback",
+      "mode": "optimized",
+      "ir_sha256": "598c146de35089a3b6963cb08e0a30fe09be3018e9bea2901797439f42fce671",
+      "before": {
+        "assembly_sha256": "d9f7c33a9bc6ba5450bd29e7a3b375bbb144998b8b02477fb46239c451d0b736",
+        "text_bytes": 21718,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/infback-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "c7ba33d496696b6a44558f7221102b8cc11b0678a3bde0b1d95848f9a2c287c6",
+        "text_bytes": 20573,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/infback-optimized-after.s"
+      },
+      "changed_pairs": 199,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inffast",
+      "mode": "baseline",
+      "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+      "before": {
+        "assembly_sha256": "77fbd7151fd1fd03ec81e5838dd7d99112a81be07e5f414a12fb7f778dad435f",
+        "text_bytes": 15557,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inffast-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "0cb2be365dab71f743b8e53dae4f96a90bc547dddff26c81487fe9d653cdd9fb",
+        "text_bytes": 14509,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inffast-baseline-after.s"
+      },
+      "changed_pairs": 146,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inffast",
+      "mode": "allocated",
+      "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+      "before": {
+        "assembly_sha256": "4d76056fdbca8b02b5395db60afbf79a5b9175474e268cb490bde19b085a43ce",
+        "text_bytes": 9558,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inffast-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "9f89f2a73a0301000c0182d561d71d7508556f8e508fac16da042a6d4749902e",
+        "text_bytes": 8818,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inffast-allocated-after.s"
+      },
+      "changed_pairs": 107,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inffast",
+      "mode": "optimized",
+      "ir_sha256": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+      "before": {
+        "assembly_sha256": "93a4d36ce6f3161d2b89269c5d593387efc5cdbbeee0750d132bafb04187af70",
+        "text_bytes": 8643,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inffast-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "8c8888e464537b63a5d5e46ab4280dc6deee361c8fc378b4b187cba3a0cc12f5",
+        "text_bytes": 8080,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inffast-optimized-after.s"
+      },
+      "changed_pairs": 94,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inflate",
+      "mode": "baseline",
+      "ir_sha256": "3bd1f722d54467e82999a9f548d06823878b3c596672f984d6cd2ea707aff900",
+      "before": {
+        "assembly_sha256": "00d0f493c61878196f5c83776a8bf7e6177ba39698fa715d76f322eb99961f6c",
+        "text_bytes": 87293,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inflate-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "dab0b4ff4dfa2501926c5e7146cf0164c58427d22d01712413361445fe3b11b7",
+        "text_bytes": 79606,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inflate-baseline-after.s"
+      },
+      "changed_pairs": 992,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inflate",
+      "mode": "allocated",
+      "ir_sha256": "3bd1f722d54467e82999a9f548d06823878b3c596672f984d6cd2ea707aff900",
+      "before": {
+        "assembly_sha256": "74a79466e98cb3e94465f8688331180471aaf2befc424448c8a14348e6984f67",
+        "text_bytes": 49202,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inflate-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "13ce41936cbc0e09a4925cb6a14bba36d92bd9a91716370b5f19cb76c3c7dc10",
+        "text_bytes": 46795,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inflate-allocated-after.s"
+      },
+      "changed_pairs": 393,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inflate",
+      "mode": "optimized",
+      "ir_sha256": "3bd1f722d54467e82999a9f548d06823878b3c596672f984d6cd2ea707aff900",
+      "before": {
+        "assembly_sha256": "ebc74f411195a7642fd5d005a1fc8780cfa0c0554f17efead944aa7db270f903",
+        "text_bytes": 52335,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inflate-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "07b914d6a894ebfec3833de8208a62023b10774457bd99b627ae0a846915dbf1",
+        "text_bytes": 49944,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inflate-optimized-after.s"
+      },
+      "changed_pairs": 399,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inftrees",
+      "mode": "baseline",
+      "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+      "before": {
+        "assembly_sha256": "85384ffd0ba4324cc74a5aad2106d35f7b02e221f4abd9bbe9d87fef37c43fc1",
+        "text_bytes": 12451,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inftrees-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "5f8a6133f673198bca7e4fa0901b0e0337cae16ddcec5ed6ef0a41ed055c519a",
+        "text_bytes": 11730,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inftrees-baseline-after.s"
+      },
+      "changed_pairs": 102,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inftrees",
+      "mode": "allocated",
+      "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+      "before": {
+        "assembly_sha256": "2603245135cad7914b65b3d207f93fd74e2eccd89c66112d560474a5c42e9e1a",
+        "text_bytes": 8407,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inftrees-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "f9cdea9e0b1e5defd408bc1fe4fd7bcd6b29d65aad6605b57f6f5b509ce92aac",
+        "text_bytes": 7795,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inftrees-allocated-after.s"
+      },
+      "changed_pairs": 86,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "inftrees",
+      "mode": "optimized",
+      "ir_sha256": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+      "before": {
+        "assembly_sha256": "e7d2cc0f735d72ea441462930b5f3e44dd0965466abc3e25d1bbdfd81d4dbe42",
+        "text_bytes": 6580,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inftrees-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "18f5903d2fc2a2ad7b0efcbc1e75ddabfcfd371fe49f7a245190644979226f88",
+        "text_bytes": 6172,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/inftrees-optimized-after.s"
+      },
+      "changed_pairs": 82,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "test-example",
+      "mode": "baseline",
+      "ir_sha256": "cd04ed3492753ffbe5ffe74bbfd3a2cac03af92d78ad6dbb957e7418cf24fce3",
+      "before": {
+        "assembly_sha256": "cdf05deacd431d91ba3a99f2e372991eefd62edd52ef99c40419c981fc04e906",
+        "text_bytes": 22284,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-example-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "c1325cdb7a4252faaaade4d321dab8a248d67cb41a6fa0da065054010447a148",
+        "text_bytes": 21392,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-example-baseline-after.s"
+      },
+      "changed_pairs": 115,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "test-example",
+      "mode": "allocated",
+      "ir_sha256": "cd04ed3492753ffbe5ffe74bbfd3a2cac03af92d78ad6dbb957e7418cf24fce3",
+      "before": {
+        "assembly_sha256": "d31ee4fc15152762591225a1fa9203fd97a9885bdb84200b7ccb97bc52048958",
+        "text_bytes": 16348,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-example-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "16bc92c19a5f69ba97db28abcd9daa74ef4eff96f5837346baecda81fd03d10b",
+        "text_bytes": 16146,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-example-allocated-after.s"
+      },
+      "changed_pairs": 38,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "test-example",
+      "mode": "optimized",
+      "ir_sha256": "cd04ed3492753ffbe5ffe74bbfd3a2cac03af92d78ad6dbb957e7418cf24fce3",
+      "before": {
+        "assembly_sha256": "74dd02daec117af1b750754097758c562809d51ffb8cfd261148d42074137406",
+        "text_bytes": 11873,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-example-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "b2ec05f60e2f60ad807ad8a90076a65e9e419c8e23ac20b0e5e8b72c351545cf",
+        "text_bytes": 11665,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-example-optimized-after.s"
+      },
+      "changed_pairs": 41,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "test-minigzip",
+      "mode": "baseline",
+      "ir_sha256": "1c204a34893c6dc36a939dcf4d382ff002034aa86534cf99556b238148069b66",
+      "before": {
+        "assembly_sha256": "a22e69620b507dea71b9730b6bd9ac95edb44b43d98887e5f96747788f4bf167",
+        "text_bytes": 10470,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-minigzip-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "130bbcdee3bebb5e995f8fd6bd978087efa184df6d4aacab75ae3bbcb5c6ddac",
+        "text_bytes": 10154,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-minigzip-baseline-after.s"
+      },
+      "changed_pairs": 48,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "test-minigzip",
+      "mode": "allocated",
+      "ir_sha256": "1c204a34893c6dc36a939dcf4d382ff002034aa86534cf99556b238148069b66",
+      "before": {
+        "assembly_sha256": "be28c1fa02fae5001ac5f177067bbb8abd9696fad0e9c08f56e822c52183365d",
+        "text_bytes": 8179,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-minigzip-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "cec23584d63b1f990b978b66ff9a38985b23ae4ff481f99ee282fd36ce38f270",
+        "text_bytes": 7847,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-minigzip-allocated-after.s"
+      },
+      "changed_pairs": 48,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "test-minigzip",
+      "mode": "optimized",
+      "ir_sha256": "1c204a34893c6dc36a939dcf4d382ff002034aa86534cf99556b238148069b66",
+      "before": {
+        "assembly_sha256": "2387ad1d652bdcdfbcfdff3efeea9d1f0bea24d681432b0412b3780b00d20d24",
+        "text_bytes": 5566,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-minigzip-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "1917b8c8975eba393a39420209c52a4fb53e44c9e5c91633dabbdb24648f2e39",
+        "text_bytes": 5397,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/test-minigzip-optimized-after.s"
+      },
+      "changed_pairs": 33,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "trees",
+      "mode": "baseline",
+      "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+      "before": {
+        "assembly_sha256": "bda58428824644b37d6a8ad88abfe51892d5165635e718de65176b4501a19951",
+        "text_bytes": 90536,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/trees-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "d01da3ed3c79e4a304ed0e782200516685132629efef1cdbd458b3e45717fe54",
+        "text_bytes": 81299,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/trees-baseline-after.s"
+      },
+      "changed_pairs": 1224,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "trees",
+      "mode": "allocated",
+      "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+      "before": {
+        "assembly_sha256": "7782c38482f5374f631f2a6328d5048515041bc28634ecd1d851dcfe86631c0c",
+        "text_bytes": 55014,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/trees-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "f04c7654de8ec573ba9ee390c50ba7ddd1ecb0892af0179a309da6fabd81db34",
+        "text_bytes": 48660,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/trees-allocated-after.s"
+      },
+      "changed_pairs": 856,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "trees",
+      "mode": "optimized",
+      "ir_sha256": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+      "before": {
+        "assembly_sha256": "91ebbce4a13a07b6af34a9dd468a6af597aafb1fb840bd248b5866773c5c9adb",
+        "text_bytes": 33712,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/trees-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "43c3bab2806d8cb73efad55d155e755c592a6adbc5c568a759173b98d353dc45",
+        "text_bytes": 29765,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/trees-optimized-after.s"
+      },
+      "changed_pairs": 660,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "uncompr",
+      "mode": "baseline",
+      "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+      "before": {
+        "assembly_sha256": "a623039f5a8393bcae95de84c77d201182436dfb26c48de84710f526bbe85217",
+        "text_bytes": 4612,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/uncompr-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "5474ee937de66afec73ab68693b58e22ef9e433d0512a02b51c1189fd0a3f4a2",
+        "text_bytes": 4372,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/uncompr-baseline-after.s"
+      },
+      "changed_pairs": 40,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "uncompr",
+      "mode": "allocated",
+      "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+      "before": {
+        "assembly_sha256": "a6757ef3123b3a9dd019f7d21316c77cc4d8e228864ce93ccdec02c41386f4ae",
+        "text_bytes": 3264,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/uncompr-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "9330a4ca06b187e5d06e252c4e9ed4c0f565ef86a16df6ef73871454f0048cd9",
+        "text_bytes": 3152,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/uncompr-allocated-after.s"
+      },
+      "changed_pairs": 23,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "uncompr",
+      "mode": "optimized",
+      "ir_sha256": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+      "before": {
+        "assembly_sha256": "5a6756190d3c7799b302778271c32f8f74c4de459bd4891cfc5bb6873ba846c7",
+        "text_bytes": 2345,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/uncompr-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "83685e2a826d6d135d51992aa141a7f4e044d9a2b14ff5e0d23dbfe9bcfbab89",
+        "text_bytes": 2233,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/uncompr-optimized-after.s"
+      },
+      "changed_pairs": 25,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "zutil",
+      "mode": "baseline",
+      "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+      "before": {
+        "assembly_sha256": "87b5238d170a839e7cc51b234bd5a66928868167da01aab951ddcb5ec988d51d",
+        "text_bytes": 4207,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/zutil-baseline-before.s"
+      },
+      "after": {
+        "assembly_sha256": "0dd30fdd340f33749c136341f449f6344742de703ec0e437013dfb6ba986f827",
+        "text_bytes": 4095,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/zutil-baseline-after.s"
+      },
+      "changed_pairs": 33,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "zutil",
+      "mode": "allocated",
+      "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+      "before": {
+        "assembly_sha256": "af83f0dafc6322c56e8d59441ec26e527b5ff42f3e1dd31079efbd0fa71a6c08",
+        "text_bytes": 3242,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/zutil-allocated-before.s"
+      },
+      "after": {
+        "assembly_sha256": "e1ecd1e55acb482be905bb8a6cb9ee41119b479dabd0f92f9cf363f6d242b6a6",
+        "text_bytes": 3066,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/zutil-allocated-after.s"
+      },
+      "changed_pairs": 33,
+      "exact_expected_transformation": true
+    },
+    {
+      "unit": "zutil",
+      "mode": "optimized",
+      "ir_sha256": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+      "before": {
+        "assembly_sha256": "d604726fb1c293cd15fcd8b2f076207a4439f798eb6f4029f75056ee55556fab",
+        "text_bytes": 1256,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/zutil-optimized-before.s"
+      },
+      "after": {
+        "assembly_sha256": "41a551819abfcac826125ab21a18d63431d23963ca8f5c34bed4d414a2087dbe",
+        "text_bytes": 1144,
+        "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/amd-immediate-zlib-review/zutil-optimized-after.s"
+      },
+      "changed_pairs": 24,
+      "exact_expected_transformation": true
+    }
+  ]
+}

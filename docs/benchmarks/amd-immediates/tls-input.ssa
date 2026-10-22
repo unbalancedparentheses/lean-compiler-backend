@@ -1,0 +1,7 @@
+export thread data $slot = { l 19 }
+export function l $tls_sub() {
+@start
+ %v =w sub thread $slot, 1
+ %r =l extuw %v
+ ret %r
+}

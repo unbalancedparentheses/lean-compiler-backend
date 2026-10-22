@@ -186,6 +186,30 @@ private def comparisonFlags (c : Context) (width : Width) (x y : Operand)
   return (← load c width "rax" x) ++ (← load c width "rcx" y) ++
     [s!"\tcmp{suffix width} {reg width "rcx"}, {reg width "rax"}"]
 
+/-- Arithmetic immediates are sign-extended from 32 bits in long operations.
+    Word operations accept every low-32-bit pattern. Shift counts have exactly
+    the same modulo-width semantics as the existing register-count form. -/
+private def binaryImmediate (w : Width) (op : Binary) (n : Int) : Option String := do
+  let s := suffix w
+  let destination := reg w "rax"
+  let value := Semantics.signedBits w.bits (Semantics.constant w n)
+  let shift := (Semantics.constant (op.rhsWidth w) n).toNat % w.bits
+  match op with
+  | .shiftLeft => return s!"\tshl{s} ${shift}, {destination}"
+  | .logicalRight => return s!"\tshr{s} ${shift}, {destination}"
+  | .arithmeticRight => return s!"\tsar{s} ${shift}, {destination}"
+  | _ => pure ()
+  if value < -(2 ^ 31 : Int) || value >= 2 ^ 31 then none
+  else
+    match op with
+    | .mul => some s!"\timul{s} ${value}, {destination}, {destination}"
+    | .add => some s!"\tadd{s} ${value}, {destination}"
+    | .sub => some s!"\tsub{s} ${value}, {destination}"
+    | .andBits => some s!"\tand{s} ${value}, {destination}"
+    | .orBits => some s!"\tor{s} ${value}, {destination}"
+    | .xorBits => some s!"\txor{s} ${value}, {destination}"
+    | _ => none
+
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
   let w := inst.width
   let s := suffix w
@@ -195,12 +219,19 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
   match inst.operation with
   | .copy x | .cast x => lines := ← load c w "rax" x
   | .binary op x y =>
-    lines := (← load c w "rax" x) ++ (← load c (op.rhsWidth w) "rcx" y)
-    let mnemonic := match op with
-      | .add => "add" | .sub => "sub" | .mul => "imul" | .andBits => "and" | .orBits => "or" | .xorBits => "xor"
-      | .shiftLeft => "shl" | .logicalRight => "shr" | .arithmeticRight => "sar"
-    let operand := match op with | .shiftLeft | .logicalRight | .arithmeticRight => "%cl" | _ => b
-    lines := lines ++ [s!"\t{mnemonic}{s} {operand}, {a}"]
+    let immediate := match y with
+      | .constant n => binaryImmediate w op n
+      | _ => none
+    lines := ← load c w "rax" x
+    if let some instruction := immediate then
+      lines := lines ++ [instruction]
+    else
+      lines := lines ++ (← load c (op.rhsWidth w) "rcx" y)
+      let mnemonic := match op with
+        | .add => "add" | .sub => "sub" | .mul => "imul" | .andBits => "and" | .orBits => "or" | .xorBits => "xor"
+        | .shiftLeft => "shl" | .logicalRight => "shr" | .arithmeticRight => "sar"
+      let operand := match op with | .shiftLeft | .logicalRight | .arithmeticRight => "%cl" | _ => b
+      lines := lines ++ [s!"\t{mnemonic}{s} {operand}, {a}"]
   | .unary op x => lines := (← load c (op.inputWidth w) "rax" x) ++ extend w op
   | .divide op x y =>
     lines := (← load c w "rax" x) ++ (← load c w "rcx" y)
