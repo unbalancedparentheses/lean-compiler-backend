@@ -6,6 +6,18 @@ import LeanCompilerBackend.Validate
 
 namespace LeanCompilerBackend.SSA
 
+/-- Choose the shortest underscore extension which prefixes no existing name.
+    A single sparse name may contain arbitrarily many underscores, so counting
+    names does not bound the required suffix length. Scan each matching name once. -/
+def freshNamePrefix (base : String) (names : Array String) : String := Id.run do
+  let mut count := 0
+  for name in names do
+    if name.startsWith base then
+      let depth := ((name.toList.drop base.length).takeWhile (· == '_')).length
+      count := max count (depth + 1)
+  return base ++ String.ofList (List.replicate count '_')
+
+
 private abbrev Bindings := List (String × String)
 
 private structure Plan where
@@ -177,9 +189,7 @@ def construct (f : Function) : Except String Function := do
     for phi in block.phis do types ← addType types phi.destination phi.width phi.floating
     for statement in block.instructions do
       if let .assign inst := statement then types ← addType types inst.destination inst.width inst.floating
-  let mut namePrefix := "lcb.ssa."
-  for _ in [:names.length + 1] do
-    if names.any (·.startsWith namePrefix) then namePrefix := namePrefix ++ "_"
+  let namePrefix := freshNamePrefix "lcb.ssa." names.toArray
   let build : M Function := do
     let parameters ← f.parameters.mapM fun p => do
       let name ← fresh

@@ -116,6 +116,8 @@ def main():
     large_object_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from memory_promotion import exercise as memory_tests
     memory_tests(compiler,work,run,cc,'x86_64-macos',execute)
+    from prefix_collisions import exercise as prefix_collision_tests
+    prefix_collision_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from extern_flags import exercise as flags_tests
     flags_tests(compiler,work,run,cc,qbe,'x86_64-macos','amd64_apple',execute)
     from allocation import exercise as allocation_tests

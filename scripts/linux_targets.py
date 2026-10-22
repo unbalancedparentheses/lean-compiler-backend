@@ -126,6 +126,8 @@ def main():
     large_object_tests(compiler,work,run,cc,args.target,execute)
     from memory_promotion import exercise as memory_tests
     memory_tests(compiler,work,run,cc,args.target,execute)
+    from prefix_collisions import exercise as prefix_collision_tests
+    prefix_collision_tests(compiler,work,run,cc,args.target,execute)
     if args.target == 'x86_64-linux':
         from extern_flags import exercise as flags_tests
         flags_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)

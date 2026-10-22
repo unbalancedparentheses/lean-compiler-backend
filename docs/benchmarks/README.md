@@ -831,5 +831,22 @@ measured compile-time improvement.
 and unchanged QBE, with the corrupted-return control detected.
 [Optimized target gates](cse-profit-targets.json) pass 58 original executable
 fixtures and 17 assembly-only fixtures per Linux target, together with independent
-ABI/memory checks; ARM64 is native and x86/RV use QEMU. The full host gate is still
-running at publication; its final result will be recorded in the next checkpoint.
+ABI/memory checks; ARM64 is native and x86/RV use QEMU. The full host gate subsequently finished successfully; the corrected CSE test
+source was separately rebuilt and its fresh unit executable passed.
+
+
+## Sparse generated-name correction
+
+[Current-identity validation](prefix-collision/validation.json) fixes an existing
+promotion miscompile: the [minimal input](prefix-collision/sparse.ssa) returned 6
+under optimization instead of the independent C/QBE result 110. Symbol hoisting
+also rejected valid sparse-name inputs. One linear prefix-selection helper now
+serves SSA construction, promotion and symbol hoisting. All five targets pass
+2,560 independent C cases per mode, with original-QBE comparison on Apple ARM
+and Apple x86; Linux ARM is native, Linux x86/RV use QEMU, Apple x86 uses Rosetta.
+The [ordinary corpus comparison](prefix-collision/assembly-equivalence.json)
+retains 1,305 byte-identical assemblies and 15 matching refusals.
+
+This bug passed the existing SSA/allocation checks: those check the transformed
+IR, not semantic preservation of the source program. The independent oracle
+regression addresses this concrete error without establishing an end-to-end proof.

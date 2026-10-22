@@ -10,13 +10,31 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`1d6efcd4a97eac98b7c6140cbf62de6fce00df1edd265fd59f3092d9f5ff93d6`.
-The current implementation limits common-expression reuse to values already live
-at the use or definitions encountered within eight instructions. This is a
-profitability heuristic, not a register-pressure or preservation proof. Published
-historical reports retain their own identities; inspect Git for checkpoint SHAs.
+`6d5042d15a30f932da7a92ad5e0c5aaaf1f76df5445e84419ae31036b7bcb685`.
+The current implementation fixes generated-name selection in SSA construction,
+scalar memory promotion and symbol-address hoisting. A sparse deeply underscored
+name could exhaust the old bounded prefix search. In promotion this merged a
+source value with a generated mutable variable and silently changed a result
+from 110 to 6; in symbol hoisting it rejected a valid program as duplicate SSA.
+The new shared helper scans matching names once and chooses the shortest
+underscore prefix that cannot prefix any original name. Allocation order,
+normal program output and certified-profile bounds are unchanged.
 
-## CSE profitability checkpoint
+The [minimal retained reproduction](benchmarks/prefix-collision/sparse.ssa),
+[independent C caller](benchmarks/prefix-collision/caller.c) and
+[old current-compiler result](benchmarks/prefix-collision/before-current.json)
+show the pre-existing wrong-code case. The generated independent regression
+covers sparse local/parameter names, a second promoted object, deep names,
+mutable SSA and symbol hoisting; it is integrated into the host and target gates.
+[Current-identity validation](benchmarks/prefix-collision/validation.json) passes
+fresh build/units, 2,560 independent C cases per mode on all five targets, and the
+three complete optimized Linux gates. Apple ARM/Linux ARM are native; Apple x86
+uses Rosetta and Linux x86/RV use QEMU. Original-QBE prefix comparisons pass on
+the two Apple targets. The ordinary corpus retains 1,305 byte-identical assemblies
+and 15 matching refusals; the known old collision cases intentionally change.
+No new preservation theorem is claimed.
+
+## Preceding CSE profitability checkpoint
 
 The [unchanged large-structure program](benchmarks/large-struct-cse-profit.json)
 passes GCC O0/O2, unchanged QBE and all three LCB modes with checksum
@@ -51,7 +69,7 @@ the result explicitly, `lake build lcb-tests` and the freshly rebuilt unit suite
 pass, and the compiler executable hash is unchanged. Runtime/benchmark evidence
 is unaffected. A separately discovered pre-existing sparse generated-name
 collision can change optimized output (baseline/QBE 110 versus optimized 6);
-a dedicated correction and regression are the next priority, before more tuning.
+the correction and dedicated regression are described above.
 
 ## Debug records and instruction budgets
 
@@ -543,9 +561,9 @@ CI is green through the previous `2532f6d` checkpoint (run `39711219361`),
 including the Linux ARM64, Linux x86-64 and macOS jobs. The CSE profitability
 checkpoint passes units, proof audit, the three optimized Linux gates and a fresh
 64-seed native differential fuzz campaign (512 functions / 4,608 input cases,
-including a detected corruption control). Its complete host regression gate is
-still running at publication, currently in Rosetta fixture execution; record the
-final result in the next checkpoint. CI for this new checkpoint is not yet known.
+including a detected corruption control). Its complete host regression gate subsequently finished successfully. CI for
+the corrected test checkpoint `b1164ec` (run `39716100341`) is fully green on Linux ARM64, Linux x86-64 and macOS. The new prefix-fix CI
+is not yet known.
 No proof scope is expanded.
 
 ## Next work

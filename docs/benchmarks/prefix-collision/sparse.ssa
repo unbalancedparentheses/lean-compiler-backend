@@ -1,0 +1,9 @@
+export function l $sparse(l %x,l %y) {
+@start
+ %p =l alloc8 8
+ %lcb.mem._______0 =l add %y,100
+ storel %x,%p
+ %v =l loadl %p
+ %r =l add %v,%lcb.mem._______0
+ ret %r
+}

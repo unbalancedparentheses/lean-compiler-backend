@@ -111,9 +111,7 @@ def promote (f : Function) : Function := Id.run do
     (indices[name]?).bind fun i => if candidates[i]!.valid && candidates[i]!.kind.isSome then some i else none
   if !candidates.any (fun c => c.valid && c.kind.isSome) then return f
   let names := f.locals.map (·.1)
-  let mut namePrefix := "lcb.mem."
-  for _ in [:names.size+1] do
-    if names.any (·.startsWith namePrefix) then namePrefix := namePrefix ++ "_"
+  let namePrefix := SSA.freshNamePrefix "lcb.mem." names
   let variableName := fun i => namePrefix ++ toString i
   let mut blocks := #[]
   for block in f.blocks do

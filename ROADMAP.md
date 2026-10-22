@@ -222,6 +222,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Mutable input now receives deterministic renaming and on-demand phi insertion;
   constructed output passes the existing type/dominance validator. Undefined
   incoming values and inconsistent mutable types are explicitly rejected.
+  SSA, promotion and symbol hoisting share a collision-free generated prefix
+  selected by scanning original names; sparse deeply underscored-name regressions
+  cover the previous promotion miscompile and symbol-hoisting refusal.
   Indexed CFG/predecessor tables, packed-set dominance, definition/reaching-value
   caches and large native SSA-slot addressing are implemented. Compatibility now
   admits 4096 blocks and 70000 instructions/phis (600000 module tokens), independently of first-path limits.
@@ -240,7 +243,9 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   Constant branches use word semantics; unreachable blocks and obsolete phi
   edges are removed, with bounded rounds to expose newly constant phis.
   Dominance-aware common integer-expression elimination reuses identical pure
-  definitions without merging sibling branches or memory operations. Conservative
+  definitions without merging sibling branches or memory operations. Reuse is
+  limited to already-live values or nearby definitions to avoid the measured
+  large-copy live-range explosion; this is a profitability heuristic. Conservative
   scalar promotion replaces initialized, nonescaping exact-width 1/2/4/8-byte entry
   objects with SSA values, preserving narrow-store truncation and load signedness; trivial-phi cleanup removes redundant merge copies.
   Escaped, partial, mixed-class and potentially uninitialized objects stay in memory.

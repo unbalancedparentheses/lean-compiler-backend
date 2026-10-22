@@ -1,5 +1,6 @@
 /- Common addresses of module-defined, non-TLS data in the optional optimizer. -/
 import LeanCompilerBackend.Optimize.Cleanup
+import LeanCompilerBackend.SSA
 
 namespace LeanCompilerBackend.Optimize.Symbols
 
@@ -26,9 +27,7 @@ def hoist (globals : Array String) (f : Function) : Function := Id.run do
   let instructions := f.blocks.foldl (fun n b => n+b.instructions.size+b.phis.size) 0
   if instructions+shared.size > maxCompatibilityInstructions then return f
   let names := f.locals.map (·.1)
-  let mut namePrefix := "lcb.symbol."
-  for _ in [:names.size+1] do
-    if names.any (·.startsWith namePrefix) then namePrefix := namePrefix ++ "_"
+  let namePrefix := SSA.freshNamePrefix "lcb.symbol." names
   let mut replacements : Std.HashMap String String := {}
   let mut copies : Array Statement := #[]
   for i in [:shared.size] do

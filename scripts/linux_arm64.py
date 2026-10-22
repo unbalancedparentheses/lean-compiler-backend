@@ -160,6 +160,8 @@ def main():
     large_object_tests(compiler,work,run,cc,'aarch64-linux',native)
     from memory_promotion import exercise as memory_tests
     memory_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from prefix_collisions import exercise as prefix_collision_tests
+    prefix_collision_tests(compiler,work,run,cc,'aarch64-linux',native)
     from allocation import exercise as allocation_tests
     allocation_tests(compiler,work,run,cc,'aarch64-linux',native,optimized_only=args.optimize)
     from instruction_selection import exercise as selection_tests

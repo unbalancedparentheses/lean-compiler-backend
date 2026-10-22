@@ -1,0 +1,33 @@
+{
+  "compiler_identity": "6d5042d15a30f932da7a92ad5e0c5aaaf1f76df5445e84419ae31036b7bcb685",
+  "build": "lake build lcb lcb-tests: exit 0",
+  "units": "fresh lcb-tests: exit 0",
+  "optimized_linux_gates": {
+    "aarch64-linux": {
+      "exit": 0,
+      "log_sha256": "3e3747f5476d5448e3a0d2f314878f101486d938943f3f4e01cbec6976e2a586",
+      "summary": [
+        "Linux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True",
+        "Actual compiler emission modes: {'baseline': 16, 'allocated': 11, 'optimized': 108}"
+      ]
+    },
+    "x86_64-linux": {
+      "exit": 0,
+      "log_sha256": "093251b344eefc68ea5934fc9c312e2d14f5f0ea69fc888cd169503b8999adfd",
+      "summary": [
+        "x86_64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 16, 'allocated': 11, 'optimized': 108}"
+      ]
+    },
+    "riscv64-linux": {
+      "exit": 0,
+      "log_sha256": "c387ffe53df2b53e0d53a6099653b8c0ea19f99bdc256a1db9f4fe78a96fd77d",
+      "summary": [
+        "riscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 15, 'allocated': 10, 'optimized': 109}"
+      ]
+    }
+  },
+  "scope": "2560 independent C cases per mode on five targets; original QBE prefix comparison on Apple ARM and Apple x86. Linux ARM native; Linux x86/RV via QEMU; Apple x86 via Rosetta. No new preservation proof.",
+  "proof_audit": "147 printed theorem axiom reports exactly match preceding successful full gate"
+}
