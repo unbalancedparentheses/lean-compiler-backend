@@ -11,7 +11,7 @@ removed on compiler identity `77ea0aaf88b3ede106fce810658fddb41546fe2b85b78cfb91
 Calls and all operands remain; live results and aggregate hidden storage remain.
 Fresh units, all 147 audit statements, 10,080 independent five-target C groups,
 five dropped-call controls, emission-only checks and all three full Linux gates
-pass. Full host/Rosetta qualification is running. The original RV QBE signed
+pass, as does the complete host/Rosetta regression gate. The original RV QBE signed
 subword result discrepancy remains explicit; the reduced reference omits only
 64 returned-value comparisons and retains every call/effect check. All 132
 zlib/mixed-Lua workload assemblies match the privately executed candidate;
