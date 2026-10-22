@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "compilers": {
+    "before": {
+      "identity": "f9998cdd7f047ad5ac6ce1234797f2a68ecf71a84bdd911427a472cc9f4cc135",
+      "sha256": "c65e4837c619002dff5bcb01007a6e94484bce13e96395ca15ac910d0f0f2f3b"
+    },
+    "after": {
+      "identity": "a2e10e57113b6cadafcca6a59c5206bde2a51282bd1ef55206e4079ed1121043",
+      "sha256": "bfca9e0093457f366c4eec24c0ef5f40291ac9afa74ffeffa0fcdbcca7add4c4"
+    }
+  },
+  "cases": 1320,
+  "unchanged_assemblies": 1303,
+  "matching_refusals": 15,
+  "expected_changed_assemblies": {
+    "aarch64-macos": 1,
+    "aarch64-linux": 1
+  },
+  "removed_extensions": 4,
+  "note": "Only allocated/optimized ARM same-register unsigned-extension deletions accepted; every other byte preserved. Raw exact comparison reports intended differences. Not a semantic proof."
+}

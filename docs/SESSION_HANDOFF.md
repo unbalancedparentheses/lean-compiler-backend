@@ -10,7 +10,13 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`f9998cdd7f047ad5ac6ce1234797f2a68ecf71a84bdd911427a472cc9f4cc135`.
+`a2e10e57113b6cadafcca6a59c5206bde2a51282bd1ef55206e4079ed1121043`.
+
+[ARM64 same-register unsigned load extensions](benchmarks/arm-load-extensions/README.md)
+now avoid redundant instructions in allocated/optimized code, preserving baseline
+and debug/alias/register-pressure fallbacks. Both native ARM matrices, full Linux
+ARM gate, unit/proof-audit checks and before/after zlib profiles pass. Optimized
+zlib text shrinks 412 bytes; runtime speed remains unmeasured.
 
 [RV64 result normalization](benchmarks/rv-result-normalization/README.md)
 removes redundant masks only from already-normalized operations. The complete

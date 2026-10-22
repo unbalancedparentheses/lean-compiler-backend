@@ -171,6 +171,7 @@ python3 scripts/symbols.py "$@"
 python3 scripts/global_addresses.py "$@"
 python3 scripts/memory_forward.py "$@"
 python3 scripts/redundant_extensions.py "$@"
+python3 scripts/arm_load_extensions.py
 python3 scripts/address_selection.py "$@"
 python3 scripts/branch_selection.py "$@"
 python3 scripts/data.py "$@"

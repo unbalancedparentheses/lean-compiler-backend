@@ -148,6 +148,8 @@ def main():
     memory_forward_tests(compiler,work,run,cc,'aarch64-linux',native)
     from redundant_extensions import exercise as extension_tests
     extension_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from arm_load_extensions import exercise as arm_load_extension_tests
+    arm_load_extension_tests(compiler,work,run,cc,'aarch64-linux',native)
     from unsigned_strength import exercise as unsigned_tests
     unsigned_tests(compiler,work,run,cc,'aarch64-linux',native)
     from module_scale import exercise as module_tests

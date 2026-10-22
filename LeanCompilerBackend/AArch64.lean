@@ -588,6 +588,22 @@ private structure VariadicFrame where
   gpUsed : Nat
   fpUsed : Nat
 
+/-- A matching unsigned extension after a byte/half load is already satisfied
+    when allocation gives both SSA results the same register. The load writes W,
+    so this also preserves a long result's zero upper bits without widening IR. -/
+private def redundantLoadExtension (slots : Homes) (previous current : Statement) : Bool := Id.run do
+  let .assign load := previous | return false
+  let .assign extension := current | return false
+  if load.floating || extension.floating then return false
+  let .load kind _ := load.operation | return false
+  let .unary op (.temporary source) := extension.operation | return false
+  if source != load.destination then return false
+  if !((kind == .unsignedByte && op == .unsignedByte) ||
+       (kind == .unsignedHalf && op == .unsignedHalf)) then return false
+  let some sourceHome := slots.registers[load.destination]? | return false
+  let some resultHome := slots.registers[extension.destination]? | return false
+  return sourceHome == resultHome
+
 private def emitStatement (darwin : Bool) (localSymbols : List String) (types : Array AggregateABI.TypeInfo) (base : String) (slots : Homes) (allocations : List (String × Nat))
     (varargs : VariadicFrame) (statement : Statement) : Except String (List String) := do
   match statement with
@@ -881,14 +897,21 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
     let branchCompare := if allocate then Selection.branchComparison addressUses block else none
     let mut pendingMemory : Option (List String) := none
     for instructionIndex in [:block.instructions.size + 1] do
+      let mut instructionDebug := false
       for _ in [:block.debugLocations.size] do
         if let some location := block.debugLocations[debugIndex]? then
           if location.instruction != instructionIndex then break
           lines := lines ++ [s!"\t.loc {debugFileId} {location.line} {location.column}"]
           debugIndex := debugIndex + 1
+          instructionDebug := true
         else break
       if let some statement := block.instructions[instructionIndex]? then
-        if let some selected := pendingMemory then
+        -- Never suppress a separate debug position or look across block entries.
+        let redundantExtension := allocate && instructionIndex > 0 &&
+          !instructionDebug &&
+          (block.instructions[instructionIndex-1]?).any (redundantLoadExtension slots · statement)
+        if redundantExtension then pure ()
+        else if let some selected := pendingMemory then
           lines := lines ++ selected
           pendingMemory := none
         else

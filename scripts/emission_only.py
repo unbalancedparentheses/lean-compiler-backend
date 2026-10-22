@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from arm_load_extensions import exercise as arm_extensions
 from rv_result_normalization import exercise as rv_normalization
 from amd_immediates import exercise as immediates
 from amd_word_normalization import exercise as normalization
@@ -28,6 +29,9 @@ def main():
             normalization(LCB, case, run, cc, target, False, qbe, qtarget)
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
+        for target in ['aarch64-linux', 'aarch64-macos']:
+            arm = arm_extensions(LCB, work/target, run, cc, target, False)
+            assert arm['checks_per_mode'] == 0 and arm['negative_control'] == 'not-run'
         rv = rv_normalization(LCB, work, run, cc, execute=False)
         assert rv['executed_checks_per_mode'] == 0 and rv['negative_control'] == 'not-run'
         assert all(v['execution'] == 'not-run' for v in rv['modes'].values())

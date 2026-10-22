@@ -1,0 +1,114 @@
+{
+  "status": "isolated qualification passed",
+  "before_identity": "f9998cdd7f047ad5ac6ce1234797f2a68ecf71a84bdd911427a472cc9f4cc135",
+  "after_identity": "a2e10e57113b6cadafcca6a59c5206bde2a51282bd1ef55206e4079ed1121043",
+  "before_sha256": "c65e4837c619002dff5bcb01007a6e94484bce13e96395ca15ac910d0f0f2f3b",
+  "after_sha256": "bfca9e0093457f366c4eec24c0ef5f40291ac9afa74ffeffa0fcdbcca7add4c4",
+  "patches": [
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/arm-load-extensions.patch",
+      "sha256": "a8e66fe9106c8a6b07774a5404ee74d59549a39f6aa875b8844e9d94c73e2fd8"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/arm-load-extensions-tests.patch",
+      "sha256": "fd96b262eae3493ffe98825cc24cb5791a9a3bcf19a495177a3583b71eaf9f1f"
+    }
+  ],
+  "reports": [
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-load-extension-combined-zlib-review/report.json",
+      "sha256": "0f6e25d78bc84acd68caae9870c1099c1d167d4a6b88537ebae43c5edffa5f5d"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-load-extension-combined-review/arm-load-extensions/report.json",
+      "sha256": "447e3622e6d535c6a65fbfd12d600e55c03251410e375a96f50ecbffc4b31e41"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-load-extension-combined-review/emission-only/arm-load-extensions/report.json",
+      "sha256": "57c4a0e5478bfc32fbd6b7934ac6048927f83a8f78fe2411562e512fc347ddd4"
+    },
+    {
+      "path": "/tmp/lcb-arm-load-extension/.build/review/combined-apple/arm-load-extensions/report.json",
+      "sha256": "dfcbd082e4e0eb993f3b5de722e115278fd5cd8547a45a592aa24f48a0495a8f"
+    },
+    {
+      "path": "/tmp/lcb-arm-load-extension/.build/review/combined-apple-broad/report.json",
+      "sha256": "ac5fa090463efa080453b4d48a9e369e2039e358cff3885c2a0450325cf42af9"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-load-extension-combined-zlib-review/execution-report.json",
+      "sha256": "c3a051412f159c15ff0dabc1b060c855fd177b7708953dd15a78892cae731cf5"
+    },
+    {
+      "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/arm-load-extension-combined-zlib-review/execution-payload-report.json",
+      "sha256": "7395c6286b9e672a192f5e9076e97a4d51f52337888e3a25e309ee0f7dbd2c55"
+    }
+  ],
+  "units": {
+    "path": "/tmp/lcb-arm-load-extension/.build/review/units.log",
+    "sha256": "c6b0081b02357b76c3791418c14b02585229063171712d5773b08a836814a1d9"
+  },
+  "linux_broad_log": {
+    "path": "/tmp/lcb-arm-load-extension/.build/review/combined-linux.log",
+    "sha256": "90122d91ed531ff0d90cd0a2529509cb53ca7e3a8f12506eb5cb725c6dd61587"
+  },
+  "harnesses": [
+    {
+      "path": "/tmp/lcb-arm-load-extension/scripts/arm_load_extensions.py",
+      "sha256": "5327c8b0cfb65ad7bd1d5e8a1e871128234ebc17b61d7b9359e164d03132fea0"
+    },
+    {
+      "path": "/tmp/lcb-arm-load-extension/scripts/redundant_extensions.py",
+      "sha256": "9c7538ae2d928839c7c906d9ae42b151cc45e73310f24fcad119a9d62c40c9cc"
+    },
+    {
+      "path": "/tmp/lcb-arm-load-extension/.build/review/combined-run-linux.py",
+      "sha256": "992982415d465a322e46d9fdf278c93c59629da964071933b22fffc829e16685"
+    },
+    {
+      "path": "/tmp/lcb-arm-load-extension/.build/review/combined-broad-apple.py",
+      "sha256": "8f3d1bdd5285a360786d9dd657b130939fc2653d3f1e1a9f8fd050ae20d15e2f"
+    },
+    {
+      "path": "/tmp/lcb-arm-load-extension/.build/review/combined-zlib-size.py",
+      "sha256": "a5477d161d7af74db533e990dcff8a524bf1a98ce6c4105ec03c3d194907f7c2"
+    },
+    {
+      "path": "/tmp/lcb-arm-load-extension/.build/review/combined-zlib-execute.py",
+      "sha256": "40f2d39fc2f737f48025727889201c19a0123365cf881f25dcf090ba18877f99"
+    }
+  ],
+  "zlib": {
+    "baseline": {
+      "units": 17,
+      "before_text_bytes": 416468,
+      "after_text_bytes": 416468,
+      "saved_bytes": 0,
+      "saved_percent": 0.0,
+      "removed_extensions": 0
+    },
+    "allocated": {
+      "units": 17,
+      "before_text_bytes": 181600,
+      "after_text_bytes": 179464,
+      "saved_bytes": 2136,
+      "saved_percent": 1.1762114537444934,
+      "removed_extensions": 534
+    },
+    "optimized": {
+      "units": 17,
+      "before_text_bytes": 133048,
+      "after_text_bytes": 132636,
+      "saved_bytes": 412,
+      "saved_percent": 0.3096626781312008,
+      "removed_extensions": 103
+    }
+  },
+  "optimized_removed_by_opcode": {
+    "uxtb": 90,
+    "uxth": 13
+  },
+  "semantic_scope": "Adjacent typed loadub/loaduh and matching unsigned extension, same allocated physical register; load retained, extension omitted. No crossing blocks or intervening debug locations. No IR widening changes.",
+  "qualification": "Both ARM targets 10496 guarded page and60480 independent extension/mutation cases per mode; three modes. Widened load guard fault control detected on both. LinuxARM all6before/after zlib static tests+72 GCC/Python payload profiles pass. No runtime speed claim. Earlier C-oracle wrap bug corrected before final reports; failed preliminary files retained.",
+  "units_note": "unit report is from prior ARM-only candidate276208; new combined candidate build and all listed C/size/execution matrices rerun; parent f999 units already passed."
+}
