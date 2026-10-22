@@ -89,9 +89,11 @@ def inputs(count, edges=False, aggregates=False):
 
 def original_qbe_profiles(target):
     """Qualify independent C profiles separately from known upstream failures."""
-    if target in ['riscv64-linux', 'x86_64-macos']:
+    if target in ['riscv64-linux', 'x86_64-linux', 'x86_64-macos']:
         profiles = [(n, False, False) for n in COUNTS]
-        if target == 'x86_64-macos': profiles.append((1024, False, True))
+        # Both AMD64 ABIs expose QBE's missing signed-byte caller extension
+        # with Clang callees; GCC may mask it by extending the low byte itself.
+        if target.startswith('x86_64-'): profiles.append((1024, False, True))
         return profiles
     return list(PROFILES)
 
@@ -183,7 +185,7 @@ def main():
             oracle=work/'oracle';shutil.copytree(ROOT/'third_party/qbe',oracle)
             r=run(['make','-C',oracle,'-j2',f'CC={cc}']);assert r.returncode==0,r.stderr;qbe=oracle/'qbe'
         # Original RV QBE has signed-byte argument and large aggregate address
-        # defects; Apple AMD64 QBE also fails signed-byte outbound C calls.
+        # defects; both AMD64 targets fail signed-byte outbound Clang C calls.
         # Keep the oracle exclusions explicit. Every LCB profile still runs
         # independently against C in all three modes.
         qbe_profiles=original_qbe_profiles(target)

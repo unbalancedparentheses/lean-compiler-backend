@@ -22,9 +22,19 @@ byte-identical assemblies and 15 matching refusals against the preceding
 lookup-map compiler. This is bounded compatibility evidence, not unlimited
 resource support or end-to-end verification. The proof audit is unchanged.
 
-Original QBE comparison covers all seven profiles on both ARM targets and Linux
-x86, five on Apple x86 (four scalar profiles plus all-aggregate), and four scalar
-profiles on RV64. Every LCB profile still runs against independent C. See
+Original QBE comparison covers all seven profiles on both ARM targets, five on
+both AMD64 targets (four scalar profiles plus all-aggregate), and four scalar
+profiles on RV64. Every LCB profile still runs against independent C. The earlier
+Linux x86 report used GCC and passed all seven original-QBE profiles; the
+[Linux x86 Clang reproduction](linuxx86-clang-narrow.json) shows why that result
+does not qualify the narrow mixtures with Clang, which CI uses. Unchanged QBE
+returns +140 for a signed-byte argument whose C value is -116; all three LCB
+modes return -116. GCC 13.3 extends the low byte in the callee and masks this
+caller-extension defect, whereas Clang 21.1.8 expects the caller to extend it.
+The [reduced IR](linuxx86-clang-narrow-input.ssa) and
+[C callee](linuxx86-clang-narrow-caller.c) execute under Linux x86 QEMU; Clang
+produces the ELF C object and the Linux cross-GCC driver performs linking.
+No compiler or original-QBE source is changed by this qualification. See
 [upstream discrepancy details](../../UPSTREAM_DISCREPANCIES.md) and the
 [current reduced RV results](minimal-current.json). The signed-byte case needs
 an optimized C callee (`-O1`) to expose the caller extension error. The RV

@@ -1,0 +1,50 @@
+{
+  "target": "x86_64-linux",
+  "execution": "QEMU x86_64, Linux glibc sysroot",
+  "compiler_identity": "e1a329371ac31cb3af1d7ef3bf7f1fce81c72b11e2445525ab4520f74335aef9",
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "clang_version": "clang version 21.1.8",
+  "gcc_version": "x86_64-linux-gnu-gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0",
+  "cross_compile": [
+    "clang",
+    "--target=x86_64-linux-gnu",
+    "-O1",
+    "-c",
+    "caller.c",
+    "-o",
+    "clang.o"
+  ],
+  "source_note": "Same reduced Apple x86 input; C replaces stdio include with printf declaration to avoid Darwin headers while emitting an ELF Linux object.",
+  "results": [
+    {
+      "mode": "baseline",
+      "callee": "Clang 21.1.8 -O1 x86_64-linux-gnu",
+      "stdout": "-116",
+      "exit_code": 0
+    },
+    {
+      "mode": "allocated",
+      "callee": "Clang 21.1.8 -O1 x86_64-linux-gnu",
+      "stdout": "-116",
+      "exit_code": 0
+    },
+    {
+      "mode": "optimized",
+      "callee": "Clang 21.1.8 -O1 x86_64-linux-gnu",
+      "stdout": "-116",
+      "exit_code": 0
+    },
+    {
+      "mode": "original QBE",
+      "callee": "clang -O1",
+      "stdout": "140",
+      "exit_code": 1
+    },
+    {
+      "mode": "original QBE",
+      "callee": "gcc -O1",
+      "stdout": "-116",
+      "exit_code": 0
+    }
+  ]
+}
