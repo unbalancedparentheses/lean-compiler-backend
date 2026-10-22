@@ -49,6 +49,22 @@ def inputs():
                     if variant=='nonlast':expected=f'({expected}+(keep^17))'
                     if variant=='earlier':expected=f'({expected}+(keep==0))'
                     checks.append(f'if({name}(a,b,keep)!=(uint64_t){expected})return 1;')
+    # Word comparisons must discard differing high halves of long SSA operands.
+    for op,relation,signed in OPS:
+        name=f'branch_long_operands_word_{op}'
+        ir.append(f"""export function l ${name}(l %a,l %b) {{
+@s
+ %cmp =l c{op}w %a,%b
+ jnz %cmp,@yes,@no
+@yes
+ ret 37
+@no
+ ret 91
+}}
+""")
+        declarations.append(f'extern uint64_t {name}(uint64_t,uint64_t);')
+        cast='int32_t' if signed else 'uint32_t'
+        checks.append(f'if({name}(a,b)!=(uint64_t)(({cast})a {relation} ({cast})b?37:91))return 3;')
     # Keep every operand live after the branch to force base/operand stack homes.
     for width,bits in [('w',32),('l',64)]:
         for op,relation,signed in OPS:
@@ -124,7 +140,7 @@ def exercise(compiler,work,run,cc,target,execute=True):
                 bad,badexe=case/'inverted.s',case/'inverted';bad.write_text(damaged)
                 r=run([cc,obj,bad,'-o',badexe],True);assert r.returncode==0,r.stderr
                 r=run([badexe],True);assert r.returncode!=0,'inverted RV64 branch escaped C oracle'
-    print(f'{target}: integer branch selection: {count} independent cases per mode; ten predicates, both widths, constants, phi/shared/nonadjacent uses and pressure; execution={execute}',flush=True)
+    print(f'{target}: integer branch selection: {count} independent cases per mode; ten predicates, both widths, constants, long operands narrowed to word, phi/shared/nonadjacent uses and pressure; execution={execute}',flush=True)
 
 
 def main():

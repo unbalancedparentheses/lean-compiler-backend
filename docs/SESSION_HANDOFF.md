@@ -8,12 +8,50 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`fc3e23c77fb09b605432c0e34275bb76f3e8862fde2adb7bea0229230aac6f2c`.
+`713187d9555826e5cf62fb2ffb9061a9ff31c084e836e67e0728577d2259d69a`.
 Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
 introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
 evidence. `1331a81` synchronizes the generated port inventory source after CI
 caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
+
+## RV64 adjacent memory offsets and cross-target generated C
+
+RV64 fuses adjacent sole-use long address adds/subtracts into signed12 memory
+operands. It retains baseline lowering, original homes/lifetimes, word-result
+normalization, FP raw bits, TLS scratch preservation and memory debug locations.
+The expanded address matrix passes 14,688 independent byte-level cases per mode,
+including -2048/2047 boundaries, rejected offsets, spills and wrong-offset
+corruption. Branch coverage now includes word comparisons of long operands with
+differing high halves (178,360 cases per mode). Linux ARM/x86/RV execution suites
+pass with actual mode counts. The full local gate passed in
+`.build/rv-adjacent-full-check.log`, including native Apple ARM64 and macOS x86
+Rosetta execution of the expanded matrices.
+
+`zlib-rv-adjacent.json` retains all qualified upstream tests/12 gzip streams;
+optimized linked text is 258,460 bytes, 7,856 fewer than the RV64 branch checkpoint.
+`qbe-rv-adjacent.json` retains 455 exact fixture and 32 self-IR assemblies plus
+58 original ARM64 runtime tests. Optimized object text is 653,424 bytes (17,600
+fewer) and linked text 678,027 bytes. Original RV64 QBE link failures remain
+separate from the corrected oracle; RV64 execution is QEMU.
+
+The Csmith runner now accepts Linux ARM64/x86/RV targets, private cross-target
+cproc configurations and retained failure reports. `csmith-rv-no-pie.json` tries
+fresh seeds 20265000–20265031: 28 common matches / 261,621 IR lines, with four
+GCC O0 timeouts excluded. Only original QBE uses explicitly requested `-no-pie`;
+LCB retains default linking. `csmith-rv-default.json` separately retains default
+link failures for the first four seeds while both LCB modes match GCC (44,540
+IR lines). The same first four seeds qualify unchanged QBE and LCB on Linux
+ARM64 and x86, recorded in `csmith-cross-arm64.json`/`csmith-cross-x86.json`.
+These cross-target/link-profile reruns do not multiply unique seed totals or join
+the earlier default native-ARM batches. Every executable campaign detects changed
+returns. Injected backend failure persists its seed/traceback; an all-timeout
+campaign records `no_qualified`/`not_run` and exits nonzero.
+A separate pointer-generation profile, seeds 20266000–20266015, qualifies only
+two small programs / 5,131 IR lines (including runtime helpers); 13 cproc pointer
+diagnostics and one GCC timeout remain excluded in `csmith-rv-pointers.json`.
+This is limited pointer evidence, not broad pointer-program coverage. Proof scope
+is unchanged.
 
 ## RV64 comparison branches
 

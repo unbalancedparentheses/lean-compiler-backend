@@ -275,6 +275,45 @@ private def emitStatement (c : Context) : Statement → Except String (List Stri
   | .vaStart list => do
     return (← load c .long "t0" list) ++ address "t1" "s0" c.vaOffset ++ ["\tsd t1, 0(t0)"]
 
+/-- Fuse only an adjacent long address definition with its sole SSA use.
+    The original allocation remains valid: no instruction between the base use
+    and memory access can replace its home. RV64 offsets are unscaled signed12. -/
+private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
+    (first second : Statement) : Except String (Option (List String)) := do
+  let .assign address := first | return none
+  if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
+  let pair := match address.operation with
+    | .binary .add pointer (.constant n) | .binary .add (.constant n) pointer => some (pointer, n)
+    | .binary .sub pointer (.constant n) => some (pointer, -n)
+    | _ => none
+  let some (pointer, rawOffset) := pair | return none
+  let access := match second with
+    | .assign {operation := .load _ (.temporary name), ..} => some name
+    | .store _ _ (.temporary name) | .storeFloat _ _ (.temporary name) => some name
+    | _ => none
+  if access != some address.destination then return none
+  let offset := Semantics.signedBits 64 (Semantics.constant .long rawOffset)
+  if offset < -2048 || offset > 2047 then return none
+  match second with
+  | .assign inst =>
+    let .load kind _ := inst.operation | return none
+    let op := match kind with
+      | .signedByte => "lb" | .unsignedByte => "lbu" | .signedHalf => "lh" | .unsignedHalf => "lhu"
+      | .signedWord => "lw" | .unsignedWord => "lwu" | .plain => if inst.width == .word then "lwu" else "ld"
+    let lines ← load c .long "t0" pointer
+    -- Keep word normalization, including signed loads and floating raw bits.
+    return some (lines ++ memory op "t0" "t0" offset ++ norm inst.width "t0" ++ (← store c inst.destination))
+  | .store width value _ =>
+    let op := match width with | .byte => "sb" | .half => "sh" | .word => "sw" | .long => "sd"
+    -- Value materialization may use t6 for large spill offsets or resolve TLS;
+    -- neither destroys the base in t1. Allocated homes are all callee-saved.
+    return some ((← load c .long "t1" pointer) ++ (← load c width.valueWidth "t0" value) ++
+      memory op "t0" "t1" offset)
+  | .storeFloat width value _ =>
+    return some ((← load c .long "t1" pointer) ++ (← load c width "t0" value) ++
+      memory (if width == .word then "sw" else "sd") "t0" "t1" offset)
+  | _ => return none
+
 private def label (f : Function) (name : String) : String := s!".L_lcb_{f.name.length}_{Assembly.localName f.name}_{name}"
 private def edge (c : Context) (f : Function) (src dst : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == dst) | throw "missing RV64 edge"
@@ -344,6 +383,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
     let branchCompare := if allocate then Selection.branchComparison uses b else none
     lines := lines ++ [label f b.label ++ ":"]
     let mut debugIndex := 0
+    let mut pendingMemory : Option (List String) := none
     for i in [:b.instructions.size+1] do
       for _ in [:b.debugLocations.size] do
         if let some loc := b.debugLocations[debugIndex]? then
@@ -352,10 +392,19 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
           debugIndex := debugIndex+1
         else break
       if let some inst := b.instructions[i]? then
-        if let some (op, width, x, y) := branchCompare then
-          if i+1 == b.instructions.size then lines := lines ++ (← comparisonOperands c op width x y)
-          else lines := lines ++ (← emitStatement c inst)
-        else lines := lines ++ (← emitStatement c inst)
+        if let some selected := pendingMemory then
+          -- Emit the fused access after the memory statement's debug location.
+          lines := lines ++ selected
+          pendingMemory := none
+        else
+          if allocate then
+            if let some next := b.instructions[i+1]? then
+              pendingMemory ← adjacentMemory c uses inst next
+          if pendingMemory.isNone then
+            if let some (op, width, x, y) := branchCompare then
+              if i+1 == b.instructions.size then lines := lines ++ (← comparisonOperands c op width x y)
+              else lines := lines ++ (← emitStatement c inst)
+            else lines := lines ++ (← emitStatement c inst)
     match b.terminator with
     | .ret value =>
       if let some v := value then
