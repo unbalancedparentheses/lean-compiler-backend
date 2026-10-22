@@ -1,11 +1,11 @@
 # LZ4 1.10.0 library and upstream drivers
 
 The unmodified upstream source commit `ebb370ca83af193212df4dcbadcc5d87bc0de2f0`
-passes native Linux ARM64 qualification with compiler identity
+passes native Linux ARM64 and QEMU Linux x86-64 qualification with compiler identity
 `de27b459436dbfc15e827f17fbfa30948b2192b598035c40ac5debd2952f33f9`.
 All four library units (`lz4`, `lz4hc`, `lz4frame`, `xxhash`) and original `fuzzer`
 and `frametest` drivers use the same target-specific cproc IR: 370 functions and
-64,135 IR lines. All three LCB modes, GCC O0/O2, unchanged original QBE and the
+64,135 IR lines per qualified target. All three LCB modes, GCC O0/O2, unchanged original QBE and the
 separately corrected QBE pass this profile. This does not erase original-QBE
 failures on other workloads.
 
@@ -35,8 +35,8 @@ or frontend IR is patched. Four standard integer-limit defines supply cproc’s
 system-header configuration; exact commands and flags appear in the report.
 Initial development runs before the final checks were added are excluded.
 
-The final run used a frozen copy of `scripts/lz4_compare.py`; its hash equals the
-committed harness. Reproduction chooses a fresh Docker-mounted output directory:
+The ARM/x86 runs used a frozen copy of `scripts/lz4_compare.py` from commit
+`ec42f2f`. The later timeout-only harness change is described below. Reproduction chooses a fresh Docker-mounted output directory:
 
 ```sh
 PYTHONPATH="$PWD/scripts" LCB_CC=cc python3 scripts/lz4_compare.py \
@@ -46,4 +46,9 @@ PYTHONPATH="$PWD/scripts" LCB_CC=cc python3 scripts/lz4_compare.py \
 ```
 
 The host benchmark runner compiles target assembly; Linux ARM runs natively in
-the VM. Linux x86/RV qualification is separate and will be reported when complete.
+the VM and Linux x86 uses QEMU user emulation. The RV run exceeded the original
+600-second whole-probe timeout. Its guest eventually completed every backend,
+but the runner failed before final provenance checks, so that attempt remains
+**unqualified** in `riscv64-timeout-unqualified.json`. The whole-probe budget is
+now 3,600 seconds; per-driver limits stay 240 seconds. A fresh RV run is pending.
+This is a harness-timeout adjustment, not a relaxed executable oracle.

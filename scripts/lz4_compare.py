@@ -53,8 +53,8 @@ def main():
     fetch(source, 'https://github.com/lz4/lz4.git', LZ4)
     fetch(cproc, 'https://github.com/michaelforney/cproc.git', CPROC)
     def inside(p): return '/work/'+str(Path(p).relative_to(base))
-    def docker(cmd, cwd=None, check=True):
-        return command(['docker', 'exec', *(['-w', inside(cwd)] if cwd else []), args.docker_container, *cmd], check=check, timeout=600)
+    def docker(cmd, cwd=None, check=True, timeout=600):
+        return command(['docker', 'exec', *(['-w', inside(cwd)] if cwd else []), args.docker_container, *cmd], check=check, timeout=timeout)
     def sync(p): host_file(p, base, args.docker_container)
     def sync_guest(p):
         expected = docker(['sha256sum', inside(p)]).stdout.split()[0]
@@ -173,7 +173,7 @@ def main():
         probe.write_text(PROBE.replace('WORK_LITERAL', repr(inside(work))).replace('PREFIX_LITERAL', repr(prefix)).replace('LABELS_LITERAL', repr(built)))
         sync(probe)
         (work/'execution.json').unlink(missing_ok=True)
-        tested = docker(['python3',inside(probe)],check=False)
+        tested = docker(['python3',inside(probe)],check=False,timeout=3600)
         (work/'probe.log').write_text(tested.stdout+tested.stderr)
         sync_guest(work/'execution.json')
         report['execution'] = json.loads((work/'execution.json').read_text())

@@ -1,0 +1,473 @@
+{
+  "schema": 1,
+  "status": "failed",
+  "program": "LZ4 1.10.0 library and upstream fuzzer/frame drivers",
+  "target": "riscv64-linux",
+  "execution_mode": "QEMU user emulation",
+  "source_commit": "ebb370ca83af193212df4dcbadcc5d87bc0de2f0",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "source_hashes": {
+    "tests/fuzzer.c": "12b107129e9ad71430a8a3693bd8b5aeb3b9fb443ee04ff7778952d1ec971b84",
+    "tests/datagen.h": "49ff2d1b70db6329f3b5d28d2befa11060a42fddbdad84b9388c40521ea6e71f",
+    "tests/abiTest.c": "bc5dcbbe88d4c1ce369f191b71231f15e7a59fe632731dd9cfa3967d5a7ce930",
+    "tests/frametest.c": "5427f269bff29a542302fd6a24990cee5f0bdf35387e71f9a5fce9f12279205a",
+    "tests/loremOut.h": "a5fcb7823171e68f64e607a729ab47b44ad5c3488a86221de05301d692e68582",
+    "tests/decompress-partial-usingDict.c": "71a5c13989dd6a5d3bb25631c3de5fc45c2c0e813d4e9db36bf8b934632b6499",
+    "tests/fullbench.c": "b0cc4fc9efdb1586a6325161334655406de82bb4bf33fcea48f7a7f0c31e4c41",
+    "tests/freestanding.c": "ba375837e8ec8b597023f57c071470741b6359c7b4cbcdf9729f13173faec116",
+    "tests/datagen.c": "78e3ace5a00312a60350687c915d6dd6c3626ecf2b4fecb6906c7cbec4600c91",
+    "tests/roundTripTest.c": "8266d37dff64896b6d31684b74c17e8b0a9e03c2d439699011fe568cf0ba44e8",
+    "tests/checkTag.c": "a49419f21d05aa45c7d82c7972064e1cd0d87ba6fe0a3417686337545d276445",
+    "tests/decompress-partial.c": "1414d2a725042c8fef07faa38ff373b8fe96d49042fc1035b75ad07b59232d6c",
+    "tests/loremOut.c": "fc958cac885b4a161f52e9be7d83f27c0ac481e71f78ad2074f7124c2b03576f",
+    "tests/checkFrame.c": "dc99d353ba1ca94cd7f90fbccda489f04c6c9d2f413132ad36e5e9c78f298dbf",
+    "tests/datagencli.c": "5efac455360aa1e880e50ad3272b91aa0f606862b68d80bbe9e48167b246a249",
+    "programs/lz4io.h": "7134b42d8a90f33a5f304f18cac08517c777a4c8d8884d32244748008c3c833b",
+    "programs/lorem.h": "cabf55c784b8a53bfe0a4cbd159b9f5d5bfd335aedfb03be3ab9949719b53de9",
+    "programs/util.c": "c8ee5579f705d0b303e1332b60af4dccf03f802d6c4bf76e27be5ddc174de60f",
+    "programs/threadpool.h": "a196bdd5d2e790fa1daccd6165e9bc38f62a214813c0523b419a65f5b1642aba",
+    "programs/bench.h": "2ff152b06793b2010e1b3ed8cde8b13ff8720efd98acbdeab43595b730e07404",
+    "programs/lz4conf.h": "a764239ce093e7387ddac748246c7ca75d567ff011fbf23cba1b674a32f02fb2",
+    "programs/timefn.h": "e0667688ea12664799144b312f5765e1396136ef2e9dec20e2cf891cb8a1726b",
+    "programs/lz4io.c": "a9eb8e230cc3f80df64be6447ae3d425723313a37eb48dec3fc38d25c4c74575",
+    "programs/threadpool.c": "ce6e698084572f3fa6fd79709637c5b27d73a4fd03c21bb8b6fd4b9812156c03",
+    "programs/util.h": "b01eb516568cf9e18278a61b0c23fb46d48a25bb448c2a0bc9d609593d260a6d",
+    "programs/lorem.c": "036908c08290d655ce45bbbc75c283da6bc8d2b31cd2106fffacf7fbb753839a",
+    "programs/lz4cli.c": "ac054905a90a0b12e7166d1299a5ab36df133345ed3a979c418914c9afb71f56",
+    "programs/bench.c": "53be2d318b2889d907a03e66a064d1a56dcca0b24c607296c722b9edfbbc5b70",
+    "programs/timefn.c": "ff3169880747ed50062081dac428d38f44eb26181fd53201f8add4b8a7b570be",
+    "programs/platform.h": "35dd5a8f8d885efb81bfe9b2c7c47fa7a6ae353a6a47db8fc8a5b5029c43e430",
+    "examples/fileCompress.c": "4f0842885669b01d003ec2a8c6fc9ef22705053a2d787ab145c3fa0a66fc1aa1",
+    "examples/blockStreaming_lineByLine.c": "f236d3e7a2511475ebf25f8d354ee2d6733c73e67587c65670aeecabc3f1669d",
+    "examples/frameCompress.c": "bd6e2e3b7243769dce5a35837c6c4cef726d93405e887844355784ee39d7f3c2",
+    "examples/bench_functions.c": "a3b55cf6bdde878639823a8879dde969b6e0f42f565bae56b9b3a38edc89d7fa",
+    "examples/blockStreaming_doubleBuffer.c": "8eb96317f1454db6b400b9da7b73ac435b16c50401b68b3e571e7efa7d29d72c",
+    "examples/streamingHC_ringBuffer.c": "de97d059a99a6db0934930eff946ccbc9daf7f111ec5e60651e65f2b79153de5",
+    "examples/print_version.c": "dcc2f58fe93bb7f50a1b459e54e99abae5ebd41363b0abf54e5a683f5340fbf0",
+    "examples/blockStreaming_ringBuffer.c": "de8fd5cdc83552ff190203004ddb1cacd54174ad3adab68dae7cc20d4994debf",
+    "examples/simple_buffer.c": "ac685d4e02a449d067f35720b92297643c6b1e639e3bf29ec4197143c98304f9",
+    "examples/dictionaryRandomAccess.c": "c169b03e47269c445ce3adf028bd76ae8c011735a1322f51e2a13a792d7945e5",
+    "lib/xxhash.h": "aefdd236f35130495c18764cabed3f7b216906855fc5e6a9025cd2040bc84444",
+    "lib/lz4hc.c": "126cafafdb91767e6e55238298a910903851b35b2cee27ce80ae2280469ee232",
+    "lib/lz4frame.c": "44f421bea199c7f11da263c717f063228cd2c8c05a8384d327b49cc81ccfbac4",
+    "lib/lz4.h": "26b82efc53d1570f3b54eef02e9c4764c1ad374ff03cac04e2ced5ea4d4c552f",
+    "lib/lz4file.h": "400ed90bc74324abcf338d37235dd81aa431fd815c22db4b369b88c12b213115",
+    "lib/xxhash.c": "b667033dc735fb5ea5648e0a61a2e065e5ef5bbda53669730063bd856c643c48",
+    "lib/lz4frame_static.h": "31ab72a6e97e4fa0bedd4420d24a3f1f8024cbfa1d8ffad88c87cbb4e04f769d",
+    "lib/lz4hc.h": "e43824e8a9ba16f54100c4ccbccfa5782a858ca9ab83c48aac303fea3e76e21e",
+    "lib/lz4.c": "9396f7de527bc8435de9c7569fb7998e56545a84b4f3c2d808c0235c01774539",
+    "lib/lz4frame.h": "b845db4b7ee1bfa64b8f641a94f62e7f636a8b5d673cc61766413782283aaad1",
+    "lib/lz4file.c": "9c920fb21890bdce47d753bcd4a4dd3699ae75ac81ae7a999397c64fef012bec",
+    "ossfuzz/fuzz_helpers.h": "877718ed9f8406883774f086402dbac72af4e4e5aa3965859b7624dd95c7c0d4",
+    "ossfuzz/round_trip_frame_uncompressed_fuzzer.c": "a87dde93037a39eabc89950c31730b3d4d26f5a349cfb36491dc4265c7149804",
+    "ossfuzz/round_trip_stream_fuzzer.c": "16f4773cee11b62a998f3d383be4a55780a910dcb5cc7299d8b2f87b444d13f1",
+    "ossfuzz/round_trip_fuzzer.c": "0c87880bd1301c4fc1255c34f9aca341479e22f0e5440c877b0db52aa9e04e0a",
+    "ossfuzz/lz4_helpers.c": "69b9957ae889774e3084f8b96e0d486ecb4816f2561a13dc42ebabf6e32faa58",
+    "ossfuzz/compress_frame_fuzzer.c": "3329efba2287ce33e5bf58c2f3460c407afebdb5d7bfdb5560fb9dd7b102f782",
+    "ossfuzz/decompress_frame_fuzzer.c": "baf0dab7bfae0c7440f0488048dd45c846f809c11dcc0a9a781941f18df033b2",
+    "ossfuzz/round_trip_frame_fuzzer.c": "3a07589f1deeabea74b1a4728b8528c45b3a1c7a27a783f503dbca5a35247071",
+    "ossfuzz/fuzz_data_producer.h": "4e30f91d4d61f7da92b285ba33dd1c6fc40fd9058fe95652b38808f45a38bda1",
+    "ossfuzz/standaloneengine.c": "45a219de4aa04f76b2a7103fa82c10581131a7e5b486eedc8f65142cbe12fc40",
+    "ossfuzz/compress_fuzzer.c": "f1ae2f302b1ad5a6aa160c792f9d1c0ce2c291b28a16bf2429de0fce3971857d",
+    "ossfuzz/compress_hc_fuzzer.c": "444b476026723697c8bc0be68a44ab434e281dd025a6a65d39c70981b422e6f3",
+    "ossfuzz/fuzz.h": "0a004654a5e1ed8a40663f14136b9b36eb546567e8fa87a0dd50e4269d4bbf46",
+    "ossfuzz/decompress_fuzzer.c": "462b122196f8a2069e5e5c444528eacb04e8140b11bea20c835d6b6c67b88cb6",
+    "ossfuzz/lz4_helpers.h": "a858177044de8a5921951ab4aa8fddae6130b1d257d637ba1ea012c541029734",
+    "ossfuzz/fuzz_data_producer.c": "a12393758430ea5c2d1ec51118d9fc74e0c55444072a83adc00feb6037c888e0",
+    "ossfuzz/round_trip_hc_fuzzer.c": "bc8aa628675f0366939fb583319c5fcc48e164439b03f4eef770ffab42086273"
+  },
+  "compiler_identity": "de27b459436dbfc15e827f17fbfa30948b2192b598035c40ac5debd2952f33f9",
+  "compiler_sha256": "44ed601fdd77181a71dcced3cb7e7d56a6bf5604bdac60ea6ba8392c13d05e62",
+  "harness_sha256": "42d12e64442e28c3366f524ab4ab7ca5c8359d9c251c196dd71a633163fa1ae1",
+  "harness_snapshot": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/lz4-qualified-rv-final/harness.py",
+  "frontend_defines": [
+    "-D__CHAR_BIT__=8",
+    "-D__SCHAR_MAX__=127",
+    "-D__SHRT_MAX__=32767",
+    "-D__LONG_MAX__=9223372036854775807L"
+  ],
+  "work": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/lz4-qualified-rv-final",
+  "qbe_source_sha256": {
+    "util.c": "833a66c4c703cd47d7855cfd4b9f77642bdd0d35c6914c0baa3cd555031e35dd",
+    "fold.c": "3544071a30cc049320838f3bf44c1f83171117735fd2bb67959b2bc0a4431be8",
+    "all.h": "61bc106ffb07e0abe0b418f95ac7e1a9e4c6bcf8c308d8743562299129056519",
+    "cfg.c": "99099b6c39fbf9de442811c9e5e57417d6ef13ffa534ff6c82cade4fcadcf438",
+    "ssa.c": "a06727f6e5f6786e6fb1f30912631896007b9867dfd64e3e27a754ee9a9332c8",
+    "emit.c": "48af42e44d5017102e6ec7bec00465304f324f89160a93825f4952a257702031",
+    "mem.c": "4229d499db4186086b2d02ac78c983a6f31012d350bd281128ea61c037af4b65",
+    "spill.c": "d8b5367c4531faedbd4e073ccd955557a8e2333f9240d9f186f62dde777baebe",
+    "live.c": "19f084507c5f38f213e90193c11111e6079a06e3dd13f80df4b9e2c65b6a5eb5",
+    "abi.c": "923a5ea94e088e8ee4435924b38c0efaa601e4fc3b65b1964d70903491533103",
+    "gcm.c": "6af05af2af79bdd217b53133735e1d98fede157ee46ca1aac54c337a817ac586",
+    "rega.c": "167270237fb1a6a528f7f53bda895eb46074d42ac1d4a41ae9489706f10ae9ff",
+    "copy.c": "f1b6ebcb4802e2aa32239c905ae47aea0c6d1335cedcbb2a0e3aad8d18f4e06f",
+    "simpl.c": "0c14d2e5cc81bf6250a92f4c54eb8d453334100e127796b7a2e84f40b6e00254",
+    "main.c": "a6a9a128d2dc5f9db117a2d25843c0124d80609d1f1c176e3c71de188fd0ade1",
+    "gvn.c": "d09e291f14d1b777c2a27ddbf128eae02c7d649ccd88b2d180c29c2bf6b0e6a9",
+    "alias.c": "c210400e482f4ad2576d238d8cc411e0b1984ca57fb5d5ec849ed83fb6fd404f",
+    "ops.h": "39a2fe3c63ef4ab9c67d894ba83324ff6f9cdcdb3c5fe81f96efedf0350cf8ba",
+    "parse.c": "e762d78e1890af5c06daa581cfd40b30fcaa840450f32ca9cf2b141740a869da",
+    "load.c": "1b35c950499fa6c8d8a562ced54a531cd39adc384fc637922e69498e6bbb8b71",
+    "ifopt.c": "b4d49edd190dabc6b183453de5237d2ba33607739b61d6d9f1a2c8c1369f2f86",
+    "rv64/targ.c": "82668853f271d1dc20b914a2e0f402764e42951a75059ba29d4e0f77fe85cb83",
+    "rv64/isel.c": "95500527dcc4036b239b2ab62525aa1df0a645df142647756756526343a87846",
+    "rv64/all.h": "2636f565c1e4a2e4aff1fe9501c40220a4eb67e905e650f4f734ab8714d53d5f",
+    "rv64/emit.c": "4d76c3878e19a8d22a060300d43feab4fb54b589b341bb94e34d2fa4393999d3",
+    "rv64/abi.c": "c9ad2cfcb7ee56d8cd99e3cae2d4961929e099fc47f6e2b4a82162ed1fd92f22",
+    "tools/pmov.c": "3b3eb463f34424035ec79513f1ff64b749c4d382c17e4d73355508a7d9ea4964",
+    "tools/lexh.c": "4e6183a33f9abf412d7ea267897a07da4c972804d3b17d171dd68bcc2eced5d6",
+    "tools/log2.c": "ed282110b0e7cabf3e69a6fcb6c4dc44bf37369b97b904e8991211b61625db57",
+    "amd64/targ.c": "e53960a60eb5c1d3364bb8595bb64b3f5827db9436f886432de368cbb4e22211",
+    "amd64/isel.c": "049096f821fdb5035a68838f313c2f6431e8a5178a8958a9259bf566ef977eb5",
+    "amd64/all.h": "8ce357c9b3c7970a0160bc02c3ef61197bb1d469b06a93b08e0ac5b9061f55e3",
+    "amd64/emit.c": "b2563a49370154419246b11c4f6f2cd45e0f7c1327e491a2c7d2a2d4c8f8c36f",
+    "amd64/winabi.c": "abea8f315c09fc26a5df7abbbc98470a6113d08a866bbbdf7928825d10dc6ec9",
+    "amd64/sysv.c": "d7b867b243dba484924e46062ccb3ff1ca44243ad06004f8a7b8f6cd937d6ec0",
+    "minic/yacc.c": "42a71ff6fb0f5eb861923682833dbd53a3d6cdabb1f0fab8bd3cb9f0fcda4d59",
+    "arm64/targ.c": "5215bee5bae89d5d95cec3a4ddaea32ff15e6d35952c248f1d49653609c6dac7",
+    "arm64/isel.c": "3e7eab441eb37ae1cc29916586a6bfe1c55012400766e733d30dbc528f5747ef",
+    "arm64/all.h": "0c7503dd82c3efd65e1876865e4dcb2b6af287e43942cf9452ddbdd0473df52d",
+    "arm64/emit.c": "3dc7280fe44797b56c00194091d2686b90317f673b2175a87df89fa0a6f3cabf",
+    "arm64/abi.c": "1e881c0d2443e8a37b54ec9cb4474963bd5635286a5067df611e11ab250cccb5",
+    "minic/test/mandel.c": "835dc25eb3c7afb3aa0f89b2f5aa369f926990ac6b5a266511f9d49d982c1164",
+    "minic/test/knight.c": "a1b4f6c89d47c2e6ff2bff91a580a8525470ec638f02577aa4343b5e61ee128d",
+    "minic/test/queen.c": "7e01a19ba293d5c68425250cb85a613900b8e2ea77f02ae94c33b92aa0b89493",
+    "minic/test/collatz.c": "08962ec9ae1148ed40d29c9100e9ea72f4517375114cb8ad6e4f20cc5a10ccdb",
+    "minic/test/prime.c": "910ff8512e54e6b1b6fcf2a1656ecea2b3d475131c4acdb5b27fb05ac542b86c",
+    "minic/test/euler9.c": "4fcd8d845a822e7a52db18249283a5c7d87a01fb627214126c2707c15fc05f44"
+  },
+  "qbe_binary_sha256": {
+    "qbe": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+    "qbe-corrected": "99cfa481c473d9813e660e48118c6d4b195b60d501aacd0b9cdd8133e957d669"
+  },
+  "oracle_patch_sha256": "6fda32c5e68d3b09671836fbd7f07b926b3eeadb1e3a51129c504c3a028f83b6",
+  "translation_units": {
+    "lz4": {
+      "sha256": "fdf8db917012590f122f000624bd7dad548ab55bf24777076208e2604d4913e6",
+      "lines": 6443,
+      "functions": 93
+    },
+    "lz4hc": {
+      "sha256": "b4c27fd126e4e9d9b61fa5851ea7c642e4b8c5921df93bb00d8302e87258a8f0",
+      "lines": 8265,
+      "functions": 92
+    },
+    "lz4frame": {
+      "sha256": "70da4c1e350809153c1143171b1701533005aa1391d8c8c2b582bedfc6227ce2",
+      "lines": 6410,
+      "functions": 63
+    },
+    "xxhash": {
+      "sha256": "6a99febd3ff3b0c6c0c1e3f87b2c83c66d395e0134e26778b9b8235b88b0261d",
+      "lines": 3794,
+      "functions": 52
+    },
+    "fuzzer": {
+      "sha256": "2538d9e49ca766f3cec1c71eaf696080c9c3c0e3c351a62ce88171ba054f1c13",
+      "lines": 30336,
+      "functions": 34
+    },
+    "frametest": {
+      "sha256": "5a851f001815cd2d8400bdc92a71d7f0329f62794c2cb9c1204ce87e45aa0ce0",
+      "lines": 7889,
+      "functions": 30
+    }
+  },
+  "backends": {
+    "gcc-O0": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.4602698750095442,
+        "lz4hc": 0.20604279200779274,
+        "lz4frame": 0.06654066703049466,
+        "xxhash": 0.0765821670065634,
+        "fuzzer": 0.14196441596141085,
+        "frametest": 0.09137425001244992
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 348200\t      0\t      0\t 348200\t  55028\t/work/lz4-qualified-rv-final/gcc-O0/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 128668\t      0\t      0\t 128668\t  1f69c\t/work/lz4-qualified-rv-final/gcc-O0/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  20338\t    208\t      0\t  20546\t   5042\t/work/lz4-qualified-rv-final/gcc-O0/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  32530\t      0\t      0\t  32530\t   7f12\t/work/lz4-qualified-rv-final/gcc-O0/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  95456\t      4\t      8\t  95468\t  174ec\t/work/lz4-qualified-rv-final/gcc-O0/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  40752\t     36\t     20\t  40808\t   9f68\t/work/lz4-qualified-rv-final/gcc-O0/frametest.o"
+      },
+      "object_sha256": {
+        "lz4": "eff3c560d47c0b60ebf427e008ae26b95ab1521b106f710fdbd10e0f74385387",
+        "lz4hc": "1ea4b82137c9fd17c250c5ffca5b68f3c5150e08ddf050abb8e706939e6868bb",
+        "lz4frame": "77bf6fcb2bb7c67e36d375bbd223943bfbad049cb1b9c24ac05e8edaa50e7660",
+        "xxhash": "d4b5e08ee9d9f22b07087843edee025029422f6bc5b75ef33f140adff0d1535b",
+        "fuzzer": "94dd47831fa81b410b05689c7f483bdf0614cf2759fa7107120a517c29d52a0f",
+        "frametest": "2894f16cfac5e91e36d10ca28fc6652fe8cd67c0962aec7e2a3cfcf80b5d1e61"
+      }
+    },
+    "gcc-O2": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.9740204170229845,
+        "lz4hc": 1.302250417007599,
+        "lz4frame": 0.1792404999723658,
+        "xxhash": 0.15777658397564664,
+        "fuzzer": 0.471158166998066,
+        "frametest": 0.31785379198845476
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  65497\t      0\t      0\t  65497\t   ffd9\t/work/lz4-qualified-rv-final/gcc-O2/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  60842\t      0\t      0\t  60842\t   edaa\t/work/lz4-qualified-rv-final/gcc-O2/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  12498\t    200\t      0\t  12698\t   319a\t/work/lz4-qualified-rv-final/gcc-O2/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  14894\t      0\t      0\t  14894\t   3a2e\t/work/lz4-qualified-rv-final/gcc-O2/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  52790\t      4\t      8\t  52802\t   ce42\t/work/lz4-qualified-rv-final/gcc-O2/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  33065\t     36\t     20\t  33121\t   8161\t/work/lz4-qualified-rv-final/gcc-O2/frametest.o"
+      },
+      "object_sha256": {
+        "lz4": "bb7bd49f31476792fa6b4aabcf94066b4aa004459e8755fbbc16fdc60343e2cf",
+        "lz4hc": "739b4ca34347cd5cd1f16ec5afa8235009acd03f7ccb40cb79135fc0936c28e4",
+        "lz4frame": "f9643279c85032e56a63c1496877f2452fa94c87bc3c7cfe38d882ddbb18b064",
+        "xxhash": "3f8d96e2a70ef90ca11d4e0f8cc32c60ad6d8a77a9086c49d02ab9f0c3cd0a23",
+        "fuzzer": "540bba98adf49e9445b86e8c8bcfaca43a26475d75b78bae94b22ae26da6a0ee",
+        "frametest": "363a142032ebdb992e58ab09b0770ddca227ac0466899ce091a4de18952e7009"
+      }
+    },
+    "baseline": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.13801933295326307,
+        "lz4hc": 0.14575333299580961,
+        "lz4frame": 0.13812508404953405,
+        "xxhash": 0.11269008298404515,
+        "fuzzer": 0.40228616702370346,
+        "frametest": 0.1611805419670418
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 104888\t    224\t      0\t 105112\t  19a98\t/work/lz4-qualified-rv-final/baseline/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 146448\t    352\t      0\t 146800\t  23d70\t/work/lz4-qualified-rv-final/baseline/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 103796\t    944\t      0\t 104740\t  19924\t/work/lz4-qualified-rv-final/baseline/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  67164\t    143\t      0\t  67307\t  106eb\t/work/lz4-qualified-rv-final/baseline/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 623656\t  15187\t      0\t 638843\t  9bf7b\t/work/lz4-qualified-rv-final/baseline/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 147892\t   5487\t      0\t 153379\t  25723\t/work/lz4-qualified-rv-final/baseline/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "c1dc8ea36b8aed4ba872dc784ff841029f1a0e61a9c67f9d77ad897973f83668",
+        "lz4hc": "8d0db79d2fa87065d3d5ad9f8dda31a6010246be4f33d4be30699c7829ada0bc",
+        "lz4frame": "e2a5b836316d83eb1c7cf5364e626968cafb6d022bdcb9aee7d22b568804073b",
+        "xxhash": "776a29b9b08a718cf3f507ce6ed3075b9fb7def81e95f7cd9b37a26e83d863ed",
+        "fuzzer": "dd15f2477f62fb15382df5dd22c0a45434b0f6b092a17a7f0f43354281e83200",
+        "frametest": "d352e3c490aaa4571bffbada569904c9102531e9cc02ff1be7b97684f16dc40b"
+      },
+      "object_sha256": {
+        "lz4": "6fb8d306f326dec054ced7406e6ea34267a4a59f419219b0cb80df66b9722c1a",
+        "lz4hc": "48e066ff82a724554dfdb183033e43028dc5da54169682c1ac4b9ee68ccf9742",
+        "lz4frame": "4dbbf740fbeac7e2d920d7b5dfab3a91c5f7aef6813fa5f01b357130aa4b571e",
+        "xxhash": "0e393393de9338882a57169bbdc2b74f9d1cb404ee06899334bba7eea3501019",
+        "fuzzer": "3b2d31745b46c4d9723cbe46bf10b3045836f1830a6c01404d65da0d3d372593",
+        "frametest": "9cef69c2a05838fc66a72ac2100be3f4a69bb6ba0401be5ad0c95eff149a21f2"
+      }
+    },
+    "allocated": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.14589449996128678,
+        "lz4hc": 0.16775324998889118,
+        "lz4frame": 0.14825137500884011,
+        "xxhash": 0.11645924998447299,
+        "fuzzer": 0.5144460829906166,
+        "frametest": 0.17181612498825416
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  78056\t    224\t      0\t  78280\t  131c8\t/work/lz4-qualified-rv-final/allocated/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 101896\t    352\t      0\t 102248\t  18f68\t/work/lz4-qualified-rv-final/allocated/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  64452\t    944\t      0\t  65396\t   ff74\t/work/lz4-qualified-rv-final/allocated/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  47160\t    143\t      0\t  47303\t   b8c7\t/work/lz4-qualified-rv-final/allocated/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 321264\t  15187\t      0\t 336451\t  52243\t/work/lz4-qualified-rv-final/allocated/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  94496\t   5487\t      0\t  99983\t  1868f\t/work/lz4-qualified-rv-final/allocated/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "096e330e05c326164b08adb9a5d2c6bd5a3cd53a71d515b101e6ab5c494a5595",
+        "lz4hc": "989e9e994c64a73858f9b8108f3f995f5e8c5fc22bdc4dff7f0d1113de8d095d",
+        "lz4frame": "fd85d1159c9163d19d0413f2ad722507248b9b339ee8575ce63e88ddb4659ec8",
+        "xxhash": "1415777490ae3145e9944335211144b84d6139d4362f590f20469d27a61b30b1",
+        "fuzzer": "d6c8f893652dd0181f8fe73e3c2fbda34ebee938050224828ce94d30871dff57",
+        "frametest": "3fff0248d01deb6501baee23546ab3d99b59f094fd4d6b531a07e11142f33f84"
+      },
+      "object_sha256": {
+        "lz4": "60c478295a17b16e10179b199bc023dd12c56ff696437082ffb25cb70ee0d37a",
+        "lz4hc": "5f756a861782641868014507eed857f2e1992225fc53fbaecd9f886a86243283",
+        "lz4frame": "9054c8a9e7450c93aa3c0000fe0c0b28d25ea2176147ec748344e34b7eb81da2",
+        "xxhash": "6bd422000053aa4b1ea2ba10a5eec539ac3fec2454786eba560bac8a03621459",
+        "fuzzer": "96cbe033348e2a19946345c4c0178b9f889344ee99924f430e3d3bae0e4e1ad3",
+        "frametest": "98da3ae1dc159bb1163903cb1a9386ff7b503a0e76b0db73761d6b9798d3e160"
+      }
+    },
+    "optimized": {
+      "status": "built",
+      "link_flags": [],
+      "compile_seconds": {
+        "lz4": 0.17623974999878556,
+        "lz4hc": 0.20678712497465312,
+        "lz4frame": 0.16159599996171892,
+        "xxhash": 0.1300050409627147,
+        "fuzzer": 1.512110624986235,
+        "frametest": 0.3383991249720566
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  43292\t    224\t      0\t  43516\t   a9fc\t/work/lz4-qualified-rv-final/optimized/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  62132\t    352\t      0\t  62484\t   f414\t/work/lz4-qualified-rv-final/optimized/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  40648\t    944\t      0\t  41592\t   a278\t/work/lz4-qualified-rv-final/optimized/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  29692\t    143\t      0\t  29835\t   748b\t/work/lz4-qualified-rv-final/optimized/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 253108\t  15187\t      0\t 268295\t  41807\t/work/lz4-qualified-rv-final/optimized/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  66384\t   5487\t      0\t  71871\t  118bf\t/work/lz4-qualified-rv-final/optimized/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "32311315c6f322cde4f02e3f7e9fdc5f31c1bb4a684882923a9806a85930cd13",
+        "lz4hc": "9ff58d6369e4f6620b8aad1463c7d3d339d0d1bbb2db71f70acc61bffff7d4c1",
+        "lz4frame": "cebcbbfd9c79688daca69dccf75aeb8ac4044bd45b74ed6b6b87693864e5305e",
+        "xxhash": "ec47ae568fa38ba455126d29e679e8035121bb44cef18e293ad0d8dee17f4dff",
+        "fuzzer": "62adb3c06e29949e8dc2a68329b466aeb6c9aa68eab9fec73d7f795bc1450a33",
+        "frametest": "05568bbad3fbd5d49e666dcae51eac342414ed1fcbef6092bee3d7ad712249f2"
+      },
+      "object_sha256": {
+        "lz4": "5b7b832ed5cc78baf99e4205413a3d5e79613cfc884074557878741a43b9d0f7",
+        "lz4hc": "39b01abaa957113682501358a1683bbf14f04371c91e42d3f510575875b51d97",
+        "lz4frame": "d7442183bd00d10a609854d8a03227bfda0a217a11f633d777b3f8d8f4291be8",
+        "xxhash": "0f6b7ca9c30775d2adc06b3de3d0e79825450697ca210b5d005f97fc72acf11b",
+        "fuzzer": "9b3e4671a282796a67036928e6035aab7b5cea0bf357260b671abdca54810b23",
+        "frametest": "f08dbf9f9b9c56f8c98874fc630b6c723eda584ae374e925d9c6a4d5c1830df8"
+      }
+    },
+    "qbe": {
+      "status": "built",
+      "link_flags": [
+        "-no-pie"
+      ],
+      "compile_seconds": {
+        "lz4": 0.46710075001465157,
+        "lz4hc": 0.0867091670515947,
+        "lz4frame": 0.07882858300581574,
+        "xxhash": 0.07870891597121954,
+        "fuzzer": 0.28105629194760695,
+        "frametest": 0.17722158401738852
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  18624\t    224\t      0\t  18848\t   49a0\t/work/lz4-qualified-rv-final/qbe/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  25840\t    352\t      0\t  26192\t   6650\t/work/lz4-qualified-rv-final/qbe/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  20448\t    944\t      0\t  21392\t   5390\t/work/lz4-qualified-rv-final/qbe/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  11504\t    143\t      0\t  11647\t   2d7f\t/work/lz4-qualified-rv-final/qbe/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 258880\t  15187\t      0\t 274067\t  42e93\t/work/lz4-qualified-rv-final/qbe/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  33632\t   5487\t      0\t  39119\t   98cf\t/work/lz4-qualified-rv-final/qbe/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "81f99f6e739a3116baae1baa9d21c72e8820200f2c05ec8adb4cbc75b392333b",
+        "lz4hc": "d65a0cf5e0b9de36aaacde724ac11265859b50a8c6dc1d75e921715e5ce5ed7f",
+        "lz4frame": "832fa9932da00adca38a791e373ba17f00bb997c2a7fad5df4336f04514224d2",
+        "xxhash": "9cbf3125ac59f89b52076e6b54da23bb8db04a98101006806b7396a7881931aa",
+        "fuzzer": "8eaebff0730444a46e16cde8019c403f08c1d0cbf511bb770bced7d779e34845",
+        "frametest": "b548948cee98e424f09b64217d2329da24e57a968ae9c37120d53071ec9d431e"
+      },
+      "object_sha256": {
+        "lz4": "821bcbd78aedbfc1bde5c43f9be8aac5c3124c3ad9db9a0f5c14761031ade285",
+        "lz4hc": "8620e473f545385b7af7e96541bf648761c3effaf242ace3533ec3dce93ecb33",
+        "lz4frame": "a9314eba2a0c50569bacb6481ba1b4eb3e7ec30a8e699b503052f2c41c392222",
+        "xxhash": "08fb177267bd9c7cf73c2a8f291d1981becf87d9c33a3ad79c39f3b3a150324d",
+        "fuzzer": "419c85a4691cbcdeaad3a2a0f128006d2f6ff9dd6fea6e7ebb7904a340a4d72b",
+        "frametest": "d0db9f9533e710dfb32e9a9d0f49a077b05c53c4877c8c31178c4ca9d86100b0"
+      }
+    },
+    "qbe-corrected": {
+      "status": "built",
+      "link_flags": [
+        "-no-pie"
+      ],
+      "compile_seconds": {
+        "lz4": 0.9696885000448674,
+        "lz4hc": 0.08418570802314207,
+        "lz4frame": 0.08328904199879616,
+        "xxhash": 0.07522895798319951,
+        "fuzzer": 0.2744898750097491,
+        "frametest": 0.09465829201508313
+      },
+      "objects": {
+        "lz4": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  18624\t    224\t      0\t  18848\t   49a0\t/work/lz4-qualified-rv-final/qbe-corrected/lz4.o",
+        "lz4hc": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  25840\t    352\t      0\t  26192\t   6650\t/work/lz4-qualified-rv-final/qbe-corrected/lz4hc.o",
+        "lz4frame": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  20448\t    944\t      0\t  21392\t   5390\t/work/lz4-qualified-rv-final/qbe-corrected/lz4frame.o",
+        "xxhash": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  11504\t    143\t      0\t  11647\t   2d7f\t/work/lz4-qualified-rv-final/qbe-corrected/xxhash.o",
+        "fuzzer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 258880\t  15187\t      0\t 274067\t  42e93\t/work/lz4-qualified-rv-final/qbe-corrected/fuzzer.o",
+        "frametest": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  33632\t   5487\t      0\t  39119\t   98cf\t/work/lz4-qualified-rv-final/qbe-corrected/frametest.o"
+      },
+      "assembly_sha256": {
+        "lz4": "81f99f6e739a3116baae1baa9d21c72e8820200f2c05ec8adb4cbc75b392333b",
+        "lz4hc": "d65a0cf5e0b9de36aaacde724ac11265859b50a8c6dc1d75e921715e5ce5ed7f",
+        "lz4frame": "832fa9932da00adca38a791e373ba17f00bb997c2a7fad5df4336f04514224d2",
+        "xxhash": "9cbf3125ac59f89b52076e6b54da23bb8db04a98101006806b7396a7881931aa",
+        "fuzzer": "8eaebff0730444a46e16cde8019c403f08c1d0cbf511bb770bced7d779e34845",
+        "frametest": "b548948cee98e424f09b64217d2329da24e57a968ae9c37120d53071ec9d431e"
+      },
+      "object_sha256": {
+        "lz4": "821bcbd78aedbfc1bde5c43f9be8aac5c3124c3ad9db9a0f5c14761031ade285",
+        "lz4hc": "8620e473f545385b7af7e96541bf648761c3effaf242ace3533ec3dce93ecb33",
+        "lz4frame": "a9314eba2a0c50569bacb6481ba1b4eb3e7ec30a8e699b503052f2c41c392222",
+        "xxhash": "08fb177267bd9c7cf73c2a8f291d1981becf87d9c33a3ad79c39f3b3a150324d",
+        "fuzzer": "419c85a4691cbcdeaad3a2a0f128006d2f6ff9dd6fea6e7ebb7904a340a4d72b",
+        "frametest": "d0db9f9533e710dfb32e9a9d0f49a077b05c53c4877c8c31178c4ca9d86100b0"
+      }
+    }
+  },
+  "notes": [
+    "Original upstream C/header sources and frontend IR are unmodified.",
+    "All four library and both driver units use identical target-specific cproc IR for LCB/QBE; GCC compiles original C.",
+    "Original and separately corrected QBE results remain distinct; RV QBE links non-PIE only.",
+    "Upstream drivers use two fixed-seed 100-cycle profiles each; frametest also runs basic unit tests each time.",
+    "Fuzzer additionally runs unseeded built-in unit tests at compression levels 9/10 and one automatic-seed cycle, whose printed seed is recorded.",
+    "Generated stream caller is GCC-built; libraries and upstream fuzzer/frame drivers use the selected compiler backend.",
+    "This is a bounded test profile, not the full upstream test suite; stream bytes and cross-decompression compare to GCC O0/O2.",
+    "No runtime speedup claim."
+  ],
+  "stream_caller_sha256": "78bcbfdd4bff7f74dee162303ea8f63164a24becc1b717c80415a7b23ea87d85",
+  "negative_control": {
+    "status": "detected",
+    "exit": 99,
+    "mutation": "Increment compiled LZ4_versionNumber return register",
+    "assembly_sha256": "9a9109dff163e8f49d2f3ae9e8a398a6bd2b8ae82f413bb723a50bf4d10e9b14"
+  },
+  "executables_sha256": {
+    "gcc-O0": {
+      "fuzzer": "e59eaceb01fef5c3dbf06b4fe9549039ae0015a2393cc1bcea12a989535bcfab",
+      "frametest": "04b6c62e2d8d555941d905876aacf6b3781bf67211dcd2481a04be8a6b06ee1a",
+      "stream": "bb124fea86d320100fe88dbf3a64a5f2c84316d45b3c0bd8e5db7f13523b6f6c"
+    },
+    "gcc-O2": {
+      "fuzzer": "d2e7ca1478d871f8a3cb3228fb827a7eb068d4144a2d1185eef903ed6c2c944d",
+      "frametest": "fcc84fdd03dea4a9e2b219b64a64bf7b626c50b22d795d2322a20dd4a13e68ea",
+      "stream": "2b2728f4be504c0f0df27c18c641fbdc15b784800442a868555a946d7365bf26"
+    },
+    "baseline": {
+      "fuzzer": "cbaf4785e3ad338d1ecfd2d57d0542a8916de3e3d4ad5c63e1dc1fbfe5c2ea53",
+      "frametest": "4c482efb479d0dd3dca905904285c896a4ccb94d435e872139ad60abcd116c15",
+      "stream": "a4d6878c9af6303e8e0b05e4142bc71dfde61c86de26f70370a2a877a88db329"
+    },
+    "allocated": {
+      "fuzzer": "21b83747b2e5af8673eb665c22000b8fdad4249541aa6ac4b9d45e46996187e1",
+      "frametest": "a155a983af03a64d9b0422c8dfe06ce0a9b9d3ac0da12d2088c70bd5a4b2359f",
+      "stream": "7e9e74df1a3c5fe3b31c650857fb12ec07f8c0470467af16e072e131978e86c8"
+    },
+    "optimized": {
+      "fuzzer": "df0720d5b6c8e4f6a513a749fad1bcd039c72eacf7e2a9925584d3eb88969064",
+      "frametest": "2bf928e8a33df361f0da2829a9a533d10bab393c7046c030516b79f7e3901851",
+      "stream": "ef57676d0e63b41c54eb005867fb64e6af095a65753d1aa857a996e8280dbe6f"
+    },
+    "qbe": {
+      "fuzzer": "d2f84eb148c619c7be01687fe22deeb2ec57cef72492be388754df76f85e5c6e",
+      "frametest": "dac197445418873632583b118d2c586af68d951247cdae515f79c1e73a84c057",
+      "stream": "c46b7dd408c6ecc2b4976f0afeacf89684c61dc13c223978edc7d97bca512477"
+    },
+    "qbe-corrected": {
+      "fuzzer": "d2f84eb148c619c7be01687fe22deeb2ec57cef72492be388754df76f85e5c6e",
+      "frametest": "dac197445418873632583b118d2c586af68d951247cdae515f79c1e73a84c057",
+      "stream": "c46b7dd408c6ecc2b4976f0afeacf89684c61dc13c223978edc7d97bca512477"
+    }
+  },
+  "diagnostic": "Traceback (most recent call last):\n  File \"/Users/unbalancedparen/projects/lean-compiler-backend/.build/lz4-qualified-harness.py\", line 176, in main\n    tested = docker(['python3',inside(probe)],check=False)\n  File \"/Users/unbalancedparen/projects/lean-compiler-backend/.build/lz4-qualified-harness.py\", line 57, in docker\n    return command(['docker', 'exec', *(['-w', inside(cwd)] if cwd else []), args.docker_container, *cmd], check=check, timeout=600)\n  File \"/Users/unbalancedparen/projects/lean-compiler-backend/scripts/cjson_benchmark.py\", line 63, in command\n    result = subprocess.run(list(map(str,args)), cwd=cwd, text=True, capture_output=True, timeout=timeout)\n  File \"/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/subprocess.py\", line 556, in run\n    stdout, stderr = process.communicate(input, timeout=timeout)\n                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/subprocess.py\", line 1222, in communicate\n    stdout, stderr = self._communicate(input, endtime, timeout)\n                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/subprocess.py\", line 2155, in _communicate\n    self._check_timeout(endtime, orig_timeout, stdout, stderr)\n    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/nix/store/va99i8aq55di0cs95b8jrw4f0p6pzvrh-python3-3.13.12-env/lib/python3.13/subprocess.py\", line 1269, in _check_timeout\n    raise TimeoutExpired(\n    ...<2 lines>...\n            stderr=b''.join(stderr_seq) if stderr_seq else None)\nsubprocess.TimeoutExpired: Command '['docker', 'exec', 'lcb-parity-linux', 'python3', '/work/lz4-qualified-rv-final/probe.py']' timed out after 600 seconds\n"
+}
