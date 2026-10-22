@@ -175,7 +175,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   0..1 MiB and require disjoint or identical spans; native code adds no bounds
   or overlap guards. Packed integer data, zero fill, alignment and global symbol references are now
   implemented and tested, including pointer initializers with addends and byte
-  strings and IEEE floating constant initializers. Runtime-sized and non-entry
+  strings and IEEE floating constant initializers. Symbol initializers retain all
+  QBE storage widths (`b/h/w/l/s/d`), with independent packed-layout and native
+  address tests; narrow native relocations require linker/range qualification.
+  Runtime-sized and non-entry
   allocations now pass native call/frame tests. Constant-object admission extends
   through 1 MiB after Csmith exposed a valid 4,704-byte local array; native/emulated
   entry/nonentry tests cover tails, calls and page offsets near the bound. Apple ARM64 TLS data/address access

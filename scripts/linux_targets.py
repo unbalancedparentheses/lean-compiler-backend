@@ -120,6 +120,8 @@ def main():
     module_tests(compiler,work, selected_run,cc,args.target,execute)
     from extern_offsets import exercise as extern_offset_tests
     extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
+    from data_relocations import exercise as data_relocation_tests
+    data_relocation_tests(compiler,work/"data-relocations",run,[cc],args.target,execute)
     from large_data import exercise as large_data_tests
     large_data_tests(compiler,work,run,cc,args.target,execute)
     from large_objects import exercise as large_object_tests

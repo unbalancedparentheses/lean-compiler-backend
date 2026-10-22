@@ -1,0 +1,22 @@
+{
+  "compiler_identity": "e1a329371ac31cb3af1d7ef3bf7f1fce81c72b11e2445525ab4520f74335aef9",
+  "build": "passed exit 0",
+  "unit_tests": "fresh build; passed exit 0",
+  "existing_data_suite": "passed exit 0",
+  "proof_audit": "147 reports, identical to preceding identity; no new theorem",
+  "ordinary_corpus": "1305 byte-identical assemblies, 15 matching refusals",
+  "linux_full_gates": {
+    "aarch64": "passed exit 0; native ARM VM",
+    "x86_64": "passed exit 0; QEMU",
+    "riscv64": "passed exit 0; QEMU"
+  },
+  "apple_x86_full_gate": "passed exit 0; Rosetta",
+  "independent_relocation_matrices": "all five passed exit 0; per-profile linker qualifications in reports",
+  "prior_isolated_host_gate": {
+    "revision": "321ae8e",
+    "status": "passed exit 0",
+    "command": "LCB_CC=cc bash scripts/check.sh --require-native",
+    "note": "isolated copied build, prior compiler; not current relocation validation"
+  },
+  "CI_note": "40102d1 fixes original-QBE narrow-call oracle qualification under Clang; CI pending, preceding 321ae8e/863f675 Linux x86 failed upstream comparison after LCB independent cases passed"
+}

@@ -309,19 +309,19 @@ def Function.locals (f : Function) : Array (String × Width) :=
 
 abbrev Program := Array Function
 
-/-- Packed initializers; addresses use the target's 64-bit pointer representation. -/
+/-- Packed initializers; relocation widths specify the stored low address bits. -/
 inductive DataItem where
   | integer (width : MemoryWidth) (value : Int)
   | zeroes (bytes : Nat)
   | byteString (values : Array UInt8)
-  | address (name : String) (offset : Int)
+  | address (width : MemoryWidth) (name : String) (offset : Int)
   deriving Repr, Inhabited
 
 def DataItem.byteSize : DataItem → Nat
   | .integer width _ => width.bytes
   | .zeroes bytes => bytes
   | .byteString values => values.size
-  | .address .. => 8
+  | .address width .. => width.bytes
 
 structure DataDefinition where
   name : String

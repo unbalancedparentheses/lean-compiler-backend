@@ -87,9 +87,11 @@ def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run do
       for start in [0:values.size:16] do
         let chunk := (values.extract start (start + 16)).toList.map (fun v => toString v.toNat)
         lines := lines ++ ["\t.byte " ++ String.intercalate ", " chunk]
-    | .address name offset =>
+    | .address width name offset =>
+      let directive := match width with
+        | .byte => ".byte" | .half => ".short" | .word => ".long" | .long => ".quad"
       let suffix := if offset < 0 then toString offset else "+" ++ toString offset
-      lines := lines ++ [s!"\t.quad {symbolName darwin name}{suffix}"]
+      lines := lines ++ [s!"\t{directive} {symbolName darwin name}{suffix}"]
   return String.intercalate "\n" (lines ++ [""])
 
 

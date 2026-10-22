@@ -406,7 +406,7 @@ def validateModule (module : Module) : Except String Unit := do
     total := total + data.byteSize
     if total > 256 * 1024 * 1024 then throw "module data exceeds the 256 MiB resource limit"
     for item in data.items do
-      if let .address name _ := item then
+      if let .address _ name _ := item then
         if !validGlobalName name then throw "unsupported data relocation symbol"
         if module.data.any (fun d => d.name == name && d.threadLocal) then
           throw "thread-local address cannot be a static data initializer"

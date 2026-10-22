@@ -110,6 +110,8 @@ def main():
         objects(compiler, work, selected_run, cc, qbe, 'x86_64-macos', 'amd64_apple')
     from quoted_names import exercise as quoted
     from zero_alloc import exercise as zero
+    from data_relocations import exercise as data_relocation_tests
+    data_relocation_tests(compiler,work/"data-relocations",run,[cc],'x86_64-macos',execute)
     from large_data import exercise as large_data_tests
     large_data_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from large_objects import exercise as large_object_tests

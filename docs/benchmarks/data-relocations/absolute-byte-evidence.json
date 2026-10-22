@@ -1,0 +1,419 @@
+{
+  "snapshot_manifest": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/snapshots.json",
+  "snapshot_manifest_sha256": "008ef9042c36d5fcf59845ae362e1e0def3871065cfb9a7bf92df3aa0ca87079",
+  "harness_sha256": "b5102fd918c8358c7986b8a2a68432d5afcc0ae7fa4975beb0889bbcfe730a8c",
+  "kind": "byte",
+  "results": [
+    {
+      "target": "aarch64-macos",
+      "backend": "lcb",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/lcb",
+          "--target",
+          "aarch64-macos",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/input.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/lcb.s"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "arm64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/lcb.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/absolute.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/lcb"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-874f4d.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "target": "aarch64-macos",
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/qbe",
+          "-t",
+          "arm64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/input.ssa"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "arm64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/absolute.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/original-qbe"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/original-qbe-51e370.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "target": "x86_64-macos",
+      "backend": "lcb",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/lcb",
+          "--target",
+          "x86_64-macos",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/input.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/lcb.s"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/lcb.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/absolute.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/lcb"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\nld: in section __DATA,__data reloc 0: length < 2 and X86_64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/lcb-78f138.o' for architecture x86_64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "target": "x86_64-macos",
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/qbe",
+          "-t",
+          "amd64_apple",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/input.ssa"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "cc",
+          "-arch",
+          "x86_64",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/caller.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/absolute.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/original-qbe"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: ignoring file /nix/store/vl936sd1vj8s008akm3gibkgyqk30qhz-clang-wrapper-21.1.8/resource-root/lib/darwin/libclang_rt.osx.a, building for macOS-x86_64 but attempting to link with file built for Mac Catalyst-arm64\nld: in section __DATA,__data reloc 0: length < 2 and X86_64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/original-qbe-77c5e8.o' for architecture x86_64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "target": "aarch64-linux",
+      "backend": "lcb",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/lcb",
+          "--target",
+          "aarch64-linux",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/input.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/lcb.s"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/data-relocation-main-absolute-byte-aarch64-linux/caller.c",
+          "/work/data-relocation-main-absolute-byte-aarch64-linux/lcb.s",
+          "/work/data-relocation-main-absolute-byte-aarch64-linux/absolute.s",
+          "-no-pie",
+          "-o",
+          "/work/data-relocation-main-absolute-byte-aarch64-linux/lcb"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "/work/data-relocation-main-absolute-byte-aarch64-linux/lcb.s: Assembler messages:\n/work/data-relocation-main-absolute-byte-aarch64-linux/lcb.s:9: Error: cannot represent BFD_RELOC_8 relocation in this object file format\n/work/data-relocation-main-absolute-byte-aarch64-linux/lcb.s:10: Error: cannot represent BFD_RELOC_8 relocation in this object file format\n"
+      },
+      "qualified": false
+    },
+    {
+      "target": "aarch64-linux",
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/qbe",
+          "-t",
+          "arm64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/input.ssa"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "gcc",
+          "/work/data-relocation-main-absolute-byte-aarch64-linux/caller.c",
+          "/work/data-relocation-main-absolute-byte-aarch64-linux/original-qbe.s",
+          "/work/data-relocation-main-absolute-byte-aarch64-linux/absolute.s",
+          "-no-pie",
+          "-o",
+          "/work/data-relocation-main-absolute-byte-aarch64-linux/original-qbe"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "/work/data-relocation-main-absolute-byte-aarch64-linux/original-qbe.s: Assembler messages:\n/work/data-relocation-main-absolute-byte-aarch64-linux/original-qbe.s:5: Error: cannot represent BFD_RELOC_8 relocation in this object file format\n/work/data-relocation-main-absolute-byte-aarch64-linux/original-qbe.s:6: Error: cannot represent BFD_RELOC_8 relocation in this object file format\n"
+      },
+      "qualified": false
+    },
+    {
+      "target": "x86_64-linux",
+      "backend": "lcb",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/lcb",
+          "--target",
+          "x86_64-linux",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/input.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/lcb.s"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/caller.c",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/lcb.s",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/absolute.s",
+          "-no-pie",
+          "-o",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/lcb"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "/usr/lib/gcc-cross/x86_64-linux-gnu/13/../../../../x86_64-linux-gnu/bin/ld: warning: /tmp/ccSt2BUz.o: missing .note.GNU-stack section implies executable stack\n/usr/lib/gcc-cross/x86_64-linux-gnu/13/../../../../x86_64-linux-gnu/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/lcb"
+        ],
+        "returncode": 0,
+        "stdout": "absolute bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "target": "x86_64-linux",
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/qbe",
+          "-t",
+          "amd64_sysv",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/input.ssa"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "x86_64-linux-gnu-gcc",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/caller.c",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/original-qbe.s",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/absolute.s",
+          "-no-pie",
+          "-o",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/original-qbe"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "/usr/lib/gcc-cross/x86_64-linux-gnu/13/../../../../x86_64-linux-gnu/bin/ld: warning: /tmp/ccTrAQ5S.o: missing .note.GNU-stack section implies executable stack\n/usr/lib/gcc-cross/x86_64-linux-gnu/13/../../../../x86_64-linux-gnu/bin/ld: NOTE: This behaviour is deprecated and will be removed in a future version of the linker\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "qemu-x86_64",
+          "-L",
+          "/usr/x86_64-linux-gnu",
+          "/work/data-relocation-main-absolute-byte-x86_64-linux/original-qbe"
+        ],
+        "returncode": 0,
+        "stdout": "absolute bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "target": "riscv64-linux",
+      "backend": "lcb",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/lcb",
+          "--target",
+          "riscv64-linux",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/input.ssa",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/lcb.s"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/data-relocation-main-absolute-byte-riscv64-linux/caller.c",
+          "/work/data-relocation-main-absolute-byte-riscv64-linux/lcb.s",
+          "/work/data-relocation-main-absolute-byte-riscv64-linux/absolute.s",
+          "-no-pie",
+          "-o",
+          "/work/data-relocation-main-absolute-byte-riscv64-linux/lcb"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "/work/data-relocation-main-absolute-byte-riscv64-linux/lcb.s: Assembler messages:\n/work/data-relocation-main-absolute-byte-riscv64-linux/lcb.s:9: Error: cannot represent BFD_RELOC_8 relocation in object file\n/work/data-relocation-main-absolute-byte-riscv64-linux/lcb.s:10: Error: cannot represent BFD_RELOC_8 relocation in object file\n"
+      },
+      "qualified": false
+    },
+    {
+      "target": "riscv64-linux",
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie-absolute-symbol",
+      "emit": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocation-main-review/qbe",
+          "-t",
+          "rv64",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/original-qbe.s",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/input.ssa"
+        ],
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "link": {
+        "command": [
+          "docker",
+          "exec",
+          "lcb-parity-linux",
+          "riscv64-linux-gnu-gcc",
+          "/work/data-relocation-main-absolute-byte-riscv64-linux/caller.c",
+          "/work/data-relocation-main-absolute-byte-riscv64-linux/original-qbe.s",
+          "/work/data-relocation-main-absolute-byte-riscv64-linux/absolute.s",
+          "-no-pie",
+          "-o",
+          "/work/data-relocation-main-absolute-byte-riscv64-linux/original-qbe"
+        ],
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "/work/data-relocation-main-absolute-byte-riscv64-linux/original-qbe.s: Assembler messages:\n/work/data-relocation-main-absolute-byte-riscv64-linux/original-qbe.s:5: Error: cannot represent BFD_RELOC_8 relocation in object file\n/work/data-relocation-main-absolute-byte-riscv64-linux/original-qbe.s:6: Error: cannot represent BFD_RELOC_8 relocation in object file\n"
+      },
+      "qualified": false
+    }
+  ],
+  "artifacts": {
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/input.ssa": "b9895beaf2b9c95abb6ec1e2809a741b56d22872e5c7179bcaee290895c70883",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/absolute.s": "a649bf3281e1facb0b352271338b3f8a898fdcb6fe70ea02f9e38a5d48aa8a8c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/original-qbe.s": "a802ad635d512152a17180fb55a8888ce9f044933a13623977b9fbd2822fbd33",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/caller.c": "ae69a9900e8bdb06adc2d496266519d69b050f745be47cdce6f84ff381c0a461",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-macos/lcb.s": "57a9c9a24f3b8544b623fa2bd7449fa77f61992a7b964f6d9acd2d27e3ded85e",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/input.ssa": "b9895beaf2b9c95abb6ec1e2809a741b56d22872e5c7179bcaee290895c70883",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/absolute.s": "a649bf3281e1facb0b352271338b3f8a898fdcb6fe70ea02f9e38a5d48aa8a8c",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/original-qbe.s": "a802ad635d512152a17180fb55a8888ce9f044933a13623977b9fbd2822fbd33",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/caller.c": "ae69a9900e8bdb06adc2d496266519d69b050f745be47cdce6f84ff381c0a461",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-macos/lcb.s": "58fa73a1cc4e2af8b40f19add0fa5e20172610bd0f9259b30d59b4bc143c3c25",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/input.ssa": "b9895beaf2b9c95abb6ec1e2809a741b56d22872e5c7179bcaee290895c70883",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/absolute.s": "89d04b2d000d79341d2dc6bae64d7476c2eaa5add68316d14181fc82d0d33204",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/original-qbe.s": "cd91cff1b7b6756303efbc2f3adf45973c790823c612d990203120353983d64b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/caller.c": "ae69a9900e8bdb06adc2d496266519d69b050f745be47cdce6f84ff381c0a461",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-x86_64-linux/lcb.s": "c8501bfd15b006411b02051c4b7fdbc987580e1315f0ee3bf2a3a0a3e0dbe291",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/input.ssa": "b9895beaf2b9c95abb6ec1e2809a741b56d22872e5c7179bcaee290895c70883",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/absolute.s": "89d04b2d000d79341d2dc6bae64d7476c2eaa5add68316d14181fc82d0d33204",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/original-qbe.s": "cd91cff1b7b6756303efbc2f3adf45973c790823c612d990203120353983d64b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/caller.c": "ae69a9900e8bdb06adc2d496266519d69b050f745be47cdce6f84ff381c0a461",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-riscv64-linux/lcb.s": "014405f2cc39212120d09ed7080c75eb245c0cb41c4b33178393f317bb21382b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/input.ssa": "b9895beaf2b9c95abb6ec1e2809a741b56d22872e5c7179bcaee290895c70883",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/absolute.s": "89d04b2d000d79341d2dc6bae64d7476c2eaa5add68316d14181fc82d0d33204",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/original-qbe.s": "cd91cff1b7b6756303efbc2f3adf45973c790823c612d990203120353983d64b",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/caller.c": "ae69a9900e8bdb06adc2d496266519d69b050f745be47cdce6f84ff381c0a461",
+    "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/data-relocation-main-absolute-byte-aarch64-linux/lcb.s": "c40f5db165f215c6f44189f071ab713d1a2518ca38758d428f8915bb72e25cf6"
+  }
+}

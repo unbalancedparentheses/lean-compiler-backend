@@ -101,7 +101,6 @@ NEGATIVES = {
     'large_zero': ('data $x = { z 268435457 }', 'zero fill size'),
     'total_size': ('data $x = { z 268435456 } data $y = { b 0 }', 'module data exceeds'),
     'empty_field': ('data $x = { w }', 'requires at least one'),
-    'short_pointer': ('data $x = { w $x }', 'requires l'),
     'call_data': ('data $x = { l 0 } function $f() { @s call $x() ret }', 'defined as data'),
     'missing_comma': ('data $x = { z 1 l 2 }', "expected ','"),
 }

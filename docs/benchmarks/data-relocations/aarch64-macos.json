@@ -1,0 +1,2840 @@
+{
+  "target": "aarch64-macos",
+  "compiler_sha256": "413b9ada7739d0823c5cf88789a1560c440b52147ccd7da943e4a65adc276488",
+  "compiler_identity": "e1a329371ac31cb3af1d7ef3bf7f1fce81c72b11e2445525ab4520f74335aef9",
+  "qbe_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+  "interpreter_checks": 18,
+  "interpreter_source_sha256": "71cc30dce68a90622a0341342cff3259cc19a42e9ebdaadae95b69647455b6e5",
+  "caller_sha256": "384160d419c4e7649b87e88a964e1391887a97daf102fe862ee76aad3891d110",
+  "results": [
+    {
+      "kind": "b",
+      "width": 1,
+      "backend": "baseline",
+      "profile": "default",
+      "ir_sha256": "7dabed9f6b1fad885a09f4d4e4d3461d6b5093dfce19201abb7ef1c41aeb4e65",
+      "assembly_sha256": "606587b08a83f3b867589f55064bf302ccebcf5ff42acf04bd2fa029578b2a10",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-baseline-59508f.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "b",
+      "width": 1,
+      "backend": "baseline",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "7dabed9f6b1fad885a09f4d4e4d3461d6b5093dfce19201abb7ef1c41aeb4e65",
+      "assembly_sha256": "606587b08a83f3b867589f55064bf302ccebcf5ff42acf04bd2fa029578b2a10",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-baseline-d86767.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "b",
+      "width": 1,
+      "backend": "allocated",
+      "profile": "default",
+      "ir_sha256": "7dabed9f6b1fad885a09f4d4e4d3461d6b5093dfce19201abb7ef1c41aeb4e65",
+      "assembly_sha256": "606587b08a83f3b867589f55064bf302ccebcf5ff42acf04bd2fa029578b2a10",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-allocated-0eb01f.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "b",
+      "width": 1,
+      "backend": "allocated",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "7dabed9f6b1fad885a09f4d4e4d3461d6b5093dfce19201abb7ef1c41aeb4e65",
+      "assembly_sha256": "606587b08a83f3b867589f55064bf302ccebcf5ff42acf04bd2fa029578b2a10",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-allocated-5a41e2.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "b",
+      "width": 1,
+      "backend": "optimized",
+      "profile": "default",
+      "ir_sha256": "7dabed9f6b1fad885a09f4d4e4d3461d6b5093dfce19201abb7ef1c41aeb4e65",
+      "assembly_sha256": "606587b08a83f3b867589f55064bf302ccebcf5ff42acf04bd2fa029578b2a10",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-optimized-33e6b9.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "b",
+      "width": 1,
+      "backend": "optimized",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "7dabed9f6b1fad885a09f4d4e4d3461d6b5093dfce19201abb7ef1c41aeb4e65",
+      "assembly_sha256": "606587b08a83f3b867589f55064bf302ccebcf5ff42acf04bd2fa029578b2a10",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-optimized-b1c2ad.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "b",
+      "width": 1,
+      "backend": "original-qbe",
+      "profile": "default",
+      "ir_sha256": "7dabed9f6b1fad885a09f4d4e4d3461d6b5093dfce19201abb7ef1c41aeb4e65",
+      "assembly_sha256": "511beb12602c76ad130e8284701f01363b30b26026e9255d44fd87851f4ad680",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-original-qbe-fddbf6.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "b",
+      "width": 1,
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "7dabed9f6b1fad885a09f4d4e4d3461d6b5093dfce19201abb7ef1c41aeb4e65",
+      "assembly_sha256": "511beb12602c76ad130e8284701f01363b30b26026e9255d44fd87851f4ad680",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-original-qbe-e4e08f.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "h",
+      "width": 2,
+      "backend": "baseline",
+      "profile": "default",
+      "ir_sha256": "ced6a24c9685d2f8ae53a782c564e4f08a52c46ae15fa191ecbea38accceca21",
+      "assembly_sha256": "97473143a96667ea730bbb1fe0cde49177ea7cba22938faa11a29f4750c7b712",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-baseline-0e628b.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "h",
+      "width": 2,
+      "backend": "baseline",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "ced6a24c9685d2f8ae53a782c564e4f08a52c46ae15fa191ecbea38accceca21",
+      "assembly_sha256": "97473143a96667ea730bbb1fe0cde49177ea7cba22938faa11a29f4750c7b712",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-baseline-82c755.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "h",
+      "width": 2,
+      "backend": "allocated",
+      "profile": "default",
+      "ir_sha256": "ced6a24c9685d2f8ae53a782c564e4f08a52c46ae15fa191ecbea38accceca21",
+      "assembly_sha256": "97473143a96667ea730bbb1fe0cde49177ea7cba22938faa11a29f4750c7b712",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-allocated-a82095.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "h",
+      "width": 2,
+      "backend": "allocated",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "ced6a24c9685d2f8ae53a782c564e4f08a52c46ae15fa191ecbea38accceca21",
+      "assembly_sha256": "97473143a96667ea730bbb1fe0cde49177ea7cba22938faa11a29f4750c7b712",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-allocated-31521d.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "h",
+      "width": 2,
+      "backend": "optimized",
+      "profile": "default",
+      "ir_sha256": "ced6a24c9685d2f8ae53a782c564e4f08a52c46ae15fa191ecbea38accceca21",
+      "assembly_sha256": "97473143a96667ea730bbb1fe0cde49177ea7cba22938faa11a29f4750c7b712",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-optimized-883e86.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "h",
+      "width": 2,
+      "backend": "optimized",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "ced6a24c9685d2f8ae53a782c564e4f08a52c46ae15fa191ecbea38accceca21",
+      "assembly_sha256": "97473143a96667ea730bbb1fe0cde49177ea7cba22938faa11a29f4750c7b712",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-optimized-768f72.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "h",
+      "width": 2,
+      "backend": "original-qbe",
+      "profile": "default",
+      "ir_sha256": "ced6a24c9685d2f8ae53a782c564e4f08a52c46ae15fa191ecbea38accceca21",
+      "assembly_sha256": "ac69f900325aa7b513794cfbba953fe9a6e9e883604f86ed44e2919becd57563",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-original-qbe-175bbe.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "h",
+      "width": 2,
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "ced6a24c9685d2f8ae53a782c564e4f08a52c46ae15fa191ecbea38accceca21",
+      "assembly_sha256": "ac69f900325aa7b513794cfbba953fe9a6e9e883604f86ed44e2919becd57563",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-original-qbe-10b184.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "w",
+      "width": 4,
+      "backend": "baseline",
+      "profile": "default",
+      "ir_sha256": "6eeb3eeeb3f06987c692efc847babf4e50733764ccbda68bd9741d3b1eea7e96",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-baseline-3ecdf5.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "w",
+      "width": 4,
+      "backend": "baseline",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "6eeb3eeeb3f06987c692efc847babf4e50733764ccbda68bd9741d3b1eea7e96",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-baseline-09fc29.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "w",
+      "width": 4,
+      "backend": "allocated",
+      "profile": "default",
+      "ir_sha256": "6eeb3eeeb3f06987c692efc847babf4e50733764ccbda68bd9741d3b1eea7e96",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-allocated-1e9ba8.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "w",
+      "width": 4,
+      "backend": "allocated",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "6eeb3eeeb3f06987c692efc847babf4e50733764ccbda68bd9741d3b1eea7e96",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-allocated-82b742.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "w",
+      "width": 4,
+      "backend": "optimized",
+      "profile": "default",
+      "ir_sha256": "6eeb3eeeb3f06987c692efc847babf4e50733764ccbda68bd9741d3b1eea7e96",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-optimized-4a16ec.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "w",
+      "width": 4,
+      "backend": "optimized",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "6eeb3eeeb3f06987c692efc847babf4e50733764ccbda68bd9741d3b1eea7e96",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-optimized-13d2d6.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "w",
+      "width": 4,
+      "backend": "original-qbe",
+      "profile": "default",
+      "ir_sha256": "6eeb3eeeb3f06987c692efc847babf4e50733764ccbda68bd9741d3b1eea7e96",
+      "assembly_sha256": "5b4242c26bc39e71fb15d32694183d9fb973f9202aa8349e1b56e0b1a68ec22a",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D48, size=0x00000244, fileOffset=0x00003D48, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F74 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F74) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-original-qbe-75d202.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "w",
+      "width": 4,
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "6eeb3eeeb3f06987c692efc847babf4e50733764ccbda68bd9741d3b1eea7e96",
+      "assembly_sha256": "5b4242c26bc39e71fb15d32694183d9fb973f9202aa8349e1b56e0b1a68ec22a",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D48, size=0x00000244, fileOffset=0x00003D48, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F74 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F74) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-original-qbe-4f0747.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "s",
+      "width": 4,
+      "backend": "baseline",
+      "profile": "default",
+      "ir_sha256": "5784abc8ab58007ba7f674dea2bdf466468f1bebde83b83c84ac467e1bd532d7",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-baseline-024433.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "s",
+      "width": 4,
+      "backend": "baseline",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "5784abc8ab58007ba7f674dea2bdf466468f1bebde83b83c84ac467e1bd532d7",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-baseline-969123.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "s",
+      "width": 4,
+      "backend": "allocated",
+      "profile": "default",
+      "ir_sha256": "5784abc8ab58007ba7f674dea2bdf466468f1bebde83b83c84ac467e1bd532d7",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-allocated-3fbe51.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "s",
+      "width": 4,
+      "backend": "allocated",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "5784abc8ab58007ba7f674dea2bdf466468f1bebde83b83c84ac467e1bd532d7",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-allocated-e61d75.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "s",
+      "width": 4,
+      "backend": "optimized",
+      "profile": "default",
+      "ir_sha256": "5784abc8ab58007ba7f674dea2bdf466468f1bebde83b83c84ac467e1bd532d7",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-optimized-13836e.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "s",
+      "width": 4,
+      "backend": "optimized",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "5784abc8ab58007ba7f674dea2bdf466468f1bebde83b83c84ac467e1bd532d7",
+      "assembly_sha256": "e784d9f9721cef7c800ea7a32bbcee52c176ecaa643cbfd2f5662ffdc9e20a8e",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-optimized-c60e87.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "s",
+      "width": 4,
+      "backend": "original-qbe",
+      "profile": "default",
+      "ir_sha256": "5784abc8ab58007ba7f674dea2bdf466468f1bebde83b83c84ac467e1bd532d7",
+      "assembly_sha256": "5b4242c26bc39e71fb15d32694183d9fb973f9202aa8349e1b56e0b1a68ec22a",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe-default"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D48, size=0x00000244, fileOffset=0x00003D48, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F74 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F74) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-original-qbe-348b19.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "s",
+      "width": 4,
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "5784abc8ab58007ba7f674dea2bdf466468f1bebde83b83c84ac467e1bd532d7",
+      "assembly_sha256": "5b4242c26bc39e71fb15d32694183d9fb973f9202aa8349e1b56e0b1a68ec22a",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 1,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D48, size=0x00000244, fileOffset=0x00003D48, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F74 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F74) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-original-qbe-589493.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+      },
+      "qualified": false
+    },
+    {
+      "kind": "l",
+      "width": 8,
+      "backend": "baseline",
+      "profile": "default",
+      "ir_sha256": "c3d06775b023f286df029fec327440768fdb38caa8039de9ce27c533ba636a99",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "l",
+      "width": 8,
+      "backend": "baseline",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "c3d06775b023f286df029fec327440768fdb38caa8039de9ce27c533ba636a99",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "l",
+      "width": 8,
+      "backend": "allocated",
+      "profile": "default",
+      "ir_sha256": "c3d06775b023f286df029fec327440768fdb38caa8039de9ce27c533ba636a99",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "l",
+      "width": 8,
+      "backend": "allocated",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "c3d06775b023f286df029fec327440768fdb38caa8039de9ce27c533ba636a99",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "l",
+      "width": 8,
+      "backend": "optimized",
+      "profile": "default",
+      "ir_sha256": "c3d06775b023f286df029fec327440768fdb38caa8039de9ce27c533ba636a99",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "l",
+      "width": 8,
+      "backend": "optimized",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "c3d06775b023f286df029fec327440768fdb38caa8039de9ce27c533ba636a99",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "l",
+      "width": 8,
+      "backend": "original-qbe",
+      "profile": "default",
+      "ir_sha256": "c3d06775b023f286df029fec327440768fdb38caa8039de9ce27c533ba636a99",
+      "assembly_sha256": "4c537b2a68dc56e4a9b57e25bb88d7f227d7300ac755d9c501045ed4ad2a83e3",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "l",
+      "width": 8,
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "c3d06775b023f286df029fec327440768fdb38caa8039de9ce27c533ba636a99",
+      "assembly_sha256": "4c537b2a68dc56e4a9b57e25bb88d7f227d7300ac755d9c501045ed4ad2a83e3",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "d",
+      "width": 8,
+      "backend": "baseline",
+      "profile": "default",
+      "ir_sha256": "f608896e65efd66d89d9e309f2c21246bf99a2bfbadc033aeee0e864ca64b483",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "d",
+      "width": 8,
+      "backend": "baseline",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "f608896e65efd66d89d9e309f2c21246bf99a2bfbadc033aeee0e864ca64b483",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "d",
+      "width": 8,
+      "backend": "allocated",
+      "profile": "default",
+      "ir_sha256": "f608896e65efd66d89d9e309f2c21246bf99a2bfbadc033aeee0e864ca64b483",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "d",
+      "width": 8,
+      "backend": "allocated",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "f608896e65efd66d89d9e309f2c21246bf99a2bfbadc033aeee0e864ca64b483",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "d",
+      "width": 8,
+      "backend": "optimized",
+      "profile": "default",
+      "ir_sha256": "f608896e65efd66d89d9e309f2c21246bf99a2bfbadc033aeee0e864ca64b483",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "d",
+      "width": 8,
+      "backend": "optimized",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "f608896e65efd66d89d9e309f2c21246bf99a2bfbadc033aeee0e864ca64b483",
+      "assembly_sha256": "b3887b974fd66a55f424b5206fd7a9b4895a878314b3667fae38fac735154fb6",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "d",
+      "width": 8,
+      "backend": "original-qbe",
+      "profile": "default",
+      "ir_sha256": "f608896e65efd66d89d9e309f2c21246bf99a2bfbadc033aeee0e864ca64b483",
+      "assembly_sha256": "4c537b2a68dc56e4a9b57e25bb88d7f227d7300ac755d9c501045ed4ad2a83e3",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe.s",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": ""
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe-default"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    },
+    {
+      "kind": "d",
+      "width": 8,
+      "backend": "original-qbe",
+      "profile": "explicit-no-pie",
+      "ir_sha256": "f608896e65efd66d89d9e309f2c21246bf99a2bfbadc033aeee0e864ca64b483",
+      "assembly_sha256": "4c537b2a68dc56e4a9b57e25bb88d7f227d7300ac755d9c501045ed4ad2a83e3",
+      "link": {
+        "command": [
+          "cc",
+          "-std=c11",
+          "-O2",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe.s",
+          "-Wl,-no_pie",
+          "-o",
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "",
+        "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+      },
+      "qualified": true,
+      "execution": {
+        "command": [
+          "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe-explicit-no-pie"
+        ],
+        "inside": true,
+        "returncode": 0,
+        "stdout": "relocation bytes passed\n",
+        "stderr": ""
+      }
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--check",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "checked 18 function(s), 19 data definition(s); initial QBE subset\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "b_positive_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "b_negative_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "b_wrap_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "h_positive_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "h_negative_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "h_wrap_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "w_positive_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "w_negative_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "w_wrap_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "s_positive_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "s_negative_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "s_wrap_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "l_positive_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "l_negative_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "l_wrap_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "d_positive_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "d_negative_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--eval",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/interpreter.ssa",
+        "d_wrap_check"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "1\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-baseline-59508f.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-baseline-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-baseline-d86767.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-allocated-0eb01f.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-allocated-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-allocated-5a41e2.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-optimized-33e6b9.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-optimized-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-optimized-b1c2ad.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-original-qbe-fddbf6.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/b-original-qbe-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/b-original-qbe-e4e08f.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-baseline-0e628b.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-baseline-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-baseline-82c755.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-allocated-a82095.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-allocated-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-allocated-31521d.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-optimized-883e86.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-optimized-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-optimized-768f72.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-original-qbe-175bbe.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/h-original-qbe-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nld: in section __DATA,__data reloc 0: length < 2 and ARM64_RELOC_UNSIGNED not supported file '/var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/h-original-qbe-10b184.o' for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-baseline-3ecdf5.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-baseline-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-baseline-09fc29.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-allocated-1e9ba8.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-allocated-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-allocated-82b742.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-optimized-4a16ec.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-optimized-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-optimized-13d2d6.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D48, size=0x00000244, fileOffset=0x00003D48, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F74 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F74) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-original-qbe-75d202.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/w-original-qbe-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D48, size=0x00000244, fileOffset=0x00003D48, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F74 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F74) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/w-original-qbe-4f0747.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-baseline-024433.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-baseline-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-baseline-969123.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-allocated-3fbe51.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-allocated-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-allocated-e61d75.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-optimized-13836e.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-optimized-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D78, size=0x00000214, fileOffset=0x00003D78, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F84 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F84) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-optimized-c60e87.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe-default"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "final section layout:\n    __TEXT/__text addr=0x100003D48, size=0x00000244, fileOffset=0x00003D48, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA_CONST/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100008000, size=0x0000001D, fileOffset=0x00008000, type=0\n    __DATA/__common addr=0x10000801D, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100008040, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F74 max is 4GB): from _packed + 0x00000018 (0x100008000) to _function (0x100003F74) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-original-qbe-348b19.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/s-original-qbe-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\nfinal section layout:\n    __TEXT/__text addr=0x100003D48, size=0x00000244, fileOffset=0x00003D48, type=1\n    __TEXT/__stubs addr=0x100003F8C, size=0x0000000C, fileOffset=0x00003F8C, type=29\n    __TEXT/__cstring addr=0x100003F98, size=0x00000018, fileOffset=0x00003F98, type=13\n    __TEXT/__unwind_info addr=0x100003FB0, size=0x00000050, fileOffset=0x00003FB0, type=22\n    __DATA/__got addr=0x100004000, size=0x00000008, fileOffset=0x00004000, type=31\n    __DATA/__data addr=0x100004008, size=0x0000001D, fileOffset=0x00004008, type=0\n    __DATA/__common addr=0x100004025, size=0x00000020, fileOffset=0x00000000, type=26\n    __DATA/__bss addr=0x100004048, size=0x00000060, fileOffset=0x00000000, type=26\nld: 32-bit absolute address out of range (0x100003F74 max is 4GB): from _packed + 0x00000018 (0x100004008) to _function (0x100003F74) in '_packed' from /var/folders/8x/hzq1wwb13xxglxhmtwpmww9r0000gn/T/s-original-qbe-589493.o for architecture arm64\nclang: error: linker command failed with exit code 1 (use -v to see invocation)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/corrupt.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/corrupt"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/corrupt"
+      ],
+      "inside": true,
+      "returncode": 2,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-baseline-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-allocated-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-optimized-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/l-original-qbe-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-baseline-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-allocated-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.ssa",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized.s"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-optimized-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/large-struct/qbe-host/qbe",
+        "-t",
+        "arm64_apple",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.ssa"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe-default"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "cc",
+        "-std=c11",
+        "-O2",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe.s",
+        "-Wl,-no_pie",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "ld: warning: -no_pie is deprecated when targeting new OS versions\nld: warning: -no_pie ignored for arm64\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/d-original-qbe-explicit-no-pie"
+      ],
+      "inside": true,
+      "returncode": 0,
+      "stdout": "relocation bytes passed\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.lake/build/bin/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "returncode": 0,
+      "stdout": "e1a329371ac31cb3af1d7ef3bf7f1fce81c72b11e2445525ab4520f74335aef9\n",
+      "stderr": ""
+    }
+  ],
+  "corruption_controls": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/data-relocations-main-apple-arm/corrupt"
+      ],
+      "inside": true,
+      "returncode": 2,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "note": "Unchanged original QBE; default and explicit non-PIE link qualifications are separate. Link failures are retained and are not executable passes."
+}

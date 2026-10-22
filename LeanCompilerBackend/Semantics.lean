@@ -373,10 +373,10 @@ private def initializeModule (module : Module) : Except String ExecutionState :=
       | .byteString values =>
         for i in [:values.size] do
           memory ← memory.write (base + (offset + i).toUInt64) 1 values[i]!.toUInt64
-      | .address name addend =>
+      | .address width name addend =>
         let some address := symbols.lookup name
           | throw s!"external symbol ${name} has no interpreter model; result not evaluated"
-        memory ← memory.write (base + offset.toUInt64) 8 (address + constant .long addend)
+        memory ← memory.write (base + offset.toUInt64) width.bytes (address + constant .long addend)
       offset := offset + item.byteSize
   return { memory, symbols, functions := module.functions, types := ← AggregateABI.classify module.types }
 

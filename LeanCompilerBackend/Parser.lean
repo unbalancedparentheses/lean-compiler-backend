@@ -530,13 +530,12 @@ private def parseData (exported threadLocal : Bool) : P DataDefinition := do
             if width != .byte then failAt "string initializer requires b"
             pure (DataItem.byteString (← parseDataString))
           else if ((← peek).getD "").startsWith "$" then do
-            if width != .long then failAt "symbol data initializer currently requires l"
             let symbol ← parseName '$'
             let offset ← if (← peek) == some "+" then do
                 discard take
                 parseDataInteger
               else pure 0
-            pure (DataItem.address symbol offset)
+            pure (DataItem.address width symbol offset)
           else pure (.integer width (← parseDataBits))
         items := items.push item
         count := count + 1

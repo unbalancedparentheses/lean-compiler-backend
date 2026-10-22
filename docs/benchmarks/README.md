@@ -881,3 +881,9 @@ while retaining used-environment and signature refusal controls.
 [64 new attempts and all-mode replays](csmith-overnight/README.md) retain 50 common
 qualified programs per Linux target, 14 reference timeouts, exact compiler/input
 identities and the distinction between unique programs and target/mode replays.
+
+## Width-aware static relocations
+
+[Five-target qualification](data-relocations/README.md) retains packed interpreter
+checks and independent native address checks for every QBE initializer width,
+with default/non-PIE profiles and linker failures kept separate.

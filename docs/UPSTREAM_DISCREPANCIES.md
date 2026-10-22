@@ -112,12 +112,13 @@ cases. The independent C caller still checks the original Lean source.
 
 The 1024-argument boundary suite also retains a [single signed-byte outbound
 call](benchmarks/argument-limits/rv-narrow-input.ssa) with an [independent C
-callee](benchmarks/argument-limits/rv-narrow-caller.c): pinned RV64 and Apple AMD64
+callee](benchmarks/argument-limits/rv-narrow-caller.c): pinned RV64 and both AMD64 targets under Clang
 QBE pass 140 where an optimized C callee (`-O1`) expects -116; an
 unoptimized callee may mask the missing extension. QBE's call specification explicitly permits
 unextended subword arguments; this differs from consuming unspecified upper bits
-of a subword return. The Apple AMD64 result belongs to the existing Clang
-narrow-call discrepancy class. All LCB profiles run unchanged against C; original
+of a subword return. The AMD64 results belong to the existing Clang
+narrow-call discrepancy class. The [Linux Clang reproduction](benchmarks/argument-limits/linuxx86-clang-narrow.json)
+retains passing LCB controls and a GCC callee that masks the original-QBE defect. All LCB profiles run unchanged against C; original
 QBE comparisons omit the two narrow/aggregate mixtures on these targets.
 
 Pinned RV64 also emits an out-of-range `add t0,fp,2048` for the second field of

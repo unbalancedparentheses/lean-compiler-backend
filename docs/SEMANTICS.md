@@ -116,14 +116,19 @@ remain data. Token diagnostics retain the opening line and subsequent source lin
 numbers. Other escape forms reject explicitly. QBE passes raw strings to the
 assembler, whose literal-newline handling varies: the independent byte matrix
 keeps our input raw and uses escaped line breaks only in its QBE reference.
-Long pointer initializers
-resolve symbols plus signed addends; all objects are allocated before resolving
+Symbol initializers use the declared b/h/w/l field width, with s/d aliases for
+raw 32/64-bit relocations. They store the low address bits after adding signed
+addends; all objects are allocated before resolving
 references, so forward and self references work. Each evaluation starts with
 fresh initialized globals, whose contents persist through calls within that run.
 Function addresses are opaque, non-memory interpreter identities. Unresolved
 external symbols have no interpreter result; native assembly delegates their
 resolution to the linker. Numeric pointer values are not compared across models.
 Data/function name collisions and direct calls to data definitions are rejected.
+Native narrow absolute relocations depend on assembler/linker support and address
+range. Linux word relocations qualify with explicit non-PIE linking; default PIE
+and Apple narrow-address failures are recorded separately. Parsing a relocation
+does not promise every target/link profile can represent it.
 Native module data and individual zero-fill fields have a 256 MiB resource
 limit. Ordinary nonempty zero-only definitions use ELF BSS or Mach-O zerofill;
 custom sections, TLS and common linkage preserve their distinct paths. The

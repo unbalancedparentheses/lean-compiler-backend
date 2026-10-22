@@ -10,7 +10,13 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`49f1c29def2b2df50394c242f67719bc7202ec3208ab6853fd3c3962fb676207`.
+`e1a329371ac31cb3af1d7ef3bf7f1fce81c72b11e2445525ab4520f74335aef9`.
+
+Symbol initializers now retain `b/h/w/l/s/d` storage widths and addends. The
+[relocation qualification](benchmarks/data-relocations/README.md) records packed
+interpreter layouts, independent native C checks and unchanged QBE comparisons
+on all five targets. Linker/range refusals are retained separately; 102 of 240
+link profiles execute successfully. Ordinary corpus assembly is unchanged.
 
 Calls may omit a declared environment parameter when it is unused in retained
 SSA operands. The interpreter removes the unused binding instead of inventing
@@ -24,7 +30,7 @@ variadic environment definitions remain a separate limitation at this checkpoint
 The [fresh overnight Csmith batch](benchmarks/csmith-overnight/README.md) qualifies
 50 of 64 new seeds per Linux target against GCC O0/O2 and unchanged QBE, with 14
 reference timeouts excluded. All three modes replay those 50 programs successfully
-on the current identity; baseline/optimized initial reference campaigns retain
+on identity 49f1c29d…; baseline/optimized initial reference campaigns retain
 the preceding 81000f96… identity. Target IR is identical within each comparison,
 not across ISAs; replay counts are not new unique programs.
 
