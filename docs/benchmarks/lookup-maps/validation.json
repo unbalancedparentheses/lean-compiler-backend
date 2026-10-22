@@ -1,0 +1,49 @@
+{
+  "compiler_identity": "aa20e5ffce15827dcb8e6a489cadbb089fd6dc1bbd08879077f9a823cc730759",
+  "build": "lake build lcb lcb-tests: exit 0",
+  "units": "fresh lcb-tests: exit 0",
+  "optimized_linux_gates": {
+    "aarch64-linux": {
+      "exit": 0,
+      "log_sha256": "6e8a77c94e9c9b3771564851593e8be7d978c85d075ff16d35ab4436f6d0c9f2",
+      "summary": [
+        "Linux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True",
+        "Actual compiler emission modes: {'baseline': 17, 'allocated': 12, 'optimized': 109}"
+      ]
+    },
+    "x86_64-linux": {
+      "exit": 0,
+      "log_sha256": "bd6494364e2cb16c43eead92b3be9a5f4acbdaacfca6425c9aeab661d279357f",
+      "summary": [
+        "x86_64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 17, 'allocated': 12, 'optimized': 109}"
+      ]
+    },
+    "riscv64-linux": {
+      "exit": 0,
+      "log_sha256": "a91c455427f2413974800e9122ecb36a3af2febc3244b9b108c43a1b96830a33",
+      "summary": [
+        "riscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated",
+        "Actual compiler emission modes: {'baseline': 16, 'allocated': 11, 'optimized': 110}"
+      ]
+    }
+  },
+  "native_apple_arm": {
+    "bindings": {
+      "exit": 0,
+      "log_sha256": "595bdedb751154128e53809d6209c638d3d838bbe5e9c0765eef449d91f6d267",
+      "summary": [
+        "aarch64-macos: 600 independent C cases per mode; modes={'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'original-qbe': 'passed'}; corruption=detected"
+      ]
+    },
+    "prefix": {
+      "exit": 0,
+      "log_sha256": "a2f54b41fb7ec4c354d8da8097cc313bcec9cef2e34affd6ffadb273f0944f0d",
+      "summary": [
+        "aarch64-macos: 2560 independent sparse-prefix cases per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'original-qbe': 'passed'}"
+      ]
+    }
+  },
+  "scope": "Linux ARM native; Linux x86/RV QEMU. Apple ARM native independent cases. Apple x86 ordinary assembly equivalence; no new native Intel Mac qualification. No preservation proof.",
+  "proof_audit": "147 printed axiom reports exactly match preceding prefix-fix audit"
+}

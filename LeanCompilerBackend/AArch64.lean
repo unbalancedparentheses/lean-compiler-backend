@@ -181,18 +181,18 @@ private def slotAccess (instruction base register : String) (bytes offset : Nat)
   else stackAddress base 15 offset ++ [s!"\t{instruction} {register}, [x15]"]
 
 private structure Homes where
-  stack : List (String × Nat)
-  registers : List (String × Nat)
+  stack : Std.HashMap String Nat
+  registers : Std.HashMap String Nat
 
 private def operandRegister (homes : Homes) (scratch : Nat) : Operand → Nat
-  | .temporary name => (homes.registers.lookup name).getD scratch
+  | .temporary name => (homes.registers[name]?).getD scratch
   | _ => scratch
 
 private def storeHome (base : String) (homes : Homes) (width : Width)
     (source name : String) (floating : Bool := false) : Except String (List String) := do
-  if let some n := homes.registers.lookup name then
+  if let some n := homes.registers[name]? then
     return [s!"\t{if floating then "fmov" else "mov"} {register width n}, {source}"]
-  let some offset := homes.stack.lookup name | throw s!"missing storage home for %{name}"
+  let some offset := homes.stack[name]? | throw s!"missing storage home for %{name}"
   return slotAccess "str" base source width.bytes offset
 
 private def load (darwin : Bool) (localSymbols : List String) (base : String) (slots : Homes) (width : Width) (destination : Nat)
@@ -209,10 +209,10 @@ private def load (darwin : Bool) (localSymbols : List String) (base : String) (s
       else [s!"\tadrp {r}, :got:{name}", s!"\tldr {r}, [{r}, :got_lo12:{name}]"])
       ++ (if width == .word then [s!"\tmov {register .word destination}, {register .word destination}"] else [])
   | .temporary name =>
-    if let some n := slots.registers.lookup name then
+    if let some n := slots.registers[name]? then
       if width == .long && n == destination then return []
       return [s!"\tmov {register width destination}, {register width n}"]
-    match slots.stack.lookup name with
+    match slots.stack[name]? with
     | some offset => return slotAccess "ldr" base (register width destination) width.bytes offset
     | none => throw s!"missing storage home for %{name}"
 
@@ -446,7 +446,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
   match inst.operation with
   | .convert op value =>
     let sourceHome := operandRegister slots 9 value
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     if sourceHome == 9 then lines := lines ++ (← load darwin localSymbols base slots op.inputWidth 9 value)
     let input := register op.inputWidth sourceHome
     let output := register inst.width resultHome
@@ -465,7 +465,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
   | .floatBinary op a b =>
     let left := operandRegister slots 9 a
     let right := operandRegister slots 10 b
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
     if right == 10 then lines := lines ++ (← load darwin localSymbols base slots inst.width 10 b)
     let f9 := floatRegister inst.width 16
@@ -476,14 +476,14 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     if resultHome != 9 then return lines
   | .floatNegate value =>
     let sourceHome := operandRegister slots 9 value
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     if sourceHome == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 value)
     lines := lines ++ [s!"\teor {register inst.width resultHome}, {register inst.width sourceHome}, #{2 ^ (inst.width.bits - 1)}"]
     if resultHome != 9 then return lines
   | .floatCompare op width a b =>
     let left := operandRegister slots 9 a
     let right := operandRegister slots 10 b
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     if left == 9 then lines := lines ++ (← load darwin localSymbols base slots width 9 a)
     if right == 10 then lines := lines ++ (← load darwin localSymbols base slots width 10 b)
     let f9 := floatRegister width 16
@@ -492,7 +492,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
       s!"\tfcmp {f9}, {f10}", s!"\tcset w{resultHome}, {floatCondition op}"]
     if resultHome != 9 then return lines
   | .cast value | .copy value =>
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     lines := lines ++ (← load darwin localSymbols base slots inst.width resultHome value)
     if resultHome != 9 then return lines
   | .binary op a b =>
@@ -506,7 +506,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
       match b with | .constant value => binaryImmediate inst.width op value | _ => none
     let left := operandRegister slots 9 a
     let right := operandRegister slots 10 b
-    let destination := (slots.registers.lookup inst.destination).getD 9
+    let destination := (slots.registers[inst.destination]?).getD 9
     if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
     if let some (instruction, operand) := encoded then
       lines := lines ++ [s!"\t{instruction} {register inst.width destination}, {register inst.width left}, {operand}"]
@@ -518,14 +518,14 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     if destination != 9 then return lines
   | .unary op value =>
     let sourceHome := operandRegister slots 9 value
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     if sourceHome == 9 then lines := lines ++ (← load darwin localSymbols base slots (op.inputWidth inst.width) 9 value)
     lines := lines ++ unaryInstruction inst.width op resultHome sourceHome
     if resultHome != 9 then return lines
   | .divide op a b =>
     let left := operandRegister slots 9 a
     let right := operandRegister slots 10 b
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
     if right == 10 then lines := lines ++ (← load darwin localSymbols base slots inst.width 10 b)
     let instruction := if op == .signedDiv || op == .signedRem then "sdiv" else "udiv"
@@ -538,7 +538,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     else lines := lines ++ [s!"\t{instruction} {output}, {rLeft}, {rRight}"]
     if resultHome != 9 then return lines
   | .compare op width a b =>
-    let destination := (slots.registers.lookup inst.destination).getD 9
+    let destination := (slots.registers[inst.destination]?).getD 9
     lines := lines ++ (← comparisonFlags darwin localSymbols base slots width a b)
     -- A W write zero-extends, so both word and long boolean results are exact.
     lines := lines ++ [s!"\tcset {register .word destination}, {condition op}"]
@@ -566,7 +566,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
         "\tadd x10, x11, #8", "\tstr x10, [x9]", "2:", s!"\tldr {register inst.width 9}, [x11]"]
   | .load kind address =>
     let addressHome := operandRegister slots 9 address
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     if addressHome == 9 then lines := lines ++ (← load darwin localSymbols base slots .long 9 address)
     lines := lines ++ [s!"\t{memoryLoad inst.width resultHome kind}, [x{addressHome}]"]
     if resultHome != 9 then return lines
@@ -575,7 +575,7 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     -- and scratch banks. Permutations and call clobbers preserve their values.
     lines := lines ++ (← emitCall darwin localSymbols types base slots allocations target arguments (inst.callAggregate.map (inst.destination, ·)))
     if inst.callAggregate.isNone then
-      let resultHome := (slots.registers.lookup inst.destination).getD 9
+      let resultHome := (slots.registers[inst.destination]?).getD 9
       lines := lines ++ [if inst.floating then s!"\tfmov {register inst.width resultHome}, {floatRegister inst.width 0}"
         else s!"\tmov {register inst.width resultHome}, {register inst.width 0}"]
       if resultHome != 9 then return lines
@@ -671,7 +671,7 @@ private def adjacentMemory (darwin : Bool) (localSymbols : List String) (base : 
   match second with
   | .assign inst =>
     let .load kind _ := inst.operation | return none
-    let resultHome := (slots.registers.lookup inst.destination).getD 9
+    let resultHome := (slots.registers[inst.destination]?).getD 9
     lines := lines ++ [memory (memoryLoad inst.width resultHome kind)]
     if resultHome == 9 then
       lines := lines ++ (← storeHome base slots inst.width (register inst.width 9) inst.destination)
@@ -714,8 +714,8 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
       | throw s!"missing phi predecessor @{predecessor}"
     values := values.push value
     sources := sources.push (match value with
-      | .temporary name => slots.registers.lookup name | _ => none)
-    let destination := slots.registers.lookup phi.destination
+      | .temporary name => slots.registers[name]? | _ => none)
+    let destination := slots.registers[phi.destination]?
     destinations := destinations.push destination
     let direct := match value with | .temporary _ | .constant _ => true | _ => false
     if destination.isSome && direct then pending := pending.push i
@@ -766,9 +766,10 @@ def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (de
   if dynamic then outgoing := 16
   -- The outgoing argument area is below all locals, phi staging, saved LR and
   -- allocation objects. Calls can overwrite it without destroying live values.
+  -- Lookup-only tables preserve layout order; reversing retains List.lookup first-match behavior.
   let slots : Homes := {
-    stack := homes.homes.filterMap (fun (name,i) => if i >= homes.registerCount then some (name,outgoing+(i-homes.registerCount)*8) else none)
-    registers := homes.homes.filterMap (fun (name,i) => if i < homes.registerCount then some (name,19+i) else none) }
+    stack := Std.HashMap.ofList ((homes.homes.filterMap (fun (name,i) => if i >= homes.registerCount then some (name,outgoing+(i-homes.registerCount)*8) else none)).reverse)
+    registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (name,i) => if i < homes.registerCount then some (name,19+i) else none)).reverse) }
   let maxPhis := f.blocks.foldl (fun n block => max n block.phis.size) 0
   let stageBase := outgoing + homes.spills * 8
   let mut frameEnd := outgoing + (homes.spills + maxPhis) * 8

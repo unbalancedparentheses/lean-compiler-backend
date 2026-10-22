@@ -29,8 +29,8 @@ private def fromFloat (w : Width) (dst src : String) : List String :=
 private def savedGP : Array String := #["s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "s10", "s11"]
 
 private structure Context where
-  slots : List (String × Nat)
-  registers : List (String × String)
+  slots : Std.HashMap String Nat
+  registers : Std.HashMap String String
   locals : List String
   stage : Nat
   vaOffset : Int
@@ -40,10 +40,10 @@ private structure Context where
   types : Array Info
   resultPointer : Nat
 private def slot (c : Context) (name : String) : Except String Int := do
-  let some n := c.slots.lookup name | throw s!"missing RV64 slot %{name}"
+  let some n := c.slots[name]? | throw s!"missing RV64 slot %{name}"
   pure (-(n : Int))
 private def store (c : Context) (name : String) : Except String (List String) := do
-  if let some r := c.registers.lookup name then return [s!"\tmv {r}, t0"]
+  if let some r := c.registers[name]? then return [s!"\tmv {r}, t0"]
   return memory "sd" "t0" "s0" (← slot c name)
 /-- General-dynamic TLS supports external definitions and shared libraries. -/
 private def threadAddress (w : Width) (destination name : String) : List String := Id.run do
@@ -60,7 +60,7 @@ private def threadAddress (w : Width) (destination name : String) : List String 
 private def load (c : Context) (w : Width) (r : String) : Operand → Except String (List String)
   | .constant n => pure [s!"\tli {r}, {Semantics.constant w n}"]
   | .temporary name => do
-    if let some home := c.registers.lookup name then return [s!"\tmv {r}, {home}"] ++ norm w r
+    if let some home := c.registers[name]? then return [s!"\tmv {r}, {home}"] ++ norm w r
     return memory (if w == Width.word then "lwu" else "ld") r "s0" (← slot c name)
   | .symbol name => pure ([s!"\t{if c.locals.contains name then "lla" else "la"} {r}, {name}"] ++ norm w r)
   | .threadSymbol name => pure (threadAddress w r name)
@@ -353,7 +353,8 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
   if frame > 1024*1024 then throw "RV64 frame exceeds 1 MiB"
   let aliases := f.blocks.toList.flatMap fun b => b.instructions.toList.filterMap fun s =>
     match s with | .assign {destination, operation := .copy (.symbol name), ..} => some (destination,name) | _ => none
-  let c : Context := {slots := homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,header+(i-homes.registerCount+1)*8) else none), registers := homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none), locals, stage := header+(homes.spills+1)*8, vaOffset := if incoming.stackBytes > 0 then incoming.stackBytes else (incoming.ngp*8 : Int)-64, wordFunctions := words, aliases, objects, types, resultPointer}
+  -- Lookup-only tables preserve layout order; reversing retains List.lookup first-match behavior.
+  let c : Context := {slots := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,header+(i-homes.registerCount+1)*8) else none)).reverse), registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none)).reverse), locals, stage := header+(homes.spills+1)*8, vaOffset := if incoming.stackBytes > 0 then incoming.stackBytes else (incoming.ngp*8 : Int)-64, wordFunctions := words, aliases, objects, types, resultPointer}
   let mut lines := Assembly.LineBuffer.ofList [f.customSection.map (Assembly.sectionDirective false) |>.getD ".text", s!".type {f.name}, @function", ".p2align 2"]
   if f.exported then lines := lines ++ [s!".globl {f.name}"]
   lines := lines ++ [s!"{f.name}:", "\tmv t0, sp"] ++ address "sp" "sp" (-(frame : Int)) ++

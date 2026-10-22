@@ -1,0 +1,215 @@
+{
+  "schema": 1,
+  "method": "Alternating before/after order per round; warmed process startup; same unchanged IR and target; wall time includes all compiler checks and emission; no concurrent jobs from this worker during timed campaign.",
+  "timestamp_utc": "2026-10-22T03:46:38.155171+00:00",
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "machine": "arm64",
+  "target": "aarch64-linux",
+  "input_sha256": "b96090a33b6aa6131a0c48b90f128243094deafa1af6f5d3f28b6b2ea44fb264",
+  "input_bytes": 2529520,
+  "harness_sha256": "ec70e83dac47894fdb5e73c8c204f03ae73a0f0fe05ecbd4b995a3c6799e31e3",
+  "compilers": {
+    "before": {
+      "sha256": "d2fa2b3cc56f11a4196f7fa66923d973241a90bb4ca18a29cdc62b006c0516dd",
+      "identity": "6d5042d15a30f932da7a92ad5e0c5aaaf1f76df5445e84419ae31036b7bcb685"
+    },
+    "after": {
+      "sha256": "70ef5164ab3bceb5b857a4b263cd4d4a5cd94157efe085b4ebd0a718f36036fc",
+      "identity": "aa20e5ffce15827dcb8e6a489cadbb089fd6dc1bbd08879077f9a823cc730759"
+    },
+    "qbe": {
+      "sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+    }
+  },
+  "samples": [
+    {
+      "round": 0,
+      "compiler": "before",
+      "mode": "baseline",
+      "seconds": 11.792005375027657,
+      "assembly_sha256": "c86a60fe56d42c7292cdec494d815e42d365b25f8cf5a7b1ea3a1435a0ad5a5f",
+      "assembly_bytes": 13727816
+    },
+    {
+      "round": 0,
+      "compiler": "after",
+      "mode": "baseline",
+      "seconds": 0.6280036250245757,
+      "assembly_sha256": "c86a60fe56d42c7292cdec494d815e42d365b25f8cf5a7b1ea3a1435a0ad5a5f",
+      "assembly_bytes": 13727816
+    },
+    {
+      "round": 0,
+      "compiler": "before",
+      "mode": "allocated",
+      "seconds": 12.629477167036384,
+      "assembly_sha256": "3f827f329b6b3cdc120fba2d0360d554d2b30fabd64609fc46e71e0dee1274b0",
+      "assembly_bytes": 1685825
+    },
+    {
+      "round": 0,
+      "compiler": "after",
+      "mode": "allocated",
+      "seconds": 1.3276991249877028,
+      "assembly_sha256": "3f827f329b6b3cdc120fba2d0360d554d2b30fabd64609fc46e71e0dee1274b0",
+      "assembly_bytes": 1685825
+    },
+    {
+      "round": 0,
+      "compiler": "before",
+      "mode": "optimized",
+      "seconds": 57.50612266699318,
+      "assembly_sha256": "a9c9f840ceaa443dbef0709c3f257bc80ff812db254499fa774841e5ed680cb4",
+      "assembly_bytes": 1682550
+    },
+    {
+      "round": 0,
+      "compiler": "after",
+      "mode": "optimized",
+      "seconds": 3.156236583017744,
+      "assembly_sha256": "a9c9f840ceaa443dbef0709c3f257bc80ff812db254499fa774841e5ed680cb4",
+      "assembly_bytes": 1682550
+    },
+    {
+      "round": 0,
+      "compiler": "qbe",
+      "mode": "qbe",
+      "seconds": 2.3185353329754435,
+      "assembly_sha256": "f86284d0b96c391e38cbe1b757d63562666744fcdb00cb31836c4e99576bd6a1",
+      "assembly_bytes": 3768037
+    },
+    {
+      "round": 1,
+      "compiler": "after",
+      "mode": "baseline",
+      "seconds": 0.5625352089991793,
+      "assembly_sha256": "c86a60fe56d42c7292cdec494d815e42d365b25f8cf5a7b1ea3a1435a0ad5a5f",
+      "assembly_bytes": 13727816
+    },
+    {
+      "round": 1,
+      "compiler": "before",
+      "mode": "baseline",
+      "seconds": 13.56665970798349,
+      "assembly_sha256": "c86a60fe56d42c7292cdec494d815e42d365b25f8cf5a7b1ea3a1435a0ad5a5f",
+      "assembly_bytes": 13727816
+    },
+    {
+      "round": 1,
+      "compiler": "after",
+      "mode": "allocated",
+      "seconds": 1.3020959999994375,
+      "assembly_sha256": "3f827f329b6b3cdc120fba2d0360d554d2b30fabd64609fc46e71e0dee1274b0",
+      "assembly_bytes": 1685825
+    },
+    {
+      "round": 1,
+      "compiler": "before",
+      "mode": "allocated",
+      "seconds": 12.29405670799315,
+      "assembly_sha256": "3f827f329b6b3cdc120fba2d0360d554d2b30fabd64609fc46e71e0dee1274b0",
+      "assembly_bytes": 1685825
+    },
+    {
+      "round": 1,
+      "compiler": "after",
+      "mode": "optimized",
+      "seconds": 2.5499645000090823,
+      "assembly_sha256": "a9c9f840ceaa443dbef0709c3f257bc80ff812db254499fa774841e5ed680cb4",
+      "assembly_bytes": 1682550
+    },
+    {
+      "round": 1,
+      "compiler": "before",
+      "mode": "optimized",
+      "seconds": 61.85943229100667,
+      "assembly_sha256": "a9c9f840ceaa443dbef0709c3f257bc80ff812db254499fa774841e5ed680cb4",
+      "assembly_bytes": 1682550
+    },
+    {
+      "round": 1,
+      "compiler": "qbe",
+      "mode": "qbe",
+      "seconds": 2.2169801670243032,
+      "assembly_sha256": "f86284d0b96c391e38cbe1b757d63562666744fcdb00cb31836c4e99576bd6a1",
+      "assembly_bytes": 3768037
+    },
+    {
+      "round": 2,
+      "compiler": "before",
+      "mode": "baseline",
+      "seconds": 11.600020750018302,
+      "assembly_sha256": "c86a60fe56d42c7292cdec494d815e42d365b25f8cf5a7b1ea3a1435a0ad5a5f",
+      "assembly_bytes": 13727816
+    },
+    {
+      "round": 2,
+      "compiler": "after",
+      "mode": "baseline",
+      "seconds": 0.6783654159517027,
+      "assembly_sha256": "c86a60fe56d42c7292cdec494d815e42d365b25f8cf5a7b1ea3a1435a0ad5a5f",
+      "assembly_bytes": 13727816
+    },
+    {
+      "round": 2,
+      "compiler": "before",
+      "mode": "allocated",
+      "seconds": 12.295208040974103,
+      "assembly_sha256": "3f827f329b6b3cdc120fba2d0360d554d2b30fabd64609fc46e71e0dee1274b0",
+      "assembly_bytes": 1685825
+    },
+    {
+      "round": 2,
+      "compiler": "after",
+      "mode": "allocated",
+      "seconds": 1.2628686670213938,
+      "assembly_sha256": "3f827f329b6b3cdc120fba2d0360d554d2b30fabd64609fc46e71e0dee1274b0",
+      "assembly_bytes": 1685825
+    },
+    {
+      "round": 2,
+      "compiler": "before",
+      "mode": "optimized",
+      "seconds": 53.27210445801029,
+      "assembly_sha256": "a9c9f840ceaa443dbef0709c3f257bc80ff812db254499fa774841e5ed680cb4",
+      "assembly_bytes": 1682550
+    },
+    {
+      "round": 2,
+      "compiler": "after",
+      "mode": "optimized",
+      "seconds": 2.1520305830053985,
+      "assembly_sha256": "a9c9f840ceaa443dbef0709c3f257bc80ff812db254499fa774841e5ed680cb4",
+      "assembly_bytes": 1682550
+    },
+    {
+      "round": 2,
+      "compiler": "qbe",
+      "mode": "qbe",
+      "seconds": 1.8223592089489102,
+      "assembly_sha256": "f86284d0b96c391e38cbe1b757d63562666744fcdb00cb31836c4e99576bd6a1",
+      "assembly_bytes": 3768037
+    }
+  ],
+  "notes": [
+    "Executable correctness is separately qualified by the retained large-structure comparison.",
+    "Original QBE is unchanged pinned source; no corrected oracle.",
+    "These are local measurements, not general speed or parity claims."
+  ],
+  "medians": {
+    "before": {
+      "baseline": 11.792005375027657,
+      "allocated": 12.295208040974103,
+      "optimized": 57.50612266699318
+    },
+    "after": {
+      "baseline": 0.6280036250245757,
+      "allocated": 1.3020959999994375,
+      "optimized": 2.5499645000090823
+    },
+    "qbe": {
+      "qbe": 2.2169801670243032
+    }
+  },
+  "all_before_after_assemblies_identical": true
+}

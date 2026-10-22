@@ -10,7 +10,19 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`6d5042d15a30f932da7a92ad5e0c5aaaf1f76df5445e84419ae31036b7bcb685`.
+`aa20e5ffce15827dcb8e6a489cadbb089fd6dc1bbd08879077f9a823cc730759`.
+
+SSA binding updates and all three emitters now use lookup-only hash maps.
+No map enumeration determines output order; home tables preserve first-match
+lookup semantics. This removes repeated linear scans on large functions while
+retaining 1,305 byte-identical corpus assemblies and 15 matching refusals.
+Fresh units, independent C binding/prefix cases, all three optimized Linux gates
+and the unchanged large-structure GCC/original-QBE comparison pass.
+See the [lookup-map evidence](benchmarks/lookup-maps/README.md) for exact
+identities, paired timings and validation limits. No new proof is claimed.
+
+## Preceding generated-prefix correctness checkpoint
+
 The current implementation fixes generated-name selection in SSA construction,
 scalar memory promotion and symbol-address hoisting. A sparse deeply underscored
 name could exhaust the old bounded prefix search. In promotion this merged a
@@ -51,8 +63,8 @@ bound and results against independently calculated UInt64 values.
 Optimized text is 128,854 bytes versus the corrected QBE oracle's 119,110 bytes.
 Original and corrected QBE distinctions remain in the report. Concurrent-load
 large-structure emission was 75.768 seconds optimized; no whole-compile speedup
-is claimed. Promotion remains expensive in this checkpoint and is the next
-measured change to integrate. The same zlib workload also passes x86/RV QEMU
+is claimed. Promotion was expensive in that checkpoint; the current lookup-map change
+addresses its repeated binding scans. The same zlib workload also passes x86/RV QEMU
 checks; optimized text increases slightly there (242,571 / 261,360 bytes versus
 240,395 / 258,460 before). This heuristic is not a universal code-size win.
 

@@ -850,3 +850,10 @@ retains 1,305 byte-identical assemblies and 15 matching refusals.
 This bug passed the existing SSA/allocation checks: those check the transformed
 IR, not semantic preservation of the source program. The independent oracle
 regression addresses this concrete error without establishing an end-to-end proof.
+
+## Lookup-map compilation checkpoint
+
+[Paired timings and validation](lookup-maps/README.md) retain exact before/after
+identities, identical-assembly checks, the unchanged large-structure workload
+and independent C regression results. These are local compilation measurements;
+no generated-program speedup or new preservation proof is claimed.

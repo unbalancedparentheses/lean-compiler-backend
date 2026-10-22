@@ -226,7 +226,10 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   selected by scanning original names; sparse deeply underscored-name regressions
   cover the previous promotion miscompile and symbol-hoisting refusal.
   Indexed CFG/predecessor tables, packed-set dominance, definition/reaching-value
-  caches and large native SSA-slot addressing are implemented. Compatibility now
+  caches and large native SSA-slot addressing are implemented. SSA bindings and
+  emitter storage homes use lookup-only hash maps, preserving deterministic order
+  and first-match semantics; independent C cases and byte-identical assembly
+  comparisons cover this compile-time improvement. Compatibility now
   admits 4096 blocks and 70000 instructions/phis (600000 module tokens), independently of first-path limits.
   Entry-unreachable blocks are pruned before compatibility SSA/dominance, matching
   QBE admission and allowing dead predecessors in cproc-generated input.

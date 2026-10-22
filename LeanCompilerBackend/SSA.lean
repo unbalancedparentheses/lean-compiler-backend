@@ -18,7 +18,7 @@ def freshNamePrefix (base : String) (names : Array String) : String := Id.run do
   return base ++ String.ofList (List.replicate count '_')
 
 
-private abbrev Bindings := List (String × String)
+private abbrev Bindings := Std.HashMap String String
 
 private structure Plan where
   block : Block
@@ -32,7 +32,7 @@ private structure State where
   types : Std.HashMap String (Width × Bool) := {}
   indices : Std.HashMap String Nat := {}
   predecessors : Array (Array Nat) := #[]
-  parameters : Bindings := []
+  parameters : Bindings := {}
   cache : Std.HashMap (String × String) String := {}
   visiting : Std.HashSet (String × String) := {}
   generated : List (String × Phi) := []
@@ -47,7 +47,7 @@ private def fresh : M String := do
   pure (s.namePrefix ++ toString s.next)
 
 private def bind (bindings : Bindings) (name value : String) : Bindings :=
-  (name, value) :: bindings.filter (·.1 != name)
+  bindings.insert name value
 
 private def readAt : Nat → String → String → Bool → M String
   | 0, _, _, _ => throw "SSA construction recursion resource limit exceeded"
@@ -56,11 +56,11 @@ private def readAt : Nat → String → String → Bool → M String
     let some index := s.indices[label]? | throw s!"SSA construction: unknown block @{label}"
     let plan := s.plans[index]!
     if atEnd then
-      if let some name := plan.outgoing.lookup varName then return name
+      if let some name := plan.outgoing[varName]? then return name
       return ← readAt fuel label varName false
     if let some name := s.cache[(label, varName)]? then return name
     if label == s.plans[0]!.block.label then
-      let some name := s.parameters.lookup varName
+      let some name := s.parameters[varName]?
         | throw s!"SSA construction: undefined temporary %{varName} at entry"
       return name
     let preds := s.predecessors[index]!
@@ -88,7 +88,7 @@ private def readAt : Nat → String → String → Bool → M String
 
 private def operand (label : String) (locals : Bindings) : Operand → M Operand
   | .temporary name => do
-    let renamed ← match locals.lookup name with
+    let renamed ← match locals[name]? with
       | some value => pure value
       | none => readAt 32768 label name false
     pure (.temporary renamed)
@@ -119,7 +119,7 @@ private def operation (map : Operand → M Operand) : Operation → M Operation
 
 private def rewriteBlock (plan : Plan) : M Block := do
   let initial ← get
-  let mut locals := if plan.block.label == initial.plans[0]!.block.label then initial.parameters else []
+  let mut locals := if plan.block.label == initial.plans[0]!.block.label then initial.parameters else {}
   let mut phis := #[]
   for i in [:plan.block.phis.size] do
     let phi := plan.block.phis[i]!
@@ -198,7 +198,7 @@ def construct (f : Function) : Except String Function := do
     let mut plans := #[]
     for block in f.blocks do
       let initial ← get
-      let mut outgoing := if block.label == f.blocks[0]!.label then initial.parameters else []
+      let mut outgoing := if block.label == f.blocks[0]!.label then initial.parameters else {}
       let mut phiNames := #[]
       for phi in block.phis do
         let name ← fresh

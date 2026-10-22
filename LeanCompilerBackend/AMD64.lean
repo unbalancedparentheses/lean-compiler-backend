@@ -24,8 +24,8 @@ private def savedGP : Array String := #["rbx", "r12", "r13", "r14", "r15"]
 
 private structure Context where
   darwin : Bool
-  slots : List (String × Nat)
-  registers : List (String × String)
+  slots : Std.HashMap String Nat
+  registers : Std.HashMap String String
   objects : List (String × Nat)
   types : Array AMD64ABI.Info
   resultPointer : Nat
@@ -37,11 +37,11 @@ private structure Context where
   fpUsed : Nat
 
 private def slot (c : Context) (name : String) : Except String String := do
-  let some offset := c.slots.lookup name | throw s!"missing AMD64 stack slot %{name}"
+  let some offset := c.slots[name]? | throw s!"missing AMD64 stack slot %{name}"
   pure s!"-{offset}(%rbp)"
 
 private def store (c : Context) (name : String) : Except String (List String) := do
-  if let some r := c.registers.lookup name then return [s!"\tmovq %rax, %{r}"]
+  if let some r := c.registers[name]? then return [s!"\tmovq %rax, %{r}"]
   return [s!"\tmovq %rax, {← slot c name}"]
 
 /-- ELF TLSDESC or Darwin TLV lookup, preserving live GP/FP call arguments. -/
@@ -64,7 +64,7 @@ private def threadAddress (darwin : Bool) (w : Width) (destination name : String
 private def load (c : Context) (w : Width) (r : String) : Operand → Except String (List String)
   | .constant n => pure [s!"\tmov{if w == .long then "absq" else "l"} ${Semantics.constant w n}, {reg w r}"]
   | .temporary name => do
-    if let some home := c.registers.lookup name then
+    if let some home := c.registers[name]? then
       return [s!"\tmov{suffix w} {reg w home}, {reg w r}"]
     return [s!"\tmov{suffix w} {← slot c name}, {reg w r}"]
   | .symbol name =>
@@ -387,7 +387,8 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
   let saveArea := align fixed + 176
   let frame := align (if f.variadic then saveArea else fixed)
   if frame > 1024*1024 then throw "AMD64 frame exceeds 1 MiB"
-  let c : Context := { darwin, slots := homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,(i-homes.registerCount+1)*8) else none), registers := homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none), objects, types, resultPointer, locals, stage := (homes.spills+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
+  -- Lookup-only tables preserve layout order; reversing retains List.lookup first-match behavior.
+  let c : Context := { darwin, slots := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,(i-homes.registerCount+1)*8) else none)).reverse), registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,savedGP[i]!) else none)).reverse), objects, types, resultPointer, locals, stage := (homes.spills+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
   let symbol := Assembly.symbolName darwin f.name
   let mut lines := Assembly.LineBuffer.ofList [f.customSection.map (Assembly.sectionDirective darwin) |>.getD ".text", ".p2align 4"]
   if !darwin then lines := lines ++ [s!".type {symbol}, @function"]
