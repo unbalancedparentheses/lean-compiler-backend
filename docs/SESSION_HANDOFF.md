@@ -6,6 +6,19 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+The user has now authorized focused proofs alongside compatibility work (roughly
+20% of effort), with agents. The first checkpoint adds three universal
+[fresh-name collision facts](proofs/FRESH_NAMES.md) and fourteen
+[local algebra facts](SEMANTICS.md#local-algebra-proof-checkpoint), including
+thirteen actual zero/one rewrite branches. All 164 exact proof-dependency checks
+pass; the preceding 147 remain unchanged. Fresh build and full unit tests pass,
+including 156 new interpreter cases. Runtime sources and compiler identity remain
+unchanged. Proof modules are imported by the test target and excluded from runtime
+identity like existing proof-only modules. No whole-pass or end-to-end claim.
+The refactor CI completed successfully on all three runners; new proof-checkpoint
+CI has not yet completed. ELF excluded-section compatibility is under development
+in an isolated worktree and is not part of this proof checkpoint.
+
 The user subsequently requested an updated README and safe code organization.
 README and the design pipeline now reflect current capabilities, target scope and
 proof limits; generated port inventory no longer reports completed features as
@@ -16,7 +29,7 @@ passes build, units, 147 identical audit statements, 1,305 identical corpus
 assemblies/15 identical refusals, 192 identical zlib/mixed-Lua assemblies and
 focused native ABI/scaled-load/floating-variadic tests. Exact moved-body and
 inverse-facade reconstruction pass. Full gates below remain bound to pre-extraction
-e095ed59; no wholesale rerun or new proof/performance claim. Refactor CI is pending.
+e095ed59; no wholesale rerun or new proof/performance claim. Refactor CI passed on all three runners.
 
 A [fresh five-label ARM zlib build](benchmarks/arm-scaled-load/combined-correctness/README.md)
 passes all fifteen correctness profiles per label on combined e095ed59 versus

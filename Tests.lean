@@ -1,3 +1,5 @@
+import LeanCompilerBackend.Verified.FreshNameProofs
+import LeanCompilerBackend.Verified.AlgebraProofs
 import LeanCompilerBackend
 import LeanCompilerBackend.AArch64.Tests
 import LeanCompilerBackend.AMD64.Tests

@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 GENERATED = ROOT/'LeanCompilerBackend/Verified/BuildIdentity.lean'
 MANIFEST = ROOT/'compiler-build.json'
-EXCLUDED = {'BuildIdentity.lean','MachineProofs.lean','BindingProofs.lean','LayoutProofs.lean','FrameProofs.lean','EntryProofs.lean','EntryExamples.lean','TransferProofs.lean','PhiSwapProof.lean','PhiExamples.lean','DivergenceProofs.lean','OperandProofs.lean','StagingProofs.lean','CommitProofs.lean','SourceTransferProofs.lean','InstructionProofs.lean','ArithmeticProofs.lean','ComparisonProofs.lean','SimulationProofs.lean','PhiContextProofs.lean','Tests.lean','MemoryTests.lean','JobTests.lean','CodecTests.lean'}
+EXCLUDED = {'BuildIdentity.lean','FreshNameProofs.lean','AlgebraProofs.lean','MachineProofs.lean','BindingProofs.lean','LayoutProofs.lean','FrameProofs.lean','EntryProofs.lean','EntryExamples.lean','TransferProofs.lean','PhiSwapProof.lean','PhiExamples.lean','DivergenceProofs.lean','OperandProofs.lean','StagingProofs.lean','CommitProofs.lean','SourceTransferProofs.lean','InstructionProofs.lean','ArithmeticProofs.lean','ComparisonProofs.lean','SimulationProofs.lean','PhiContextProofs.lean','Tests.lean','MemoryTests.lean','JobTests.lean','CodecTests.lean'}
 
 
 def expected():
