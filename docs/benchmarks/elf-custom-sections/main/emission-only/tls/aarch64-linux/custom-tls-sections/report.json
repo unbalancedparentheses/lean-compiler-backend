@@ -1,0 +1,527 @@
+{
+  "target": "aarch64-linux",
+  "compiler_identity": "5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e",
+  "compiler_sha256": "83169d061c897c9142941714e7ba8fb5e900a756c7062d33096837da91bdc7a1",
+  "before_sha256": "a35e0917d35b5100ecd0486c652eff6bd1e4c6b0fd80640a6c7301214746e048",
+  "ordinary_equivalence": "passed",
+  "helper_sha256": "45cf328ab3e28a49bb7a20a187c471923653b89abacda17c1e1818524f7a16f0",
+  "input_sha256": "22fdb3f21dba940faba201fb14b62e83cb45fa3ebbeef759b72fe0b6fbe5a3c2",
+  "caller_sha256": "24e23ee9f3b38f3dd6f381306d2add7cef011afe6393906b00754ed2f424c158",
+  "qbe_sha256": null,
+  "results": [
+    {
+      "mode": "baseline",
+      "executed": false,
+      "assembly_sha256": "7c861fa94a87a5e8e0d59bc6a7d8d7b93ece865658f8e3e4e09e012cd40911aa"
+    },
+    {
+      "mode": "allocated",
+      "executed": false,
+      "assembly_sha256": "af3e7de7990cd9a9fd4aa3fb845afe198511d10d71ebbbae19f57e2495f0feb9"
+    },
+    {
+      "mode": "optimized",
+      "executed": false,
+      "assembly_sha256": "af3e7de7990cd9a9fd4aa3fb845afe198511d10d71ebbbae19f57e2495f0feb9"
+    }
+  ],
+  "executed_round_groups": 0,
+  "negative_cases": 24,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/baseline-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/baseline-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/allocated-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/allocated-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/optimized-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/optimized-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/ordinary-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/function-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/function-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/function-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/emission-only/tls/aarch64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    }
+  ],
+  "scope": "ELF explicit awT permutations only; read-only aT excluded; custom zero initialization remains PROGBITS. Four sequential child threads each perform128 read/write rounds; same main-thread state retained. Ordinary TLS emission required; optional before equivalence status recorded separately. Apple custom TLS refused. No timing claim."
+}

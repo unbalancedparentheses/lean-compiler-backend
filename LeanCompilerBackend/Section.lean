@@ -12,8 +12,8 @@ def checkELF (customSection : SectionSpec) : Except String Unit := do
       !name.toList.all (fun c => nameChar c || c == '-' || c == ',') then
     throw "ELF section requires 1..128 ASCII name characters"
   if let some flags := customSection.flags then
-    if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x') then
-      throw "unsupported ELF section flags (accepted: a, w, x)"
+    if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x' || c == 'R') then
+      throw "unsupported ELF section flags (accepted: a, w, x, R)"
 
 def checkApple (customSection : SectionSpec) : Except String Unit := do
   -- Preserve the established LCB Mach-O convention: the two fields form a
@@ -57,5 +57,27 @@ def checkTarget (darwin : Bool) (customSection : Option SectionSpec) : Except St
     if other.isOk then
       throw s!"custom section syntax does not match the selected object format: {error}"
     throw error
+
+/-- Bounded ELF custom TLS storage: explicit allocatable, writable TLS flags.
+    This is data-context validation; ordinary sections still reject T. -/
+def checkTLS (customSection : SectionSpec) : Except String Unit := do
+  checkELF { customSection with flags := none }
+  let some flags := customSection.flags
+    | throw "custom TLS section requires explicit awT flags"
+  if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'T') ||
+      !flags.contains 'a' || !flags.contains 'w' || !flags.contains 'T' then
+    throw "custom TLS section requires allocatable writable TLS flags (awT)"
+
+def checkDataAny (threadLocal : Bool) (customSection : Option SectionSpec) : Except String Unit := do
+  if threadLocal then
+    if let some spec := customSection then return ← checkTLS spec
+  checkAny customSection
+
+def checkDataTarget (darwin threadLocal : Bool) (customSection : Option SectionSpec) : Except String Unit := do
+  if threadLocal then
+    if let some spec := customSection then
+      if darwin then throw "Apple thread data cannot have a custom section"
+      return ← checkTLS spec
+  checkTarget darwin customSection
 
 end LeanCompilerBackend.Section

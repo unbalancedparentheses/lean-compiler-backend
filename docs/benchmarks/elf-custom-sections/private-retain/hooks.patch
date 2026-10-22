@@ -1,0 +1,72 @@
+diff --git a/scripts/check.sh b/scripts/check.sh
+index 2f2bfa0..8dff04f 100644
+--- a/scripts/check.sh
++++ b/scripts/check.sh
+@@ -185,6 +185,7 @@ python3 scripts/syntax_edges.py "$@"
+ python3 scripts/integer_patterns.py "$@"
+ python3 scripts/section_names.py "$@"
+ python3 scripts/large_aggregate_abi.py "$@"
++python3 scripts/elf_retain.py "$@"
+ python3 scripts/data_relocations.py "$@"
+ python3 scripts/data_matrix.py "$@"
+ python3 scripts/float_constants.py "$@"
+diff --git a/scripts/emission_only.py b/scripts/emission_only.py
+index 755d0a3..70c8ae7 100644
+--- a/scripts/emission_only.py
++++ b/scripts/emission_only.py
+@@ -4,6 +4,7 @@ from pathlib import Path
+ import subprocess
+ import tempfile
+ from fuzz import ROOT, LCB
++from elf_retain import exercise as elf_retain
+ from amd_leaf_bank import exercise as amd_leaf_bank
+ from upstream_development import exercise as upstream_development
+ from symbol_address_pressure import exercise as symbol_pressure
+@@ -57,6 +58,8 @@ def main():
+             branches = arm_branches(LCB, work/target, run, cc, target, False, qbe, 'arm64', large=False)
+             assert branches['c_checks_per_mode'] == 0 and branches['original_qbe'] == 'not_executed'
+         for target in ['aarch64-linux','aarch64-macos','x86_64-linux','x86_64-macos','riscv64-linux']:
++            retained = elf_retain(LCB,work/target,run,cc,target,False,qbe)
++            assert retained['executed_modes'] == 0 and retained['qbe_sha256'] is None
+             development = upstream_development(LCB,work/target,run,cc,target,False,qbe)
+             assert development['checks_per_lcb_mode'] == 0 and development['original_qbe'] == 'not-run'
+             discarded = scalar_discard(LCB,work/target,run,cc,target,False,qbe)
+diff --git a/scripts/linux_arm64.py b/scripts/linux_arm64.py
+index edc3cb4..3a2f521 100644
+--- a/scripts/linux_arm64.py
++++ b/scripts/linux_arm64.py
+@@ -172,6 +172,8 @@ def main():
+     section_name_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from large_aggregate_abi import exercise as aggregate_copy_tests
+     aggregate_copy_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
++    from elf_retain import exercise as elf_retain_tests
++    elf_retain_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
+     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],'aarch64-linux',native)
+     from syntax_edges import exercise as syntax_edge_tests
+diff --git a/scripts/linux_targets.py b/scripts/linux_targets.py
+index e26d813..445404d 100644
+--- a/scripts/linux_targets.py
++++ b/scripts/linux_targets.py
+@@ -124,6 +124,8 @@ def main():
+     section_name_tests(compiler,work,run,cc,args.target,execute,qbe)
+     from large_aggregate_abi import exercise as aggregate_copy_tests
+     aggregate_copy_tests(compiler,work,run,cc,args.target,execute,qbe)
++    from elf_retain import exercise as elf_retain_tests
++    elf_retain_tests(compiler,work,run,cc,args.target,execute,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
+     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],args.target,execute)
+     from syntax_edges import exercise as syntax_edge_tests
+diff --git a/scripts/macos_x86.py b/scripts/macos_x86.py
+index f5e10ed..2afb5bf 100644
+--- a/scripts/macos_x86.py
++++ b/scripts/macos_x86.py
+@@ -114,6 +114,8 @@ def main():
+     section_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+     from large_aggregate_abi import exercise as aggregate_copy_tests
+     aggregate_copy_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
++    from elf_retain import exercise as elf_retain_tests
++    elf_retain_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+     from integer_patterns import exercise as integer_pattern_tests
+     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],'x86_64-macos',execute)
+     from syntax_edges import exercise as syntax_edge_tests

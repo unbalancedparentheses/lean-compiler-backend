@@ -501,7 +501,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
 
 def emitModule (m : Module) (allocate : Bool := false) : Except String String := do
   validateModule m
-  for d in m.data do Assembly.checkTargetSection false d.customSection
+  for d in m.data do Section.checkDataTarget false d.threadLocal d.customSection
   let types ← RV64ABI.classify m.types
   let locals := (m.functions.filter (!·.exported)).toList.map (·.name) ++ (m.data.filter (fun d => !d.exported && !d.common)).toList.map (·.name)
   let words := (m.functions.filter (fun f => f.resultWidth == some .word && !f.resultFloating)).toList.map (·.name)

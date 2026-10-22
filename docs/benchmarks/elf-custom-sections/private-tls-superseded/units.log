@@ -1,0 +1,16 @@
+ARM physical banks: call/TLS/scratch/local-branch/size mutation controls passed
+ARM empty branch edges: condition/phi/fallthrough/identical-target and expanded-range guards passed
+ARM64 logical immediates: 190980 dense, complete-encoding, signed-pattern, neighbor and random checks against independent enumeration
+AMD64 leaf banks: ABI GP boundaries, hidden result, aggregate rollback, env/varargs and call/TLS/scratch controls passed
+driver: host triples select five supported targets; unsupported hosts require an explicit target
+CFG dominance: all 4096 four-node graphs match list reference and node-deletion oracle on fully reachable graphs
+liveness resource boundaries: 4096 blocks and 16384 definitions passed
+allocation checks: reusable homes, spills, dead writes and corrupted plans passed
+compatibility optimization: constants, copies, CFG/phi cleanup, dominance-aware common expressions, widths, traps and debug indices passed
+load extension cleanup: same-width signedness, retained loads/effects and cross-width guards passed
+same-block memory forwarding: exact addresses, integer extensions, FP bits, alias/call/blit/allocation/block guards passed
+scalar stack promotion: branches, loops, FP bits, initialization/escape/width guards and debug positions passed
+first-path source semantics/admission checks passed
+function-job, typed-lowering, binding and mutation checks passed
+canonical job/artifact replay, dependency identities and SHA-256 checks passed
+unit checks passed

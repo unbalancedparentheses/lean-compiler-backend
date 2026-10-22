@@ -1152,7 +1152,7 @@ def emit (program : Program) : Except String String := do
 
 def emitModule (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String := do
   validateModule module
-  for data in module.data do checkTargetSection darwin data.customSection
+  for data in module.data do Section.checkDataTarget darwin data.threadLocal data.customSection
   let types ← AggregateABI.classify module.types
   let localSymbols := (module.functions.filter (!·.exported)).toList.map (·.name) ++
     (module.data.filter (fun data => !data.exported && !data.common)).toList.map (·.name)

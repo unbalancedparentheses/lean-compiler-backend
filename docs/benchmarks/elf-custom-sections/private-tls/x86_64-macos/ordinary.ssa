@@ -1,0 +1,6 @@
+thread data $normal = { l 41 }
+export function l $normal_read() {
+@s
+ %v =l loadl thread $normal
+ ret %v
+}

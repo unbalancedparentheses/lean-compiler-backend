@@ -1,0 +1,426 @@
+{
+  "target": "x86_64-macos",
+  "compiler_identity": "f156a05cd56fc62fa699147deaeb415ad976fce5659d85b288a256b35ae3af31",
+  "compiler_sha256": "1ceb829500b5454ed195ebbc63fcf80c56e11889d69a103fb98286076e956fcd",
+  "before_sha256": "21abb9e4d654af91be51748abcb16f72b08a7265557f6f576461a573bf1681cb",
+  "helper_sha256": "7fa1e70ba4faf05302c290482db72b3eb81d8a6e5f6b2f96a84fe1ade7d99daf",
+  "input_sha256": "22fdb3f21dba940faba201fb14b62e83cb45fa3ebbeef759b72fe0b6fbe5a3c2",
+  "caller_sha256": "24e23ee9f3b38f3dd6f381306d2add7cef011afe6393906b00754ed2f424c158",
+  "qbe_sha256": null,
+  "results": [
+    {
+      "apple_custom_tls": "refused",
+      "ordinary_tls": "byte-identical in three modes"
+    }
+  ],
+  "negative_cases": 18,
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "f156a05cd56fc62fa699147deaeb415ad976fce5659d85b288a256b35ae3af31\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/baseline-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/before",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/baseline-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/allocated-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/before",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/allocated-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/optimized-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/before",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/ordinary.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/optimized-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: Apple thread data cannot have a custom section\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/tmp/lcb-custom-tls/.build/custom-tls/after",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /tmp/lcb-custom-tls/.build/custom-tls/v2/x86_64-macos/common.ssa: thread data cannot have common linkage\n"
+    }
+  ],
+  "scope": "ELF explicit awT permutations only; read-only aT excluded; custom zero initialization remains PROGBITS. Four sequential child threads each perform128 read/write rounds; same main-thread state retained. Ordinary TLS assembly unchanged on allfive targets; Apple custom TLS refused. No timing claim."
+}

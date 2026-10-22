@@ -48,6 +48,8 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[ELF custom TLS and retained sections](docs/benchmarks/elf-custom-sections/README.md) now support explicit writable `awT` thread-data storage and ordinary `R` retention flags. Three-target C/original-QBE matrices verify thread isolation, exact metadata and real linker garbage collection; all three full Linux gates pass. Apple behavior remains unchanged. Additional flag combinations and wider section-name grammar remain separate bounded work.
+
 [Large aggregate ABI copies](docs/benchmarks/large-aggregate-abi/README.md) now use compact exact loops above 128 bytes and admit object layouts through 1 MiB. All five target matrices and three full Linux gates pass; frame/outgoing-area limits still apply. Original QBE comparison reaches 65,537 bytes, while maximum-size guard tests use independent C. No partial-overlap or new proof claim.
 
 [Unused scalar call results](docs/benchmarks/unused-call-results/README.md) now

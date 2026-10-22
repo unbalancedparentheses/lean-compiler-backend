@@ -1,0 +1,34 @@
+diff --git a/LeanCompilerBackend/Section.lean b/LeanCompilerBackend/Section.lean
+index a299bcb..ceb95e5 100644
+--- a/LeanCompilerBackend/Section.lean
++++ b/LeanCompilerBackend/Section.lean
+@@ -12,8 +12,8 @@ def checkELF (customSection : SectionSpec) : Except String Unit := do
+       !name.toList.all (fun c => nameChar c || c == '-' || c == ',') then
+     throw "ELF section requires 1..128 ASCII name characters"
+   if let some flags := customSection.flags then
+-    if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x') then
+-      throw "unsupported ELF section flags (accepted: a, w, x)"
++    if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x' || c == 'R') then
++      throw "unsupported ELF section flags (accepted: a, w, x, R)"
+ 
+ def checkApple (customSection : SectionSpec) : Except String Unit := do
+   -- Preserve the established LCB Mach-O convention: the two fields form a
+diff --git a/Tests.lean b/Tests.lean
+index 19badfc..20d2a0e 100644
+--- a/Tests.lean
++++ b/Tests.lean
+@@ -28,6 +28,14 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool
+   | .error _ => false
+ 
+ def main : IO Unit := do
++  for flags in ["aR", "awR", "axR", "Rwa", "Ra", "R"] do
++    require (valueEquals (Section.checkTarget false (some ⟨".retain", some flags⟩)) ())
++      "ELF retain flag rejected"
++  for flags in ["awT", "axG", "aR,extra", "aR\\n"] do
++    require (isFailure (Section.checkTarget false (some ⟨".retain", some flags⟩)))
++      "ELF retain broadened unrelated flag grammar"
++  require (valueEquals (Section.checkTarget true (some ⟨"__DATA", some "aR"⟩)) ())
++    "Apple literal second-field section name changed"
+   let sectionModule ← match Parser.parseModule
+       "section \"foo,ax\" data $literal = { l 1 } section \"foo,ax\" \"aw\" data $flagged = { l 2 } section \"foo\" \"ax\" function $code() { @s ret }" with
+     | .ok m => pure m

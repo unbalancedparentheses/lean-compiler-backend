@@ -1,0 +1,145 @@
+{
+  "status": "passed",
+  "target": "aarch64-macos",
+  "compiler_identity": "5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e",
+  "compiler_sha256": "83169d061c897c9142941714e7ba8fb5e900a756c7062d33096837da91bdc7a1",
+  "helper_sha256": "f62e3c028f5a77ed1acbf4cf823f8d999055ea68767afa4742e35a34289c3c42",
+  "source_sha256": "93a6b0f00f0063ff2ff8571a921bc10f10a1e166b77504cd592a46e726a14c31",
+  "caller_sha256": "7998e254b3fc3d7c66078ac0a633991db250633615b5212a433bdd5bc0d3d83a",
+  "before_sha256": "a35e0917d35b5100ecd0486c652eff6bd1e4c6b0fd80640a6c7301214746e048",
+  "qbe_sha256": null,
+  "results": [
+    {
+      "mode": "baseline",
+      "execution": "not-run",
+      "before_byte_equal": true,
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    },
+    {
+      "mode": "allocated",
+      "execution": "not-run",
+      "before_byte_equal": true,
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    },
+    {
+      "mode": "optimized",
+      "execution": "not-run",
+      "before_byte_equal": true,
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    }
+  ],
+  "controls": [],
+  "executed_modes": 0,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/input.ssa",
+        "--target",
+        "aarch64-macos",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "--first-path",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/native-cli/retain/elf-retain/input.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data/types are outside the first-path profile\n"
+    }
+  ],
+  "scope": "ELF R retention in default link profile with --gc-sections; C references only anchor and ref_data. Post-link numeric offsets create no linker roots. Apple emission/literal-name behavior only. No timing claim."
+}

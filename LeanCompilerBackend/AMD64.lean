@@ -575,7 +575,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
 
 def emitModule (m : Module) (darwin : Bool := false) (allocate : Bool := false) : Except String String := do
   validateModule m
-  for data in m.data do Assembly.checkTargetSection darwin data.customSection
+  for data in m.data do Section.checkDataTarget darwin data.threadLocal data.customSection
   let types ← AMD64ABI.classify m.types
   let locals := (m.functions.filter (!·.exported)).toList.map (·.name) ++
     (m.data.filter (fun d => !d.exported && !d.common)).toList.map (·.name)

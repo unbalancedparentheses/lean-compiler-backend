@@ -122,8 +122,12 @@ def main():
     extern_offset_tests(compiler,work,run,cc,qbe,execute,args.target)
     from section_names import exercise as section_name_tests
     section_name_tests(compiler,work,run,cc,args.target,execute,qbe)
+    from custom_tls_sections import exercise as custom_tls_tests
+    custom_tls_tests(compiler,work,run,cc,args.target,execute,qbe)
     from large_aggregate_abi import exercise as aggregate_copy_tests
     aggregate_copy_tests(compiler,work,run,cc,args.target,execute,qbe)
+    from elf_retain import exercise as elf_retain_tests
+    elf_retain_tests(compiler,work,run,cc,args.target,execute,qbe)
     from integer_patterns import exercise as integer_pattern_tests
     integer_pattern_tests(compiler,work/"integer-patterns",run,[cc],args.target,execute)
     from syntax_edges import exercise as syntax_edge_tests

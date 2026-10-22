@@ -1,0 +1,7 @@
+section ".lcb.keep_rw" "awR" export data $keep_rw = { l 37 }
+section ".lcb.keep_ro" "aR" export data $keep_ro = { l 83 }
+section ".lcb.drop_data" "aw" export data $drop_data = { l 99 }
+section ".lcb.ref_data" "aw" export data $ref_data = { l 19 }
+section ".lcb.keep_code" "axR" export function l $keep_code() { @s ret 71 }
+section ".lcb.drop_code" "ax" export function l $drop_code() { @s ret 101 }
+section ".lcb.ref_code" "ax" export function l $anchor() { @s ret 17 }

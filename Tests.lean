@@ -28,6 +28,33 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool 
   | .error _ => false
 
 def main : IO Unit := do
+  for flags in ["aR", "awR", "axR", "Rwa", "Ra", "R"] do
+    require (valueEquals (Section.checkTarget false (some ⟨".retain", some flags⟩)) ())
+      "ELF retain flag rejected"
+  for flags in ["awT", "axG", "aR,extra", "aR\\n"] do
+    require (isFailure (Section.checkTarget false (some ⟨".retain", some flags⟩)))
+      "ELF retain broadened unrelated flag grammar"
+  require (valueEquals (Section.checkTarget true (some ⟨"__DATA", some "aR"⟩)) ())
+    "Apple literal second-field section name changed"
+  let tlsSection : SectionSpec := ⟨".custom_tls", some "awT"⟩
+  require (valueEquals (Section.checkDataTarget false true (some tlsSection)) ())
+    "ELF custom TLS section rejected"
+  require (isFailure (Section.checkDataTarget true true (some tlsSection)))
+    "Apple custom TLS must remain rejected"
+  require (isFailure (Section.checkDataTarget false false (some tlsSection)))
+    "ordinary data must reject TLS flags"
+  for flags in [none, some "aw", some "aT", some "wT", some "awTx"] do
+    require (isFailure (Section.checkTLS {tlsSection with flags}))
+      "custom TLS accepted missing/incompatible flags"
+  let tlsModule ← match Parser.parseModule
+      "section \".custom_tls\" \"awT\" export thread data $tls = { l 37 }" with
+    | .ok m => pure m
+    | .error e => throw (IO.userError e)
+  let tlsAssembly := Assembly.emitData false tlsModule.data[0]!
+  require ((tlsAssembly.splitOn ".section \".custom_tls\",\"awT\"").length == 2)
+    "TLS emitter lost custom section"
+  require ((tlsAssembly.splitOn "%tls_object").length == 2)
+    "TLS emitter lost symbol kind"
   let sectionModule ← match Parser.parseModule
       "section \"foo,ax\" data $literal = { l 1 } section \"foo,ax\" \"aw\" data $flagged = { l 2 } section \"foo\" \"ax\" function $code() { @s ret }" with
     | .ok m => pure m

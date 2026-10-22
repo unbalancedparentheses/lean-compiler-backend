@@ -6,6 +6,16 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[ELF custom TLS and retained sections](benchmarks/elf-custom-sections/README.md)
+are integrated on identity `5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e`.
+Fresh build/units and 147 unchanged audit statements pass. Separate TLS/R matrices
+pass all three Linux targets against unchanged QBE; Apple refusal/emission
+behavior is preserved. Ten emission-only controls, two CLI checks, nine combined
+flag-context refusals, source/snapshot/guest provenance barriers and all three
+complete Linux gates pass. Full host/Rosetta qualification is running. All 1,305
+corpus assemblies, 15 refusals and 240 zlib/Lua/cproc workload assemblies remain
+identical; the workload bridge reuses prior exact-output runtime qualification.
+
 [Fresh cproc self-compilation](benchmarks/cproc-aggregate-refresh/README.md) now
 passes on aggregate identity `a23afe3b…`: all three Linux targets, both LCB modes,
 18 frontend units, 19 identical stage-two IR files and 196 original tests each.

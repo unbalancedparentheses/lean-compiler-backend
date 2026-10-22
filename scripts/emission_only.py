@@ -4,6 +4,8 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from custom_tls_sections import exercise as custom_tls_sections
+from elf_retain import exercise as elf_retain
 from amd_leaf_bank import exercise as amd_leaf_bank
 from upstream_development import exercise as upstream_development
 from symbol_address_pressure import exercise as symbol_pressure
@@ -57,6 +59,11 @@ def main():
             branches = arm_branches(LCB, work/target, run, cc, target, False, qbe, 'arm64', large=False)
             assert branches['c_checks_per_mode'] == 0 and branches['original_qbe'] == 'not_executed'
         for target in ['aarch64-linux','aarch64-macos','x86_64-linux','x86_64-macos','riscv64-linux']:
+            tls = custom_tls_sections(LCB,work/target,run,cc,target,False,qbe)
+            assert tls['executed_round_groups'] == 0 and tls['qbe_sha256'] is None
+            assert tls['ordinary_equivalence'] == 'skipped: no before snapshot supplied'
+            retained = elf_retain(LCB,work/target,run,cc,target,False,qbe)
+            assert retained['executed_modes'] == 0 and retained['qbe_sha256'] is None
             development = upstream_development(LCB,work/target,run,cc,target,False,qbe)
             assert development['checks_per_lcb_mode'] == 0 and development['original_qbe'] == 'not-run'
             discarded = scalar_discard(LCB,work/target,run,cc,target,False,qbe)

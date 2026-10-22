@@ -1,0 +1,61 @@
+{
+  "status": "passed",
+  "note": "TLS and R registrations coexist with existing aggregate registrations. Source review and Python syntax compilation only; full gate execution parent-owned.",
+  "files": [
+    {
+      "file": "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/check.sh",
+      "sha256": "6ed1bffcccc64ec2406879b73aed06196c57370ba3e8234ff800ca5d68001759",
+      "matching_lines": [
+        "python3 scripts/custom_tls_sections.py \"$@\"",
+        "python3 scripts/large_aggregate_abi.py \"$@\"",
+        "python3 scripts/elf_retain.py \"$@\""
+      ]
+    },
+    {
+      "file": "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/linux_arm64.py",
+      "sha256": "8bf6af417b45aac9070408d4f3d6da53567a0a16c7d9f7c124af5ec0fd4fd25e",
+      "matching_lines": [
+        "    from custom_tls_sections import exercise as custom_tls_tests",
+        "    custom_tls_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)",
+        "    from large_aggregate_abi import exercise as aggregate_copy_tests",
+        "    aggregate_copy_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)",
+        "    from elf_retain import exercise as elf_retain_tests",
+        "    elf_retain_tests(compiler,work,run,cc,'aarch64-linux',native,qbe)"
+      ]
+    },
+    {
+      "file": "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/linux_targets.py",
+      "sha256": "cd6ad10c2213695a45e942a3eb97bb53b9db4fc0e90fa0ea2c35ad8fd21dc937",
+      "matching_lines": [
+        "    from custom_tls_sections import exercise as custom_tls_tests",
+        "    custom_tls_tests(compiler,work,run,cc,args.target,execute,qbe)",
+        "    from large_aggregate_abi import exercise as aggregate_copy_tests",
+        "    aggregate_copy_tests(compiler,work,run,cc,args.target,execute,qbe)",
+        "    from elf_retain import exercise as elf_retain_tests",
+        "    elf_retain_tests(compiler,work,run,cc,args.target,execute,qbe)"
+      ]
+    },
+    {
+      "file": "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/macos_x86.py",
+      "sha256": "d2b2ad94cfbab3a75f4411e7d20ef76a163dc338f214efc1bdcc28e40072febc",
+      "matching_lines": [
+        "    from custom_tls_sections import exercise as custom_tls_tests",
+        "    custom_tls_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)",
+        "    from large_aggregate_abi import exercise as aggregate_copy_tests",
+        "    aggregate_copy_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)",
+        "    from elf_retain import exercise as elf_retain_tests",
+        "    elf_retain_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)"
+      ]
+    },
+    {
+      "file": "/Users/unbalancedparen/projects/lean-compiler-backend/scripts/emission_only.py",
+      "sha256": "b37c64a4aad343e5d92cb13560ffbddb985882632c6a55fc9c2d9fb8915cc144",
+      "matching_lines": [
+        "from custom_tls_sections import exercise as custom_tls_sections",
+        "from elf_retain import exercise as elf_retain",
+        "            tls = custom_tls_sections(LCB,work/target,run,cc,target,False,qbe)",
+        "            retained = elf_retain(LCB,work/target,run,cc,target,False,qbe)"
+      ]
+    }
+  ]
+}

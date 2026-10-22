@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/tmp/lcb-elf-retain/.build/retain/preflight.py", line 42, in <module>
+    run(['/tmp/qbe/qbe','-t',qt,'-o',asm,src],True);run([cc,'-c',asm,'-o',obj],True);sec=run(['readelf','-SW',obj],True)
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/lcb-elf-retain/.build/retain/preflight.py", line 40, in run
+    r=subprocess.run(cmd,capture_output=True,text=True,timeout=120);calls.append(dict(command=cmd,exit=r.returncode,stdout=r.stdout,stderr=r.stderr));assert r.returncode==0,calls[-1];return r.stdout
+                                                                                                                                                             ^^^^^^^^^^^^^^^
+AssertionError: {'command': ['docker', 'exec', 'lcb-parity-linux', '/tmp/qbe/qbe', '-t', 'arm64', '-o', '/work/retain-preflight-aarch64-linux/qbe.s', '/work/retain-preflight-aarch64-linux/input.ssa'], 'exit': 1, 'stdout': '', 'stderr': 'qbe:/work/retain-preflight-aarch64-linux/input.ssa:5: newline expected, got ?? instead\n'}

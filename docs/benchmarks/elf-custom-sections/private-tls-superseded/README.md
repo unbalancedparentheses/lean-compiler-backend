@@ -1,0 +1,13 @@
+# Private ELF custom TLS section qualification
+
+Base main3edfd48/source77ea0aaf; candidate f156a05cd56fc62fa699147deaeb415ad976fce5659d85b288a256b35ae3af31. No main source changes or commits.
+
+ELF TLS data with a custom section requires explicit allocatable/writable/TLS flags (awT, any order). Missing T/a/w, x, read-only aT and common+TLS remain refused. Ordinary ELF functions/data reject T; Apple's existing two-string segment/section interpretation remains unchanged. Apple custom TLS is explicitly refused. Source names retain existing bounded ELF grammar. Explicit zero custom TLS remains PROGBITS, matching unchanged QBE; no automatic NOBITS conversion.
+
+Fresh private build and complete units passed, with147 exact proof-audit assertions unchanged. ThreeLinux targets each run baseline/allocated/optimized and unchangedQBE against identical IR/C:512 child-thread write/read rounds per backend, 4successive newthreads verify freshinitialization and preserve mainthread state. This is4608 LCB roundgroups and1536 QBE roundgroups, plus initial/final/metadata checks. LinuxARM nativeVM; LinuxAMD/RV QEMU. No performance claim. Four TLS symbols cover initialized/zero/local/ordinary storage, rawhighbit values and independent C direct access. readelf verifies exact sectionname/type/flags/alignment and TLS symbol mapping; customzero is PROGBITS. Wrong-section mutation fails metadata even though runtime might remainvalid; wronginitialvalue mutation exits1. No correctedQBE used.
+
+Both Apple targets check customTLS refusal; allfive targets' ordinaryTLS baseline/allocated/optimized assembly is byte-identical to77ea. Allfive emission-only runs with missingC/QBE tools passed. Linux has24 invalidcontext modecases/target; Apple18 plus3 directcustom negatives, since Apple two-string names are not ELFflags. Apple ordinaryTLS is assembly-equivalence evidence, not a new native execution campaign.
+
+Initial corebuild failed on reserved Lean variable name section; corrected to spec before successful freshbuild. Initial helper matrix passedLinux then failed an incorrect Apple ordinarysection rejection expectation; preserved helper/log, corrected grammar-specific negative scope, reran allfive in freshv2 directories. An attempted nonexistent Python proof-audit script failed; actual Lean ProofAudit and exact147-line assertion check subsequently passed.
+
+Patches omit generated buildidentity; regenerate after main integration. Originalcompiler/QBE hashes and commands are recorded in reports. Final manifest binds privatecore/helper/tests/compiler/reports and checks guest-host digest equality for allLinux fixture/object/executable/report files. No source rebuild occurred during finalmatrix.

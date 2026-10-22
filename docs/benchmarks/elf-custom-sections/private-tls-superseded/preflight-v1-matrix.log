@@ -1,0 +1,10 @@
+aarch64-linux passed
+x86_64-linux passed
+riscv64-linux passed
+Traceback (most recent call last):
+  File "/private/tmp/lcb-custom-tls/.build/custom-tls/run.py", line 17, in <module>
+    r=t.exercise(private/'.build/custom-tls/after',private/'.build/custom-tls/before',work,run,cc,target,qbe=Path('/tmp/qbe/qbe') if linux else None);reports.append(dict(target=target,report=str(work/'report.json')));print(target,'passed',flush=True)
+  File "/tmp/lcb-custom-tls/scripts/custom_tls_sections.py", line 128, in exercise
+    for mode,flags in flagslist:assert invoke([compiler,p,'--target',target,*flags,'-o',work/(name+'-'+mode+'.s')]).returncode!=0,(name,mode)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('ordinary', 'baseline')

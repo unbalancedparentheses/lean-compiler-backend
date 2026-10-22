@@ -1,0 +1,145 @@
+{
+  "status": "passed",
+  "target": "x86_64-macos",
+  "compiler_identity": "b24b3ba3e80f00d564c33c1d19fe0efc37289c839ccaa006aa60dbab91311d74",
+  "compiler_sha256": "9b7349c4222ac952f384d906711a4008fd676b131f38a5567daa5b86b8483282",
+  "helper_sha256": "f62e3c028f5a77ed1acbf4cf823f8d999055ea68767afa4742e35a34289c3c42",
+  "source_sha256": "93a6b0f00f0063ff2ff8571a921bc10f10a1e166b77504cd592a46e726a14c31",
+  "caller_sha256": "7998e254b3fc3d7c66078ac0a633991db250633615b5212a433bdd5bc0d3d83a",
+  "before_sha256": "a35e0917d35b5100ecd0486c652eff6bd1e4c6b0fd80640a6c7301214746e048",
+  "qbe_sha256": null,
+  "results": [
+    {
+      "mode": "baseline",
+      "execution": "not-run",
+      "before_byte_equal": true,
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    },
+    {
+      "mode": "allocated",
+      "execution": "not-run",
+      "before_byte_equal": true,
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    },
+    {
+      "mode": "optimized",
+      "execution": "not-run",
+      "before_byte_equal": true,
+      "scope": "Apple grammar emission only; R in second field is a literal name, no retention claim"
+    }
+  ],
+  "controls": [],
+  "executed_modes": 0,
+  "commands": [
+    {
+      "command": [
+        "/tmp/lcb-elf-retain/.build/retain/candidate",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "b24b3ba3e80f00d564c33c1d19fe0efc37289c839ccaa006aa60dbab91311d74\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-retain/.build/retain/candidate",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-retain/.build/retain/before",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "-o",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/baseline-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-retain/.build/retain/candidate",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-retain/.build/retain/before",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--allocate",
+        "-o",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/allocated-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-retain/.build/retain/candidate",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-retain/.build/retain/before",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/input.ssa",
+        "--target",
+        "x86_64-macos",
+        "--optimize",
+        "-o",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/optimized-before.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/lcb-elf-retain/.build/retain/candidate",
+        "--first-path",
+        "/tmp/lcb-elf-retain/.build/retain/matrix-v1-x86_64-macos/elf-retain/input.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data/types are outside the first-path profile\n"
+    }
+  ],
+  "scope": "ELF R retention in default link profile with --gc-sections; C references only anchor and ref_data. Post-link numeric offsets create no linker roots. Apple emission/literal-name behavior only. No timing claim."
+}

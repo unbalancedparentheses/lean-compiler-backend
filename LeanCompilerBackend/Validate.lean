@@ -373,9 +373,9 @@ def validateModule (module : Module) : Except String Unit := do
     if !validGlobalName data.name then throw "unsupported data symbol name"
     if names.contains data.name then throw s!"duplicate module symbol ${data.name}"
     names := data.name :: names
-    checkSection data.customSection
-    if data.threadLocal && (data.customSection.isSome || data.common) then
-      throw "thread data cannot have custom section or common linkage"
+    Section.checkDataAny data.threadLocal data.customSection
+    if data.threadLocal && data.common then
+      throw "thread data cannot have common linkage"
     if data.common then
       if data.customSection.isSome then throw "common data cannot have custom section"
       if !data.items.all (fun item => match item with | .zeroes _ => true | _ => false) then

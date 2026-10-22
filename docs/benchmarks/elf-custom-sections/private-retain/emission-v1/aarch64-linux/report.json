@@ -1,0 +1,165 @@
+{
+  "status": "passed",
+  "target": "aarch64-linux",
+  "compiler_identity": "b24b3ba3e80f00d564c33c1d19fe0efc37289c839ccaa006aa60dbab91311d74",
+  "compiler_sha256": "9b7349c4222ac952f384d906711a4008fd676b131f38a5567daa5b86b8483282",
+  "helper_sha256": "f62e3c028f5a77ed1acbf4cf823f8d999055ea68767afa4742e35a34289c3c42",
+  "source_sha256": "93a6b0f00f0063ff2ff8571a921bc10f10a1e166b77504cd592a46e726a14c31",
+  "caller_sha256": "7998e254b3fc3d7c66078ac0a633991db250633615b5212a433bdd5bc0d3d83a",
+  "before_sha256": "a35e0917d35b5100ecd0486c652eff6bd1e4c6b0fd80640a6c7301214746e048",
+  "qbe_sha256": null,
+  "results": [
+    {
+      "mode": "baseline",
+      "execution": "not-run"
+    },
+    {
+      "mode": "allocated",
+      "execution": "not-run"
+    },
+    {
+      "mode": "optimized",
+      "execution": "not-run"
+    }
+  ],
+  "controls": [],
+  "executed_modes": 0,
+  "commands": [
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "b24b3ba3e80f00d564c33c1d19fe0efc37289c839ccaa006aa60dbab91311d74\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/bad-aT.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/bad-aG.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/bad-aR_extra.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: .build/retain/emission-v1/aarch64-linux/elf-retain/bad-aR_extra.ssa: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/bad-aZ.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/bad.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/before",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/before.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x)\n"
+    },
+    {
+      "command": [
+        "/private/tmp/lcb-elf-retain/.build/retain/candidate",
+        "--first-path",
+        ".build/retain/emission-v1/aarch64-linux/elf-retain/input.ssa"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: module data/types are outside the first-path profile\n"
+    }
+  ],
+  "scope": "ELF R retention in default link profile with --gc-sections; C references only anchor and ref_data. Post-link numeric offsets create no linker roots. Apple emission/literal-name behavior only. No timing claim."
+}

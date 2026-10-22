@@ -1,0 +1,130 @@
+diff --git a/LeanCompilerBackend/AArch64.lean b/LeanCompilerBackend/AArch64.lean
+index 42fbed6..1cac7a2 100644
+--- a/LeanCompilerBackend/AArch64.lean
++++ b/LeanCompilerBackend/AArch64.lean
+@@ -1141,7 +1141,7 @@ def emit (program : Program) : Except String String := do
+ 
+ def emitModule (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String := do
+   validateModule module
+-  for data in module.data do checkTargetSection darwin data.customSection
++  for data in module.data do Section.checkDataTarget darwin data.threadLocal data.customSection
+   let types ← AggregateABI.classify module.types
+   let localSymbols := (module.functions.filter (!·.exported)).toList.map (·.name) ++
+     (module.data.filter (fun data => !data.exported && !data.common)).toList.map (·.name)
+diff --git a/LeanCompilerBackend/AMD64.lean b/LeanCompilerBackend/AMD64.lean
+index b08d00f..2730b84 100644
+--- a/LeanCompilerBackend/AMD64.lean
++++ b/LeanCompilerBackend/AMD64.lean
+@@ -564,7 +564,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
+ 
+ def emitModule (m : Module) (darwin : Bool := false) (allocate : Bool := false) : Except String String := do
+   validateModule m
+-  for data in m.data do Assembly.checkTargetSection darwin data.customSection
++  for data in m.data do Section.checkDataTarget darwin data.threadLocal data.customSection
+   let types ← AMD64ABI.classify m.types
+   let locals := (m.functions.filter (!·.exported)).toList.map (·.name) ++
+     (m.data.filter (fun d => !d.exported && !d.common)).toList.map (·.name)
+diff --git a/LeanCompilerBackend/Assembly.lean b/LeanCompilerBackend/Assembly.lean
+index 9a0e6aa..abaa033 100644
+--- a/LeanCompilerBackend/Assembly.lean
++++ b/LeanCompilerBackend/Assembly.lean
+@@ -63,7 +63,7 @@ def emitData (darwin : Bool) (data : DataDefinition) : String := Id.run do
+     return global ++ s!".zerofill __DATA,__bss,{symbolName true data.name},{data.byteSize},{Nat.log2 data.alignment}\n"
+   let mut lines := if data.threadLocal then
+     if darwin then [".section __DATA,__thread_vars,thread_local_variables", ".p2align 3"]
+-    else [".section .tdata,\"awT\",%progbits", s!".type {data.name}, %tls_object"]
++    else [data.customSection.map (sectionDirective false) |>.getD ".section .tdata,\"awT\",%progbits", s!".type {data.name}, %tls_object"]
+     else [data.customSection.map (sectionDirective darwin) |>.getD (if zeroOnly then ".bss" else ".data")]
+   if data.exported then lines := lines ++ [s!".globl {symbolName darwin data.name}"]
+   let initialSymbol := if darwin && data.threadLocal then symbolSuffix (symbolName true data.name) "$tlv$init" else symbolName darwin data.name
+diff --git a/LeanCompilerBackend/RV64.lean b/LeanCompilerBackend/RV64.lean
+index 6fa8011..e74d82b 100644
+--- a/LeanCompilerBackend/RV64.lean
++++ b/LeanCompilerBackend/RV64.lean
+@@ -492,7 +492,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
+ 
+ def emitModule (m : Module) (allocate : Bool := false) : Except String String := do
+   validateModule m
+-  for d in m.data do Assembly.checkTargetSection false d.customSection
++  for d in m.data do Section.checkDataTarget false d.threadLocal d.customSection
+   let types ← RV64ABI.classify m.types
+   let locals := (m.functions.filter (!·.exported)).toList.map (·.name) ++ (m.data.filter (fun d => !d.exported && !d.common)).toList.map (·.name)
+   let words := (m.functions.filter (fun f => f.resultWidth == some .word && !f.resultFloating)).toList.map (·.name)
+diff --git a/LeanCompilerBackend/Section.lean b/LeanCompilerBackend/Section.lean
+index a299bcb..e2bd062 100644
+--- a/LeanCompilerBackend/Section.lean
++++ b/LeanCompilerBackend/Section.lean
+@@ -58,4 +58,26 @@ def checkTarget (darwin : Bool) (customSection : Option SectionSpec) : Except St
+       throw s!"custom section syntax does not match the selected object format: {error}"
+     throw error
+ 
++/-- Bounded ELF custom TLS storage: explicit allocatable, writable TLS flags.
++    This is data-context validation; ordinary sections still reject T. -/
++def checkTLS (customSection : SectionSpec) : Except String Unit := do
++  checkELF { customSection with flags := none }
++  let some flags := customSection.flags
++    | throw "custom TLS section requires explicit awT flags"
++  if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'T') ||
++      !flags.contains 'a' || !flags.contains 'w' || !flags.contains 'T' then
++    throw "custom TLS section requires allocatable writable TLS flags (awT)"
++
++def checkDataAny (threadLocal : Bool) (customSection : Option SectionSpec) : Except String Unit := do
++  if threadLocal then
++    if let some spec := customSection then return ← checkTLS spec
++  checkAny customSection
++
++def checkDataTarget (darwin threadLocal : Bool) (customSection : Option SectionSpec) : Except String Unit := do
++  if threadLocal then
++    if let some spec := customSection then
++      if darwin then throw "Apple thread data cannot have a custom section"
++      return ← checkTLS spec
++  checkTarget darwin customSection
++
+ end LeanCompilerBackend.Section
+diff --git a/LeanCompilerBackend/Validate.lean b/LeanCompilerBackend/Validate.lean
+index 82e3872..83be260 100644
+--- a/LeanCompilerBackend/Validate.lean
++++ b/LeanCompilerBackend/Validate.lean
+@@ -373,9 +373,9 @@ def validateModule (module : Module) : Except String Unit := do
+     if !validGlobalName data.name then throw "unsupported data symbol name"
+     if names.contains data.name then throw s!"duplicate module symbol ${data.name}"
+     names := data.name :: names
+-    checkSection data.customSection
+-    if data.threadLocal && (data.customSection.isSome || data.common) then
+-      throw "thread data cannot have custom section or common linkage"
++    Section.checkDataAny data.threadLocal data.customSection
++    if data.threadLocal && data.common then
++      throw "thread data cannot have common linkage"
+     if data.common then
+       if data.customSection.isSome then throw "common data cannot have custom section"
+       if !data.items.all (fun item => match item with | .zeroes _ => true | _ => false) then
+diff --git a/Tests.lean b/Tests.lean
+index 19badfc..3a65255 100644
+--- a/Tests.lean
++++ b/Tests.lean
+@@ -28,6 +28,25 @@ private def valueEquals [BEq α] (result : Except ε α) (expected : α) : Bool
+   | .error _ => false
+ 
+ def main : IO Unit := do
++  let tlsSection : SectionSpec := ⟨".custom_tls", some "awT"⟩
++  require (valueEquals (Section.checkDataTarget false true (some tlsSection)) ())
++    "ELF custom TLS section rejected"
++  require (isFailure (Section.checkDataTarget true true (some tlsSection)))
++    "Apple custom TLS must remain rejected"
++  require (isFailure (Section.checkDataTarget false false (some tlsSection)))
++    "ordinary data must reject TLS flags"
++  for flags in [none, some "aw", some "aT", some "wT", some "awTx"] do
++    require (isFailure (Section.checkTLS {tlsSection with flags}))
++      "custom TLS accepted missing/incompatible flags"
++  let tlsModule ← match Parser.parseModule
++      "section \".custom_tls\" \"awT\" export thread data $tls = { l 37 }" with
++    | .ok m => pure m
++    | .error e => throw (IO.userError e)
++  let tlsAssembly := Assembly.emitData false tlsModule.data[0]!
++  require ((tlsAssembly.splitOn ".section \".custom_tls\",\"awT\"").length == 2)
++    "TLS emitter lost custom section"
++  require ((tlsAssembly.splitOn "%tls_object").length == 2)
++    "TLS emitter lost symbol kind"
+   let sectionModule ← match Parser.parseModule
+       "section \"foo,ax\" data $literal = { l 1 } section \"foo,ax\" \"aw\" data $flagged = { l 2 } section \"foo\" \"ax\" function $code() { @s ret }" with
+     | .ok m => pure m

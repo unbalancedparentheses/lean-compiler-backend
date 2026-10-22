@@ -1,0 +1,1080 @@
+{
+  "target": "aarch64-linux",
+  "compiler_identity": "5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e",
+  "compiler_sha256": "83169d061c897c9142941714e7ba8fb5e900a756c7062d33096837da91bdc7a1",
+  "before_sha256": "a35e0917d35b5100ecd0486c652eff6bd1e4c6b0fd80640a6c7301214746e048",
+  "ordinary_equivalence": "passed",
+  "helper_sha256": "45cf328ab3e28a49bb7a20a187c471923653b89abacda17c1e1818524f7a16f0",
+  "input_sha256": "22fdb3f21dba940faba201fb14b62e83cb45fa3ebbeef759b72fe0b6fbe5a3c2",
+  "caller_sha256": "24e23ee9f3b38f3dd6f381306d2add7cef011afe6393906b00754ed2f424c158",
+  "qbe_sha256": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757",
+  "results": [
+    {
+      "mode": "baseline",
+      "executed": true,
+      "assembly_sha256": "7c861fa94a87a5e8e0d59bc6a7d8d7b93ece865658f8e3e4e09e012cd40911aa",
+      "metadata": {
+        ".text": {
+          "index": "1",
+          "type": "PROGBITS",
+          "size": 1412,
+          "flags": "AX",
+          "alignment": 4
+        },
+        ".rela.text": {
+          "index": "2",
+          "type": "RELA",
+          "size": 768,
+          "flags": "I",
+          "alignment": 8
+        },
+        ".data": {
+          "index": "3",
+          "type": "PROGBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".bss": {
+          "index": "4",
+          "type": "NOBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 16
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 32
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        }
+      }
+    },
+    {
+      "mode": "allocated",
+      "executed": true,
+      "assembly_sha256": "af3e7de7990cd9a9fd4aa3fb845afe198511d10d71ebbbae19f57e2495f0feb9",
+      "metadata": {
+        ".text": {
+          "index": "1",
+          "type": "PROGBITS",
+          "size": 1428,
+          "flags": "AX",
+          "alignment": 4
+        },
+        ".rela.text": {
+          "index": "2",
+          "type": "RELA",
+          "size": 768,
+          "flags": "I",
+          "alignment": 8
+        },
+        ".data": {
+          "index": "3",
+          "type": "PROGBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".bss": {
+          "index": "4",
+          "type": "NOBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 16
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 32
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        }
+      }
+    },
+    {
+      "mode": "optimized",
+      "executed": true,
+      "assembly_sha256": "af3e7de7990cd9a9fd4aa3fb845afe198511d10d71ebbbae19f57e2495f0feb9",
+      "metadata": {
+        ".text": {
+          "index": "1",
+          "type": "PROGBITS",
+          "size": 1428,
+          "flags": "AX",
+          "alignment": 4
+        },
+        ".rela.text": {
+          "index": "2",
+          "type": "RELA",
+          "size": 768,
+          "flags": "I",
+          "alignment": 8
+        },
+        ".data": {
+          "index": "3",
+          "type": "PROGBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".bss": {
+          "index": "4",
+          "type": "NOBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 16
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 32
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        }
+      }
+    },
+    {
+      "mode": "qbe",
+      "executed": true,
+      "assembly_sha256": "543a61139b28bebe26c5a2f5836bb9377c532f7702f69a35eb9c093d571d3217",
+      "metadata": {
+        ".text": {
+          "index": "1",
+          "type": "PROGBITS",
+          "size": 308,
+          "flags": "AX",
+          "alignment": 16
+        },
+        ".rela.text": {
+          "index": "2",
+          "type": "RELA",
+          "size": 384,
+          "flags": "I",
+          "alignment": 8
+        },
+        ".data": {
+          "index": "3",
+          "type": "PROGBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".bss": {
+          "index": "4",
+          "type": "NOBITS",
+          "size": 0,
+          "flags": "WA",
+          "alignment": 1
+        },
+        ".lcb_tls.init": {
+          "index": "5",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 16
+        },
+        ".lcb_tls.zero": {
+          "index": "6",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 32
+        },
+        ".lcb_tls.local": {
+          "index": "7",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        },
+        ".tdata": {
+          "index": "8",
+          "type": "PROGBITS",
+          "size": 8,
+          "flags": "WAT",
+          "alignment": 8
+        }
+      }
+    }
+  ],
+  "executed_round_groups": 2048,
+  "negative_cases": 24,
+  "commands": [
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "--build-identity"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/before",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized-before-ordinary.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 13 section headers, starting at offset 0xdf8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000584 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000a80 000300 18   I 10   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0005c4 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0005c4 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0005d0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0005e0 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0005e8 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0005f0 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 0005f8 000000 00      0   0  1\n  [10] .symtab           SYMTAB          0000000000000000 0005f8 000318 18     11  24  8\n  [11] .strtab           STRTAB          0000000000000000 000910 000170 00      0   0  1\n  [12] .shstrtab         STRTAB          0000000000000000 000d80 000073 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 33 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $x\n     5: 0000000000000008     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_s\n     6: 0000000000000014     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_edge_11_read_custom_s\n     7: 0000000000000018     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_zero\n     8: 00000000000000c4     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_init\n     9: 000000000000017c     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_12_write_custom_s\n    10: 00000000000002c8     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_10_read_local_s\n    11: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n    12: 000000000000037c     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_write_local_s\n    13: 0000000000000428     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_13_read_ordinary_s\n    14: 00000000000004dc     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_14_write_ordinary_s\n    15: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n    16: 0000000000000000     0 TLS     LOCAL  DEFAULT    5 $d\n    17: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n    18: 0000000000000000     0 TLS     LOCAL  DEFAULT    6 $d\n    19: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n    20: 0000000000000000     0 TLS     LOCAL  DEFAULT    7 $d\n    21: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    22: 0000000000000000     0 TLS     LOCAL  DEFAULT    8 $d\n    23: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    24: 0000000000000000   368 FUNC    GLOBAL DEFAULT    1 read_custom\n    25: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    26: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    27: 0000000000000170   340 FUNC    GLOBAL DEFAULT    1 write_custom\n    28: 00000000000002c4   176 FUNC    GLOBAL DEFAULT    1 read_local\n    29: 0000000000000374   176 FUNC    GLOBAL DEFAULT    1 write_local\n    30: 0000000000000424   176 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    31: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    32: 00000000000004d4   176 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline.o",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/baseline"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 13 section headers, starting at offset 0xde8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000594 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000a70 000300 18   I 10   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0005d4 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0005d4 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0005e0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 000600 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 000608 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 000610 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 000618 000000 00      0   0  1\n  [10] .symtab           SYMTAB          0000000000000000 000618 000300 18     11  23  8\n  [11] .strtab           STRTAB          0000000000000000 000918 000154 00      0   0  1\n  [12] .shstrtab         STRTAB          0000000000000000 000d70 000073 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 32 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $x\n     5: 000000000000000c     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_s\n     6: 00000000000000bc     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_init\n     7: 0000000000000010     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_zero\n     8: 000000000000017c     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_12_write_custom_s\n     9: 00000000000002cc     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_10_read_local_s\n    10: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n    11: 0000000000000384     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_write_local_s\n    12: 0000000000000434     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_13_read_ordinary_s\n    13: 00000000000004ec     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_14_write_ordinary_s\n    14: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n    15: 0000000000000000     0 TLS     LOCAL  DEFAULT    5 $d\n    16: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n    17: 0000000000000000     0 TLS     LOCAL  DEFAULT    6 $d\n    18: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n    19: 0000000000000000     0 TLS     LOCAL  DEFAULT    7 $d\n    20: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    21: 0000000000000000     0 TLS     LOCAL  DEFAULT    8 $d\n    22: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    23: 0000000000000000   360 FUNC    GLOBAL DEFAULT    1 read_custom\n    24: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    25: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    26: 0000000000000168   348 FUNC    GLOBAL DEFAULT    1 write_custom\n    27: 00000000000002c4   180 FUNC    GLOBAL DEFAULT    1 read_local\n    28: 0000000000000378   180 FUNC    GLOBAL DEFAULT    1 write_local\n    29: 000000000000042c   180 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    30: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    31: 00000000000004e0   180 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated.o",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/allocated"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/input.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized.s"
+      ],
+      "inside": false,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 13 section headers, starting at offset 0xde8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000594 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000a70 000300 18   I 10   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0005d4 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0005d4 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 0005e0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 000600 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 000608 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 000610 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 000618 000000 00      0   0  1\n  [10] .symtab           SYMTAB          0000000000000000 000618 000300 18     11  23  8\n  [11] .strtab           STRTAB          0000000000000000 000918 000154 00      0   0  1\n  [12] .shstrtab         STRTAB          0000000000000000 000d70 000073 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 32 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $x\n     5: 000000000000000c     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_s\n     6: 00000000000000bc     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_init\n     7: 0000000000000010     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_zero\n     8: 000000000000017c     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_12_write_custom_s\n     9: 00000000000002cc     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_10_read_local_s\n    10: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n    11: 0000000000000384     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_write_local_s\n    12: 0000000000000434     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_13_read_ordinary_s\n    13: 00000000000004ec     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_14_write_ordinary_s\n    14: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n    15: 0000000000000000     0 TLS     LOCAL  DEFAULT    5 $d\n    16: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n    17: 0000000000000000     0 TLS     LOCAL  DEFAULT    6 $d\n    18: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n    19: 0000000000000000     0 TLS     LOCAL  DEFAULT    7 $d\n    20: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    21: 0000000000000000     0 TLS     LOCAL  DEFAULT    8 $d\n    22: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    23: 0000000000000000   360 FUNC    GLOBAL DEFAULT    1 read_custom\n    24: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    25: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    26: 0000000000000168   348 FUNC    GLOBAL DEFAULT    1 write_custom\n    27: 00000000000002c4   180 FUNC    GLOBAL DEFAULT    1 read_local\n    28: 0000000000000378   180 FUNC    GLOBAL DEFAULT    1 write_local\n    29: 000000000000042c   180 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    30: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    31: 00000000000004e0   180 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized.o",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/optimized"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/tmp/qbe/qbe",
+        "-t",
+        "arm64",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/qbe.s",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/input.ssa"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/qbe.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 13 section headers, starting at offset 0x670:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000134 00  AX  0   0 16\n  [ 2] .rela.text        RELA            0000000000000000 000478 000180 18   I 10   1  8\n  [ 3] .data             PROGBITS        0000000000000000 000174 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 000174 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.init     PROGBITS        0000000000000000 000180 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 0001a0 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 0001a8 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 0001b0 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 0001b8 000000 00      0   0  1\n  [10] .symtab           SYMTAB          0000000000000000 0001b8 000240 18     11  15  8\n  [11] .strtab           STRTAB          0000000000000000 0003f8 000079 00      0   0  1\n  [12] .shstrtab         STRTAB          0000000000000000 0005f8 000073 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/qbe.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 24 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.init\n     5: 0000000000000000     0 TLS     LOCAL  DEFAULT    5 $d\n     6: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n     7: 0000000000000000     0 TLS     LOCAL  DEFAULT    6 $d\n     8: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n     9: 0000000000000000     0 TLS     LOCAL  DEFAULT    7 $d\n    10: 0000000000000000     0 TLS     LOCAL  DEFAULT    7 custom_local\n    11: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    12: 0000000000000000     0 TLS     LOCAL  DEFAULT    8 $d\n    13: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $x\n    14: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    15: 0000000000000000     0 TLS     GLOBAL DEFAULT    5 custom_init\n    16: 0000000000000000     0 TLS     GLOBAL DEFAULT    6 custom_zero\n    17: 0000000000000000     0 TLS     GLOBAL DEFAULT    8 ordinary\n    18: 0000000000000000    64 FUNC    GLOBAL DEFAULT    1 read_custom\n    19: 0000000000000040    52 FUNC    GLOBAL DEFAULT    1 write_custom\n    20: 0000000000000080    36 FUNC    GLOBAL DEFAULT    1 read_local\n    21: 00000000000000b0    36 FUNC    GLOBAL DEFAULT    1 write_local\n    22: 00000000000000e0    36 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    23: 0000000000000110    36 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/qbe.o",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "-c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/wrong-section.s",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/wrong-section.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-SW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/wrong-section.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "There are 13 section headers, starting at offset 0xde8:\n\nSection Headers:\n  [Nr] Name              Type            Address          Off    Size   ES Flg Lk Inf Al\n  [ 0]                   NULL            0000000000000000 000000 000000 00      0   0  0\n  [ 1] .text             PROGBITS        0000000000000000 000040 000594 00  AX  0   0  4\n  [ 2] .rela.text        RELA            0000000000000000 000a70 000300 18   I 10   1  8\n  [ 3] .data             PROGBITS        0000000000000000 0005d4 000000 00  WA  0   0  1\n  [ 4] .bss              NOBITS          0000000000000000 0005d4 000000 00  WA  0   0  1\n  [ 5] .lcb_tls.wrong    PROGBITS        0000000000000000 0005e0 000008 00 WAT  0   0 16\n  [ 6] .lcb_tls.zero     PROGBITS        0000000000000000 000600 000008 00 WAT  0   0 32\n  [ 7] .lcb_tls.local    PROGBITS        0000000000000000 000608 000008 00 WAT  0   0  8\n  [ 8] .tdata            PROGBITS        0000000000000000 000610 000008 00 WAT  0   0  8\n  [ 9] .note.GNU-stack   PROGBITS        0000000000000000 000618 000000 00      0   0  1\n  [10] .symtab           SYMTAB          0000000000000000 000618 000300 18     11  23  8\n  [11] .strtab           STRTAB          0000000000000000 000918 000154 00      0   0  1\n  [12] .shstrtab         STRTAB          0000000000000000 000d70 000074 00      0   0  1\nKey to Flags:\n  W (write), A (alloc), X (execute), M (merge), S (strings), I (info),\n  L (link order), O (extra OS processing required), G (group), T (TLS),\n  C (compressed), x (unknown), o (OS specific), E (exclude),\n  D (mbind), p (processor specific)\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "readelf",
+        "-sW",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/wrong-section.o"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "\nSymbol table '.symtab' contains 32 entries:\n   Num:    Value          Size Type    Bind   Vis      Ndx Name\n     0: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT  UND \n     1: 0000000000000000     0 SECTION LOCAL  DEFAULT    1 .text\n     2: 0000000000000000     0 SECTION LOCAL  DEFAULT    3 .data\n     3: 0000000000000000     0 SECTION LOCAL  DEFAULT    4 .bss\n     4: 0000000000000000     0 NOTYPE  LOCAL  DEFAULT    1 $x\n     5: 000000000000000c     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_s\n     6: 00000000000000bc     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_init\n     7: 0000000000000010     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_read_custom_zero\n     8: 000000000000017c     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_12_write_custom_s\n     9: 00000000000002cc     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_10_read_local_s\n    10: 0000000000000000     8 TLS     LOCAL  DEFAULT    7 custom_local\n    11: 0000000000000384     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_11_write_local_s\n    12: 0000000000000434     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_13_read_ordinary_s\n    13: 00000000000004ec     0 NOTYPE  LOCAL  DEFAULT    1 L_lcb_block_14_write_ordinary_s\n    14: 0000000000000000     0 SECTION LOCAL  DEFAULT    5 .lcb_tls.wrong\n    15: 0000000000000000     0 TLS     LOCAL  DEFAULT    5 $d\n    16: 0000000000000000     0 SECTION LOCAL  DEFAULT    6 .lcb_tls.zero\n    17: 0000000000000000     0 TLS     LOCAL  DEFAULT    6 $d\n    18: 0000000000000000     0 SECTION LOCAL  DEFAULT    7 .lcb_tls.local\n    19: 0000000000000000     0 TLS     LOCAL  DEFAULT    7 $d\n    20: 0000000000000000     0 SECTION LOCAL  DEFAULT    8 .tdata\n    21: 0000000000000000     0 TLS     LOCAL  DEFAULT    8 $d\n    22: 0000000000000000     0 SECTION LOCAL  DEFAULT    9 .note.GNU-stack\n    23: 0000000000000000   360 FUNC    GLOBAL DEFAULT    1 read_custom\n    24: 0000000000000000     8 TLS     GLOBAL DEFAULT    6 custom_zero\n    25: 0000000000000000     8 TLS     GLOBAL DEFAULT    5 custom_init\n    26: 0000000000000168   348 FUNC    GLOBAL DEFAULT    1 write_custom\n    27: 00000000000002c4   180 FUNC    GLOBAL DEFAULT    1 read_local\n    28: 0000000000000378   180 FUNC    GLOBAL DEFAULT    1 write_local\n    29: 000000000000042c   180 FUNC    GLOBAL DEFAULT    1 read_ordinary\n    30: 0000000000000000     8 TLS     GLOBAL DEFAULT    8 ordinary\n    31: 00000000000004e0   180 FUNC    GLOBAL DEFAULT    1 write_ordinary\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "gcc",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/caller.c",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/wrong-value.s",
+        "-pthread",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/wrong-value"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/wrong-value"
+      ],
+      "inside": true,
+      "exit": 1,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/missing.ssa: custom TLS section requires explicit awT flags\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-t.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/read-only.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/no-a.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/execute.ssa: custom TLS section requires allocatable writable TLS flags (awT)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/ordinary-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/function-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/function-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/function.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/function-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: custom section syntax does not match the selected object format: unsupported ELF section flags (accepted: a, w, x, R)\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "aarch64-linux",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common-baseline.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "aarch64-linux",
+        "--allocate",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common-allocated.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/snapshots/lcb",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common.ssa",
+        "--target",
+        "aarch64-linux",
+        "--optimize",
+        "-o",
+        "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common-optimized.s"
+      ],
+      "inside": false,
+      "exit": 1,
+      "stdout": "",
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/elf-sections-main-review/tls/aarch64-linux/custom-tls-sections/common.ssa: thread data cannot have common linkage\n"
+    },
+    {
+      "command": [
+        "python3",
+        "-c",
+        "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],\"rb\").read()).hexdigest())",
+        "/tmp/qbe/qbe"
+      ],
+      "inside": true,
+      "exit": 0,
+      "stdout": "5803b390ec607162660b79d4e7b575316c98624846c59ef57bff3a35bb823757\n",
+      "stderr": ""
+    }
+  ],
+  "scope": "ELF explicit awT permutations only; read-only aT excluded; custom zero initialization remains PROGBITS. Four sequential child threads each perform128 read/write rounds; same main-thread state retained. Ordinary TLS emission required; optional before equivalence status recorded separately. Apple custom TLS refused. No timing claim."
+}
