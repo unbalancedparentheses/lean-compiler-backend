@@ -1,0 +1,44 @@
+--- a/scripts/arm_indexed_load.py
++++ b/scripts/arm_indexed_load.py
+@@ -2,6 +2,10 @@
+ """Independent byte/ABI oracle for adjacent ARM temporary-indexed loads."""
+ import hashlib,json,re,subprocess
+ from pathlib import Path
++
++INDEXED_LOAD_BYTES = frozenset({1,4,8})
++def load_bytes(name):
++    return {"sb":1,"ub":1,"sh":2,"uh":2,"sw":4,"uw":4,"s":4,"l":8,"d":8}[name.split("_")[0]]
+ 
+ def fixture():
+     ir=[];decl=[];checks=[];names=[];guard_checks=[]
+@@ -101,7 +105,7 @@
+         def body(name):return re.search(r'(?:;|//) function '+name+r';[\s\S]*?(?=(?:;|//) function |\Z)',text).group()
+         if mode=='allocated':
+             for name,variant in names:
+-                assert bool(re.search(indexed,body(name)))==(variant in ['adjacent','commuted','debug']),(name,body(name))
++                assert bool(re.search(indexed,body(name)))==(variant in ['adjacent','commuted','debug'] and load_bytes(name) in INDEXED_LOAD_BYTES),(name,body(name))
+             assert re.search(r'ldr x9, \[x9, x(?:19|2[0-8]|16|17|8)\]',body('pressure'))
+             assert re.search(r'ldr x9, \[x(?:19|2[0-8]|16|17|8), x10\]',body('pressure_reverse'))
+             for n in ['pressure_live','pressure_live_reverse']:assert '\tldr x9, [x9, x10]' in body(n)
+@@ -110,8 +114,20 @@
+             assert re.search(r'ldr x(\d+), \[x\d+, x\1\]',body('l_l_commuted'))
+             for n in ['barrier_call','barrier_store','barrier_blit','barrier_phi']:assert not re.search(indexed,body(n)),n
+             for n,v in names:
+-                if v=='debug':assert re.search(r'\.loc \d+ 31 2\n'+indexed,body(n)),n
++                if v=='debug':
++                    if load_bytes(n) in INDEXED_LOAD_BYTES:assert re.search(r'\.loc \d+ 31 2\n'+indexed,body(n)),n
++                    else:
++                        assert not re.search(indexed,body(n)),n
++                        assert re.search(r'\.loc \d+ 31 2\n\tldr(?:b|h|sb|sh) [wx]\d+, \[x\d+\]',body(n)),n
+             for name in ['global_address','tls_address']:assert not re.search(indexed,body(name))
++        if mode in ['allocated','optimized']:
++            for name,variant in names:
++                narrow=load_bytes(name) not in INDEXED_LOAD_BYTES
++                if narrow:
++                    assert not re.search(indexed,body(name)),(name,'narrow indexed fold unexpectedly selected')
++                    if variant in ['adjacent','commuted','debug']:
++                        assert re.search(r'\tadd x\d+, x\d+, x\d+',body(name)),(name,'missing address fallback')
++                        assert re.search(r'\tldr(?:b|h|sb|sh) [wx]\d+, \[x\d+\]',body(name)),(name,'missing narrow load fallback')
+         assert re.search(r'\.loc \d+ 31 2',text)
+         if before and mode=='baseline':
+             old=d/'baseline-before.s';checked([before,src,'--target',target,'-o',old]);assert old.read_bytes()==asm.read_bytes()
