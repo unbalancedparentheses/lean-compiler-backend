@@ -1,0 +1,152 @@
+{
+  "schema": 1,
+  "status": "failed",
+  "work": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/libyaml-replay-wrong-ir-barrier",
+  "reference_work": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/libyaml-benchmark-riscv64",
+  "reference_report": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/libyaml-replay-wrong-ir-reference.json",
+  "reference_report_sha256": "a7acd9e11a318c4304023d2b605c99b21214ce4f70f340c353add092b61d111b",
+  "harness_sha256": "9ac69da1a9b1324b176b21639736ce95ed4d5549b52d52f5dcd2554a2111198e",
+  "harness_snapshot": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/libyaml-replay-wrong-ir-barrier/replay-harness.py",
+  "helper_sha256": {
+    "libyaml_compare.py": "84344d4b42d74f594e9e39278eecc5d09bd62d97f7b708fad706353bf0a78cd6",
+    "docker_sync.py": "fb12daba92aa4b24d3fb4e727181b5c62849012ab3c834fc268ea76e8bd3ac34"
+  },
+  "commands": [
+    {
+      "command": [
+        "docker",
+        "exec",
+        "lcb-parity-linux",
+        "uname",
+        "-m"
+      ],
+      "exit": 0,
+      "stdout": "aarch64\n",
+      "stderr": "",
+      "seconds": 0.03092179202940315
+    }
+  ],
+  "backends": {},
+  "negative_controls": {},
+  "notes": [
+    "Retained IR, source, fixtures and old GCC executables are read-only.",
+    "All 52 historical exit/stdout/stderr records must match rerun GCC O0 and O2 before LCB comparison.",
+    "Original/corrected QBE results are historical provenance only; neither oracle is rerun.",
+    "Native Linux ARM VM or QEMU execution; no runtime speed measurement."
+  ],
+  "target": "riscv64-linux",
+  "source_commit": "2c891fc7a770e8ba2fec34fc6b545c672beb37e6",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "execution_mode": "QEMU user emulation",
+  "original_qbe_historical_status": {
+    "status": "link_failed",
+    "link_flags": [
+      "-no-pie"
+    ],
+    "compile_seconds": {
+      "api": 0.5288608749979176,
+      "reader": 0.07112229097401723,
+      "scanner": 0.1240614170092158,
+      "parser": 0.08541158295702189,
+      "loader": 0.07573491602670401,
+      "writer": 0.07789424998918548,
+      "emitter": 0.1018159170052968,
+      "dumper": 0.07105333299841732,
+      "test-version": 0.07089141703909263,
+      "test-reader": 0.06963412498589605,
+      "run-scanner": 0.06904054200276732,
+      "run-parser": 0.0756043330184184,
+      "run-loader": 0.07285504101309925,
+      "run-emitter": 0.07495995797216892,
+      "run-dumper": 0.07231641601538286,
+      "example-reformatter": 0.0730462500359863,
+      "example-reformatter-alt": 0.06786162499338388,
+      "example-deconstructor": 0.07761383295292035,
+      "example-deconstructor-alt": 0.0711717500234954,
+      "run-parser-test-suite": 0.07929258397780359,
+      "run-emitter-test-suite": 0.07447645900538191
+    },
+    "objects": {
+      "api": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  19712\t   2035\t      0\t  21747\t   54f3\t/work/libyaml-benchmark-riscv64/qbe/api.o",
+      "reader": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   3536\t    444\t      0\t   3980\t    f8c\t/work/libyaml-benchmark-riscv64/qbe/reader.o",
+      "scanner": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  66224\t   1730\t      0\t  67954\t  10972\t/work/libyaml-benchmark-riscv64/qbe/scanner.o",
+      "parser": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  18928\t    670\t      0\t  19598\t   4c8e\t/work/libyaml-benchmark-riscv64/qbe/parser.o",
+      "loader": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   7760\t    638\t      0\t   8398\t   20ce\t/work/libyaml-benchmark-riscv64/qbe/loader.o",
+      "writer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   1424\t    136\t      0\t   1560\t    618\t/work/libyaml-benchmark-riscv64/qbe/writer.o",
+      "emitter": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  38096\t    731\t      0\t  38827\t   97ab\t/work/libyaml-benchmark-riscv64/qbe/emitter.o",
+      "dumper": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   5056\t    273\t      0\t   5329\t   14d1\t/work/libyaml-benchmark-riscv64/qbe/dumper.o",
+      "test-version": "text\t   data\t    bss\t    dec\t    hex\tfilename\n    688\t    189\t      0\t    877\t    36d\t/work/libyaml-benchmark-riscv64/qbe/test-version.o",
+      "test-reader": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   3264\t   3912\t      0\t   7176\t   1c08\t/work/libyaml-benchmark-riscv64/qbe/test-reader.o",
+      "run-scanner": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   1040\t    203\t      0\t   1243\t    4db\t/work/libyaml-benchmark-riscv64/qbe/run-scanner.o",
+      "run-parser": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   1040\t    195\t      0\t   1235\t    4d3\t/work/libyaml-benchmark-riscv64/qbe/run-parser.o",
+      "run-loader": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   1056\t    198\t      0\t   1254\t    4e6\t/work/libyaml-benchmark-riscv64/qbe/run-loader.o",
+      "run-emitter": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   5136\t    793\t      0\t   5929\t   1729\t/work/libyaml-benchmark-riscv64/qbe/run-emitter.o",
+      "run-dumper": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   5008\t    915\t      0\t   5923\t   1723\t/work/libyaml-benchmark-riscv64/qbe/run-dumper.o",
+      "example-reformatter": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   2112\t    753\t      0\t   2865\t    b31\t/work/libyaml-benchmark-riscv64/qbe/example-reformatter.o",
+      "example-reformatter-alt": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   2288\t    880\t      0\t   3168\t    c60\t/work/libyaml-benchmark-riscv64/qbe/example-reformatter-alt.o",
+      "example-deconstructor": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   8736\t   1289\t      0\t  10025\t   2729\t/work/libyaml-benchmark-riscv64/qbe/example-deconstructor.o",
+      "example-deconstructor-alt": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   6928\t   1234\t      0\t   8162\t   1fe2\t/work/libyaml-benchmark-riscv64/qbe/example-deconstructor-alt.o",
+      "run-parser-test-suite": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   2832\t    420\t      0\t   3252\t    cb4\t/work/libyaml-benchmark-riscv64/qbe/run-parser-test-suite.o",
+      "run-emitter-test-suite": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   3920\t    542\t      0\t   4462\t   116e\t/work/libyaml-benchmark-riscv64/qbe/run-emitter-test-suite.o"
+    },
+    "failure": {
+      "driver": "test-reader",
+      "exit": 1,
+      "stderr": "/work/libyaml-benchmark-riscv64/qbe/test-reader.o: in function `check_utf8_sequences':\n(.text+0x1d8): dangerous relocation: The addend isn't allowed for R_RISCV_GOT_HI20\ncollect2: error: ld returned 1 exit status\n"
+    }
+  },
+  "corrected_qbe_historical_status": {
+    "status": "built",
+    "link_flags": [
+      "-no-pie"
+    ],
+    "compile_seconds": {
+      "api": 0.48670379200484604,
+      "reader": 0.07247441704384983,
+      "scanner": 0.12088912498438731,
+      "parser": 0.08288962504593655,
+      "loader": 0.07312795898178592,
+      "writer": 0.07182683399878442,
+      "emitter": 0.10203324997564778,
+      "dumper": 0.07984191703144461,
+      "test-version": 0.06661920802434906,
+      "test-reader": 0.07289787498302758,
+      "run-scanner": 0.06976545799989253,
+      "run-parser": 0.06953120802063495,
+      "run-loader": 0.06744429201353341,
+      "run-emitter": 0.06969604198820889,
+      "run-dumper": 0.07254274998558685,
+      "example-reformatter": 0.0729448749916628,
+      "example-reformatter-alt": 0.06932683300692588,
+      "example-deconstructor": 0.0759473749785684,
+      "example-deconstructor-alt": 0.0743062500259839,
+      "run-parser-test-suite": 0.07541145803406835,
+      "run-emitter-test-suite": 0.07633345801150426
+    },
+    "objects": {
+      "api": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  19712\t   2035\t      0\t  21747\t   54f3\t/work/libyaml-benchmark-riscv64/qbe-corrected/api.o",
+      "reader": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   3536\t    444\t      0\t   3980\t    f8c\t/work/libyaml-benchmark-riscv64/qbe-corrected/reader.o",
+      "scanner": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  66224\t   1730\t      0\t  67954\t  10972\t/work/libyaml-benchmark-riscv64/qbe-corrected/scanner.o",
+      "parser": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  18928\t    670\t      0\t  19598\t   4c8e\t/work/libyaml-benchmark-riscv64/qbe-corrected/parser.o",
+      "loader": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   7760\t    638\t      0\t   8398\t   20ce\t/work/libyaml-benchmark-riscv64/qbe-corrected/loader.o",
+      "writer": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   1424\t    136\t      0\t   1560\t    618\t/work/libyaml-benchmark-riscv64/qbe-corrected/writer.o",
+      "emitter": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  38096\t    731\t      0\t  38827\t   97ab\t/work/libyaml-benchmark-riscv64/qbe-corrected/emitter.o",
+      "dumper": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   5056\t    273\t      0\t   5329\t   14d1\t/work/libyaml-benchmark-riscv64/qbe-corrected/dumper.o",
+      "test-version": "text\t   data\t    bss\t    dec\t    hex\tfilename\n    688\t    189\t      0\t    877\t    36d\t/work/libyaml-benchmark-riscv64/qbe-corrected/test-version.o",
+      "test-reader": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   3280\t   3912\t      0\t   7192\t   1c18\t/work/libyaml-benchmark-riscv64/qbe-corrected/test-reader.o",
+      "run-scanner": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   1040\t    203\t      0\t   1243\t    4db\t/work/libyaml-benchmark-riscv64/qbe-corrected/run-scanner.o",
+      "run-parser": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   1040\t    195\t      0\t   1235\t    4d3\t/work/libyaml-benchmark-riscv64/qbe-corrected/run-parser.o",
+      "run-loader": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   1056\t    198\t      0\t   1254\t    4e6\t/work/libyaml-benchmark-riscv64/qbe-corrected/run-loader.o",
+      "run-emitter": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   5136\t    793\t      0\t   5929\t   1729\t/work/libyaml-benchmark-riscv64/qbe-corrected/run-emitter.o",
+      "run-dumper": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   5008\t    915\t      0\t   5923\t   1723\t/work/libyaml-benchmark-riscv64/qbe-corrected/run-dumper.o",
+      "example-reformatter": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   2112\t    753\t      0\t   2865\t    b31\t/work/libyaml-benchmark-riscv64/qbe-corrected/example-reformatter.o",
+      "example-reformatter-alt": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   2288\t    880\t      0\t   3168\t    c60\t/work/libyaml-benchmark-riscv64/qbe-corrected/example-reformatter-alt.o",
+      "example-deconstructor": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   8736\t   1289\t      0\t  10025\t   2729\t/work/libyaml-benchmark-riscv64/qbe-corrected/example-deconstructor.o",
+      "example-deconstructor-alt": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   6928\t   1234\t      0\t   8162\t   1fe2\t/work/libyaml-benchmark-riscv64/qbe-corrected/example-deconstructor-alt.o",
+      "run-parser-test-suite": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   2832\t    420\t      0\t   3252\t    cb4\t/work/libyaml-benchmark-riscv64/qbe-corrected/run-parser-test-suite.o",
+      "run-emitter-test-suite": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   3920\t    542\t      0\t   4462\t   116e\t/work/libyaml-benchmark-riscv64/qbe-corrected/run-emitter-test-suite.o"
+    },
+    "execution_status": "passed"
+  },
+  "diagnostic": "Traceback (most recent call last):\n  File \"/Users/unbalancedparen/projects/lean-compiler-backend/scripts/libyaml_replay.py\", line 106, in main\n    verify_inputs(reference, original)\n    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/unbalancedparen/projects/lean-compiler-backend/scripts/libyaml_replay.py\", line 30, in verify_inputs\n    assert digest(original/'ir'/(name+'.ssa')) == entry['sha256'], 'retained IR hash differs: '+name\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: retained IR hash differs: api\n"
+}
