@@ -48,6 +48,8 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+[Fresh QBE self-compilation](docs/benchmarks/qbe-elf-refresh/README.md) on historical compiler `5e174e1d` passes all three Linux targets: 487 exact assembly comparisons and 58 ARM-output runtime tests per LCB mode. Unchanged/corrected QBE and unqualified overlapping first attempts remain separate; the reusable harness now isolates work and locks the upstream runner. No timing or expanded target-support claim.
+
 [Assembler-dependent octal escapes](docs/benchmarks/octal-escape-boundary/README.md) remain an explicit reference-compatibility boundary. Original QBE forwards raw strings: GNU and Apple differ on overflow and non-octal digits; accepted `\378` has different Linux bytes from LCB. No universal overflow rule was inferred or merged, and reduced exact-length object/C probes retain errors and refusals separately.
 
 [ELF custom TLS and retained sections](docs/benchmarks/elf-custom-sections/README.md) now support explicit writable `awT` thread-data storage and ordinary `R` retention flags. Three-target C/original-QBE matrices verify thread isolation, exact metadata and real linker garbage collection; all three full Linux gates pass. Apple behavior remains unchanged. Additional flag combinations and wider section-name grammar remain separate bounded work.

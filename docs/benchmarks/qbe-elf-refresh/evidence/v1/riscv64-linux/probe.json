@@ -1,0 +1,70 @@
+{
+  "matches": {
+    "arm64": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    },
+    "arm64_apple": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    },
+    "amd64_sysv": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    },
+    "amd64_apple": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    },
+    "amd64_win": {
+      "baseline": 75,
+      "optimized": 75,
+      "qbe-corrected": 75
+    },
+    "rv64": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    }
+  },
+  "self_ir_matches": {
+    "baseline": 32,
+    "optimized": 32,
+    "qbe-corrected": 32
+  },
+  "rejections": [
+    {
+      "target": "amd64_win",
+      "input": "tls.ssa",
+      "exit": -6,
+      "stderr": "amd64/emit.c: dying: extern/thread unsupported on amd64_win\n"
+    }
+  ],
+  "samples": {
+    "reference": [
+      0.10159603203646839
+    ],
+    "baseline": [
+      5.173686430032831
+    ],
+    "optimized": [
+      2.570979297044687
+    ],
+    "qbe-corrected": [
+      1.849416280980222
+    ]
+  },
+  "failures": {},
+  "comparator_control": {
+    "status": "detected",
+    "target": "arm64",
+    "input": "_alt.ssa",
+    "label": "baseline",
+    "original_sha256": "5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd",
+    "mutated_sha256": "3470062fc6654d17b209faf924ed5a04bc8371f28365f5acfd8ffe94f0a645ad"
+  }
+}

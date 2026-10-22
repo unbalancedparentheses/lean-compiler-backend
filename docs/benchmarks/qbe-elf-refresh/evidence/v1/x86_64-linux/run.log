@@ -1,0 +1,136 @@
+Traceback (most recent call last):
+  File "/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py", line 300, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py", line 273, in main
+    result=docker(['env','bin='+runners[label],'binref='+inside(source/'qbe'),'TARGET=arm64','sh','tools/test.sh','all'],source)
+  File "/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py", line 81, in docker
+    return command(['docker','exec',*(['-w',inside(cwd)] if cwd else []),args.docker_container,*cmd],check=check,timeout=timeout)
+  File "/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py", line 60, in command
+    raise RuntimeError(f'{argv}: exit {result.returncode}\n{result.stdout}\n{result.stderr}')
+RuntimeError: ['docker', 'exec', '-w', '/work/qbe-bootstrap-elf-main-x86_64-linux/source', 'lcb-parity-linux', 'env', 'bin=/work/qbe-bootstrap-elf-main-x86_64-linux/run-baseline', 'binref=/work/qbe-bootstrap-elf-main-x86_64-linux/source/qbe', 'TARGET=arm64', 'sh', 'tools/test.sh', 'all']: exit 11
+cc: aarch64-linux-gnu-gcc -no-pie -static
+qemu: not needed, testing native architecture
+
+abi1.ssa...                                  [ok]
+    asm diff: -122
+abi2.ssa...                                  [ok]
+    asm diff: -29
+abi3.ssa...                                  0 1 2 3 4 5 6
+42
+[ok]
+abi4.ssa...                                  [ok]
+abi5.ssa...                                  [ok]
+    asm diff: -266
+abi6.ssa...                                  [cc fail]
+abi7.ssa...                                  [cc fail]
+abi8.ssa...                                  [cc fail]
+abi9.ssa...                                  [cc fail]
+alias1.ssa...                                [cc fail]
+align.ssa...                                 [returned 126 fail]
+cmp1.ssa...                                  [cc fail]
+collatz.ssa...                               [cc fail]
+conaddr.ssa...                               [returned 127 fail]
+copy.ssa...                                  [ok]
+    asm diff: -45
+cprime.ssa...                                [cc fail]
+cup.ssa...                                   [cc fail]
+double.ssa...                                [ok]
+    asm diff: +748
+dynalloc.ssa...                              [ok]
+echo.ssa...                                  [ok]
+env.ssa...                                   [ok]
+eucl.ssa...                                  [ok]
+euclc.ssa...                                 [ok]
+fixarg.ssa...                                [ok]
+fold1.ssa...                                 [ok]
+fpcnv.ssa...                                 [ok]
+gvn1.ssa...                                  [ok]
+gvn2.ssa...                                  [ok]
+ifc.ssa...                                   [ok]
+isel1.ssa...                                 [ok]
+isel2.ssa...                                 [ok]
+isel3.ssa...                                 [ok]
+isel4.ssa...                                 [ok]
+isel5.ssa...                                 [ok]
+isel6.ssa...                                 [ok]
+ldbits.ssa...                                [ok]
+ldhoist.ssa...                               [ok]
+load1.ssa...                                 [ok]
+load2.ssa...                                 [ok]
+load3.ssa...                                 [ok]
+loop.ssa...                                  [ok]
+mandel.ssa...                                [ok]
+max.ssa...                                   [ok]
+mem1.ssa...                                  [ok]
+mem2.ssa...                                  [ok]
+mem3.ssa...                                  [ok]
+philv.ssa...                                 [ok]
+prime.ssa...                                 [ok]
+puts10.ssa...                                [ok]
+queen.ssa...                                 [ok]
+rega1.ssa...                                 [ok]
+spill1.ssa...                                [ok]
+strcmp.ssa...                                [ok]
+strspn.ssa...                                [ok]
+sum.ssa...                                   [ok]
+tls.ssa...                                   [ok]
+vararg1.ssa...                               [ok]
+vararg2.ssa...                               [ok]
+
+11 of 59 tests failed!
+
+/usr/bin/ld: /tmp/ccFctSkP.o: in function `main':
+/tmp/qbe.zzzz.c:7:(.text+0xf4): undefined reference to `f'
+collect2: error: ld returned 1 exit status
+/usr/bin/ld: /tmp/ccE5pwSr.o: in function `main':
+/tmp/qbe.zzzz.c:7:(.text+0x20): undefined reference to `test'
+collect2: error: ld returned 1 exit status
+/usr/bin/ld: /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crt1.o: in function `__wrap_main':
+(.text+0x38): undefined reference to `main'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn0':
+/tmp/qbe.zzzz.c:38:(.text+0x324): undefined reference to `qfn0'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn1':
+/tmp/qbe.zzzz.c:44:(.text+0x38c): undefined reference to `qfn1'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn2':
+/tmp/qbe.zzzz.c:50:(.text+0x3f0): undefined reference to `qfn2'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn3':
+/tmp/qbe.zzzz.c:56:(.text+0x454): undefined reference to `qfn3'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn4':
+/tmp/qbe.zzzz.c:62:(.text+0x4b0): undefined reference to `qfn4'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn5':
+/tmp/qbe.zzzz.c:68:(.text+0x550): undefined reference to `qfn5'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn6':
+/tmp/qbe.zzzz.c:74:(.text+0x598): undefined reference to `qfn6'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn7':
+/tmp/qbe.zzzz.c:80:(.text+0x618): undefined reference to `qfn7'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn8':
+/tmp/qbe.zzzz.c:86:(.text+0x6a4): undefined reference to `qfn8'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn9':
+/tmp/qbe.zzzz.c:92:(.text+0x708): undefined reference to `qfn9'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn10':
+/tmp/qbe.zzzz.c:98:(.text+0x7d4): undefined reference to `qfn10'
+/usr/bin/ld: /tmp/ccMQwlRp.o: in function `cfn11':
+/tmp/qbe.zzzz.c:104:(.text+0x838): undefined reference to `qfn11'
+collect2: error: ld returned 1 exit status
+/tmp/qbe.zzzz.s: Assembler messages:
+/tmp/qbe.zzzz.s:40: Error: junk at end of line, first unrecognized character is `,'
+/tmp/qbe.zzzz.s: Error: .size expression for f does not evaluate to a constant
+/tmp/qbe.zzzz.s: Assembler messages:
+/tmp/qbe.zzzz.s:28: Error: unknown mnemonic `ain' -- `ain, @function'
+/tmp/qbe.zzzz.s: Error: .size expression for main does not evaluate to a constant
+tools/test.sh: 20: /tmp/qbe.zzzz.exe: Text file busy
+/usr/bin/ld: /tmp/ccL736Ni.o: in function `main':
+/tmp/qbe.zzzz.c:2:(.text+0xc): undefined reference to `test'
+collect2: error: ld returned 1 exit status
+/tmp/qbe.zzzz.s: Assembler messages:
+/tmp/qbe.zzzz.s:76: Error: junk at end of line, first unrecognized character is `0'
+/tmp/qbe.zzzz.s: Error: .size expression for f does not evaluate to a constant
+tools/test.sh: 20: /tmp/qbe.zzzz.exe: not found
+/usr/bin/ld: /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crt1.o: in function `__wrap_main':
+(.text+0x38): undefined reference to `main'
+collect2: error: ld returned 1 exit status
+/usr/bin/ld: /tmp/cccTizp1.o: in function `main':
+/tmp/qbe.zzzz.c:2:(.text+0x8): undefined reference to `test'
+collect2: error: ld returned 1 exit status
+

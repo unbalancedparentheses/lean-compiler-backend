@@ -1,0 +1,198 @@
+--- a/scripts/qbe_bootstrap.py
++++ b/scripts/qbe_bootstrap.py
+@@ -16,7 +16,7 @@
+ import shutil
+ import statistics
+ import time
+-from cjson_benchmark import ROOT, CPROC, command, fetch
++from cjson_benchmark import ROOT, CPROC, command as base_command, fetch
+ 
+ DEFINES = ['-D__CHAR_BIT__=8', '-D__SCHAR_MAX__=127', '-D__SHRT_MAX__=32767',
+            '-D__LONG_MAX__=9223372036854775807L']
+@@ -32,11 +32,12 @@
+     ap.add_argument('--docker-container', default='lcb-parity-linux')
+     ap.add_argument('--compiler', type=Path, default=ROOT/'.lake/build/bin/lcb')
+     ap.add_argument('--report', type=Path)
++    ap.add_argument('--work', type=Path, help='Fresh empty directory beneath .build/linux-arm64; isolates source/config/oracles')
+     ap.add_argument('--target', choices=['aarch64-linux','x86_64-linux','riscv64-linux'], default='aarch64-linux')
+     ap.add_argument('--repetitions', type=int, default=5)
+     args = ap.parse_args()
+     assert 1 <= args.repetitions <= 20
+-    base = ROOT/'.build/linux-arm64'
++    base = (ROOT/'.build/linux-arm64').resolve()
+     isa,qtarget = {'aarch64-linux':('aarch64','arm64'),
+                    'x86_64-linux':('x86_64','amd64_sysv'),
+                    'riscv64-linux':('riscv64','rv64')}[args.target]
+@@ -44,12 +45,37 @@
+     cc = 'gcc' if arm else isa+'-linux-gnu-gcc'
+     execution_prefix = [] if arm else ['qemu-'+isa,'-L','/usr/'+isa+'-linux-gnu']
+     labels = ['baseline','optimized','qbe','qbe-corrected']
+-    work = base/('qbe-bootstrap' if arm else 'qbe-bootstrap-'+isa);work.mkdir(parents=True,exist_ok=True)
++    work = args.work.resolve() if args.work else base/('qbe-bootstrap' if arm else 'qbe-bootstrap-'+isa)
++    if args.work:
++        assert work != base and work.is_relative_to(base), '--work must be beneath mounted .build/linux-arm64'
++        assert not work.exists() or not any(work.iterdir()), '--work must be fresh and empty'
++    work.mkdir(parents=True,exist_ok=True)
++    commands = work/'commands.jsonl'
++    def command(argv, **kwargs):
++        check = kwargs.pop('check', True)
++        result = base_command(argv, check=False, **kwargs)
++        with commands.open('a') as stream:
++            stream.write(json.dumps({'command':list(map(str,argv)), 'cwd':str(kwargs.get('cwd','')), 'exit':result.returncode, 'stdout':result.stdout, 'stderr':result.stderr})+'\n')
++        if check and result.returncode:
++            raise RuntimeError(f'{argv}: exit {result.returncode}\n{result.stdout}\n{result.stderr}')
++        return result
++    bindings = {}
++    def bind(path):
++        path = Path(path).resolve(); value = digest(path)
++        assert str(path) not in bindings or bindings[str(path)] == value, ('bound file changed',path)
++        bindings[str(path)] = value
++    for path in [Path(__file__), ROOT/'scripts/cjson_benchmark.py', args.compiler, ROOT/'upstream-lock.json']:
++        bind(path)
++    for path in (ROOT/'third_party/qbe').rglob('*'):
++        if path.is_file(): bind(path)
++    (work/'status.json').write_text(json.dumps({'status':'running','target':args.target,'helper_sha256':digest(__file__)}))
+     source = work/'source'
+     if source.exists():shutil.rmtree(source)
+     shutil.copytree(ROOT/'third_party/qbe',source)
+-    cproc = base/'cjson-benchmark/cproc' if arm else work/'cproc-source'
++    cproc = work/'cproc-source' if args.work or not arm else base/'cjson-benchmark/cproc'
+     fetch(cproc,'https://github.com/michaelforney/cproc.git',CPROC)
++    for name in filter(None, command(['git','-C',cproc,'ls-files','-z']).stdout.split('\0')):
++        if (cproc/name).is_file(): bind(cproc/name)
+     def inside(path):return '/work/'+str(Path(path).relative_to(base))
+     def docker(cmd,cwd=None,check=True,timeout=600):
+         return command(['docker','exec',*(['-w',inside(cwd)] if cwd else []),args.docker_container,*cmd],check=check,timeout=timeout)
+@@ -64,15 +90,20 @@
+             time.sleep(0.05)
+         raise AssertionError(f'shared-file digest did not synchronize: {path}')
+     for path in source.rglob('*'):
+-        if path.is_file():synchronize(path)
++        if path.is_file():synchronize(path);bind(path)
+     configure = ['./configure']
+     if not arm:
+         libdir = str(Path(docker([cc,'-print-file-name=crtbegin.o']).stdout.strip()).parent)
+         configure += ['--target='+isa+'-linux-gnu','--with-gcc-libdir='+libdir]
+     docker(configure,cproc);docker(['make','-j4'],cproc)
+     docker(['make','-j4','CC=gcc','CFLAGS=-std=c99 -O2'],source)
++    for name in ['config.h','config.mk','cproc','cproc-qbe']:
++        path=cproc/name
++        if path.exists(): synchronize(path,False);bind(path)
++    synchronize(source/'qbe',False);bind(source/'qbe')
+     backends={}
+     patch_path=ROOT/('tests/upstream/qbe-1.3-amd64-extern-flags.json' if isa=='x86_64' else 'tests/upstream/qbe-1.3-'+('rv64' if isa=='riscv64' else 'arm64')+'-extern-offset.json')
++    bind(patch_path)
+     patch=json.loads(patch_path.read_text())
+     lock=json.loads((ROOT/'upstream-lock.json').read_text())
+     for label in [x for x in labels if x.startswith('qbe')]:
+@@ -86,9 +117,12 @@
+             (oracle/patch['source']).write_text(text.replace(patch['before'],patch['after']))
+         command(['make','-j4',f'CC={os.environ.get("LCB_CC","cc")}','CFLAGS=-std=c99 -O2'],cwd=oracle)
+         backends[label]=oracle/'qbe'
++        for path in oracle.rglob('*'):
++            if path.is_file() and (path.suffix in ['.c','.h'] or path.name in ['Makefile','qbe']): bind(path)
+     compiler=work/'lcb-snapshot';shutil.copy2(args.compiler,compiler)
++    bind(compiler)
+     names=docker(['make','-s','src'],source).stdout.split()
+-    report={'schema':1,'program':'QBE 1.3 self-compilation','target':args.target,
++    report={'schema':2,'work':str(work),'helper_sha256':digest(__file__),'compiler_sha256':digest(compiler),'program':'QBE 1.3 self-compilation','target':args.target,
+             'execution_mode':'native ARM64 Linux VM' if arm else 'QEMU user emulation',
+             'execution':docker(['uname','-a']).stdout.strip(),'compile_host':platform.platform(),
+             'compiler_identity':command([compiler,'--build-identity']).stdout.strip(),
+@@ -124,7 +158,7 @@
+     for name in names:
+         ir=work/'ir'/name.replace('/','-').replace('.c','.ssa')
+         docker([inside(cproc/'cproc'),*DEFINES,'-I'+inside(source),'-emit-qbe',inside(source/name),'-o',inside(ir)])
+-        synchronize(ir,False);inputs.append(ir)
++        synchronize(ir,False);bind(ir);inputs.append(ir)
+         text=ir.read_text()
+         report['translation_units'][name]={'ir_sha256':digest(ir),'bytes':ir.stat().st_size,
+             'lines':len(text.splitlines()),'functions':len(re.findall(r'^(?:export )?function\b',text,re.M))}
+@@ -137,7 +171,7 @@
+             cmd=([backends[label],'-t',qtarget,'-o',asm,ir] if label.startswith('qbe') else
+                  [compiler,ir,'--target',args.target,*flags,'-o',asm])
+             start=time.perf_counter();command(cmd);timings[ir.stem]=time.perf_counter()-start
+-            synchronize(asm);docker([cc,'-c',inside(asm),'-o',inside(obj)]);objects.append(obj)
++            synchronize(asm);bind(asm);docker([cc,'-c',inside(asm),'-o',inside(obj)]);synchronize(obj,False);bind(obj);objects.append(obj)
+         link_flags = ['-no-pie'] if isa=='riscv64' and label.startswith('qbe') else []
+         exe=work/f'qbe-{label}'
+         linked=docker([cc,*link_flags,*map(inside,objects),'-o',inside(exe)],check=False)
+@@ -148,6 +182,7 @@
+                 'fixture_assembly_matches':{},'self_ir_assembly_matches':0,'original_runner_passes':None}
+             unavailable.add(label)
+             continue
++        synchronize(exe,False);bind(exe)
+         size_rows=docker(['size',*map(inside,objects)]).stdout.splitlines()[1:]
+         hash_rows=docker(['sha256sum',*map(inside,objects)]).stdout.splitlines()
+         assert len(size_rows)==len(objects)==len(hash_rows)
+@@ -175,7 +210,11 @@
+ root=Path(WORKPATH);out=root/'outputs';out.mkdir(exist_ok=True)
+ backends=RUNNERS
+ result={'matches':{},'self_ir_matches':{},'rejections':[],'samples':{},'failures':{}}
++def assert_same(expected, actual):
++    assert expected == actual, 'assembly differs'
++sensitivity_checked=False
+ def compare(target,p,kind):
++    global sensitivity_checked
+     reference=None
+     for label,exe in backends.items():
+         if label in result['failures']:continue
+@@ -190,7 +229,13 @@
+                 continue
+             assert r.returncode==reference[0],(target,p.name,label,r.returncode,reference[0],r.stderr)
+             if r.returncode==0:
+-                assert asm.read_bytes()==reference[1],(target,p.name,label,'assembly differs')
++                assert_same(reference[1],asm.read_bytes())
++                if not sensitivity_checked:
++                    corrupted=asm.read_bytes()+b'\\n# comparator mutation\\n'
++                    try: assert_same(reference[1],corrupted)
++                    except AssertionError: result['comparator_control']={'status':'detected','target':target,'input':p.name,'label':label,'original_sha256':hashlib.sha256(reference[1]).hexdigest(),'mutated_sha256':hashlib.sha256(corrupted).hexdigest()}
++                    else: raise AssertionError('comparator accepted changed assembly')
++                    sensitivity_checked=True
+                 table=result['matches'].setdefault(target,{}) if kind=='fixture' else result['self_ir_matches']
+                 table[label]=table.get(label,0)+1
+ for target in TARGETS:
+@@ -209,9 +254,12 @@
+ '''.replace('TARGETS',repr(TARGETS)).replace('REPETITIONS',str(args.repetitions)).replace('WORKPATH',repr(inside(work))).replace('RUNNERS',repr(runners)))
+     synchronize(probe);docker(['python3',inside(probe)],timeout=900)
+     measured=work/'probe.json';synchronize(measured,False);comparison=json.loads(measured.read_text())
++    report['comparator_control']=comparison['comparator_control']
+     report['rejections']=comparison['rejections']
+     report['runtime']={label:{'seconds':samples,'median_seconds':statistics.median(samples)} for label,samples in comparison['samples'].items()}
+-    # The original runner uses fixed temporary filenames: run modes sequentially.
++    # Upstream uses /tmp/qbe.zzzz globally, even across separate source trees.
++    # Serialize cooperative harness invocations without changing upstream tools/test.sh.
++    # Unrelated direct invocations of that runner must also be kept separate.
+     for label in labels:
+         entry=report['backends'][label]
+         if label in unavailable:
+@@ -224,12 +272,28 @@
+             continue
+         entry['fixture_assembly_matches']={target:values[label] for target,values in comparison['matches'].items()}
+         entry['self_ir_assembly_matches']=comparison['self_ir_matches'][label]
+-        result=docker(['env','bin='+runners[label],'binref='+inside(source/'qbe'),'TARGET=arm64','sh','tools/test.sh','all'],source)
++        result=docker(['flock','-x','/tmp/lcb-qbe-bootstrap-tests.lock','env','bin='+runners[label],'binref='+inside(source/'qbe'),'TARGET=arm64','sh','tools/test.sh','all'],source)
+         log=work/f'tests-{label}.log';log.write_text(result.stdout+result.stderr)
+         assert 'All is fine!' in result.stdout,result.stdout
+         entry['original_runner_passes']=result.stdout.count('[ok]')
+         entry['original_runner_log_sha256']=digest(log)
+         print(f'QBE {label}: {sum(entry["fixture_assembly_matches"].values())} exact fixture assemblies, {entry["self_ir_assembly_matches"]} self-IR assemblies; {entry["original_runner_passes"]} original ARM64 runtime tests',flush=True)
++    for path, expected in bindings.items():
++        assert digest(path)==expected, ('post-run binding changed',path)
++    # One guest manifest provides a bounded host/guest digest barrier for every
++    # retained artifact (including generated assembly, objects and test outputs).
++    manifest_code = 'import hashlib,json,pathlib; r=pathlib.Path('+repr(inside(work))+'); print(json.dumps({str(p.relative_to(r)):hashlib.sha256(p.read_bytes()).hexdigest() for p in r.rglob("*") if p.is_file() and ".git" not in p.relative_to(r).parts and p.name not in ["commands.jsonl", "status.json"]}))'
++    guest = json.loads(docker(['python3','-c',manifest_code]).stdout)
++    for name, expected in guest.items():
++        path=work/name
++        for attempt in range(100):
++            if path.exists() and digest(path)==expected: break
++            time.sleep(0.05)
++        else: raise AssertionError(('final host/guest mismatch',name))
++    report['provenance']={'pre_post_bindings':bindings,'post_guest_host_bindings':guest,'guest_host_count':len(guest),'commands_sha256':digest(commands)}
++    report['notes'].append('Repetitions are diagnostic process/output samples; this refresh makes no timing claim. Exact comparator mutation is required to be detected. Upstream runtime runner uses global /tmp/qbe.zzzz files: a shared guest flock serializes this harness; unrelated direct upstream runner invocations must be kept separate.')
++    report['status']='passed'
++    (work/'status.json').write_text(json.dumps({'status':'passed','target':args.target})+'\n')
+     destination=args.report or work/'report.json';destination.parent.mkdir(parents=True,exist_ok=True)
+     destination.write_text(json.dumps(report,indent=2)+'\n')
+     print(f'report: {destination}',flush=True)

@@ -1,0 +1,13 @@
+# QBE bootstrap refresh on the ELF-section checkpoint
+
+The applied [bootstrap helper](../../../scripts/qbe_bootstrap.py) adds fresh `--work` isolation, provenance barriers, an exact-comparator mutation control, and a shared guest lock around the unchanged upstream runtime runner. No compiler source or binary was changed for this refresh.
+
+The historical compiler tested was **`5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e`**, snapshot SHA-256 `83169d061c897c9142941714e7ba8fb5e900a756c7062d33096837da91bdc7a1`. This is qualification of that exact ELF TLS/R checkpoint, not any subsequent compiler identity. The final helper SHA-256 is `e7ec888e7da54334c5bd64bf3f426d88285e07a51aff89fe39d34177d072b988`.
+
+On each of the three Linux targets, LCB baseline, LCB optimized and explicitly corrected QBE passed **455 fixture assembly comparisons plus 32 self-IR comparisons (487 total), and 58 original ARM-output runtime tests**. The x86/RV compiler executables run under QEMU; generated ARM test executables run in the native ARM Linux VM. QBE's six output targets, including Windows, are assembly-reproduction checks of QBE as a program; they do not extend LCB target support. Windows remains deferred. One diagnostic repetition is retained without timing claims.
+
+Unchanged original-QBE outcomes remain separate: ARM self-compilation fails parsing `_alt.ssa`, x86 differs on `arm64_apple/abi8.ssa`, and RV fails linkage with disallowed GOT_HI20 addends even with explicitly recorded `-no-pie`. None is counted as a qualified original-QBE self-compilation.
+
+The first concurrent campaign raced on upstream's hardcoded `/tmp/qbe.zzzz` files. **All v1 runtime attempts are unqualified, including ARM's exit-zero attempt.** The original artifacts are preserved unchanged. Sequential v2 results are retained separately; v3 qualifies the final locked helper. The shared lock coordinates this helper's invocations; unrelated direct upstream-runner invocations must still be kept separate.
+
+See the [frozen evidence README](evidence/README.md), [final summary](evidence/summary.json), and [manifest](evidence/manifest.json). All 207 manifest entries were rechecked when copied; the immutable package contains 208 files and its manifest SHA-256 is `c4e49f045d33d6bd5f822a6281fcc08e4ee546e7acf00f27f560e664067b62ff`. It includes exact helper/patch bytes, source-identity metadata, compressed IR and command journals, failed and successful attempts, and per-target pre/post and host/guest bindings. Fresh-work refusal controls, comparator mutations and exclusive-lock sensitivity checks passed.

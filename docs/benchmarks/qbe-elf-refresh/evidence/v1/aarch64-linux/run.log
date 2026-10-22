@@ -1,0 +1,5 @@
+QBE baseline: 455 exact fixture assemblies, 32 self-IR assemblies; 58 original ARM64 runtime tests
+QBE optimized: 455 exact fixture assemblies, 32 self-IR assemblies; 58 original ARM64 runtime tests
+QBE qbe: original self-compilation failure retained: {'target': 'arm64', 'input': '_alt.ssa', 'exit': 1, 'reference_exit': 0, 'stderr': 'qbe:/work/qbe-bootstrap-elf-main-aarch64-linux/source/test/_alt.ssa:25: missing second operand in copy\n', 'phase': 'assembly reproduction', 'assembly_sha256': None, 'reference_assembly_sha256': '5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd'}
+QBE qbe-corrected: 455 exact fixture assemblies, 32 self-IR assemblies; 58 original ARM64 runtime tests
+report: /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/qbe-bootstrap-elf-main-aarch64-linux/report.json

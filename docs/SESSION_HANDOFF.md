@@ -6,6 +6,8 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+[Fresh QBE bootstrap qualification](benchmarks/qbe-elf-refresh/README.md) uses historical identity `5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e`: all three Linux targets pass 487 exact comparisons and 58 ARM-output runtime tests per LCB mode. The applied helper adds isolated work, provenance barriers and a shared upstream-runner lock. All overlapping v1 attempts remain unqualified; sequential v2 and final locked v3 evidence are distinct, as are original/corrected QBE outcomes. No compiler rebuild, timing claim or Windows-support extension.
+
 [Octal escape boundary](benchmarks/octal-escape-boundary/README.md) now records
 assembler-dependent original-QBE behavior, including the accepted Linux `\378`
 byte discrepancy. Reduced exact-length object/C probes replace an unqualified

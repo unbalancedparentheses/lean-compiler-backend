@@ -1,0 +1,81 @@
+{
+  "matches": {
+    "arm64": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    },
+    "arm64_apple": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    },
+    "amd64_sysv": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    },
+    "amd64_apple": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    },
+    "amd64_win": {
+      "baseline": 75,
+      "optimized": 75,
+      "qbe-corrected": 75
+    },
+    "rv64": {
+      "baseline": 76,
+      "optimized": 76,
+      "qbe-corrected": 76
+    }
+  },
+  "self_ir_matches": {
+    "baseline": 32,
+    "optimized": 32,
+    "qbe-corrected": 32
+  },
+  "rejections": [
+    {
+      "target": "amd64_win",
+      "input": "tls.ssa",
+      "exit": -6,
+      "stderr": "amd64/emit.c: dying: extern/thread unsupported on amd64_win\n"
+    }
+  ],
+  "samples": {
+    "reference": [
+      0.10871031600981951
+    ],
+    "baseline": [
+      0.8015412109671161
+    ],
+    "optimized": [
+      0.1912734429934062
+    ],
+    "qbe-corrected": [
+      0.17621042300015688
+    ]
+  },
+  "failures": {
+    "qbe": {
+      "target": "arm64",
+      "input": "_alt.ssa",
+      "exit": 1,
+      "reference_exit": 0,
+      "stderr": "qbe:/work/qbe-bootstrap-elf-main-v3-aarch64-linux/source/test/_alt.ssa:25: missing second operand in copy\n",
+      "phase": "assembly reproduction",
+      "assembly_sha256": null,
+      "reference_assembly_sha256": "5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd"
+    }
+  },
+  "comparator_control": {
+    "status": "detected",
+    "target": "arm64",
+    "input": "_alt.ssa",
+    "label": "baseline",
+    "original_sha256": "5e63af3536ded387f9afb1562bf014fd7ccaa3b47ca5e0006b6b3bb651d56ecd",
+    "mutated_sha256": "3470062fc6654d17b209faf924ed5a04bc8371f28365f5acfd8ffe94f0a645ad"
+  }
+}

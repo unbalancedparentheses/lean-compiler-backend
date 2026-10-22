@@ -1,0 +1,17 @@
+[
+  {
+    "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64",
+    "exit": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py\", line 300, in <module>\n    if __name__=='__main__':main()\n                            ~~~~^^\n  File \"/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py\", line 50, in main\n    assert work != base and work.is_relative_to(base), '--work must be beneath mounted .build/linux-arm64'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: --work must be beneath mounted .build/linux-arm64\n"
+  },
+  {
+    "path": "/tmp/qbe-forbidden-work",
+    "exit": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py\", line 300, in <module>\n    if __name__=='__main__':main()\n                            ~~~~^^\n  File \"/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py\", line 50, in main\n    assert work != base and work.is_relative_to(base), '--work must be beneath mounted .build/linux-arm64'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: --work must be beneath mounted .build/linux-arm64\n"
+  },
+  {
+    "path": "/Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/qbe-bootstrap-elf-main-aarch64-linux",
+    "exit": 1,
+    "stderr": "Traceback (most recent call last):\n  File \"/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py\", line 300, in <module>\n    if __name__=='__main__':main()\n                            ~~~~^^\n  File \"/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py\", line 51, in main\n    assert not work.exists() or not any(work.iterdir()), '--work must be fresh and empty'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: --work must be fresh and empty\n"
+  }
+]

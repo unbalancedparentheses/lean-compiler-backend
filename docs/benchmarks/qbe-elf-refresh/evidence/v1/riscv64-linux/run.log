@@ -1,0 +1,386 @@
+QBE baseline: 455 exact fixture assemblies, 32 self-IR assemblies; 58 original ARM64 runtime tests
+Traceback (most recent call last):
+  File "/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py", line 300, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py", line 273, in main
+    result=docker(['env','bin='+runners[label],'binref='+inside(source/'qbe'),'TARGET=arm64','sh','tools/test.sh','all'],source)
+  File "/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py", line 81, in docker
+    return command(['docker','exec',*(['-w',inside(cwd)] if cwd else []),args.docker_container,*cmd],check=check,timeout=timeout)
+  File "/tmp/lcb-qbe-bootstrap-refresh/qbe_bootstrap.py", line 60, in command
+    raise RuntimeError(f'{argv}: exit {result.returncode}\n{result.stdout}\n{result.stderr}')
+RuntimeError: ['docker', 'exec', '-w', '/work/qbe-bootstrap-elf-main-riscv64-linux/source', 'lcb-parity-linux', 'env', 'bin=/work/qbe-bootstrap-elf-main-riscv64-linux/run-optimized', 'binref=/work/qbe-bootstrap-elf-main-riscv64-linux/source/qbe', 'TARGET=arm64', 'sh', 'tools/test.sh', 'all']: exit 11
+cc: aarch64-linux-gnu-gcc -no-pie -static
+qemu: not needed, testing native architecture
+
+abi1.ssa...                                  [ok]
+abi2.ssa...                                  [ok]
+abi3.ssa...                                  [ok]
+abi4.ssa...                                  [ok]
+abi5.ssa...                                  [ok]
+abi6.ssa...                                  [ok]
+abi7.ssa...                                  [ok]
+abi8.ssa...                                  [ok]
+abi9.ssa...                                  [ok]
+alias1.ssa...                                [ok]
+align.ssa...                                 [ok]
+cmp1.ssa...                                  [ok]
+collatz.ssa...                               [ok]
+conaddr.ssa...                               [ok]
+copy.ssa...                                  [ok]
+cprime.ssa...                                [ok]
+cup.ssa...                                   [ok]
+double.ssa...                                [ok]
+dynalloc.ssa...                              [ok]
+echo.ssa...                                  [ok]
+env.ssa...                                   [ok]
+eucl.ssa...                                  [ok]
+euclc.ssa...                                 [ok]
+fixarg.ssa...                                [ok]
+fold1.ssa...                                 [ok]
+fpcnv.ssa...                                 [ok]
+gvn1.ssa...                                  [ok]
+gvn2.ssa...                                  [ok]
+ifc.ssa...                                   [ok]
+isel1.ssa...                                 [ok]
+isel2.ssa...                                 [ok]
+isel3.ssa...                                 [ok]
+isel4.ssa...                                 [ok]
+isel5.ssa...                                 [ok]
+isel6.ssa...                                 [ok]
+ldbits.ssa...                                [ok]
+ldhoist.ssa...                               --- -	2026-10-22 11:05:12.047962418 +0000
++++ /tmp/qbe.zzzz.out	2026-10-22 11:05:12.040187711 +0000
+@@ -0,0 +1,11 @@
++fcb: m = (mem){ t = "ABCDEFGHIJKLMNOP" }
++     n = (mem){ t = "abcdefghijklmnop" }
++     i1 = 1
++     i2 = 2
++     i3 = 3
++     i4 = 4
++     i5 = 5
++     i6 = 6
++     i7 = 7
++     i8 = 8
++     i9 = 9
+[output fail]
+load1.ssa...                                 [ok]
+    asm diff: +0
+load2.ssa...                                 [cc fail]
+load3.ssa...                                 [ok]
+    asm diff: -58
+loop.ssa...                                  --- -	2026-10-22 11:05:12.242075463 +0000
++++ /tmp/qbe.zzzz.out	2026-10-22 11:05:12.222860283 +0000
+@@ -0,0 +1 @@
++ABCDEFGHIJKLMNOP
+[output fail]
+mandel.ssa...                                --- -	2026-10-22 11:05:12.291725128 +0000
++++ /tmp/qbe.zzzz.out	2026-10-22 11:05:12.289760763 +0000
+@@ -1,63 +1,11 @@
+-                                                               
+-                                                               
+-                                                               
+-                                                               
+-                               *                               
+-                              ****                             
+-                              ****                             
+-                              ***                              
+-                             *****                             
+-                            *********                          
+-                          ************                         
+-                       *****************                       
+-                        ****************                       
+-                        ***************                        
+-                        ****************                       
+-                        ****************                       
+-                       *****************                       
+-                        ****************                       
+-                        ****************                       
+-                         **************                        
+-                         *************                         
+-                          ************                         
+-                           *********                           
+-                             *****                             
+-                           ***********                         
+-                        *****************                      
+-                     **********************                    
+-                  * *********************** **                 
+-                  ***************************                  
+-                 *****************************                 
+-              * *******************************  **            
+-             ** ***********************************            
+-             *********************************** *             
+-              ***********************************              
+-             *************************************             
+-             *************************************             
+-            ***************************************            
+-            ***************************************            
+-            ***************************************            
+-            ****************************************           
+-      *     ****************************************           
+-      ********************************************** ****      
+-      ****************************************************     
+-    * *****************************************************    
+-    * *****************************************************    
+-      ***** **************************************** ****      
+-        *   ****************************************    *      
+-            ****************************************           
+-            ***************************************            
+-           ****************************************            
+-             ***************************************           
+-            ****************************************           
+-              ************************************             
+-              ***********************************              
+-               *********************************               
+-              ************************************             
+-              *** ************* ************** ***             
+-                   ***********   ************   **             
+-                     ********      ********                    
+-                    **                *   *                    
+-                                                               
+-                                                               
+-                                                               
++t1: abcdefghijklmnop
++t2: 2
++t3: 3.000000 30
++t4: 4 -40.000000
++t5: 5.500000 -55
++t6: abcdefghijklmno
++t7: 7.770000 77.700000
++t8: -8 88 -888 8888
++t9: 9 9.900000
++ta: -10 10.100000
++tb: -1 11 11.110000
+[output fail]
+max.ssa...                                   [cc fail]
+mem1.ssa...                                  [ok]
+    asm diff: -65
+mem2.ssa...                                  [ok]
+    asm diff: -60
+mem3.ssa...                                  [cc fail]
+philv.ssa...                                 [ok]
+    asm diff: -47
+prime.ssa...                                 [cc fail]
+puts10.ssa...                                0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+[returned 1 fail]
+queen.ssa...                                 [ok]
+    asm diff: -275
+rega1.ssa...                                 [returned 127 fail]
+spill1.ssa...                                [ok]
+    asm diff: +17
+strcmp.ssa...                                [cc fail]
+strspn.ssa...                                [ok]
+sum.ssa...                                   [ok]
+tls.ssa...                                   [ok]
+    asm diff: -180
+vararg1.ssa...                               [ok]
+    asm diff: -160
+vararg2.ssa...                               [cc fail]
+
+11 of 59 tests failed!
+
+/usr/bin/ld: /tmp/cc73IS2o.o: in function `main':
+/tmp/qbe.zzzz.c:7:(.text+0x30): undefined reference to `f'
+collect2: error: ld returned 1 exit status
+tools/test.sh: 20: /tmp/qbe.zzzz.exe: Text file busy
+/usr/bin/ld: /tmp/ccPtZ6TZ.o: in function `main':
+/tmp/qbe.zzzz.c:3:(.text+0x8): undefined reference to `test'
+collect2: error: ld returned 1 exit status
+/tmp/qbe.zzzz.s: Assembler messages:
+/tmp/qbe.zzzz.s: Warning: end of file not at end of a line; newline inserted
+/tmp/qbe.zzzz.s:81: Error: junk at end of line, first unrecognized character is `,'
+/tmp/qbe.zzzz.s:276: Error: expected a register at operand 2 -- `add x0,'
+/tmp/qbe.zzzz.s: Error: .size expression for qfn2 does not evaluate to a constant
+/tmp/qbe.zzzz.s: Assembler messages:
+/tmp/qbe.zzzz.s:40: Error: junk at end of line, first unrecognized character is `,'
+/tmp/qbe.zzzz.s: Error: .size expression for f does not evaluate to a constant
+tools/test.sh: 20: /tmp/qbe.zzzz.exe: not found
+/usr/bin/ld: /usr/lib/gcc/aarch64-linux-gnu/13/../../../aarch64-linux-gnu/crt1.o: in function `__wrap_main':
+(.text+0x38): undefined reference to `main'
+/usr/bin/ld: /tmp/ccHruiYa.o: in function `f0':
+/tmp/qbe.zzzz.s:8:(.text+0xc): undefined reference to `a'
+/usr/bin/ld: /tmp/qbe.zzzz.s:9:(.text+0x10): undefined reference to `a'
+/usr/bin/ld: /tmp/ccHruiYa.o: in function `f2':
+/tmp/qbe.zzzz.s:44:(.text+0x68): undefined reference to `a'
+/usr/bin/ld: /tmp/qbe.zzzz.s:45:(.text+0x6c): undefined reference to `a'
+/usr/bin/ld: /tmp/ccHruiYa.o: in function `f3':
+/tmp/qbe.zzzz.s:61:(.text+0x8c): undefined reference to `a'
+/usr/bin/ld: /tmp/ccHruiYa.o:/tmp/qbe.zzzz.s:62: more undefined references to `a' follow
+/usr/bin/ld: /tmp/ccHruiYa.o: in function `f4':
+/tmp/qbe.zzzz.s:77:(.text+0xac): undefined reference to `p'
+/usr/bin/ld: /tmp/qbe.zzzz.s:78:(.text+0xb0): undefined reference to `p'
+/usr/bin/ld: /tmp/qbe.zzzz.s:79:(.text+0xb4): undefined reference to `p'
+/usr/bin/ld: /tmp/qbe.zzzz.s:80:(.text+0xb8): undefined reference to `p'
+collect2: error: ld returned 1 exit status
+/usr/bin/ld: /tmp/cczM2W0U.o: in function `main':
+/tmp/qbe.zzzz.c:24:(.text+0x5c): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:25:(.text+0x6c): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:26:(.text+0x7c): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:27:(.text+0x8c): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:28:(.text+0xa4): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:29:(.text+0xbc): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:30:(.text+0xd8): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:31:(.text+0xf4): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:32:(.text+0x110): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:33:(.text+0x12c): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:34:(.text+0x158): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:35:(.text+0x184): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:36:(.text+0x1a8): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:37:(.text+0x1cc): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:38:(.text+0x1f0): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:39:(.text+0x214): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:40:(.text+0x238): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:41:(.text+0x25c): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:42:(.text+0x268): undefined reference to `qbeprint0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:43:(.text+0x274): undefined reference to `qbecall0'
+/usr/bin/ld: /tmp/qbe.zzzz.c:45:(.text+0x294): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:46:(.text+0x2a8): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:47:(.text+0x2c0): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:48:(.text+0x2d8): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:49:(.text+0x2f4): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:50:(.text+0x310): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:51:(.text+0x330): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:52:(.text+0x350): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:53:(.text+0x370): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:54:(.text+0x390): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:55:(.text+0x3c0): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:56:(.text+0x3f0): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:57:(.text+0x418): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:58:(.text+0x440): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:59:(.text+0x468): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:60:(.text+0x490): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:61:(.text+0x4b8): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:62:(.text+0x4e0): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:63:(.text+0x4f0): undefined reference to `qbeprint1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:64:(.text+0x500): undefined reference to `qbecall1'
+/usr/bin/ld: /tmp/qbe.zzzz.c:66:(.text+0x520): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:67:(.text+0x534): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:68:(.text+0x54c): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:69:(.text+0x564): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:70:(.text+0x580): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:71:(.text+0x59c): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:72:(.text+0x5bc): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:73:(.text+0x5dc): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:74:(.text+0x5fc): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:75:(.text+0x61c): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:76:(.text+0x64c): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:77:(.text+0x67c): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:78:(.text+0x6a4): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:79:(.text+0x6cc): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:80:(.text+0x6f4): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:81:(.text+0x71c): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:82:(.text+0x744): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:83:(.text+0x76c): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:84:(.text+0x77c): undefined reference to `qbeprint2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:85:(.text+0x78c): undefined reference to `qbecall2'
+/usr/bin/ld: /tmp/qbe.zzzz.c:87:(.text+0x7b8): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:88:(.text+0x7d8): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:89:(.text+0x7fc): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:90:(.text+0x820): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:91:(.text+0x848): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:92:(.text+0x870): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:93:(.text+0x89c): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:94:(.text+0x8c8): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:95:(.text+0x8f4): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:96:(.text+0x920): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:97:(.text+0x95c): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:98:(.text+0x998): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:99:(.text+0x9cc): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:100:(.text+0xa00): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:101:(.text+0xa34): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:102:(.text+0xa68): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:103:(.text+0xa9c): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:104:(.text+0xad0): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:105:(.text+0xaec): undefined reference to `qbeprint3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:106:(.text+0xb08): undefined reference to `qbecall3'
+/usr/bin/ld: /tmp/qbe.zzzz.c:108:(.text+0xb3c): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:109:(.text+0xb64): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:110:(.text+0xb90): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:111:(.text+0xbbc): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:112:(.text+0xbec): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:113:(.text+0xc1c): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:114:(.text+0xc50): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:115:(.text+0xc84): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:116:(.text+0xcb8): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:117:(.text+0xcec): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:118:(.text+0xd38): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:119:(.text+0xd84): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:120:(.text+0xdc0): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:121:(.text+0xdfc): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:122:(.text+0xe38): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:123:(.text+0xe74): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:124:(.text+0xeb0): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:125:(.text+0xeec): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:126:(.text+0xf10): undefined reference to `qbeprint4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:127:(.text+0xf34): undefined reference to `qbecall4'
+/usr/bin/ld: /tmp/qbe.zzzz.c:129:(.text+0xf80): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:130:(.text+0xfc0): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:131:(.text+0x1004): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:132:(.text+0x1048): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:133:(.text+0x1090): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:134:(.text+0x10d8): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:135:(.text+0x1128): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:136:(.text+0x1178): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:137:(.text+0x11cc): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:138:(.text+0x1220): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:139:(.text+0x1288): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:140:(.text+0x12f0): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:141:(.text+0x1348): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:142:(.text+0x13a0): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:143:(.text+0x13f8): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:144:(.text+0x1450): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:145:(.text+0x14a8): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:146:(.text+0x1500): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:147:(.text+0x153c): undefined reference to `qbeprint5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:148:(.text+0x1578): undefined reference to `qbecall5'
+/usr/bin/ld: /tmp/qbe.zzzz.c:150:(.text+0x15ec): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:151:(.text+0x1654): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:152:(.text+0x16c0): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:153:(.text+0x172c): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:154:(.text+0x17a0): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:155:(.text+0x1814): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:156:(.text+0x188c): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:157:(.text+0x1904): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:158:(.text+0x1984): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:159:(.text+0x1a04): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:160:(.text+0x1a94): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:161:(.text+0x1b24): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:162:(.text+0x1bac): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:163:(.text+0x1c34): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:164:(.text+0x1cbc): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:165:(.text+0x1d44): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:166:(.text+0x1dcc): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:167:(.text+0x1e54): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:168:(.text+0x1eb4): undefined reference to `qbeprint6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:169:(.text+0x1f14): undefined reference to `qbecall6'
+/usr/bin/ld: /tmp/qbe.zzzz.c:171:(.text+0x1f5c): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:172:(.text+0x1f98): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:173:(.text+0x1fd4): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:174:(.text+0x2010): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:175:(.text+0x2054): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:176:(.text+0x2098): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:177:(.text+0x20dc): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:178:(.text+0x2120): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:179:(.text+0x2174): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:180:(.text+0x21c8): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:181:(.text+0x221c): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:182:(.text+0x2270): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:183:(.text+0x22c4): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:184:(.text+0x2318): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:185:(.text+0x236c): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:186:(.text+0x23c0): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:187:(.text+0x2410): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:188:(.text+0x2460): undefined reference to `qbecall7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:189:(.text+0x2494): undefined reference to `qbeprint7'
+/usr/bin/ld: /tmp/qbe.zzzz.c:190:(.text+0x24c8): undefined reference to `qbecall7'
+collect2: error: ld returned 1 exit status
+

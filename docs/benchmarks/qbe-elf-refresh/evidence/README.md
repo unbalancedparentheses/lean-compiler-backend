@@ -1,0 +1,17 @@
+# QBE-as-program refresh on ELF-section compiler
+
+Compiler snapshot: `.build/lcb-elf-sections-main`, identity `5e174e1d424aa154ed5fda916ad507a3a9dceb625b28774a2c1356dcaf0b235e`. Main source and binary are not modified by this campaign.
+
+The pinned, unchanged QBE C source is compiled to target-specific IR by a fresh, privately configured pinned cproc for each Linux target. LCB baseline/optimized and unchanged/corrected QBE consume identical IR. Corrected QBE uses only the existing, hash-checked target-specific extern-address patch and remains explicitly separate from unchanged original QBE.
+
+Successful QBE-as-program backends reproduce 455 fixture outputs across six QBE output targets and 32 self-IR outputs (487 exact comparisons), then pass the pinned runner's 58 ARM-output execution tests. The x86/RV compiler executables run through QEMU; the generated ARM test programs execute in the native ARM Linux VM. Comparing QBE's Windows assembly does not add Windows support to LCB. One diagnostic timing repetition is retained without performance claims.
+
+The exact comparison predicate must reject a deliberately changed assembly byte sequence. Fresh-work guards reject the mount root, an outside path and a populated directory before destructive operations. A guest `flock` test establishes rejection while a shared lock is held and acquisition after release.
+
+First attempt: three targets were launched concurrently. The unchanged upstream runner hardcodes `/tmp/qbe.zzzz`, which collided across target source trees. The two failed runtime logs and ARM exit-zero report are all retained as **unqualified**; no first-attempt runtime result is included in final qualification. This was a harness orchestration error, not an inferred compiler defect. Sequential v2 attempts and the final lock-protected v3 helper are recorded separately. The reusable helper serializes its upstream runner calls using one shared guest lock; unrelated direct invocations of upstream `tools/test.sh` must still be kept separate.
+
+Bindings cover exact helper/imported helper, compiler snapshot, pinned sources and lockfile, fresh cproc source/config/executables, original and corrected oracle sources/binaries, IR and generated assembly/objects/executables before and after execution. A final guest manifest is checked against host bytes for all retained work artifacts excluding mutable journal/status files and `.git`; reports bind the command journal separately. Each attempt uses fresh output directories; old bound paths are never overwritten.
+
+Final v3: all three targets passed baseline, optimized and corrected-QBE qualification, each with the counts above. Original-QBE ARM fails parsing `_alt.ssa`; x86 differs on `arm64_apple/abi8.ssa`; RV fails linkage with disallowed GOT_HI20 addends even under the explicitly recorded `-no-pie` reference profile. None is counted as an original-QBE-qualified self-compilation. All three comparator mutations were detected.
+
+The final private patch is `qbe-bootstrap.patch`; it has not been applied to main. Reproduce sequentially with `PYTHONPATH=$REPO/scripts python3 harness/v3/qbe_bootstrap.py --compiler $REPO/.build/lcb-elf-sections-main --work $REPO/.build/linux-arm64/FRESH --target TARGET --repetitions 1`. Original pinned source and unchanged runner remain in the repository; compressed IR and recorded command journals are included. `compiler-build.json` is the already-published exact 5e174 source-identity manifest, retained as source provenance rather than a new compiler build.

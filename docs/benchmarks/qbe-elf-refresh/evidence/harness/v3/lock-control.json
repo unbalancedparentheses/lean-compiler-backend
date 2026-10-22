@@ -1,0 +1,13 @@
+{
+  "command": [
+    "docker",
+    "exec",
+    "lcb-parity-linux",
+    "python3",
+    "-c",
+    "import subprocess,json,time\nlock='/tmp/lcb-qbe-bootstrap-tests-control.lock'\np=subprocess.Popen(['flock','-x',lock,'python3','-u','-c','import time; print(\"held\",flush=True); time.sleep(0.5)'],stdout=subprocess.PIPE,text=True)\nassert p.stdout.readline().strip()=='held'\nr=subprocess.run(['flock','-n',lock,'true'],capture_output=True,text=True)\nassert r.returncode==1,r.returncode\nassert p.wait()==0\nr2=subprocess.run(['flock','-n',lock,'true'],capture_output=True,text=True)\nassert r2.returncode==0\nprint(json.dumps({'blocked_while_held':r.returncode,'acquired_after_release':r2.returncode}))"
+  ],
+  "exit": 0,
+  "stdout": "{\"blocked_while_held\": 1, \"acquired_after_release\": 0}\n",
+  "stderr": ""
+}
