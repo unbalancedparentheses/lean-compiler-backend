@@ -18,7 +18,7 @@ on identity `a23afe3b4889b9da79c50d5ddf5b7e3e4affe2ba26d1e2c5072ed14c73cbdaaa`.
 Fresh build/units and all 147 unchanged proof-audit statements pass. All five
 independent matrices, 30 maximum-copy executions, 45 resource refusals, five
 corruption controls and all three complete Linux gates pass. Full host/Rosetta
-qualification is running. The corpus keeps 1,305 identical assemblies and 15
+qualification also passes. The corpus keeps 1,305 identical assemblies and 15
 identical refusals; all 132 zlib/Lua workload assemblies remain identical to
 previously executed output. The 1 MiB object bound does not remove frame/outgoing
 area limits; original-QBE comparison stops at 65,537 bytes, larger guards use C.
