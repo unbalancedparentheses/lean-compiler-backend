@@ -139,7 +139,11 @@ against GCC, but only 23 / 217,379 IR lines with original QBE. Seed 20267003
 (21,520 IR lines) makes unchanged QBE abort in `rv64/isel.c:fixarg`; LCB baseline
 and optimized match GCC checksum `1EAFAEB2`. This is separately recorded as
 LCB-only qualified, not a QBE match. Eight GCC timeouts remain excluded on each
-ISA, and cross-target replays do not add new unique seeds. RV64's original-QBE
+ISA, and cross-target replays do not add new unique seeds. All 32 C sources
+match across targets after excluding the generator's output-path comment.
+Target-configured cproc IR is not byte-identical across ISAs: the CRC helper's
+plain-char load is signed on x86 and unsigned on ARM/RV. Within each target,
+LCB and original QBE consume the same unchanged IR. RV64's original-QBE
 link profile is explicitly `-no-pie`; LCB keeps default linking.
 
 ## RV64 adjacent memory offsets and cross-target generated C
