@@ -742,6 +742,14 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
       | .temporary name => slots.registers[name]? | _ => none)
     let destination := slots.registers[phi.destination]?
     destinations := destinations.push destination
+    -- A typed identity transfer changes neither bits nor storage. Keep narrowing
+    -- transfers and all other copies in the existing simultaneous schedule.
+    let identity := !slots.registers.isEmpty && match value with
+      | .temporary name => slots.widths[name]? == some phi.width &&
+        ((slots.registers[name]?).any (fun home => destination == some home) ||
+         (slots.stack[name]?).any (fun home => slots.stack[phi.destination]? == some home))
+      | _ => false
+    if identity then continue
     let direct := match value with | .temporary _ | .constant _ => true | _ => false
     if destination.isSome && direct then pending := pending.push i
     else

@@ -48,6 +48,12 @@ validated, coherent checkpoints frequently.
 
 ## Current compatibility gaps
 
+ARM [typed phi identities](docs/benchmarks/arm-phi-identity/README.md) now remove
+same-width same-home copies, with both native ARM matrices and the full Linux
+ARM gate passing. Two qualified zlib windows show about 25% lower CRC32 elapsed
+versus the preceding leaf checkpoint; CRC remains slower than QBE. Broader
+allocation, indexed addressing and compatibility qualification remain active.
+
 The requested Linux architectures now generate executable assembly: ARM64,
 x86-64 and RV64, alongside Apple ARM64 and x86-64. Each current target emits 75/76 retained
 upstream fixtures; the remaining fixture omits a required aggregate argument.

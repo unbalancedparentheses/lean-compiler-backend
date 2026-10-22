@@ -1,0 +1,17 @@
+Two sequential quiet windows, native ARM64 Linux Docker VM; elapsed ratios below 1 favor phi. Same seeded ordering, 9 paired rounds per window, 3 payloads, 5 labels, 100 ms calibration. Bootstrap intervals are descriptive, no multiple-comparison correction; no universal performance claim.
+
+Median paired elapsed phi/reference ratios (window1 / window2):
+payload API                 leaf             GCC              original QBE     corrected QBE
+repeated compress   0.9571/0.9599  2.1846/2.1923  0.8787/0.8753  0.8726/0.8757
+repeated uncompress 0.9895/0.9915  1.3233/1.3242  0.9789/0.9766  0.9595/0.9601
+repeated crc32      0.7476/0.7483  2.9694/2.9779  1.2860/1.2900  1.2871/1.2896
+random   compress   0.9806/0.9714  1.5376/1.5135  0.9431/0.9629  0.9614/0.9501
+random   uncompress 0.9945/0.9979  1.0289/1.0417  0.9431/0.9445  0.9450/0.9454
+random   crc32      0.7541/0.7492  2.9600/2.9781  1.2884/1.2915  1.2917/1.2917
+mixed    compress   0.9757/0.9906  1.9569/1.9688  0.8674/0.8683  0.8725/0.8698
+mixed    uncompress 0.9092/0.9123  1.3421/1.3319  1.1456/1.1361  1.1488/1.1360
+mixed    crc32      0.7522/0.7462  2.9284/2.9214  1.2879/1.2781  1.2867/1.2867
+
+Relative to leaf: all three CRC32 cases show about 25% lower elapsed in both windows; mixed uncompress about 9%; repeated compress about 4%; mixed compress about 1–2.4%. Their per-window descriptive bootstrap intervals exclude 1. Random compress has a window 2 interval crossing 1; repeated/random uncompress intervals cross 1 in both windows.
+Phi timing CV ranges 0.56–3.17%; paired-ratio CV ranges 0.4–4.1%. Full intervals, variation and environment retained in JSON. Phi remains about 2.9–3.0x GCC elapsed on CRC32 and about 1.28–1.29x both QBE variants; improvement over leaf is not a claim to beat reference compilers.
+All 5 labels × 15 correctness profiles passed before timing, wrong CRC negative control detected. Each window 135 measurements, sink agreement, 485 bound files validated host+guest before/after. No sources/binaries rebuilt.

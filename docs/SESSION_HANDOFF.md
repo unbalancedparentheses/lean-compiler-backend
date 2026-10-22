@@ -19,7 +19,7 @@ cproc rejects three required volatile stores before any backend invocation.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c`.
+`e7ef407580b7f70044b148f5b0dd6fcd9b74b780ef0cc14b92b7b54472fb18d8`.
 
 [ARM leaf registers](benchmarks/arm-leaf-bank/README.md) admit x16/x17/x8 only
 for bounded call/TLS-free functions. Both native ARM independent ABI matrices,
@@ -34,10 +34,14 @@ with 485-file provenance checks, five fresh compiler/oracle builds, exact
 correctness profiles and two quiet windows. The leaf change reduces random-data
 compression time about 9% and mixed-data compression about 2% on these inputs;
 seven other API/payload comparisons show no demonstrated change. CRC remains
-about 1.72x original QBE / 3.95x GCC time. Typed identity-phi elimination targets
-observed redundant CRC loop transfers next; restricted AMD leaf registers are
-also under independent qualification. Neither experimental next change is in
-this compiler identity. CI through 76d03e6 is green; later runs remain pending.
+about 1.72x original QBE / 3.95x GCC time at the leaf checkpoint.
+[Typed phi identities](benchmarks/arm-phi-identity/README.md) now remove redundant
+same-width same-home transfers. Both native ARM matrices and full Linux ARM gate
+pass; 147 proof reports stay unchanged. Zlib loses another 5,460 text bytes per ARM
+target. Two new quiet timing windows show about 25% less CRC32 time relative to
+leaf, though CRC remains about 1.28–1.29x QBE. Restricted AMD leaf registers and
+ARM indexed loads remain subsequent independently tested candidates. CI through
+f7dd7fc is green; 6d84890 remains in progress at this checkpoint.
 
 [ARM typed extuw](benchmarks/arm-extuw/README.md) omits same-home unsigned
 word extensions only for declared word sources. Both native ARM matrices, full

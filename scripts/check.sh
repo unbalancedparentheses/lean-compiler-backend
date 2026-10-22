@@ -174,6 +174,7 @@ python3 scripts/memory_forward.py "$@"
 python3 scripts/redundant_extensions.py "$@"
 python3 scripts/arm_load_extensions.py
 python3 scripts/arm_extuw.py
+python3 scripts/arm_phi_identity.py
 python3 scripts/arm_leaf_bank.py --compiler .lake/build/bin/lcb --work .build/native-arm-leaf
 python3 scripts/arm_branch_layout.py
 python3 scripts/address_selection.py "$@"

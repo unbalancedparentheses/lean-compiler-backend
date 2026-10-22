@@ -1,0 +1,21 @@
+{
+  "identity": "e7ef407580b7f70044b148f5b0dd6fcd9b74b780ef0cc14b92b7b54472fb18d8",
+  "build": "pass",
+  "unit_tests": "pass",
+  "proof_audit": {
+    "reports": 147,
+    "unchanged": true
+  },
+  "linux_arm64": "pass:75/76 fixtures,58 original drivers,17 assembly fixtures",
+  "apple_arm64": "independent helper and emission guards pass; preceding leaf full host gate passed",
+  "corpus": {
+    "identical": 1213,
+    "matching_refusals": 15,
+    "changed_arm_allocated_optimized": 92,
+    "audit": "assembly-audit.json"
+  },
+  "limitations": [
+    "No new formal preservation proof",
+    "No claim of full QBE parity"
+  ]
+}

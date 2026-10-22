@@ -1,0 +1,24 @@
+{
+  "before_identity": "15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c",
+  "after_identity": "e7ef407580b7f70044b148f5b0dd6fcd9b74b780ef0cc14b92b7b54472fb18d8",
+  "scope": "Allocated/optimized ARM exact declared-width and physical-home phi identities only. Source/destination scheduling indices remain populated; baseline unchanged. Both GP and stack identities tested.",
+  "qualification": [
+    "Both native Apple ARM and native Linux ARM VM: 5120 C checks/mode across baseline/allocated/optimized; unchanged original QBE also passes.",
+    "Word/long/single/double raw bits, permutation cycles, updating loops, pressure and dirty upper bits. Independent home inventory predicts exact 653/324 instruction deletions with 117/51 stack identities.",
+    "Cross-width same-stack long-to-word paths structurally byte-identical. Runtime skipping a same-slot strw may be unobservable, so wrong-narrowing mutation targets sensitive GP home and exits2.",
+    "Implicit word-to-long phi is rejected by existing language validator; legal explicit extuw path retains twelve dirty-spill normalizations and removes twelve subsequent long stack identities.",
+    "Existing allocation phi-narrowing mutations and all four ARM helper suites pass both targets. Fresh full unit executable passes.",
+    "17 zlib objects per ARM target: text Linux121836\u2192116376, Apple122140\u2192116680; 34 baseline assemblies identical. Fresh Linux zlib example and 12 exact GCC/Python compressed streams pass.",
+    "Fresh in-process GCC/leaf/phi/originalQBE/correctedQBE correctness: 15 payload-level cases each; before/after485-file provenance and report digest barriers pass. No timing run.",
+    "Strict assembly-subsequence/deletion assertions apply to this independent fixture only. Parent corpus found _fix4 allocated exposing an empty trampoline after phi omission; existing compactEmptyBranches then retargets cbz and removes that trampoline. Full corpus requires composed phi/empty-branch audit rather than pure deletion."
+  ],
+  "fixture_corrections": [
+    "Original QBE requires newlines in two helper definitions; fixture corrected without compiler changes.",
+    "Guard adapter initially omitted qtarget; corrected and both suites rerun.",
+    "Added update-loop fixture initially placed counter phi after ordinary statements; corrected ordering and both5120-check matrices rerun."
+  ],
+  "patches": [
+    "/tmp/lcb-arm-phi-core.patch",
+    "/tmp/lcb-arm-phi-tests.patch"
+  ]
+}

@@ -1,0 +1,756 @@
+{
+  "schema": 1,
+  "target": "aarch64-linux",
+  "binding_report_sha256": "d163a0ffad13f7c1a3ee48e8f2a5893c46e9bf1652a2319c3d8429ded7590468",
+  "zlib_commit": "51b7f2abdade71cd9bb0e7a373ef2610ec6f9daf",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "source_hashes": {
+    "zutil.h": "dddb2dc7a1dc339ecf2c8e089b366f08bb731c0839c7110240d17ce731bb4fea",
+    "inftrees.h": "0a0fcaf2ae2fae57426bdc06637270e9bba974f35202cadbdba479d946e6409d",
+    "inflate.c": "34c998ce0037c0537c04b03b276f680b945f9b2c9d1e01b287605bd6879f7fd2",
+    "compress.c": "86f802c16a965e7a28737e3730b4e576c5ba40981753967e3e30916f4dc1b4b1",
+    "deflate.c": "3b956337350f94c34987750f785587ef33d9c89ceaebb7c2afb189c956360cbe",
+    "inffixed.h": "237ba710f090e432b62ebf963bee8b302867e9691406b2d3f8ee89ee7bfef9b0",
+    "gzread.c": "72e481aca07b0b85a9783237b85dc67ff3a4c1d19878d0cec69f58d38634867b",
+    "trees.h": "bb0a9d3ca88ee00c81adb7c636e73b97085f6ef1b52d6d58edbe2b6dc3adeb4d",
+    "inffast.h": "05cc5dc9ff1da7b8b52a4bd8bda0d8a5c236a2f39efe84b941516ea13857e6c5",
+    "crc32.c": "8fd16f0a7714d51c89c2eb37eb98ec15e8a4dc57ba343e7b7398b19144039fda",
+    "infback.c": "62df9a6dd3eef126f1d81d0ad7a534504610dec44482b0a472b61c93cbab6554",
+    "zutil.c": "8ced40d8c88588811edd2bdb35b7439983d5e1f8e9e32b8a3b244731f3c317b7",
+    "deflate.h": "48baf016326d8d5e3e32ac8153cc7e22f854b8e6834830b167b998a7fb1e7989",
+    "gzguts.h": "716fa648aca1bb06c219d7b97ad4846d8479206143bc39557bfd8283f5783e04",
+    "zlib.h": "8a5579af72ea4f427ff00a4150f0ccb3fc5c1e4379f726e101133b1ab9fc600c",
+    "gzlib.c": "042c2be8ec67ad525a2812e508de7381c6766dde903acf5ae6ac4fa6b541946d",
+    "inflate.h": "e8d4a51b07694bf48cb91979c19974cf6a5ab0b8a09d26ec0d14df349230673e",
+    "inftrees.c": "5d4f335221d2dc76f17abd2577d92c2d7baf68fa6d7f23373b360830493d1563",
+    "uncompr.c": "04dca5e31b3b8a17d1806426f66f0c539f4184d657e149d40be07070c6227b52",
+    "gzwrite.c": "469b1e58932ea11bdda2a153f6655f7b3c13254240fae157181b49ed1bc93b47",
+    "trees.c": "f63c68c16c05fcd196050529d1a0e7657960e4136b9987d90a6ac3e58a964b0f",
+    "gzclose.c": "35ea6e991a63095f797d8c4cc25817fac7a7155c2ba7dcdbbf648f7871c7ea40",
+    "crc32.h": "9a2223575183ac2ee8a247f20bf3ac066e8bd0140369556bdbdffc777435749e",
+    "inffast.c": "e6ef64ce5dc0a4cd5c7ad08ceeb2b2a698b8447f6bd156057caeb2edab68c0cb",
+    "adler32.c": "9cd1443a24ff2a3053961695bd432035c58347386a420d3388232376ebabe211",
+    "zconf.h": "44e543ff4514c7a9a01d648019c2c9a81d1105cbfa3c77f1faf6cd86eafa8abd",
+    "test/infcover.c": "13a0d18d8bca440c4617d88c2236913f53eedebc50e469be472edd4280c697e5",
+    "test/example.c": "b7aeca68f7585e29ca6572542e0ecbd9c3c9370035ae15152008b3efbd4f84ac",
+    "test/minigzip.c": "57e4a1b9bb1bdb59ac9e5ac1dc9132183e8740cec2f6b5c5f2476aac08a2375f",
+    "examples/gznorm.c": "e5a8f5c3b107f27212f7d5fbfcf072a337a1b4ea32929ae31c168997438a5cc0",
+    "examples/fitblk.c": "bec64da6fc0c9a2a37a96722e8b88ca09059148e5be5ecbb486bdba5339e228a",
+    "examples/enough.c": "c14a257c60bbe0d65bb54746dd97774a1853ef9e3f78db118a27d8bc0d26d738",
+    "examples/gzlog.h": "681f280437f867820bf39880e2f4fc641d402879e399ba2e6a31d73feefe8edc",
+    "examples/gzjoin.c": "90b9d6c39a5fc91cf1cc9b96b025a508a8015dc502cd9374c754b44078593f57",
+    "examples/gun.c": "3bfd36b06284ba97d6105b8a6a5d18b2b34b75b3a1285f16d018680fb174915f",
+    "examples/zran.h": "913158e13f6177224074cfa9b497438545054ac0d54ab13a6ad4182df8d2ee99",
+    "examples/zpipe.c": "68140a82582ede938159630bca0fb13a93b4bf1cb2e85b08943c26242cf8f3a6",
+    "examples/gzlog.c": "d9a2f9871e7f1724f9f9359fd4851dc0eac7af10d8234bab66327badb33d1a38",
+    "examples/zran.c": "f4bc94b710841b8412aee04c42ea522bd1687343d65f0c0d92b4dd5801d03956",
+    "examples/gzappend.c": "6de91c8305e37560117bff44136abff72b16b028c0bda0bbac7ea07e4988b0ce",
+    "contrib/minizip/unzip.c": "10881ab576f49fe0825a21f77e322ece6ee88d34ed66fb3a3ce7a22f4b6cd2d9",
+    "contrib/minizip/zip.c": "213f853d71266ebe8d8335740cfe94b0731009d8fb3f7e6ae01a627398732ec8",
+    "contrib/minizip/iowin32.h": "4feed64c3c5f5cff2d8a0431233766b61d4e06a9f232482cb41272ed1ca487df",
+    "contrib/minizip/ioapi.c": "6dff11ded396f5e3147c632a639423e80ced6705bf7bf75d21cda0c571fdf86b",
+    "contrib/minizip/mztools.c": "3d6027270a2b6ed5ca19a339d7488f682c69798e3977d2278d379b7f14f17b63",
+    "contrib/minizip/crypt.h": "5c978923cff1e80f76baf437eed699d5b4ad1bf515008d669475d3dd0d89ef70",
+    "contrib/minizip/zip.h": "99ad45c0b546b5fd0ee3d0819ff057840a892a3d6dbacc85b757a35a43047398",
+    "contrib/minizip/unzip.h": "2ff9df0b1da7499adc806bc0ec098ef1c7b9d361a8fd5b08a98299a1a4e88399",
+    "contrib/minizip/mztools.h": "6f82c52279e8f79165f4446be652e5741a49992ac58632470335aa34c564072a",
+    "contrib/minizip/ioapi.h": "6d2f2c3520dfc3061ea9128a1afb843f5cfe8d7317adcefe3a45884bc06e06a1",
+    "contrib/minizip/iowin32.c": "882383d1ee9df8c5f236411734b51e96f5e29c38496d4e531f2beb3d07f682ef",
+    "contrib/minizip/minizip.c": "6d7d7daffc713ba15a9768143471902c5bfd661a19287172f3870bc9ed2d5665",
+    "contrib/minizip/miniunz.c": "c60f2c68be981464ff02dfbe01da2a8e66692416bdda2144fc75df3420b4107f",
+    "contrib/infback9/inffix9.h": "84a2ba4727767c18af6505f0e81d9c814489c8b9ed330a25dad433db72997e43",
+    "contrib/infback9/inftree9.c": "9e739f5735d3cd77ca1b0d46d2a43371acf2afd64c9c0889e737da369ccd92d0",
+    "contrib/infback9/infback9.h": "c89d926607c1afa1830c17f807de368d2f1afe2d1e7df426763f6d4bf5950379",
+    "contrib/infback9/inflate9.h": "32a907676cc36e27d0fdc0d99adb83a0b23f20ab61896269216d40fecf08d349",
+    "contrib/infback9/infback9.c": "c236f4e5ef216f5ebc66f95ccbf9d399a19ad3838444065308b8d859cb42dc74",
+    "contrib/infback9/inftree9.h": "4ecd9db884bf43e33fbd34273c814029022477e1597676129f9c98e09d8cef56",
+    "contrib/testzlib/testzlib.c": "753dbb39c5d2f0fffac0406c1c94fd1da7b0251d679e4d137b0708901dfd61d8",
+    "contrib/iostream/zfstream.h": "4369c35e66f63f52ca4a5e1759bf720507ccabb8f3f132e2f18e68686c812401",
+    "contrib/blast/blast.c": "1ab3e479d342bfc144167b808fb00142264bc50f24a110ca88cc774e351c218e",
+    "contrib/blast/blast.h": "9c1c422b76311d4cb06863ffc056668b6240f3dd998bc02e89ee590d482bfdc2",
+    "contrib/untgz/untgz.c": "f96c1e8529eb10d723b4547aa965741d72a46f2b1d5c9a2c193bd3f5e2c2a45e",
+    "contrib/puff/puff.h": "969b7be2a930db0cdcb19b0e5b29ae6741f5a8f663b6dba6d647e12ec60cfa8e",
+    "contrib/puff/pufftest.c": "d24e31c1d277d07c268f34e9490050c6b53c68b128da3efbb1d05fc5b31004f7",
+    "contrib/puff/puff.c": "5b9d75aeb5baf3575415bc6ade3f2a02e50b6b971b3f8b4fda2b03543bc6e52f",
+    "contrib/iostream3/zfstream.h": "d89587b446f928351565d099decd006a06b7a420cb1ff8ee9bb82e4d8c7235dd",
+    "contrib/iostream2/zstream.h": "d0343e0c57ff58008b6f29643d289c72713aa2d653fe3dcd2e939fc77e7e20b6"
+  },
+  "configuration_hashes": {
+    "Makefile": "061a2b8c97141b92fc95da232fe5b3e46aa2ebe7874431bc6e3458211849729c",
+    "zconf.h": "44e543ff4514c7a9a01d648019c2c9a81d1105cbfa3c77f1faf6cd86eafa8abd"
+  },
+  "ir_hashes": {
+    "adler32": "5155fd74e1cf136b6cecda82a5e03ba5201325360817627c470c8925e35b9a4b",
+    "crc32": "fa355853ed0a81d621e2bfbc1f19d37b3b7587455492dd084e9bfaf3244f912b",
+    "deflate": "dd7103a53095b69d403e78a4f97a5c30e7c35954f00044d19f6f4670e0e9e3a2",
+    "infback": "88886c9d6a8b386fdbafd0b2678cbde80b204a97e7602ccc3d476e5aa6b9396b",
+    "inffast": "02a481c123605dfe9f32ef0a5e9653d93390476e51d0db0a001bdea75a9026a6",
+    "inflate": "a4784b6f21232249dfa88d7530dd1393453b7ad63fc7cb95a1df933fb9844e71",
+    "inftrees": "903ef5dbcd23d76222e7c9b8165ddc445da75b0f020b3ae88b9a4d83fdd11fb2",
+    "trees": "efb6566c7382e9f7c6801ab577385a89632b1828dbe05b5c3db0bfbbd196d3be",
+    "zutil": "09d3e7a1c1ee69dc4c085fa36e145ec4b4a96a8e2a69b9f7b38ed9d73e3261b5",
+    "compress": "4e00641a064caa0dea3d552de9e327af2aaa1678e6bde8cf45010288e8b3e2fb",
+    "uncompr": "493f52b9262f733abed0cf0b327da7920615639e02a611c9338751161ff41a68",
+    "gzclose": "cdc2c546fbdd5d26b18ea18ea70d3289b3c482ee8d2a66a61afa66e7fb3e0fae",
+    "gzlib": "4a5fdf4c6f4f3374c8d87df76e78d08f4abcc82ebf3b80521182cfd7108cf148",
+    "gzread": "e1d8b0b101c59b3a43313800d0ae5ae0bc98deaa1e266a5d8f6026d179e48ca5",
+    "gzwrite": "ff286a0d997e2342b3874c2827280cf89d4de0039b978595c3beabccc27919d9"
+  },
+  "caller_sha256": "495fcc70214c1ae1bf43777ea9585b94e8067e481a6b026fc54d5e0f3fbed452",
+  "probe_sha256": "17b2dbbc924589a441ca2798778dbc6b6e2cd65f79f3c29ccae4cfb6d5e789ae",
+  "script_sha256": "c617d0ca6de946da72453a957d9971e634e1cc86e3106d52e377495ec826c738",
+  "payloads": [
+    {
+      "name": "empty",
+      "path": "empty.bin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "timed": false
+    },
+    {
+      "name": "byte-range",
+      "path": "byte-range.bin",
+      "bytes": 4096,
+      "sha256": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+      "timed": false
+    },
+    {
+      "name": "repeated",
+      "path": "repeated.bin",
+      "bytes": 270336,
+      "sha256": "cff145c5ad3d3ec01897823e86a13785ac8398eea25dd284d8a2d422d220f9bb",
+      "timed": true
+    },
+    {
+      "name": "random",
+      "path": "random.bin",
+      "bytes": 262144,
+      "sha256": "6917187aefba099df2fef2b9b8e89c80b98f83dbf32375ed16ab7d527dd921fc",
+      "timed": true
+    },
+    {
+      "name": "mixed",
+      "path": "mixed.bin",
+      "bytes": 172032,
+      "sha256": "79ed5bd99e5a777bcecc968dd60cb6997eb6178caa8857c84bf65ad0a3561a7b",
+      "timed": true
+    }
+  ],
+  "payload_hashes": {
+    "empty.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "byte-range.bin": "c8f5d0341d54d951a71b136e6e2afcb14d11ed8489a7ae126a8fee0df6ecf193",
+    "repeated.bin": "cff145c5ad3d3ec01897823e86a13785ac8398eea25dd284d8a2d422d220f9bb",
+    "random.bin": "6917187aefba099df2fef2b9b8e89c80b98f83dbf32375ed16ab7d527dd921fc",
+    "mixed.bin": "79ed5bd99e5a777bcecc968dd60cb6997eb6178caa8857c84bf65ad0a3561a7b"
+  },
+  "lcb_labels": [
+    "leaf",
+    "phi"
+  ],
+  "successful_builds": [
+    "gcc",
+    "leaf",
+    "phi",
+    "qbe-original",
+    "qbe-corrected"
+  ],
+  "backends": {
+    "qbe-original": {
+      "oracle_binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7",
+      "source_files": {
+        ".gitignore": "43b6dfef5d02e7de54e141906ec23649f01b53ce72f564687e18503827a7beed",
+        "LICENSE": "add7f24e6d31aab495e9741f0c10ece97fda25a33047c423bfcd7b1db330653a",
+        "Makefile": "3a544741d5f3b92428e26708a98e51ab7ecc96ba2f7683ad6a8ff67f99b24c6d",
+        "README": "fa6f634fc6c5b9e428beb8dbad447fa37eff38ab9f4e8368b0c782e8b58ea5ee",
+        "abi.c": "923a5ea94e088e8ee4435924b38c0efaa601e4fc3b65b1964d70903491533103",
+        "alias.c": "c210400e482f4ad2576d238d8cc411e0b1984ca57fb5d5ec849ed83fb6fd404f",
+        "all.h": "61bc106ffb07e0abe0b418f95ac7e1a9e4c6bcf8c308d8743562299129056519",
+        "amd64/all.h": "8ce357c9b3c7970a0160bc02c3ef61197bb1d469b06a93b08e0ac5b9061f55e3",
+        "amd64/emit.c": "b2563a49370154419246b11c4f6f2cd45e0f7c1327e491a2c7d2a2d4c8f8c36f",
+        "amd64/isel.c": "049096f821fdb5035a68838f313c2f6431e8a5178a8958a9259bf566ef977eb5",
+        "amd64/sysv.c": "d7b867b243dba484924e46062ccb3ff1ca44243ad06004f8a7b8f6cd937d6ec0",
+        "amd64/targ.c": "e53960a60eb5c1d3364bb8595bb64b3f5827db9436f886432de368cbb4e22211",
+        "amd64/winabi.c": "abea8f315c09fc26a5df7abbbc98470a6113d08a866bbbdf7928825d10dc6ec9",
+        "arm64/abi.c": "1e881c0d2443e8a37b54ec9cb4474963bd5635286a5067df611e11ab250cccb5",
+        "arm64/all.h": "0c7503dd82c3efd65e1876865e4dcb2b6af287e43942cf9452ddbdd0473df52d",
+        "arm64/emit.c": "3dc7280fe44797b56c00194091d2686b90317f673b2175a87df89fa0a6f3cabf",
+        "arm64/isel.c": "3e7eab441eb37ae1cc29916586a6bfe1c55012400766e733d30dbc528f5747ef",
+        "arm64/targ.c": "5215bee5bae89d5d95cec3a4ddaea32ff15e6d35952c248f1d49653609c6dac7",
+        "cfg.c": "99099b6c39fbf9de442811c9e5e57417d6ef13ffa534ff6c82cade4fcadcf438",
+        "copy.c": "f1b6ebcb4802e2aa32239c905ae47aea0c6d1335cedcbb2a0e3aad8d18f4e06f",
+        "doc/abi.txt": "2707369f86df7db168e7495891049ab8bc82f64b1ea157b5cd336ba72304372f",
+        "doc/il.txt": "65ccd9585dfaf6dd27a5fb5fa2cbe6363097c98e20cb2815785234f1eaf39daf",
+        "doc/llvm.txt": "af2a0ce4bc5f2d98243c609ead421b26fd6ee4a829df2501f77d5c1904603e00",
+        "doc/native_win.txt": "fcb9231085c72909d9e8542aac88be14e61f52421a7646c28c139cacbd09ccfe",
+        "doc/rv64.txt": "d5b8f76e89d9e62e60c48c17c49085359f7be195740134186eceac39a0e7bc7a",
+        "doc/win.txt": "0c677c8f8ce5d40d60301ca51ac46bf1655cceed3c46edb2d68f63e1e1b786dd",
+        "emit.c": "48af42e44d5017102e6ec7bec00465304f324f89160a93825f4952a257702031",
+        "fold.c": "3544071a30cc049320838f3bf44c1f83171117735fd2bb67959b2bc0a4431be8",
+        "gcm.c": "6af05af2af79bdd217b53133735e1d98fede157ee46ca1aac54c337a817ac586",
+        "gvn.c": "d09e291f14d1b777c2a27ddbf128eae02c7d649ccd88b2d180c29c2bf6b0e6a9",
+        "ifopt.c": "b4d49edd190dabc6b183453de5237d2ba33607739b61d6d9f1a2c8c1369f2f86",
+        "live.c": "19f084507c5f38f213e90193c11111e6079a06e3dd13f80df4b9e2c65b6a5eb5",
+        "load.c": "1b35c950499fa6c8d8a562ced54a531cd39adc384fc637922e69498e6bbb8b71",
+        "main.c": "a6a9a128d2dc5f9db117a2d25843c0124d80609d1f1c176e3c71de188fd0ade1",
+        "mem.c": "4229d499db4186086b2d02ac78c983a6f31012d350bd281128ea61c037af4b65",
+        "minic/.gitignore": "b81039a453138d1d4c1ef2bd4598512b1691afdb8164e48410a06528c8000837",
+        "minic/Makefile": "216cd4a8e295db9ef0f6d96eb83daddb75e1f51137e0580ac92ede9e9ae7382c",
+        "minic/mcc": "61e27ac879db3c0560535f8b3ba6a6c5f80ca97afa7f462866f01c20569e462a",
+        "minic/minic.y": "3ad958541b34cc9c7a32da59003d1c8482a0f291777aa3865a88a7134f8e9399",
+        "minic/test/collatz.c": "08962ec9ae1148ed40d29c9100e9ea72f4517375114cb8ad6e4f20cc5a10ccdb",
+        "minic/test/euler9.c": "4fcd8d845a822e7a52db18249283a5c7d87a01fb627214126c2707c15fc05f44",
+        "minic/test/knight.c": "a1b4f6c89d47c2e6ff2bff91a580a8525470ec638f02577aa4343b5e61ee128d",
+        "minic/test/mandel.c": "835dc25eb3c7afb3aa0f89b2f5aa369f926990ac6b5a266511f9d49d982c1164",
+        "minic/test/prime.c": "910ff8512e54e6b1b6fcf2a1656ecea2b3d475131c4acdb5b27fb05ac542b86c",
+        "minic/test/queen.c": "7e01a19ba293d5c68425250cb85a613900b8e2ea77f02ae94c33b92aa0b89493",
+        "minic/yacc.c": "42a71ff6fb0f5eb861923682833dbd53a3d6cdabb1f0fab8bd3cb9f0fcda4d59",
+        "ops.h": "39a2fe3c63ef4ab9c67d894ba83324ff6f9cdcdb3c5fe81f96efedf0350cf8ba",
+        "parse.c": "e762d78e1890af5c06daa581cfd40b30fcaa840450f32ca9cf2b141740a869da",
+        "rega.c": "167270237fb1a6a528f7f53bda895eb46074d42ac1d4a41ae9489706f10ae9ff",
+        "rv64/abi.c": "c9ad2cfcb7ee56d8cd99e3cae2d4961929e099fc47f6e2b4a82162ed1fd92f22",
+        "rv64/all.h": "2636f565c1e4a2e4aff1fe9501c40220a4eb67e905e650f4f734ab8714d53d5f",
+        "rv64/emit.c": "4d76c3878e19a8d22a060300d43feab4fb54b589b341bb94e34d2fa4393999d3",
+        "rv64/isel.c": "95500527dcc4036b239b2ab62525aa1df0a645df142647756756526343a87846",
+        "rv64/targ.c": "82668853f271d1dc20b914a2e0f402764e42951a75059ba29d4e0f77fe85cb83",
+        "simpl.c": "0c14d2e5cc81bf6250a92f4c54eb8d453334100e127796b7a2e84f40b6e00254",
+        "spill.c": "d8b5367c4531faedbd4e073ccd955557a8e2333f9240d9f186f62dde777baebe",
+        "ssa.c": "a06727f6e5f6786e6fb1f30912631896007b9867dfd64e3e27a754ee9a9332c8",
+        "test/_alt.ssa": "5bd52cf1e30b1f0bc038c20ae80ffc605c520a635a693923fea47b817e6ab1af",
+        "test/_bf99.ssa": "72ae5fb8887972c6887d9149395fe62cbbe621ed89f26e08149bb1998af14ef1",
+        "test/_bfmandel.ssa": "440f49a38c02728f333fa846969623c14448dc9407984817da2322552aa13990",
+        "test/_chacha20.ssa": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+        "test/_dragon.ssa": "153f712b8de8d0f57a617467c2cf68e844818cd383d7f59fb1210384d6ed3165",
+        "test/_fix1.ssa": "581dae6814d060cd7ec4eab55ac37fde0a0a00d343626a09800361afb2c03dae",
+        "test/_fix2.ssa": "86c5a15198cd32f26ef54b558de5f720dfea6865c809f22a1cc505935432a13a",
+        "test/_fix3.ssa": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+        "test/_fix4.ssa": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+        "test/_gcm1.ssa": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+        "test/_gcm2.ssa": "53ad71740fa485b3ebdec3bce0d1079b7ff2123e8e6d903104890d34be182302",
+        "test/_live.ssa": "64ec49c87978cd05beeb2d7ff8bb071e19e9161a1dd3970c07542bb3ada59b40",
+        "test/_load-elim.ssa": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+        "test/_rpo.ssa": "63d5c64304f006b51f4e54f044cd30aeeaece8e521109ff5ab8d887b216c043a",
+        "test/_slow.qbe": "837691533c8a5e22b6971db94a4da7574b08414b85623b45012b7404c1280f95",
+        "test/_spill1.ssa": "1bd406055470f450c7416419941b2d38c67c2674d525ac7ec9a0aff00ce2f2c7",
+        "test/_spill2.ssa": "74ac81e0f6de3b2ffd9b110121e461da1e6e84003ca28938601353598b199b27",
+        "test/_spill3.ssa": "fa68a2000e7a5940c33e45b5d2456367250959d66e15bfc425962cf0ee594836",
+        "test/abi1.ssa": "8bfcc7af87a8cb45bde00461a73e1008e871f2a3879f778ab43b453bf1090159",
+        "test/abi2.ssa": "7164037f72c213a348f5ab580e63f3f6924f92f179d9b5f647691dda0e00dc30",
+        "test/abi3.ssa": "38f94339a421efb68258e6fa4f64e4fd7909617dbc848e338884db6b524e8f9f",
+        "test/abi4.ssa": "055db9a58500e1fc371c46f53a4d92ed369746a8f098411dbaffb2bc912af60b",
+        "test/abi5.ssa": "38fb92ec37f473dc2ea64d150004c18e45ec2f1b79e9a3c5c260750ba84055ff",
+        "test/abi6.ssa": "5f5584de651fbea79de0ccb3e71223825716acad41e16e4958396c0fbb93f947",
+        "test/abi7.ssa": "db0978ea0dd926ea37d69ca26e76f3b96b163e574eab07388132b13cdd4ea1cb",
+        "test/abi8.ssa": "e471e0a30c39bc6105953d5ad2b501cf9bbb8113d0bd34cad4dbb7c23b6a2877",
+        "test/abi9.ssa": "e3e092f679adf015f7829940f29cf2cac7255ca64ffb94d9782c0a6f33476824",
+        "test/alias1.ssa": "c58146da60a5e157fac5c5636ee1747851660b643aa1212d907f96cec37f4c1f",
+        "test/align.ssa": "55fdab6dc709d040abc9eca6f2484f7b624e98057c865c60b1d13b3ebf31cb61",
+        "test/cmp1.ssa": "24e123980be560396e3323cfa7ca889585c3c9d44f5fc5021d67f4a52fead544",
+        "test/collatz.ssa": "8b9b7aa9b409c8e5b63bc9b0d237baccbd992a81cfc2d93fb522589c1746b445",
+        "test/conaddr.ssa": "49941972ad1ca03a76ff6c4bf8e85f9c2e91517b1e3b4e414234d35cee8c43f1",
+        "test/copy.ssa": "4e404dc9d755109de053dab761327167ddc817bb47c824140722b2d05bd8416c",
+        "test/cprime.ssa": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+        "test/cup.ssa": "ecc28fe5adb5cb44918e5474f2d9a9a19f9324eadd3bf03fc68f5e802aeaf775",
+        "test/dark.ssa": "6a03914f4ea621f16fd4d866507f34a78ebb33d7f93978a1c5b1912aca64bcb0",
+        "test/double.ssa": "8658801b2a3dacd115582b05c4ed2ea69fe4b91e5fa4a2c91f56dd5bf461df18",
+        "test/dynalloc.ssa": "53578be74882aee600e6a00997be24712d2650b8debdda86b75f859ab4fca6c8",
+        "test/echo.ssa": "a2c7f1c4f967d5b61f9271e0e839371d161423b2ce122753ce8bc20a069735d7",
+        "test/env.ssa": "ea28b83be22662df7f03c7aa339dd10647c97b0c9bf4a87cdf6fe8957d0df4df",
+        "test/eucl.ssa": "9ed32b05ba1e20f5a7aa589e754a8b8cc9fb51419a1a473f7c180f3975a88e3a",
+        "test/euclc.ssa": "29ad0153e8eb60a20e7d449bc43faede8d4323f2d66ffbb092297bd2e2fde72f",
+        "test/fixarg.ssa": "dd59861481ee51c7b43cd4f4014141aaa07062e4893170bd5e845bb79f934df1",
+        "test/fold1.ssa": "cf5c6213aa87b06b867abd393befdbaf6b1299ffda5613fbd241583e3f36534b",
+        "test/fpcnv.ssa": "c21291e8622c582f988326bb227c82664d3832b00d6a5b021ad2c07d8ed1dc9f",
+        "test/gvn1.ssa": "b348d145f28297d843863cadfe6cbc4a2a9ab146f215fb3ca48be82eed4da7a1",
+        "test/gvn2.ssa": "7b9f291de76d3a2927cb2615608427985697aec86c3ad593748aaecda513d248",
+        "test/ifc.ssa": "71372a2da4188349ffc50922ede4a20a29c9f5d3be0adec6412797a7667c40d2",
+        "test/isel1.ssa": "32a5f1c2ff32bf22d92bc0e543084a7e96b5172ad5f6a988e818c813e3687ef5",
+        "test/isel2.ssa": "ffdbdbfba74b85eee8f9c69539f72d329bab213d86f9fda7030135562593f186",
+        "test/isel3.ssa": "a199aaecd4176b32eed30daaf6e92a293b50f17813168efc53a6a6632c9aee2a",
+        "test/isel4.ssa": "bf521030b22117e54daf66afc3c67877e2ad699f0fcd6743c5700629d105c111",
+        "test/isel5.ssa": "6382c7d98a92c78717c585e90be6d62e13c762be4ec48e458ba50979ae693b11",
+        "test/isel6.ssa": "6316bf3bb1b0398f67b08101727e20bf1c6da4fea760385cea677c820e9a9058",
+        "test/ldbits.ssa": "43756455d2e58a8b1e7b0d7b0c0030b2008c62a88d017a216ba655583e075ec1",
+        "test/ldhoist.ssa": "69eb55e3af26a5caf3043cb4701a6788590a60e12dc2dfb738823f84c1a69376",
+        "test/load1.ssa": "070cbd2ac1ab3d8565bec32225a84e3eb440283963ca733180a7eb64e73a3843",
+        "test/load2.ssa": "49215dded4b09d5f8d6c976c985068a1a97acab8125dfea373d784f4b5827b44",
+        "test/load3.ssa": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+        "test/loop.ssa": "0c013790c40e20ade3ab5ede4fa450196e82a56811b32ffb19e06cd4c9ba8ff1",
+        "test/mandel.ssa": "5f6ddb545e276d159570ea7ec3f91aa374acf449eb2759cfe77d373fc72e8c7b",
+        "test/max.ssa": "b2c524eea0cbe94594036e579ee41ce363d82ecf9a6c645200b2ef5c36167df3",
+        "test/mem1.ssa": "b3b5545b9054d5f96f29ae692a7ad128b6559ff9c645bb94b114164c35f067e3",
+        "test/mem2.ssa": "95e7b786aa8205555700b7003a1c0e2cfcd9774cc2560df80ddb47e4abd5d3e4",
+        "test/mem3.ssa": "952465f9f3d79f78a1c2576fdb4134d2ab15c61f9128be0e6d398aaf150be27c",
+        "test/philv.ssa": "c952c8ee18c78c7b0372da1abbaf6237119828361d0adbe61b2341bd8792b12f",
+        "test/prime.ssa": "bb8cbff468347a4cae7b8bb42a70c1a8642b1bb83bbd31af442f3071d54521cf",
+        "test/puts10.ssa": "7ec69098b239e124724d3e678ecb291800ff3e004c1b19022b9b1a4f5fc5b7a2",
+        "test/queen.ssa": "414170ef76a28aa2a6e87841bba8a93f8959fe2ebaae3c01a8ab6a015155b90d",
+        "test/rega1.ssa": "7f6222cec0042e10c6d1a6251ac6e75554370b2f8d0a8d6cad06b5ce8cebf224",
+        "test/spill1.ssa": "7d3300e5a50b700bac4f583c0d9aad897b76340673c89c67a565e3444ea836e6",
+        "test/strcmp.ssa": "971f58decd24599f4834d0bf808bf60f929998cec0988bcb18c4be9ad68d3a55",
+        "test/strspn.ssa": "3657178e2a2bc77cdea75d659b440d05f533ee190679d002fc9e17d171d8aefc",
+        "test/sum.ssa": "b1580fe79ba46691fd9145fb89a3cbec105865c9e3053f34ff3b8ee2c17ad2f2",
+        "test/tls.ssa": "b97fc2c8d39cfda18e1ae928584ae9b7c6debf3fbba62c9bb2a16841df2abea8",
+        "test/vararg1.ssa": "8e881b4105fc95deecf57c7d1b5339611225dfd9a8a39422288527617b342dd2",
+        "test/vararg2.ssa": "02f27e1d3a5d1001def434d94d79bd5bd1d8cab7947b4298ae6b1c524269b5b4",
+        "tools/abi8.py": "22a96bd793ceaaa4c17cb8b7aea75e64db481b780516792dfc24b2a04d943367",
+        "tools/abifuzz.sh": "1b9416517f334ddfdbfb9e72ce391e18fa402995f7135cbc41f8a733a0aabc1b",
+        "tools/callgen.ml": "72325141ca3624e543e4c3f121802010ca99f0e93137cd761ca2d0352e9b44ff",
+        "tools/cra.sh": "79a3070f1be16e3cc3b8a841cef7b56f230477f8be5e94503ce03e601a23170e",
+        "tools/lexh.c": "4e6183a33f9abf412d7ea267897a07da4c972804d3b17d171dd68bcc2eced5d6",
+        "tools/log2.c": "ed282110b0e7cabf3e69a6fcb6c4dc44bf37369b97b904e8991211b61625db57",
+        "tools/mgen/.gitignore": "116df4b2318956380f1d2da6e6fad022c4742895da6be9de6ad93af568d447f5",
+        "tools/mgen/.ocp-indent": "9d64bbd561a0cc7896d7cd574375fee38773655a76003e78861d6fe66237d912",
+        "tools/mgen/Makefile": "08d3afbf5a3280d5e59d8f337f85e54630717b9976bc1740446de0ad60f575f2",
+        "tools/mgen/cgen.ml": "4c4e66754eb694ab7b3fb8644acf61e1608ebb3ed32874219c0ee910e053cb9b",
+        "tools/mgen/fuzz.ml": "b4730297bc55639fbcc725f06211b49f6206b98b4f006554db31ceb7e979e526",
+        "tools/mgen/main.ml": "231741d58ae935fda00a5e5512e74d450d74518c8e5af30a87d24b41686ec908",
+        "tools/mgen/match.ml": "8e5b4b9f93d71b6bef45f28787b3d477a5e458e3973248e989541b3b695e9fe6",
+        "tools/mgen/sexp.ml": "f4551363b67895d0a65fd851eada71174539832d2214fed09339519acb7cd2a7",
+        "tools/mgen/test.ml": "f0fd09d27acb3c01b09da4ec64423c39b02c55653d0a1db41918ed4ec818df1e",
+        "tools/pmov.c": "3b3eb463f34424035ec79513f1ff64b749c4d382c17e4d73355508a7d9ea4964",
+        "tools/test.sh": "74796a084e0ddb69e6679eb1dcc1fa3dc9f720fa2d4807c08be702e2f915f319",
+        "tools/vatest.py": "42db35fe76e50f01cde8ceffa2cfa85780380cb7b2099693c7aacaa769c43ab7",
+        "util.c": "833a66c4c703cd47d7855cfd4b9f77642bdd0d35c6914c0baa3cd555031e35dd"
+      },
+      "oracle_correction": null,
+      "status": "built",
+      "objects": {
+        "adler32": {
+          "sha256": "ea082856918ca1d7b8872bccc4ed53b0ab9aa032cc67b94501c2d0f9edddb4d0"
+        },
+        "crc32": {
+          "sha256": "551942eadd69d24c319421611e767ec030405b75e69a531d75b66a6cc7bc5d78"
+        },
+        "deflate": {
+          "sha256": "74d6987cf1057ffb34494d8b1ffedc5b7fbddd37a1031ca45b444c93689489a1"
+        },
+        "infback": {
+          "sha256": "7d3c02cc99783c888dacc23de6f11bfaed9059568c7eace0f848ac659e0d945d"
+        },
+        "inffast": {
+          "sha256": "1b006c4c67880d535ed815e38a368bfa6b5fb0de2756ce95adf165c08cc71707"
+        },
+        "inflate": {
+          "sha256": "c8c765ff23423a9a2bd559a116c96ccaae318b6ce334e3ed2a1cf4ced0a902ef"
+        },
+        "inftrees": {
+          "sha256": "e8765d42a6ecd83fdf153470767bc9116d10053020eda6458d1001f27c07e740"
+        },
+        "trees": {
+          "sha256": "7d56e9f2f1ff670661e97ba7f777c7175eb2b55ddb1e9f79399bceb0711bdcb2"
+        },
+        "zutil": {
+          "sha256": "bf5ee8acd3a02456acc78a984c9505133b439feef16ed35f6c41bf8943c12b8d"
+        },
+        "compress": {
+          "sha256": "6d97445b14ac9bb32436b7deb7096ae7da95f493c6f005d15d276696d0a0e4b1"
+        },
+        "uncompr": {
+          "sha256": "83eef9ae350252b58026aa10805bbce46ff17d2e1d5b774aeb509a3e75928713"
+        },
+        "gzclose": {
+          "sha256": "0f8b20a534ee960f245823fa9d7cbe9e7c430decad6de6878dce12ae420397cc"
+        },
+        "gzlib": {
+          "sha256": "2dc1b65055d7bd6c9603fed0339f753b52d0f7788e360ea4ce2c3741c3ce963a"
+        },
+        "gzread": {
+          "sha256": "b9807147ac0105734c2d6a742fb5246053a27d2f02bcdf4f18d15886437da3d6"
+        },
+        "gzwrite": {
+          "sha256": "095043dc67ef0d47212634f922f4eba6ce60db862941a7287103f6ab9eb444e4"
+        }
+      },
+      "executable_sha256": "f8b21e14dccb8ce0dc8fa3b9811207a999970cbe7a3a5b97d0eac3d47a909964"
+    },
+    "qbe-corrected": {
+      "oracle_binary_sha256": "4b6e9c5de2c50f9deb9783c78c3b2e0aff5930245f1431b24c6b78ee969eaf4b",
+      "source_files": {
+        ".gitignore": "43b6dfef5d02e7de54e141906ec23649f01b53ce72f564687e18503827a7beed",
+        "LICENSE": "add7f24e6d31aab495e9741f0c10ece97fda25a33047c423bfcd7b1db330653a",
+        "Makefile": "3a544741d5f3b92428e26708a98e51ab7ecc96ba2f7683ad6a8ff67f99b24c6d",
+        "README": "fa6f634fc6c5b9e428beb8dbad447fa37eff38ab9f4e8368b0c782e8b58ea5ee",
+        "abi.c": "923a5ea94e088e8ee4435924b38c0efaa601e4fc3b65b1964d70903491533103",
+        "alias.c": "c210400e482f4ad2576d238d8cc411e0b1984ca57fb5d5ec849ed83fb6fd404f",
+        "all.h": "61bc106ffb07e0abe0b418f95ac7e1a9e4c6bcf8c308d8743562299129056519",
+        "amd64/all.h": "8ce357c9b3c7970a0160bc02c3ef61197bb1d469b06a93b08e0ac5b9061f55e3",
+        "amd64/emit.c": "b2563a49370154419246b11c4f6f2cd45e0f7c1327e491a2c7d2a2d4c8f8c36f",
+        "amd64/isel.c": "049096f821fdb5035a68838f313c2f6431e8a5178a8958a9259bf566ef977eb5",
+        "amd64/sysv.c": "d7b867b243dba484924e46062ccb3ff1ca44243ad06004f8a7b8f6cd937d6ec0",
+        "amd64/targ.c": "e53960a60eb5c1d3364bb8595bb64b3f5827db9436f886432de368cbb4e22211",
+        "amd64/winabi.c": "abea8f315c09fc26a5df7abbbc98470a6113d08a866bbbdf7928825d10dc6ec9",
+        "arm64/abi.c": "1e881c0d2443e8a37b54ec9cb4474963bd5635286a5067df611e11ab250cccb5",
+        "arm64/all.h": "0c7503dd82c3efd65e1876865e4dcb2b6af287e43942cf9452ddbdd0473df52d",
+        "arm64/emit.c": "3dc7280fe44797b56c00194091d2686b90317f673b2175a87df89fa0a6f3cabf",
+        "arm64/isel.c": "9a98332d4eb8db4a33d88aa1db4ca65399c3c5530015387d38d457ae12334ee3",
+        "arm64/targ.c": "5215bee5bae89d5d95cec3a4ddaea32ff15e6d35952c248f1d49653609c6dac7",
+        "cfg.c": "99099b6c39fbf9de442811c9e5e57417d6ef13ffa534ff6c82cade4fcadcf438",
+        "copy.c": "f1b6ebcb4802e2aa32239c905ae47aea0c6d1335cedcbb2a0e3aad8d18f4e06f",
+        "doc/abi.txt": "2707369f86df7db168e7495891049ab8bc82f64b1ea157b5cd336ba72304372f",
+        "doc/il.txt": "65ccd9585dfaf6dd27a5fb5fa2cbe6363097c98e20cb2815785234f1eaf39daf",
+        "doc/llvm.txt": "af2a0ce4bc5f2d98243c609ead421b26fd6ee4a829df2501f77d5c1904603e00",
+        "doc/native_win.txt": "fcb9231085c72909d9e8542aac88be14e61f52421a7646c28c139cacbd09ccfe",
+        "doc/rv64.txt": "d5b8f76e89d9e62e60c48c17c49085359f7be195740134186eceac39a0e7bc7a",
+        "doc/win.txt": "0c677c8f8ce5d40d60301ca51ac46bf1655cceed3c46edb2d68f63e1e1b786dd",
+        "emit.c": "48af42e44d5017102e6ec7bec00465304f324f89160a93825f4952a257702031",
+        "fold.c": "3544071a30cc049320838f3bf44c1f83171117735fd2bb67959b2bc0a4431be8",
+        "gcm.c": "6af05af2af79bdd217b53133735e1d98fede157ee46ca1aac54c337a817ac586",
+        "gvn.c": "d09e291f14d1b777c2a27ddbf128eae02c7d649ccd88b2d180c29c2bf6b0e6a9",
+        "ifopt.c": "b4d49edd190dabc6b183453de5237d2ba33607739b61d6d9f1a2c8c1369f2f86",
+        "live.c": "19f084507c5f38f213e90193c11111e6079a06e3dd13f80df4b9e2c65b6a5eb5",
+        "load.c": "1b35c950499fa6c8d8a562ced54a531cd39adc384fc637922e69498e6bbb8b71",
+        "main.c": "a6a9a128d2dc5f9db117a2d25843c0124d80609d1f1c176e3c71de188fd0ade1",
+        "mem.c": "4229d499db4186086b2d02ac78c983a6f31012d350bd281128ea61c037af4b65",
+        "minic/.gitignore": "b81039a453138d1d4c1ef2bd4598512b1691afdb8164e48410a06528c8000837",
+        "minic/Makefile": "216cd4a8e295db9ef0f6d96eb83daddb75e1f51137e0580ac92ede9e9ae7382c",
+        "minic/mcc": "61e27ac879db3c0560535f8b3ba6a6c5f80ca97afa7f462866f01c20569e462a",
+        "minic/minic.y": "3ad958541b34cc9c7a32da59003d1c8482a0f291777aa3865a88a7134f8e9399",
+        "minic/test/collatz.c": "08962ec9ae1148ed40d29c9100e9ea72f4517375114cb8ad6e4f20cc5a10ccdb",
+        "minic/test/euler9.c": "4fcd8d845a822e7a52db18249283a5c7d87a01fb627214126c2707c15fc05f44",
+        "minic/test/knight.c": "a1b4f6c89d47c2e6ff2bff91a580a8525470ec638f02577aa4343b5e61ee128d",
+        "minic/test/mandel.c": "835dc25eb3c7afb3aa0f89b2f5aa369f926990ac6b5a266511f9d49d982c1164",
+        "minic/test/prime.c": "910ff8512e54e6b1b6fcf2a1656ecea2b3d475131c4acdb5b27fb05ac542b86c",
+        "minic/test/queen.c": "7e01a19ba293d5c68425250cb85a613900b8e2ea77f02ae94c33b92aa0b89493",
+        "minic/yacc.c": "42a71ff6fb0f5eb861923682833dbd53a3d6cdabb1f0fab8bd3cb9f0fcda4d59",
+        "ops.h": "39a2fe3c63ef4ab9c67d894ba83324ff6f9cdcdb3c5fe81f96efedf0350cf8ba",
+        "parse.c": "e762d78e1890af5c06daa581cfd40b30fcaa840450f32ca9cf2b141740a869da",
+        "rega.c": "167270237fb1a6a528f7f53bda895eb46074d42ac1d4a41ae9489706f10ae9ff",
+        "rv64/abi.c": "c9ad2cfcb7ee56d8cd99e3cae2d4961929e099fc47f6e2b4a82162ed1fd92f22",
+        "rv64/all.h": "2636f565c1e4a2e4aff1fe9501c40220a4eb67e905e650f4f734ab8714d53d5f",
+        "rv64/emit.c": "4d76c3878e19a8d22a060300d43feab4fb54b589b341bb94e34d2fa4393999d3",
+        "rv64/isel.c": "95500527dcc4036b239b2ab62525aa1df0a645df142647756756526343a87846",
+        "rv64/targ.c": "82668853f271d1dc20b914a2e0f402764e42951a75059ba29d4e0f77fe85cb83",
+        "simpl.c": "0c14d2e5cc81bf6250a92f4c54eb8d453334100e127796b7a2e84f40b6e00254",
+        "spill.c": "d8b5367c4531faedbd4e073ccd955557a8e2333f9240d9f186f62dde777baebe",
+        "ssa.c": "a06727f6e5f6786e6fb1f30912631896007b9867dfd64e3e27a754ee9a9332c8",
+        "test/_alt.ssa": "5bd52cf1e30b1f0bc038c20ae80ffc605c520a635a693923fea47b817e6ab1af",
+        "test/_bf99.ssa": "72ae5fb8887972c6887d9149395fe62cbbe621ed89f26e08149bb1998af14ef1",
+        "test/_bfmandel.ssa": "440f49a38c02728f333fa846969623c14448dc9407984817da2322552aa13990",
+        "test/_chacha20.ssa": "ae28c1dd2c17034380868967e213d48eb2d544e3b2365c20951c2e463cb03b22",
+        "test/_dragon.ssa": "153f712b8de8d0f57a617467c2cf68e844818cd383d7f59fb1210384d6ed3165",
+        "test/_fix1.ssa": "581dae6814d060cd7ec4eab55ac37fde0a0a00d343626a09800361afb2c03dae",
+        "test/_fix2.ssa": "86c5a15198cd32f26ef54b558de5f720dfea6865c809f22a1cc505935432a13a",
+        "test/_fix3.ssa": "8095ac2ba5201ff17d36fa8e8622f404dafb618735d1cba34511719b3380454b",
+        "test/_fix4.ssa": "4bb26d7fe5319b7ea298536d85fbb8b13c89252ea8dc6068eb49c611bb69de39",
+        "test/_gcm1.ssa": "503831eea2347e94e7ac7e0bd2fbed40d1cc63ceca92ee92c15485d766fc7139",
+        "test/_gcm2.ssa": "53ad71740fa485b3ebdec3bce0d1079b7ff2123e8e6d903104890d34be182302",
+        "test/_live.ssa": "64ec49c87978cd05beeb2d7ff8bb071e19e9161a1dd3970c07542bb3ada59b40",
+        "test/_load-elim.ssa": "df6984f9b32a4295df19296517ef87b20215685d68282337bf928e513d4ef0d9",
+        "test/_rpo.ssa": "63d5c64304f006b51f4e54f044cd30aeeaece8e521109ff5ab8d887b216c043a",
+        "test/_slow.qbe": "837691533c8a5e22b6971db94a4da7574b08414b85623b45012b7404c1280f95",
+        "test/_spill1.ssa": "1bd406055470f450c7416419941b2d38c67c2674d525ac7ec9a0aff00ce2f2c7",
+        "test/_spill2.ssa": "74ac81e0f6de3b2ffd9b110121e461da1e6e84003ca28938601353598b199b27",
+        "test/_spill3.ssa": "fa68a2000e7a5940c33e45b5d2456367250959d66e15bfc425962cf0ee594836",
+        "test/abi1.ssa": "8bfcc7af87a8cb45bde00461a73e1008e871f2a3879f778ab43b453bf1090159",
+        "test/abi2.ssa": "7164037f72c213a348f5ab580e63f3f6924f92f179d9b5f647691dda0e00dc30",
+        "test/abi3.ssa": "38f94339a421efb68258e6fa4f64e4fd7909617dbc848e338884db6b524e8f9f",
+        "test/abi4.ssa": "055db9a58500e1fc371c46f53a4d92ed369746a8f098411dbaffb2bc912af60b",
+        "test/abi5.ssa": "38fb92ec37f473dc2ea64d150004c18e45ec2f1b79e9a3c5c260750ba84055ff",
+        "test/abi6.ssa": "5f5584de651fbea79de0ccb3e71223825716acad41e16e4958396c0fbb93f947",
+        "test/abi7.ssa": "db0978ea0dd926ea37d69ca26e76f3b96b163e574eab07388132b13cdd4ea1cb",
+        "test/abi8.ssa": "e471e0a30c39bc6105953d5ad2b501cf9bbb8113d0bd34cad4dbb7c23b6a2877",
+        "test/abi9.ssa": "e3e092f679adf015f7829940f29cf2cac7255ca64ffb94d9782c0a6f33476824",
+        "test/alias1.ssa": "c58146da60a5e157fac5c5636ee1747851660b643aa1212d907f96cec37f4c1f",
+        "test/align.ssa": "55fdab6dc709d040abc9eca6f2484f7b624e98057c865c60b1d13b3ebf31cb61",
+        "test/cmp1.ssa": "24e123980be560396e3323cfa7ca889585c3c9d44f5fc5021d67f4a52fead544",
+        "test/collatz.ssa": "8b9b7aa9b409c8e5b63bc9b0d237baccbd992a81cfc2d93fb522589c1746b445",
+        "test/conaddr.ssa": "49941972ad1ca03a76ff6c4bf8e85f9c2e91517b1e3b4e414234d35cee8c43f1",
+        "test/copy.ssa": "4e404dc9d755109de053dab761327167ddc817bb47c824140722b2d05bd8416c",
+        "test/cprime.ssa": "d426a9173ec74932fd1a78b257654f26e20d71f8dcd532ca7ddc6bc37709106c",
+        "test/cup.ssa": "ecc28fe5adb5cb44918e5474f2d9a9a19f9324eadd3bf03fc68f5e802aeaf775",
+        "test/dark.ssa": "6a03914f4ea621f16fd4d866507f34a78ebb33d7f93978a1c5b1912aca64bcb0",
+        "test/double.ssa": "8658801b2a3dacd115582b05c4ed2ea69fe4b91e5fa4a2c91f56dd5bf461df18",
+        "test/dynalloc.ssa": "53578be74882aee600e6a00997be24712d2650b8debdda86b75f859ab4fca6c8",
+        "test/echo.ssa": "a2c7f1c4f967d5b61f9271e0e839371d161423b2ce122753ce8bc20a069735d7",
+        "test/env.ssa": "ea28b83be22662df7f03c7aa339dd10647c97b0c9bf4a87cdf6fe8957d0df4df",
+        "test/eucl.ssa": "9ed32b05ba1e20f5a7aa589e754a8b8cc9fb51419a1a473f7c180f3975a88e3a",
+        "test/euclc.ssa": "29ad0153e8eb60a20e7d449bc43faede8d4323f2d66ffbb092297bd2e2fde72f",
+        "test/fixarg.ssa": "dd59861481ee51c7b43cd4f4014141aaa07062e4893170bd5e845bb79f934df1",
+        "test/fold1.ssa": "cf5c6213aa87b06b867abd393befdbaf6b1299ffda5613fbd241583e3f36534b",
+        "test/fpcnv.ssa": "c21291e8622c582f988326bb227c82664d3832b00d6a5b021ad2c07d8ed1dc9f",
+        "test/gvn1.ssa": "b348d145f28297d843863cadfe6cbc4a2a9ab146f215fb3ca48be82eed4da7a1",
+        "test/gvn2.ssa": "7b9f291de76d3a2927cb2615608427985697aec86c3ad593748aaecda513d248",
+        "test/ifc.ssa": "71372a2da4188349ffc50922ede4a20a29c9f5d3be0adec6412797a7667c40d2",
+        "test/isel1.ssa": "32a5f1c2ff32bf22d92bc0e543084a7e96b5172ad5f6a988e818c813e3687ef5",
+        "test/isel2.ssa": "ffdbdbfba74b85eee8f9c69539f72d329bab213d86f9fda7030135562593f186",
+        "test/isel3.ssa": "a199aaecd4176b32eed30daaf6e92a293b50f17813168efc53a6a6632c9aee2a",
+        "test/isel4.ssa": "bf521030b22117e54daf66afc3c67877e2ad699f0fcd6743c5700629d105c111",
+        "test/isel5.ssa": "6382c7d98a92c78717c585e90be6d62e13c762be4ec48e458ba50979ae693b11",
+        "test/isel6.ssa": "6316bf3bb1b0398f67b08101727e20bf1c6da4fea760385cea677c820e9a9058",
+        "test/ldbits.ssa": "43756455d2e58a8b1e7b0d7b0c0030b2008c62a88d017a216ba655583e075ec1",
+        "test/ldhoist.ssa": "69eb55e3af26a5caf3043cb4701a6788590a60e12dc2dfb738823f84c1a69376",
+        "test/load1.ssa": "070cbd2ac1ab3d8565bec32225a84e3eb440283963ca733180a7eb64e73a3843",
+        "test/load2.ssa": "49215dded4b09d5f8d6c976c985068a1a97acab8125dfea373d784f4b5827b44",
+        "test/load3.ssa": "459f073e9883a3f9cebd5276220ead848b6e4ccb673bdfbe00080277523e353d",
+        "test/loop.ssa": "0c013790c40e20ade3ab5ede4fa450196e82a56811b32ffb19e06cd4c9ba8ff1",
+        "test/mandel.ssa": "5f6ddb545e276d159570ea7ec3f91aa374acf449eb2759cfe77d373fc72e8c7b",
+        "test/max.ssa": "b2c524eea0cbe94594036e579ee41ce363d82ecf9a6c645200b2ef5c36167df3",
+        "test/mem1.ssa": "b3b5545b9054d5f96f29ae692a7ad128b6559ff9c645bb94b114164c35f067e3",
+        "test/mem2.ssa": "95e7b786aa8205555700b7003a1c0e2cfcd9774cc2560df80ddb47e4abd5d3e4",
+        "test/mem3.ssa": "952465f9f3d79f78a1c2576fdb4134d2ab15c61f9128be0e6d398aaf150be27c",
+        "test/philv.ssa": "c952c8ee18c78c7b0372da1abbaf6237119828361d0adbe61b2341bd8792b12f",
+        "test/prime.ssa": "bb8cbff468347a4cae7b8bb42a70c1a8642b1bb83bbd31af442f3071d54521cf",
+        "test/puts10.ssa": "7ec69098b239e124724d3e678ecb291800ff3e004c1b19022b9b1a4f5fc5b7a2",
+        "test/queen.ssa": "414170ef76a28aa2a6e87841bba8a93f8959fe2ebaae3c01a8ab6a015155b90d",
+        "test/rega1.ssa": "7f6222cec0042e10c6d1a6251ac6e75554370b2f8d0a8d6cad06b5ce8cebf224",
+        "test/spill1.ssa": "7d3300e5a50b700bac4f583c0d9aad897b76340673c89c67a565e3444ea836e6",
+        "test/strcmp.ssa": "971f58decd24599f4834d0bf808bf60f929998cec0988bcb18c4be9ad68d3a55",
+        "test/strspn.ssa": "3657178e2a2bc77cdea75d659b440d05f533ee190679d002fc9e17d171d8aefc",
+        "test/sum.ssa": "b1580fe79ba46691fd9145fb89a3cbec105865c9e3053f34ff3b8ee2c17ad2f2",
+        "test/tls.ssa": "b97fc2c8d39cfda18e1ae928584ae9b7c6debf3fbba62c9bb2a16841df2abea8",
+        "test/vararg1.ssa": "8e881b4105fc95deecf57c7d1b5339611225dfd9a8a39422288527617b342dd2",
+        "test/vararg2.ssa": "02f27e1d3a5d1001def434d94d79bd5bd1d8cab7947b4298ae6b1c524269b5b4",
+        "tools/abi8.py": "22a96bd793ceaaa4c17cb8b7aea75e64db481b780516792dfc24b2a04d943367",
+        "tools/abifuzz.sh": "1b9416517f334ddfdbfb9e72ce391e18fa402995f7135cbc41f8a733a0aabc1b",
+        "tools/callgen.ml": "72325141ca3624e543e4c3f121802010ca99f0e93137cd761ca2d0352e9b44ff",
+        "tools/cra.sh": "79a3070f1be16e3cc3b8a841cef7b56f230477f8be5e94503ce03e601a23170e",
+        "tools/lexh.c": "4e6183a33f9abf412d7ea267897a07da4c972804d3b17d171dd68bcc2eced5d6",
+        "tools/log2.c": "ed282110b0e7cabf3e69a6fcb6c4dc44bf37369b97b904e8991211b61625db57",
+        "tools/mgen/.gitignore": "116df4b2318956380f1d2da6e6fad022c4742895da6be9de6ad93af568d447f5",
+        "tools/mgen/.ocp-indent": "9d64bbd561a0cc7896d7cd574375fee38773655a76003e78861d6fe66237d912",
+        "tools/mgen/Makefile": "08d3afbf5a3280d5e59d8f337f85e54630717b9976bc1740446de0ad60f575f2",
+        "tools/mgen/cgen.ml": "4c4e66754eb694ab7b3fb8644acf61e1608ebb3ed32874219c0ee910e053cb9b",
+        "tools/mgen/fuzz.ml": "b4730297bc55639fbcc725f06211b49f6206b98b4f006554db31ceb7e979e526",
+        "tools/mgen/main.ml": "231741d58ae935fda00a5e5512e74d450d74518c8e5af30a87d24b41686ec908",
+        "tools/mgen/match.ml": "8e5b4b9f93d71b6bef45f28787b3d477a5e458e3973248e989541b3b695e9fe6",
+        "tools/mgen/sexp.ml": "f4551363b67895d0a65fd851eada71174539832d2214fed09339519acb7cd2a7",
+        "tools/mgen/test.ml": "f0fd09d27acb3c01b09da4ec64423c39b02c55653d0a1db41918ed4ec818df1e",
+        "tools/pmov.c": "3b3eb463f34424035ec79513f1ff64b749c4d382c17e4d73355508a7d9ea4964",
+        "tools/test.sh": "74796a084e0ddb69e6679eb1dcc1fa3dc9f720fa2d4807c08be702e2f915f319",
+        "tools/vatest.py": "42db35fe76e50f01cde8ceffa2cfa85780380cb7b2099693c7aacaa769c43ab7",
+        "util.c": "833a66c4c703cd47d7855cfd4b9f77642bdd0d35c6914c0baa3cd555031e35dd"
+      },
+      "oracle_correction": {
+        "upstream": "QBE 1.3",
+        "source": "arm64/isel.c",
+        "description": "Test-oracle-only correction: split long external symbol addresses into a zero-addend GOT load and explicit integer offset addition. Original pinned sources and IR remain unchanged.",
+        "before": "\t\tc = &fn->con[r0.val];\n\t\tif (T.apple\n",
+        "after": "\t\tc = &fn->con[r0.val];\n\t\tif (k == Kl && c->type == CAddr\n\t\t&& c->sym.type == SExt && c->bits.i) {\n\t\t\tCon base = *c, offset = {.type = CBits};\n\t\t\toffset.bits.i = c->bits.i;\n\t\t\tbase.bits.i = 0;\n\t\t\tr1 = newtmp(\"isel\", Kl, fn);\n\t\t\tr2 = newtmp(\"isel\", Kl, fn);\n\t\t\tr3 = newtmp(\"isel\", Kl, fn);\n\t\t\t*pr = r1;\n\t\t\temit(Oadd, Kl, r1, r2, r3);\n\t\t\temit(Ocopy, Kl, r3, newcon(&offset, fn), R);\n\t\t\temit(Ocopy, Kl, r2, newcon(&base, fn), R);\n\t\t\tbreak;\n\t\t}\n\t\tif (T.apple\n"
+      },
+      "status": "built",
+      "objects": {
+        "adler32": {
+          "sha256": "ea082856918ca1d7b8872bccc4ed53b0ab9aa032cc67b94501c2d0f9edddb4d0"
+        },
+        "crc32": {
+          "sha256": "551942eadd69d24c319421611e767ec030405b75e69a531d75b66a6cc7bc5d78"
+        },
+        "deflate": {
+          "sha256": "d621454fc01ed66f61b1d56fb78ea8b8e38da15de2abbaf3fcb4ec382d1839d0"
+        },
+        "infback": {
+          "sha256": "7d3c02cc99783c888dacc23de6f11bfaed9059568c7eace0f848ac659e0d945d"
+        },
+        "inffast": {
+          "sha256": "1b006c4c67880d535ed815e38a368bfa6b5fb0de2756ce95adf165c08cc71707"
+        },
+        "inflate": {
+          "sha256": "c8c765ff23423a9a2bd559a116c96ccaae318b6ce334e3ed2a1cf4ced0a902ef"
+        },
+        "inftrees": {
+          "sha256": "e8765d42a6ecd83fdf153470767bc9116d10053020eda6458d1001f27c07e740"
+        },
+        "trees": {
+          "sha256": "7d56e9f2f1ff670661e97ba7f777c7175eb2b55ddb1e9f79399bceb0711bdcb2"
+        },
+        "zutil": {
+          "sha256": "bf5ee8acd3a02456acc78a984c9505133b439feef16ed35f6c41bf8943c12b8d"
+        },
+        "compress": {
+          "sha256": "6d97445b14ac9bb32436b7deb7096ae7da95f493c6f005d15d276696d0a0e4b1"
+        },
+        "uncompr": {
+          "sha256": "83eef9ae350252b58026aa10805bbce46ff17d2e1d5b774aeb509a3e75928713"
+        },
+        "gzclose": {
+          "sha256": "0f8b20a534ee960f245823fa9d7cbe9e7c430decad6de6878dce12ae420397cc"
+        },
+        "gzlib": {
+          "sha256": "2dc1b65055d7bd6c9603fed0339f753b52d0f7788e360ea4ce2c3741c3ce963a"
+        },
+        "gzread": {
+          "sha256": "b9807147ac0105734c2d6a742fb5246053a27d2f02bcdf4f18d15886437da3d6"
+        },
+        "gzwrite": {
+          "sha256": "095043dc67ef0d47212634f922f4eba6ce60db862941a7287103f6ab9eb444e4"
+        }
+      },
+      "executable_sha256": "c7c161823aea2388c0bc015dd940fe1826a394bb0aa590db1faab2725c394b02"
+    },
+    "gcc": {
+      "status": "built",
+      "objects": {
+        "adler32": {
+          "sha256": "808488a47fb05ea60d93f2b27f30a78d06024dbccd355df6e6f09b891a60b9d5"
+        },
+        "crc32": {
+          "sha256": "1440435884f64300b2f54fd0cc19b4386808e569699b94f9f8a6492a7853e8e7"
+        },
+        "deflate": {
+          "sha256": "60a9c8328780a78cb39477bdfa5aac61385602bbc70b2831fef352ec82cd4073"
+        },
+        "infback": {
+          "sha256": "67cbf7966e66d0b5a06f2eb6e06f8f57d5aa9bf4ec65d4154c5e19f0c6ccf359"
+        },
+        "inffast": {
+          "sha256": "309346ea7b12eef967ec9495dd2cb19ea445123283a12a6d85601bcbb5e8582f"
+        },
+        "inflate": {
+          "sha256": "2e92b9bfc7221d43003ca3495a06bee88bdfbe19d80a5d947aedb42010711407"
+        },
+        "inftrees": {
+          "sha256": "eca5efc2eb1940f47e3d729f8dd339a23779bcfdf8f99b7ee2090cc3f9cfa41b"
+        },
+        "trees": {
+          "sha256": "c2928e8ada9fead759a37c88e7a71aa8064811c6369372b2c5300d92f3057fcd"
+        },
+        "zutil": {
+          "sha256": "1d604d7749ebd5634dbf4261016a6589d6754077740e50585d5d6c7df6f572f6"
+        },
+        "compress": {
+          "sha256": "0fe3f6853fcf280818b42912dddc298e5347513a18d19b73982ab0a8e0b2578b"
+        },
+        "uncompr": {
+          "sha256": "00748296c8c8afca198db8d01ec82013470ac72e22a2ade74bbdf78589460c0d"
+        },
+        "gzclose": {
+          "sha256": "5cdbe56d3aa4c4dffb571c075f47ef10b33a31729dbe4f0ed8cd775fd4ad0770"
+        },
+        "gzlib": {
+          "sha256": "dd3970d8a76ed7cc650fa127cf92e61f1feac7f40e57a2be240d42ea097e8ca2"
+        },
+        "gzread": {
+          "sha256": "875cae1d69d0e0e888af4a64805f14519acd16188a7d2b7353e3e3088dfedc96"
+        },
+        "gzwrite": {
+          "sha256": "b268e66610b979d28eff5aad889dadd70cbaef6a66709b071b0938c5328d388c"
+        }
+      },
+      "executable_sha256": "aefee11cdc36e6e5a94797ec83987e4d032f40a32315e37be3900d482f1cd08d"
+    },
+    "leaf": {
+      "status": "built",
+      "objects": {
+        "adler32": {
+          "sha256": "c22207b20ddee59413a7669e5fbe3a12b6c45ad7f78a0c279361aca8666bd67f"
+        },
+        "crc32": {
+          "sha256": "cb100483fffa2157995b38c876f5b57472fa8c6959f7a37aefdc304489dca883"
+        },
+        "deflate": {
+          "sha256": "88279a24fdfd3c64d620d2232229d0dbf5364ec7a4abeef930fe19313392d29b"
+        },
+        "infback": {
+          "sha256": "b720492ae14ae88486b04833db64ed000af953f4557ac95abd56796d9b208fe6"
+        },
+        "inffast": {
+          "sha256": "ad3b83bb854e52eeb2f61e699e2e5ec709a06691fbb347f109e98c35fdae1bc4"
+        },
+        "inflate": {
+          "sha256": "c4eef444e3dbd1c1bed3fbc17bada2f3c61d7443b6dda9d315fbedba528c97c6"
+        },
+        "inftrees": {
+          "sha256": "daa53b71a2f114fffa3810a065cdd80b0286e898ffa68e3aef2b4d036624b1f1"
+        },
+        "trees": {
+          "sha256": "1605b7f5bd556da798aa552210044a927652f66879b174f89badc53dc0119a7d"
+        },
+        "zutil": {
+          "sha256": "2747bd8df8577cccc25251e488253327044217bd094296fb96e68ac8603e068e"
+        },
+        "compress": {
+          "sha256": "8260e853fe01150073d7b314a49c501f9673c146f8067530457011fdcfa1dcdd"
+        },
+        "uncompr": {
+          "sha256": "e4265226d5434cdf16bbbd8b2e3e558a0b8b82eccde06ae5727f4fd9cedc9c7d"
+        },
+        "gzclose": {
+          "sha256": "656cb14d3f78b27748a633477c912490c2c90eda145ffa93440a5c79ff139652"
+        },
+        "gzlib": {
+          "sha256": "8b07535aa25a2e4c389efb9510c9c858aedeb5bc0f595de2f6dba29c011c3e19"
+        },
+        "gzread": {
+          "sha256": "a1fb725c9dad4ba82a4b275572c561f4534181ba1b23f0d1f0ec7261982c45a5"
+        },
+        "gzwrite": {
+          "sha256": "82c7f7e4ca221017ff0be3398d287a1667b4c335fd4457b23c42f58becf93c65"
+        }
+      },
+      "compiler_identity": "15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c",
+      "compiler_sha256": "1f513bdf3933c6a2c4da3e7290621dc1834777d02f31aab103ab41c9b74ae692",
+      "mode": "optimized",
+      "executable_sha256": "48c7a43af0281c7f66c96137a7e606bff395b21725e92e17ec84053297849577"
+    },
+    "phi": {
+      "status": "built",
+      "objects": {
+        "adler32": {
+          "sha256": "8939608d6c1107ba8c245b5ced13263306c0e6bf967eb977b7ceb06a76e4b27b"
+        },
+        "crc32": {
+          "sha256": "3b3e13220a53b3c23634bcba81aca4a5716d6e104aa66da34f7c92e585c7a52a"
+        },
+        "deflate": {
+          "sha256": "c75b4b803cac15376e6d1c3bb6dca18719545f4bbb2f4b6cb72d4ab8effbabfd"
+        },
+        "infback": {
+          "sha256": "7e6e5881c4cdd466edacde326873612c8245cf352f20a91b3236971b18b22a2a"
+        },
+        "inffast": {
+          "sha256": "bb1a71a748e1f8223535086f8e734c1fbe58213484fe5de6343b770fc5f15eb0"
+        },
+        "inflate": {
+          "sha256": "dc6c144b4d71036b5054a84cd9cb85d24f5c712c3ba99b42218a09b6c6be10b6"
+        },
+        "inftrees": {
+          "sha256": "853779d8c1042d18ccb9e5f3c058d1f01d15b2456e716e2ed8f8eaff8a31ab13"
+        },
+        "trees": {
+          "sha256": "a7b8c687a104f0e579acd8318fdcd24ec271fa46c32c2618f7d06d7f5ce7d921"
+        },
+        "zutil": {
+          "sha256": "b7dc16025db33d17e558a9858a0ae3700153afa9b0d3d68898cce131e88cca2a"
+        },
+        "compress": {
+          "sha256": "8260e853fe01150073d7b314a49c501f9673c146f8067530457011fdcfa1dcdd"
+        },
+        "uncompr": {
+          "sha256": "3dc66f42c8c872b0ef1a87005803d59539e26909b09708ad1d09e7096304e2fa"
+        },
+        "gzclose": {
+          "sha256": "835b3c0f749ba5d91eba54d5e47023267d586e81e46529b22000b2d9ffe3c142"
+        },
+        "gzlib": {
+          "sha256": "d0aea0198a77f184aee11faacb4f85d1d6aff0836bdcde469c3825fd5b955be1"
+        },
+        "gzread": {
+          "sha256": "1590b655d8d95b955885bbcf96c8b4a301662ae0b89f4299e624d6ed9ce5589a"
+        },
+        "gzwrite": {
+          "sha256": "0f87d85d5b34e03de31f399dc9784442a8ee76642c08c024a0cee8fb167daf86"
+        }
+      },
+      "compiler_identity": "e7ef407580b7f70044b148f5b0dd6fcd9b74b780ef0cc14b92b7b54472fb18d8",
+      "compiler_sha256": "eb66b555345c7b69dc614ff6f50c09aa1d6ae560f6818919a5dce800b7dff0f9",
+      "mode": "optimized",
+      "executable_sha256": "c2051f7477a6bc47fec7643fa1267bede10a668bbf63313b260abdd619817451"
+    }
+  },
+  "gcc_version": "gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "gcc_flags": [
+    "-O3",
+    "-D_LARGEFILE64_SOURCE=1",
+    "-DHAVE_HIDDEN"
+  ],
+  "notes": [
+    "Fresh 15-library-object builds; immutable LCB snapshots consume pinned original cproc IR.",
+    "GCC compiles original C; generated C caller always GCC -O2, no LTO.",
+    "Original QBE source unchanged; corrected oracle patch separately recorded, never substituted.",
+    "Measured C intervals exclude process startup, file/pipe I/O, allocation of caller buffers and initial correctness checks; API-internal allocation remains included.",
+    "VM CPU affinity constrains guest scheduling; host scheduling/frequency still affect timings."
+  ],
+  "oracle_patch_sha256": "81bd4149db4f03d9a5515f3fa5283048f8f4b08323ca722882a3d8b0e5f350bd",
+  "caller_object_sha256": "5e887cd741ce00714447fd94e84b0f4e04ba7da235381b8dbdcbe6ee1601ef74",
+  "negative_driver_sha256": "a0182ef31673f1268464411d739f823d9c589de1ff50cad8793011253b6d1261"
+}

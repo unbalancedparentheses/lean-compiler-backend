@@ -4,6 +4,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 from fuzz import ROOT, LCB
+from arm_phi_identity import exercise as arm_phi_identity
 from arm_leaf_bank import exercise as arm_leaf_bank
 from arm_extuw import exercise as arm_extuw
 from branch_fallthrough import exercise as fallthrough
@@ -35,6 +36,8 @@ def main():
             empty_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
             environment_variadic(LCB, case, run, cc, target, False, qbe, qtarget)
         for target in ['aarch64-linux', 'aarch64-macos']:
+            phi = arm_phi_identity(LCB,work/target,run,cc,target,False,qbe)
+            assert phi['checks_per_mode'] == 0 and phi['original_qbe'] == 'not-run'
             leaf = arm_leaf_bank(LCB,work/target,run,cc,target,False)
             assert leaf['executed_checks'] == 0
             assert all(v['execution'] == 'not-run' for v in leaf['modes'].values())

@@ -1,0 +1,32 @@
+{
+  "target": "aarch64-linux",
+  "compiler_identity": "e7ef407580b7f70044b148f5b0dd6fcd9b74b780ef0cc14b92b7b54472fb18d8",
+  "compiler_sha256": "eb66b555345c7b69dc614ff6f50c09aa1d6ae560f6818919a5dce800b7dff0f9",
+  "source_sha256": "c5f3f99c5a007101e4ea3c2c878a3951ea3a1bf80dcb7c9ce729ae04c4bb8289",
+  "caller_sha256": "c19c5c5b640ba2a224f59cd115f0d64b86a20a03e9f65fa86cb53b506fce7463",
+  "checks_per_mode": 5120,
+  "modes": {
+    "baseline": {
+      "assembly_sha256": "a7d082d08b3b77132eb23d165512854364fd71399652a5b1fcc445049f58ba24",
+      "execution": "passed",
+      "baseline_identical": true
+    },
+    "allocated": {
+      "assembly_sha256": "f2d9c402215c00e57e091ca03642c18e80ba1f3264c98a633e65040b084dff44",
+      "execution": "passed",
+      "same_stack_narrow_fallback": "byte-identical",
+      "same_stack_long_identities_removed": 12,
+      "instructions_removed": 653
+    },
+    "optimized": {
+      "assembly_sha256": "aa7a6f8cb90bfa7cbd602d2fbb77b1df3017ba3a211c4f747bb8a87a4da37418",
+      "execution": "passed",
+      "instructions_removed": 324
+    }
+  },
+  "wrong_narrowing": {
+    "status": "detected",
+    "exit": 2
+  },
+  "original_qbe": "passed"
+}

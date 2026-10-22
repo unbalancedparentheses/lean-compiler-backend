@@ -1,0 +1,1271 @@
+{
+  "qualification": "Two sequential quiet windows, native ARM64 Linux Docker VM; elapsed ratios below1 favor phi. Same seeded ordering,9 paired rounds per window,3 payloads,5 labels,100ms calibration. Bootstrap intervals are descriptive, no multiple-comparison correction; no universal performance claim.",
+  "windows": {
+    "window1": {
+      "timing_sha256": "2ac91251412806fc97f8cbd9b739fcdc4a0f88ae487b354c6b1b63d226f29f0a",
+      "environment": {
+        "uname": {
+          "system": "Linux",
+          "node": "36d787fe752f",
+          "release": "7.2.9-orbstack-00391-g2b298d05fbd4",
+          "version": "#1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026",
+          "machine": "aarch64",
+          "processor": "aarch64"
+        },
+        "cpuinfo": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 6\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 7\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 8\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 9\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 10\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 11\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 12\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 13\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 14\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 15\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 16\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 17\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+        "loadavg_before": "0.12 0.26 0.26 1/451 1503729\n",
+        "governor": "performance\n",
+        "frequency_before": "2000000\n",
+        "loadavg_after": "0.81 0.46 0.33 1/451 1503885\n",
+        "frequency_after": "2000000\n"
+      },
+      "ratios": [
+        {
+          "case": "repeated",
+          "api": "compress",
+          "phi_cv": 0.028218299250210275,
+          "phi_ns_per_call_median": 813360.8037037037,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 2.1845940963319532,
+              "min": 2.1206793356284375,
+              "max": 2.229278406201729,
+              "mad": 0.009276298404942818,
+              "mean": 2.1870703841620656,
+              "stdev": 0.031467124764478445,
+              "cv": 0.014387797023978483,
+              "median_bootstrap95": [
+                2.1753177979270104,
+                2.2172574419288655
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8786670405050608,
+              "min": 0.842798066962166,
+              "max": 0.937785634731338,
+              "mad": 0.014111684349144227,
+              "mean": 0.8854248947416471,
+              "stdev": 0.028256775517385778,
+              "cv": 0.03191323813594676,
+              "median_bootstrap95": [
+                0.859921434498488,
+                0.9150430403893371
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.8725707102513971,
+              "min": 0.8421815206912702,
+              "max": 0.9112723753337691,
+              "mad": 0.01848944525854479,
+              "mean": 0.8746720009619029,
+              "stdev": 0.022789657235125698,
+              "cv": 0.02605508946217923,
+              "median_bootstrap95": [
+                0.8436075391234492,
+                0.8950995412633063
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9571386139200343,
+              "min": 0.9038911619139773,
+              "max": 1.0044940357476568,
+              "mad": 0.01834249164835977,
+              "mean": 0.9512344778387573,
+              "stdev": 0.03166242954281654,
+              "cv": 0.03328562019193716,
+              "median_bootstrap95": [
+                0.9101569831831547,
+                0.9754811055683941
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "repeated",
+          "api": "uncompress",
+          "phi_cv": 0.02937299833828269,
+          "phi_ns_per_call_median": 128028.0362389814,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.3232778577998503,
+              "min": 1.2896139182730175,
+              "max": 1.3336347519953702,
+              "mad": 0.010280811125065625,
+              "mean": 1.3172737003704713,
+              "stdev": 0.013609829509906973,
+              "cv": 0.010331816012176764,
+              "median_bootstrap95": [
+                1.3070501876336265,
+                1.3279366108893806
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9789289318337979,
+              "min": 0.9108965160845713,
+              "max": 1.035602570954506,
+              "mad": 0.00964904998797278,
+              "mean": 0.9759934197233624,
+              "stdev": 0.034814927146302146,
+              "cv": 0.03567127241100679,
+              "median_bootstrap95": [
+                0.9462802689365247,
+                1.004468752022635
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9595386479426974,
+              "min": 0.9123693007493517,
+              "max": 1.0315316222323145,
+              "mad": 0.022952386651508228,
+              "mean": 0.9657501525694565,
+              "stdev": 0.0351484655389802,
+              "cv": 0.036394988336750304,
+              "median_bootstrap95": [
+                0.9258355343645683,
+                0.989076252275022
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9895309434852645,
+              "min": 0.93348145585888,
+              "max": 1.0419923303345477,
+              "mad": 0.0375927643560795,
+              "mean": 0.9867368196981058,
+              "stdev": 0.03883727871342334,
+              "cv": 0.03935930831617866,
+              "median_bootstrap95": [
+                0.944573632088489,
+                1.0379698279034073
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "repeated",
+          "api": "crc32",
+          "phi_cv": 0.008287360243837652,
+          "phi_ns_per_call_median": 99460.72220462465,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 2.9693831629779046,
+              "min": 2.9438892305206426,
+              "max": 2.9868520818191167,
+              "mad": 0.007323171285599894,
+              "mean": 2.9690697792767526,
+              "stdev": 0.01243338650096291,
+              "cv": 0.004187637012691432,
+              "median_bootstrap95": [
+                2.9606853112117277,
+                2.978498968875538
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.2859956201381193,
+              "min": 1.241656380701418,
+              "max": 1.3036824949194095,
+              "mad": 0.006079822197191387,
+              "mean": 1.2822772053453981,
+              "stdev": 0.017592061621930315,
+              "cv": 0.013719390431799545,
+              "median_bootstrap95": [
+                1.27453447663504,
+                1.2956708138064323
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.2870980899689384,
+              "min": 1.267535128008323,
+              "max": 1.2995473376127988,
+              "mad": 0.0042294271985094944,
+              "mean": 1.2862121067277406,
+              "stdev": 0.009099613376292889,
+              "cv": 0.007074737773572406,
+              "median_bootstrap95": [
+                1.2801042266846392,
+                1.2947188990470313
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.7476047110483659,
+              "min": 0.7348281784277653,
+              "max": 0.7714107921570785,
+              "mad": 0.004174937614060958,
+              "mean": 0.747592679977638,
+              "stdev": 0.010559111781166306,
+              "cv": 0.014124150843052866,
+              "median_bootstrap95": [
+                0.7377726291438605,
+                0.7517547095581141
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "random",
+          "api": "compress",
+          "phi_cv": 0.03173925369491974,
+          "phi_ns_per_call_median": 4523739.909090909,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.5375851042257571,
+              "min": 1.47431912637598,
+              "max": 1.576095268155462,
+              "mad": 0.010746423678312578,
+              "mean": 1.5313392921182245,
+              "stdev": 0.0317107412136353,
+              "cv": 0.020707847945161405,
+              "median_bootstrap95": [
+                1.489278759979925,
+                1.5547165091633084
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9431270270183842,
+              "min": 0.9033960562960953,
+              "max": 0.9847706035978989,
+              "mad": 0.02492234885533584,
+              "mean": 0.9480921132991554,
+              "stdev": 0.027486379463342574,
+              "cv": 0.028991254201763076,
+              "median_bootstrap95": [
+                0.9182046781630484,
+                0.9719731814985546
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9614225855342353,
+              "min": 0.9458519412110226,
+              "max": 0.9859961125277898,
+              "mad": 0.005668883790750923,
+              "mean": 0.9619412648901978,
+              "stdev": 0.011815688071947442,
+              "cv": 0.012283169984703962,
+              "median_bootstrap95": [
+                0.9511447122420905,
+                0.9707581296594366
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9805707159571614,
+              "min": 0.9313053072897004,
+              "max": 1.020467098178034,
+              "mad": 0.013093667068792891,
+              "mean": 0.9781116299879747,
+              "stdev": 0.026182307908689,
+              "cv": 0.026768220626321452,
+              "median_bootstrap95": [
+                0.9688946704788579,
+                0.9944475523871983
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "random",
+          "api": "uncompress",
+          "phi_cv": 0.03049093192983116,
+          "phi_ns_per_call_median": 65414.66876971609,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.0288666762096292,
+              "min": 0.9813863601702972,
+              "max": 1.0522755324877087,
+              "mad": 0.0072256093130917964,
+              "mean": 1.0181857246555808,
+              "stdev": 0.025681034120563245,
+              "cv": 0.025222347454586742,
+              "median_bootstrap95": [
+                0.9858411388450924,
+                1.036092285522721
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9431136706713559,
+              "min": 0.8889545912747293,
+              "max": 0.9531432779792617,
+              "mad": 0.007275017349523516,
+              "mean": 0.9325154596413342,
+              "stdev": 0.02454638395436329,
+              "cv": 0.026322763553758524,
+              "median_bootstrap95": [
+                0.9306339731591374,
+                0.9503886880208794
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.94501896122012,
+              "min": 0.885535169632457,
+              "max": 0.9643638894867509,
+              "mad": 0.0026964084897563856,
+              "mean": 0.9392940365834982,
+              "stdev": 0.02200224828099251,
+              "cv": 0.023424239294674395,
+              "median_bootstrap95": [
+                0.9296963090243469,
+                0.9481046206461476
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9945134131222468,
+              "min": 0.9440844368907728,
+              "max": 1.0562446399920489,
+              "mad": 0.003524249503986665,
+              "mean": 1.0000213626620866,
+              "stdev": 0.029775091521392207,
+              "cv": 0.029774455459761408,
+              "median_bootstrap95": [
+                0.9940879816941277,
+                1.0254776759588837
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "random",
+          "api": "crc32",
+          "phi_cv": 0.012935988684322658,
+          "phi_ns_per_call_median": 96068.68448865402,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 2.96004587614933,
+              "min": 2.9081436158690965,
+              "max": 2.991645602513168,
+              "mad": 0.009954132939859583,
+              "mean": 2.9572953509732485,
+              "stdev": 0.023456154623890096,
+              "cv": 0.007931623946918476,
+              "median_bootstrap95": [
+                2.9476328602432615,
+                2.9801889447827423
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.2883856266722087,
+              "min": 1.2439795689878885,
+              "max": 1.3055207994507085,
+              "mad": 0.008295796968560643,
+              "mean": 1.2848043163869605,
+              "stdev": 0.018464264453744342,
+              "cv": 0.014371265894924991,
+              "median_bootstrap95": [
+                1.272976959157379,
+                1.3040235949952017
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.291712075802396,
+              "min": 1.2330400072666077,
+              "max": 1.311909587545709,
+              "mad": 0.012641995815898976,
+              "mean": 1.2862712770344946,
+              "stdev": 0.0245388865094616,
+              "cv": 0.019077535934749423,
+              "median_bootstrap95": [
+                1.2629768255975096,
+                1.3053647970596005
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.7541195754155995,
+              "min": 0.728169236645617,
+              "max": 0.7621339157346919,
+              "mad": 0.005868734072438264,
+              "mean": 0.7512732620451283,
+              "stdev": 0.012036966192762323,
+              "cv": 0.016022087835250647,
+              "median_bootstrap95": [
+                0.7340523609631798,
+                0.7609865878075655
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "mixed",
+          "api": "compress",
+          "phi_cv": 0.022921054363574743,
+          "phi_ns_per_call_median": 749227.125490196,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.956905449678406,
+              "min": 1.8716413422690081,
+              "max": 2.0381088888830337,
+              "mad": 0.01587198116166988,
+              "mean": 1.9556737511657623,
+              "stdev": 0.05517241896091067,
+              "cv": 0.02821146365953054,
+              "median_bootstrap95": [
+                1.941033468516736,
+                2.020919560498143
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8674311083580131,
+              "min": 0.8272560300671563,
+              "max": 0.909506697695899,
+              "mad": 0.013326839559397397,
+              "mean": 0.8681174070931751,
+              "stdev": 0.027346010506927913,
+              "cv": 0.03150035960976055,
+              "median_bootstrap95": [
+                0.839838725293299,
+                0.9078888354703241
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.872544028873407,
+              "min": 0.8408058978286103,
+              "max": 0.9064284237497221,
+              "mad": 0.011240121434520467,
+              "mean": 0.8726685964339137,
+              "stdev": 0.02017365817871451,
+              "cv": 0.023117204241280657,
+              "median_bootstrap95": [
+                0.8593390696305317,
+                0.8984272274097158
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9757021952646093,
+              "min": 0.9303598872961788,
+              "max": 1.0036107425025622,
+              "mad": 0.0060585367329186735,
+              "mean": 0.9657347079176869,
+              "stdev": 0.026332253271343635,
+              "cv": 0.027266549555955307,
+              "median_bootstrap95": [
+                0.9305069795746765,
+                0.981760731997528
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "mixed",
+          "api": "uncompress",
+          "phi_cv": 0.030423952358200914,
+          "phi_ns_per_call_median": 197441.69016152716,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.3421408104521566,
+              "min": 1.2557834889480024,
+              "max": 1.4024427131170925,
+              "mad": 0.01798296080632178,
+              "mean": 1.3296049784088648,
+              "stdev": 0.045542409634792405,
+              "cv": 0.034252586575971536,
+              "median_bootstrap95": [
+                1.2644583547103545,
+                1.3601237712584784
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.1455732252152084,
+              "min": 1.073482954668353,
+              "max": 1.2006839752403506,
+              "mad": 0.010661254043608626,
+              "mean": 1.1396808361497817,
+              "stdev": 0.036241520938564795,
+              "cv": 0.03179971075147725,
+              "median_bootstrap95": [
+                1.0982298601972698,
+                1.1570448437898782
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.1488093146845977,
+              "min": 1.1313073917274619,
+              "max": 1.2081422079218056,
+              "mad": 0.010682397989538517,
+              "mean": 1.1544235447102393,
+              "stdev": 0.02446126522262817,
+              "cv": 0.021189160022518385,
+              "median_bootstrap95": [
+                1.1362376811244472,
+                1.1787025960479012
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9092387708070963,
+              "min": 0.8952283320033315,
+              "max": 0.9448236410278621,
+              "mad": 0.00989121598774223,
+              "mean": 0.912768235772433,
+              "stdev": 0.016576501022360704,
+              "cv": 0.018160690055491237,
+              "median_bootstrap95": [
+                0.8952644776611938,
+                0.9301525230233322
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "mixed",
+          "api": "crc32",
+          "phi_cv": 0.008167277722265906,
+          "phi_ns_per_call_median": 63166.56982886119,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 2.928433659669023,
+              "min": 2.8732868911954963,
+              "max": 2.9711765927697673,
+              "mad": 0.01640241098444184,
+              "mean": 2.9192294919394484,
+              "stdev": 0.031193929942680197,
+              "cv": 0.010685672376499556,
+              "median_bootstrap95": [
+                2.8908252208993956,
+                2.94153266336198
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.2879102147116428,
+              "min": 1.267304553466144,
+              "max": 1.3099239889263685,
+              "mad": 0.00467757144084735,
+              "mean": 1.2884996831189883,
+              "stdev": 0.011642985393724057,
+              "cv": 0.009036079361339563,
+              "median_bootstrap95": [
+                1.2817252499475345,
+                1.2965638343978614
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.2867438801224866,
+              "min": 1.2737262297813943,
+              "max": 1.312959020093241,
+              "mad": 0.0031919691236810266,
+              "mean": 1.2892272163389122,
+              "stdev": 0.010913161617521828,
+              "cv": 0.008464886157548333,
+              "median_bootstrap95": [
+                1.2838207526450118,
+                1.2969094325409023
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.7522103401423823,
+              "min": 0.7421933024448462,
+              "max": 0.7629627667693583,
+              "mad": 0.0047651162601966,
+              "mean": 0.7528181322327615,
+              "stdev": 0.0066553134041481745,
+              "cv": 0.008840532818211183,
+              "median_bootstrap95": [
+                0.7436183913602867,
+                0.7584930556084435
+              ],
+              "low_dispersion": true
+            }
+          }
+        }
+      ]
+    },
+    "window2": {
+      "timing_sha256": "c85b86521a3e2cbcfa600f3c437543baa236b8c60122a7249bda02905fa1a7af",
+      "environment": {
+        "uname": {
+          "system": "Linux",
+          "node": "36d787fe752f",
+          "release": "7.2.9-orbstack-00391-g2b298d05fbd4",
+          "version": "#1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026",
+          "machine": "aarch64",
+          "processor": "aarch64"
+        },
+        "cpuinfo": "processor\t: 0\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 1\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 2\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 3\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 4\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 5\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 6\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 7\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 8\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 9\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 10\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 11\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 12\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 13\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 14\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 15\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 16\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\nprocessor\t: 17\nBogoMIPS\t: 48.00\nFeatures\t: fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 asimddp sha512 asimdfhm dit uscat ilrcpc flagm sb dcpodp flagm2 frint i8mm bf16 ecv afp ebf16\nCPU implementer\t: 0x61\nCPU architecture: 8\nCPU variant\t: 0x0\nCPU part\t: 0x000\nCPU revision\t: 0\n\n",
+        "loadavg_before": "0.68 0.44 0.33 1/452 1503941\n",
+        "governor": "performance\n",
+        "frequency_before": "2000000\n",
+        "loadavg_after": "0.93 0.59 0.40 1/450 1504097\n",
+        "frequency_after": "2000000\n"
+      },
+      "ratios": [
+        {
+          "case": "repeated",
+          "api": "compress",
+          "phi_cv": 0.028379085088687816,
+          "phi_ns_per_call_median": 816673.5611510791,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 2.192286502536366,
+              "min": 2.110113477583784,
+              "max": 2.3284012234714324,
+              "mad": 0.03915002766626108,
+              "mean": 2.2150362164893385,
+              "stdev": 0.07324062845776212,
+              "cv": 0.03306520584744337,
+              "median_bootstrap95": [
+                2.153136474870105,
+                2.2933491016559517
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8752634455115242,
+              "min": 0.8580827805421088,
+              "max": 0.9305125015163538,
+              "mad": 0.004342834728213618,
+              "mean": 0.8874064335829842,
+              "stdev": 0.024757998860405757,
+              "cv": 0.027899278079879457,
+              "median_bootstrap95": [
+                0.8712147513551247,
+                0.9215238078762437
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.8756753677779995,
+              "min": 0.8481968108828797,
+              "max": 0.9245344794207636,
+              "mad": 0.022188495556527243,
+              "mean": 0.8792662578512641,
+              "stdev": 0.024646913435128197,
+              "cv": 0.028031228555682217,
+              "median_bootstrap95": [
+                0.8487069139307909,
+                0.8992387891264019
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9599251802392798,
+              "min": 0.9285513308058191,
+              "max": 1.010922070891999,
+              "mad": 0.006053352123746691,
+              "mean": 0.9652070238333702,
+              "stdev": 0.022546970622693452,
+              "cv": 0.023359724977080023,
+              "median_bootstrap95": [
+                0.9538718281155331,
+                0.9821474379418296
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "repeated",
+          "api": "uncompress",
+          "phi_cv": 0.031205039409186015,
+          "phi_ns_per_call_median": 128243.19291338582,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.3241811666664545,
+              "min": 1.251969773553287,
+              "max": 1.4098876519194208,
+              "mad": 0.04140202861235509,
+              "mean": 1.3257433972719805,
+              "stdev": 0.05383740616270625,
+              "cv": 0.04060922066328144,
+              "median_bootstrap95": [
+                1.2707666925004886,
+                1.3981063741331246
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.976607018386179,
+              "min": 0.9245246298672279,
+              "max": 1.0342138149452795,
+              "mad": 0.039498416694607075,
+              "mean": 0.9823427277762844,
+              "stdev": 0.03870808403039458,
+              "cv": 0.039403848510201255,
+              "median_bootstrap95": [
+                0.9309620544411623,
+                1.0194752302172208
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9601341431577726,
+              "min": 0.9136837743353693,
+              "max": 1.0260054187049201,
+              "mad": 0.01264923566018561,
+              "mean": 0.96041923995456,
+              "stdev": 0.03295668896143667,
+              "cv": 0.03431489873421938,
+              "median_bootstrap95": [
+                0.9224475676055838,
+                0.9780351544507885
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9914977989225833,
+              "min": 0.9514801456605257,
+              "max": 1.058080252009849,
+              "mad": 0.010052015771512268,
+              "mean": 0.9970962584640706,
+              "stdev": 0.03613310143686294,
+              "cv": 0.03623832817557901,
+              "median_bootstrap95": [
+                0.9532074774431781,
+                1.045878175633033
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "repeated",
+          "api": "crc32",
+          "phi_cv": 0.00760635688190003,
+          "phi_ns_per_call_median": 99174.7497603068,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 2.977932310882799,
+              "min": 2.9298278795441814,
+              "max": 3.023140222212358,
+              "mad": 0.026840345138137156,
+              "mean": 2.981929081905651,
+              "stdev": 0.03203265394292601,
+              "cv": 0.010742258807327171,
+              "median_bootstrap95": [
+                2.951091965744662,
+                3.021198351783564
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.2900361691896602,
+              "min": 1.2629051419075448,
+              "max": 1.3101669561835556,
+              "mad": 0.012566147890218371,
+              "mean": 1.2903295934476016,
+              "stdev": 0.01587543173140214,
+              "cv": 0.012303392723858208,
+              "median_bootstrap95": [
+                1.2714538663388,
+                1.3065991608816778
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.2895640521904814,
+              "min": 1.2635369181134,
+              "max": 1.3147606776378367,
+              "mad": 0.0014753075456976905,
+              "mean": 1.2880119735836477,
+              "stdev": 0.013214402455933482,
+              "cv": 0.010259533860672838,
+              "median_bootstrap95": [
+                1.280082627904784,
+                1.2905990640357423
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.7483411740706546,
+              "min": 0.7423046326959816,
+              "max": 0.760596306920264,
+              "mad": 0.002315003347918565,
+              "mean": 0.7482669877208288,
+              "stdev": 0.0055439644707751265,
+              "cv": 0.007409072646197678,
+              "median_bootstrap95": [
+                0.7431042999121407,
+                0.7504528766079431
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "random",
+          "api": "compress",
+          "phi_cv": 0.022017354155109702,
+          "phi_ns_per_call_median": 4521947.0,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.5134624574416342,
+              "min": 1.4490831965721718,
+              "max": 1.6003116722168533,
+              "mad": 0.026943299103037166,
+              "mean": 1.5195314933977875,
+              "stdev": 0.043679556369535376,
+              "cv": 0.0287454103842656,
+              "median_bootstrap95": [
+                1.486519158338597,
+                1.5529601538836255
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9629467458301084,
+              "min": 0.9264410878224987,
+              "max": 1.0142530145052326,
+              "mad": 0.005464151889190583,
+              "mean": 0.9703769671660533,
+              "stdev": 0.02660414120935176,
+              "cv": 0.027416295016820195,
+              "median_bootstrap95": [
+                0.9575942636897891,
+                1.0079270609255706
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9501494074065571,
+              "min": 0.9111178579513126,
+              "max": 0.997435490669645,
+              "mad": 0.010290745883065,
+              "mean": 0.9523130346141206,
+              "stdev": 0.023086738102089558,
+              "cv": 0.02424280385014824,
+              "median_bootstrap95": [
+                0.9398586615234921,
+                0.9623736006848651
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.971414555164177,
+              "min": 0.9424945940209535,
+              "max": 1.0381183273276466,
+              "mad": 0.013632887156090456,
+              "mean": 0.9861964253691071,
+              "stdev": 0.03246651897450565,
+              "cv": 0.03292094570547069,
+              "median_bootstrap95": [
+                0.9641004585147235,
+                1.0235340820045347
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "random",
+          "api": "uncompress",
+          "phi_cv": 0.026737260198344645,
+          "phi_ns_per_call_median": 65776.3875083949,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.0416669365463642,
+              "min": 0.9934032848380392,
+              "max": 1.1048059184721788,
+              "mad": 0.019451535523384855,
+              "mean": 1.0438223554501556,
+              "stdev": 0.03493832876131088,
+              "cv": 0.033471527582146374,
+              "median_bootstrap95": [
+                1.0016744133199271,
+                1.079218633485883
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.9445296633556652,
+              "min": 0.9030162181932064,
+              "max": 1.0064818349203475,
+              "mad": 0.00476258897621662,
+              "mean": 0.9503044247602888,
+              "stdev": 0.02997294858309422,
+              "cv": 0.03154036517367032,
+              "median_bootstrap95": [
+                0.9315278760367134,
+                0.9861444590735152
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.9453950079429732,
+              "min": 0.9014030445488111,
+              "max": 1.0000228644106384,
+              "mad": 0.0139330071902517,
+              "mean": 0.9525518337430927,
+              "stdev": 0.02893418008475062,
+              "cv": 0.030375438962783302,
+              "median_bootstrap95": [
+                0.9314620007527215,
+                0.9804860650536069
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9979104586238361,
+              "min": 0.9460458422843901,
+              "max": 1.0661696607105682,
+              "mad": 0.03814499735684529,
+              "mean": 1.0055899440111318,
+              "stdev": 0.0406361912377926,
+              "cv": 0.04041029992374582,
+              "median_bootstrap95": [
+                0.9597654612669908,
+                1.0537936298883082
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "random",
+          "api": "crc32",
+          "phi_cv": 0.005579257618766831,
+          "phi_ns_per_call_median": 96519.83394833948,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 2.978106090108926,
+              "min": 2.948363215961902,
+              "max": 3.011626460980648,
+              "mad": 0.007713748041356272,
+              "mean": 2.9796449176723505,
+              "stdev": 0.020072594054311943,
+              "cv": 0.006736572514147868,
+              "median_bootstrap95": [
+                2.954060218845386,
+                2.9858198381502823
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.2915143149604187,
+              "min": 1.2763687208484018,
+              "max": 1.3062736042112737,
+              "mad": 0.0038443915067181145,
+              "mean": 1.290397880718429,
+              "stdev": 0.008026420891865655,
+              "cv": 0.006220113200586586,
+              "median_bootstrap95": [
+                1.2851140678569237,
+                1.294197906909919
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.2916803095379394,
+              "min": 1.2856511614174495,
+              "max": 1.3081085963740373,
+              "mad": 0.0055128656295366785,
+              "mean": 1.293052083780922,
+              "stdev": 0.007547798404974203,
+              "cv": 0.005837195964221503,
+              "median_bootstrap95": [
+                1.2861433241731297,
+                1.3013828849874094
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.7492268681973276,
+              "min": 0.7367791035442405,
+              "max": 0.758850084612763,
+              "mad": 0.0018568589312037975,
+              "mean": 0.748389704009805,
+              "stdev": 0.006929022302643885,
+              "cv": 0.009258575132071973,
+              "median_bootstrap95": [
+                0.7386088642162499,
+                0.7510837271285314
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "mixed",
+          "api": "compress",
+          "phi_cv": 0.020838669876158043,
+          "phi_ns_per_call_median": 762592.2988047809,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.9688347943111844,
+              "min": 1.880204489457326,
+              "max": 2.0509111454082043,
+              "mad": 0.018222038795264073,
+              "mean": 1.9743025090156947,
+              "stdev": 0.05393983580786082,
+              "cv": 0.027320957939091603,
+              "median_bootstrap95": [
+                1.9272367958767613,
+                2.0489248988850326
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 0.8683167864089231,
+              "min": 0.8324104331739501,
+              "max": 0.9094998471743322,
+              "mad": 0.013987462288605368,
+              "mean": 0.8699243622908231,
+              "stdev": 0.026569271939914284,
+              "cv": 0.030542048356879962,
+              "median_bootstrap95": [
+                0.8385841048149181,
+                0.9049451604652927
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 0.8697665663119108,
+              "min": 0.8349188812548793,
+              "max": 0.9093405225872181,
+              "mad": 0.0322787732487374,
+              "mean": 0.8732774682307765,
+              "stdev": 0.02850767996201667,
+              "cv": 0.03264446982672304,
+              "median_bootstrap95": [
+                0.8374877930631734,
+                0.9076339676530781
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9906142425407557,
+              "min": 0.9425647137653168,
+              "max": 1.0153546841488434,
+              "mad": 0.010286616688301886,
+              "mean": 0.9837227835554606,
+              "stdev": 0.020437448242184988,
+              "cv": 0.020775617464422344,
+              "median_bootstrap95": [
+                0.9670298411716948,
+                0.9955839139648958
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "mixed",
+          "api": "uncompress",
+          "phi_cv": 0.0264667863151594,
+          "phi_ns_per_call_median": 198977.13864306785,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 1.3319322508746703,
+              "min": 1.2548476368577617,
+              "max": 1.396495302800226,
+              "mad": 0.0302643674858325,
+              "mean": 1.3339110435512087,
+              "stdev": 0.04662806603197753,
+              "cv": 0.03495590373691024,
+              "median_bootstrap95": [
+                1.2773472648436508,
+                1.3895568466123336
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.136081267064571,
+              "min": 1.0726550680352005,
+              "max": 1.2066138238557573,
+              "mad": 0.03300438213572621,
+              "mean": 1.142082583945062,
+              "stdev": 0.04457514684099167,
+              "cv": 0.03902970544127997,
+              "median_bootstrap95": [
+                1.092216611174643,
+                1.2006760439280906
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.136000026542234,
+              "min": 1.0961234012747432,
+              "max": 1.194273096881117,
+              "mad": 0.025057925258761493,
+              "mean": 1.1325148264907112,
+              "stdev": 0.03195868970716575,
+              "cv": 0.02821922411929489,
+              "median_bootstrap95": [
+                1.0962005954869585,
+                1.1610579518009956
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.9123390941363384,
+              "min": 0.8696439592873263,
+              "max": 0.9286714852147601,
+              "mad": 0.009315887839176695,
+              "mean": 0.907963407919481,
+              "stdev": 0.020232514505066215,
+              "cv": 0.022283402974826106,
+              "median_bootstrap95": [
+                0.8815572100906816,
+                0.928481030935891
+              ],
+              "low_dispersion": true
+            }
+          }
+        },
+        {
+          "case": "mixed",
+          "api": "crc32",
+          "phi_cv": 0.005727416292605806,
+          "phi_ns_per_call_median": 63441.00563674321,
+          "comparisons": {
+            "gcc": {
+              "n": 9,
+              "median": 2.9214476568904413,
+              "min": 2.866552453679629,
+              "max": 2.948987372635648,
+              "mad": 0.012935205558415763,
+              "mean": 2.916382427173166,
+              "stdev": 0.026312383046889282,
+              "cv": 0.009022267725153498,
+              "median_bootstrap95": [
+                2.8826275936054992,
+                2.936612919933008
+              ],
+              "low_dispersion": true
+            },
+            "qbe-original": {
+              "n": 9,
+              "median": 1.2781385587135952,
+              "min": 1.264487819952131,
+              "max": 1.2936791689003395,
+              "mad": 0.0062869830408909255,
+              "mean": 1.279051597215397,
+              "stdev": 0.009237075484903021,
+              "cv": 0.007221816152696976,
+              "median_bootstrap95": [
+                1.2720404040072772,
+                1.2875767844053119
+              ],
+              "low_dispersion": true
+            },
+            "qbe-corrected": {
+              "n": 9,
+              "median": 1.286674252003026,
+              "min": 1.2766990343617566,
+              "max": 1.300356480392418,
+              "mad": 0.008294255658314764,
+              "mean": 1.2862798609276387,
+              "stdev": 0.008841282407227603,
+              "cv": 0.006873529373966449,
+              "median_bootstrap95": [
+                1.2767856526795112,
+                1.2962249015727536
+              ],
+              "low_dispersion": true
+            },
+            "leaf": {
+              "n": 9,
+              "median": 0.7461607958011137,
+              "min": 0.7357986404681012,
+              "max": 0.7537014451056735,
+              "mad": 0.004452118153988827,
+              "mean": 0.7455521566959599,
+              "stdev": 0.006157303032198979,
+              "cv": 0.008258715338556736,
+              "median_bootstrap95": [
+                0.739648038142967,
+                0.7506129139551025
+              ],
+              "low_dispersion": true
+            }
+          }
+        }
+      ]
+    }
+  }
+}

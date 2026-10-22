@@ -1,0 +1,665 @@
+{
+  "status": "passed",
+  "compilers": {
+    "before": {
+      "identity": "15ce10a4b7cefa821efb53656d214910f35b8eb97d9b33770f3dd2ce20b3657c",
+      "sha256": "1f513bdf3933c6a2c4da3e7290621dc1834777d02f31aab103ab41c9b74ae692"
+    },
+    "after": {
+      "identity": "e7ef407580b7f70044b148f5b0dd6fcd9b74b780ef0cc14b92b7b54472fb18d8",
+      "sha256": "eb66b555345c7b69dc614ff6f50c09aa1d6ae560f6818919a5dce800b7dff0f9"
+    }
+  },
+  "unchanged_assemblies": 1213,
+  "matching_refusals": 15,
+  "changed_assemblies": 92,
+  "copy_instructions_removed": 552,
+  "branch_instructions_removed": 60,
+  "cases": [
+    {
+      "input": "third_party/qbe/test/_alt.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_alt.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 4,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_alt.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_alt.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 4,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 36,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 36,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 36,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_chacha20.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 36,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_fix1.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_fix1.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_fix2.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_fix2.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_fix3.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_fix3.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_fix4.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 10,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/_fix4.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 5,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/_fix4.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 10,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/_fix4.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 5,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/_gcm1.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 12,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_gcm1.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 6,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_gcm1.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 12,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_gcm1.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 6,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_gcm2.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_gcm2.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/_gcm2.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/_gcm2.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/abi1.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/abi1.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/abi1.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/abi1.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/abi4.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/abi4.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/abi4.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/abi4.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/cmp1.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/cmp1.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/cmp1.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/cmp1.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 8,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 8,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 8,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/collatz.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 8,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/copy.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/copy.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/cprime.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 8,
+      "branch_instructions_removed": 4
+    },
+    {
+      "input": "third_party/qbe/test/cprime.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 8,
+      "branch_instructions_removed": 4
+    },
+    {
+      "input": "third_party/qbe/test/double.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/double.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/double.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/double.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/echo.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/echo.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/echo.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/echo.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/gvn1.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 10,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/gvn1.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 10,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/gvn2.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 4,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/gvn2.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 4,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/ldhoist.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 4,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/ldhoist.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/ldhoist.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 4,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/ldhoist.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/loop.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/loop.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/loop.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/loop.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 2,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/mandel.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/mandel.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/mandel.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/mandel.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/max.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/max.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/max.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/max.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/prime.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/prime.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/prime.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/prime.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 3,
+      "branch_instructions_removed": 2
+    },
+    {
+      "input": "third_party/qbe/test/puts10.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/puts10.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/puts10.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/puts10.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/queen.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 12,
+      "branch_instructions_removed": 8
+    },
+    {
+      "input": "third_party/qbe/test/queen.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 12,
+      "branch_instructions_removed": 8
+    },
+    {
+      "input": "third_party/qbe/test/spill1.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 30,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/spill1.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 30,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/spill1.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 30,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/spill1.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 30,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/sum.ssa",
+      "target": "aarch64-macos",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/sum.ssa",
+      "target": "aarch64-macos",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/sum.ssa",
+      "target": "aarch64-linux",
+      "mode": "allocated",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    },
+    {
+      "input": "third_party/qbe/test/sum.ssa",
+      "target": "aarch64-linux",
+      "mode": "optimized",
+      "copy_instructions_removed": 1,
+      "branch_instructions_removed": 0
+    }
+  ],
+  "scope": "Only word self-moves/frame scratch9 copies deleted, plus the exact existing empty-conditional-trampoline rewrite when those deletions expose it. Not a semantic proof."
+}
