@@ -6,6 +6,12 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
+A [fresh five-label ARM zlib build](benchmarks/arm-scaled-load/combined-correctness/README.md)
+passes all fifteen correctness profiles per label on combined e095ed59 versus
+retained-TLS predecessor, fresh GCC, original QBE and corrected QBE. All source
+and 485-file guest/host bindings pass. No timing phase has run; a monitored
+low-load replay remains conditional on readiness after the final host gate.
+
 The first combined full-host rerun hit an AMD helper output-directory collision
 after the preceding Linux gate. The helper now permits reuse and passes two
 consecutive emission/Rosetta profiles; failure and exact helper versions are

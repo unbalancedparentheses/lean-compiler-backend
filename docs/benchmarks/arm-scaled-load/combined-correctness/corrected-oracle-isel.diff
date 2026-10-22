@@ -1,0 +1,23 @@
+--- /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-inprocess-scaled-combined/qbe-original-source/arm64/isel.c	2026-10-18 10:24:14.000000000 -0300
++++ /Users/unbalancedparen/projects/lean-compiler-backend/.build/linux-arm64/zlib-inprocess-scaled-combined/qbe-corrected-source/arm64/isel.c	2026-10-22 10:32:54.406744609 -0300
+@@ -78,6 +78,20 @@
+ 	switch (rtype(r0)) {
+ 	case RCon:
+ 		c = &fn->con[r0.val];
++		if (k == Kl && c->type == CAddr
++		&& c->sym.type == SExt && c->bits.i) {
++			Con base = *c, offset = {.type = CBits};
++			offset.bits.i = c->bits.i;
++			base.bits.i = 0;
++			r1 = newtmp("isel", Kl, fn);
++			r2 = newtmp("isel", Kl, fn);
++			r3 = newtmp("isel", Kl, fn);
++			*pr = r1;
++			emit(Oadd, Kl, r1, r2, r3);
++			emit(Ocopy, Kl, r3, newcon(&offset, fn), R);
++			emit(Ocopy, Kl, r2, newcon(&base, fn), R);
++			break;
++		}
+ 		if (T.apple
+ 		&& c->type == CAddr
+ 		&& (c->sym.type & SThr)) {
