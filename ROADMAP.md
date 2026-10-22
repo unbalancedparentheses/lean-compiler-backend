@@ -116,7 +116,9 @@ x86 target gates pass, with target-configured zlib executable qualification and
 ARM [adjacent indexed loads](docs/benchmarks/arm-indexed-load/README.md) now combine
 sole-use long temporary sums with loads. Both native ARM matrices, actual spill
 offsets beyond 32 KiB and the full Linux ARM gate pass. Fresh zlib execution
-qualifies 584 fewer optimized text bytes per target; paired timing is pending.
+qualifies 584 fewer optimized text bytes per target. Paired timing shows a
+compression tradeoff; the [broad narrow-load fallback experiment](docs/benchmarks/arm-wide-indexed/README.md) remains unmerged. Byte/halfword-specific
+experiments are separately qualified and awaiting timing.
 
 A [mixed Lua 5.4.7 build](docs/benchmarks/lua-mixed/README.md) now qualifies
 968 functions across 30 frontend-compatible units on native Linux ARM64. Three

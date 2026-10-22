@@ -16,7 +16,9 @@ original QBE's literal section-name quote bytes and boundary assembler refusal
 are recorded separately. The private candidate `4d77c3de…` was qualified before
 the combined scalar change and is not the main qualification identity. No new
 proof-path feature or Windows support is claimed; arbitrary section escapes and
-assembler suffixes remain outside the bounded qualification.
+assembler suffixes remain outside the bounded qualification. All three complete
+Linux regression gates now pass on this combined identity. Full host/Rosetta
+qualification is running separately.
 
 [LZ4 1.10.0](benchmarks/lz4/README.md) now passes native Linux ARM64 and QEMU x86/RV qualification:
 all six original C units, 370 functions / 64,135 IR lines, upstream unit/fixed-seed
@@ -62,7 +64,8 @@ rejecting aggregate-return omission. Fresh integrated five-target execution
 passes 6,400 C checks and five corruptions; units/emission and the unchanged
 147-report audit pass. Corpus assemblies/refusals are all unchanged. Existing
 native call/indirect/variadic gates pass after correcting a stale rejection test.
-Full host/all-Linux gates for this new identity are not yet rerun; preceding
+The subsequent combined scalar+section identity passes all three Linux gates;
+its full host gate is running. Preceding
 Symbols full gates passed. No native emitter or ABI layout was changed.
 
 ## Repository and current compiler

@@ -61,3 +61,5 @@ compatibility. Existing section-string decoding remains in place. The early
 flat-field prototype and the experiment changing Apple quoting are superseded;
 partial/failing artifacts remain under `/tmp/lcb-section-names/.build/section-review`.
 Windows AMD64 remains deferred.
+
+The subsequent [complete Linux gates](full-linux/qualification.json) passed on all three Linux targets with combined identity `f159cc75…`, including the preceding scalar-result-discard change. Full host qualification is running separately.
