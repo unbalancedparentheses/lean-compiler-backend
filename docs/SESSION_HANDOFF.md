@@ -10,7 +10,19 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`81000f96ded3564ff24256c8c736be2f853d88c1c67ce0429ace201fc251c003`.
+`49f1c29def2b2df50394c242f67719bc7202ec3208ab6853fd3c3962fb676207`.
+
+Calls may omit a declared environment parameter when it is unused in retained
+SSA operands. The interpreter removes the unused binding instead of inventing
+an environment value. Known used-environment omissions remain errors; native
+unresolved indirect/external ABI assumptions are unchanged. The
+[retained suite](benchmarks/unused-environment/README.md) passes interpreter,
+independent C and unchanged QBE comparisons on all five targets, with full target
+gates, unchanged ordinary assembly and proof-audit results. Native AMD64
+variadic environment definitions remain a separate limitation at this checkpoint.
+
+## Preceding RV64 load-normalization checkpoint
+
 
 RV64 omits redundant normalization after zero-extending unsigned memory loads;
 signed word-result loads and ordinary word-copy narrowing remain unchanged.

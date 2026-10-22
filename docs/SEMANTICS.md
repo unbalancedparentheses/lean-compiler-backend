@@ -191,11 +191,26 @@ first-path profile.
 
 A first `env` parameter/argument is a long value passed in x9, independently of
 the ordinary x0..x7 argument sequence. It must precede named/variadic arguments.
-Callees that declare an environment require it; QBE permits a caller to supply an
-environment when the callee ignores it, so signature checking and interpretation
-discard that extra value for such callees. The native caller loads x9 after stack
-argument preparation, and an environment callee spills x9 before loading incoming
-stack arguments. Environment parameters remain outside the first proof profile.
+A caller may omit an environment parameter only when the callee does not read it.
+Signature checking conservatively inspects instruction operands, phi inputs and
+terminators in every block retained after SSA normalization, including untaken
+constant branches; structurally unreachable blocks may already be pruned. A used
+environment must still be supplied. Interpretation removes an
+omitted unused binding rather than assigning it a dummy value. QBE also permits a
+caller to supply an environment when the callee has no environment parameter;
+signature checking and interpretation discard that extra argument.
+The native caller loads x9 after stack argument preparation, and an environment
+callee spills x9 before loading incoming stack arguments. Native indirect/external
+calls retain their declared ABI assumptions; interpreted indirect targets are
+resolved and checked, and unresolved external calls remain unevaluated.
+Environment parameters remain outside the first proof profile.
+
+`scripts/unused_environment.py` checks omission and explicit environments through
+scalar/stack, direct/indirect, callback, aggregate-return, void and recursive calls.
+It compares all three lowering modes with independent C and unchanged QBE on the
+five supported targets, alongside interpreter cases and used-environment/signature
+refusal controls. Apple x86-64 uses Rosetta and Linux x86-64/RV64 use QEMU in local
+qualification; only the original-QBE RV64 reference uses `-no-pie`.
 
 ### Floating SSA execution profile
 

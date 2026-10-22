@@ -1,0 +1,9 @@
+function l $ignore_env(env %unused, l %x) {
+@s
+ ret %x
+}
+export function l $entry() {
+@s
+ %r =l call $ignore_env(l 42)
+ ret %r
+}

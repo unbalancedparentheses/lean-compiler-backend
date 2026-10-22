@@ -1,0 +1,71 @@
+{
+  "compiler_identity": "49f1c29def2b2df50394c242f67719bc7202ec3208ab6853fd3c3962fb676207",
+  "build": "lake build lcb lcb-tests: exit0",
+  "units": "fresh lcb-tests: passed",
+  "proof_audit": "147 axiom reports unchanged",
+  "native_apple_arm": {
+    "native": {
+      "exit": 0,
+      "log_sha256": "8c3ef9a6abaeea883eb873645564cb7faeebfb97d2d679d82b22a44462029535",
+      "summary": [
+        "aarch64-macos: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed"
+      ]
+    },
+    "environment": {
+      "exit": 0,
+      "log_sha256": "cf6a79239fbecbad5ec9a34e4383ccaf23f6c7b6963f01797829d757afe48337",
+      "summary": [
+        "environment: 36 interpreter cases; native Lean/QBE and independent x9 ABI probes passed"
+      ]
+    },
+    "aggregate": {
+      "exit": 0,
+      "log_sha256": "3f06948784d670df079dcc7bfcd5dbf61a825b91908cdd67685ec3180f2ba772",
+      "summary": [
+        "aggregate edges: result-buffer reuse/lifetime, uninitialized padding, x8+x9 and opaque values passed; native Lean/C over-aligned floats and aggregate variadics passed; QBE common cases pass and three retained upstream discrepancies reproduce separately"
+      ]
+    },
+    "indirect": {
+      "exit": 0,
+      "log_sha256": "c786ef3e5a3c709982ab9af834a4eaaff65d7736b515140371ec798bc840b292",
+      "summary": [
+        "indirect: 6 signatures through 64 arguments, 91 interpreter cases, dynamic signature refusals; native Lean/QBE/C callbacks, recursion, phi/void calls and corruption control passed"
+      ]
+    }
+  },
+  "scope": "No new preservation proof; omitted unused binding is removed, never assigned a dummy value.",
+  "target_gates": {
+    "aarch64-linux": {
+      "exit": 0,
+      "log_sha256": "fac6d57d7302fd9bf8d82e7e3c4555e4e0fcfb3c898b6a708ff2798fd2f73704",
+      "summary": [
+        "aarch64-linux: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed",
+        "Linux ARM64: 75/76 emitted; 58 original executable drivers and 17 assembly-only fixtures passed per Lean/QBE backend; native=True"
+      ]
+    },
+    "x86_64-linux": {
+      "exit": 0,
+      "log_sha256": "1fb4e294b30bb2ed4fdff944fe70459ab5add5b8805edbfdbc6404f07fa31a6a",
+      "summary": [
+        "x86_64-linux: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed",
+        "x86_64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated"
+      ]
+    },
+    "riscv64-linux": {
+      "exit": 0,
+      "log_sha256": "9769e162feaa583c71add63d9795c50c7f5a0fdfa84d8d2bd8fae8e16d4ec400",
+      "summary": [
+        "riscv64-linux: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed",
+        "riscv64-linux: 75/76 emitted; 58 executable drivers and 17 assembly-only passes per Lean/QBE backend; execution=emulated"
+      ]
+    },
+    "x86_64-macos": {
+      "exit": 0,
+      "log_sha256": "880a0ff94616c994de94cbcc6eb52199102bb7c9885c6578d35b17fdff35dde3",
+      "summary": [
+        "macOS AMD64: 75/76 emitted; 58 executable and 17 assembly-only passes; execution=rosetta",
+        "x86_64-macos: unused environment omission, scalar/stack/aggregate/void/recursive calls; 250 interpreter and 410 C checks per mode; {'baseline': 'passed', 'allocated': 'passed', 'optimized': 'passed', 'qbe': 'passed'}; used-env/signature/external controls passed"
+      ]
+    }
+  }
+}

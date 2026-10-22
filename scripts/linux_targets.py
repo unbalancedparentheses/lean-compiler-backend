@@ -132,6 +132,8 @@ def main():
     promotion_binding_tests(compiler,work,run,cc,args.target,execute)
     from dynamic_outgoing import exercise as dynamic_outgoing_tests
     dynamic_outgoing_tests(compiler,work,run,cc,args.target,execute)
+    from unused_environment import exercise as unused_environment_tests
+    unused_environment_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
     from argument_limits import exercise as argument_limit_tests, original_qbe_profiles
     argument_limit_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget,original_qbe_profiles(args.target))
     if args.target == 'riscv64-linux':

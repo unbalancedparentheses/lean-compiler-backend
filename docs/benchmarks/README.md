@@ -869,3 +869,9 @@ original-QBE oracle exclusions and unchanged certified-profile limits.
 [Independent bit cases, exact assembly changes and zlib object measurements](rv-load-normalization/README.md)
 qualify removal of redundant unsigned-load mask pairs while retaining signed-load
 normalization. Original and corrected QBE outcomes remain separate.
+
+## Unused environment compatibility checkpoint
+
+[Admission correction and independent ABI evidence](unused-environment/README.md)
+cover omitted unused environment parameters without assigning dummy values,
+while retaining used-environment and signature refusal controls.

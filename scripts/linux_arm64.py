@@ -166,6 +166,8 @@ def main():
     promotion_binding_tests(compiler,work,run,cc,'aarch64-linux',native)
     from dynamic_outgoing import exercise as dynamic_outgoing_tests
     dynamic_outgoing_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from unused_environment import exercise as unused_environment_tests
+    unused_environment_tests(compiler,work,run,cc,'aarch64-linux',native,qbe,'arm64')
     from argument_limits import exercise as argument_limit_tests, original_qbe_profiles
     argument_limit_tests(compiler,work,run,cc,'aarch64-linux',native,qbe,'arm64',original_qbe_profiles('aarch64-linux'))
     from allocation import exercise as allocation_tests

@@ -213,5 +213,6 @@ python3 scripts/rv_load_normalization.py
 python3 scripts/indirect.py "$@"
 python3 scripts/variadic.py "$@"
 python3 scripts/environment.py "$@"
+python3 scripts/unused_environment.py "$@"
 python3 scripts/stack_args.py "$@"
 python3 scripts/fuzz.py --optimize "$@"

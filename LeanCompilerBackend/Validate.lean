@@ -304,14 +304,36 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
     | .branch value _ _ => check .word value
     | .jump _ | .halt => pure ()
 
-/-- QBE permits an extra environment argument when the callee ignores it. -/
-def effectiveCallArguments (callee : Function) (arguments : Array CallArgument)
-    : Except String (Array CallArgument) := do
-  let expectsEnvironment := (callee.parameters[0]?).any (·.environment)
+/-- An omitted environment has no value. Conservatively require that the incoming
+    parameter is absent from every operand, including phi edges and dead blocks. -/
+def calleeForEnvironment (callee : Function) (suppliedEnvironment : Bool)
+    : Except String Function := do
+  let some parameter := callee.parameters[0]? | return callee
+  if !parameter.environment || suppliedEnvironment then return callee
+  let reads := fun operand => match operand with
+    | .temporary name => name == parameter.name
+    | _ => false
+  let used := callee.blocks.any fun block =>
+    block.phis.any (fun phi => phi.incoming.any (fun (_, value) => reads value)) ||
+    block.instructions.any (fun statement => statement.operands.any reads) ||
+    (match block.terminator with
+      | .ret value => value.any reads
+      | .branch value _ _ => reads value
+      | _ => false)
+  if used then throw "missing environment argument: callee reads its environment parameter"
+  -- Remove only the unused binding for signature checks/interpreter activation.
+  -- Native emission retains the original definition and its ordinary ABI layout.
+  return { callee with parameters := callee.parameters.extract 1 callee.parameters.size }
+
+/-- QBE allows an extra ignored environment argument, and omission of an unused
+    environment parameter. No dummy value is introduced for an omitted parameter. -/
+def effectiveCallSignature (callee : Function) (arguments : Array CallArgument)
+    : Except String (Function × Array CallArgument) := do
   let suppliedEnvironment := (arguments[0]?).any (·.environment)
-  if expectsEnvironment && !suppliedEnvironment then throw "missing environment argument"
-  if suppliedEnvironment && !expectsEnvironment then return arguments.extract 1 arguments.size
-  return arguments
+  let callee ← calleeForEnvironment callee suppliedEnvironment
+  if suppliedEnvironment && !((callee.parameters[0]?).any (·.environment)) then
+    return (callee, arguments.extract 1 arguments.size)
+  return (callee, arguments)
 
 /-- Internal Apple ARM64 w results clear the upper half of x0, allowing a caller
     to consume the result as l. Floating/subword/void signatures remain exact. -/
@@ -338,7 +360,7 @@ def validate (program : Program) : Except String Unit := do
       for statement in block.instructions do
         if let some (.direct target, arguments, resultWidth) := statement.callSite then
           if let some callee := definitions[target]? then
-            let arguments ← effectiveCallArguments callee arguments
+            let (callee, arguments) ← effectiveCallSignature callee arguments
             if !callResultMatches callee resultWidth statement.resultFloating statement.resultSubword statement.resultAggregate then
               throw s!"call ${target}: result type disagrees with its definition"
             let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size

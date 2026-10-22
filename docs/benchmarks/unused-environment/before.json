@@ -1,0 +1,108 @@
+{
+  "source_sha256": "ce3bed94cf6f8607a2d110e33a107c2908c4ae4c0fd8e4b185c64d1984bcad9c",
+  "compilers": {
+    "before": {
+      "binary_sha256": "b6952567cd37e14e3220987297f060dc7be528f833e7a6fcc08cea8929376f4a",
+      "identity": "81000f96ded3564ff24256c8c736be2f853d88c1c67ce0429ace201fc251c003"
+    },
+    "after": {
+      "binary_sha256": "abc6ceb8c149ffcc8d0c8abebd249d66e0642335e2f32f612cfdd22ae5d15993",
+      "identity": "49f1c29def2b2df50394c242f67719bc7202ec3208ab6853fd3c3962fb676207"
+    },
+    "original_qbe": {
+      "binary_sha256": "9325cdd11d6b609d88ba6dce33a69d903ebad73b03b997ec9cfb29446b540bd7"
+    }
+  },
+  "cases": [
+    {
+      "target": "aarch64-macos",
+      "compiler": "before",
+      "exit": 1,
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/docs/benchmarks/unused-environment/minimal.ssa: missing environment argument\n"
+    },
+    {
+      "target": "aarch64-macos",
+      "compiler": "after",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "aarch64-macos",
+      "compiler": "original_qbe",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "x86_64-macos",
+      "compiler": "before",
+      "exit": 1,
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/docs/benchmarks/unused-environment/minimal.ssa: missing environment argument\n"
+    },
+    {
+      "target": "x86_64-macos",
+      "compiler": "after",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "x86_64-macos",
+      "compiler": "original_qbe",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "aarch64-linux",
+      "compiler": "before",
+      "exit": 1,
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/docs/benchmarks/unused-environment/minimal.ssa: missing environment argument\n"
+    },
+    {
+      "target": "aarch64-linux",
+      "compiler": "after",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "aarch64-linux",
+      "compiler": "original_qbe",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "x86_64-linux",
+      "compiler": "before",
+      "exit": 1,
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/docs/benchmarks/unused-environment/minimal.ssa: missing environment argument\n"
+    },
+    {
+      "target": "x86_64-linux",
+      "compiler": "after",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "x86_64-linux",
+      "compiler": "original_qbe",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "riscv64-linux",
+      "compiler": "before",
+      "exit": 1,
+      "stderr": "error: /Users/unbalancedparen/projects/lean-compiler-backend/docs/benchmarks/unused-environment/minimal.ssa: missing environment argument\n"
+    },
+    {
+      "target": "riscv64-linux",
+      "compiler": "after",
+      "exit": 0,
+      "stderr": ""
+    },
+    {
+      "target": "riscv64-linux",
+      "compiler": "original_qbe",
+      "exit": 0,
+      "stderr": ""
+    }
+  ]
+}

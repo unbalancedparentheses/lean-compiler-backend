@@ -194,6 +194,8 @@ Existing P identifiers and completed checkpoints are retained for traceability.
   implemented within the compatibility resource profile. Seven boundary signatures
   pass independent C checks in all three lowering modes on the five targets; original
   QBE comparisons exclude explicitly recorded narrow-call/large-address failures.
+  Calls can omit unused environment parameters; signature checks and interpretation
+  remove only an unused binding and reject missing used environments.
   Function tables, native C callbacks, env arguments and integer/floating variadics
   (vastart/vaarg) are also tested. Subword ABI arguments/results and packed byte/short stack slots are tested;
   Apple ARM64 aggregate arguments/results now include GP/FP registers, stack fallback,

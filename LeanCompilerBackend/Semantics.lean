@@ -100,7 +100,7 @@ private def resolveCallTarget (functions : Program) (symbols locals : List (Stri
       | throw "indirect call address has no interpreter model; result not evaluated"
     let some callee := functions.find? (·.name == name)
       | throw "indirect call target is not a defined function; result not evaluated"
-    let arguments ← effectiveCallArguments callee arguments
+    let (callee, arguments) ← effectiveCallSignature callee arguments
     let fixed := (arguments.findIdx? (·.variadic)).getD arguments.size
     if !callResultMatches callee resultWidth resultFloating resultSubword resultAggregate || callee.parameters.size != fixed ||
         (!callee.variadic && arguments.size != fixed) ||
@@ -268,6 +268,7 @@ private def invoke (program : Program) : Nat → Function → Array UInt64 → A
     let call : CallHandler := fun target values widths types environment site current => do
       let some callee := program.find? (·.name == target)
         | throw s!"external call ${target} has no interpreter model; result not evaluated"
+      let callee ← calleeForEnvironment callee environment
       let (storage, current) ← match callee.resultAggregate, site with
         | some name, some site => do
           if let some address := current.resultObjects.lookup site then
