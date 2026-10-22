@@ -9,6 +9,7 @@ from mutable_integer_widths import exercise as mutable_integer_widths
 from elf_section_names import exercise as elf_section_names
 from data_definition_limit import exercise as data_definition_limit
 from retained_tls import exercise as retained_tls
+from elf_exclude import exercise as elf_exclude
 from custom_tls_sections import exercise as custom_tls_sections
 from elf_retain import exercise as elf_retain
 from amd_leaf_bank import exercise as amd_leaf_bank
@@ -80,6 +81,8 @@ def main():
             assert data_limit["checks_per_backend"] == 0
             retained = retained_tls(LCB,work/target,run,cc,target,False,qbe)
             assert retained['checks_per_backend'] == 0 and 'qbe_sha256' not in retained
+            excluded = elf_exclude(LCB,work/target,run,cc,target,False,qbe)
+            assert not excluded['execution'] and all(not x['executed'] for x in excluded['rows'])
             tls = custom_tls_sections(LCB,work/target,run,cc,target,False,qbe)
             assert tls['executed_round_groups'] == 0 and tls['qbe_sha256'] is None
             assert tls['ordinary_equivalence'] == 'skipped: no before snapshot supplied'

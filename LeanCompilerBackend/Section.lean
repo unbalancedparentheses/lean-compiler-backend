@@ -12,8 +12,8 @@ def checkELF (customSection : SectionSpec) : Except String Unit := do
       !name.toList.all (fun c => 32 <= c.toNat && c.toNat <= 126) then
     throw "ELF section requires 1..128 printable ASCII name bytes"
   if let some flags := customSection.flags then
-    if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x' || c == 'R') then
-      throw "unsupported ELF section flags (accepted: a, w, x, R)"
+    if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'x' || c == 'R' || c == 'e') then
+      throw "unsupported ELF section flags (accepted: a, w, x, R, e)"
 
 def checkApple (customSection : SectionSpec) : Except String Unit := do
   -- Preserve the established LCB Mach-O convention: the two fields form a

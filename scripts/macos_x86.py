@@ -116,6 +116,8 @@ def main():
     elf_name_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
     from retained_tls import exercise as retained_tls_tests
     retained_tls_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
+    from elf_exclude import exercise as elf_exclude_tests
+    elf_exclude_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
     from data_definition_limit import exercise as data_definition_limit_tests
     data_definition_limit_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe)
     from custom_tls_sections import exercise as custom_tls_tests

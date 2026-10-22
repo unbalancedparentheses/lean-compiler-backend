@@ -102,6 +102,18 @@ def main : IO Unit := do
   for flags in ["aR", "awR", "axR", "Rwa", "Ra", "R"] do
     require (valueEquals (Section.checkTarget false (some ⟨".retain", some flags⟩)) ())
       "ELF retain flag rejected"
+  for flags in ["e", "ae", "we", "xe", "Re", "awe", "axe", "aRe", "wxe", "wRe", "xRe", "awxe", "awRe", "axRe", "wxRe", "awxRe", "eRawx", "ee"] do
+    require (valueEquals (Section.checkTarget false (some ⟨".excluded", some flags⟩)) ())
+      "ordinary ELF excluded flag rejected"
+    require (isFailure (Section.checkDataTarget false true (some ⟨".excluded", some (flags ++ "awT")⟩)))
+      "ordinary excluded flag must not broaden custom TLS"
+  for flags in ["eT", "eG", "eM", "eS", "e,extra", "e\\n"] do
+    require (isFailure (Section.checkTarget false (some ⟨".excluded", some flags⟩)))
+      "excluded flag broadened unrelated ELF grammar"
+  require (valueEquals (Section.checkTarget true (some ⟨"__DATA", some "e"⟩)) ())
+    "Apple literal section named e changed"
+  require (isFailure (Section.checkTarget true (some ⟨".excluded_metadata", some "e"⟩)))
+    "ELF-only excluded section syntax admitted on Apple"
   for flags in ["awT", "axG", "aR,extra", "aR\\n"] do
     require (isFailure (Section.checkTarget false (some ⟨".retain", some flags⟩)))
       "ELF retain broadened unrelated flag grammar"
