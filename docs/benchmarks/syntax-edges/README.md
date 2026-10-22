@@ -37,3 +37,9 @@ refusals. The same 147 proof-audit reports remain; no new native or parser theor
 is claimed. Longer full-target regression runs are separately qualified by their
 recorded compiler identities; these parser changes use the dedicated five-target
 matrix and unchanged-assembly gate.
+
+A later isolated full host gate at `95dc828` caught an obsolete negative in
+`data_matrix.py`: it expected valid `\x01` to fail. That case now uses malformed
+`\xG0` and requires the missing-digit diagnostic. The interrupted gate is not
+counted as a full pass; its preceding checks and the separate target matrices
+remain valid.

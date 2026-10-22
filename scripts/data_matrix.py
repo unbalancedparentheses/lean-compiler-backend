@@ -94,7 +94,7 @@ def main():
             assert int(run([LCB, '--eval', source, f'hash_{i}'])) == checksum(values), i
         for i, (text, diagnostic) in enumerate([
             ('data $x = { w "bad" }', 'requires b'),
-            (r'data $x = { b "\x01" }', 'unsupported string escape'),
+            (r'data $x = { b "\xG0" }', 'hexadecimal string escape requires a digit'),
             (r'data $x = { b "\777" }', 'exceeds one byte'),
             ('data $x = { b "unfinished }', 'unterminated data string'),
             ('data $x = { b "unfinished\n# still inside the string\n}', 'unterminated data string'),
