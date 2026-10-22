@@ -1,0 +1,58 @@
+{
+  "schema": 1,
+  "program": "generated large-struct C assignment regression",
+  "target": "aarch64-linux",
+  "execution": "Linux 36d787fe752f 7.2.9-orbstack-00391-g2b298d05fbd4 #1 SMP PREEMPT Mon Oct 12 05:39:36 UTC 2026 aarch64 aarch64 aarch64 GNU/Linux",
+  "compiler_identity": "cba910978b25a1066f746acc0f4a31a9cdb81e31699a61f2b3a4c13db5c6d132",
+  "cproc_commit": "d1c53ddf56571573a7025324c8dd5c6d547a4d1f",
+  "source_sha256": "0e8bca92ac1cb67d4993637810a0b3b3cee626371abb811f6b0db7894f2fae83",
+  "ir_sha256": "537a5dadcabfe06a2398002a07703e33fe381660a8f05b2ea86c006dde3cafc6",
+  "ir_lines": 12606,
+  "payload_bytes": 8193,
+  "blit_sizes": [],
+  "copy_strategy": "cproc scalar load/store expansion; this is not direct blit qualification",
+  "backends": {
+    "gcc-O0": {
+      "stdout": "154a4b0ba4aa02e0",
+      "seconds": 0.034555291989818215,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   3282\t    680\t  24680\t  28642\t   6fe2\t/work/large-struct/gcc-O0",
+      "executable_sha256": "6f8a2720efdcc538c092032c01486f7e8fef67b651ba32ce89d23a66e32e569d"
+    },
+    "gcc-O2": {
+      "stdout": "154a4b0ba4aa02e0",
+      "seconds": 0.03183845797320828,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n   2853\t    688\t  24680\t  28221\t   6e3d\t/work/large-struct/gcc-O2",
+      "executable_sha256": "936beb4b9f9010a267737589aa33f44e29b6770297d608bd8ddda31a74793db9"
+    },
+    "baseline": {
+      "stdout": "154a4b0ba4aa02e0",
+      "seconds": 0.0384074590401724,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n 222679\t    649\t  24680\t 248008\t  3c8c8\t/work/large-struct/baseline",
+      "executable_sha256": "d6de705b326755cdbea0862708b06962cc6f786bd238f4d7bd77cff44e8f8cab"
+    },
+    "allocated": {
+      "stdout": "154a4b0ba4aa02e0",
+      "seconds": 0.027092124975752085,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  52971\t    649\t  24680\t  78300\t  131dc\t/work/large-struct/allocated",
+      "executable_sha256": "81297d3058b10d98f20e3415c629358482e8a68e669f1c273d51fed6a8b7fa5c"
+    },
+    "optimized": {
+      "stdout": "154a4b0ba4aa02e0",
+      "seconds": 0.029397707956377417,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  72859\t    649\t  24680\t  98188\t  17f8c\t/work/large-struct/optimized",
+      "executable_sha256": "b03808d4f27acf91fffabd988e0ddc94a8585c80bd2163241efa903b883b5a79"
+    },
+    "qbe": {
+      "stdout": "154a4b0ba4aa02e0",
+      "seconds": 0.028656624956056476,
+      "size": "text\t   data\t    bss\t    dec\t    hex\tfilename\n  76295\t    649\t  24680\t 101624\t  18cf8\t/work/large-struct/qbe",
+      "executable_sha256": "537a3b0e8494aeee1be6c8c1842a9e3034b23613bdf0578fec16b49d6d55db01"
+    }
+  },
+  "notes": [
+    "Same unchanged generated C source is compiled directly by GCC O0/O2.",
+    "LCB baseline/allocated/optimized and original QBE consume byte-identical cproc IR.",
+    "Pointer arguments remain scalar; this does not enlarge the aggregate-call ABI domain.",
+    "Original QBE is retained unchanged; no corrected oracle is needed for this regression."
+  ]
+}

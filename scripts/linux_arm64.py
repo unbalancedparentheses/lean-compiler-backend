@@ -129,6 +129,8 @@ def main():
     quoted_tests(compiler,work,run,cc,qbe,'aarch64-linux','arm64',native)
     from global_addresses import exercise as global_address_tests
     global_address_tests(compiler,work,run,cc,'aarch64-linux',native)
+    from large_blit import exercise as large_blit_tests
+    large_blit_tests(compiler,work,run,cc,'aarch64-linux',native,qbe if native else None,'arm64')
     from address_selection import exercise as address_selection_tests
     address_selection_tests(compiler,work,run,cc,'aarch64-linux',native)
     from memory_forward import exercise as memory_forward_tests

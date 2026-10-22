@@ -130,7 +130,7 @@ before rebuilding; the checks reject stale source/build identities.
   allocations in any block, with constant objects admitted through 1 MiB (subject
   to fixed-frame limits); QBE's `loadw`/`loadl` and `alloc1`/`alloc2` aliases.
 - Effect-only `blit source, destination, count` copies, with constant byte counts
-  in 0..4096. The source and destination spans must be disjoint or have identical
+  in 0..1 MiB. Copies above 128 bytes use compact loops. The source and destination spans must be disjoint or have identical
   addresses, as required by QBE. The byte-count cap is a compiler resource limit.
 - Direct and indirect calls with up to 64 typed scalar arguments and a scalar or void result,
   including recursion and external C symbols. Internal signatures are checked;

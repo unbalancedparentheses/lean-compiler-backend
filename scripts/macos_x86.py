@@ -114,6 +114,8 @@ def main():
     from allocation import exercise as allocation_tests
     allocation_tests(compiler, work, run, cc, 'x86_64-macos', execute)
     from control_flow import exercise as cfg
+    from large_blit import exercise as large_blit_tests
+    large_blit_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe if execute else None,'amd64_apple')
     from address_selection import exercise as address_selection_tests
     address_selection_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from memory_forward import exercise as memory_forward_tests

@@ -592,11 +592,16 @@ private def emitStatement (darwin : Bool) (localSymbols : List String) (types : 
   | .blit source destination bytes =>
     if bytes == 0 then return []
     let mut lines := (← load darwin localSymbols base slots .long 9 source) ++ (← load darwin localSymbols base slots .long 10 destination)
+    let remaining := if bytes > 128 then bytes % 8 else bytes
+    if bytes > 128 then
+      lines := lines ++ compactImmediate .long 12 (bytes / 8) ++
+        ["1:", "\tldr x11, [x9], #8", "\tstr x11, [x10], #8",
+         "\tsubs x12, x12, #1", "\tb.ne 1b"]
     let mut offset := 0
     -- Unaligned ordinary integer accesses are supported by the initial target.
     -- Partial source/destination overlap is outside QBE's defined blit domain.
     for size in [8, 4, 2, 1] do
-      for _ in [:((bytes - offset) / size)] do
+      for _ in [:((remaining - offset) / size)] do
         let (read, write) := match size with
           | 8 => ("ldr x11", "str x11")
           | 4 => ("ldr w11", "str w11")

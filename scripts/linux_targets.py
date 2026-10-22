@@ -94,6 +94,8 @@ def main():
     quoted_tests(compiler,work,run,cc,qbe,args.target,qtarget,execute)
     from global_addresses import exercise as global_address_tests
     global_address_tests(compiler,work,run,cc,args.target,execute)
+    from large_blit import exercise as large_blit_tests
+    large_blit_tests(compiler,work,run,cc,args.target,execute,qbe if execute else None,qtarget)
     from address_selection import exercise as address_selection_tests
     address_selection_tests(compiler,work,run,cc,args.target,execute)
     from memory_forward import exercise as memory_forward_tests

@@ -163,7 +163,7 @@ Existing P identifiers and completed checkpoints are retained for traceability.
 - [ ] P06 — Memory operations, data definitions, symbols, linkage and thread-local
   storage. Integer loads/stores, constant and runtime stack allocations and
   effect-only constant-size blits are implemented as bounded slices. Blits accept
-  0..4096 bytes and require disjoint or identical spans; native code adds no bounds
+  0..1 MiB and require disjoint or identical spans; native code adds no bounds
   or overlap guards. Packed integer data, zero fill, alignment and global symbol references are now
   implemented and tested, including pointer initializers with addends and byte
   strings and IEEE floating constant initializers. Runtime-sized and non-entry

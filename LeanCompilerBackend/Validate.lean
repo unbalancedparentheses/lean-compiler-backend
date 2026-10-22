@@ -233,7 +233,7 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
       | .blit source destination bytes =>
         check .long source
         check .long destination
-        if bytes > 4096 then throw "blit byte count exceeds the 4096-byte resource limit"
+        if bytes > 1024 * 1024 then throw "blit byte count exceeds the 1 MiB resource limit"
       | .assign inst =>
         checkAggregate inst.width inst.floating inst.callSubword inst.callAggregate
         if inst.callAggregate.isSome then

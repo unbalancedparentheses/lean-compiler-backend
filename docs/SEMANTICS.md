@@ -767,3 +767,21 @@ labels, undefined local names and conflicting mutable types are still rejected
 before pruning, and raw block/instruction limits still
 apply. Constant branches are not folded at admission. The restricted first-path
 importer retains its original validation and does not invoke this normalization.
+
+
+## Large constant block copies
+
+Compatibility blit accepts constant counts from zero through 1 MiB. Native
+copies above 128 bytes use a forward loop of eight-byte chunks and an exact
+byte/halfword/word tail; smaller copies retain straight-line lowering. The loop
+uses reserved scratch registers and does not call libc or alter SSA pointer
+homes. The source/destination spans must be disjoint or identical, initialized
+where read, live and large enough. Native code adds no bounds/overlap guards.
+The interpreter retains its independent 1 MiB total-memory budget.
+
+Zero copies emit no address evaluation on all five targets, including RV64, so
+unused unresolved symbol references do not create linker dependencies. Larger
+copies do not relax aggregate-call size bounds. Independent byte/guard checks
+cover alignment, reversed disjoint buffers, identical spans, repeated loops,
+live pointer/value returns, the 1 MiB bound and an omitted-loop-store control.
+These execution tests do not constitute memory or machine preservation proofs.

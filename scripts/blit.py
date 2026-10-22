@@ -205,7 +205,7 @@ def controls(work):
     static = [
         ('function w $f(l %p) { @entry blit %p,%p,-1 ret 0 }', 'must be nonnegative'),
         ('function w $f(l %p,l %n) { @entry blit %p,%p,%n ret 0 }', 'numeric constant'),
-        ('function w $f(l %p) { @entry blit %p,%p,4097 ret 0 }', '4096-byte resource limit'),
+        ('function w $f(l %p) { @entry blit %p,%p,1048577 ret 0 }', '1 MiB resource limit'),
         ('function w $f(w %p) { @entry blit %p,0,1 ret 0 }', 'w-to-l'),
         ('function w $f(w %p) { @entry blit 0,%p,1 ret 0 }', 'w-to-l'),
         ('function w $f() { @entry blit %missing,0,1 ret 0 }', 'undefined temporary'),

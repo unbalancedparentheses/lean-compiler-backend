@@ -8,12 +8,81 @@ remain the priority; broader certification is deferred.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`09245df713c4bb399c36e1e239c2c3551fc01b9bf120798effb5735d5b752b9c`.
-Implementation checkpoint: `a66cde8`; the next checkpoint `1255f21` adds current-
-identity Csmith evidence. Check Git for the latest documentation checkpoint. Work is
+`cba910978b25a1066f746acc0f4a31a9cdb81e31699a61f2b3a4c13db5c6d132`.
+Implementation checkpoint: `b5886af` (ARM64 adjacent memory offsets); `a589085`
+introduced same-block memory forwarding; `6d3a7a4` adds current-identity Csmith/cproc
+evidence. `1331a81` synchronizes the generated port inventory source after CI
+caught drift in the documentation-only table update. Check Git for the latest documentation checkpoint. Work is
 published in coherent tested commits; this document does not identify its own SHA.
 
-## Changes in the latest window
+## Active window: conservative memory forwarding
+
+The optional optimizer now reuses exact loads and matching just-stored values
+within a single SSA block. All stores invalidate previous facts, and calls,
+variadic state, blits and allocations clear both load and store facts. No pointer
+disjointness, cross-block memory facts or dead-store elimination is assumed.
+The new C oracle passes 95,232 cases per mode across all five targets and detects
+a deleted store. Lean units pass, as do 32 fresh fuzz seeds 20261365–20261396
+(256 functions / 3,328 inputs). Full local gate completed successfully in `.build/memory-forward-full-check.log`.
+The inventory gate additionally passes after synchronizing its source manifest. Independent review found
+no concrete bug and requested additional stored-fact/variadic barrier coverage.
+
+New identity-bound reports: `zlib-memory-forward.json`, `qbe-memory-forward.json`,
+`cproc-memory-forward.json`, `cjson-memory-forward.json` and
+`csmith-memory-forward.json`. Zlib retains upstream tests and 12 exact gzip streams;
+QBE retains all qualified assembly reproductions and 58 original runtime tests;
+cproc reproduces 19 stage-two IR files and passes 196/196 tests; cJSON retains 153
+assertions and only the baseline deep-stack retry. QBE object text falls 5,752
+bytes to 390,092; zlib linked text falls 696 bytes to 146,734. Timings remain local
+measurements under concurrent test load, not controlled speedup claims.
+Csmith seeds 20261229–20261260 qualify 29/32, 220,985 IR lines; three reference
+timeouts remain unqualified. Nine disjoint scalar-profile batches total 195/240
+attempts, 1,854,065 qualified IR lines and 45 reference timeouts. The restricted
+pointer profile remains separate. Previous reports below retain older identities.
+
+ARM64 adjacent constant-offset load/store selection is now committed in `b5886af`;
+`df1f34d` adds current-identity Csmith evidence. The full local gate passed in
+`.build/address-selection-full-check.log`, and 32 seeds 20261397–20261428 passed
+(256 functions / 3,328 inputs). `zlib-address-selection.json` retains all original
+checks with linked text 142,402 bytes; `qbe-address-selection.json` retains all
+qualified checks with object text 381,116 and linked text 410,012 bytes. The latest
+Csmith batch qualifies 24/32, 193,941 IR lines; eight reference timeouts are excluded.
+Ten disjoint scalar batches total 219/272 attempts, 2,048,006 qualified IR lines
+and 53 reference timeouts. Pointer-profile results remain separate.
+Independent review found no codegen defect and requested more address-selection
+pressure/FP-store/phi-use tests; those are being added before the next implementation.
+Constant blits now accept 0..1 MiB (previously 4096), with compact eight-byte
+copy loops above 128 bytes on ARM64, AMD64 and RV64. Zero-sized RV64 copies
+also avoid resolving unused symbols. The independent matrix covers 22 sizes,
+264 aligned/unaligned, disjoint/identical full-byte cases per mode, repeated loops,
+retained pointer values and unresolved zero-copy symbols. Original QBE's routine
+matrix stops at 65537 bytes; the separate native comparison includes all 1 MiB
+cases with unchanged QBE. RV64 original QBE needs an explicitly logged non-PIE
+link retry; LCB remains tested with the default link configuration.
+The full local gate passed before the aligned-pair coverage correction; the final
+matrix passed natively and on all five target suites. Independent emitter review
+found no correctness defect. Aggregate-call and interpreter memory limits are
+unchanged, and these loops are not formally proved.
+
+Identity-bound reports `large-blit-compact.json`, `large-struct-8193.json` and
+`large-struct-65537-refusal.json` preserve the exact qualification boundaries.
+The complete direct-copy matrix produces 15,082 optimized assembly bytes versus
+56,693,708 from original QBE's expansion; this deliberately large-copy workload
+is a code-size observation, not a general performance claim.
+
+The generated 8193-byte C structure assignment workload passes both GCC levels,
+original QBE and all three LCB modes with checksum `154a4b0ba4aa02e0`. Pinned
+cproc expands these assignments into scalar loads/stores, so this is separate
+from direct blit qualification. At 65537 bytes, its 98,622-line IR exceeds our
+500000-token parser limit: all LCB modes are explicitly unqualified, while
+GCC O0/O2 and original QBE pass with checksum `b424c67700bbdde0`. This is a
+concrete remaining resource/compatibility gap, not a backend pass. Raising the
+token cap alone is insufficient: the two functions contain 65,607 and 32,934
+instructions, also exceeding the parser/SSA/validator 16,384-instruction bounds.
+Supporting that unchanged lowering requires a separate large-function effort.
+No Windows implementation or new proof was added.
+
+## Changes in the preceding window
 
 - Integer identities and power-of-two multiplication become width-correct copies
   and shifts. Narrow entry-stack promotion handles initialized byte/halfword
@@ -74,7 +143,7 @@ Existing proof audits remain unchanged in scope.
 
 Latest published reports in `docs/benchmarks`:
 
-- `zlib-unsigned-strength.json` and `qbe-unsigned-strength.json` qualify the current
+- `zlib-unsigned-strength.json` and `qbe-unsigned-strength.json` qualify their preceding
   identity with all original tests and exact stream/assembly reproductions.
   zlib text remains 147,430 bytes. QBE input-object text falls 448 bytes to 395,844;
   default-linked text is 432,940 because the default Cortex-A53 erratum workaround

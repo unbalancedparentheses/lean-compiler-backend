@@ -247,9 +247,14 @@ private def emitStatement (c : Context) : Statement → Except String (List Stri
     let op := match w with | .byte => "sb" | .half => "sh" | .word => "sw" | .long => "sd"
     return (← load c .long "t1" ptr) ++ (← load c w.valueWidth "t0" value) ++ [s!"\t{op} t0, 0(t1)"]
   | .blit src dst bytes => do
+    if bytes == 0 then return []
     let mut lines := (← load c .long "t2" src) ++ (← load c .long "t3" dst)
-    for i in [:bytes/8] do lines := lines ++ memory "ld" "t0" "t2" (i*8) ++ memory "sd" "t0" "t3" (i*8)
-    for i in [bytes/8*8:bytes] do lines := lines ++ memory "lbu" "t0" "t2" i ++ memory "sb" "t0" "t3" i
+    let remaining := if bytes > 128 then bytes % 8 else bytes
+    if bytes > 128 then
+      lines := lines ++ [s!"\tli t1, {bytes/8}", "1:", "\tld t0, 0(t2)", "\tsd t0, 0(t3)",
+        "\taddi t2, t2, 8", "\taddi t3, t3, 8", "\taddi t1, t1, -1", "\tbnez t1, 1b"]
+    for i in [:remaining/8] do lines := lines ++ memory "ld" "t0" "t2" (i*8) ++ memory "sd" "t0" "t3" (i*8)
+    for i in [remaining/8*8:remaining] do lines := lines ++ memory "lbu" "t0" "t2" i ++ memory "sb" "t0" "t3" i
     pure lines
   | .vaStart list => do
     return (← load c .long "t0" list) ++ address "t1" "s0" c.vaOffset ++ ["\tsd t1, 0(t0)"]

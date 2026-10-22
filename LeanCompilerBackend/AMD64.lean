@@ -280,9 +280,14 @@ private def emitStatement (c : Context) : Statement → Except String (List Stri
   | .blit source destination bytes => do
     if bytes == 0 then return []
     let mut lines := (← load c .long "r10" source) ++ (← load c .long "r11" destination)
-    for offset in [0:bytes / 8] do
+    let remaining := if bytes > 128 then bytes % 8 else bytes
+    if bytes > 128 then
+      lines := lines ++ [s!"\tmovq ${bytes / 8}, %rcx", "1:",
+        "\tmovq (%r10), %rax", "\tmovq %rax, (%r11)",
+        "\taddq $8, %r10", "\taddq $8, %r11", "\tsubq $1, %rcx", "\tjne 1b"]
+    for offset in [0:remaining / 8] do
       lines := lines ++ [s!"\tmovq {offset*8}(%r10), %rax", s!"\tmovq %rax, {offset*8}(%r11)"]
-    for offset in [bytes / 8 * 8:bytes] do
+    for offset in [remaining / 8 * 8:remaining] do
       lines := lines ++ [s!"\tmovb {offset}(%r10), %al", s!"\tmovb %al, {offset}(%r11)"]
     pure lines
   | .vaStart list => do
