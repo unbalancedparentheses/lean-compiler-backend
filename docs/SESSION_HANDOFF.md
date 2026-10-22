@@ -10,7 +10,14 @@ deferred at the user’s request and is not a current completion blocker.
 
 Work in `main` at `https://github.com/unbalancedparentheses/lean-compiler-backend`.
 The current compiler source/build identity is
-`3c25a0a8aaf94a6a53adf6c5d6cec78872809b1d7bebc66f45ad5d4c5202a40f`.
+`11be972e96d4fc9de4c6df28cd1fe7f5ddf5c728ff01348bd6d1398eef1748b4`.
+
+AMD64 omits redundant word normalization after operations that already write EAX.
+The [fresh qualification](benchmarks/amd-word-normalization/README.md) passes both
+full AMD target gates and 112,672 independent C checks per mode/target. Seventeen
+zlib units shrink by 5,322 text bytes (2.12%); executable stream checks pass.
+No timing improvement or new formal proof is claimed. Current CI is pending;
+prior 991f463 full host gate is still running independently.
 
 Decimal integer magnitudes through UINT64_MAX now accept QBE modular negation
 across operand, data, layout and debug contexts. The

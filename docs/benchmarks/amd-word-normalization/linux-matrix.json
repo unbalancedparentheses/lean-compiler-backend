@@ -1,0 +1,13 @@
+{
+  "target": "x86_64-linux",
+  "modes": {
+    "baseline": "passed",
+    "allocated": "passed",
+    "optimized": "passed"
+  },
+  "binary_checks_per_mode": 109440,
+  "additional_checks_per_mode": 3232,
+  "call_result_corruption_detected": true,
+  "qbe_arithmetic_checks": 74670,
+  "qbe_profile": "arithmetic/bitwise constants and legal immediate shifts only; C independently checks all LCB cases, including extra narrowing/ABI/TLS controls"
+}

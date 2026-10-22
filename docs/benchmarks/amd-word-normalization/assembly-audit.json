@@ -1,0 +1,22 @@
+{
+  "status": "passed",
+  "compilers": {
+    "before": {
+      "identity": "3c25a0a8aaf94a6a53adf6c5d6cec78872809b1d7bebc66f45ad5d4c5202a40f",
+      "sha256": "5110f0906f2181f018145a61b9e56c135e3394b0342c2b2306217d1945a8441d"
+    },
+    "after": {
+      "identity": "11be972e96d4fc9de4c6df28cd1fe7f5ddf5c728ff01348bd6d1398eef1748b4",
+      "sha256": "54280aa79aa39f6cee413bb4c1a38dcbd15aa0362731c917805410d1262f0c84"
+    }
+  },
+  "cases": 1320,
+  "unchanged_assemblies": 1001,
+  "matching_refusals": 15,
+  "expected_changed_assemblies": {
+    "x86_64-macos": 152,
+    "x86_64-linux": 152
+  },
+  "removed_normalizations": 3044,
+  "note": "Raw exact comparison reports intended differences. This audit permits only deletion of movl %eax,%eax on AMD64; every other byte is preserved. Not a semantic proof."
+}

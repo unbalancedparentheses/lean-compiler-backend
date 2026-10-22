@@ -141,6 +141,8 @@ def main():
     from unused_environment import exercise as unused_environment_tests
     unused_environment_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
     if args.target == 'x86_64-linux':
+        from amd_word_normalization import exercise as amd_word_tests
+        amd_word_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)
         from empty_variadic_calls import exercise as empty_variadic_tests
         from unused_environment_variadic import exercise as unused_env_variadic_tests
         empty_variadic_tests(compiler,work,run,cc,args.target,execute,qbe,qtarget)

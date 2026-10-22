@@ -130,6 +130,8 @@ def main():
     dynamic_outgoing_tests(compiler,work,run,cc,'x86_64-macos',execute)
     from unused_environment import exercise as unused_environment_tests
     unused_environment_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
+    from amd_word_normalization import exercise as amd_word_tests
+    amd_word_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')
     from empty_variadic_calls import exercise as empty_variadic_tests
     from unused_environment_variadic import exercise as unused_env_variadic_tests
     empty_variadic_tests(compiler,work,run,cc,'x86_64-macos',execute,qbe,'amd64_apple')

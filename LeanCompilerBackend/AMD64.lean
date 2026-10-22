@@ -276,7 +276,12 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
     lines := lines ++ [s!"\tmovl {field}(%rax), %ecx", s!"\tcmpl ${limit}, %ecx", "\tjae 1f", "\tmovq 16(%rax), %rdx",
       "\taddq %rcx, %rdx", s!"\taddl ${step}, %ecx", s!"\tmovl %ecx, {field}(%rax)", "\tjmp 2f", "1:",
       "\tmovq 8(%rax), %rdx", "\tleaq 8(%rdx), %rcx", "\tmovq %rcx, 8(%rax)", "2:", s!"\tmov{s} (%rdx), {a}"]
-  if w == .word then lines := lines ++ ["\tmovl %eax, %eax"]
+  -- These paths write EAX, or use load's explicit word normalization for
+  -- symbols/TLS. Keep call/allocation/conversion and other paths conservative.
+  let normalized := match inst.operation with
+    | .copy .. | .cast .. | .binary .. | .unary .. | .load .. => true
+    | _ => false
+  if w == .word && !normalized then lines := lines ++ ["\tmovl %eax, %eax"]
   pure (lines ++ (← store c inst.destination))
 
 private def emitStatement (c : Context) : Statement → Except String (List String)

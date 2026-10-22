@@ -53,6 +53,12 @@ x86-64 and RV64, alongside Apple ARM64 and x86-64. Each current target emits 75/
 upstream fixtures; the remaining fixture omits a required aggregate argument.
 This fixture count does not mean the full port is complete.
 
+AMD64 word normalization now removes redundant EAX self-moves after already
+normalized operations. Both target gates and independent C matrices pass;
+[17-unit zlib measurement](docs/benchmarks/amd-word-normalization/README.md)
+records 2.12% smaller text with matching executable results. Runtime performance
+and broader allocation remain separate qualification work.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and
