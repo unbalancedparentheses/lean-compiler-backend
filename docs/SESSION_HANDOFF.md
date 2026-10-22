@@ -27,7 +27,7 @@ also passes all three ARM modes. Actual combined AMD/zlib replay and corpus audi
 204 private/main assembly matches, six examples and 72 exact streams. All three complete Linux gates pass. [Fresh QBE/cproc qualification](benchmarks/amd-data-bootstrap/README.md) also passes
 on all three Linux targets: 2,922 exact assemblies/348 runtime tests and 114 exact
 IR reproductions/1,176 upstream tests. Original/corrected references remain
-separate. Final full host gate and combined-source CI are running. No timing claim.
+separate. The final full host gate is running. Combined-source CI run39786374097 passes Linux ARM64, Linux x86-64 and macOS. No timing claim.
 
 [AMD64 folded loads](benchmarks/amd-folded-loads/README.md) remove redundant EAX
 self-copies after word loads. Integrated identity `7e441df0` exactly matches the
@@ -944,13 +944,12 @@ and separately corrected oracle copies remain distinct; vendored QBE is unchange
 See [benchmarks/README.md](benchmarks/README.md) and
 [UPSTREAM_DISCREPANCIES.md](UPSTREAM_DISCREPANCIES.md).
 
-CI is green through the previous `2532f6d` checkpoint (run `39711219361`),
+Historical CI notes: CI was green through the previous `2532f6d` checkpoint (run `39711219361`),
 including the Linux ARM64, Linux x86-64 and macOS jobs. The CSE profitability
 checkpoint passes units, proof audit, the three optimized Linux gates and a fresh
 64-seed native differential fuzz campaign (512 functions / 4,608 input cases,
 including a detected corruption control). Its complete host regression gate subsequently finished successfully. CI for
-the corrected test checkpoint `b1164ec` (run `39716100341`) is fully green on Linux ARM64, Linux x86-64 and macOS. The new prefix-fix CI
-is not yet known.
+the corrected test checkpoint `b1164ec` (run `39716100341`) is fully green on Linux ARM64, Linux x86-64 and macOS. The prefix-fix CI was not yet known at that historical checkpoint; current combined-source CI is green as recorded above.
 No proof scope is expanded.
 
 ## Next work
