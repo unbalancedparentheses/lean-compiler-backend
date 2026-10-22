@@ -1,4 +1,5 @@
 import LeanCompilerBackend.Verified.FreshNameProofs
+import LeanCompilerBackend.Verified.AlgebraProofs
 import LeanCompilerBackend.Verified.SimulationProofs
 import LeanCompilerBackend.Verified.ComparisonProofs
 import LeanCompilerBackend.Verified.ArithmeticProofs
@@ -207,3 +208,18 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.SSA.freshNamePrefix_append_ne
 #print axioms LeanCompilerBackend.SSA.freshNamePrefix_not_prefix
 #print axioms LeanCompilerBackend.SSA.freshNamePrefix_counter_ne
+-- Local compatibility-optimizer branch/value facts only; no pipeline theorem.
+#print axioms LeanCompilerBackend.Verified.Algebra.normalize_idempotent
+#print axioms LeanCompilerBackend.Verified.Algebra.add_zero_right_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.add_zero_left_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.sub_zero_right_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.orBits_zero_right_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.orBits_zero_left_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.xorBits_zero_right_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.xorBits_zero_left_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.mul_one_right_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.mul_one_left_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.mul_zero_right_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.mul_zero_left_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.andBits_zero_right_preserves
+#print axioms LeanCompilerBackend.Verified.Algebra.andBits_zero_left_preserves

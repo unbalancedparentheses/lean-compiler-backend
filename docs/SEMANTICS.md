@@ -890,3 +890,25 @@ Static symbol addends render as signed 64-bit values, matching QBE's assembly
 form; positive `2^64-1` therefore renders as -1. Existing Apple native tests already
 accepted the previous positive rendering, so this is canonicalization rather
 than a claim that positive addends previously produced wrong code.
+
+
+## Local algebra proof checkpoint
+
+`Verified/AlgebraProofs.lean` checks 13 literal-zero/one rewrite branches of the
+actual compatibility optimizer `Optimize.Algebra.operation`: addition, OR and XOR
+with zero on either side; subtraction of zero; multiplication by one or zero on
+either side; and AND with zero on either side. Each theorem pairs the actual
+rewrite-to-copy equation with an equation for `Semantics.binary`, universally
+quantified over both result widths and every `UInt64` temporary value. An
+idempotence lemma establishes that the copy retains word truncation even when
+the original temporary contains a long value. These proofs use only Lean's
+standard `propext` and `Quot.sound` axioms; the normalization lemma uses `propext`.
+The proof audit checks those dependency sets explicitly.
+
+These are local branch/value facts, not preservation of statement execution or
+the whole optimizer. They assume the temporary's value has already been obtained;
+they do not model failed operand resolution. Other integer literals that normalize
+to zero/one, all-ones masks, shifts, division, power-of-two strength reduction,
+other operand forms, memory effects, and pass composition remain outside this
+checkpoint. Existing pipeline tests, plus a matrix of the proved branches over
+both widths and boundary values, remain regression evidence rather than proofs.

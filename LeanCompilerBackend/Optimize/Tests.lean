@@ -157,6 +157,22 @@ def run : IO Unit := do
   let retained ← optimize tls
   require retained.functions[0]!.blocks[0]!.instructions.isEmpty
     "TLS address resolution was hoisted"
+  -- Exercise the exact literal-zero/one branches covered by AlgebraProofs,
+  -- including left identities, absorbing zero and a long temporary in a word op.
+  for width in ["w", "l"] do
+    for (op, literal) in [("add", "0"), ("sub", "0"), ("or", "0"),
+        ("xor", "0"), ("mul", "1"), ("mul", "0"), ("and", "0")] do
+      for left in [false, true] do
+        if op != "sub" || !left then
+          let operands := if left then literal ++ ", %x" else "%x, " ++ literal
+          let original ← parse ("function " ++ width ++ " $f(l %x) { @s %r =" ++
+            width ++ " " ++ op ++ " " ++ operands ++ " ret %r }")
+          let rewritten ← optimize original
+          for x in (#[0, 1, 4294967295, 4294967296, 9223372036854775808,
+              18446744073709551615] : Array UInt64) do
+            require (same (Semantics.evaluate original.functions[0]! #[x])
+              (Semantics.evaluate rewritten.functions[0]! #[x]))
+              s!"proved local identity failed pipeline regression: {width} {op} {operands}"
   for (op, operand, expectedShift) in #[
       ("mul", "1", false), ("mul", "4294967297", false),
       ("mul", "8", true), ("mul", "-2147483648", true),
