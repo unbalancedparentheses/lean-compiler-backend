@@ -6,10 +6,12 @@ remain the priority; broader certification is deferred. The active compatibility
 scope is the five existing Linux/macOS targets. Windows AMD64 is explicitly
 deferred at the user’s request and is not a current completion blocker.
 
-[LZ4 1.10.0](benchmarks/lz4/README.md) now passes native Linux ARM64 qualification:
+[LZ4 1.10.0](benchmarks/lz4/README.md) now passes native Linux ARM64 and QEMU x86/RV qualification:
 all six original C units, 370 functions / 64,135 IR lines, upstream unit/fixed-seed
 tests and 15 exact compression/cross-decompression profiles per backend. All three
-LCB modes, GCC O0/O2, original and corrected QBE pass. Cross-target runs are pending.
+LCB modes, GCC O0/O2, original and corrected QBE pass. RV has 364 functions /
+63,137 IR lines. Its first whole-probe timeout remains explicitly unqualified;
+the fresh bounded retry passes final provenance checks.
 The [Lua attempt](benchmarks/lua-preflight/README.md) remains unqualified because
 cproc rejects three required volatile stores before any backend invocation.
 
