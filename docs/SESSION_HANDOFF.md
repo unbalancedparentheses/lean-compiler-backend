@@ -21,6 +21,13 @@ independent C and unchanged QBE comparisons on all five targets, with full targe
 gates, unchanged ordinary assembly and proof-audit results. Native AMD64
 variadic environment definitions remain a separate limitation at this checkpoint.
 
+The [fresh overnight Csmith batch](benchmarks/csmith-overnight/README.md) qualifies
+50 of 64 new seeds per Linux target against GCC O0/O2 and unchanged QBE, with 14
+reference timeouts excluded. All three modes replay those 50 programs successfully
+on the current identity; baseline/optimized initial reference campaigns retain
+the preceding 81000f96… identity. Target IR is identical within each comparison,
+not across ISAs; replay counts are not new unique programs.
+
 ## Preceding RV64 load-normalization checkpoint
 
 

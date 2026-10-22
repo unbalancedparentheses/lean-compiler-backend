@@ -875,3 +875,9 @@ normalization. Original and corrected QBE outcomes remain separate.
 [Admission correction and independent ABI evidence](unused-environment/README.md)
 cover omitted unused environment parameters without assigning dummy values,
 while retaining used-environment and signature refusal controls.
+
+## Overnight Csmith campaign
+
+[64 new attempts and all-mode replays](csmith-overnight/README.md) retain 50 common
+qualified programs per Linux target, 14 reference timeouts, exact compiler/input
+identities and the distinction between unique programs and target/mode replays.
