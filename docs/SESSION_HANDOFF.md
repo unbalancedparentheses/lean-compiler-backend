@@ -14,6 +14,11 @@ LCB modes, GCC O0/O2, original and corrected QBE pass. RV has 364 functions /
 the fresh bounded retry passes final provenance checks.
 The [Lua attempt](benchmarks/lua-preflight/README.md) remains unqualified because
 cproc rejects three required volatile stores before any backend invocation.
+A separate [mixed Lua qualification](benchmarks/lua-mixed/README.md) now passes:
+30/33 production units, 968 functions / 76,174 IR lines use LCB/QBE; three
+unchanged GCC objects are shared across all mixed builds. Seven binaries pass
+an independent probe and two reduced official suite profiles each. Internal
+API/opcode, locale and soft/portable exclusions remain; 944 files are bound.
 
 ## Repository and current compiler
 
@@ -50,9 +55,12 @@ sole-use address sums with loads. Both native ARM independent matrices and the
 full Linux ARM gate pass; a separate 4,200-live-value fixture executes actual
 33,520/33,536/33,528-byte input/result spills on both ARM targets. Zlib loses
 another 584 optimized text bytes per ARM target, with six upstream examples and
-72 exact streams passing. The broader full host gate is still running at this
-checkpoint; five-label in-process correctness/provenance passes, timing pending.
-CI through 6d84890 is green; 735a572 and 7fd745c remain in progress.
+72 exact streams passing. The broader full host gate now passes, including native Apple ARM and Rosetta
+x86 execution. Five-label in-process correctness/provenance passes. Two initial
+100 ms timing windows show CRC improvement but a possible mixed-compression
+regression, with substantial first-window noise. Two longer 500 ms windows are
+running; no general speedup claim is made.
+CI through 735a572 is green; 7fd745c and 03b2991 remain in progress.
 
 [ARM typed extuw](benchmarks/arm-extuw/README.md) omits same-home unsigned
 word extensions only for declared word sources. Both native ARM matrices, full

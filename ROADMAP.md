@@ -104,6 +104,12 @@ sole-use long temporary sums with loads. Both native ARM matrices, actual spill
 offsets beyond 32 KiB and the full Linux ARM gate pass. Fresh zlib execution
 qualifies 584 fewer optimized text bytes per target; paired timing is pending.
 
+A [mixed Lua 5.4.7 build](docs/benchmarks/lua-mixed/README.md) now qualifies
+968 functions across 30 frontend-compatible units on native Linux ARM64. Three
+unchanged volatile-containing units use identical GCC objects in every mixed
+build. All seven compiler/oracle binaries pass two reduced official test profiles;
+full Lua frontend qualification and excluded internal/locale tests remain open.
+
 Next bounded work, before proof expansion:
 
 1. Close remaining syntax/linkage coverage, with quoted globals now implemented, and

@@ -1,0 +1,127 @@
+{
+  "lcb-baseline": {
+    "deterministic": {
+      "command": [
+        "/work/lua-mixed-review/lcb-baseline/lua",
+        "/work/lua-mixed-review/probe.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "76ba71f5d28529628e7993051886de507c0d55cccdedfde5b8658d3d95f40ee6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "passed"
+    },
+    "upstream-portable-soft": {
+      "command": [
+        "/work/lua-mixed-review/lcb-baseline/lua",
+        "-e",
+        "_U=true",
+        "all.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "32fa9034baac50acae74bf884e59c914f162a9c2770e8077387a4162cdff9944",
+      "stderr_sha256": "b10b48f66d6ef4c1313a17c53e8257467711d12dd5a331db562caa436b7e4e80",
+      "status": "passed"
+    },
+    "status": "passed"
+  },
+  "lcb-allocated": {
+    "deterministic": {
+      "command": [
+        "/work/lua-mixed-review/lcb-allocated/lua",
+        "/work/lua-mixed-review/probe.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "76ba71f5d28529628e7993051886de507c0d55cccdedfde5b8658d3d95f40ee6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "passed"
+    },
+    "upstream-portable-soft": {
+      "command": [
+        "/work/lua-mixed-review/lcb-allocated/lua",
+        "-e",
+        "_U=true",
+        "all.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "4fb0a037a86d84f3c331574564e78b82413dd357674189d039b6e05d5af48941",
+      "stderr_sha256": "b10b48f66d6ef4c1313a17c53e8257467711d12dd5a331db562caa436b7e4e80",
+      "status": "passed"
+    },
+    "status": "passed"
+  },
+  "lcb-optimized": {
+    "deterministic": {
+      "command": [
+        "/work/lua-mixed-review/lcb-optimized/lua",
+        "/work/lua-mixed-review/probe.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "76ba71f5d28529628e7993051886de507c0d55cccdedfde5b8658d3d95f40ee6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "passed"
+    },
+    "upstream-portable-soft": {
+      "command": [
+        "/work/lua-mixed-review/lcb-optimized/lua",
+        "-e",
+        "_U=true",
+        "all.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "634019ab7b4ee0deae521955bfffe3eaaa985d056da36f5f6e5a103fcfb490b3",
+      "stderr_sha256": "b10b48f66d6ef4c1313a17c53e8257467711d12dd5a331db562caa436b7e4e80",
+      "status": "passed"
+    },
+    "status": "passed"
+  },
+  "qbe-original": {
+    "deterministic": {
+      "command": [
+        "/work/lua-mixed-review/qbe-original/lua",
+        "/work/lua-mixed-review/probe.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "76ba71f5d28529628e7993051886de507c0d55cccdedfde5b8658d3d95f40ee6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "passed"
+    },
+    "upstream-portable-soft": {
+      "command": [
+        "/work/lua-mixed-review/qbe-original/lua",
+        "-e",
+        "_U=true",
+        "all.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "5ff2aaae036c642460d76fca70e3173ef7fab70e41d6a9f8bcec5d1b24c8c3c8",
+      "stderr_sha256": "b10b48f66d6ef4c1313a17c53e8257467711d12dd5a331db562caa436b7e4e80",
+      "status": "passed"
+    },
+    "status": "passed"
+  },
+  "qbe-corrected": {
+    "deterministic": {
+      "command": [
+        "/work/lua-mixed-review/qbe-corrected/lua",
+        "/work/lua-mixed-review/probe.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "76ba71f5d28529628e7993051886de507c0d55cccdedfde5b8658d3d95f40ee6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "passed"
+    },
+    "upstream-portable-soft": {
+      "command": [
+        "/work/lua-mixed-review/qbe-corrected/lua",
+        "-e",
+        "_U=true",
+        "all.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "d59ac308b0bfd984d193b261c3cde7b7b5708a923c0d87227aa560740224ce85",
+      "stderr_sha256": "b10b48f66d6ef4c1313a17c53e8257467711d12dd5a331db562caa436b7e4e80",
+      "status": "passed"
+    },
+    "status": "passed"
+  }
+}

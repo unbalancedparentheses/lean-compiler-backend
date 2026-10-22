@@ -1,0 +1,308 @@
+
+	Starting Tests
+random seeds: 1792654250, 187650692911784
+current path:
+****/usr/local/share/lua/5.4/?.lua;/usr/local/share/lua/5.4/?/init.lua;/usr/local/lib/lua/5.4/?.lua;/usr/local/lib/lua/5.4/?/init.lua;./?.lua;./?/init.lua****
+
+    ---- total memory: 43.7K, max memory: 43.7K ----
+
+time: 2.4e-05 (+2.4e-05)
+
+***** FILE 'main.lua'*****
+
+***** FILE 'gc.lua'*****
+testing incremental garbage collection
+creating many objects
+functions with errors
+long strings
+steps
+steps (2)
+clearing tables
+weak tables
++
+self-referenced threads
+OK
+    ---- total memory: 1.4M, max memory: 1.4M ----
+
+time: 0.28922 (+0.289196)
+
+***** FILE 'db.lua'*****
+testing debug library and debug information
++
+testing inspection of parameters/returned values
++
++
+testing traceback sizes
+testing debug functions on chunk without debug info
+OK
+    ---- total memory: 150.0K, max memory: 1.4M ----
+
+time: 0.420311 (+0.131091)
+
+***** FILE 'calls.lua'*****
+testing functions and calls
++
++
+testing tail calls
++
++
+testing binary chunks
+OK
+testing strings and string library
+testing 'format %a %A'
+OK
+testing scanner
++
++
++
++
++
+OK
+    ---- total memory: 375.9K, max memory: 1.4M ----
+
+time: 0.576999 (+0.156688)
+
+***** FILE 'tpack.lua'*****
+testing pack/unpack
+platform:
+	short 2, int 4, long 8, size_t 8, float 4, double 8,
+	lua Integer 8, lua Number 8
+	little endian
+	alignment: 8
+testing invalid formats
+testing pack/unpack of floating-point numbers
+testing pack/unpack of strings
+testing alignment
+OK
+    ---- total memory: 388.3K, max memory: 1.4M ----
+
+time: 0.581253 (+0.004254)
+
+***** FILE 'attrib.lua'*****
+testing require
+package config: /|;|?|!|-|
+testing 'require' message
++
+testing assignments, logical operators, and constructors
++
+OK
+    ---- total memory: 275.3K, max memory: 1.4M ----
+
+time: 0.589586 (+0.008333)
+
+***** FILE 'gengc.lua'*****
+testing generational garbage collection
++
+OK
+    ---- total memory: 80.9K, max memory: 1.4M ----
+
+time: 0.59045 (+0.000864)
+
+***** FILE 'locals.lua'*****
+testing local variables and environments
++
+testing to-be-closed variables
+testing errors in __close
+to-be-closed variables in coroutines
+OK
+    ---- total memory: 137.4K, max memory: 1.4M ----
+
+time: 0.70432 (+0.11387)
+
+***** FILE 'constructs.lua'*****
+testing syntax
++
+testing short-circuit optimizations (1)
++
+OK
+    ---- total memory: 860.5K, max memory: 1.4M ----
+
+time: 0.825244 (+0.120924)
+
+***** FILE 'code.lua'*****
+    ---- total memory: 935.5K, max memory: 1.4M ----
+
+time: 0.826775 (+0.001531)
+
+***** FILE 'cstack.lua'*****
+testing stack overflow detection
+testing stack overflow in message handling
+final count: 	250037
+testing recursion inside pattern matching
+testing stack-overflow in recursive 'gsub'
+final count: 	197
+testing stack-overflow in recursive 'gsub' with metatables
+final count: 	99
+testing limits in coroutines inside deep calls
+final count: 	196
+chain of 'coroutine.close'
+final count: 	197
+nesting of resuming yielded coroutines
+final count: 	195
+nesting coroutines running after recoverable errors
+final count: 	197
+OK
+    ---- total memory: 15.8M, max memory: 15.8M ----
+
+time: 0.944717 (+0.117942)
+
+***** FILE 'nextvar.lua'*****
+testing tables, next, and for
++
++
++
+testing next x GC of deleted keys
++
+testing floats in numeric for
+OK
+    ---- total memory: 117.9K, max memory: 15.8M ----
+
+time: 0.983966 (+0.039249)
+
+***** FILE 'pm.lua'*****
+testing pattern matching
++
++
++
++
+OK
+    ---- total memory: 122.1K, max memory: 15.8M ----
+
+time: 0.988531 (+0.004565)
+
+***** FILE 'utf8.lua'*****
+testing UTF-8 library
+ok
+    ---- total memory: 144.4K, max memory: 15.8M ----
+
+time: 0.991117 (+0.002586)
+
+***** FILE 'api.lua'*****
+    ---- total memory: 278.3K, max memory: 15.8M ----
+
+time: 0.996396 (+0.005279)
+
+***** FILE 'events.lua'*****
+testing metatables
++
++
+OK
+    ---- total memory: 122.1K, max memory: 15.8M ----
+
+time: 1.00112 (+0.004724)
+
+***** FILE 'vararg.lua'*****
+testing vararg
++
++
++
+OK
+    ---- total memory: 126.9K, max memory: 15.8M ----
+
+time: 1.00199 (+0.000874)
+
+***** FILE 'closure.lua'*****
+testing closures
++
+OK
+    ---- total memory: 217.8K, max memory: 15.8M ----
+
+time: 1.00491 (+0.002915)
+
+***** FILE 'coroutine.lua'*****
+testing coroutines
+to-be-closed variables in coroutines
+testing 'coroutine.close'
++
+testing yields inside metamethods
++
+testing yields inside 'for' iterators
+OK
+    ---- total memory: 198.7K, max memory: 15.8M ----
+
+time: 1.01209 (+0.007179)
+
+***** FILE 'goto.lua'*****
+OK
+    ---- total memory: 97.5K, max memory: 15.8M ----
+
+time: 1.01323 (+0.001141)
+
+***** FILE 'errors.lua'*****
+testing errors
++
+testing tokens in error messages
++
+OK
+    ---- total memory: 314.9K, max memory: 15.8M ----
+
+time: 1.03741 (+0.024185)
+
+***** FILE 'math.lua'*****
+testing numbers and math lib
+64-bit integers, 53-bit (mantissa) floats
+testing order (floats cannot represent all integers)
+testing -0 and NaN
+testing 'math.random'
+random seeds: 1792654251, 187650692911784
+float random range in 26500 calls: [0.000059, 0.999917]
+integer random range in 38400 calls: [minint + 59ppm, maxint - 7ppm]
+OK
+    ---- total memory: 402.7K, max memory: 15.8M ----
+
+time: 1.12688 (+0.089462)
+
+***** FILE 'sort.lua'*****
+testing (parts of) table library
+testing unpack
+testing pack
+testing sort
+sorting 5000 random elements in 8.56 msec.
+re-sorting 5000 sorted elements in 6.34 msec.
+Invert-sorting other 5000 elements in 28.21 msec., with 63068 comparisons
+sorting 5000 equal elements in 17.75 msec.
+OK
+    ---- total memory: 225.1K, max memory: 15.8M ----
+
+time: 1.22092 (+0.094043)
+
+***** FILE 'bitwise.lua'*****
+testing bitwise operations
++
+testing bitwise library
++
++
+OK
+    ---- total memory: 259.4K, max memory: 15.8M ----
+
+time: 1.22422 (+0.003304)
+
+***** FILE 'verybig.lua'*****
+testing RK
+    ---- total memory: 87.7K, max memory: 15.8M ----
+
+time: 1.22472 (+0.000499)
+
+***** FILE 'files.lua'*****
+testing i/o
++
++
++
++
++
++
+testing date/time
+test done on 22/10/2026, at 07:30:51
+Lua 5.4
+(there should be two warnings now)
+64-bit integers, 64-bit floats
+cleaning all!!!!
+    ---- total memory: 54.7K, max memory: 15.8M ----
+
+
+
+total time: 1.24s (wall time: 1s)
+
+final OK !!!
+>>> closing state <<<
+

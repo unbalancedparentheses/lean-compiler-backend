@@ -1,0 +1,17 @@
+Two sequential quiet windows, native ARM64 Linux Docker VM; elapsed ratios below 1 favor indexed. Same seeded ordering, 9 paired rounds per window, 3 payloads, 5 labels, 100 ms calibration, 2 warmups. Bootstrap intervals are descriptive; no multiple-comparison correction or universal performance claim.
+
+Median paired elapsed indexed/reference ratios (window1 / window2):
+payload API                 phi              GCC              original QBE     corrected QBE
+repeated compress   0.9931/0.9904  2.1981/2.1538  0.8830/0.8686  0.8847/0.8654
+repeated uncompress 0.9897/0.9880  1.3117/1.2931  0.9712/0.9402  0.9675/0.9475
+repeated crc32      0.9568/0.9451  2.8372/2.7488  1.2460/1.2233  1.2387/1.2181
+random   compress   0.9690/0.9987  1.5353/1.5510  0.9458/0.9391  0.9311/0.9388
+random   uncompress 1.0015/1.0049  1.0384/1.0342  0.9509/0.9303  0.9479/0.9458
+random   crc32      0.9376/0.9495  2.8212/2.7869  1.2213/1.2158  1.2113/1.2241
+mixed    compress   1.0457/1.0433  2.0719/2.0958  0.9195/0.9136  0.9186/0.9259
+mixed    uncompress 0.9950/0.9994  1.3249/1.3120  1.1389/1.1233  1.1348/1.1323
+mixed    crc32      0.9077/0.9615  2.8018/2.7960  1.2392/1.2199  1.2414/1.2283
+
+Interpretation: repeated CRC32 is about 4.3–5.5% lower elapsed versus phi in both windows, with both descriptive intervals excluding 1. Mixed CRC32 intervals also exclude 1, but medians vary from 9.2% to 3.9% lower. Random CRC32 has a window1 interval crossing 1. Mixed compression is about 4.3–4.6% higher elapsed in both medians, but only window2 interval excludes 1. Other comparisons overlap 1 in at least one window.
+Noise: window1 has material dispersion (indexed random compression CV13.85%, random CRC32 CV13.25%; paired phi-ratio CV up to11.17%). Window2 is quieter but indexed mixed compression CV5.54%. Quiet scheduling did not eliminate host/VM variation. No universal speedup claim; preserve the mixed-compression regression signal.
+Qualification: all5 labels passed correctness, wrongCRC control detected; each timing window has135 measurements, sink agreement and485-file host/guest pre/post validation.

@@ -1,0 +1,46 @@
+{
+  "gcc-O0": {
+    "deterministic": {
+      "command": [
+        "/work/lua-mixed-review/gcc-O0/lua",
+        "/work/lua-mixed-review/probe.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "76ba71f5d28529628e7993051886de507c0d55cccdedfde5b8658d3d95f40ee6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "upstream-portable-soft": {
+      "command": [
+        "/work/lua-mixed-review/gcc-O0/lua",
+        "-e",
+        "_U=true",
+        "all.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "05a74e92be39f96d441129b6c5d21efb00684c880b8337dfb06db776dd49a615",
+      "stderr_sha256": "b10b48f66d6ef4c1313a17c53e8257467711d12dd5a331db562caa436b7e4e80"
+    }
+  },
+  "gcc-O2": {
+    "deterministic": {
+      "command": [
+        "/work/lua-mixed-review/gcc-O2/lua",
+        "/work/lua-mixed-review/probe.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "76ba71f5d28529628e7993051886de507c0d55cccdedfde5b8658d3d95f40ee6",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "upstream-portable-soft": {
+      "command": [
+        "/work/lua-mixed-review/gcc-O2/lua",
+        "-e",
+        "_U=true",
+        "all.lua"
+      ],
+      "exit": 0,
+      "stdout_sha256": "13a79634aa8f2dbada0cf19076cc5b710ebb25042c23bb07ceb12bc2c17bca6e",
+      "stderr_sha256": "b10b48f66d6ef4c1313a17c53e8257467711d12dd5a331db562caa436b7e4e80"
+    }
+  }
+}

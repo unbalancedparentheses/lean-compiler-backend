@@ -1,0 +1,93 @@
+{
+  "gcc-O0": {
+    "exit": 0,
+    "completed": true,
+    "command": [
+      "/work/lua-mixed-review/gcc-O0/lua",
+      "-e",
+      "_soft=true;_port=true",
+      "all.lua"
+    ],
+    "stdout_sha256": "49e800c3c041c673ec8f9ae1ec7be5b662416e9c1d76368b51ed141e7a176522",
+    "stderr_sha256": "e59722880350d3613b67cd51850ab58cf1d568302eb01e869fd38e7e180c8215"
+  },
+  "gcc-O2": {
+    "exit": 0,
+    "completed": true,
+    "command": [
+      "/work/lua-mixed-review/gcc-O2/lua",
+      "-e",
+      "_soft=true;_port=true",
+      "all.lua"
+    ],
+    "stdout_sha256": "68af63e61da810548bf395c1a2923b3863d21e729631e85769b3af9fb0ef95da",
+    "stderr_sha256": "e59722880350d3613b67cd51850ab58cf1d568302eb01e869fd38e7e180c8215"
+  },
+  "lcb-baseline": {
+    "exit": 0,
+    "completed": true,
+    "command": [
+      "/work/lua-mixed-review/lcb-baseline/lua",
+      "-e",
+      "_soft=true;_port=true",
+      "all.lua"
+    ],
+    "stdout_sha256": "69b7c2545a423a4ef292e1c7726c2daab33dabda0864b23af175f6307b7e1808",
+    "stderr_sha256": "e59722880350d3613b67cd51850ab58cf1d568302eb01e869fd38e7e180c8215"
+  },
+  "lcb-allocated": {
+    "exit": 0,
+    "completed": true,
+    "command": [
+      "/work/lua-mixed-review/lcb-allocated/lua",
+      "-e",
+      "_soft=true;_port=true",
+      "all.lua"
+    ],
+    "stdout_sha256": "8982e36c388cb16f49756c634bc5e76b4645d774c92d5c1de6ca51a256f745d0",
+    "stderr_sha256": "e59722880350d3613b67cd51850ab58cf1d568302eb01e869fd38e7e180c8215"
+  },
+  "lcb-optimized": {
+    "exit": 0,
+    "completed": true,
+    "command": [
+      "/work/lua-mixed-review/lcb-optimized/lua",
+      "-e",
+      "_soft=true;_port=true",
+      "all.lua"
+    ],
+    "stdout_sha256": "fecab329fdbba49c22e5930764fd31d30481df9a56324621052b45002aa86e96",
+    "stderr_sha256": "e59722880350d3613b67cd51850ab58cf1d568302eb01e869fd38e7e180c8215"
+  },
+  "qbe-original": {
+    "exit": 0,
+    "completed": true,
+    "command": [
+      "/work/lua-mixed-review/qbe-original/lua",
+      "-e",
+      "_soft=true;_port=true",
+      "all.lua"
+    ],
+    "stdout_sha256": "f34874e8b5fded84a2ee086fe8e121b88f53d3b5e0f28a1b799373f306477a80",
+    "stderr_sha256": "e59722880350d3613b67cd51850ab58cf1d568302eb01e869fd38e7e180c8215"
+  },
+  "qbe-corrected": {
+    "exit": 0,
+    "completed": true,
+    "command": [
+      "/work/lua-mixed-review/qbe-corrected/lua",
+      "-e",
+      "_soft=true;_port=true",
+      "all.lua"
+    ],
+    "stdout_sha256": "e4bcd8b373e5104a405cce95755f92444464a22e093a64109beb2ffe2a70e684",
+    "stderr_sha256": "e59722880350d3613b67cd51850ab58cf1d568302eb01e869fd38e7e180c8215"
+  },
+  "negative_control": {
+    "description": "Corrupt optimized Lua main to return success without evaluating script; exact output oracle rejects empty output despite exit0.",
+    "exit": 0,
+    "stdout": "",
+    "detected": true,
+    "executable_sha256": "a0a975199e0e2225cba7e6536ff273f13e55f068d2b31821420249a42b751178"
+  }
+}

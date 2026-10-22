@@ -1,0 +1,14 @@
+{
+  "status": "passed",
+  "bound_files": 944,
+  "report_sha256": "5dbcf7a88323cc9a75f78d660cf6d71884ae170f4024e7761965ce747cc9a9d6",
+  "mixed_execution_sha256": "ea71ae9b0e12cd8de683e8468653f2b48dceffc08503913835beb1e144f9719d",
+  "supplement_sha256": "04e4033953ab0b6d86805f9254e52213530af4d717d6d33200bcd5cffcb63577",
+  "guest_host_digest_barrier": "passed",
+  "notes": [
+    "All five mixed labels use the same three GCC O2 object hashes; no volatile semantics were weakened or C/IR patched.",
+    "Full Lua frontend/backend qualification is not claimed; production build excludes internal ltests.c and onelua.c.",
+    "Both original and explicitly corrected QBE compiled fresh from separately copied sources and executed, retained as distinct labels.",
+    "Seven binaries each pass deterministic probe plus two documented reduced upstream-suite profiles; skip messages match GCC."
+  ]
+}

@@ -21,3 +21,5 @@ The matching official Lua tests were downloaded and checksum-verified but never
 executed. They are not counted as qualification. Frontend support for volatile
 stores (or another compatible frontend) is required before this workload can
 qualify the backend.
+
+A later [mixed-build qualification](../lua-mixed/README.md) executes the 30 frontend-compatible units through LCB/QBE and shares the same three unchanged GCC units. It does not change this full-frontend preflight failure.
