@@ -249,3 +249,18 @@ qualification. Reports `cross-fuzz-{arm64,x86,rv64}-raw.json` distinguish the
 independent Python/interpreter/LCB results from original-QBE results. x86/RV
 execution uses QEMU, and original RV64 QBE uses explicitly recorded non-PIE
 linking. Every target's return-corruption control is detected.
+
+## RV64 instruction-selection assertion on generated C (20267003)
+
+The unchanged scalar Csmith seed 20267003, lowered by the pinned cproc frontend,
+produces 21,520 QBE IR lines. LCB baseline and optimized modes match native/cross
+GCC O0/O2 checksum `1EAFAEB2`; original QBE also matches on ARM64 and AMD64.
+The original RV64 backend aborts during compilation with
+`Assertion failed: (k == fn->tmp[r0.val].cls), function fixarg, file isel.c, line 80.`
+The [identity-bound RV64 report](benchmarks/csmith-rv-cap-fresh-32.json) records
+this as LCB-only qualified and leaves the original-QBE comparison unqualified.
+Its explicit original-QBE `-no-pie` link profile cannot affect this earlier
+compilation failure. No vendored QBE source is changed or corrected oracle used.
+The retained IR hash is
+`cf029c85e59c76e32cc03ce97dc73799d28d872f800e60e495685f0a20da27ce`.
+This is an observed upstream assertion, not a proof about every generated input.

@@ -46,6 +46,28 @@ match the same checksum on x86 with default linking and RV64 with explicit
 all LCB cross-target runs use default linking. These checks use unchanged QBE,
 not the corrected oracle.
 
+## Measured next optimization priorities
+
+The [native structural probe](benchmarks/large-function-profile/structural-summary.json)
+and [phase probe](benchmarks/large-function-profile/phases-report.json) reuse the
+current CLI's exact object files; source probes, object manifest and logs are
+retained alongside the reports. No compiler patch was made from these findings.
+For the unchanged large structure function, maximum live values grow from 8
+before optimization to 8,197 afterward, requiring 8,197 colors / 8,187 spill homes
+with ten ARM64 registers. The `main` function grows only from 9 to 14 live values.
+
+The phase composition `Common.eliminate(Optimize.function f)` raises the live set
+from 6 to 8,197; later forwarding, extension and dead-definition passes retain
+that pressure. Separately, `Memory.promote` took 18.822 seconds in the phase probe
+while reducing maximum live values from 8 to 7. Next work should measure and
+limit unprofitable common-expression reuse, and investigate promotion-pass cost,
+with the unchanged program/checksum and independent allocation checks retained.
+These are single native-probe observations under concurrent load, not a new
+compiler speedup claim. The interpreted probe timed out and the first native
+attempt linked a stale package archive; both are explicitly excluded. Native
+reproduction must use the current `lcb.rsp` object list excluding `Main`, not that
+archive. Existing full-pipeline proof limitations remain unchanged.
+
 ## Compiler scaling without emission changes
 
 Interference construction retains only lower-index neighbors consumed by greedy
@@ -110,7 +132,15 @@ A separate [fresh x86 batch](benchmarks/csmith-x86-cap-fresh-32.json), seeds
 20267000–20267031, qualifies 24 common cases / 238,899 IR lines against GCC O0/O2 and
 unchanged QBE, with baseline and optimized LCB matching. Eight GCC reference
 timeouts remain excluded; the corrupted-return control is detected. No new
-proof scope.
+proof scope. The [native ARM replay](benchmarks/csmith-arm-cap-fresh-32.json)
+qualifies the same 24 cases / 238,899 IR lines. The
+[RV64 replay](benchmarks/csmith-rv-cap-fresh-32.json) qualifies all 24 with LCB
+against GCC, but only 23 / 217,379 IR lines with original QBE. Seed 20267003
+(21,520 IR lines) makes unchanged QBE abort in `rv64/isel.c:fixarg`; LCB baseline
+and optimized match GCC checksum `1EAFAEB2`. This is separately recorded as
+LCB-only qualified, not a QBE match. Eight GCC timeouts remain excluded on each
+ISA, and cross-target replays do not add new unique seeds. RV64's original-QBE
+link profile is explicitly `-no-pie`; LCB keeps default linking.
 
 ## RV64 adjacent memory offsets and cross-target generated C
 

@@ -1,0 +1,17 @@
+stage parse milliseconds 217
+stage SSA milliseconds 53
+inventory before function copy_and_check locals 49215 blocks 10 instructions 65607 phis 0
+inventory before function main locals 24717 blocks 32 instructions 32934 phis 0
+stage optimize milliseconds 29357
+inventory after function copy_and_check locals 40991 blocks 10 instructions 57375 phis 2
+stage copy_and_check liveness milliseconds 143
+stage copy_and_check count-live milliseconds 73
+liveness function copy_and_check max_live_bits 8197 names 40991
+stage copy_and_check allocation-including-liveness-and-checks milliseconds 7413
+allocation function copy_and_check colors 8197 registers 10 spills 8187
+inventory after function main locals 24655 blocks 32 instructions 32853 phis 6
+stage main liveness milliseconds 70
+stage main count-live milliseconds 32
+liveness function main max_live_bits 14 names 24655
+stage main allocation-including-liveness-and-checks milliseconds 160
+allocation function main colors 14 registers 10 spills 4

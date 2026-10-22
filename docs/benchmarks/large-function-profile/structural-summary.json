@@ -1,0 +1,85 @@
+{
+  "exit": 0,
+  "timeout": false,
+  "command": [
+    ".build/allocation-profile-review/profile-native-current",
+    ".build/linux-arm64/struct65537-rv-cap-review/input.ssa"
+  ],
+  "wall_seconds": 37.86447529197903,
+  "method": "Standalone native Lean probe linked directly to the current CLI object files listed in lcb.rsp, excluding Main; no main rebuild",
+  "compiler_source_identity": "4469809638285e6dd88609ede9cfdbe4247378755084b9c57ef4e99212b1360a",
+  "probe_sha256": "ec80d06eb644a778057e337253e597dd9377637684229148eefab6a71d16b29b",
+  "probe_binary_sha256": "23061692a9fd63edfdd03b5744e549b2a7d757b1a6d56f474f14009d7706325a",
+  "input_sha256": "b96090a33b6aa6131a0c48b90f128243094deafa1af6f5d3f28b6b2ea44fb264",
+  "object_manifest_sha256": "976f7eef61dc10fbce561681ef7f3f50470f313dab335e0da927086f9681472b",
+  "functions": {
+    "copy_and_check": {
+      "before": {
+        "locals": 49215,
+        "blocks": 10,
+        "instructions": 65607,
+        "phis": 0,
+        "max_live_bits": 8
+      },
+      "after": {
+        "locals": 40991,
+        "blocks": 10,
+        "instructions": 57375,
+        "phis": 2,
+        "max_live_bits": 8197
+      },
+      "optimized_allocation": {
+        "colors": 8197,
+        "registers": 10,
+        "spills": 8187
+      }
+    },
+    "main": {
+      "before": {
+        "locals": 24717,
+        "blocks": 32,
+        "instructions": 32934,
+        "phis": 0,
+        "max_live_bits": 9
+      },
+      "after": {
+        "locals": 24655,
+        "blocks": 32,
+        "instructions": 32853,
+        "phis": 6,
+        "max_live_bits": 14
+      },
+      "optimized_allocation": {
+        "colors": 14,
+        "registers": 10,
+        "spills": 4
+      }
+    }
+  },
+  "native_stage_milliseconds": {
+    "parse": 217,
+    "SSA": 53,
+    "optimize": 29357,
+    "copy_and_check liveness": 143,
+    "copy_and_check count-live": 73,
+    "copy_and_check allocation-including-liveness-and-checks": 7413,
+    "main liveness": 70,
+    "main count-live": 32,
+    "main allocation-including-liveness-and-checks": 160
+  },
+  "artifact_sha256": {
+    "Profile.lean": "ec80d06eb644a778057e337253e597dd9377637684229148eefab6a71d16b29b",
+    "Original.lean": "6283334abda3c3f81653556682866973200b59a06d1964a14d8d9fe602788d05",
+    "native-current.log": "c8b09eb1a1d43e8b4b902ca22b64048172a6480a5137d4a48200aafe0db9804b",
+    "original-native.log": "368c2e2ff409ea7684ae79878a13da1bb7395cb966f42894d5210408248812d0",
+    "native-objects.json": "976f7eef61dc10fbce561681ef7f3f50470f313dab335e0da927086f9681472b"
+  },
+  "notes": [
+    "Native probe reuses unchanged current CLI objects; it does not rebuild or modify main compiler.",
+    "Maximum live count covers instruction boundaries, live-in/live-out and phi-edge sets; adjacent-set differences avoid repeatedly enumerating dense unchanged sets.",
+    "Allocation uses ten ARM64 registers and runs existing Allocation.check and HomeFlow.check; stage includes its internal liveness recomputation.",
+    "Native observations occurred under concurrent load, including the separate interpreted attempt; not directly comparable to earlier CLI timing distributions.",
+    "Interpreted lean --run attempt timed out at300seconds; its orphaned Lean child was explicitly terminated.",
+    "First native attempt used a stale static archive and refused500000tokens; excluded, replaced by exactcurrentCLIobject linking."
+  ]
+}
