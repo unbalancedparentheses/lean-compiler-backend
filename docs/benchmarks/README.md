@@ -764,3 +764,27 @@ qualifies 24/32 programs and 193,941 IR lines on this compiler. Eight GCC O0 ref
 timeouts stay unqualified. Ten disjoint default-profile batches now total
 **219/272 unique attempts**, **2,048,006 qualified IR lines** including runtime
 helpers, and 53 reference timeouts. The restricted pointer profile remains separate.
+
+
+## Cross-target Csmith runner
+
+`scripts/csmith_compare.py --target x86_64-linux` and
+`--target riscv64-linux` use the target GCC and a matching configured cproc,
+then execute the resulting programs under QEMU. ARM64 remains the default native
+Linux VM path. Every generated C program is compared against GCC O0/O2;
+baseline and optimized LCB and unchanged QBE consume identical IR.
+
+The optional RV64 `--qbe-no-pie` profile adds `-no-pie` only to original-QBE
+linking. LCB retains default linking. Default-link original-QBE failures remain
+separate evidence; explicit non-PIE qualification does not erase them. Reports
+separate common matches, LCB-only matches with original-QBE diagnostics, reference
+timeouts/frontend exclusions and unexpected failures. A campaign with no
+executable qualification exits nonzero and records `no_qualified`, with a
+`not_run` corruption control. Unexpected failures retain the failing seed and
+traceback before propagating the error. Qualified campaigns require detection
+of an intentionally changed integer return in generated assembly.
+
+Use `--work .build/linux-arm64/<unique-directory>` for separate retained
+artifacts/private compiler snapshots. Cross-target cproc builds are private to
+that directory; the ARM64 runner still configures the shared cJSON cproc checkout,
+so serialize it with other scripts using that checkout.
