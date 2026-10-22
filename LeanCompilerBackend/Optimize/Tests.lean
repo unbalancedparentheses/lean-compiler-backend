@@ -143,7 +143,10 @@ def run : IO Unit := do
   for x in (#[0,1,42,18446744073709551615] : Array UInt64) do
     let first := (List.range 128).foldl (fun acc i => acc ^^^ (x + UInt64.ofNat (i+1))) (0 : UInt64)
     let expected := (List.range 128).foldl (fun acc i => acc + (x + UInt64.ofNat (i+1))) first
-    require (Semantics.evaluate pressureCleaned.functions[0]! #[x] == .ok expected)
+    let actual ← match Semantics.evaluate pressureCleaned.functions[0]! #[x] with
+      | .ok value => pure value
+      | .error reason => throw (IO.userError reason)
+    require (actual == expected)
       "common expression elimination changed the independently calculated batch result"
   let dominated ← parse "function l $f(l %x, w %condition) { @s jmp @parent @left %a =l mul %x, 7 jmp @join @right %b =l mul %x, 7 jmp @join @join %r =l phi @left %a, @right %b ret %r @parent %base =l mul %x, 7 jnz %condition, @left, @right }"
   let cleaned ← optimize dominated

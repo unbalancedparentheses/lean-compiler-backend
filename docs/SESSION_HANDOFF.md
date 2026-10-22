@@ -45,6 +45,14 @@ Linux ARM64 samples give median runtime 0.2589 s optimized, 0.2189 s QBE and
 0.1773 s GCC, all with checksum `342141b63f079083`. These are local measurements,
 not a general performance/parity claim.
 
+The initial CSE regression source used equality on `Except`, which failed a
+clean test build; the earlier unit executable was stale. The test now unwraps
+the result explicitly, `lake build lcb-tests` and the freshly rebuilt unit suite
+pass, and the compiler executable hash is unchanged. Runtime/benchmark evidence
+is unaffected. A separately discovered pre-existing sparse generated-name
+collision can change optimized output (baseline/QBE 110 versus optimized 6);
+a dedicated correction and regression are the next priority, before more tuning.
+
 ## Debug records and instruction budgets
 
 Debug directives no longer consume the instruction/phi allowance. Previously,
