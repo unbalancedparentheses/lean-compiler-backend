@@ -13,53 +13,65 @@ structure Token where
   line : Nat
   deriving Repr
 
-private def separator (c : Char) : Bool :=
-  c == '(' || c == ')' || c == '{' || c == '}' || c == '=' || c == ',' || c == '+'
+/-- QBE whitespace and punctuation are ASCII, so the tokenizer works on UTF-8
+bytes: every byte it splits at is a character boundary. -/
+private def isSpaceByte (b : UInt8) : Bool := b == 32 || b == 9 || b == 13 || b == 10
 
-/-- Preserve quoted strings before recognizing comments and punctuation. -/
-def tokenize (source : String) : Array Token := Id.run do
-  let mut tokens := #[]
-  let mut current := ""
-  let mut quoted := false
-  let mut escaped := false
-  let mut comment := false
-  let mut line := 1
-  let mut tokenLine := 1
-  for c in source do
-    if comment then
-      if c == '\n' then
-        comment := false
-        line := line + 1
-      continue
-    if current.isEmpty then tokenLine := line
-    if quoted then
-      current := current.push c
-      if escaped then escaped := false
-      else if c == '\\' then escaped := true
-      else if c == '"' then
-        quoted := false
-        tokens := tokens.push ⟨current, tokenLine⟩
-        current := ""
-    else if c == '"' then
-      quoted := true
-      current := current.push c
-    else if c == '#' then
-      if !current.isEmpty then
-        tokens := tokens.push ⟨current, tokenLine⟩
-        current := ""
-      comment := true
-    else if c == '+' && ((current.startsWith "s_") || (current.startsWith "d_")) &&
-        (current.endsWith "e" || current.endsWith "E" || current.endsWith "p" || current.endsWith "P" || current.endsWith "_") then
-      current := current.push c
-    else if c.isWhitespace || separator c then
-      if !current.isEmpty then
-        tokens := tokens.push ⟨current, tokenLine⟩
-        current := ""
-      if separator c then tokens := tokens.push ⟨String.singleton c, line⟩
-    else current := current.push c
-    if c == '\n' then line := line + 1
-  if !current.isEmpty then tokens := tokens.push ⟨current, tokenLine⟩
-  return tokens
+private def isSeparatorByte (b : UInt8) : Bool :=
+  b == 40 || b == 41 || b == 123 || b == 125 || b == 61 || b == 44 || b == 43
+
+/-- The byte at offset `i`, read in place (0 past the end). -/
+private def byteAt (s : String) (i : Nat) : UInt8 :=
+  if h : i < s.rawEndPos.byteIdx then s.getUTF8Byte ⟨i⟩ h else 0
+
+/-- A `+` continues `s_`/`d_` floating literals after an exponent marker. -/
+private def plusContinues (s : String) (start stop : Nat) : Bool :=
+  stop ≥ start + 2 && (byteAt s start == 115 || byteAt s start == 100) && byteAt s (start + 1) == 95 &&
+    let last := byteAt s (stop - 1)
+    last == 101 || last == 69 || last == 112 || last == 80 || last == 95
+
+/-- Preserve quoted strings before recognizing comments and punctuation.
+
+The scan keeps its state in arguments and each token as a byte range of
+`source`, extracted once, so it allocates per token rather than per byte.
+Bytes are read in place with `getUTF8Byte` (`toByteArray` would copy the
+string). -/
+def tokenize (source : String) : Array Token :=
+  let text (start stop : Nat) : String := String.Pos.Raw.extract source ⟨start⟩ ⟨stop⟩
+  -- `start` is the current token's first byte while `inToken` is set
+  let rec go (i start : Nat) (inToken quoted escaped comment : Bool) (line tokenLine : Nat)
+      (tokens : Array Token) : Array Token :=
+    if h : i < source.rawEndPos.byteIdx then
+      let b := source.getUTF8Byte ⟨i⟩ h
+      if comment then
+        go (i + 1) start inToken quoted escaped (b != 10) (if b == 10 then line + 1 else line) tokenLine tokens
+      else
+        let tokenLine := if inToken then tokenLine else line
+        let line' := if b == 10 then line + 1 else line
+        let begin := if inToken then start else i
+        -- ends the current token; only called where `tokens` is not used again,
+        -- so the push updates the array in place
+        let flush (tokens : Array Token) := if inToken then tokens.push ⟨text start i, tokenLine⟩ else tokens
+        if quoted then
+          if escaped then go (i + 1) begin true true false false line' tokenLine tokens
+          else if b == 92 then go (i + 1) begin true true true false line' tokenLine tokens
+          else if b == 34 then
+            go (i + 1) 0 false false false false line' tokenLine (tokens.push ⟨text begin (i + 1), tokenLine⟩)
+          else go (i + 1) begin true true false false line' tokenLine tokens
+        else if b == 34 then go (i + 1) begin true true false false line' tokenLine tokens
+        else if b == 35 then go (i + 1) 0 false false false true line' tokenLine (flush tokens)
+        else if b == 43 && inToken && plusContinues source start i then
+          go (i + 1) start true false false false line' tokenLine tokens
+        else if isSpaceByte b || isSeparatorByte b then
+          let tokens := flush tokens
+          let tokens := if isSeparatorByte b then tokens.push ⟨text i (i + 1), line⟩ else tokens
+          go (i + 1) 0 false false false false line' tokenLine tokens
+        else go (i + 1) begin true false false false line' tokenLine tokens
+    else if inToken then tokens.push ⟨text start i, tokenLine⟩
+    else tokens
+  termination_by source.rawEndPos.byteIdx - i
+  decreasing_by all_goals omega
+  go 0 0 false false false false 1 1 #[]
 
 private structure Cursor where
   tokens : Array Token
