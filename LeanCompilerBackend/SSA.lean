@@ -227,9 +227,9 @@ private def checkMixedUses (f : Function) (types : Std.HashMap String (Width × 
     | .branch value _ _ => check .word false value
     | _ => pure ()
 
-/-- Leave already-SSA inputs unchanged; mutable input is renamed and validated.
-    The original first-path importer does not invoke this pass. -/
-def construct (f : Function) : Except String Function := do
+/-- `construct`, given `CFG.build f` when the caller has it (only labels, terminators
+    and block order determine it). -/
+def constructWithGraph (f : Function) (known : Option CFG.Graph := none) : Except String Function := do
   let names := f.locals.toList.map (·.1)
   let mut seen : Std.HashSet String := {}
   let mut duplicate := false
@@ -284,11 +284,18 @@ def construct (f : Function) : Except String Function := do
     let blocks := blocks.map fun block => { block with
       phis := block.phis ++ (generated.filterMap fun (label, phi) => if label == block.label then some phi else none).toArray }
     pure { f with parameters, blocks }
-  let graph ← CFG.build f
+  let graph ← match known with
+    | some graph => pure graph
+    | none => CFG.build f
   let (result, _) ← build.run { types, namePrefix, indices := graph.indices, predecessors := graph.predecessors }
   match validateFunction result true with
   | .ok () => pure result
   | .error error => throw s!"constructed SSA failed validation: {error}"
+
+/-- Leave already-SSA inputs unchanged; mutable input is renamed and validated.
+    The original first-path importer does not invoke this pass. -/
+def construct (f : Function) : Except String Function :=
+  constructWithGraph f
 
 /-- QBE fixtures may assign an unused scalar result from a defined void callee.
     Drop that dead result after SSA renaming; never manufacture a value that can

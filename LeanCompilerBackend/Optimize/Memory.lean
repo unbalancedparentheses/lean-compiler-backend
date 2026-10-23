@@ -151,7 +151,8 @@ def promote (f : Function) : Function := Id.run do
   -- Reuse the validated mutable-temporary SSA builder. On its resource boundary,
   -- keep the original function instead of expanding the compatibility domain.
   -- `SSA.construct` validates the function it returns (and fails otherwise).
-  match SSA.construct {f with blocks} with
+  -- Only instructions changed, so `graph` is also the CFG of the rewritten function.
+  match SSA.constructWithGraph {f with blocks} (some graph) with
   | .ok promoted => return promoted
   | .error _ => return f
 
