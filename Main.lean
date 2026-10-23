@@ -274,8 +274,9 @@ private def run (args : List String) : IO UInt32 := do
     let mut fragments : List String := []
     for path in inputs do
       let module ← loadModule path
+      -- `loadModule` constructed SSA, which ends by validating the module.
       let module ← if settings.optimize then
-        match Optimize.module module with
+        match Optimize.moduleValidated module with
         | .ok optimized => pure optimized
         | .error message => throw (IO.userError message)
         else pure module

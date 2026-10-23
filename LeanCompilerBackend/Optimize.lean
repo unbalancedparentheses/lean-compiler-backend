@@ -84,8 +84,8 @@ def function (f : Function) : Function := Id.run do
     instructions := b.instructions.map (statement facts)
     terminator := terminator facts b.terminator}}
 
-def module (m : Module) : Except String Module := do
-  validateModule m
+/-- `module` for a module the caller has already validated (`validateModule m`). -/
+def moduleValidated (m : Module) : Except String Module := do
   let globals := (m.data.filter (!·.threadLocal)).map (·.name)
   let functions ← m.functions.mapM fun f => do
     let mut result := Memory.promote (Cleanup.copies f)
@@ -102,5 +102,9 @@ def module (m : Module) : Except String Module := do
   let result := {m with functions}
   validateModule result
   pure result
+
+def module (m : Module) : Except String Module := do
+  validateModule m
+  moduleValidated m
 
 end LeanCompilerBackend.Optimize
