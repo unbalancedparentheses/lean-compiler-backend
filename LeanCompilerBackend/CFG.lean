@@ -16,15 +16,22 @@ def build (f : Function) : Except String Graph := do
     let label := f.blocks[i]!.label
     if indices.contains label then throw "duplicate block label"
     indices := indices.insert label i
-  let mut predecessors := Array.replicate f.blocks.size #[]
+  -- `modify` takes each inner array out before pushing, so pushes are in place.
+  -- Predecessors are filled in a second pass over the (deduplicated) successors:
+  -- the same order as filling both together, without a loop-state pair.
   let mut successors := Array.replicate f.blocks.size #[]
   for i in [:f.blocks.size] do
     for label in f.blocks[i]!.terminator.successors do
       let some target := indices[label]? | throw s!"unknown block @{label}"
       if target == 0 then throw "QBE entry block must not be a jump target"
       if !(successors[i]!.contains target) then
-        successors := successors.set! i (successors[i]!.push target)
-        predecessors := predecessors.set! target (predecessors[target]!.push i)
+        successors := successors.modify i (·.push target)
+  let predecessors := Id.run do
+    let mut predecessors := Array.replicate f.blocks.size #[]
+    for i in [:successors.size] do
+      for target in successors[i]! do
+        predecessors := predecessors.modify target (·.push i)
+    return predecessors
   pure { indices, predecessors, successors }
 
 /-- Remove blocks with no path from entry before compatibility SSA construction.
