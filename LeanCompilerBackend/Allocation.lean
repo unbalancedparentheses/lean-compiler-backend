@@ -184,8 +184,8 @@ def allocateValidated (f : Function) (registerCount : Nat := 0) : Except String 
     prioritize f live colors occupants.size else colors
   let result := {names := live.names, colors, colorCount := occupants.size, registerCount : Plan}
   check f live result
-  -- The caller has validated `f`.
-  HomeFlow.checkValidated f result.names result.colors result.colorCount
+  -- The caller has validated `f`; liveness built its CFG.
+  HomeFlow.checkWithGraph f live.graph result.names result.colors result.colorCount
   return result
 
 /-- Validates `f`, then allocates. -/

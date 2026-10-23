@@ -6,8 +6,9 @@ namespace LeanCompilerBackend.Allocation.HomeFlow
 
 private abbrev State := Array Nat
 
-/-- `check` for a function the caller has already validated (`validateFunction f true`). -/
-def checkValidated (f : Function) (names : Array String) (colors : Array Nat) (count : Nat) : Except String Unit := do
+/-- `check` for a function the caller has already validated (`validateFunction f true`),
+    given its `CFG.build f`. -/
+def checkWithGraph (f : Function) (graph : CFG.Graph) (names : Array String) (colors : Array Nat) (count : Nat) : Except String Unit := do
   if names != f.locals.map (·.1) || colors.size != names.size || count > names.size then
     throw "home-flow inventory mismatch"
   if colors.any (· >= count) then throw "home-flow color out of bounds"
@@ -21,7 +22,6 @@ def checkValidated (f : Function) (names : Array String) (colors : Array Nat) (c
     b.instructions.foldl (fun state s => match s.definition with
       | some (name, _) => write state name | none => state) state
   let meet := fun (a b : State) => (a.zip b).map fun (x,y) => if x == y then x else unknown
-  let graph ← CFG.build f
   let mut initial := Array.replicate count unknown
   for p in f.parameters do initial := write initial p.name
   let mut incoming : Array (Option State) := (Array.replicate f.blocks.size none).set! 0 (some initial)
@@ -80,6 +80,6 @@ def checkValidated (f : Function) (names : Array String) (colors : Array Nat) (c
     no entry-reachable predecessor has been processed yet. -/
 def check (f : Function) (names : Array String) (colors : Array Nat) (count : Nat) : Except String Unit := do
   validateFunction f true
-  checkValidated f names colors count
+  checkWithGraph f (← CFG.build f) names colors count
 
 end LeanCompilerBackend.Allocation.HomeFlow
