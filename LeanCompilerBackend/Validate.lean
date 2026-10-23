@@ -155,12 +155,17 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
   if count > instructionLimit then throw s!"function exceeds {instructionLimit}-instruction/phi limit"
   let names := f.blocks.toList.map (·.label)
   if names.any (!validName ·) then throw "unsupported block name"
-  if names.eraseDups.length != names.length then throw "duplicate block label"
-  let entry := f.blocks[0]!.label
-  for block in f.blocks do
-    for target in block.terminator.successors do
-      if !names.contains target then throw s!"unknown block @{target}"
-      if target == entry then throw "QBE entry block must not be a jump target"
+  -- The scalable path builds the indexed CFG here: `CFG.build` makes the same
+  -- duplicate-label, unknown-target and entry-target checks, in the same order and
+  -- with the same messages, without the quadratic list scans below.
+  let graph ← if scalable then some <$> CFG.build f else pure none
+  if !scalable then
+    if names.eraseDups.length != names.length then throw "duplicate block label"
+    let entry := f.blocks[0]!.label
+    for block in f.blocks do
+      for target in block.terminator.successors do
+        if !names.contains target then throw s!"unknown block @{target}"
+        if target == entry then throw "QBE entry block must not be a jump target"
   let mut definitions := if scalable then Definitions.indexed {} else .reference []
   for parameter in f.parameters do
     definitions ← addDefinition definitions
@@ -173,7 +178,6 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
       if let some (name, width) := block.instructions[i]!.definition then
         definitions ← addDefinition definitions
           { name, width, floating := match block.instructions[i]! with | .assign inst => inst.floating | _ => false, block := some block.label, position := i + 1 }
-  let graph ← if scalable then some <$> CFG.build f else pure none
   let doms ← match graph with
     | some graph => Dominators.indexed <$> CFG.dominators graph
     | none => Dominators.reference <$> referenceDominators f
