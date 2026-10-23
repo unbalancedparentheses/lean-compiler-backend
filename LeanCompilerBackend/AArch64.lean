@@ -854,8 +854,8 @@ def leafBranchesLocal (lines : List String) : Bool := Id.run do
       if !(labels.contains target || (numeric && labels.contains (target.dropEnd 1).toString)) then return false
   return true
 
-private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String (Option String) := do
-  validateFunction f true
+private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) (validated : Bool := false) : Except String (Option String) := do
+  if !validated then validateFunction f true
   checkTargetSection darwin f.customSection
   let bank := if extra then leafBank else savedBank
   checkPhysicalBank f bank
@@ -1083,19 +1083,24 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
     | none => ""
   pure (some (file ++ String.intercalate "\n" (lines ++ [""]).toList))
 
-def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String := do
+/-- `validated`: the caller has already run `validateFunction f true`. -/
+private def emitFunctionChecked (validated : Bool) (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String := do
   if allocate && leafBankEligible f then
-    if let some text ← emitFunctionUsingBank true f types debugFileId darwin localSymbols allocate then
+    if let some text ← emitFunctionUsingBank true f types debugFileId darwin localSymbols allocate validated then
       return text
-  let some text ← emitFunctionUsingBank false f types debugFileId darwin localSymbols allocate
+  let some text ← emitFunctionUsingBank false f types debugFileId darwin localSymbols allocate validated
     | throw "ARM64 baseline bank unexpectedly declined emission"
   return text
 
+def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String :=
+  emitFunctionChecked false f types debugFileId darwin localSymbols allocate
+
+/-- Callers (`emit`, `emitModule`) validate every function of `program` first. -/
 private def emitFunctions (program : Program) (types : Array AggregateABI.TypeInfo := #[]) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String (List String) := do
   let mut fileId := 1
   let mut functions := []
   for f in program do
-    functions := (← emitFunction f types fileId darwin localSymbols allocate) :: functions
+    functions := (← emitFunctionChecked true f types fileId darwin localSymbols allocate) :: functions
     if f.debugFile.isSome then fileId := fileId + 1
   pure functions.reverse
 
