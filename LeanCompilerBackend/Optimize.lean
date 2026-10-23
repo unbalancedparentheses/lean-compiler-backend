@@ -70,9 +70,11 @@ def function (f : Function) : Function := Id.run do
     let before := facts.size
     for b in f.blocks do
       for phi in b.phis do
-        let values := phi.incoming.map (fun (_,v) => value facts phi.width v)
-        if let some (some n) := values[0]? then
-          if values.all (· == some n) then facts := facts.insert phi.destination n
+        -- Check the incoming values in place instead of mapping them into a new array.
+        if let some (_, first) := phi.incoming[0]? then
+          if let some n := value facts phi.width first then
+            if phi.incoming.all (fun (_,v) => value facts phi.width v == some n) 1 then
+              facts := facts.insert phi.destination n
       for s in b.instructions do
         if let .assign i := s then
           if let some n := constantResult facts i then facts := facts.insert i.destination n
