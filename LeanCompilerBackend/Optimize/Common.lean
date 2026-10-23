@@ -5,16 +5,36 @@ import LeanCompilerBackend.Optimize.Cleanup
 
 namespace LeanCompilerBackend.Optimize.Common
 
-private def key (i : Instruction) : Option String := do
-  match i.operation with
-  | .cast _ | .unary .. | .binary .. | .compare .. => pure ()
-  | _ => none
+deriving instance BEq, Hashable for Operand
+deriving instance Hashable for Width, Binary, Unary, Comparison
+
+/-- The pure expressions CSE may merge, compared structurally. -/
+private inductive Expression where
+  | cast (value : Operand)
+  | unary (op : Unary) (value : Operand)
+  | binary (op : Binary) (lhs rhs : Operand)
+  | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
+  deriving BEq, Hashable
+
+private structure Key where
+  width : Width
+  floating : Bool
+  expression : Expression
+  deriving BEq, Hashable
+
+private def key (i : Instruction) : Option Key := do
+  let expression ← match i.operation with
+    | .cast v => some (Expression.cast v)
+    | .unary op v => some (.unary op v)
+    | .binary op a b => some (.binary op a b)
+    | .compare op w a b => some (.compare op w a b)
+    | _ => none
   if i.operation.operands.any (fun v => match v with | .symbol _ | .threadSymbol _ => true | _ => false) then
     none
   else
-    -- Structural constructor spelling includes operand order and comparison width.
+    -- Structural equality includes operand order and comparison width.
     -- Result width/class prevent merging truncations or integer/FP bit casts.
-    some s!"{reprStr i.width}|{i.floating}|{reprStr i.operation}"
+    some { width := i.width, floating := i.floating, expression }
 
 private def rewrite (aliases : Std.HashMap String String) : Operand → Operand
   | .temporary name => (aliases[name]?).map Operand.temporary |>.getD (.temporary name)
@@ -44,7 +64,7 @@ private def reversePostorder (graph : CFG.Graph) : List Nat := Id.run do
 def eliminate (f : Function) : Except String Function := do
   let live ← Liveness.analyze f
   let doms ← CFG.dominators live.graph
-  let mut candidates : Std.HashMap String (List (Nat × Nat × String)) := {}
+  let mut candidates : Std.HashMap Key (List (Nat × Nat × String)) := {}
   let mut ordinal := 0
   let mut aliases : Std.HashMap String String := {}
   let mut blocks := f.blocks
