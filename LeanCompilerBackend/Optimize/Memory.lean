@@ -150,15 +150,10 @@ def promote (f : Function) : Function := Id.run do
       debugLocations := block.debugLocations.map fun loc => {loc with instruction := positions[loc.instruction]!}}
   -- Reuse the validated mutable-temporary SSA builder. On its resource boundary,
   -- keep the original function instead of expanding the compatibility domain.
+  -- `SSA.construct` validates the function it returns (and fails otherwise).
   match SSA.construct {f with blocks} with
-  | .ok promoted =>
-    match validateFunction promoted true with
-    | .ok () =>
-      return promoted
-    | .error _ =>
-      return f
-  | .error _ =>
-    return f
+  | .ok promoted => return promoted
+  | .error _ => return f
 
 private structure Stored where
   address : Operand
