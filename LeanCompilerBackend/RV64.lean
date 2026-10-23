@@ -389,7 +389,8 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
   let params := f.parameters.map fun p => {width := p.width, value := Operand.temporary p.name, floating := p.floating, subword := p.subword, environment := p.environment, aggregate := p.aggregate : CallArgument}
   let incoming ← plan types params (resultInfo.any (·.indirect))
   let header := if f.variadic then 80 else 16
-  let homes ← if allocate then Allocation.allocate f savedGP.size else pure (Allocation.baseline f)
+  -- `f` was validated at the top of this function.
+  let homes ← if allocate then Allocation.allocateValidated f savedGP.size else pure (Allocation.baseline f)
   let maxPhi := f.blocks.foldl (fun n b => max n b.phis.size) 0
   let mut fixed := header+(homes.spills+maxPhi)*8
   let savedBase := fixed+8

@@ -859,7 +859,8 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
   checkTargetSection darwin f.customSection
   let bank := if extra then leafBank else savedBank
   checkPhysicalBank f bank
-  let homes ← if allocate then Allocation.allocate f bank.size else pure (Allocation.baseline f)
+  -- `f` was validated at the top of this function.
+  let homes ← if allocate then Allocation.allocateValidated f bank.size else pure (Allocation.baseline f)
   let saved := bank.extract 0 (min homes.registers savedBank.size)
   let dynamic := f.blocks.any fun block => block.instructions.any fun statement =>
     match statement with

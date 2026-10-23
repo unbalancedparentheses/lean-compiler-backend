@@ -166,8 +166,8 @@ private def prioritize (f : Function) (live : Liveness.Result) (colors : Array N
 
 /-- Deterministic greedy coloring. Targets must admit stable physical homes;
     excess colors spill to reusable eight-byte slots. No live-range splitting. -/
-def allocate (f : Function) (registerCount : Nat := 0) : Except String Plan := do
-  let live ← Liveness.analyze f
+def allocateValidated (f : Function) (registerCount : Nat := 0) : Except String Plan := do
+  let live ← Liveness.analyzeValidated f
   let graph := interference f live
   let mut colors := #[]
   let mut occupants : Array Nat := #[]
@@ -184,9 +184,14 @@ def allocate (f : Function) (registerCount : Nat := 0) : Except String Plan := d
     prioritize f live colors occupants.size else colors
   let result := {names := live.names, colors, colorCount := occupants.size, registerCount : Plan}
   check f live result
-  -- `Liveness.analyze` above already validated `f`.
+  -- The caller has validated `f`.
   HomeFlow.checkValidated f result.names result.colors result.colorCount
   return result
+
+/-- Validates `f`, then allocates. -/
+def allocate (f : Function) (registerCount : Nat := 0) : Except String Plan := do
+  validateFunction f true
+  allocateValidated f registerCount
 
 /-- Identity homes preserve the original baseline and certified entry points. -/
 def baseline (f : Function) : Plan :=
