@@ -500,8 +500,8 @@ private def emitFunction (f : Function) (types : Array Info) (locals words : Lis
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines
   pure (String.intercalate "\n" lines.toList ++ "\n")
 
-def emitModule (m : Module) (allocate : Bool := false) : Except String String := do
-  validateModule m
+/-- `emitModule` for a module the caller has already validated (`validateModule`). -/
+def emitModuleValidated (m : Module) (allocate : Bool := false) : Except String String := do
   for d in m.data do Section.checkDataTarget false d.threadLocal d.customSection
   let types ← RV64ABI.classify m.types
   let locals := (m.functions.filter (!·.exported)).toList.map (·.name) ++ (m.data.filter (fun d => !d.exported && !d.common)).toList.map (·.name)
@@ -513,5 +513,9 @@ def emitModule (m : Module) (allocate : Bool := false) : Except String String :=
     if f.debugFile.isSome then fileId := fileId+1
   for d in m.data do output := output ++ Assembly.emitData false d
   pure (output ++ ".section .note.GNU-stack,\"\",@progbits\n")
+
+def emitModule (m : Module) (allocate : Bool := false) : Except String String := do
+  validateModule m
+  emitModuleValidated m allocate
 
 end LeanCompilerBackend.RV64

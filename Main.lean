@@ -280,9 +280,10 @@ private def run (args : List String) : IO UInt32 := do
         | .ok optimized => pure optimized
         | .error message => throw (IO.userError message)
         else pure module
-      let result := if selected == "x86_64-linux" || selected == "x86_64-macos" then AMD64.emitModule module (selected == "x86_64-macos") allocate
-        else if selected == "riscv64-linux" then RV64.emitModule module allocate
-        else AArch64.emitModule module (selected == "aarch64-macos") allocate
+      -- Both paths above end by validating the module (SSA construction or Optimize).
+      let result := if selected == "x86_64-linux" || selected == "x86_64-macos" then AMD64.emitModuleValidated module (selected == "x86_64-macos") allocate
+        else if selected == "riscv64-linux" then RV64.emitModuleValidated module allocate
+        else AArch64.emitModuleValidated module (selected == "aarch64-macos") allocate
       let assembly ← match result with
         | .ok text => pure text
         | .error message => throw (IO.userError message)

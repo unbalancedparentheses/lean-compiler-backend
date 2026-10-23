@@ -1111,8 +1111,8 @@ def emit (program : Program) : Except String String := do
     ++ String.intercalate "\n" functions
     ++ ".subsections_via_symbols\n"
 
-def emitModule (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String := do
-  validateModule module
+/-- `emitModule` for a module the caller has already validated (`validateModule`). -/
+def emitModuleValidated (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String := do
   for data in module.data do Section.checkDataTarget darwin data.threadLocal data.customSection
   let types ← AggregateABI.classify module.types
   let localSymbols := (module.functions.filter (!·.exported)).toList.map (·.name) ++
@@ -1122,5 +1122,9 @@ def emitModule (module : Module) (darwin : Bool := true) (allocate : Bool := fal
     ++ String.intercalate "\n" functions
     ++ String.intercalate "\n" (module.data.toList.map (emitData darwin))
     ++ (if darwin then ".subsections_via_symbols\n" else ".section .note.GNU-stack,\"\",%progbits\n")
+
+def emitModule (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String := do
+  validateModule module
+  emitModuleValidated module darwin allocate
 
 end LeanCompilerBackend.AArch64

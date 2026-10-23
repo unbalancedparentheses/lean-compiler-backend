@@ -574,8 +574,8 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines
   pure (String.intercalate "\n" lines.toList ++ "\n")
 
-def emitModule (m : Module) (darwin : Bool := false) (allocate : Bool := false) : Except String String := do
-  validateModule m
+/-- `emitModule` for a module the caller has already validated (`validateModule`). -/
+def emitModuleValidated (m : Module) (darwin : Bool := false) (allocate : Bool := false) : Except String String := do
   for data in m.data do Section.checkDataTarget darwin data.threadLocal data.customSection
   let types ← AMD64ABI.classify m.types
   let locals := (m.functions.filter (!·.exported)).toList.map (·.name) ++
@@ -587,5 +587,9 @@ def emitModule (m : Module) (darwin : Bool := false) (allocate : Bool := false) 
     if f.debugFile.isSome then fileId := fileId + 1
   for data in m.data do output := output ++ Assembly.emitData darwin data
   pure (output ++ if darwin then ".subsections_via_symbols\n" else ".section .note.GNU-stack,\"\",@progbits\n")
+
+def emitModule (m : Module) (darwin : Bool := false) (allocate : Bool := false) : Except String String := do
+  validateModule m
+  emitModuleValidated m darwin allocate
 
 end LeanCompilerBackend.AMD64
