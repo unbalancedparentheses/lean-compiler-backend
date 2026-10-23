@@ -88,8 +88,20 @@ private def failAt (message : String) : P α := do
     | none => "end of input"
   throw s!"{location}: {message}"
 
-private def peek : P (Option String) := do
+@[inline] private def peek : P (Option String) := do
   return ((← get).tokens[(← get).position]?).map (·.text)
+
+/-- `(← peek) == some wanted`, without building an `Option` for the comparison. -/
+@[inline] private def peekIs (wanted : String) : P Bool := do
+  let s ← get
+  return (s.tokens[s.position]?).any (·.text == wanted)
+
+/-- `((← peek).getD "").startsWith pre`, without building an `Option`. -/
+@[inline] private def peekStartsWith (pre : String) : P Bool := do
+  let s ← get
+  return match s.tokens[s.position]? with
+    | some t => t.text.startsWith pre
+    | none => "".startsWith pre
 
 private def take : P String := do
   let s ← get
@@ -100,7 +112,7 @@ private def take : P String := do
     return t.text
 
 private def expect (wanted : String) : P Unit := do
-  if (← peek) != some wanted then failAt s!"expected '{wanted}'"
+  unless (← peekIs wanted) do failAt s!"expected '{wanted}'"
   discard take
 
 private def parseWidth : P Width := do
@@ -131,7 +143,7 @@ private def parseName (sigil : Char) : P String := do
   | [] => failAt "empty name"
 
 private def parseABIType : P (Width × Bool × Option Subword × Option String) := do
-  if ((← peek).getD "").startsWith ":" then
+  if (← peekStartsWith ":") then
     let name ← parseName ':'
     if !(← get).typeNames.contains name then failAt s!"unsupported type: undefined aggregate :{name}"
     return (.long, false, none, some name)
@@ -222,26 +234,26 @@ private def comparisonName (name : String) : Option (Comparison × Width) := Id.
 private def parseArguments : Nat → Bool → P (Array CallArgument × Bool)
   | 0, _ => failAt "call argument parsing limit exceeded"
   | fuel + 1, variadic => do
-    if (← peek) == some ")" then return (#[], variadic)
-    if (← peek) == some "..." then
+    if (← peekIs ")") then return (#[], variadic)
+    if (← peekIs "...") then
       if variadic then failAt "duplicate variadic call marker"
       discard take
-      if (← peek) == some ")" then return (#[], true)
+      if (← peekIs ")") then return (#[], true)
       expect ","
-      if (← peek) == some ")" then failAt "trailing comma in call arguments"
+      if (← peekIs ")") then failAt "trailing comma in call arguments"
       return ← parseArguments fuel true
-    let environment := (← peek) == some "env"
+    let environment := (← peekIs "env")
     let (width, floating, subword, aggregate) ← if environment then do discard take; pure (Width.long, false, none, none) else parseABIType
     let value ← parseOperand
-    if (← peek) == some "," then
+    if (← peekIs ",") then
       discard take
-      if (← peek) == some ")" then failAt "trailing comma in call arguments"
+      if (← peekIs ")") then failAt "trailing comma in call arguments"
       let (rest, marker) ← parseArguments fuel variadic
       return (#[{ width, value, variadic, environment, floating, subword, aggregate }] ++ rest, marker)
     return (#[{ width, value, variadic, environment, floating, subword, aggregate }], variadic)
 
 private def parseCall : P (CallTarget × Array CallArgument × Bool) := do
-  let target ← if ((← peek).getD "").startsWith "$" then
+  let target ← if (← peekStartsWith "$") then
       CallTarget.direct <$> parseName '$'
     else CallTarget.indirect <$> parseOperand
   expect "("
@@ -330,7 +342,7 @@ private def parseIncoming (limit : Nat) : P (Array (String × Operand)) := do
     let label ← parseName '@'
     let value ← parseOperand
     incoming := incoming.push (label, value)
-    if (← peek) == some "," then discard take
+    if (← peekIs ",") then discard take
     else return incoming
   failAt "phi incoming-edge limit exceeded"
 
@@ -370,16 +382,16 @@ private def parseBlit : P Statement := do
 private def parseParameters : Nat → P (Array Parameter × Bool)
   | 0 => failAt "parameter parsing limit exceeded"
   | fuel + 1 => do
-    if (← peek) == some ")" then return (#[], false)
-    if (← peek) == some "..." then
+    if (← peekIs ")") then return (#[], false)
+    if (← peekIs "...") then
       discard take
       return (#[], true)
-    let environment := (← peek) == some "env"
+    let environment := (← peekIs "env")
     let (width, floating, subword, aggregate) ← if environment then do discard take; pure (Width.long, false, none, none) else parseABIType
     let name ← parseName '%'
-    if (← peek) == some "," then
+    if (← peekIs ",") then
       discard take
-      if (← peek) == some ")" then failAt "trailing comma in parameters"
+      if (← peekIs ")") then failAt "trailing comma in parameters"
       let (rest, variadic) ← parseParameters fuel
       return (#[{ name, width, environment, floating, subword, aggregate }] ++ rest, variadic)
     return (#[{ name, width, environment, floating, subword, aggregate }], false)
@@ -391,10 +403,10 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
   -- Debug directives consume tokens, but are not IR instructions.
   let cursor ← get
   for _ in [:cursor.tokens.size - cursor.position + 1] do
-    if (← peek) == some "dbgloc" then
+    if (← peekIs "dbgloc") then
       discard take
       let line ← parseNonnegativeInteger "expected nonnegative debug line"
-      let column ← if (← peek) == some "," then do
+      let column ← if (← peekIs ",") then do
         discard take
         let value ← parseNonnegativeInteger "expected nonnegative debug column"
         pure value
@@ -402,7 +414,7 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
       if line >= 2^29 || column >= 2^29 then failAt "debug location exceeds 29-bit QBE limit"
       if (← get).debugFile.isNone then failAt "dbgloc requires a preceding dbgfile"
       debugLocations := debugLocations.push { instruction := instructions.size, line, column }
-    else if (← peek) == some "ret" then
+    else if (← peekIs "ret") then
       discard take
       -- A bare ret is valid even in a typed function (e.g. an unreachable
       -- fallthrough block emitted by C frontends). Preserve the absent value.
@@ -410,17 +422,17 @@ private def parseBody (resultWidth : Option Width) (limit : Nat) : P (Array Phi 
       let bare := next.isNone || next == some "}" || next.any (·.startsWith "@")
       let value ← if resultWidth.isSome && !bare then some <$> parseOperand else pure none
       return (phis, instructions, .ret value, debugLocations)
-    else if (← peek) == some "jmp" then
+    else if (← peekIs "jmp") then
       discard take
       return (phis, instructions, .jump (← parseName '@'), debugLocations)
-    else if (← peek) == some "jnz" then
+    else if (← peekIs "jnz") then
       discard take
       let condition ← parseOperand
       expect ","
       let yes ← parseName '@'
       expect ","
       return (phis, instructions, .branch condition yes (← parseName '@'), debugLocations)
-    else if (← peek) == some "hlt" then
+    else if (← peekIs "hlt") then
       discard take
       return (phis, instructions, .halt, debugLocations)
     else if let some token := ← peek then
@@ -461,12 +473,12 @@ private def parseBlocks (resultWidth : Option Width) (limit : Nat) : P (Array Bl
     let label ← parseName '@'
     let (phis, instructions, terminator, debugLocations) ← parseBody resultWidth (maxCompatibilityInstructions + 1)
     blocks := blocks.push { label, phis, instructions, terminator, debugLocations }
-    if !((← peek).getD "").startsWith "@" then return blocks
+    if !(← peekStartsWith "@") then return blocks
   failAt "block parsing limit exceeded"
 
 private def parseFunction (exported : Bool) : P Function := do
   expect "function"
-  let result ← if ((← peek).getD "").startsWith "$" then pure none else some <$> parseABIType
+  let result ← if (← peekStartsWith "$") then pure none else some <$> parseABIType
   let resultWidth := result.map (·.1)
   let resultFloating := result.any (·.2.1)
   let resultSubword := result.bind (·.2.2.1)
@@ -548,7 +560,7 @@ private def parseData (exported threadLocal : Bool) : P DataDefinition := do
   expect "data"
   let name ← parseName '$'
   expect "="
-  let alignment ← if (← peek) == some "align" then do
+  let alignment ← if (← peekIs "align") then do
       discard take
       let n ← parseDataInteger
       if n <= 0 || n > 64 then failAt "data alignment must be a power of two in 1..64"
@@ -557,7 +569,7 @@ private def parseData (exported threadLocal : Bool) : P DataDefinition := do
   expect "{"
   let mut items := #[]
   for _ in [:50000] do
-    if (← peek) == some "}" then
+    if (← peekIs "}") then
       discard take
       return { name, exported, alignment, threadLocal, items }
     let kind ← take
@@ -572,13 +584,13 @@ private def parseData (exported threadLocal : Bool) : P DataDefinition := do
         | _ => failAt "unsupported data type: expected b, h, w, l, s, d or z"
       let mut count := 0
       for _ in [:50000] do
-        if (← peek) == some "," || (← peek) == some "}" then break
-        let item ← if ((← peek).getD "").startsWith "\"" then do
+        if (← peekIs ",") || (← peekIs "}") then break
+        let item ← if (← peekStartsWith "\"") then do
             if width != .byte then failAt "string initializer requires b"
             pure (DataItem.byteString (← parseDataString))
-          else if ((← peek).getD "").startsWith "$" then do
+          else if (← peekStartsWith "$") then do
             let symbol ← parseName '$'
-            let offset ← if (← peek) == some "+" then do
+            let offset ← if (← peekIs "+") then do
                 discard take
                 let value ← parseDataInteger
                 -- Native assemblers receive the same signed int64 addend QBE emits.
@@ -589,18 +601,18 @@ private def parseData (exported threadLocal : Bool) : P DataDefinition := do
         items := items.push item
         count := count + 1
       if count == 0 then failAt "data field requires at least one initializer"
-    if (← peek) == some "," then discard take
-    else if (← peek) != some "}" then failAt "expected ',' or '}' after data field"
+    if (← peekIs ",") then discard take
+    else if !(← peekIs "}") then failAt "expected ',' or '}' after data field"
   failAt "data initializer parsing limit exceeded"
 
 private def parseAggregateFields : P (Array AggregateField) := do
   expect "{"
   let mut fields := #[]
   for _ in [:4097] do
-    if (← peek) == some "}" then
+    if (← peekIs "}") then
       discard take
       return fields
-    let member ← if ((← peek).getD "").startsWith ":" then
+    let member ← if (← peekStartsWith ":") then
         pure (AggregateMember.named (← parseName ':'))
       else do
         let kind ← take
@@ -613,15 +625,15 @@ private def parseAggregateFields : P (Array AggregateField) := do
         parseNonnegativeInteger "expected nonnegative aggregate repetition"
       else pure 1
     fields := fields.push { member, count }
-    if (← peek) == some "," then discard take
-    else if (← peek) != some "}" then failAt "expected ',' or '}' after aggregate member"
+    if (← peekIs ",") then discard take
+    else if !(← peekIs "}") then failAt "expected ',' or '}' after aggregate member"
   failAt "aggregate field limit exceeded (4096)"
 
 private def parseAggregate : P AggregateType := do
   expect "type"
   let name ← parseName ':'
   expect "="
-  let alignment ← if (← peek) == some "align" then do
+  let alignment ← if (← peekIs "align") then do
       discard take
       let n ← parseNonnegativeInteger "expected aggregate alignment"
       pure (some n)
@@ -633,10 +645,10 @@ private def parseAggregate : P AggregateType := do
     let size ← parseNonnegativeInteger "expected nonnegative opaque size"
     expect "}"
     return { name, alignment, opaqueSize := some size }
-  if (← peek) == some "{" then
+  if (← peekIs "{") then
     let mut variants := #[]
     for _ in [:1025] do
-      if (← peek) == some "}" then
+      if (← peekIs "}") then
         discard take
         return { name, alignment, variants, isUnion := true }
       variants := variants.push (← parseAggregateFields)
@@ -650,14 +662,14 @@ private def parseDefinitions (fuel : Nat) : P Module := do
   let mut result : Module := {}
   for _ in [:fuel] do
     if (← peek).isNone then return result
-    if (← peek) == some "dbgfile" then
+    if (← peekIs "dbgfile") then
       discard take
       let bytes ← parseDataString
       let some file := String.fromUTF8? ⟨bytes⟩ | failAt "debug filename must be UTF-8"
       if file.contains '\x00' then failAt "debug filename must not contain NUL"
       modify fun state => { state with debugFile := some file }
       continue
-    if (← peek) == some "type" then
+    if (← peekIs "type") then
       let type ← parseAggregate
       modify fun state => { state with typeNames := type.name :: state.typeNames }
       result := { result with types := result.types.push type }
@@ -667,31 +679,31 @@ private def parseDefinitions (fuel : Nat) : P Module := do
     let mut common := false
     let mut customSection := none
     for _ in [:5] do
-      if (← peek) == some "export" then
+      if (← peekIs "export") then
         if exported then failAt "duplicate export linkage"
         discard take
         exported := true
-      else if (← peek) == some "thread" then
+      else if (← peekIs "thread") then
         if threadLocal then failAt "duplicate thread linkage"
         discard take
         threadLocal := true
-      else if (← peek) == some "common" then
+      else if (← peekIs "common") then
         if common then failAt "duplicate common linkage"
         discard take
         common := true
-      else if (← peek) == some "section" then
+      else if (← peekIs "section") then
         if customSection.isSome then failAt "duplicate section linkage"
         discard take
         let bytes ← parseDataString
         let some name := String.fromUTF8? ⟨bytes⟩ | failAt "section name must be UTF-8"
-        let flags ← if ((← peek).getD "").startsWith "\"" then do
+        let flags ← if (← peekStartsWith "\"") then do
           let bytes ← parseDataString
           let some flags := String.fromUTF8? ⟨bytes⟩ | failAt "section flags must be UTF-8"
           pure (some flags)
         else pure none
         customSection := some { name, flags }
       else break
-    if (← peek) == some "data" then
+    if (← peekIs "data") then
       let data ← parseData exported threadLocal
       result := { result with data := result.data.push { data with common, customSection } }
     else
