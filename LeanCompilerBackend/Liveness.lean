@@ -44,9 +44,8 @@ def terminatorOperands : Terminator → List Operand
   | .ret v => v.toList | .branch v .. => [v] | _ => []
 
 /-- Finite monotone worklist, then a backward scan for instruction boundaries.
-    For a function the caller has already validated (`validateFunction f true`). -/
-def analyzeValidated (f : Function) : Except String Result := do
-  let graph ← CFG.build f
+    For a function the caller has already validated, with its `CFG.build f`. -/
+def analyzeWithGraph (f : Function) (graph : CFG.Graph) : Except String Result := do
   let names := f.locals.map (·.1)
   let indices := names.foldl (fun (state : Std.HashMap String Nat × Nat) name =>
     (state.1.insert name state.2, state.2+1)) ({}, 0) |>.1
@@ -117,9 +116,15 @@ def analyzeValidated (f : Function) : Except String Result := do
     edges := edges.push ((graph.successors[node]!.zip phiUses[node]!).map fun (target, used) => liveIn[target]! ||| used)
   pure {names, indices, graph, liveIn, liveOut, before, edges}
 
-/-- Validates `f` (all supplied SSA, including unreachable blocks), then analyzes it. -/
+/-- For a function the caller has already validated (`validateFunction f true`). -/
+def analyzeValidated (f : Function) : Except String Result := do
+  analyzeWithGraph f (← CFG.build f)
+
+/-- Validates `f` (all supplied SSA, including unreachable blocks), then analyzes it,
+    reusing the CFG that validation built. -/
 def analyze (f : Function) : Except String Result := do
-  validateFunction f true
-  analyzeValidated f
+  match ← validateFunctionGraph f true with
+  | some graph => analyzeWithGraph f graph
+  | none => analyzeValidated f
 
 end LeanCompilerBackend.Liveness

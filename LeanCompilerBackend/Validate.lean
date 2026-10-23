@@ -123,7 +123,8 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
 
 private def checkSection := Section.checkAny
 
-def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
+/-- `validateFunction`, also returning the indexed CFG it builds on the scalable path. -/
+def validateFunctionGraph (f : Function) (scalable : Bool := false) : Except String (Option CFG.Graph) := do
   checkSection f.customSection
   if f.debugFile.any (·.contains '\x00') then throw "debug filename must not contain NUL"
   for block in f.blocks do
@@ -283,6 +284,10 @@ def validateFunction (f : Function) (scalable : Bool := false) : Except String U
       | _, _ => throw "return value disagrees with function result type"
     | .branch value _ _ => check .word value
     | .jump _ | .halt => pure ()
+  pure graph
+
+def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
+  discard (validateFunctionGraph f scalable)
 
 /-- An omitted environment has no value. Conservatively require that the incoming
     parameter is absent from every operand, including phi edges and dead blocks. -/
