@@ -6,10 +6,8 @@ namespace LeanCompilerBackend.Allocation.HomeFlow
 
 private abbrev State := Array Nat
 
-/-- An unknown home holds no provable SSA identity. A missing block state means
-    no entry-reachable predecessor has been processed yet. -/
-def check (f : Function) (names : Array String) (colors : Array Nat) (count : Nat) : Except String Unit := do
-  validateFunction f true
+/-- `check` for a function the caller has already validated (`validateFunction f true`). -/
+def checkValidated (f : Function) (names : Array String) (colors : Array Nat) (count : Nat) : Except String Unit := do
   if names != f.locals.map (·.1) || colors.size != names.size || count > names.size then
     throw "home-flow inventory mismatch"
   if colors.any (· >= count) then throw "home-flow color out of bounds"
@@ -77,5 +75,11 @@ def check (f : Function) (names : Array String) (colors : Array Nat) (count : Na
             throw "home-flow missing phi edge"
           read state value
   return ()
+
+/-- An unknown home holds no provable SSA identity. A missing block state means
+    no entry-reachable predecessor has been processed yet. -/
+def check (f : Function) (names : Array String) (colors : Array Nat) (count : Nat) : Except String Unit := do
+  validateFunction f true
+  checkValidated f names colors count
 
 end LeanCompilerBackend.Allocation.HomeFlow

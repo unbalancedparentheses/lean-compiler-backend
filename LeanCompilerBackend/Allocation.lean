@@ -184,7 +184,8 @@ def allocate (f : Function) (registerCount : Nat := 0) : Except String Plan := d
     prioritize f live colors occupants.size else colors
   let result := {names := live.names, colors, colorCount := occupants.size, registerCount : Plan}
   check f live result
-  HomeFlow.check f result.names result.colors result.colorCount
+  -- `Liveness.analyze` above already validated `f`.
+  HomeFlow.checkValidated f result.names result.colors result.colorCount
   return result
 
 /-- Identity homes preserve the original baseline and certified entry points. -/
