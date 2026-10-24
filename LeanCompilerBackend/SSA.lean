@@ -228,15 +228,19 @@ private def checkMixedUses (f : Function) (types : Std.HashMap String (Width × 
     | _ => pure ()
 
 /-- `construct`, given `CFG.build f` when the caller has it (only labels, terminators
-    and block order determine it). -/
-def constructWithGraph (f : Function) (known : Option CFG.Graph := none) : Except String Function := do
+    and block order determine it). `validateUnchanged` also checks the already-SSA
+    fast path, for callers that need every successful result to be validated. -/
+def constructWithGraph (f : Function) (known : Option CFG.Graph := none)
+    (validateUnchanged : Bool := false) : Except String Function := do
   let names := f.locals.toList.map (·.1)
   let mut seen : Std.HashSet String := {}
   let mut duplicate := false
   for name in names do
     if seen.contains name then duplicate := true
     seen := seen.insert name
-  if !duplicate then return f
+  if !duplicate then
+    if validateUnchanged then validateFunction f true
+    return f
   if f.blocks.isEmpty then throw "SSA construction: function has no entry block"
   let parameters := f.parameters.toList.map (·.name)
   if parameters.eraseDups.length != parameters.length then throw "duplicate parameter"

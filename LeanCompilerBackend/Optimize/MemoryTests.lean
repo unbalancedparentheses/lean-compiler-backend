@@ -19,6 +19,14 @@ private def agrees (f g : Function) (args : Array UInt64) : Bool :=
   | .ok a, .ok b => a == b | _, _ => false
 
 def run : IO Unit := do
+  -- A single store creates no duplicate local, so SSA construction takes its
+  -- unchanged fast path. Promotion must still validate before accepting it.
+  let .ok malformed := Parser.parseModule
+    "function l $f() { @s %p =l alloc8 8 storel 17,%p %r =l loadl %p ret %missing }"
+    | throw (IO.userError "promotion regression fixture did not parse")
+  let original := malformed.functions[0]!
+  require (reprStr (Memory.promote original) == reprStr original)
+    "promotion must retain its input when the already-SSA result fails validation"
   for (bytes, suffix) in #[(1, "b"), (2, "h")] do
     for signedness in #["s", "u"] do
       for width in #["w", "l"] do

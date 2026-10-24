@@ -150,9 +150,10 @@ def promote (f : Function) : Function := Id.run do
       debugLocations := block.debugLocations.map fun loc => {loc with instruction := positions[loc.instruction]!}}
   -- Reuse the validated mutable-temporary SSA builder. On its resource boundary,
   -- keep the original function instead of expanding the compatibility domain.
-  -- `SSA.construct` validates the function it returns (and fails otherwise).
+  -- Request validation even when no renaming is needed: ordinary `SSA.construct`
+  -- returns already-SSA inputs unchanged without checking them.
   -- Only instructions changed, so `graph` is also the CFG of the rewritten function.
-  match SSA.constructWithGraph {f with blocks} (some graph) with
+  match SSA.constructWithGraph {f with blocks} (some graph) true with
   | .ok promoted => return promoted
   | .error _ => return f
 
