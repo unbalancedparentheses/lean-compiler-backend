@@ -1,8 +1,10 @@
 # A reproducible, independently checkable compiler backend in Lean 4
 
-Status: research and design rationale, updated 2026-10-18. The roadmap now adopts
-correctness-first sequencing: foundations and proof design during the QBE port,
-followed by expanding compatibility and certification together. Detailed interfaces
+Status: research and design rationale, originally updated 2026-10-18; status
+clarified 2026-10-24. See the [long-term core architecture proposal](long-term-core-architecture.md)
+for the subsequent multiple-input discussion, reuse experiments and Claude review.
+The roadmap currently prioritizes compatibility with a bounded focused-proof
+allocation; broader certification is a separate gate. Detailed interfaces
 and algorithms below remain proposals until implemented and qualified. The backend
 is implemented in Lean 4 and accepts a general-purpose IR; it is not specifically
 a compiler for Lean programs.
@@ -17,8 +19,10 @@ It is not an instruction to expand scope to MLIR integration, a JIT or a
 custom linker before completing the QBE baseline.
 
 Primary-source findings, proposed designs and the limits of the community
-evidence review are distinguished below. The requested independent Claude Code review is
-pending: its attempted invocation failed because Claude Code was not logged in.
+evidence review are distinguished below. The initial Claude invocation failed;
+a subsequent read-only architecture review completed on 2026-10-23. Its findings,
+limitations, and recommendations we did not adopt verbatim are recorded in the
+[new research proposal](long-term-core-architecture.md#7-independent-claude-review-and-unresolved-findings).
 
 ## Product priorities and long-term direction
 

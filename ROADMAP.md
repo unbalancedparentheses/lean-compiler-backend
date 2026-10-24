@@ -1,5 +1,10 @@
 # Roadmap
 
+The [long-term core architecture research](docs/research/long-term-core-architecture.md)
+records the multiple-input/single-core proposal, reuse evaluation, semantic and
+proof boundaries, Claude review, and open design decisions. It is a research
+proposal; the execution queue below remains the implementation plan.
+
 QBE 1.3 compatibility on the five in-scope Linux/macOS targets is the immediate
 development priority. Complete the language, ABIs and optimization pipeline on
 those targets while reserving roughly 20% of effort for focused proofs tied to
