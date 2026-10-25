@@ -284,9 +284,14 @@ def constructWithGraph (f : Function) (known : Option CFG.Graph := none)
       plans := plans.push { block, phiNames, instructionNames, outgoing }
     modify fun s => { s with plans }
     let blocks ← plans.mapM rewriteBlock
-    let generated := (← get).generated.reverse
-    let blocks := blocks.map fun block => { block with
-      phis := block.phis ++ (generated.filterMap fun (label, phi) => if label == block.label then some phi else none).toArray }
+    -- Group the generated phis by block once (oldest first, as they were made),
+    -- instead of filtering the whole list again for every block.
+    let s ← get
+    let generated := s.generated.reverse.foldl (init := Array.replicate blocks.size #[])
+      -- (`modify` ignores the out-of-range default, as filtering found no block)
+      fun groups (label, phi) => groups.modify (s.indices.getD label blocks.size) (·.push phi)
+    let blocks := blocks.mapIdx fun i block => { block with
+      phis := block.phis ++ generated[i]! }
     pure { f with parameters, blocks }
   let graph ← match known with
     | some graph => pure graph
