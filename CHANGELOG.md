@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Group generated SSA phis by block once and collect assembly data lines in an
+  array. The unchanged candidate passes the full pinned macOS ARM64 Nix gate.
+  [Qualification and attributed timing evidence](docs/benchmarks/leanprof-phi-data/README.md)
+  distinguish the reported 8.19% four-unit zlib compiler-time reduction from
+  independently rerun correctness checks.
+
 - Compile zlib plus its original example/minigzip programs through identical cproc
   IR. All five builds pass upstream static tests and twelve exact gzip/round-trip
   cases. Publish the compression performance gap as well as functional matches.
