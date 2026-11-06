@@ -324,7 +324,8 @@ private def undefinedDivision : IO Unit := do
   let mir := artifact.code.stackMIR
   let retarget (op : Source.Division) (dst lhs rhs : StackMIR.Register) : StackMIR.Function :=
     { mir with blocks := mir.blocks.map fun b => { b with instructions := b.instructions.map fun
-        | .divide w _ _ _ _ => .divide w op dst lhs rhs | i => i } }
+        | .divide w _ _ _ _ => .divide w op dst lhs rhs
+        | .store w slot .r9 => .store w slot dst | i => i } }
   for (op, dst, lhs, rhs) in [(Source.Division.signedRem, StackMIR.Register.r9, StackMIR.Register.r9, StackMIR.Register.r10),
       (.unsignedRem, .r10, .r0, .r10), (.signedRem, .r0, .r0, .r10)] do
     require (match TypedA64.select (retarget op dst lhs rhs) with
@@ -335,9 +336,10 @@ private def undefinedDivision : IO Unit := do
     | .ok code => pure code
     | .error e => throw (IO.userError s!"aliased quotient: {e}")
   let args := #[Source.Value.constant .long (-7), .constant .long 2]
-  require (match Machine.evaluateMIR aliased args 100, Machine.evaluateAssembly selected args 100 with
-    | .returned x _, .returned y _ => decide (x = y) | _, _ => false)
-    "aliased quotient must agree between MIR and assembly"
+  let quotient := Source.Value.constant .long (-3)
+  for execution in [Machine.evaluateMIR aliased args 100, Machine.evaluateAssembly selected args 100] do
+    require (match execution with | .returned value _ => decide (value = quotient) | _ => false)
+      "aliased quotient must be stored and returned by MIR and assembly"
 
 private def faultControls : IO Unit := do
   let f ← admitted "function w $f(w %x) { @s ret %x }"

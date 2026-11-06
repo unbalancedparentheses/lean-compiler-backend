@@ -124,7 +124,6 @@ in declaration order in `Job.lean`/`Plans.lean`. Tags are:
 | MIR terminator | jump, branch, return |
 | Assembly instruction | subSP, addSP, load, store, movz, movk, alu, cmp, cset, cbnz, jump, ret, divide, msub |
 | Assembly condition | eq, lo, ls, lt, le |
-| Assembly condition | eq, lo |
 | Evidence request | none, kernelTypedAssembly, nativeBinary |
 | Evidence result | uncertified (the only implemented constructor) |
 
