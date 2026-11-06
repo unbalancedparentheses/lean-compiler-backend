@@ -140,8 +140,8 @@ end LeanCompilerBackend.Verified.Machine
 
 namespace LeanCompilerBackend.Verified
 
-/-- Equality and unsigned comparison produce the same word result in source and
-    actual MIR lowering, for either word or long operands. -/
+/-- Equality and unsigned/signed less(-or-equal) comparisons produce the same
+    word result in source and actual MIR lowering, for word or long operands. -/
 theorem comparison_instruction (f : StackMIR.Function) (source : Source.Function)
     (env : Source.Environment) (d : Machine.Data) (inst : Source.Instruction)
     (op : Source.Comparison) (w : Width) (lhs rhs : Source.Operand) (a b : Source.Value)

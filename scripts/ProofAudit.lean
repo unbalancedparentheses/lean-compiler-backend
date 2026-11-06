@@ -188,7 +188,7 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.binary_instruction
 #print axioms LeanCompilerBackend.Verified.binary_steps
 
--- Word-result equality/unsigned comparisons at both operand widths.
+-- Word-result equality, unsigned and signed comparisons at both operand widths.
 #print axioms LeanCompilerBackend.Verified.Machine.value_bits_toNat
 #print axioms LeanCompilerBackend.Verified.Machine.signedValue_value
 #print axioms LeanCompilerBackend.Verified.Machine.boolValue_width

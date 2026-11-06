@@ -147,7 +147,9 @@ not upgrade the evidence level.
 
 `StackMIR.lower` assigns every value an eight-byte slot and reserves separate
 phi staging slots. Word accesses use only four bytes. Entry stores parameter
-registers; each source assignment loads R9/R10, computes and stores its result.
+registers; each source assignment loads its operands into R9/R10 (a division
+loads the dividend into R0 instead, so its R9 result differs from both
+operands), computes and stores its R9 result.
 Each edge stages every phi source before committing any destination. Source
 branches select an edge before its transfers execute. Frame entry/leave and
 physical register roles are explicit; there is no allocator or optimization pass.
