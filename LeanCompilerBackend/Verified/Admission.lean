@@ -42,11 +42,17 @@ private def operand (locals : Array (String × Width)) (width : Width)
 private def binary : Binary → Except AdmissionError Source.Binary
   | .add => .ok .add | .sub => .ok .sub | .mul => .ok .mul
   | .andBits => .ok .andBits | .orBits => .ok .orBits | .xorBits => .ok .xorBits
-  | _ => .error (.unsupported "shifts")
+  | .shiftLeft => .ok .shiftLeft | .logicalRight => .ok .logicalRight
+  | .arithmeticRight => .ok .arithmeticRight
+
+private def division : Division → Source.Division
+  | .unsignedDiv => .unsignedDiv | .unsignedRem => .unsignedRem
+  | .signedDiv => .signedDiv | .signedRem => .signedRem
 
 private def comparison : Comparison → Except AdmissionError Source.Comparison
-  | .eq => .ok .eq | .unsignedLT => .ok .unsignedLT
-  | _ => .error (.unsupported "comparison other than eq/unsignedLT")
+  | .eq => .ok .eq | .unsignedLT => .ok .unsignedLT | .unsignedLE => .ok .unsignedLE
+  | .signedLT => .ok .signedLT | .signedLE => .ok .signedLE
+  | _ => .error (.unsupported "comparison other than eq/unsignedLT/unsignedLE/signedLT/signedLE")
 
 private def instruction (locals : Array (String × Width)) (inst : Instruction)
     : Except AdmissionError Source.Instruction := do
@@ -61,7 +67,8 @@ private def instruction (locals : Array (String × Width)) (inst : Instruction)
       pure (.compare (← comparison op) width (← operand locals width lhs) (← operand locals width rhs))
     | .convert .. | .floatBinary .. | .floatNegate .. | .floatCompare .. | .cast .. => throw (.unsupported "floating operations/casts")
     | .unary .. => throw (.unsupported "unary operations")
-    | .divide .. => throw (.unsupported "division/remainder")
+    | .divide op lhs rhs =>
+      pure (.divide (division op) (← operand locals inst.width lhs) (← operand locals inst.width rhs))
     | .allocate .. => throw (.unsupported "source stack allocations")
     | .load .. => throw (.unsupported "source memory loads")
     | .vaArg .. => throw (.unsupported "variadic argument access")
@@ -80,7 +87,7 @@ private def reachable (f : Function) : Array String := Id.run do
           if !reached.contains target then reached := reached.push target
   return reached
 
-/-- Import only the v1 profile into raw locally numbered syntax. The result is
+/-- Import only the current first-path profile into raw locally numbered syntax. The result is
     not proof-carrying and must not satisfy a certification request. -/
 def admit (f : Function) : Except AdmissionError Source.Function := do
   if !validIdentifier f.name then throw (.unsupported "quoted global names")

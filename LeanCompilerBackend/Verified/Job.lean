@@ -11,8 +11,8 @@ namespace LeanCompilerBackend.Verified
 
 structure CodeInput where
   version : Nat := 1
-  sourceSemantics : String := "ssa-int-v1"
-  targetSemantics : String := "a64-leaf-v1"
+  sourceSemantics : String := "ssa-int-v2"
+  targetSemantics : String := "a64-leaf-v2"
   target : String := "aarch64-apple-darwin-leaf-int-v1"
   pipeline : String := "stack-baseline-v1"
   /-- An explicit development implementation revision, not a content hash. -/
@@ -141,7 +141,7 @@ private def validateDebug (f : Source.Function) (debug : DebugInput) : Except Co
 /-- Checking input is independent of module state and does not grant evidence. -/
 def validateJob (job : FunctionJob) : Except CompileError Unit := do
   let c := job.code
-  if c.version != 1 || c.sourceSemantics != "ssa-int-v1" || c.targetSemantics != "a64-leaf-v1" ||
+  if c.version != 1 || c.sourceSemantics != "ssa-int-v2" || c.targetSemantics != "a64-leaf-v2" ||
       c.target != "aarch64-apple-darwin-leaf-int-v1" || c.pipeline != "stack-baseline-v1" ||
       c.compilerRevision != "lcb-foundations-dev1" || c.compilerBuild != compilerBuildIdentity then
     throw (.unsupported "job version, target, semantics or compiler revision")

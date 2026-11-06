@@ -20,17 +20,36 @@ def Value.toNat : Value → Nat
   | .word bits => bits.toNat
   | .long bits => bits.toNat
 
+/-- Two's-complement reading at the value's own width. -/
+def Value.toInt : Value → Int
+  | .word bits => bits.toInt
+  | .long bits => bits.toInt
+
 def Value.constant (width : Width) (n : Int) : Value :=
   match width with
   | .word => .word (BitVec.ofInt 32 n)
   | .long => .long (BitVec.ofInt 64 n)
 
+/-- Shift counts are same-width values reduced modulo the width, matching the
+    compatibility interpreter's count mask and AArch64 LSLV/LSRV/ASRV. High
+    multiplies return the upper half of the exact double-width product of the
+    unsigned or signed operands. They have no QBE spelling: admission from QBE
+    text never produces them, and job validation admits them only at long width. -/
 inductive Binary where
   | add | sub | mul | andBits | orBits | xorBits
+  | shiftLeft | logicalRight | arithmeticRight
+  | mulHighUnsigned | mulHighSigned
+  deriving DecidableEq, Repr
+
+/-- Division and remainder truncate toward zero (remainder has the dividend's
+    sign). A zero divisor, and a signed minimum divided by -1, are outside the
+    defined domain for all four, as in the compatibility interpreter. -/
+inductive Division where
+  | unsignedDiv | unsignedRem | signedDiv | signedRem
   deriving DecidableEq, Repr
 
 inductive Comparison where
-  | eq | unsignedLT
+  | eq | unsignedLT | unsignedLE | signedLT | signedLE
   deriving DecidableEq, Repr
 
 abbrev ValueId := Nat
@@ -45,6 +64,7 @@ inductive Operation where
   | copy (value : Operand)
   | binary (op : Binary) (lhs rhs : Operand)
   | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
+  | divide (op : Division) (lhs rhs : Operand)
   deriving DecidableEq, Repr
 
 structure Instruction where
@@ -94,6 +114,9 @@ inductive Fault where
   | arity | widthMismatch | missingValue (id : ValueId)
   | invalidBlock (id : BlockId) | invalidPosition
   | invalidDestination (id : ValueId) | invalidPhi (block : BlockId)
+  /-- Division by zero or signed-minimum / -1: the step is stuck, so such a
+      function has no behavior and no compiled-code obligation. -/
+  | undefinedDivision
   deriving DecidableEq, Repr
 
 def read (env : Environment) (width : Width) (operand : Operand)
@@ -117,10 +140,32 @@ def binaryBits {n : Nat} (op : Binary) (a b : BitVec n) : BitVec n :=
   match op with
   | .add => a + b | .sub => a - b | .mul => a * b
   | .andBits => a &&& b | .orBits => a ||| b | .xorBits => a ^^^ b
+  | .shiftLeft => a <<< (b.toNat % n)
+  | .logicalRight => a >>> (b.toNat % n)
+  | .arithmeticRight => a.sshiftRight (b.toNat % n)
+  | .mulHighUnsigned => BitVec.ofNat n (a.toNat * b.toNat / 2 ^ n)
+  | .mulHighSigned => BitVec.ofInt n (a.toInt * b.toInt / 2 ^ n)
 
 def evaluateBinary (op : Binary) : Value → Value → Except Fault Value
   | .word a, .word b => .ok (.word (binaryBits op a b))
   | .long a, .long b => .ok (.long (binaryBits op a b))
+  | _, _ => .error .widthMismatch
+
+def divisionBits {n : Nat} (op : Division) (a b : BitVec n) : BitVec n :=
+  match op with
+  | .unsignedDiv => a / b | .unsignedRem => a % b
+  | .signedDiv => a.sdiv b | .signedRem => a.srem b
+
+def divisionDefined {n : Nat} (op : Division) (a b : BitVec n) : Bool :=
+  b != 0 && match op with
+    | .unsignedDiv | .unsignedRem => true
+    | .signedDiv | .signedRem => !(a == BitVec.intMin n && b == BitVec.allOnes n)
+
+def evaluateDivision (op : Division) : Value → Value → Except Fault Value
+  | .word a, .word b =>
+    if divisionDefined op a b then .ok (.word (divisionBits op a b)) else .error .undefinedDivision
+  | .long a, .long b =>
+    if divisionDefined op a b then .ok (.long (divisionBits op a b)) else .error .undefinedDivision
   | _, _ => .error .widthMismatch
 
 def evaluateComparison (op : Comparison) (a b : Value) : Except Fault Value := do
@@ -128,6 +173,9 @@ def evaluateComparison (op : Comparison) (a b : Value) : Except Fault Value := d
   let result := match op with
     | .eq => a.toNat == b.toNat
     | .unsignedLT => a.toNat < b.toNat
+    | .unsignedLE => a.toNat ≤ b.toNat
+    | .signedLT => a.toInt < b.toInt
+    | .signedLE => a.toInt ≤ b.toInt
   pure (.word (if result then 1 else 0))
 
 def evaluate (env : Environment) (i : Instruction) : Except Fault Value := do
@@ -138,6 +186,8 @@ def evaluate (env : Environment) (i : Instruction) : Except Fault Value := do
   | .compare op width lhs rhs =>
     if i.width != .word then throw .widthMismatch
     evaluateComparison op (← read env width lhs) (← read env width rhs)
+  | .divide op lhs rhs =>
+    evaluateDivision op (← read env i.width lhs) (← read env i.width rhs)
 
 /-- Every operand is read from the old environment before any phi destination
     changes. Missing and duplicate predecessor entries fail explicitly. -/

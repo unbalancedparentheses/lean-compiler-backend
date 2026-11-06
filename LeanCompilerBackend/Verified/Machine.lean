@@ -131,10 +131,55 @@ private def finish (d : Data) (width : Width) : Except String Transition := do
   let value ← readReg d width 0
   pure (.returned (Source.Value.constant width value.toNat) d)
 
+/-- AArch64 variable shifts use the count register modulo the operation width. -/
+def shiftCount (width : Width) (count : UInt64) : UInt64 := count % width.bits.toUInt64
+
+/-- ASR replicates the sign bit of the selected width, not of the X register. -/
+def arithmeticShift (width : Width) (value count : UInt64) : UInt64 :=
+  match width with
+  | .word => (value.toUInt32.toBitVec.sshiftRight (shiftCount width count).toNat).toNat.toUInt64
+  | .long => (value.toBitVec.sshiftRight (shiftCount width count).toNat).toNat.toUInt64
+
+/-- Two's-complement reading of the selected width, as used by SMULH. -/
+def signedValue (width : Width) (value : UInt64) : Int :=
+  let n := (normalize width value).toNat
+  if 2 * n < 2 ^ width.bits then n else n - 2 ^ width.bits
+
+/-- UMULH/SMULH: bits [2N-1:N] of the exact 2N-bit product of the N-bit inputs. -/
+def mulHigh (width : Width) (signed : Bool) (a b : UInt64) : UInt64 :=
+  if signed then UInt64.ofInt (signedValue width a * signedValue width b / 2 ^ width.bits)
+  else ((normalize width a).toNat * (normalize width b).toNat / 2 ^ width.bits).toUInt64
+
 def alu (width : Width) (op : Source.Binary) (a b : UInt64) : UInt64 :=
   normalize width (match op with
     | .add => a + b | .sub => a - b | .mul => a * b
-    | .andBits => a &&& b | .orBits => a ||| b | .xorBits => a ^^^ b)
+    | .andBits => a &&& b | .orBits => a ||| b | .xorBits => a ^^^ b
+    | .shiftLeft => a <<< shiftCount width b
+    | .logicalRight => normalize width a >>> shiftCount width b
+    | .arithmeticRight => arithmeticShift width a b
+    | .mulHighUnsigned => mulHigh width false a b
+    | .mulHighSigned => mulHigh width true a b)
+
+/-- AArch64 UDIV/SDIV at the selected width: a zero divisor gives zero, SDIV
+    truncates toward zero and wraps MIN / -1 to MIN. No case traps. -/
+def quotient (width : Width) (signed : Bool) (a b : UInt64) : UInt64 :=
+  match width, signed with
+  | .word, false => (a.toUInt32 / b.toUInt32).toUInt64
+  | .long, false => a / b
+  | _, true => normalize width (UInt64.ofInt ((signedValue width a).tdiv (signedValue width b)))
+
+/-- AArch64 MSUB: addend - product1 * product2 at the selected width. -/
+def multiplySubtract (width : Width) (product1 product2 addend : UInt64) : UInt64 :=
+  normalize width (addend - product1 * product2)
+
+/-- The emitted sequence: one UDIV/SDIV, followed for a remainder by an MSUB of
+    the quotient. Total, like the hardware. -/
+def divide (width : Width) (op : Source.Division) (a b : UInt64) : UInt64 :=
+  match op with
+  | .unsignedDiv => quotient width false a b
+  | .signedDiv => quotient width true a b
+  | .unsignedRem => multiplySubtract width (quotient width false a b) b a
+  | .signedRem => multiplySubtract width (quotient width true a b) b a
 
 def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Except String Data
   | .enterFrame bytes => enter d bytes
@@ -148,8 +193,13 @@ def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Exc
   | .compare width op dst lhs rhs => do
     let a ← readReg d width lhs.index
     let b ← readReg d width rhs.index
-    let yes := match op with | .eq => a == b | .unsignedLT => a < b
+    let yes := match op with
+      | .eq => a == b | .unsignedLT => a < b | .unsignedLE => a ≤ b
+      | .signedLT => signedValue width a < signedValue width b
+      | .signedLE => signedValue width a ≤ signedValue width b
     writeReg d .word dst.index (if yes then 1 else 0)
+  | .divide width op dst lhs rhs => do
+    writeReg d width dst.index (divide width op (← readReg d width lhs.index) (← readReg d width rhs.index))
 
 /-- Straight-line execution uses the same instruction semantics as stepMIR.
     This helper does not execute the block terminator. -/
@@ -203,10 +253,19 @@ def stepAssembly (f : TypedA64.Function) (s : State) : Except String Transition 
     updated ← writeReg d width reg ((old &&& ~~~mask) ||| (chunk.toUInt64 <<< shift.toUInt64))
   | .alu width op dst lhs rhs =>
     updated ← writeReg d width dst (alu width op (← readReg d width lhs) (← readReg d width rhs))
+  | .divide width signed dst lhs rhs =>
+    updated ← writeReg d width dst (quotient width signed (← readReg d width lhs) (← readReg d width rhs))
+  | .msub width dst lhs rhs addend =>
+    updated ← writeReg d width dst
+      (multiplySubtract width (← readReg d width lhs) (← readReg d width rhs) (← readReg d width addend))
   | .cmp width lhs rhs =>
     updated := { d with flags := subtractFlags width (← readReg d width lhs) (← readReg d width rhs) }
   | .cset reg condition =>
-    let yes := match condition with | .eq => d.flags.zero | .lo => !d.flags.carry
+    -- ARM condition codes: LS = !C || Z, LT = N != V, LE = Z || N != V.
+    let yes := match condition with
+      | .eq => d.flags.zero | .lo => !d.flags.carry | .ls => !d.flags.carry || d.flags.zero
+      | .lt => d.flags.negative != d.flags.overflow
+      | .le => d.flags.zero || d.flags.negative != d.flags.overflow
     updated ← writeReg d .word reg (if yes then 1 else 0)
   | .cbnz reg target =>
     if (← readReg d .word reg) != 0 then return .next { s with label := target, position := 0 }

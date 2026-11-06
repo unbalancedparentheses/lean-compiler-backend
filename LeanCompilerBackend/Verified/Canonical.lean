@@ -14,13 +14,22 @@ private def reifyOperand : Source.Operand → Operand
 private def reifyBinary : Source.Binary → Binary
   | .add => .add | .sub => .sub | .mul => .mul
   | .andBits => .andBits | .orBits => .orBits | .xorBits => .xorBits
+  | .shiftLeft => .shiftLeft | .logicalRight => .logicalRight | .arithmeticRight => .arithmeticRight
+  -- QBE has no high multiply. Reification keeps only its shape; see `shape`.
+  | .mulHighUnsigned | .mulHighSigned => .mul
 
 private def reifyOperation : Source.Operation → Operation
   | .copy value => .copy (reifyOperand value)
   | .binary op lhs rhs => .binary (reifyBinary op) (reifyOperand lhs) (reifyOperand rhs)
   | .compare op width lhs rhs =>
-    .compare (match op with | .eq => .eq | .unsignedLT => .unsignedLT)
+    .compare (match op with
+      | .eq => .eq | .unsignedLT => .unsignedLT | .unsignedLE => .unsignedLE
+      | .signedLT => .signedLT | .signedLE => .signedLE)
       width (reifyOperand lhs) (reifyOperand rhs)
+  | .divide op lhs rhs =>
+    .divide (match op with
+      | .unsignedDiv => .unsignedDiv | .unsignedRem => .unsignedRem
+      | .signedDiv => .signedDiv | .signedRem => .signedRem) (reifyOperand lhs) (reifyOperand rhs)
 
 /-- Canonical local labels are function-local and independent of module order. -/
 def reify (f : Source.Function) (name : String) (exported : Bool) : Function := {
@@ -40,8 +49,24 @@ def reify (f : Source.Function) (name : String) (exported : Bool) : Function := 
       | .branch value yes no => .branch (reifyOperand value) (blockName yes) (blockName no) }
 }
 
+private def isHighMultiply : Source.Operation → Bool
+  | .binary .mulHighUnsigned _ _ | .binary .mulHighSigned _ _ => true
+  | _ => false
+
+/-- Replace each operation that has no QBE spelling by a QBE operation with the
+    same operand/result widths and the same SSA uses. Admission's checks do not
+    depend on which of those operations appears, so comparing the shapes keeps
+    every structural check without inventing QBE syntax. -/
+private def shape (f : Source.Function) : Source.Function :=
+  { f with blocks := f.blocks.map fun block => { block with
+      instructions := block.instructions.map fun inst => match inst.operation with
+        | .binary .mulHighUnsigned lhs rhs | .binary .mulHighSigned lhs rhs =>
+          { inst with operation := .binary .mul lhs rhs }
+        | _ => inst } }
+
 /-- Revalidate untrusted numbered input, including exact IDs, width table,
-    literal widths, and canonical predecessor ordering. No proof is attached. -/
+    literal widths, and canonical predecessor ordering. No proof is attached.
+    Operations without a QBE spelling are reachable only through this API. -/
 def validateSource (f : Source.Function) : Except AdmissionError Unit := do
   if f.parameters.size > 8 then throw (.resourceLimit "parameters" f.parameters.size 8)
   if f.blocks.size > 64 then throw (.resourceLimit "blocks" f.blocks.size 64)
@@ -53,7 +78,11 @@ def validateSource (f : Source.Function) : Except AdmissionError Unit := do
     for phi in block.phis do
       if phi.incoming.size > 64 then
         throw (.resourceLimit "phi predecessors" phi.incoming.size 64)
+  for block in f.blocks do
+    for inst in block.instructions do
+      if isHighMultiply inst.operation && inst.width != .long then
+        throw (.unsupported "word-width high multiply; AArch64 UMULH/SMULH are 64-bit only")
   let canonical ← admit (reify f "canonical" false)
-  if canonical != f then throw (.invalidInput "noncanonical numbered source or inconsistent widths")
+  if canonical != shape f then throw (.invalidInput "noncanonical numbered source or inconsistent widths")
 
 end LeanCompilerBackend.Verified

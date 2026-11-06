@@ -1,5 +1,6 @@
 import LeanCompilerBackend.Parser
 import LeanCompilerBackend.Verified.Codec
+import LeanCompilerBackend.Verified.Tests
 
 namespace LeanCompilerBackend.Verified.CodecTests
 
@@ -44,7 +45,8 @@ private def codecTests : IO Unit := do
   require (failed (Codec.decodeJob (bytes.push 0))) "trailing job byte accepted"
   -- Packet: LE64 kind length, UTF-8 kind, then LE64 packet version.
   let versionAt := 8 + "LCB-job".toUTF8.size
-  require (failed (Codec.decodeJob (bytes.set! versionAt 2))) "unknown wire version accepted"
+  require (failed (Codec.decodeJob (bytes.set! versionAt 1))) "superseded wire version 1 accepted"
+  require (failed (Codec.decodeJob (bytes.set! versionAt 3))) "unknown wire version accepted"
   let corruptLength := (List.range 8).foldl (fun b i => b.set! i 255) bytes
   require (failed (Codec.decodeJob corruptLength)) "hostile string length accepted"
   require (failed (Codec.decodeJob (bytes.set! 8 255))) "invalid UTF-8 accepted"
@@ -88,6 +90,14 @@ private def codecTests : IO Unit := do
   -- Primitive decoders reject noncanonical booleans/tags before constructing jobs.
   require (failed (Wire.decode Wire.readBoolean (ByteArray.mk #[2]))) "invalid boolean accepted"
   require (failed (Wire.encode (Wire.natural (2^64)))) "wire integer truncation"
+  -- Operations without a QBE spelling roundtrip through jobs and artifacts too.
+  for op in [Source.Binary.mulHighUnsigned, .mulHighSigned] do
+    let direct := Tests.directJob (Tests.directBinary .long op)
+    let directBytes ← success (Codec.encodeJob direct)
+    require (decide ((← success (Codec.decodeJob directBytes)) = direct)) "high multiply job roundtrip"
+    let directArtifact ← success (compileFunction direct)
+    let (_, replayed) ← success (Codec.decodeArtifact (← success (Codec.encodeArtifact direct directArtifact)))
+    require (decide (replayed = directArtifact)) "high multiply artifact replay"
 
 def run : IO Unit := do
   hashTests

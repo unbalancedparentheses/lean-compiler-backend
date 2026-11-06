@@ -1,5 +1,5 @@
 /- Uniform simulation of every source body instruction. -/
-import LeanCompilerBackend.Verified.ComparisonProofs
+import LeanCompilerBackend.Verified.DivisionProofs
 
 namespace LeanCompilerBackend.Verified
 
@@ -73,9 +73,23 @@ theorem instruction_correct (f : StackMIR.Function) (source : Source.Function)
         rw [evaluated] at computed
         cases computed
         exact ⟨after, width, executed, afterReady, afterFrame, afterRelated⟩
+  | divide op lhs rhs =>
+    cases left : Source.read env inst.width lhs with
+    | error fault => simp [Source.evaluate, operation, left, bind, Except.bind] at evaluated
+    | ok a =>
+      cases right : Source.read env inst.width rhs with
+      | error fault => simp [Source.evaluate, operation, left, right, bind, Except.bind] at evaluated
+      | ok b =>
+        -- A successful step is exactly a defined division.
+        have defined : Source.evaluateDivision op a b = .ok value := by
+          simpa [Source.evaluate, operation, left, right, bind, Except.bind] using evaluated
+        obtain ⟨after, _, width, executed, afterReady, afterFrame, afterRelated⟩ :=
+          division_instruction f source env d inst op lhs rhs a b value operation left right defined
+            layout frame size inside ready related
+        exact ⟨after, width, executed, afterReady, afterFrame, afterRelated⟩
 
 def instructionSteps (inst : Source.Instruction) : Nat :=
-  match inst.operation with | .copy _ => 2 | .binary .. | .compare .. => 4
+  match inst.operation with | .copy _ => 2 | .binary .. | .compare .. | .divide .. => 4
 
 theorem instruction_length (inst : Source.Instruction) :
     (StackMIR.lowerInstruction inst).toList.length = instructionSteps inst := by

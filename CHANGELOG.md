@@ -2,6 +2,36 @@
 
 ## Unreleased
 
+- Admit `cule`, `cslt` and `csle` at both widths in the verified first path
+  (unsigned less-or-equal, signed less-than/less-or-equal, word 0/1 result). The
+  target emits CMP and CSET LS/LT/LE. `comparison_steps` now simulates every
+  admitted comparison through the actual MIR lowering; native tests check the
+  condition codes against C on equal, adjacent and overflowing operands.
+
+- Admit `udiv`, `urem`, `div` and `rem` at both widths in the verified first
+  path. A zero divisor or signed MIN / -1 makes the source step fault, so such
+  programs have no behavior to preserve. The target emits UDIV/SDIV, and MSUB of
+  the quotient for remainders, formed in the destination register (selection
+  refuses a destination that aliases an operand, so no other register is
+  written); `divide_bits` proves the machine model of this total sequence
+  equals the source operation for all operands and `division_steps` simulates every
+  defined division through the actual MIR lowering. The uniform instruction
+  simulation covers division. Native and unit tests check the defined domain;
+  unit tests also pin the faulting cases and the target's total results.
+
+- Add `mulHighUnsigned`/`mulHighSigned` (UMULH/SMULH) to the verified source
+  profile at long width. They have no QBE spelling and are reachable through
+  numbered-source jobs; canonical validation checks them through the same-shaped
+  `mul`. `alu_preserves` covers both at either width; word forms are refused at
+  the job boundary and by typed-assembly validation. A tag-edited job exercises
+  them natively against 128-bit C products.
+
+- Admit `shl`, `shr` and `sar` at both widths in the verified first path
+  (`ssa-int-v2`, `a64-leaf-v2`, wire version 2; version-1 jobs are rejected).
+  Counts are same-width values reduced modulo the width. The source/MIR ALU
+  proof covers the new operations, and the unit and native harnesses check
+  in-range and out-of-range counts against the compatibility interpreter and C.
+
 - Group generated SSA phis by block once and collect assembly data lines in an
   array. The unchanged candidate passes the full pinned macOS ARM64 Nix gate.
   [Qualification and attributed timing evidence](docs/benchmarks/leanprof-phi-data/README.md)

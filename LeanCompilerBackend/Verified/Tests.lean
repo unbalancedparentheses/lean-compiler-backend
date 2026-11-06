@@ -102,9 +102,108 @@ private def arithmetic : IO Unit := do
       returns s!"function w $f({w} %a, {w} %b) \{ @s %r =w {op}{w} %a, %b ret %r }"
         #[a,b] expected
     returns s!"function {w} $f() \{ @s %r ={w} copy -1 ret %r }" #[] maxValue
+    -- Counts are same-width values reduced modulo the width (QBE mask, AArch64 *V).
+    let bits : Int := if w == "w" then 32 else 64
+    let top : Int := 2 ^ (bits - 1).toNat
+    -- Signed comparisons read the operands as two's complement; the cases at
+    -- the signed extremes are the ones where SUBS overflows.
+    for (op, a, b, expected) in [
+        ("cule", maxValue, maxValue, 1), ("cule", maxValue, 0, 0), ("cule", 0, maxValue, 1), ("cule", 5, 4, 0),
+        ("cslt", maxValue, 0, 1), ("cslt", 0, maxValue, 0), ("cslt", top, top - 1, 1), ("cslt", top - 1, top, 0),
+        ("cslt", 5, 5, 0), ("cslt", top, maxValue, 1), ("cslt", 2, 3, 1), ("cslt", top, 1, 1), ("cslt", 1, top, 0),
+        ("csle", 5, 5, 1), ("csle", top, top, 1), ("csle", maxValue, top, 0), ("csle", top - 1, maxValue, 0),
+        ("csle", maxValue, 0, 1), ("csle", 0, maxValue, 0), ("csle", maxValue, top - 1, 1)] do
+      returns s!"function w $f({w} %a, {w} %b) \{ @s %r =w {op}{w} %a, %b ret %r }"
+        #[a,b] expected
+    for (op, a, b, expected) in [
+        ("shl", 3, 1, 6), ("shl", 1, bits - 1, top), ("shl", 1, bits, 1), ("shl", 3, bits + 1, 6),
+        ("shl", maxValue, maxValue, top),
+        ("shr", maxValue, bits - 1, 1), ("shr", top, 2 * bits - 1, 1), ("shr", 12, 2, 3),
+        ("shr", top, maxValue, 1), ("shr", 5, bits, 5),
+        ("sar", top, bits - 1, maxValue), ("sar", top, 2 * bits - 1, maxValue), ("sar", 12, 2, 3),
+        ("sar", maxValue, 7, maxValue), ("sar", top + 12, 2, maxValue + 1 - top / 4 + 3), ("sar", top, bits, top),
+        ("sar", top - 1, bits - 2, 1)] do
+      returns s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} {op} %a, %b ret %r }"
+        #[a,b] expected
+    returns s!"function {w} $f({w} %a) \{ @s %r ={w} sar %a, {bits + 1} ret %r }" #[-8] (-4 % (maxValue + 1))
+    -- Truncating division; the remainder takes the dividend's sign.
+    let m := maxValue + 1
+    for (op, a, b, expected) in [
+        ("udiv", maxValue, 2, top - 1), ("udiv", 7, 9, 0), ("udiv", top, maxValue, 0), ("udiv", maxValue, 1, maxValue),
+        ("urem", maxValue, 10, if w == "w" then 5 else 5), ("urem", 7, 9, 7), ("urem", top, top - 1, 1),
+        ("div", -7, 2, m - 3), ("div", 7, -2, m - 3), ("div", -7, -2, 3), ("div", top, 1, top),
+        ("div", top, 2, m - top / 2), ("div", top - 1, -1, top + 1), ("div", 0, -5, 0),
+        ("rem", -7, 2, m - 1), ("rem", 7, -2, 1), ("rem", -7, -2, m - 1), ("rem", top, 3, m - 2),
+        ("rem", top, 2, 0), ("rem", top - 1, top, top - 1)] do
+      returns s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} {op} %a, %b ret %r }"
+        #[a,b] expected
   returns "function w $f() { @s %r =w copy 4294967297 ret %r }" #[] 1
   returns "function l $f(w %unused, l %x) { @s %wide =l copy 4294967297 %r =l add %x, %wide ret %r }"
     #[123,18446744073709551615] 4294967296
+
+/-- A one-instruction function built directly as numbered source, for operations
+    with no QBE spelling. Public so the codec tests reuse the same shape. -/
+def directBinary (width : Width) (op : Source.Binary) : Source.Function := {
+  resultWidth := width, parameters := #[width, width], valueWidths := #[width, width, width],
+  blocks := #[{ phis := #[], terminator := .ret (.local 2),
+                instructions := #[{ destination := 2, width, operation := .binary op (.local 0) (.local 1) }] }] }
+
+def directJob (body : Source.Function) : FunctionJob :=
+  { code := { symbol := { namespaceName := "tests", name := "direct", exported := true },
+              body, abi := planAbi body, layout := planFrame body : CodeInput } }
+
+/-- High multiplies are reachable only through the numbered-source API. Expected
+    values are independent 128-bit products, not the implementation's formula. -/
+private def apiOnly : IO Unit := do
+  let max : Int := 18446744073709551615
+  let top : Int := 9223372036854775808
+  for (op, a, b, expected) in [
+      (Source.Binary.mulHighUnsigned, max, max, max - 1), (.mulHighUnsigned, 4294967296, 4294967296, 1),
+      (.mulHighUnsigned, 3, 5, 0), (.mulHighUnsigned, top, 2, 1), (.mulHighUnsigned, 0, max, 0),
+      (.mulHighSigned, -1, -1, 0), (.mulHighSigned, -1, 1, max), (.mulHighSigned, -top, -top, top / 2),
+      (.mulHighSigned, -top, top - 1, max + 1 - top / 2), (.mulHighSigned, -3, 5, max),
+      (.mulHighSigned, top - 1, top - 1, top / 2 - 1), (.mulHighSigned, 4294967296, -4294967296, max)] do
+    let body := directBinary .long op
+    let args := #[Source.Value.constant .long a, Source.Value.constant .long b]
+    let want := Source.Value.constant .long expected
+    require (decide (Source.evaluateFunction body args 10 = .returned want))
+      s!"{repr op} source result for {a}, {b}"
+    let artifact ← match compileFunction (directJob body) with
+      | .ok artifact => pure artifact
+      | .error e => throw (IO.userError s!"direct high multiply compilation: {repr e}")
+    for (stage, execution) in [
+        ("MIR", Machine.evaluateMIR artifact.code.stackMIR args 100),
+        ("assembly", Machine.evaluateAssembly artifact.code.assembly args 100)] do
+      match execution with
+      | .returned value _ => require (decide (value = want)) s!"{stage} {repr op} wrong value: {repr value}"
+      | other => throw (IO.userError s!"{stage} execution failed: {repr other}")
+    let mnemonic := if op == .mulHighUnsigned then "umulh x9, x9, x10" else "smulh x9, x9, x10"
+    require ((artifact.code.fragment.splitOn mnemonic).length == 2) s!"missing {mnemonic}"
+  -- No W-register UMULH/SMULH exists: word high multiplies are refused at the job
+  -- boundary and, independently, by typed-assembly validation.
+  for op in [Source.Binary.mulHighUnsigned, .mulHighSigned] do
+    require (match validateJob (directJob (directBinary .word op)) with
+      | .error (.admission (.unsupported _)) => true | _ => false) "word high multiply admitted"
+    -- A frameless leaf that is valid except for the operation's width.
+    let leaf (width : Width) : TypedA64.Function :=
+      let entry : TypedA64.Block := { label := .entry, instructions := #[.jump (.body 0)] }
+      let body : TypedA64.Block := { label := .body 0, instructions := #[.alu width op 9 9 10, .ret] }
+      { parameters := #[], resultWidth := .long, frameBytes := 0, blocks := #[entry, body] }
+    require (match TypedA64.validate (leaf .long) with | .ok _ => true | .error _ => false)
+      "typed assembly refused a valid X-form high multiply"
+    require (match TypedA64.validate (leaf .word) with
+      | .error message => (message.splitOn "UMULH/SMULH").length == 2 | .ok _ => false)
+      "typed assembly accepted a W-form high multiply"
+  -- The structural check still binds numbering and widths around high multiplies.
+  let body := directBinary .long .mulHighSigned
+  let undefinedUse (i : Source.Instruction) : Source.Instruction :=
+    { i with operation := .binary .mulHighSigned (.local 1) (.local 3) }
+  let renumbered := { body with blocks := body.blocks.map fun b =>
+    { b with instructions := b.instructions.map undefinedUse } }
+  require (match validateJob (directJob renumbered) with | .error _ => true | .ok _ => false)
+    "high multiply with an undefined operand admitted"
+  require (match validateJob (directJob { body with valueWidths := #[.long, .long, .word] }) with
+    | .error _ => true | .ok _ => false) "high multiply with an inconsistent width table admitted"
 
 private def control : IO Unit := do
   for (n, expected) in [(0,0),(1,0),(4,6),(100,4950)] do returns loop #[n] expected
@@ -155,10 +254,10 @@ private def admissionFailures : IO Unit := do
   for text in [
       "function $f() { @s ret }",
       "function w $f() { @s hlt }",
-      "function w $f(w %a) { @s %r =w shl %a, 1 ret %r }",
-      "function w $f(w %a) { @s %r =w div %a, 1 ret %r }",
+      "function l $f(l %a, w %c) { @s %r =l shl %a, %c ret %r }",
       "function w $f(w %a) { @s %r =w neg %a ret %r }",
-      "function w $f(w %a) { @s %r =w csltw %a, 1 ret %r }",
+      "function w $f(w %a) { @s %r =w csgtw %a, 1 ret %r }",
+      "function w $f(w %a) { @s %r =w cnew %a, 1 ret %r }",
       "function l $f(w %a) { @s %r =l ceqw %a, 1 ret %r }",
       "function w $f(l %a) { @s %r =w copy %a ret %r }",
       "function l $f(w %a) { @s %r =l copy %a ret %r }",
@@ -187,6 +286,60 @@ private def admissionFailures : IO Unit := do
   let oversized ← parse (makeFrame 256)
   require (match admit oversized with | .error (.resourceLimit "frame bytes" 4096 4080) => true | _ => false)
     "frame overflow must reject"
+
+/-- Division outside its defined domain has no source behavior. The target
+    models are total like AArch64 (zero quotient, MIN / -1 wraps), so their
+    results are not source observations and carry no obligation. -/
+private def undefinedDivision : IO Unit := do
+  for w in ["w", "l"] do
+    let top : Int := if w == "w" then 2147483648 else 9223372036854775808
+    for op in ["div", "udiv", "rem", "urem"] do
+      let f ← admitted s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} {op} %a, %b ret %r }"
+      let width := f.resultWidth
+      for (a, b) in [(5, 0), (0, 0)] ++ (if op == "div" || op == "rem" then [(-top, -1)] else []) do
+        let args := #[Source.Value.constant width a, Source.Value.constant width b]
+        require (decide (Source.evaluateFunction f args 10 = .stuck .undefinedDivision))
+          s!"{w} {op} {a}/{b} must have no source behavior"
+    -- Unsigned MIN / -1 is ordinary division.
+    let f ← admitted s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} udiv %a, %b ret %r }"
+    require (match Source.evaluateFunction f #[Source.Value.constant f.resultWidth (-top),
+      Source.Value.constant f.resultWidth (-1)] 10 with | .returned _ => true | _ => false)
+      "unsigned division by all-ones is defined"
+  let job ← match prepareJob (← parse "function l $f(l %a, l %b) { @s %r =l rem %a, %b ret %r }") "tests" with
+    | .ok job => pure job
+    | .error e => throw (IO.userError s!"{repr e}")
+  let artifact ← match compileFunction job with
+    | .ok artifact => pure artifact
+    | .error e => throw (IO.userError s!"{repr e}")
+  let minimum := Source.Value.constant .long (-9223372036854775808)
+  for (args, expected) in [(#[Source.Value.long 5, .long 0], Source.Value.long 5),
+      (#[minimum, .constant .long (-1)], .long 0)] do
+    for execution in [Machine.evaluateMIR artifact.code.stackMIR args 100,
+        Machine.evaluateAssembly artifact.code.assembly args 100] do
+      require (match execution with | .returned value _ => decide (value = expected) | _ => false)
+        "target remainder must follow UDIV/SDIV/MSUB on undefined source inputs"
+  -- Selection forms a remainder's quotient in its destination, so it refuses a
+  -- destination that aliases an operand; a quotient alone may alias. Selected
+  -- code then writes no register the MIR instruction does not.
+  let mir := artifact.code.stackMIR
+  let retarget (op : Source.Division) (dst lhs rhs : StackMIR.Register) : StackMIR.Function :=
+    { mir with blocks := mir.blocks.map fun b => { b with instructions := b.instructions.map fun
+        | .divide w _ _ _ _ => .divide w op dst lhs rhs
+        | .store w slot .r9 => .store w slot dst | i => i } }
+  for (op, dst, lhs, rhs) in [(Source.Division.signedRem, StackMIR.Register.r9, StackMIR.Register.r9, StackMIR.Register.r10),
+      (.unsignedRem, .r10, .r0, .r10), (.signedRem, .r0, .r0, .r10)] do
+    require (match TypedA64.select (retarget op dst lhs rhs) with
+      | .error "remainder destination must differ from its operands" => true | _ => false)
+      "remainder destination aliasing an operand must be refused"
+  let aliased := retarget .signedDiv .r0 .r0 .r10
+  let selected ← match TypedA64.select aliased with
+    | .ok code => pure code
+    | .error e => throw (IO.userError s!"aliased quotient: {e}")
+  let args := #[Source.Value.constant .long (-7), .constant .long 2]
+  let quotient := Source.Value.constant .long (-3)
+  for execution in [Machine.evaluateMIR aliased args 100, Machine.evaluateAssembly selected args 100] do
+    require (match execution with | .returned value _ => decide (value = quotient) | _ => false)
+      "aliased quotient must be stored and returned by MIR and assembly"
 
 private def faultControls : IO Unit := do
   let f ← admitted "function w $f(w %x) { @s ret %x }"
@@ -224,6 +377,8 @@ private def faultControls : IO Unit := do
 
 def run : IO Unit := do
   arithmetic
+  apiOnly
+  undefinedDivision
   control
   admissionFailures
   faultControls

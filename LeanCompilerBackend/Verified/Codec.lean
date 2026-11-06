@@ -29,25 +29,41 @@ private def readOperand : Decoder Source.Operand := do
   | _ => throw "unknown operand tag"
 
 private def binary (op : Source.Binary) : Encoder Unit := byte (match op with
-  | .add => 0 | .sub => 1 | .mul => 2 | .andBits => 3 | .orBits => 4 | .xorBits => 5)
+  | .add => 0 | .sub => 1 | .mul => 2 | .andBits => 3 | .orBits => 4 | .xorBits => 5
+  | .shiftLeft => 6 | .logicalRight => 7 | .arithmeticRight => 8
+  | .mulHighUnsigned => 9 | .mulHighSigned => 10)
 private def readBinary : Decoder Source.Binary := do
   match ← readByte with
   | 0 => pure .add | 1 => pure .sub | 2 => pure .mul
   | 3 => pure .andBits | 4 => pure .orBits | 5 => pure .xorBits
+  | 6 => pure .shiftLeft | 7 => pure .logicalRight | 8 => pure .arithmeticRight
+  | 9 => pure .mulHighUnsigned | 10 => pure .mulHighSigned
   | _ => throw "unknown binary opcode"
-private def comparison (op : Source.Comparison) : Encoder Unit := byte (if op == .eq then 0 else 1)
+private def comparison (op : Source.Comparison) : Encoder Unit := byte (match op with
+  | .eq => 0 | .unsignedLT => 1 | .unsignedLE => 2 | .signedLT => 3 | .signedLE => 4)
 private def readComparison : Decoder Source.Comparison := do
-  match ← readByte with | 0 => pure .eq | 1 => pure .unsignedLT | _ => throw "unknown comparison"
+  match ← readByte with
+  | 0 => pure .eq | 1 => pure .unsignedLT | 2 => pure .unsignedLE | 3 => pure .signedLT | 4 => pure .signedLE
+  | _ => throw "unknown comparison"
+
+private def division (op : Source.Division) : Encoder Unit := byte (match op with
+  | .unsignedDiv => 0 | .unsignedRem => 1 | .signedDiv => 2 | .signedRem => 3)
+private def readDivision : Decoder Source.Division := do
+  match ← readByte with
+  | 0 => pure .unsignedDiv | 1 => pure .unsignedRem | 2 => pure .signedDiv | 3 => pure .signedRem
+  | _ => throw "unknown division opcode"
 
 private def operation : Source.Operation → Encoder Unit
   | .copy v => do byte 0; operand v
   | .binary op lhs rhs => do byte 1; binary op; operand lhs; operand rhs
   | .compare op w lhs rhs => do byte 2; comparison op; width w; operand lhs; operand rhs
+  | .divide op lhs rhs => do byte 3; division op; operand lhs; operand rhs
 private def readOperation : Decoder Source.Operation := do
   match ← readByte with
   | 0 => pure (.copy (← readOperand))
   | 1 => pure (.binary (← readBinary) (← readOperand) (← readOperand))
   | 2 => pure (.compare (← readComparison) (← readWidth) (← readOperand) (← readOperand))
+  | 3 => pure (.divide (← readDivision) (← readOperand) (← readOperand))
   | _ => throw "unknown source operation"
 
 private def instruction (i : Source.Instruction) : Encoder Unit := do
@@ -190,10 +206,10 @@ private def readJob : Decoder FunctionJob := do
   let requested ← readRequest
   pure { code, debug, requested, proof := ← readProofProfile }
 
-private def header (kind : String) : Encoder Unit := do string kind; natural 1
+private def header (kind : String) : Encoder Unit := do string kind; natural 2
 private def readHeader (kind : String) : Decoder Unit := do
   if (← readString 32) != kind then throw "wrong packet kind"
-  if (← readNatural) != 1 then throw "unknown packet version"
+  if (← readNatural) != 2 then throw "unknown packet version"
 
 def encodeJob (j : FunctionJob) : Except String ByteArray := do
   (validateJob j).mapError (fun e => toString (repr e))
@@ -223,6 +239,7 @@ private def mirInstruction : StackMIR.Instruction → Encoder Unit
   | .store w s r => do byte 5; width w; slot s; reg r
   | .alu w op d a b => do byte 6; width w; binary op; reg d; reg a; reg b
   | .compare w op d a b => do byte 7; width w; comparison op; reg d; reg a; reg b
+  | .divide w op d a b => do byte 8; width w; division op; reg d; reg a; reg b
 private def mir (f : StackMIR.Function) : Encoder Unit := do
   array width f.parameters; width f.resultWidth; array width f.valueWidths; layout f.layout
   array (fun b => do
@@ -240,10 +257,12 @@ private def assemblyInstruction : TypedA64.Instruction → Encoder Unit
   | .movk w r c s => do byte 5; width w; natural r; natural c; natural s
   | .alu w op d a b => do byte 6; width w; binary op; natural d; natural a; natural b
   | .cmp w a b => do byte 7; width w; natural a; natural b
-  | .cset r c => do byte 8; natural r; byte (if c == .eq then 0 else 1)
+  | .cset r c => do byte 8; natural r; byte (match c with | .eq => 0 | .lo => 1 | .ls => 2 | .lt => 3 | .le => 4)
   | .cbnz r t => do byte 9; natural r; label t
   | .jump t => do byte 10; label t
   | .ret => byte 11
+  | .divide w s d a b => do byte 12; width w; boolean s; natural d; natural a; natural b
+  | .msub w d a b c => do byte 13; width w; natural d; natural a; natural b; natural c
 private def assembly (f : TypedA64.Function) : Encoder Unit := do
   array width f.parameters; width f.resultWidth; natural f.frameBytes
   array (fun b => do label b.label; array assemblyInstruction b.instructions) f.blocks

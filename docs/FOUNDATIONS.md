@@ -9,7 +9,7 @@ preservation theorem; C01/C02 remain open.
 ## Use the new path
 
 The existing CLI/default backend retains its broader compatibility coverage.
-The first path is opt-in and rejects memory, calls, shifts, conversions, void
+The first path is opt-in and rejects memory, calls, conversions, void
 results and the other exclusions in the semantic ledger.
 
 ```sh
@@ -84,11 +84,12 @@ output bytes. Cache consumers must use `decodeArtifactFor expectedJob` or call
 not establish that it is the cache entry the caller requested. This approach
 provides replay and binding, not compilation-speed savings from a persistent cache.
 
-## Wire contract, version 1
+## Wire contract, version 2
 
 The packet kind is a length-prefixed UTF-8 string followed by an LE64 version.
 Kinds are `LCB-job` and `LCB-artifact`; dependency records use `LCB-code-input`,
-`LCB-code`, `LCB-debug` and `LCB-evidence`. All currently use version 1.
+`LCB-code`, `LCB-debug` and `LCB-evidence`. All currently use version 2; version 2
+extends version 1's constructor tags below and is the only accepted version.
 Numbers and array/string/byte lengths are unsigned LE64. Booleans and constructor
 tags are single bytes. Strings are strict UTF-8, at most 4096 bytes. Packets are
 at most 1 MiB; source/ABI/debug collections have the profile bounds enforced
@@ -111,17 +112,18 @@ in declaration order in `Job.lean`/`Plans.lean`. Tags are:
 | --- | --- |
 | Width | word, long |
 | Source operand | local, literal |
-| Source operation | copy, binary, compare |
-| Binary operation | add, sub, mul, and, or, xor |
-| Comparison | eq, unsignedLT |
+| Source operation | copy, binary, compare, divide |
+| Binary operation | add, sub, mul, and, or, xor, shiftLeft, logicalRight, arithmeticRight, mulHighUnsigned, mulHighSigned |
+| Division | unsignedDiv, unsignedRem, signedDiv, signedRem |
+| Comparison | eq, unsignedLT, unsignedLE, signedLT, signedLE |
 | Source terminator | return, jump, branch |
 | Label | entry, body, edge |
 | MIR scratch register | R0, R9, R10 |
 | Slot | value, stage |
-| MIR instruction | enterFrame, leaveFrame, readArg, constant, load, store, alu, compare |
+| MIR instruction | enterFrame, leaveFrame, readArg, constant, load, store, alu, compare, divide |
 | MIR terminator | jump, branch, return |
-| Assembly instruction | subSP, addSP, load, store, movz, movk, alu, cmp, cset, cbnz, jump, ret |
-| Assembly condition | eq, lo |
+| Assembly instruction | subSP, addSP, load, store, movz, movk, alu, cmp, cset, cbnz, jump, ret, divide, msub |
+| Assembly condition | eq, lo, ls, lt, le |
 | Evidence request | none, kernelTypedAssembly, nativeBinary |
 | Evidence result | uncertified (the only implemented constructor) |
 
@@ -145,7 +147,9 @@ not upgrade the evidence level.
 
 `StackMIR.lower` assigns every value an eight-byte slot and reserves separate
 phi staging slots. Word accesses use only four bytes. Entry stores parameter
-registers; each source assignment loads R9/R10, computes and stores its result.
+registers; each source assignment loads its operands into R9/R10 (a division
+loads the dividend into R0 instead, so its R9 result differs from both
+operands), computes and stores its R9 result.
 Each edge stages every phi source before committing any destination. Source
 branches select an edge before its transfers execute. Frame entry/leave and
 physical register roles are explicit; there is no allocator or optimization pass.
@@ -219,10 +223,20 @@ operand/store pair has a proved effect, and a canonical staging-slot write
 preserves every defined local, including mixed-width values. `InstructionProofs.copy_steps` connects an actual source copy step to the two
 actual MIR steps emitted by `lowerInstruction`, preserving the complete updated
 environment relation. The source/target instruction-position correspondence and
-typing/availability remain explicit premises. `ArithmeticProofs.binary_steps` extends this to all six arithmetic/bitwise
-operations and their four emitted MIR steps, using the source bitvector result.
-`ComparisonProofs.comparison_steps` proves the four-step equality/unsigned
-comparison expansion for word or long operands and a word result. Whole-function
+typing/availability remain explicit premises. `ArithmeticProofs.binary_steps` extends this to all eleven arithmetic/bitwise/
+shift/high-multiply operations and their four emitted MIR steps, using the source
+bitvector result. `MachineProofs.alu_preserves` relates each target ALU result to
+the source operation at either width, including shift counts reduced modulo the
+width, the word-width sign bit of `asr`, and the exact natural/integer products
+behind UMULH/SMULH.
+`ComparisonProofs.comparison_steps` proves the four-step comparison expansion
+(equality, unsigned less/less-or-equal, signed less/less-or-equal) for word or
+long operands and a word result; `signedValue_value` identifies the machine's
+two's-complement reading of the operand bits with the source `toInt`.
+`DivisionProofs.division_steps` does the same for a defined division or
+remainder; `divide_bits` shows the total target UDIV/SDIV(+MSUB) result equals
+the source bit-vector operation for every operand, so the source's undefined
+cases (zero divisor, signed MIN / -1) are exactly the steps without obligation. Whole-function
 preservation and derivation of the instruction-position premises remain open.
 `SimulationProofs.simulate_instruction` unifies all body operations: successful
 source execution supplies operand availability and destination typing through
