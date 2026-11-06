@@ -143,7 +143,7 @@ Existing proofs cover restricted source/machine semantics, primitive ALU
 selection and parts of a separate typed first path. New focused proofs cover
 [generated-name collision avoidance](docs/proofs/FRESH_NAMES.md) and
 [13 local zero/one rewrite cases](docs/SEMANTICS.md#local-algebra-proof-checkpoint).
-The 173-statement proof audit records exact theorem dependencies. It does **not** prove the complete
+The 174-statement proof audit records exact theorem dependencies. It does **not** prove the complete
 compatibility pipeline, optimizer, allocator, ABI lowering, assembly rendering,
 assembler or linker correct. Execution tests and structural checkers do not
 replace those proofs.

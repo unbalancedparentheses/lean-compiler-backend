@@ -409,7 +409,7 @@ def main():
         driver.write_text('extern unsigned long long saved_probe(void);\n'
                           'int main(void) { return saved_probe() ? 8 : 0; }\n')
         assert check(corrupt,'corrupt-saved',success=False).returncode==8
-        print(f'first-path: {len(functions)} functions; 44,000 arithmetic/shift/comparison and 8,000 loop/ABI cases per typed/baseline/QBE backend; maximal frame, W/X alias and saved-register probes; both corruption controls detected')
+        print(f'first-path: {len(functions)} functions; 144,000 arithmetic/shift/division/comparison checks (division only inside its defined domain) and 8,000 loop/ABI cases per typed/baseline/QBE backend; maximal frame, W/X alias and saved-register probes; both corruption controls detected')
 
 
 if __name__ == '__main__':

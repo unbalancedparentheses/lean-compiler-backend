@@ -55,7 +55,42 @@ theorem comparison_source (op : Source.Comparison) (a b : Source.Value) (width :
   cases op <;> simp [Source.evaluateComparison, same, compareBool, boolValue, eqBits, ltBits, leBits,
     signedA, signedB, pure, Except.pure]
 
-/-- The shared prefix loads both operands without changing frame values. -/
+/-- The shared prefix loads both operands without changing frame values; the
+    first goes to any register other than R10. -/
+theorem load_operands_into (reg : StackMIR.Register) (distinct : reg ≠ .r10) (f : StackMIR.Function) (env : Source.Environment) (d : Data)
+    (w : Width) (lhs rhs : Source.Operand) (a b : Source.Value)
+    (ready : FrameReady d) (related : LocalsMatch f env d)
+    (left : Source.read env w lhs = .ok a) (right : Source.read env w rhs = .ok b) :
+    let first := assignedReg d w reg.index a.toNat.toUInt64
+    let second := assignedReg first w 10 b.toNat.toUInt64
+    executeMIRList f [StackMIR.loadOperand w reg lhs, StackMIR.loadOperand w .r10 rhs] d = .ok second ∧
+      FrameReady second ∧ LocalsMatch f env second ∧
+      readReg second w reg.index = .ok a.toNat.toUInt64 ∧ readReg second w 10 = .ok b.toNat.toUInt64 := by
+  dsimp only
+  have inside : reg.index < 31 := by cases reg <;> decide
+  have apart : 10 ≠ reg.index := by cases reg <;> simp_all [StackMIR.Register.index]
+  let first := assignedReg d w reg.index a.toNat.toUInt64
+  let second := assignedReg first w 10 b.toNat.toUInt64
+  have firstReady : FrameReady first := assignedReg_ready _ _ _ _ ready
+  have firstRelated : LocalsMatch f env first := assignedReg_locals _ _ _ _ _ _ related
+  have aWidth := (Source.read_ok env w lhs a left).1
+  have bWidth := (Source.read_ok env w rhs b right).1
+  have aNorm : normalize w a.toNat.toUInt64 = a.toNat.toUInt64 := by rw [← aWidth]; exact value_normalized a
+  have bNorm : normalize w b.toNat.toUInt64 = b.toNat.toUInt64 := by rw [← bWidth]; exact value_normalized b
+  have loadLeft : executeMIR f d (StackMIR.loadOperand w reg lhs) = .ok first := by
+    rw [loadOperand_correct f env d w reg lhs a related left]
+    exact writeReg_assigned d w reg.index a.toNat.toUInt64 ready inside
+  have loadRight : executeMIR f first (StackMIR.loadOperand w .r10 rhs) = .ok second := by
+    rw [loadOperand_correct f env first w .r10 rhs b firstRelated right]
+    exact writeReg_assigned first w 10 b.toNat.toUInt64 firstReady (by decide)
+  refine ⟨?_, assignedReg_ready _ _ _ _ firstReady, assignedReg_locals _ _ _ _ _ _ firstRelated, ?_, ?_⟩
+  · simp only [executeMIRList, loadLeft, loadRight, bind, Except.bind]
+    rfl
+  · rw [assignedReg_other first w w 10 reg.index b.toNat.toUInt64 apart,
+      assignedReg_same d w reg.index a.toNat.toUInt64 ready inside, aNorm]
+  · rw [assignedReg_same first w 10 b.toNat.toUInt64 firstReady (by decide), bNorm]
+
+/-- The R9/R10 instance used by binary and comparison lowering. -/
 theorem load_operands (f : StackMIR.Function) (env : Source.Environment) (d : Data)
     (w : Width) (lhs rhs : Source.Operand) (a b : Source.Value)
     (ready : FrameReady d) (related : LocalsMatch f env d)
@@ -64,28 +99,8 @@ theorem load_operands (f : StackMIR.Function) (env : Source.Environment) (d : Da
     let second := assignedReg first w 10 b.toNat.toUInt64
     executeMIRList f [StackMIR.loadOperand w .r9 lhs, StackMIR.loadOperand w .r10 rhs] d = .ok second ∧
       FrameReady second ∧ LocalsMatch f env second ∧
-      readReg second w 9 = .ok a.toNat.toUInt64 ∧ readReg second w 10 = .ok b.toNat.toUInt64 := by
-  dsimp only
-  let first := assignedReg d w 9 a.toNat.toUInt64
-  let second := assignedReg first w 10 b.toNat.toUInt64
-  have firstReady : FrameReady first := assignedReg_ready _ _ _ _ ready
-  have firstRelated : LocalsMatch f env first := assignedReg_locals _ _ _ _ _ _ related
-  have aWidth := (Source.read_ok env w lhs a left).1
-  have bWidth := (Source.read_ok env w rhs b right).1
-  have aNorm : normalize w a.toNat.toUInt64 = a.toNat.toUInt64 := by rw [← aWidth]; exact value_normalized a
-  have bNorm : normalize w b.toNat.toUInt64 = b.toNat.toUInt64 := by rw [← bWidth]; exact value_normalized b
-  have loadLeft : executeMIR f d (StackMIR.loadOperand w .r9 lhs) = .ok first := by
-    rw [loadOperand_correct f env d w .r9 lhs a related left]
-    exact writeReg_assigned d w 9 a.toNat.toUInt64 ready (by decide)
-  have loadRight : executeMIR f first (StackMIR.loadOperand w .r10 rhs) = .ok second := by
-    rw [loadOperand_correct f env first w .r10 rhs b firstRelated right]
-    exact writeReg_assigned first w 10 b.toNat.toUInt64 firstReady (by decide)
-  refine ⟨?_, assignedReg_ready _ _ _ _ firstReady, assignedReg_locals _ _ _ _ _ _ firstRelated, ?_, ?_⟩
-  · simp only [executeMIRList, loadLeft, loadRight, bind, Except.bind]
-    rfl
-  · rw [assignedReg_other first w w 10 9 b.toNat.toUInt64 (by decide),
-      assignedReg_same d w 9 a.toNat.toUInt64 ready (by decide), aNorm]
-  · rw [assignedReg_same first w 10 b.toNat.toUInt64 firstReady (by decide), bNorm]
+      readReg second w 9 = .ok a.toNat.toUInt64 ∧ readReg second w 10 = .ok b.toNat.toUInt64 :=
+  load_operands_into .r9 (by decide) f env d w lhs rhs a b ready related left right
 
 theorem comparison_expansion (f : StackMIR.Function) (env : Source.Environment) (d : Data)
     (w : Width) (op : Source.Comparison) (lhs rhs : Source.Operand) (a b : Source.Value)

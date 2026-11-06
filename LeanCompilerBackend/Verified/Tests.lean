@@ -318,6 +318,26 @@ private def undefinedDivision : IO Unit := do
         Machine.evaluateAssembly artifact.code.assembly args 100] do
       require (match execution with | .returned value _ => decide (value = expected) | _ => false)
         "target remainder must follow UDIV/SDIV/MSUB on undefined source inputs"
+  -- Selection forms a remainder's quotient in its destination, so it refuses a
+  -- destination that aliases an operand; a quotient alone may alias. Selected
+  -- code then writes no register the MIR instruction does not.
+  let mir := artifact.code.stackMIR
+  let retarget (op : Source.Division) (dst lhs rhs : StackMIR.Register) : StackMIR.Function :=
+    { mir with blocks := mir.blocks.map fun b => { b with instructions := b.instructions.map fun
+        | .divide w _ _ _ _ => .divide w op dst lhs rhs | i => i } }
+  for (op, dst, lhs, rhs) in [(Source.Division.signedRem, StackMIR.Register.r9, StackMIR.Register.r9, StackMIR.Register.r10),
+      (.unsignedRem, .r10, .r0, .r10), (.signedRem, .r0, .r0, .r10)] do
+    require (match TypedA64.select (retarget op dst lhs rhs) with
+      | .error "remainder destination must differ from its operands" => true | _ => false)
+      "remainder destination aliasing an operand must be refused"
+  let aliased := retarget .signedDiv .r0 .r0 .r10
+  let selected ← match TypedA64.select aliased with
+    | .ok code => pure code
+    | .error e => throw (IO.userError s!"aliased quotient: {e}")
+  let args := #[Source.Value.constant .long (-7), .constant .long 2]
+  require (match Machine.evaluateMIR aliased args 100, Machine.evaluateAssembly selected args 100 with
+    | .returned x _, .returned y _ => decide (x = y) | _, _ => false)
+    "aliased quotient must agree between MIR and assembly"
 
 private def faultControls : IO Unit := do
   let f ← admitted "function w $f(w %x) { @s ret %x }"

@@ -59,20 +59,20 @@ theorem division_expansion (f : StackMIR.Function) (env : Source.Environment) (d
     (dest : StackMIR.Slot) (offset : Nat) (ready : FrameReady d) (related : LocalsMatch f env d)
     (left : Source.read env w lhs = .ok a) (right : Source.read env w rhs = .ok b)
     (target : StackMIR.offset f dest = .ok offset) (access : offset + w.bytes ≤ d.frameBytes) :
-    let second := assignedReg (assignedReg d w 9 a.toNat.toUInt64) w 10 b.toNat.toUInt64
+    let second := assignedReg (assignedReg d w 0 a.toNat.toUInt64) w 10 b.toNat.toUInt64
     let result := divide w op a.toNat.toUInt64 b.toNat.toUInt64
-    executeMIRList f [StackMIR.loadOperand w .r9 lhs, StackMIR.loadOperand w .r10 rhs,
-      .divide w op .r9 .r9 .r10, .store w dest .r9] d = .ok (copied second w offset result) := by
+    executeMIRList f [StackMIR.loadOperand w .r0 lhs, StackMIR.loadOperand w .r10 rhs,
+      .divide w op .r9 .r0 .r10, .store w dest .r9] d = .ok (copied second w offset result) := by
   dsimp only
-  let second := assignedReg (assignedReg d w 9 a.toNat.toUInt64) w 10 b.toNat.toUInt64
+  let second := assignedReg (assignedReg d w 0 a.toNat.toUInt64) w 10 b.toNat.toUInt64
   let result := divide w op a.toNat.toUInt64 b.toNat.toUInt64
   let third := assignedReg second w 9 result
-  obtain ⟨loaded, secondReady, _, readLeft, readRight⟩ := load_operands f env d w lhs rhs a b ready related left right
-  change readReg second w 9 = .ok a.toNat.toUInt64 at readLeft
+  obtain ⟨loaded, secondReady, _, readLeft, readRight⟩ := load_operands_into .r0 (by decide) f env d w lhs rhs a b ready related left right
+  change readReg second w 0 = .ok a.toNat.toUInt64 at readLeft
   change readReg second w 10 = .ok b.toNat.toUInt64 at readRight
-  change executeMIRList f [StackMIR.loadOperand w .r9 lhs, StackMIR.loadOperand w .r10 rhs] d = .ok second at loaded
+  change executeMIRList f [StackMIR.loadOperand w .r0 lhs, StackMIR.loadOperand w .r10 rhs] d = .ok second at loaded
   have thirdReady : FrameReady third := assignedReg_ready _ _ _ _ secondReady
-  have calculate : executeMIR f second (.divide w op .r9 .r9 .r10) = .ok third := by
+  have calculate : executeMIR f second (.divide w op .r9 .r0 .r10) = .ok third := by
     simp only [executeMIR, StackMIR.Register.index, readLeft, readRight, bind, Except.bind]
     exact writeReg_assigned second w 9 result secondReady (by decide)
   have thirdRead : readReg third w 9 = .ok (normalize w result) :=
@@ -82,8 +82,8 @@ theorem division_expansion (f : StackMIR.Function) (env : Source.Environment) (d
     simpa only [third, assignedReg, copied] using store_in_frame third w offset (normalize w result)
       thirdReady.active thirdReady.space thirdReady.sp thirdReady.memory access thirdReady.nowrap
   change executeMIRList f
-    ([StackMIR.loadOperand w .r9 lhs, StackMIR.loadOperand w .r10 rhs] ++
-      [.divide w op .r9 .r9 .r10, .store w dest .r9]) d = _
+    ([StackMIR.loadOperand w .r0 lhs, StackMIR.loadOperand w .r10 rhs] ++
+      [.divide w op .r9 .r0 .r10, .store w dest .r9]) d = _
   rw [executeMIRList_append, loaded]
   simp only [bind, Except.bind, executeMIRList, calculate, written]
   rfl
@@ -107,11 +107,11 @@ theorem division_instruction (f : StackMIR.Function) (source : Source.Function)
       Machine.executeMIRList f (StackMIR.lowerInstruction inst).toList d = .ok after ∧
       Machine.FrameReady after ∧ after.frameBytes = (planFrame source).frameBytes ∧
       Machine.LocalsMatch f (env.set! inst.destination (some value)) after := by
-  let second := Machine.assignedReg (Machine.assignedReg d inst.width 9 a.toNat.toUInt64) inst.width 10 b.toNat.toUInt64
+  let second := Machine.assignedReg (Machine.assignedReg d inst.width 0 a.toNat.toUInt64) inst.width 10 b.toNat.toUInt64
   let result := Machine.divide inst.width op a.toNat.toUInt64 b.toNat.toUInt64
   let after := Machine.copied second inst.width (8*inst.destination) result
   obtain ⟨_, secondReady, secondRelated, _, _⟩ :=
-    Machine.load_operands f env d inst.width lhs rhs a b ready related left right
+    Machine.load_operands_into .r0 (by decide) f env d inst.width lhs rhs a b ready related left right
   have bound := Nat.lt_of_lt_of_le inside size
   have aWidth := (Source.read_ok env inst.width lhs a left).1
   have bWidth := (Source.read_ok env inst.width rhs b right).1

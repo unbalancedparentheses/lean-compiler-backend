@@ -66,10 +66,12 @@ private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction →
       | .eq => .eq | .unsignedLT => .lo | .unsignedLE => .ls | .signedLT => .lt | .signedLE => .le)]
   | .divide width op dst lhs rhs =>
     let signed := op == .signedDiv || op == .signedRem
-    -- A remainder forms its quotient in X0, which is dead in a body: arguments
-    -- were stored on entry and the result is loaded only before returning.
+    -- A remainder forms its quotient in its own destination, then MSUB reads
+    -- both operands again, so the destination must differ from them.
     if op == .unsignedDiv || op == .signedDiv then pure #[.divide width signed dst.index lhs.index rhs.index]
-    else pure #[.divide width signed 0 lhs.index rhs.index, .msub width dst.index 0 rhs.index lhs.index]
+    else if dst == lhs || dst == rhs then throw "remainder destination must differ from its operands"
+    else pure #[.divide width signed dst.index lhs.index rhs.index,
+      .msub width dst.index dst.index rhs.index lhs.index]
 
 def select (f : StackMIR.Function) : Except String Function := do
   StackMIR.validate f

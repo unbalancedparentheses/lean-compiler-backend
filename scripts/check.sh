@@ -162,6 +162,7 @@ grep -Fx "'LeanCompilerBackend.Verified.Machine.signedValue_value' depends on ax
 grep -Fx "'LeanCompilerBackend.Verified.Machine.boolValue_width' does not depend on any axioms" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.boolValue_bits' does not depend on any axioms" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.comparison_source' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.load_operands_into' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.load_operands' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.comparison_expansion' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.comparison_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null

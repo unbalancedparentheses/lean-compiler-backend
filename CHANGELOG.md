@@ -11,8 +11,10 @@
 - Admit `udiv`, `urem`, `div` and `rem` at both widths in the verified first
   path. A zero divisor or signed MIN / -1 makes the source step fault, so such
   programs have no behavior to preserve. The target emits UDIV/SDIV, and MSUB of
-  the quotient for remainders; `divide_bits` proves this total sequence equals
-  the source operation for all operands and `division_steps` simulates every
+  the quotient for remainders, formed in the destination register (selection
+  refuses a destination that aliases an operand, so no other register is
+  written); `divide_bits` proves the machine model of this total sequence
+  equals the source operation for all operands and `division_steps` simulates every
   defined division through the actual MIR lowering. The uniform instruction
   simulation covers division. Native and unit tests check the defined domain;
   unit tests also pin the faulting cases and the target's total results.

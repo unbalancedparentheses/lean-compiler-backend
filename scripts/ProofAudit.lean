@@ -194,6 +194,7 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.boolValue_width
 #print axioms LeanCompilerBackend.Verified.Machine.boolValue_bits
 #print axioms LeanCompilerBackend.Verified.Machine.comparison_source
+#print axioms LeanCompilerBackend.Verified.Machine.load_operands_into
 #print axioms LeanCompilerBackend.Verified.Machine.load_operands
 #print axioms LeanCompilerBackend.Verified.Machine.comparison_expansion
 #print axioms LeanCompilerBackend.Verified.comparison_instruction

@@ -65,8 +65,10 @@ def lowerInstruction (i : Source.Instruction) : Array Instruction := Id.run do
         .alu i.width op .r9 .r9 .r10]
     | .compare op width lhs rhs => #[loadOperand width .r9 lhs, loadOperand width .r10 rhs,
         .compare width op .r9 .r9 .r10]
-    | .divide op lhs rhs => #[loadOperand i.width .r9 lhs, loadOperand i.width .r10 rhs,
-        .divide i.width op .r9 .r9 .r10]
+    -- The dividend goes to R0 so the result register R9 is distinct from both
+    -- operands: a remainder then forms its quotient in R9 itself (see select).
+    | .divide op lhs rhs => #[loadOperand i.width .r0 lhs, loadOperand i.width .r10 rhs,
+        .divide i.width op .r9 .r0 .r10]
   return code.push (.store i.width (.value i.destination) .r9)
 
 /-- Read every incoming value into its own staging slot before committing any
