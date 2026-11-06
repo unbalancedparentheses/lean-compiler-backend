@@ -163,7 +163,7 @@ def fixtures():
         for op in ('add', 'sub', 'mul', 'and', 'or', 'xor', 'shl', 'shr', 'sar', 'udiv', 'urem', 'div', 'rem'):
             functions.append(f'export function {width} ${op}_{width}({width} %a, {width} %b) {{\n'
                              f'@entry\n %r ={width} {op} %a, %b\n ret %r\n}}')
-        for op in ('ceq', 'cult'):
+        for op in ('ceq', 'cult', 'cule', 'cslt', 'csle'):
             functions.append(f'export function w ${op}_{width}({width} %a, {width} %b) {{\n'
                              f'@entry\n %r =w {op}{width} %a, %b\n ret %r\n}}')
     functions += [
@@ -260,6 +260,15 @@ def harness(strict_word_result=True):
             x, y = (f'(({signed})({ctype})a)', f'(({signed})({ctype})b)') if signed_op else (f'(({ctype})a)', f'(({ctype})b)')
             guard = f'({ctype})b != 0' + (f' && !({x} == {minimum} && {y} == -1)' if signed_op else '')
             checks.append(f'if ({guard} && {name}(({ctype})a,({ctype})b) != ({ctype})({x} {symbol} {y})) return 1;')
+        # Unsigned/signed orderings, also against equal and adjacent operands
+        # (where LS/LE differ from LO/LT and SUBS overflows near the extremes).
+        for op, symbol, signed_op in [('cule', '<=', False), ('cslt', '<', True), ('csle', '<=', True)]:
+            name = f'{op}_{width}'
+            declarations.append(f'extern uint32_t {name}({ctype},{ctype});')
+            view = signed if signed_op else ctype
+            for x, y in [('a', 'b'), ('b', 'a'), ('a', 'a'), ('a', 'a + 1'), ('a + 1', 'a'), ('a - 1', 'a'), ('a', 'a - 1')]:
+                checks.append(f'if ({name}(({ctype})({x}),({ctype})({y})) != '
+                              f'(uint32_t)((({view})({ctype})({x})) {symbol} (({view})({ctype})({y})))) return 1;')
     source = '''#include <stdint.h>
 #include <stdio.h>
 ''' + '\n'.join(declarations) + '''

@@ -20,6 +20,11 @@ def Value.toNat : Value → Nat
   | .word bits => bits.toNat
   | .long bits => bits.toNat
 
+/-- Two's-complement reading at the value's own width. -/
+def Value.toInt : Value → Int
+  | .word bits => bits.toInt
+  | .long bits => bits.toInt
+
 def Value.constant (width : Width) (n : Int) : Value :=
   match width with
   | .word => .word (BitVec.ofInt 32 n)
@@ -44,7 +49,7 @@ inductive Division where
   deriving DecidableEq, Repr
 
 inductive Comparison where
-  | eq | unsignedLT
+  | eq | unsignedLT | unsignedLE | signedLT | signedLE
   deriving DecidableEq, Repr
 
 abbrev ValueId := Nat
@@ -168,6 +173,9 @@ def evaluateComparison (op : Comparison) (a b : Value) : Except Fault Value := d
   let result := match op with
     | .eq => a.toNat == b.toNat
     | .unsignedLT => a.toNat < b.toNat
+    | .unsignedLE => a.toNat ≤ b.toNat
+    | .signedLT => a.toInt < b.toInt
+    | .signedLE => a.toInt ≤ b.toInt
   pure (.word (if result then 1 else 0))
 
 def evaluate (env : Environment) (i : Instruction) : Except Fault Value := do

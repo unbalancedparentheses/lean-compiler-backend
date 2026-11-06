@@ -39,9 +39,12 @@ private def readBinary : Decoder Source.Binary := do
   | 6 => pure .shiftLeft | 7 => pure .logicalRight | 8 => pure .arithmeticRight
   | 9 => pure .mulHighUnsigned | 10 => pure .mulHighSigned
   | _ => throw "unknown binary opcode"
-private def comparison (op : Source.Comparison) : Encoder Unit := byte (if op == .eq then 0 else 1)
+private def comparison (op : Source.Comparison) : Encoder Unit := byte (match op with
+  | .eq => 0 | .unsignedLT => 1 | .unsignedLE => 2 | .signedLT => 3 | .signedLE => 4)
 private def readComparison : Decoder Source.Comparison := do
-  match ← readByte with | 0 => pure .eq | 1 => pure .unsignedLT | _ => throw "unknown comparison"
+  match ← readByte with
+  | 0 => pure .eq | 1 => pure .unsignedLT | 2 => pure .unsignedLE | 3 => pure .signedLT | 4 => pure .signedLE
+  | _ => throw "unknown comparison"
 
 private def division (op : Source.Division) : Encoder Unit := byte (match op with
   | .unsignedDiv => 0 | .unsignedRem => 1 | .signedDiv => 2 | .signedRem => 3)
@@ -254,7 +257,7 @@ private def assemblyInstruction : TypedA64.Instruction → Encoder Unit
   | .movk w r c s => do byte 5; width w; natural r; natural c; natural s
   | .alu w op d a b => do byte 6; width w; binary op; natural d; natural a; natural b
   | .cmp w a b => do byte 7; width w; natural a; natural b
-  | .cset r c => do byte 8; natural r; byte (if c == .eq then 0 else 1)
+  | .cset r c => do byte 8; natural r; byte (match c with | .eq => 0 | .lo => 1 | .ls => 2 | .lt => 3 | .le => 4)
   | .cbnz r t => do byte 9; natural r; label t
   | .jump t => do byte 10; label t
   | .ret => byte 11

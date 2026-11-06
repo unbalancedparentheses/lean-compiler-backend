@@ -7,8 +7,11 @@ namespace LeanCompilerBackend.Verified.TypedA64
 abbrev Label := StackMIR.Label
 
 inductive Condition where
-  | eq | lo
+  | eq | lo | ls | lt | le
   deriving DecidableEq, Repr
+
+def Condition.spelling : Condition → String
+  | .eq => "eq" | .lo => "lo" | .ls => "ls" | .lt => "lt" | .le => "le"
 
 inductive Instruction where
   | subSP (bytes : Nat)
@@ -59,7 +62,8 @@ private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction →
   | .store width slot reg => do pure #[.store width reg.index (← StackMIR.offset f slot)]
   | .alu width op dst lhs rhs => pure #[.alu width op dst.index lhs.index rhs.index]
   | .compare width op dst lhs rhs =>
-    pure #[.cmp width lhs.index rhs.index, .cset dst.index (match op with | .eq => .eq | .unsignedLT => .lo)]
+    pure #[.cmp width lhs.index rhs.index, .cset dst.index (match op with
+      | .eq => .eq | .unsignedLT => .lo | .unsignedLE => .ls | .signedLT => .lt | .signedLE => .le)]
   | .divide width op dst lhs rhs =>
     let signed := op == .signedDiv || op == .signedRem
     -- A remainder forms its quotient in X0, which is dead in a body: arguments
@@ -178,7 +182,7 @@ private def renderInstruction (symbol : String) : Instruction → String
   | .msub width dst lhs rhs addend =>
     s!"\tmsub {register width dst}, {register width lhs}, {register width rhs}, {register width addend}"
   | .cmp width lhs rhs => s!"\tcmp {register width lhs}, {register width rhs}"
-  | .cset reg condition => s!"\tcset w{reg}, {if condition == .eq then "eq" else "lo"}"
+  | .cset reg condition => s!"\tcset w{reg}, {condition.spelling}"
   | .cbnz reg target => s!"\tcbnz w{reg}, {labelName symbol target}"
   | .jump target => s!"\tb {labelName symbol target}"
   | .ret => "\tret"

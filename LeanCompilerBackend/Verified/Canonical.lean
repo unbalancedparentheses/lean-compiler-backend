@@ -22,7 +22,9 @@ private def reifyOperation : Source.Operation → Operation
   | .copy value => .copy (reifyOperand value)
   | .binary op lhs rhs => .binary (reifyBinary op) (reifyOperand lhs) (reifyOperand rhs)
   | .compare op width lhs rhs =>
-    .compare (match op with | .eq => .eq | .unsignedLT => .unsignedLT)
+    .compare (match op with
+      | .eq => .eq | .unsignedLT => .unsignedLT | .unsignedLE => .unsignedLE
+      | .signedLT => .signedLT | .signedLE => .signedLE)
       width (reifyOperand lhs) (reifyOperand rhs)
   | .divide op lhs rhs =>
     .divide (match op with

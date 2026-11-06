@@ -115,7 +115,7 @@ in declaration order in `Job.lean`/`Plans.lean`. Tags are:
 | Source operation | copy, binary, compare, divide |
 | Binary operation | add, sub, mul, and, or, xor, shiftLeft, logicalRight, arithmeticRight, mulHighUnsigned, mulHighSigned |
 | Division | unsignedDiv, unsignedRem, signedDiv, signedRem |
-| Comparison | eq, unsignedLT |
+| Comparison | eq, unsignedLT, unsignedLE, signedLT, signedLE |
 | Source terminator | return, jump, branch |
 | Label | entry, body, edge |
 | MIR scratch register | R0, R9, R10 |
@@ -123,6 +123,7 @@ in declaration order in `Job.lean`/`Plans.lean`. Tags are:
 | MIR instruction | enterFrame, leaveFrame, readArg, constant, load, store, alu, compare, divide |
 | MIR terminator | jump, branch, return |
 | Assembly instruction | subSP, addSP, load, store, movz, movk, alu, cmp, cset, cbnz, jump, ret, divide, msub |
+| Assembly condition | eq, lo, ls, lt, le |
 | Assembly condition | eq, lo |
 | Evidence request | none, kernelTypedAssembly, nativeBinary |
 | Evidence result | uncertified (the only implemented constructor) |
@@ -227,8 +228,10 @@ bitvector result. `MachineProofs.alu_preserves` relates each target ALU result t
 the source operation at either width, including shift counts reduced modulo the
 width, the word-width sign bit of `asr`, and the exact natural/integer products
 behind UMULH/SMULH.
-`ComparisonProofs.comparison_steps` proves the four-step equality/unsigned
-comparison expansion for word or long operands and a word result.
+`ComparisonProofs.comparison_steps` proves the four-step comparison expansion
+(equality, unsigned less/less-or-equal, signed less/less-or-equal) for word or
+long operands and a word result; `signedValue_value` identifies the machine's
+two's-complement reading of the operand bits with the source `toInt`.
 `DivisionProofs.division_steps` does the same for a defined division or
 remainder; `divide_bits` shows the total target UDIV/SDIV(+MSUB) result equals
 the source bit-vector operation for every operand, so the source's undefined

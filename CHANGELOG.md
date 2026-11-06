@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Admit `cule`, `cslt` and `csle` at both widths in the verified first path
+  (unsigned less-or-equal, signed less-than/less-or-equal, word 0/1 result). The
+  target emits CMP and CSET LS/LT/LE. `comparison_steps` now simulates every
+  admitted comparison through the actual MIR lowering; native tests check the
+  condition codes against C on equal, adjacent and overflowing operands.
+
 - Admit `udiv`, `urem`, `div` and `rem` at both widths in the verified first
   path. A zero divisor or signed MIN / -1 makes the source step fault, so such
   programs have no behavior to preserve. The target emits UDIV/SDIV, and MSUB of

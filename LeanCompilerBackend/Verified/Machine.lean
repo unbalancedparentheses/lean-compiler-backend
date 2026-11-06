@@ -193,7 +193,10 @@ def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Exc
   | .compare width op dst lhs rhs => do
     let a ← readReg d width lhs.index
     let b ← readReg d width rhs.index
-    let yes := match op with | .eq => a == b | .unsignedLT => a < b
+    let yes := match op with
+      | .eq => a == b | .unsignedLT => a < b | .unsignedLE => a ≤ b
+      | .signedLT => signedValue width a < signedValue width b
+      | .signedLE => signedValue width a ≤ signedValue width b
     writeReg d .word dst.index (if yes then 1 else 0)
   | .divide width op dst lhs rhs => do
     writeReg d width dst.index (divide width op (← readReg d width lhs.index) (← readReg d width rhs.index))
@@ -258,7 +261,11 @@ def stepAssembly (f : TypedA64.Function) (s : State) : Except String Transition 
   | .cmp width lhs rhs =>
     updated := { d with flags := subtractFlags width (← readReg d width lhs) (← readReg d width rhs) }
   | .cset reg condition =>
-    let yes := match condition with | .eq => d.flags.zero | .lo => !d.flags.carry
+    -- ARM condition codes: LS = !C || Z, LT = N != V, LE = Z || N != V.
+    let yes := match condition with
+      | .eq => d.flags.zero | .lo => !d.flags.carry | .ls => !d.flags.carry || d.flags.zero
+      | .lt => d.flags.negative != d.flags.overflow
+      | .le => d.flags.zero || d.flags.negative != d.flags.overflow
     updated ← writeReg d .word reg (if yes then 1 else 0)
   | .cbnz reg target =>
     if (← readReg d .word reg) != 0 then return .next { s with label := target, position := 0 }

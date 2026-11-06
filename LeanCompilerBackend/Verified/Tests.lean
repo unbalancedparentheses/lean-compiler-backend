@@ -105,6 +105,16 @@ private def arithmetic : IO Unit := do
     -- Counts are same-width values reduced modulo the width (QBE mask, AArch64 *V).
     let bits : Int := if w == "w" then 32 else 64
     let top : Int := 2 ^ (bits - 1).toNat
+    -- Signed comparisons read the operands as two's complement; the cases at
+    -- the signed extremes are the ones where SUBS overflows.
+    for (op, a, b, expected) in [
+        ("cule", maxValue, maxValue, 1), ("cule", maxValue, 0, 0), ("cule", 0, maxValue, 1), ("cule", 5, 4, 0),
+        ("cslt", maxValue, 0, 1), ("cslt", 0, maxValue, 0), ("cslt", top, top - 1, 1), ("cslt", top - 1, top, 0),
+        ("cslt", 5, 5, 0), ("cslt", top, maxValue, 1), ("cslt", 2, 3, 1), ("cslt", top, 1, 1), ("cslt", 1, top, 0),
+        ("csle", 5, 5, 1), ("csle", top, top, 1), ("csle", maxValue, top, 0), ("csle", top - 1, maxValue, 0),
+        ("csle", maxValue, 0, 1), ("csle", 0, maxValue, 0), ("csle", maxValue, top - 1, 1)] do
+      returns s!"function w $f({w} %a, {w} %b) \{ @s %r =w {op}{w} %a, %b ret %r }"
+        #[a,b] expected
     for (op, a, b, expected) in [
         ("shl", 3, 1, 6), ("shl", 1, bits - 1, top), ("shl", 1, bits, 1), ("shl", 3, bits + 1, 6),
         ("shl", maxValue, maxValue, top),
@@ -246,7 +256,8 @@ private def admissionFailures : IO Unit := do
       "function w $f() { @s hlt }",
       "function l $f(l %a, w %c) { @s %r =l shl %a, %c ret %r }",
       "function w $f(w %a) { @s %r =w neg %a ret %r }",
-      "function w $f(w %a) { @s %r =w csltw %a, 1 ret %r }",
+      "function w $f(w %a) { @s %r =w csgtw %a, 1 ret %r }",
+      "function w $f(w %a) { @s %r =w cnew %a, 1 ret %r }",
       "function l $f(w %a) { @s %r =l ceqw %a, 1 ret %r }",
       "function w $f(l %a) { @s %r =w copy %a ret %r }",
       "function l $f(w %a) { @s %r =l copy %a ret %r }",

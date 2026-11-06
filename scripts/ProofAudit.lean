@@ -190,6 +190,7 @@ import LeanCompilerBackend.Verified.LayoutProofs
 
 -- Word-result equality/unsigned comparisons at both operand widths.
 #print axioms LeanCompilerBackend.Verified.Machine.value_bits_toNat
+#print axioms LeanCompilerBackend.Verified.Machine.signedValue_value
 #print axioms LeanCompilerBackend.Verified.Machine.boolValue_width
 #print axioms LeanCompilerBackend.Verified.Machine.boolValue_bits
 #print axioms LeanCompilerBackend.Verified.Machine.comparison_source

@@ -50,8 +50,9 @@ private def division : Division → Source.Division
   | .signedDiv => .signedDiv | .signedRem => .signedRem
 
 private def comparison : Comparison → Except AdmissionError Source.Comparison
-  | .eq => .ok .eq | .unsignedLT => .ok .unsignedLT
-  | _ => .error (.unsupported "comparison other than eq/unsignedLT")
+  | .eq => .ok .eq | .unsignedLT => .ok .unsignedLT | .unsignedLE => .ok .unsignedLE
+  | .signedLT => .ok .signedLT | .signedLE => .ok .signedLE
+  | _ => .error (.unsupported "comparison other than eq/unsignedLT/unsignedLE/signedLT/signedLE")
 
 private def instruction (locals : Array (String × Width)) (inst : Instruction)
     : Except AdmissionError Source.Instruction := do
