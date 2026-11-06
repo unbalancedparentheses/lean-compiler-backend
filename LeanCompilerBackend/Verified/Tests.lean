@@ -163,10 +163,15 @@ private def apiOnly : IO Unit := do
   for op in [Source.Binary.mulHighUnsigned, .mulHighSigned] do
     require (match validateJob (directJob (directBinary .word op)) with
       | .error (.admission (.unsupported _)) => true | _ => false) "word high multiply admitted"
-    let wordBlock : TypedA64.Block := { label := .entry, instructions := #[.alu .word op 9 9 10, .ret] }
-    let wordForm : TypedA64.Function :=
-      { parameters := #[], resultWidth := .long, frameBytes := 0, blocks := #[wordBlock] }
-    require (match TypedA64.validate wordForm with | .error _ => true | .ok _ => false)
+    -- A frameless leaf that is valid except for the operation's width.
+    let leaf (width : Width) : TypedA64.Function :=
+      let entry : TypedA64.Block := { label := .entry, instructions := #[.jump (.body 0)] }
+      let body : TypedA64.Block := { label := .body 0, instructions := #[.alu width op 9 9 10, .ret] }
+      { parameters := #[], resultWidth := .long, frameBytes := 0, blocks := #[entry, body] }
+    require (match TypedA64.validate (leaf .long) with | .ok _ => true | .error _ => false)
+      "typed assembly refused a valid X-form high multiply"
+    require (match TypedA64.validate (leaf .word) with
+      | .error message => (message.splitOn "UMULH/SMULH").length == 2 | .ok _ => false)
       "typed assembly accepted a W-form high multiply"
   -- The structural check still binds numbering and widths around high multiplies.
   let body := directBinary .long .mulHighSigned
