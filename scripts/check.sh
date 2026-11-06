@@ -165,6 +165,14 @@ grep -Fx "'LeanCompilerBackend.Verified.Machine.load_operands' depends on axioms
 grep -Fx "'LeanCompilerBackend.Verified.Machine.comparison_expansion' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.comparison_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.comparison_steps' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.udiv_msub' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.sdiv_ofInt' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.sdiv_msub' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.divide_bits' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.divide_preserves' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.division_expansion' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.division_instruction' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.division_steps' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.source_write_sound' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.instruction_correct' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.instruction_length' depends on axioms: [propext]" <<< "$audit" >/dev/null

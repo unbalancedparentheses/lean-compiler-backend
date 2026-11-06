@@ -36,6 +36,13 @@ inductive Binary where
   | mulHighUnsigned | mulHighSigned
   deriving DecidableEq, Repr
 
+/-- Division and remainder truncate toward zero (remainder has the dividend's
+    sign). A zero divisor, and a signed minimum divided by -1, are outside the
+    defined domain for all four, as in the compatibility interpreter. -/
+inductive Division where
+  | unsignedDiv | unsignedRem | signedDiv | signedRem
+  deriving DecidableEq, Repr
+
 inductive Comparison where
   | eq | unsignedLT
   deriving DecidableEq, Repr
@@ -52,6 +59,7 @@ inductive Operation where
   | copy (value : Operand)
   | binary (op : Binary) (lhs rhs : Operand)
   | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
+  | divide (op : Division) (lhs rhs : Operand)
   deriving DecidableEq, Repr
 
 structure Instruction where
@@ -101,6 +109,9 @@ inductive Fault where
   | arity | widthMismatch | missingValue (id : ValueId)
   | invalidBlock (id : BlockId) | invalidPosition
   | invalidDestination (id : ValueId) | invalidPhi (block : BlockId)
+  /-- Division by zero or signed-minimum / -1: the step is stuck, so such a
+      function has no behavior and no compiled-code obligation. -/
+  | undefinedDivision
   deriving DecidableEq, Repr
 
 def read (env : Environment) (width : Width) (operand : Operand)
@@ -135,6 +146,23 @@ def evaluateBinary (op : Binary) : Value → Value → Except Fault Value
   | .long a, .long b => .ok (.long (binaryBits op a b))
   | _, _ => .error .widthMismatch
 
+def divisionBits {n : Nat} (op : Division) (a b : BitVec n) : BitVec n :=
+  match op with
+  | .unsignedDiv => a / b | .unsignedRem => a % b
+  | .signedDiv => a.sdiv b | .signedRem => a.srem b
+
+def divisionDefined {n : Nat} (op : Division) (a b : BitVec n) : Bool :=
+  b != 0 && match op with
+    | .unsignedDiv | .unsignedRem => true
+    | .signedDiv | .signedRem => !(a == BitVec.intMin n && b == BitVec.allOnes n)
+
+def evaluateDivision (op : Division) : Value → Value → Except Fault Value
+  | .word a, .word b =>
+    if divisionDefined op a b then .ok (.word (divisionBits op a b)) else .error .undefinedDivision
+  | .long a, .long b =>
+    if divisionDefined op a b then .ok (.long (divisionBits op a b)) else .error .undefinedDivision
+  | _, _ => .error .widthMismatch
+
 def evaluateComparison (op : Comparison) (a b : Value) : Except Fault Value := do
   if a.width != b.width then throw .widthMismatch
   let result := match op with
@@ -150,6 +178,8 @@ def evaluate (env : Environment) (i : Instruction) : Except Fault Value := do
   | .compare op width lhs rhs =>
     if i.width != .word then throw .widthMismatch
     evaluateComparison op (← read env width lhs) (← read env width rhs)
+  | .divide op lhs rhs =>
+    evaluateDivision op (← read env i.width lhs) (← read env i.width rhs)
 
 /-- Every operand is read from the old environment before any phi destination
     changes. Missing and duplicate predecessor entries fail explicitly. -/

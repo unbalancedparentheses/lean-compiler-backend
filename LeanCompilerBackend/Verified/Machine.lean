@@ -160,6 +160,27 @@ def alu (width : Width) (op : Source.Binary) (a b : UInt64) : UInt64 :=
     | .mulHighUnsigned => mulHigh width false a b
     | .mulHighSigned => mulHigh width true a b)
 
+/-- AArch64 UDIV/SDIV at the selected width: a zero divisor gives zero, SDIV
+    truncates toward zero and wraps MIN / -1 to MIN. No case traps. -/
+def quotient (width : Width) (signed : Bool) (a b : UInt64) : UInt64 :=
+  match width, signed with
+  | .word, false => (a.toUInt32 / b.toUInt32).toUInt64
+  | .long, false => a / b
+  | _, true => normalize width (UInt64.ofInt ((signedValue width a).tdiv (signedValue width b)))
+
+/-- AArch64 MSUB: addend - product1 * product2 at the selected width. -/
+def multiplySubtract (width : Width) (product1 product2 addend : UInt64) : UInt64 :=
+  normalize width (addend - product1 * product2)
+
+/-- The emitted sequence: one UDIV/SDIV, followed for a remainder by an MSUB of
+    the quotient. Total, like the hardware. -/
+def divide (width : Width) (op : Source.Division) (a b : UInt64) : UInt64 :=
+  match op with
+  | .unsignedDiv => quotient width false a b
+  | .signedDiv => quotient width true a b
+  | .unsignedRem => multiplySubtract width (quotient width false a b) b a
+  | .signedRem => multiplySubtract width (quotient width true a b) b a
+
 def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Except String Data
   | .enterFrame bytes => enter d bytes
   | .leaveFrame bytes => leave d bytes
@@ -174,6 +195,8 @@ def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Exc
     let b ← readReg d width rhs.index
     let yes := match op with | .eq => a == b | .unsignedLT => a < b
     writeReg d .word dst.index (if yes then 1 else 0)
+  | .divide width op dst lhs rhs => do
+    writeReg d width dst.index (divide width op (← readReg d width lhs.index) (← readReg d width rhs.index))
 
 /-- Straight-line execution uses the same instruction semantics as stepMIR.
     This helper does not execute the block terminator. -/
@@ -227,6 +250,11 @@ def stepAssembly (f : TypedA64.Function) (s : State) : Except String Transition 
     updated ← writeReg d width reg ((old &&& ~~~mask) ||| (chunk.toUInt64 <<< shift.toUInt64))
   | .alu width op dst lhs rhs =>
     updated ← writeReg d width dst (alu width op (← readReg d width lhs) (← readReg d width rhs))
+  | .divide width signed dst lhs rhs =>
+    updated ← writeReg d width dst (quotient width signed (← readReg d width lhs) (← readReg d width rhs))
+  | .msub width dst lhs rhs addend =>
+    updated ← writeReg d width dst
+      (multiplySubtract width (← readReg d width lhs) (← readReg d width rhs) (← readReg d width addend))
   | .cmp width lhs rhs =>
     updated := { d with flags := subtractFlags width (← readReg d width lhs) (← readReg d width rhs) }
   | .cset reg condition =>

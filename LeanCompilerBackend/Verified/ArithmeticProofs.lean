@@ -48,7 +48,8 @@ theorem assignedReg_other (d : Data) (writeWidth readWidth : Width) (reg other :
   simp [readReg, assignedReg, Array.getElem?_setIfInBounds_ne different]
 
 /-- Execute the actual two operand loads, arithmetic operation and destination
-    store, for any of the six supported arithmetic/bitwise operations. -/
+    store, for every supported binary operation (arithmetic, bitwise, shift and
+    high multiply). -/
 theorem binary_expansion (f : StackMIR.Function) (env : Source.Environment) (d : Data)
     (w : Width) (op : Source.Binary) (lhs rhs : Source.Operand) (a b : Source.Value)
     (dest : StackMIR.Slot) (offset : Nat) (ready : FrameReady d) (related : LocalsMatch f env d)

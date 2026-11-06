@@ -116,6 +116,17 @@ private def arithmetic : IO Unit := do
       returns s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} {op} %a, %b ret %r }"
         #[a,b] expected
     returns s!"function {w} $f({w} %a) \{ @s %r ={w} sar %a, {bits + 1} ret %r }" #[-8] (-4 % (maxValue + 1))
+    -- Truncating division; the remainder takes the dividend's sign.
+    let m := maxValue + 1
+    for (op, a, b, expected) in [
+        ("udiv", maxValue, 2, top - 1), ("udiv", 7, 9, 0), ("udiv", top, maxValue, 0), ("udiv", maxValue, 1, maxValue),
+        ("urem", maxValue, 10, if w == "w" then 5 else 5), ("urem", 7, 9, 7), ("urem", top, top - 1, 1),
+        ("div", -7, 2, m - 3), ("div", 7, -2, m - 3), ("div", -7, -2, 3), ("div", top, 1, top),
+        ("div", top, 2, m - top / 2), ("div", top - 1, -1, top + 1), ("div", 0, -5, 0),
+        ("rem", -7, 2, m - 1), ("rem", 7, -2, 1), ("rem", -7, -2, m - 1), ("rem", top, 3, m - 2),
+        ("rem", top, 2, 0), ("rem", top - 1, top, top - 1)] do
+      returns s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} {op} %a, %b ret %r }"
+        #[a,b] expected
   returns "function w $f() { @s %r =w copy 4294967297 ret %r }" #[] 1
   returns "function l $f(w %unused, l %x) { @s %wide =l copy 4294967297 %r =l add %x, %wide ret %r }"
     #[123,18446744073709551615] 4294967296
@@ -234,7 +245,6 @@ private def admissionFailures : IO Unit := do
       "function $f() { @s ret }",
       "function w $f() { @s hlt }",
       "function l $f(l %a, w %c) { @s %r =l shl %a, %c ret %r }",
-      "function w $f(w %a) { @s %r =w div %a, 1 ret %r }",
       "function w $f(w %a) { @s %r =w neg %a ret %r }",
       "function w $f(w %a) { @s %r =w csltw %a, 1 ret %r }",
       "function l $f(w %a) { @s %r =l ceqw %a, 1 ret %r }",
@@ -265,6 +275,38 @@ private def admissionFailures : IO Unit := do
   let oversized ← parse (makeFrame 256)
   require (match admit oversized with | .error (.resourceLimit "frame bytes" 4096 4080) => true | _ => false)
     "frame overflow must reject"
+
+/-- Division outside its defined domain has no source behavior. The target
+    models are total like AArch64 (zero quotient, MIN / -1 wraps), so their
+    results are not source observations and carry no obligation. -/
+private def undefinedDivision : IO Unit := do
+  for w in ["w", "l"] do
+    let top : Int := if w == "w" then 2147483648 else 9223372036854775808
+    for op in ["div", "udiv", "rem", "urem"] do
+      let f ← admitted s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} {op} %a, %b ret %r }"
+      let width := f.resultWidth
+      for (a, b) in [(5, 0), (0, 0)] ++ (if op == "div" || op == "rem" then [(-top, -1)] else []) do
+        let args := #[Source.Value.constant width a, Source.Value.constant width b]
+        require (decide (Source.evaluateFunction f args 10 = .stuck .undefinedDivision))
+          s!"{w} {op} {a}/{b} must have no source behavior"
+    -- Unsigned MIN / -1 is ordinary division.
+    let f ← admitted s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} udiv %a, %b ret %r }"
+    require (match Source.evaluateFunction f #[Source.Value.constant f.resultWidth (-top),
+      Source.Value.constant f.resultWidth (-1)] 10 with | .returned _ => true | _ => false)
+      "unsigned division by all-ones is defined"
+  let job ← match prepareJob (← parse "function l $f(l %a, l %b) { @s %r =l rem %a, %b ret %r }") "tests" with
+    | .ok job => pure job
+    | .error e => throw (IO.userError s!"{repr e}")
+  let artifact ← match compileFunction job with
+    | .ok artifact => pure artifact
+    | .error e => throw (IO.userError s!"{repr e}")
+  let minimum := Source.Value.constant .long (-9223372036854775808)
+  for (args, expected) in [(#[Source.Value.long 5, .long 0], Source.Value.long 5),
+      (#[minimum, .constant .long (-1)], .long 0)] do
+    for execution in [Machine.evaluateMIR artifact.code.stackMIR args 100,
+        Machine.evaluateAssembly artifact.code.assembly args 100] do
+      require (match execution with | .returned value _ => decide (value = expected) | _ => false)
+        "target remainder must follow UDIV/SDIV/MSUB on undefined source inputs"
 
 private def faultControls : IO Unit := do
   let f ← admitted "function w $f(w %x) { @s ret %x }"
@@ -303,6 +345,7 @@ private def faultControls : IO Unit := do
 def run : IO Unit := do
   arithmetic
   apiOnly
+  undefinedDivision
   control
   admissionFailures
   faultControls

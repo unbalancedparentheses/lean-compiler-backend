@@ -18,6 +18,10 @@ inductive Instruction where
   | movz (width : Width) (reg chunk shift : Nat)
   | movk (width : Width) (reg chunk shift : Nat)
   | alu (width : Width) (op : Source.Binary) (dst lhs rhs : Nat)
+  /-- UDIV/SDIV dst, lhs, rhs. -/
+  | divide (width : Width) (signed : Bool) (dst lhs rhs : Nat)
+  /-- MSUB dst, lhs, rhs, addend: dst = addend - lhs * rhs. -/
+  | msub (width : Width) (dst lhs rhs addend : Nat)
   | cmp (width : Width) (lhs rhs : Nat)
   | cset (reg : Nat) (condition : Condition)
   | cbnz (reg : Nat) (target : Label)
@@ -56,6 +60,12 @@ private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction →
   | .alu width op dst lhs rhs => pure #[.alu width op dst.index lhs.index rhs.index]
   | .compare width op dst lhs rhs =>
     pure #[.cmp width lhs.index rhs.index, .cset dst.index (match op with | .eq => .eq | .unsignedLT => .lo)]
+  | .divide width op dst lhs rhs =>
+    let signed := op == .signedDiv || op == .signedRem
+    -- A remainder forms its quotient in X0, which is dead in a body: arguments
+    -- were stored on entry and the result is loaded only before returning.
+    if op == .unsignedDiv || op == .signedDiv then pure #[.divide width signed dst.index lhs.index rhs.index]
+    else pure #[.divide width signed 0 lhs.index rhs.index, .msub width dst.index 0 rhs.index lhs.index]
 
 def select (f : StackMIR.Function) : Except String Function := do
   StackMIR.validate f
@@ -117,6 +127,11 @@ def validate (f : Function) : Except String Unit := do
         if !active || left || !writable dst || !readable lhs || !readable rhs then throw "illegal ALU operands"
         if width == .word && (op == .mulHighUnsigned || op == .mulHighSigned) then
           throw "UMULH/SMULH have no W-register form"
+      | .divide _ _ dst lhs rhs =>
+        if !active || left || !writable dst || !readable lhs || !readable rhs then throw "illegal division operands"
+      | .msub _ dst lhs rhs addend =>
+        if !active || left || !writable dst || !readable lhs || !readable rhs || !readable addend then
+          throw "illegal multiply-subtract operands"
       | .cmp _ lhs rhs =>
         if !active || left || !readable lhs || !readable rhs then throw "illegal comparison operands"
         flagsReady := true
@@ -158,6 +173,10 @@ private def renderInstruction (symbol : String) : Instruction → String
   | .movz width reg chunk shift => s!"\tmovz {register width reg}, #{chunk}, lsl #{shift}"
   | .movk width reg chunk shift => s!"\tmovk {register width reg}, #{chunk}, lsl #{shift}"
   | .alu width op dst lhs rhs => s!"\t{mnemonic op} {register width dst}, {register width lhs}, {register width rhs}"
+  | .divide width signed dst lhs rhs =>
+    s!"\t{if signed then "sdiv" else "udiv"} {register width dst}, {register width lhs}, {register width rhs}"
+  | .msub width dst lhs rhs addend =>
+    s!"\tmsub {register width dst}, {register width lhs}, {register width rhs}, {register width addend}"
   | .cmp width lhs rhs => s!"\tcmp {register width lhs}, {register width rhs}"
   | .cset reg condition => s!"\tcset w{reg}, {if condition == .eq then "eq" else "lo"}"
   | .cbnz reg target => s!"\tcbnz w{reg}, {labelName symbol target}"

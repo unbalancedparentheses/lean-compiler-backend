@@ -24,6 +24,10 @@ private def reifyOperation : Source.Operation → Operation
   | .compare op width lhs rhs =>
     .compare (match op with | .eq => .eq | .unsignedLT => .unsignedLT)
       width (reifyOperand lhs) (reifyOperand rhs)
+  | .divide op lhs rhs =>
+    .divide (match op with
+      | .unsignedDiv => .unsignedDiv | .unsignedRem => .unsignedRem
+      | .signedDiv => .signedDiv | .signedRem => .signedRem) (reifyOperand lhs) (reifyOperand rhs)
 
 /-- Canonical local labels are function-local and independent of module order. -/
 def reify (f : Source.Function) (name : String) (exported : Bool) : Function := {

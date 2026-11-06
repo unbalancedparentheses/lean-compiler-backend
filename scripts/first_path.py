@@ -160,7 +160,7 @@ int main(void) {
 def fixtures():
     functions = []
     for width in ('w', 'l'):
-        for op in ('add', 'sub', 'mul', 'and', 'or', 'xor', 'shl', 'shr', 'sar'):
+        for op in ('add', 'sub', 'mul', 'and', 'or', 'xor', 'shl', 'shr', 'sar', 'udiv', 'urem', 'div', 'rem'):
             functions.append(f'export function {width} ${op}_{width}({width} %a, {width} %b) {{\n'
                              f'@entry\n %r ={width} {op} %a, %b\n ret %r\n}}')
         for op in ('ceq', 'cult'):
@@ -252,6 +252,14 @@ def harness(strict_word_result=True):
             name = f'{op}_{width}'
             declarations.append(f'extern {ctype} {name}({ctype},{ctype});')
             checks.append(f'if ({name}(({ctype})a,({ctype})b) != ({ctype})({expression})) return 1;')
+        # Division is checked only inside its defined domain (C has the same one).
+        minimum = 'INT32_MIN' if width == 'w' else 'INT64_MIN'
+        for op, symbol, signed_op in [('udiv', '/', False), ('urem', '%', False), ('div', '/', True), ('rem', '%', True)]:
+            name = f'{op}_{width}'
+            declarations.append(f'extern {ctype} {name}({ctype},{ctype});')
+            x, y = (f'(({signed})({ctype})a)', f'(({signed})({ctype})b)') if signed_op else (f'(({ctype})a)', f'(({ctype})b)')
+            guard = f'({ctype})b != 0' + (f' && !({x} == {minimum} && {y} == -1)' if signed_op else '')
+            checks.append(f'if ({guard} && {name}(({ctype})a,({ctype})b) != ({ctype})({x} {symbol} {y})) return 1;')
     source = '''#include <stdint.h>
 #include <stdio.h>
 ''' + '\n'.join(declarations) + '''
@@ -272,6 +280,8 @@ int main(void) {
       a = edge[i % 5] ^ ((i / 5) % 2 ? (UINT64_C(1)<<31) : 0);
       b = (i - 1) / 5;
     }
+    if (i > 650 && i % 3 == 0) b >>= (i % 64); /* small divisors */
+    if (i > 650 && i % 7 == 0) b = (uint64_t)-(int64_t)(b & 15); /* small negative divisors */
 ''' + '\n'.join(checks) + '''
     unsigned n = i % 100;
     if(sum(n) != n*(n-1)/2) return 2;

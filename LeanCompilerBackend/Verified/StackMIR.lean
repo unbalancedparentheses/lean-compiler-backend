@@ -31,6 +31,7 @@ inductive Instruction where
   | store (width : Width) (slot : Slot) (reg : Register)
   | alu (width : Width) (op : Source.Binary) (dst lhs rhs : Register)
   | compare (width : Width) (op : Source.Comparison) (dst lhs rhs : Register)
+  | divide (width : Width) (op : Source.Division) (dst lhs rhs : Register)
   deriving DecidableEq, Repr
 
 inductive Terminator where
@@ -64,6 +65,8 @@ def lowerInstruction (i : Source.Instruction) : Array Instruction := Id.run do
         .alu i.width op .r9 .r9 .r10]
     | .compare op width lhs rhs => #[loadOperand width .r9 lhs, loadOperand width .r10 rhs,
         .compare width op .r9 .r9 .r10]
+    | .divide op lhs rhs => #[loadOperand i.width .r9 lhs, loadOperand i.width .r10 rhs,
+        .divide i.width op .r9 .r9 .r10]
   return code.push (.store i.width (.value i.destination) .r9)
 
 /-- Read every incoming value into its own staging slot before committing any

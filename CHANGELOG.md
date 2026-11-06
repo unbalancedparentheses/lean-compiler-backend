@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Admit `udiv`, `urem`, `div` and `rem` at both widths in the verified first
+  path. A zero divisor or signed MIN / -1 makes the source step fault, so such
+  programs have no behavior to preserve. The target emits UDIV/SDIV, and MSUB of
+  the quotient for remainders; `divide_bits` proves this total sequence equals
+  the source operation for all operands and `division_steps` simulates every
+  defined division through the actual MIR lowering. The uniform instruction
+  simulation covers division. Native and unit tests check the defined domain;
+  unit tests also pin the faulting cases and the target's total results.
+
 - Add `mulHighUnsigned`/`mulHighSigned` (UMULH/SMULH) to the verified source
   profile at long width. They have no QBE spelling and are reachable through
   numbered-source jobs; canonical validation checks them through the same-shaped

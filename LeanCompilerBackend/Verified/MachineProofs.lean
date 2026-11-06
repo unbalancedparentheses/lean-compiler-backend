@@ -94,14 +94,14 @@ private theorem word_logical_shift (a : BitVec 64) (k : Nat) :
     Nat.lt_of_le_of_lt (Nat.div_le_self _ _) (Nat.mod_lt _ (by decide))
   rw [Nat.mod_eq_of_lt bound]
 
-private theorem signedValue_word (x : UInt64) : signedValue .word x = x.toUInt32.toBitVec.toInt := by
+theorem signedValue_word (x : UInt64) : signedValue .word x = x.toUInt32.toBitVec.toInt := by
   simp [signedValue, normalize, BitVec.toInt_eq_toNat_cond, Width.bits]
 
-private theorem signedValue_long (x : UInt64) : signedValue .long x = x.toBitVec.toInt := by
+theorem signedValue_long (x : UInt64) : signedValue .long x = x.toBitVec.toInt := by
   simp only [signedValue, normalize, BitVec.toInt_eq_toNat_cond, Width.bits, UInt64.toNat_toBitVec]
   rfl
 
-private theorem ofInt_bits (x : Int) : (UInt64.ofInt x).toBitVec = BitVec.ofInt 64 x := by
+theorem ofInt_bits (x : Int) : (UInt64.ofInt x).toBitVec = BitVec.ofInt 64 x := by
   apply BitVec.eq_of_toNat_eq
   rw [BitVec.toNat_ofInt]
   show (UInt64.ofNat (x % 2 ^ 64).toNat).toNat = _
@@ -113,7 +113,7 @@ private theorem ofInt_bits (x : Int) : (UInt64.ofInt x).toBitVec = BitVec.ofInt 
     rw [Int.toNat_of_nonneg nonnegative]; exact lt
   exact Int.ofNat_lt.mp bound
 
-private theorem word_ofInt (x : Int) :
+theorem word_ofInt (x : Int) :
     BitVec.setWidth 32 (BitVec.ofInt 64 x) = BitVec.ofInt 32 x := by
   apply BitVec.eq_of_toNat_eq
   simp only [BitVec.toNat_setWidth, BitVec.toNat_ofInt]

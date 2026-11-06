@@ -43,15 +43,24 @@ private def comparison (op : Source.Comparison) : Encoder Unit := byte (if op ==
 private def readComparison : Decoder Source.Comparison := do
   match ← readByte with | 0 => pure .eq | 1 => pure .unsignedLT | _ => throw "unknown comparison"
 
+private def division (op : Source.Division) : Encoder Unit := byte (match op with
+  | .unsignedDiv => 0 | .unsignedRem => 1 | .signedDiv => 2 | .signedRem => 3)
+private def readDivision : Decoder Source.Division := do
+  match ← readByte with
+  | 0 => pure .unsignedDiv | 1 => pure .unsignedRem | 2 => pure .signedDiv | 3 => pure .signedRem
+  | _ => throw "unknown division opcode"
+
 private def operation : Source.Operation → Encoder Unit
   | .copy v => do byte 0; operand v
   | .binary op lhs rhs => do byte 1; binary op; operand lhs; operand rhs
   | .compare op w lhs rhs => do byte 2; comparison op; width w; operand lhs; operand rhs
+  | .divide op lhs rhs => do byte 3; division op; operand lhs; operand rhs
 private def readOperation : Decoder Source.Operation := do
   match ← readByte with
   | 0 => pure (.copy (← readOperand))
   | 1 => pure (.binary (← readBinary) (← readOperand) (← readOperand))
   | 2 => pure (.compare (← readComparison) (← readWidth) (← readOperand) (← readOperand))
+  | 3 => pure (.divide (← readDivision) (← readOperand) (← readOperand))
   | _ => throw "unknown source operation"
 
 private def instruction (i : Source.Instruction) : Encoder Unit := do
@@ -227,6 +236,7 @@ private def mirInstruction : StackMIR.Instruction → Encoder Unit
   | .store w s r => do byte 5; width w; slot s; reg r
   | .alu w op d a b => do byte 6; width w; binary op; reg d; reg a; reg b
   | .compare w op d a b => do byte 7; width w; comparison op; reg d; reg a; reg b
+  | .divide w op d a b => do byte 8; width w; division op; reg d; reg a; reg b
 private def mir (f : StackMIR.Function) : Encoder Unit := do
   array width f.parameters; width f.resultWidth; array width f.valueWidths; layout f.layout
   array (fun b => do
@@ -248,6 +258,8 @@ private def assemblyInstruction : TypedA64.Instruction → Encoder Unit
   | .cbnz r t => do byte 9; natural r; label t
   | .jump t => do byte 10; label t
   | .ret => byte 11
+  | .divide w s d a b => do byte 12; width w; boolean s; natural d; natural a; natural b
+  | .msub w d a b c => do byte 13; width w; natural d; natural a; natural b; natural c
 private def assembly (f : TypedA64.Function) : Encoder Unit := do
   array width f.parameters; width f.resultWidth; natural f.frameBytes
   array (fun b => do label b.label; array assemblyInstruction b.instructions) f.blocks

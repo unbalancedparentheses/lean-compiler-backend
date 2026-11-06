@@ -2,6 +2,7 @@ import LeanCompilerBackend.Verified.FreshNameProofs
 import LeanCompilerBackend.Verified.AlgebraProofs
 import LeanCompilerBackend.Verified.SimulationProofs
 import LeanCompilerBackend.Verified.ComparisonProofs
+import LeanCompilerBackend.Verified.DivisionProofs
 import LeanCompilerBackend.Verified.ArithmeticProofs
 import LeanCompilerBackend.Verified.PhiContextProofs
 import LeanCompilerBackend.Verified.InstructionProofs
@@ -196,6 +197,17 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Machine.comparison_expansion
 #print axioms LeanCompilerBackend.Verified.comparison_instruction
 #print axioms LeanCompilerBackend.Verified.comparison_steps
+
+-- Division/remainder: total target UDIV/SDIV/MSUB equals the source bit-vector
+-- operation; simulation holds for every defined source division.
+#print axioms LeanCompilerBackend.Verified.Machine.udiv_msub
+#print axioms LeanCompilerBackend.Verified.Machine.sdiv_ofInt
+#print axioms LeanCompilerBackend.Verified.Machine.sdiv_msub
+#print axioms LeanCompilerBackend.Verified.Machine.divide_bits
+#print axioms LeanCompilerBackend.Verified.Machine.divide_preserves
+#print axioms LeanCompilerBackend.Verified.Machine.division_expansion
+#print axioms LeanCompilerBackend.Verified.division_instruction
+#print axioms LeanCompilerBackend.Verified.division_steps
 
 -- Uniform simulation derives typing and availability from successful source steps.
 #print axioms LeanCompilerBackend.Verified.source_write_sound
