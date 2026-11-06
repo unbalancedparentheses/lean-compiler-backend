@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+- Add `mulHighUnsigned`/`mulHighSigned` (UMULH/SMULH) to the verified source
+  profile at long width. They have no QBE spelling and are reachable through
+  numbered-source jobs; canonical validation checks them through the same-shaped
+  `mul`. `alu_preserves` covers both at either width; word forms are refused at
+  the job boundary and by typed-assembly validation. A tag-edited job exercises
+  them natively against 128-bit C products.
+
 - Admit `shl`, `shr` and `sar` at both widths in the verified first path
   (`ssa-int-v2`, `a64-leaf-v2`, wire version 2; version-1 jobs are rejected).
   Counts are same-width values reduced modulo the width. The source/MIR ALU

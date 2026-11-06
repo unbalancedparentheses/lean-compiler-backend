@@ -113,8 +113,10 @@ def validate (f : Function) : Except String Unit := do
       | .movz width reg chunk shift | .movk width reg chunk shift =>
         if !active || left || !writable reg || chunk >= 65536 || shift % 16 != 0 || shift >= width.bits then
           throw "illegal constant materialization"
-      | .alu _ _ dst lhs rhs =>
+      | .alu width op dst lhs rhs =>
         if !active || left || !writable dst || !readable lhs || !readable rhs then throw "illegal ALU operands"
+        if width == .word && (op == .mulHighUnsigned || op == .mulHighSigned) then
+          throw "UMULH/SMULH have no W-register form"
       | .cmp _ lhs rhs =>
         if !active || left || !readable lhs || !readable rhs then throw "illegal comparison operands"
         flagsReady := true
@@ -146,6 +148,7 @@ private def mnemonic : Source.Binary → String
   | .add => "add" | .sub => "sub" | .mul => "mul"
   | .andBits => "and" | .orBits => "orr" | .xorBits => "eor"
   | .shiftLeft => "lsl" | .logicalRight => "lsr" | .arithmeticRight => "asr"
+  | .mulHighUnsigned => "umulh" | .mulHighSigned => "smulh"
 
 private def renderInstruction (symbol : String) : Instruction → String
   | .subSP bytes => s!"\tsub sp, sp, #{bytes}"

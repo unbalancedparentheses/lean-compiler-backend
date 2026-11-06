@@ -140,13 +140,25 @@ def arithmeticShift (width : Width) (value count : UInt64) : UInt64 :=
   | .word => (value.toUInt32.toBitVec.sshiftRight (shiftCount width count).toNat).toNat.toUInt64
   | .long => (value.toBitVec.sshiftRight (shiftCount width count).toNat).toNat.toUInt64
 
+/-- Two's-complement reading of the selected width, as used by SMULH. -/
+def signedValue (width : Width) (value : UInt64) : Int :=
+  let n := (normalize width value).toNat
+  if 2 * n < 2 ^ width.bits then n else n - 2 ^ width.bits
+
+/-- UMULH/SMULH: bits [2N-1:N] of the exact 2N-bit product of the N-bit inputs. -/
+def mulHigh (width : Width) (signed : Bool) (a b : UInt64) : UInt64 :=
+  if signed then UInt64.ofInt (signedValue width a * signedValue width b / 2 ^ width.bits)
+  else ((normalize width a).toNat * (normalize width b).toNat / 2 ^ width.bits).toUInt64
+
 def alu (width : Width) (op : Source.Binary) (a b : UInt64) : UInt64 :=
   normalize width (match op with
     | .add => a + b | .sub => a - b | .mul => a * b
     | .andBits => a &&& b | .orBits => a ||| b | .xorBits => a ^^^ b
     | .shiftLeft => a <<< shiftCount width b
     | .logicalRight => normalize width a >>> shiftCount width b
-    | .arithmeticRight => arithmeticShift width a b)
+    | .arithmeticRight => arithmeticShift width a b
+    | .mulHighUnsigned => mulHigh width false a b
+    | .mulHighSigned => mulHigh width true a b)
 
 def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Except String Data
   | .enterFrame bytes => enter d bytes

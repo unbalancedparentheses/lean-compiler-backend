@@ -120,6 +120,65 @@ private def arithmetic : IO Unit := do
   returns "function l $f(w %unused, l %x) { @s %wide =l copy 4294967297 %r =l add %x, %wide ret %r }"
     #[123,18446744073709551615] 4294967296
 
+/-- A one-instruction function built directly as numbered source, for operations
+    with no QBE spelling. Public so the codec tests reuse the same shape. -/
+def directBinary (width : Width) (op : Source.Binary) : Source.Function := {
+  resultWidth := width, parameters := #[width, width], valueWidths := #[width, width, width],
+  blocks := #[{ phis := #[], terminator := .ret (.local 2),
+                instructions := #[{ destination := 2, width, operation := .binary op (.local 0) (.local 1) }] }] }
+
+def directJob (body : Source.Function) : FunctionJob :=
+  { code := { symbol := { namespaceName := "tests", name := "direct", exported := true },
+              body, abi := planAbi body, layout := planFrame body : CodeInput } }
+
+/-- High multiplies are reachable only through the numbered-source API. Expected
+    values are independent 128-bit products, not the implementation's formula. -/
+private def apiOnly : IO Unit := do
+  let max : Int := 18446744073709551615
+  let top : Int := 9223372036854775808
+  for (op, a, b, expected) in [
+      (Source.Binary.mulHighUnsigned, max, max, max - 1), (.mulHighUnsigned, 4294967296, 4294967296, 1),
+      (.mulHighUnsigned, 3, 5, 0), (.mulHighUnsigned, top, 2, 1), (.mulHighUnsigned, 0, max, 0),
+      (.mulHighSigned, -1, -1, 0), (.mulHighSigned, -1, 1, max), (.mulHighSigned, -top, -top, top / 2),
+      (.mulHighSigned, -top, top - 1, max + 1 - top / 2), (.mulHighSigned, -3, 5, max),
+      (.mulHighSigned, top - 1, top - 1, top / 2 - 1), (.mulHighSigned, 4294967296, -4294967296, max)] do
+    let body := directBinary .long op
+    let args := #[Source.Value.constant .long a, Source.Value.constant .long b]
+    let want := Source.Value.constant .long expected
+    require (decide (Source.evaluateFunction body args 10 = .returned want))
+      s!"{repr op} source result for {a}, {b}"
+    let artifact ← match compileFunction (directJob body) with
+      | .ok artifact => pure artifact
+      | .error e => throw (IO.userError s!"direct high multiply compilation: {repr e}")
+    for (stage, execution) in [
+        ("MIR", Machine.evaluateMIR artifact.code.stackMIR args 100),
+        ("assembly", Machine.evaluateAssembly artifact.code.assembly args 100)] do
+      match execution with
+      | .returned value _ => require (decide (value = want)) s!"{stage} {repr op} wrong value: {repr value}"
+      | other => throw (IO.userError s!"{stage} execution failed: {repr other}")
+    let mnemonic := if op == .mulHighUnsigned then "umulh x9, x9, x10" else "smulh x9, x9, x10"
+    require ((artifact.code.fragment.splitOn mnemonic).length == 2) s!"missing {mnemonic}"
+  -- No W-register UMULH/SMULH exists: word high multiplies are refused at the job
+  -- boundary and, independently, by typed-assembly validation.
+  for op in [Source.Binary.mulHighUnsigned, .mulHighSigned] do
+    require (match validateJob (directJob (directBinary .word op)) with
+      | .error (.admission (.unsupported _)) => true | _ => false) "word high multiply admitted"
+    let wordBlock : TypedA64.Block := { label := .entry, instructions := #[.alu .word op 9 9 10, .ret] }
+    let wordForm : TypedA64.Function :=
+      { parameters := #[], resultWidth := .long, frameBytes := 0, blocks := #[wordBlock] }
+    require (match TypedA64.validate wordForm with | .error _ => true | .ok _ => false)
+      "typed assembly accepted a W-form high multiply"
+  -- The structural check still binds numbering and widths around high multiplies.
+  let body := directBinary .long .mulHighSigned
+  let undefinedUse (i : Source.Instruction) : Source.Instruction :=
+    { i with operation := .binary .mulHighSigned (.local 1) (.local 3) }
+  let renumbered := { body with blocks := body.blocks.map fun b =>
+    { b with instructions := b.instructions.map undefinedUse } }
+  require (match validateJob (directJob renumbered) with | .error _ => true | .ok _ => false)
+    "high multiply with an undefined operand admitted"
+  require (match validateJob (directJob { body with valueWidths := #[.long, .long, .word] }) with
+    | .error _ => true | .ok _ => false) "high multiply with an inconsistent width table admitted"
+
 private def control : IO Unit := do
   for (n, expected) in [(0,0),(1,0),(4,6),(100,4950)] do returns loop #[n] expected
   for (n, expected) in [(0,11),(1,22),(2,11),(3,22)] do returns swap #[n] expected
@@ -238,6 +297,7 @@ private def faultControls : IO Unit := do
 
 def run : IO Unit := do
   arithmetic
+  apiOnly
   control
   admissionFailures
   faultControls

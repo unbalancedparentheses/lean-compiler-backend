@@ -94,6 +94,31 @@ private theorem word_logical_shift (a : BitVec 64) (k : Nat) :
     Nat.lt_of_le_of_lt (Nat.div_le_self _ _) (Nat.mod_lt _ (by decide))
   rw [Nat.mod_eq_of_lt bound]
 
+private theorem signedValue_word (x : UInt64) : signedValue .word x = x.toUInt32.toBitVec.toInt := by
+  simp [signedValue, normalize, BitVec.toInt_eq_toNat_cond, Width.bits]
+
+private theorem signedValue_long (x : UInt64) : signedValue .long x = x.toBitVec.toInt := by
+  simp only [signedValue, normalize, BitVec.toInt_eq_toNat_cond, Width.bits, UInt64.toNat_toBitVec]
+  rfl
+
+private theorem ofInt_bits (x : Int) : (UInt64.ofInt x).toBitVec = BitVec.ofInt 64 x := by
+  apply BitVec.eq_of_toNat_eq
+  rw [BitVec.toNat_ofInt]
+  show (UInt64.ofNat (x % 2 ^ 64).toNat).toNat = _
+  rw [UInt64.toNat_ofNat']
+  apply Nat.mod_eq_of_lt
+  have lt := Int.emod_lt_of_pos x (show (0:Int) < 2 ^ 64 by decide)
+  have nonnegative := Int.emod_nonneg x (show (2:Int) ^ 64 ≠ 0 by decide)
+  have bound : ((x % 2 ^ 64).toNat : Int) < 2 ^ 64 := by
+    rw [Int.toNat_of_nonneg nonnegative]; exact lt
+  exact Int.ofNat_lt.mp bound
+
+private theorem word_ofInt (x : Int) :
+    BitVec.setWidth 32 (BitVec.ofInt 64 x) = BitVec.ofInt 32 x := by
+  apply BitVec.eq_of_toNat_eq
+  simp only [BitVec.toNat_setWidth, BitVec.toNat_ofInt]
+  omega
+
 theorem alu_preserves (w : Width) (op : Source.Binary) (a b : UInt64) :
   Source.evaluateBinary op (sourceView w a) (sourceView w b) =
     .ok (sourceView w (alu w op a b)) := by
@@ -104,10 +129,14 @@ theorem alu_preserves (w : Width) (op : Source.Binary) (a b : UInt64) :
     UInt32.toBitVec_and, UInt32.toBitVec_or, UInt32.toBitVec_xor,
     UInt64.toBitVec_add, UInt64.toBitVec_sub, UInt64.toBitVec_mul,
     UInt64.toBitVec_and, UInt64.toBitVec_or, UInt64.toBitVec_xor]
-  -- Shifts: the target count is reduced modulo the width, as in the source.
-  all_goals simp [shiftCount, arithmeticShift, Width.bits]
-  rw [Nat.mod_eq_of_lt (Nat.lt_of_lt_of_le (Nat.mod_lt b.toNat (by decide)) (by decide : 32 ≤ 64))]
-  exact word_logical_shift a.toBitVec (b.toNat % 32)
+  -- Shifts reduce the target count modulo the width, as in the source. High
+  -- multiplies compare exact natural/integer products of the width's values.
+  all_goals try simp only [mulHigh, signedValue_word, signedValue_long, Bool.false_eq_true, ↓reduceIte]
+  all_goals simp [shiftCount, arithmeticShift, Width.bits, normalize, ofInt_bits, word_ofInt]
+  case word.logicalRight =>
+    rw [Nat.mod_eq_of_lt (Nat.lt_of_lt_of_le (Nat.mod_lt b.toNat (by decide)) (by decide : 32 ≤ 64))]
+    exact word_logical_shift a.toBitVec (b.toNat % 32)
+  all_goals rfl
 
 /-- Successful bounded target execution witnesses an unbounded target return. -/
 theorem run_return_sound (step : State → Except String Transition) (fuel : Nat)

@@ -26,10 +26,14 @@ def Value.constant (width : Width) (n : Int) : Value :=
   | .long => .long (BitVec.ofInt 64 n)
 
 /-- Shift counts are same-width values reduced modulo the width, matching the
-    compatibility interpreter's count mask and AArch64 LSLV/LSRV/ASRV. -/
+    compatibility interpreter's count mask and AArch64 LSLV/LSRV/ASRV. High
+    multiplies return the upper half of the exact double-width product of the
+    unsigned or signed operands. They have no QBE spelling: admission from QBE
+    text never produces them, and job validation admits them only at long width. -/
 inductive Binary where
   | add | sub | mul | andBits | orBits | xorBits
   | shiftLeft | logicalRight | arithmeticRight
+  | mulHighUnsigned | mulHighSigned
   deriving DecidableEq, Repr
 
 inductive Comparison where
@@ -123,6 +127,8 @@ def binaryBits {n : Nat} (op : Binary) (a b : BitVec n) : BitVec n :=
   | .shiftLeft => a <<< (b.toNat % n)
   | .logicalRight => a >>> (b.toNat % n)
   | .arithmeticRight => a.sshiftRight (b.toNat % n)
+  | .mulHighUnsigned => BitVec.ofNat n (a.toNat * b.toNat / 2 ^ n)
+  | .mulHighSigned => BitVec.ofInt n (a.toInt * b.toInt / 2 ^ n)
 
 def evaluateBinary (op : Binary) : Value → Value → Except Fault Value
   | .word a, .word b => .ok (.word (binaryBits op a b))

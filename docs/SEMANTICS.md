@@ -18,6 +18,7 @@ not a certification claim.
 | --- | --- |
 | Integers | Separate `BitVec 32`/`BitVec 64` values; wrapping add/sub/mul and bitwise and/or/xor. No signed-overflow traps or poison. |
 | Shifts | `shl`, `shr` (logical) and `sar` (arithmetic) at either width. The count is a value of the instruction's width, and only its value modulo the width is used, so every count is defined. This is the compatibility interpreter's count mask and AArch64 LSLV/LSRV/ASRV behavior. Admission requires the count operand to have the instruction width: a QBE long shift with a word count is rejected, not widened. |
+| High multiply | `mulHighUnsigned`/`mulHighSigned`: the upper half of the exact double-width product of the unsigned or two's-complement operands (AArch64 UMULH/SMULH). The source model defines both widths; job validation admits them only at long width because AArch64 has no W-register form, and typed-assembly validation refuses a word form independently. QBE has no spelling, so they are reachable only through numbered-source jobs (`Source.Function`); canonical validation checks their numbering and widths through the same-shaped `mul`. |
 | Comparisons | Equality and unsigned less-than at either width produce a word 0/1. |
 | Constants | Reduce modulo 2^width at import; negative literals are bit patterns. Text parsing admits decimal magnitudes through 2^64-1; negative values below -2^63 reduce modulo 2^64 before contextual checks. |
 | Widths | Exact temporary operand widths. Compatibility-mode implicit long-to-word narrowing is rejected by this profile. |

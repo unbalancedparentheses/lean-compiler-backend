@@ -97,6 +97,66 @@ def replay_checks(work, src, functions):
     print(f'first-path: {len(functions)} job/artifact roundtrips; all dependency hashes match independent hashlib; corrupt replay rejected')
 
 
+def high_multiply_assembly(work):
+    """High multiplies have no QBE spelling; they are reachable only through
+    numbered-source jobs. Build a `mul` job, change only its binary-operation tag
+    (FOUNDATIONS tag table) and replay it, so the job validator and canonical
+    codec check the edited job like any other."""
+    texts = []
+    for name, tag, mnemonic in [('mulhu_l', 9, 'umulh'), ('mulhs_l', 10, 'smulh')]:
+        src, job = work/f'{name}.ssa', work/f'{name}.job'
+        src.write_text(f'export function l ${name}(l %a, l %b) {{\n@entry\n %r =l mul %a, %b\n ret %r\n}}\n')
+        run([LCB, '--write-job', src, name, job])
+        data = job.read_bytes()
+        # destination 2, long, binary, mul, local 0, local 1
+        pattern = ((2).to_bytes(8, 'little') + bytes([1, 1, 2, 0]) + (0).to_bytes(8, 'little') +
+                   bytes([0]) + (1).to_bytes(8, 'little'))
+        assert data.count(pattern) == 1, name
+        position = data.index(pattern) + 8 + 2
+        job.write_bytes(data[:position] + bytes([tag]) + data[position+1:])
+        text = run([LCB, '--replay-job', job]).stdout
+        assert f'\t{mnemonic} x9, x9, x10\n' in text and '\tmul ' not in text, name
+        texts.append(text)
+    # A word high multiply has no AArch64 instruction and must be refused.
+    word_src, word_job = work/'mulhw.ssa', work/'mulhw.job'
+    word_src.write_text('export function w $mulhw(w %a, w %b) {\n@entry\n %r =w mul %a, %b\n ret %r\n}\n')
+    run([LCB, '--write-job', word_src, 'mulhw', word_job])
+    data = word_job.read_bytes()
+    pattern = ((2).to_bytes(8, 'little') + bytes([0, 1, 2, 0]) + (0).to_bytes(8, 'little') +
+               bytes([0]) + (1).to_bytes(8, 'little'))
+    assert data.count(pattern) == 1
+    position = data.index(pattern) + 8 + 2
+    word_job.write_bytes(data[:position] + bytes([9]) + data[position+1:])
+    assert 'high multiply' in run([LCB, '--replay-job', word_job], success=False).stderr
+    assembly = work/'high.s'
+    assembly.write_text(texts[0] + texts[1])
+    print('first-path: API-only umulh/smulh jobs replay; word-width high multiply refused')
+    return assembly
+
+
+def high_multiply_harness():
+    return '''#include <stdint.h>
+#include <stdio.h>
+extern uint64_t mulhu_l(uint64_t,uint64_t);
+extern int64_t mulhs_l(int64_t,int64_t);
+int main(void) {
+  uint64_t state = 20261106, edges[] = {0, 1, 2, UINT64_MAX, UINT64_MAX-1, UINT64_C(1)<<63,
+    (UINT64_C(1)<<63)-1, (UINT64_C(1)<<63)+1, UINT64_C(1)<<32, UINT32_MAX};
+  for (unsigned i=0; i<20000; ++i) {
+    uint64_t a, b;
+    if (i < 100) { a = edges[i % 10]; b = edges[i / 10]; }
+    else {
+      state=state*UINT64_C(6364136223846793005)+UINT64_C(1442695040888963407); a = state;
+      state=state*UINT64_C(6364136223846793005)+UINT64_C(1442695040888963407); b = state >> (i % 64);
+    }
+    if (mulhu_l(a,b) != (uint64_t)(((unsigned __int128)a*b)>>64)) return 1;
+    if (mulhs_l((int64_t)a,(int64_t)b) != (int64_t)(((__int128)(int64_t)a*(int64_t)b)>>64)) return 2;
+  }
+  puts("first-path high multiply native checks passed");
+}
+'''
+
+
 def fixtures():
     functions = []
     for width in ('w', 'l'):
@@ -283,6 +343,7 @@ def main():
         run([LCB, '--target', 'aarch64-macos',bad])  # Existing compatibility support remains available.
         print('first-path: fresh-process/module-order stability, explicit proof refusal and compatibility isolation passed')
         replay_checks(work, src, functions)
+        high = high_multiply_assembly(work)
         if platform.system() != 'Darwin' or platform.machine() != 'arm64':
             assert not args.require_native, 'Apple ARM64 native execution required'
             print('first-path native execution: not measured on this host')
@@ -298,6 +359,10 @@ def main():
             if success: assert result.stdout.strip()=='first-path native checks passed'
             return result
         check(assembly,'typed')
+        high_driver, high_exe = work/'high.c', work/'high'
+        high_driver.write_text(high_multiply_harness())
+        run([compiler,'-std=c11','-O2',high_driver,high,'-o',high_exe])
+        assert run([high_exe]).stdout.strip() == 'first-path high multiply native checks passed'
         baseline=work/'baseline.s'
         run([LCB, '--target', 'aarch64-macos',src,'-o',baseline])
         check(baseline,'baseline')
