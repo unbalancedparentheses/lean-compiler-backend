@@ -205,6 +205,13 @@ int main(void) {
     uint64_t a = i==0 ? UINT64_MAX : state;
     state=state*UINT64_C(6364136223846793005)+UINT64_C(1442695040888963407);
     uint64_t b = i==0 ? 1 : state;
+    if (i > 0 && i <= 650) {
+      /* Every count 0..129 (beyond twice the width) with zero, one, sign-bit,
+         all-ones and mixed operands at both widths; the LCG alone gives odd b. */
+      static const uint64_t edge[5] = {0, 1, UINT64_C(1)<<63, UINT64_MAX, UINT64_C(0x0123456789abcdef)};
+      a = edge[i % 5] ^ ((i / 5) % 2 ? (UINT64_C(1)<<31) : 0);
+      b = (i - 1) / 5;
+    }
 ''' + '\n'.join(checks) + '''
     unsigned n = i % 100;
     if(sum(n) != n*(n-1)/2) return 2;
