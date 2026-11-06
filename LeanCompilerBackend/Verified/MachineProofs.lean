@@ -83,6 +83,17 @@ def sourceView (w : Width) (x : UInt64) : Source.Value :=
   | .word => .word x.toUInt32.toBitVec
   | .long => .long x.toBitVec
 
+/-- A word logical right shift sees only the low 32 bits of its X register. -/
+private theorem word_logical_shift (a : BitVec 64) (k : Nat) :
+    BitVec.setWidth 32 a >>> k = BitVec.setWidth 32 ((a % 4294967296#64) >>> k) := by
+  apply BitVec.eq_of_toNat_eq
+  simp only [BitVec.toNat_ushiftRight, BitVec.toNat_setWidth, BitVec.toNat_umod, Nat.shiftRight_eq_div_pow]
+  have modulus : (4294967296#64).toNat = 2^32 := by decide
+  rw [modulus]
+  have bound : a.toNat % 2^32 / 2^k < 2^32 :=
+    Nat.lt_of_le_of_lt (Nat.div_le_self _ _) (Nat.mod_lt _ (by decide))
+  rw [Nat.mod_eq_of_lt bound]
+
 theorem alu_preserves (w : Width) (op : Source.Binary) (a b : UInt64) :
   Source.evaluateBinary op (sourceView w a) (sourceView w b) =
     .ok (sourceView w (alu w op a b)) := by
@@ -93,6 +104,10 @@ theorem alu_preserves (w : Width) (op : Source.Binary) (a b : UInt64) :
     UInt32.toBitVec_and, UInt32.toBitVec_or, UInt32.toBitVec_xor,
     UInt64.toBitVec_add, UInt64.toBitVec_sub, UInt64.toBitVec_mul,
     UInt64.toBitVec_and, UInt64.toBitVec_or, UInt64.toBitVec_xor]
+  -- Shifts: the target count is reduced modulo the width, as in the source.
+  all_goals simp [shiftCount, arithmeticShift, Width.bits]
+  rw [Nat.mod_eq_of_lt (Nat.lt_of_lt_of_le (Nat.mod_lt b.toNat (by decide)) (by decide : 32 ≤ 64))]
+  exact word_logical_shift a.toBitVec (b.toNat % 32)
 
 /-- Successful bounded target execution witnesses an unbounded target return. -/
 theorem run_return_sound (step : State → Except String Transition) (fuel : Nat)

@@ -29,11 +29,13 @@ private def readOperand : Decoder Source.Operand := do
   | _ => throw "unknown operand tag"
 
 private def binary (op : Source.Binary) : Encoder Unit := byte (match op with
-  | .add => 0 | .sub => 1 | .mul => 2 | .andBits => 3 | .orBits => 4 | .xorBits => 5)
+  | .add => 0 | .sub => 1 | .mul => 2 | .andBits => 3 | .orBits => 4 | .xorBits => 5
+  | .shiftLeft => 6 | .logicalRight => 7 | .arithmeticRight => 8)
 private def readBinary : Decoder Source.Binary := do
   match ← readByte with
   | 0 => pure .add | 1 => pure .sub | 2 => pure .mul
   | 3 => pure .andBits | 4 => pure .orBits | 5 => pure .xorBits
+  | 6 => pure .shiftLeft | 7 => pure .logicalRight | 8 => pure .arithmeticRight
   | _ => throw "unknown binary opcode"
 private def comparison (op : Source.Comparison) : Encoder Unit := byte (if op == .eq then 0 else 1)
 private def readComparison : Decoder Source.Comparison := do
@@ -190,10 +192,10 @@ private def readJob : Decoder FunctionJob := do
   let requested ← readRequest
   pure { code, debug, requested, proof := ← readProofProfile }
 
-private def header (kind : String) : Encoder Unit := do string kind; natural 1
+private def header (kind : String) : Encoder Unit := do string kind; natural 2
 private def readHeader (kind : String) : Decoder Unit := do
   if (← readString 32) != kind then throw "wrong packet kind"
-  if (← readNatural) != 1 then throw "unknown packet version"
+  if (← readNatural) != 2 then throw "unknown packet version"
 
 def encodeJob (j : FunctionJob) : Except String ByteArray := do
   (validateJob j).mapError (fun e => toString (repr e))

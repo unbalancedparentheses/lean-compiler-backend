@@ -25,8 +25,11 @@ def Value.constant (width : Width) (n : Int) : Value :=
   | .word => .word (BitVec.ofInt 32 n)
   | .long => .long (BitVec.ofInt 64 n)
 
+/-- Shift counts are same-width values reduced modulo the width, matching the
+    compatibility interpreter's count mask and AArch64 LSLV/LSRV/ASRV. -/
 inductive Binary where
   | add | sub | mul | andBits | orBits | xorBits
+  | shiftLeft | logicalRight | arithmeticRight
   deriving DecidableEq, Repr
 
 inductive Comparison where
@@ -117,6 +120,9 @@ def binaryBits {n : Nat} (op : Binary) (a b : BitVec n) : BitVec n :=
   match op with
   | .add => a + b | .sub => a - b | .mul => a * b
   | .andBits => a &&& b | .orBits => a ||| b | .xorBits => a ^^^ b
+  | .shiftLeft => a <<< (b.toNat % n)
+  | .logicalRight => a >>> (b.toNat % n)
+  | .arithmeticRight => a.sshiftRight (b.toNat % n)
 
 def evaluateBinary (op : Binary) : Value → Value → Except Fault Value
   | .word a, .word b => .ok (.word (binaryBits op a b))

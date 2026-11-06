@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+- Admit `shl`, `shr` and `sar` at both widths in the verified first path
+  (`ssa-int-v2`, `a64-leaf-v2`, wire version 2; version-1 jobs are rejected).
+  Counts are same-width values reduced modulo the width. The source/MIR ALU
+  proof covers the new operations, and the unit and native harnesses check
+  in-range and out-of-range counts against the compatibility interpreter and C.
+
 - Group generated SSA phis by block once and collect assembly data lines in an
   array. The unchanged candidate passes the full pinned macOS ARM64 Nix gate.
   [Qualification and attributed timing evidence](docs/benchmarks/leanprof-phi-data/README.md)

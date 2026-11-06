@@ -14,6 +14,7 @@ private def reifyOperand : Source.Operand → Operand
 private def reifyBinary : Source.Binary → Binary
   | .add => .add | .sub => .sub | .mul => .mul
   | .andBits => .andBits | .orBits => .orBits | .xorBits => .xorBits
+  | .shiftLeft => .shiftLeft | .logicalRight => .logicalRight | .arithmeticRight => .arithmeticRight
 
 private def reifyOperation : Source.Operation → Operation
   | .copy value => .copy (reifyOperand value)

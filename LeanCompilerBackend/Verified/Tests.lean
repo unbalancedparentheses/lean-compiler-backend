@@ -102,6 +102,20 @@ private def arithmetic : IO Unit := do
       returns s!"function w $f({w} %a, {w} %b) \{ @s %r =w {op}{w} %a, %b ret %r }"
         #[a,b] expected
     returns s!"function {w} $f() \{ @s %r ={w} copy -1 ret %r }" #[] maxValue
+    -- Counts are same-width values reduced modulo the width (QBE mask, AArch64 *V).
+    let bits : Int := if w == "w" then 32 else 64
+    let top : Int := 2 ^ (bits - 1).toNat
+    for (op, a, b, expected) in [
+        ("shl", 3, 1, 6), ("shl", 1, bits - 1, top), ("shl", 1, bits, 1), ("shl", 3, bits + 1, 6),
+        ("shl", maxValue, maxValue, top),
+        ("shr", maxValue, bits - 1, 1), ("shr", top, 2 * bits - 1, 1), ("shr", 12, 2, 3),
+        ("shr", top, maxValue, 1), ("shr", 5, bits, 5),
+        ("sar", top, bits - 1, maxValue), ("sar", top, 2 * bits - 1, maxValue), ("sar", 12, 2, 3),
+        ("sar", maxValue, 7, maxValue), ("sar", top + 12, 2, maxValue + 1 - top / 4 + 3), ("sar", top, bits, top),
+        ("sar", top - 1, bits - 2, 1)] do
+      returns s!"function {w} $f({w} %a, {w} %b) \{ @s %r ={w} {op} %a, %b ret %r }"
+        #[a,b] expected
+    returns s!"function {w} $f({w} %a) \{ @s %r ={w} sar %a, {bits + 1} ret %r }" #[-8] (-4 % (maxValue + 1))
   returns "function w $f() { @s %r =w copy 4294967297 ret %r }" #[] 1
   returns "function l $f(w %unused, l %x) { @s %wide =l copy 4294967297 %r =l add %x, %wide ret %r }"
     #[123,18446744073709551615] 4294967296
@@ -155,7 +169,7 @@ private def admissionFailures : IO Unit := do
   for text in [
       "function $f() { @s ret }",
       "function w $f() { @s hlt }",
-      "function w $f(w %a) { @s %r =w shl %a, 1 ret %r }",
+      "function l $f(l %a, w %c) { @s %r =l shl %a, %c ret %r }",
       "function w $f(w %a) { @s %r =w div %a, 1 ret %r }",
       "function w $f(w %a) { @s %r =w neg %a ret %r }",
       "function w $f(w %a) { @s %r =w csltw %a, 1 ret %r }",

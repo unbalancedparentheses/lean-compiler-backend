@@ -1,6 +1,9 @@
 # Semantic decision ledger
 
-F01 establishes the first-path source contract, `ssa-int-v1`. The implementation
+F01 established the first-path source contract `ssa-int-v1`. The current
+contract, `ssa-int-v2` (target `a64-leaf-v2`, wire version 2), keeps every v1
+meaning and adds the integer operations requested by Concrete's adapter, listed
+below. Version-1 jobs are rejected rather than reinterpreted. The implementation
 is in [Verified/Source.lean](../LeanCompilerBackend/Verified/Source.lean) and
 [Verified/Admission.lean](../LeanCompilerBackend/Verified/Admission.lean).
 The [F00 specification](research/first-verified-path.md) remains the design for
@@ -14,6 +17,7 @@ not a certification claim.
 | Topic | Decision and implemented behavior |
 | --- | --- |
 | Integers | Separate `BitVec 32`/`BitVec 64` values; wrapping add/sub/mul and bitwise and/or/xor. No signed-overflow traps or poison. |
+| Shifts | `shl`, `shr` (logical) and `sar` (arithmetic) at either width. The count is a value of the instruction's width, and only its value modulo the width is used, so every count is defined. This is the compatibility interpreter's count mask and AArch64 LSLV/LSRV/ASRV behavior. Admission requires the count operand to have the instruction width: a QBE long shift with a word count is rejected, not widened. |
 | Comparisons | Equality and unsigned less-than at either width produce a word 0/1. |
 | Constants | Reduce modulo 2^width at import; negative literals are bit patterns. Text parsing admits decimal magnitudes through 2^64-1; negative values below -2^63 reduce modulo 2^64 before contextual checks. |
 | Widths | Exact temporary operand widths. Compatibility-mode implicit long-to-word narrowing is rejected by this profile. |
@@ -37,7 +41,6 @@ the byte-memory model needed for proving target frame accesses.
 
 | Feature | Existing compatibility behavior | First-path decision |
 | --- | --- | --- |
-| Shifts | Mask count to width minus one; signed right shift follows the documented fixed-width model. | Reject all shifts until their source/target lemmas are added. |
 | Division/remainder | Zero divisor and signed-minimum/-1 are outside the defined equivalence domain; interpreter rejects. | Reject all division and remainder; no undefined arithmetic in this profile. |
 | Conversions/unary operations | Explicit sign/zero extension and negation are implemented; long-to-word uses may narrow. | Reject, including implicit narrowing. |
 | Source memory | Abstract little-endian byte objects track initialization/lifetime; bad accesses and external pointers are unevaluated. Native output adds no safety checks. | Reject load/store/alloc/blit, including zero-byte blit. Pointer provenance, aliasing and source-memory simulation remain outside this theorem domain. |

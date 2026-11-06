@@ -42,7 +42,8 @@ private def operand (locals : Array (String × Width)) (width : Width)
 private def binary : Binary → Except AdmissionError Source.Binary
   | .add => .ok .add | .sub => .ok .sub | .mul => .ok .mul
   | .andBits => .ok .andBits | .orBits => .ok .orBits | .xorBits => .ok .xorBits
-  | _ => .error (.unsupported "shifts")
+  | .shiftLeft => .ok .shiftLeft | .logicalRight => .ok .logicalRight
+  | .arithmeticRight => .ok .arithmeticRight
 
 private def comparison : Comparison → Except AdmissionError Source.Comparison
   | .eq => .ok .eq | .unsignedLT => .ok .unsignedLT

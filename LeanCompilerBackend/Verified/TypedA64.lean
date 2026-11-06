@@ -145,6 +145,7 @@ private def register (width : Width) (index : Nat) : String :=
 private def mnemonic : Source.Binary → String
   | .add => "add" | .sub => "sub" | .mul => "mul"
   | .andBits => "and" | .orBits => "orr" | .xorBits => "eor"
+  | .shiftLeft => "lsl" | .logicalRight => "lsr" | .arithmeticRight => "asr"
 
 private def renderInstruction (symbol : String) : Instruction → String
   | .subSP bytes => s!"\tsub sp, sp, #{bytes}"

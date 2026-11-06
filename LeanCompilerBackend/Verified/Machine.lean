@@ -131,10 +131,22 @@ private def finish (d : Data) (width : Width) : Except String Transition := do
   let value ← readReg d width 0
   pure (.returned (Source.Value.constant width value.toNat) d)
 
+/-- AArch64 variable shifts use the count register modulo the operation width. -/
+def shiftCount (width : Width) (count : UInt64) : UInt64 := count % width.bits.toUInt64
+
+/-- ASR replicates the sign bit of the selected width, not of the X register. -/
+def arithmeticShift (width : Width) (value count : UInt64) : UInt64 :=
+  match width with
+  | .word => (value.toUInt32.toBitVec.sshiftRight (shiftCount width count).toNat).toNat.toUInt64
+  | .long => (value.toBitVec.sshiftRight (shiftCount width count).toNat).toNat.toUInt64
+
 def alu (width : Width) (op : Source.Binary) (a b : UInt64) : UInt64 :=
   normalize width (match op with
     | .add => a + b | .sub => a - b | .mul => a * b
-    | .andBits => a &&& b | .orBits => a ||| b | .xorBits => a ^^^ b)
+    | .andBits => a &&& b | .orBits => a ||| b | .xorBits => a ^^^ b
+    | .shiftLeft => a <<< shiftCount width b
+    | .logicalRight => normalize width a >>> shiftCount width b
+    | .arithmeticRight => arithmeticShift width a b)
 
 def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Except String Data
   | .enterFrame bytes => enter d bytes

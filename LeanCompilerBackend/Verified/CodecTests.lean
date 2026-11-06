@@ -44,7 +44,8 @@ private def codecTests : IO Unit := do
   require (failed (Codec.decodeJob (bytes.push 0))) "trailing job byte accepted"
   -- Packet: LE64 kind length, UTF-8 kind, then LE64 packet version.
   let versionAt := 8 + "LCB-job".toUTF8.size
-  require (failed (Codec.decodeJob (bytes.set! versionAt 2))) "unknown wire version accepted"
+  require (failed (Codec.decodeJob (bytes.set! versionAt 1))) "superseded wire version 1 accepted"
+  require (failed (Codec.decodeJob (bytes.set! versionAt 3))) "unknown wire version accepted"
   let corruptLength := (List.range 8).foldl (fun b i => b.set! i 255) bytes
   require (failed (Codec.decodeJob corruptLength)) "hostile string length accepted"
   require (failed (Codec.decodeJob (bytes.set! 8 255))) "invalid UTF-8 accepted"

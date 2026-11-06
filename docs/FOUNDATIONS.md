@@ -9,7 +9,7 @@ preservation theorem; C01/C02 remain open.
 ## Use the new path
 
 The existing CLI/default backend retains its broader compatibility coverage.
-The first path is opt-in and rejects memory, calls, shifts, conversions, void
+The first path is opt-in and rejects memory, calls, conversions, void
 results and the other exclusions in the semantic ledger.
 
 ```sh
@@ -84,11 +84,12 @@ output bytes. Cache consumers must use `decodeArtifactFor expectedJob` or call
 not establish that it is the cache entry the caller requested. This approach
 provides replay and binding, not compilation-speed savings from a persistent cache.
 
-## Wire contract, version 1
+## Wire contract, version 2
 
 The packet kind is a length-prefixed UTF-8 string followed by an LE64 version.
 Kinds are `LCB-job` and `LCB-artifact`; dependency records use `LCB-code-input`,
-`LCB-code`, `LCB-debug` and `LCB-evidence`. All currently use version 1.
+`LCB-code`, `LCB-debug` and `LCB-evidence`. All currently use version 2; version 2
+extends version 1's constructor tags below and is the only accepted version.
 Numbers and array/string/byte lengths are unsigned LE64. Booleans and constructor
 tags are single bytes. Strings are strict UTF-8, at most 4096 bytes. Packets are
 at most 1 MiB; source/ABI/debug collections have the profile bounds enforced
@@ -112,7 +113,7 @@ in declaration order in `Job.lean`/`Plans.lean`. Tags are:
 | Width | word, long |
 | Source operand | local, literal |
 | Source operation | copy, binary, compare |
-| Binary operation | add, sub, mul, and, or, xor |
+| Binary operation | add, sub, mul, and, or, xor, shiftLeft, logicalRight, arithmeticRight |
 | Comparison | eq, unsignedLT |
 | Source terminator | return, jump, branch |
 | Label | entry, body, edge |
@@ -219,8 +220,11 @@ operand/store pair has a proved effect, and a canonical staging-slot write
 preserves every defined local, including mixed-width values. `InstructionProofs.copy_steps` connects an actual source copy step to the two
 actual MIR steps emitted by `lowerInstruction`, preserving the complete updated
 environment relation. The source/target instruction-position correspondence and
-typing/availability remain explicit premises. `ArithmeticProofs.binary_steps` extends this to all six arithmetic/bitwise
+typing/availability remain explicit premises. `ArithmeticProofs.binary_steps` extends this to all nine arithmetic/bitwise/shift
 operations and their four emitted MIR steps, using the source bitvector result.
+`MachineProofs.alu_preserves` relates each target ALU result to the source
+operation at either width, including shift counts reduced modulo the width and
+the word-width sign bit of `asr`.
 `ComparisonProofs.comparison_steps` proves the four-step equality/unsigned
 comparison expansion for word or long operands and a word result. Whole-function
 preservation and derivation of the instruction-position premises remain open.

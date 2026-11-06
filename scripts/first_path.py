@@ -48,7 +48,7 @@ def packet_fields(packet):
     assert blob() == b'LCB-artifact'
     version, = struct.unpack_from('<Q', packet, position)
     position += 8
-    assert version == 1
+    assert version == 2
     fields = [blob() for _ in range(4)]
     assert position == len(packet)
     return fields
@@ -91,7 +91,7 @@ def replay_checks(work, src, functions):
         run([LCB, '--replay-artifact', broken], success=False)
     broken_job = work/'broken.job'
     data = bytearray(job.read_bytes())
-    data[8+len(b'LCB-job')] = 2
+    data[8+len(b'LCB-job')] = 1  # superseded wire version
     broken_job.write_bytes(data)
     run([LCB, '--replay-job', broken_job], success=False)
     print(f'first-path: {len(functions)} job/artifact roundtrips; all dependency hashes match independent hashlib; corrupt replay rejected')
@@ -100,7 +100,7 @@ def replay_checks(work, src, functions):
 def fixtures():
     functions = []
     for width in ('w', 'l'):
-        for op in ('add', 'sub', 'mul', 'and', 'or', 'xor'):
+        for op in ('add', 'sub', 'mul', 'and', 'or', 'xor', 'shl', 'shr', 'sar'):
             functions.append(f'export function {width} ${op}_{width}({width} %a, {width} %b) {{\n'
                              f'@entry\n %r ={width} {op} %a, %b\n ret %r\n}}')
         for op in ('ceq', 'cult'):
@@ -183,6 +183,15 @@ def harness(strict_word_result=True):
             name = f'{op}_{width}'
             declarations.append(f'extern {result} {name}({ctype},{ctype});')
             checks.append(f'if ({name}(({ctype})a,({ctype})b) != ({result})((({ctype})a) {symbol} (({ctype})b))) return 1;')
+        # Same-width counts are reduced modulo the width; sar is arithmetic.
+        bits = 32 if width == 'w' else 64
+        signed = 'int32_t' if width == 'w' else 'int64_t'
+        for op, expression in [('shl', f'(({ctype})a) << ((({ctype})b) % {bits})'),
+                               ('shr', f'(({ctype})a) >> ((({ctype})b) % {bits})'),
+                               ('sar', f'({ctype})((({signed})({ctype})a) >> ((({ctype})b) % {bits}))')]:
+            name = f'{op}_{width}'
+            declarations.append(f'extern {ctype} {name}({ctype},{ctype});')
+            checks.append(f'if ({name}(({ctype})a,({ctype})b) != ({ctype})({expression})) return 1;')
     source = '''#include <stdint.h>
 #include <stdio.h>
 ''' + '\n'.join(declarations) + '''
@@ -262,8 +271,8 @@ def main():
         assert fragment in reordered, 'module ordering changed function fragment'
         src.write_text('\n'.join(functions)+'\n')
         bad = work/'excluded.ssa'
-        bad.write_text('function w $f(w %a) { @entry %r =w shl %a, 1 ret %r }')
-        assert 'shifts' in run([LCB,'--first-path',bad],success=False).stderr
+        bad.write_text('function w $f(w %a) { @entry %r =w neg %a ret %r }')
+        assert 'unary operations' in run([LCB,'--first-path',bad],success=False).stderr
         run([LCB, '--target', 'aarch64-macos',bad])  # Existing compatibility support remains available.
         print('first-path: fresh-process/module-order stability, explicit proof refusal and compatibility isolation passed')
         replay_checks(work, src, functions)
@@ -309,7 +318,7 @@ def main():
         driver.write_text('extern unsigned long long saved_probe(void);\n'
                           'int main(void) { return saved_probe() ? 8 : 0; }\n')
         assert check(corrupt,'corrupt-saved',success=False).returncode==8
-        print(f'first-path: {len(functions)} functions; 32,000 arithmetic/comparison and 8,000 loop/ABI cases per typed/baseline/QBE backend; maximal frame, W/X alias and saved-register probes; both corruption controls detected')
+        print(f'first-path: {len(functions)} functions; 44,000 arithmetic/shift/comparison and 8,000 loop/ABI cases per typed/baseline/QBE backend; maximal frame, W/X alias and saved-register probes; both corruption controls detected')
 
 
 if __name__ == '__main__':
