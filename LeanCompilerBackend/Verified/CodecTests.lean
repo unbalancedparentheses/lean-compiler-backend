@@ -46,7 +46,8 @@ private def codecTests : IO Unit := do
   -- Packet: LE64 kind length, UTF-8 kind, then LE64 packet version.
   let versionAt := 8 + "LCB-job".toUTF8.size
   require (failed (Codec.decodeJob (bytes.set! versionAt 1))) "superseded wire version 1 accepted"
-  require (failed (Codec.decodeJob (bytes.set! versionAt 3))) "unknown wire version accepted"
+  require (failed (Codec.decodeJob (bytes.set! versionAt 4))) "unknown wire version accepted"
+  require (failed (Codec.decodeJob (bytes.set! versionAt 2))) "superseded wire version 2 accepted"
   let corruptLength := (List.range 8).foldl (fun b i => b.set! i 255) bytes
   require (failed (Codec.decodeJob corruptLength)) "hostile string length accepted"
   require (failed (Codec.decodeJob (bytes.set! 8 255))) "invalid UTF-8 accepted"
@@ -90,6 +91,17 @@ private def codecTests : IO Unit := do
   -- Primitive decoders reject noncanonical booleans/tags before constructing jobs.
   require (failed (Wire.decode Wire.readBoolean (ByteArray.mk #[2]))) "invalid boolean accepted"
   require (failed (Wire.encode (Wire.natural (2^64)))) "wire integer truncation"
+  for text in [
+      "function l $f(w %a) { @s %r =l extuw %a ret %r }",
+      "function l $f(w %a) { @s %r =l extsw %a ret %r }",
+      "function w $f(l %a) { @s %r =w copy %a ret %r }"] do
+    let parsed ← success (Parser.parse text)
+    let direct ← success (prepareJob parsed[0]! "conversions")
+    let encoded ← success (Codec.encodeJob direct)
+    require (decide ((← success (Codec.decodeJob encoded)) = direct)) "conversion job roundtrip"
+    let artifact ← success (compileFunction direct)
+    let (_, replayed) ← success (Codec.decodeArtifact (← success (Codec.encodeArtifact direct artifact)))
+    require (decide (replayed = artifact)) "conversion artifact replay"
   -- Operations without a QBE spelling roundtrip through jobs and artifacts too.
   for op in [Source.Binary.mulHighUnsigned, .mulHighSigned] do
     let direct := Tests.directJob (Tests.directBinary .long op)

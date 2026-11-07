@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fixed-seed generated cyclic-phi loops through all first-path representations."""
+"""Fixed-seed generated mixed-width conversions and cyclic-phi loops through all first-path representations."""
 import argparse
 import os
 import platform
@@ -54,6 +54,24 @@ def generate(seed, count=12):
                            'and':lambda:a&salt,'or':lambda:a|salt,'xor':lambda:a^salt}[op]() & mask
                 values = values[1:] + [updated]
             cases.append((name,n,value,sum(values)&mask,ctype))
+    # Mixed-width chains exercise both conversion directions and the sign bit.
+    for i in range(count):
+        op = randomizer.choice(('extuw', 'extsw'))
+        name = f'convert_{i}'
+        salt = randomizer.getrandbits(64)
+        functions.append(f"""export function l ${name}(w %n, l %seed) {{
+@entry
+ %mixed =l xor %seed, {salt}
+ %low =w copy %mixed
+ %out =l {op} %low
+ ret %out
+}}""")
+        declarations.append(f'extern uint64_t {name}(uint32_t,uint64_t);')
+        for value in [0, 1, (1<<64)-1, 1<<31, (1<<32)-1, 1<<32,
+                      randomizer.getrandbits(64), randomizer.getrandbits(64)]:
+            low = (value ^ salt) & ((1<<32)-1)
+            expected = low - (1<<32) if op == 'extsw' and low >= 1<<31 else low
+            cases.append((name,0,value,expected & ((1<<64)-1),'uint64_t'))
     return '\n'.join(functions)+'\n', cases, declarations
 
 
@@ -99,7 +117,7 @@ def campaign(seed, required):
         executable=work/'corrupt'
         run([cc,'-std=c11','-O2',driver,corrupt,'-o',executable])
         run([executable],success=False)
-        print(f'first-path fuzz {seed}: 12 generated cyclic-phi functions, {len(cases)} inputs across Python/source/MIR/assembly/compatibility/native/QBE; backedge corruption detected')
+        print(f'first-path fuzz {seed}: {len(declarations)} generated cyclic-phi/conversion functions, {len(cases)} inputs across Python/source/MIR/assembly/compatibility/native/QBE; backedge corruption detected')
 
 
 def main():

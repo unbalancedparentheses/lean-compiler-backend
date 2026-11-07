@@ -237,3 +237,9 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Algebra.mul_zero_left_preserves
 #print axioms LeanCompilerBackend.Verified.Algebra.andBits_zero_right_preserves
 #print axioms LeanCompilerBackend.Verified.Algebra.andBits_zero_left_preserves
+
+-- Integer conversions: foundational axioms only.
+#print axioms LeanCompilerBackend.Verified.Machine.convert_preserves
+#print axioms LeanCompilerBackend.Verified.Machine.conversion_expansion
+#print axioms LeanCompilerBackend.Verified.conversion_instruction
+#print axioms LeanCompilerBackend.Verified.conversion_steps

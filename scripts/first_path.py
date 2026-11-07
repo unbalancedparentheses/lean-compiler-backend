@@ -48,7 +48,7 @@ def packet_fields(packet):
     assert blob() == b'LCB-artifact'
     version, = struct.unpack_from('<Q', packet, position)
     position += 8
-    assert version == 2
+    assert version == 3
     fields = [blob() for _ in range(4)]
     assert position == len(packet)
     return fields
@@ -167,6 +167,9 @@ def fixtures():
             functions.append(f'export function w ${op}_{width}({width} %a, {width} %b) {{\n'
                              f'@entry\n %r =w {op}{width} %a, %b\n ret %r\n}}')
     functions += [
+        'export function l $zext(w %a) { @entry %r =l extuw %a ret %r }',
+        'export function l $sext(w %a) { @entry %r =l extsw %a ret %r }',
+        'export function w $trunc(l %a) { @entry %r =w copy %a ret %r }',
         'export function w $identity(w %x) {\n@entry\n ret %x\n}',
         'export function l $constant() {\n@entry\n %r =l copy -81985529216486896\n ret %r\n}',
         'export function w $branch2() {\n@entry\n jnz 2, @yes, @no\n@yes\n ret 7\n@no\n ret 9\n}',
@@ -269,6 +272,11 @@ def harness(strict_word_result=True):
             for x, y in [('a', 'b'), ('b', 'a'), ('a', 'a'), ('a', 'a + 1'), ('a + 1', 'a'), ('a - 1', 'a'), ('a', 'a - 1')]:
                 checks.append(f'if ({name}(({ctype})({x}),({ctype})({y})) != '
                               f'(uint32_t)((({view})({ctype})({x})) {symbol} (({view})({ctype})({y})))) return 1;')
+    declarations += ['extern uint64_t zext(uint32_t);', 'extern int64_t sext(uint32_t);',
+                     'extern uint32_t trunc(uint64_t);']
+    checks += ['if (zext((uint32_t)a) != (uint64_t)(uint32_t)a) return 9;',
+               'if (sext((uint32_t)a) != (int64_t)(int32_t)(uint32_t)a) return 10;',
+               'if (trunc(a) != (uint32_t)a) return 11;']
     source = '''#include <stdint.h>
 #include <stdio.h>
 ''' + '\n'.join(declarations) + '''
@@ -358,10 +366,19 @@ def main():
         src.write_text('\n'.join(functions)+'\n')
         bad = work/'excluded.ssa'
         bad.write_text('function w $f(w %a) { @entry %r =w neg %a ret %r }')
-        assert 'unary operations' in run([LCB,'--first-path',bad],success=False).stderr
+        assert 'unary operation' in run([LCB,'--first-path',bad],success=False).stderr
         run([LCB, '--target', 'aarch64-macos',bad])  # Existing compatibility support remains available.
         print('first-path: fresh-process/module-order stability, explicit proof refusal and compatibility isolation passed')
         replay_checks(work, src, functions)
+        for name, values in [
+                ('zext', [(0,0),(2147483648,2147483648),(4294967295,4294967295)]),
+                ('sext', [(0,0),(2147483648,18446744071562067968),(4294967295,18446744073709551615)]),
+                ('trunc', [(4294967296,0),(81985529216486895,2309737967),(18446744073709551615,4294967295)])]:
+            for value, expected in values:
+                assert run([LCB,'--first-path-eval',src,name,str(value)]).stdout.strip() == str(expected)
+        text = assembly.read_text()
+        for instruction in ['uxtw x9, w9', 'sxtw x9, w9', 'mov w9, w9']:
+            assert instruction in text, instruction
         high = high_multiply_assembly(work)
         if platform.system() != 'Darwin' or platform.machine() != 'arm64':
             assert not args.require_native, 'Apple ARM64 native execution required'

@@ -259,7 +259,6 @@ private def admissionFailures : IO Unit := do
       "function w $f(w %a) { @s %r =w csgtw %a, 1 ret %r }",
       "function w $f(w %a) { @s %r =w cnew %a, 1 ret %r }",
       "function l $f(w %a) { @s %r =l ceqw %a, 1 ret %r }",
-      "function w $f(l %a) { @s %r =w copy %a ret %r }",
       "function l $f(w %a) { @s %r =l copy %a ret %r }",
       "function w $f() { @s %r =w call $other() ret %r }",
       "function w $f() { @s call $other() ret 0 }",
@@ -375,7 +374,57 @@ private def faultControls : IO Unit := do
   rejectTransfer #[{ phi with destination := 999 }] (.invalidDestination 999)
     "out-of-bounds phi destination must fail"
 
+private def conversions : IO Unit := do
+  for (a, zero, signed) in [
+      (0, 0, 0), (1, 1, 1), (2147483647, 2147483647, 2147483647),
+      (2147483648, 2147483648, -2147483648), (4294967295, 4294967295, -1)] do
+    returns "function l $f(w %a) { @s %r =l extuw %a ret %r }" #[a] zero
+    returns "function l $f(w %a) { @s %r =l extsw %a ret %r }" #[a] signed
+  for (a, expected) in [(0,0), (4294967296,0), (81985529216486895,2309737967),
+      (-1,4294967295), (-9223372036854775808,0)] do
+    returns "function w $f(l %a) { @s %r =w copy %a ret %r }" #[a] expected
+  returns "function l $f() { @s %r =l extsw 2147483648 ret %r }" #[] (-2147483648)
+  returns "function l $f() { @s %r =l extuw -1 ret %r }" #[] 4294967295
+  returns "function l $f(l %a) { @s %w =w copy %a %r =l extsw %w ret %r }"
+    #[4294967295] (-1)
+  -- Direct numbered jobs also admit typed literals, including truncation
+  -- (QBE copy literals themselves have the result width).
+  for op in [Source.Conversion.zeroExtend, .signExtend, .truncate] do
+    let input := Source.Value.constant op.inputWidth (-1)
+    let inst : Source.Instruction := {
+      destination := 0, width := op.outputWidth,
+      operation := .convert op (.literal input) }
+    let body : Source.Function := {
+      resultWidth := op.outputWidth, parameters := #[],
+      valueWidths := #[op.outputWidth],
+      blocks := #[{ phis := #[], instructions := #[inst], terminator := .ret (.local 0) }] }
+    let artifact ← match compileFunction (directJob body) with
+      | .ok a => pure a | .error e => throw (IO.userError s!"literal conversion: {repr e}")
+    let expected : Int := if op == .zeroExtend || op == .truncate then 4294967295 else -1
+    let want := Source.Value.constant op.outputWidth expected
+    require (decide (Source.evaluateFunction body #[] 10 = .returned want)) "literal conversion source"
+    for execution in [Machine.evaluateMIR artifact.code.stackMIR #[] 100,
+        Machine.evaluateAssembly artifact.code.assembly #[] 100] do
+      require (match execution with | .returned v _ => decide (v = want) | _ => false)
+        "literal conversion target"
+    let invalid (i : Source.Instruction) := { body with blocks := #[{
+      phis := #[], instructions := #[i], terminator := .ret (.local 0) }] }
+    for bad in [
+        { inst with width := op.inputWidth },
+        { inst with operation := .convert op (.literal (Source.Value.constant op.outputWidth 0)) },
+        { inst with operation := .convert op (.local 1) },
+        { inst with destination := 1 }] do
+      require (match validateJob (directJob (invalid bad)) with | .error _ => true | _ => false)
+        "malformed numbered conversion admitted"
+  for text in [
+      "function w $f(w %a) { @s %r =w extuw %a ret %r }",
+      "function w $f(w %a) { @s %r =w extsw %a ret %r }",
+      "function l $f(l %a) { @s %r =l extuw %a ret %r }",
+      "function l $f(l %a) { @s %r =l extsw %a ret %r }"] do
+    rejected text
+
 def run : IO Unit := do
+  conversions
   arithmetic
   apiOnly
   undefinedDivision
