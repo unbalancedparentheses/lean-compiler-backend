@@ -84,12 +84,13 @@ output bytes. Cache consumers must use `decodeArtifactFor expectedJob` or call
 not establish that it is the cache entry the caller requested. This approach
 provides replay and binding, not compilation-speed savings from a persistent cache.
 
-## Wire contract, version 2
+## Wire contract, version 3
 
 The packet kind is a length-prefixed UTF-8 string followed by an LE64 version.
 Kinds are `LCB-job` and `LCB-artifact`; dependency records use `LCB-code-input`,
-`LCB-code`, `LCB-debug` and `LCB-evidence`. All currently use version 2; version 2
-extends version 1's constructor tags below and is the only accepted version.
+`LCB-code`, `LCB-debug` and `LCB-evidence`. All currently use version 3, which appends conversion tags to version 2.
+Versions 1 and 2 are rejected: jobs bind the compiler build identity and replay
+compares complete encoded MIR/assembly, so old packets are not migrated.
 Numbers and array/string/byte lengths are unsigned LE64. Booleans and constructor
 tags are single bytes. Strings are strict UTF-8, at most 4096 bytes. Packets are
 at most 1 MiB; source/ABI/debug collections have the profile bounds enforced
@@ -112,7 +113,8 @@ in declaration order in `Job.lean`/`Plans.lean`. Tags are:
 | --- | --- |
 | Width | word, long |
 | Source operand | local, literal |
-| Source operation | copy, binary, compare, divide |
+| Source operation | copy, binary, compare, divide, convert |
+| Conversion | zeroExtend, signExtend, truncate |
 | Binary operation | add, sub, mul, and, or, xor, shiftLeft, logicalRight, arithmeticRight, mulHighUnsigned, mulHighSigned |
 | Division | unsignedDiv, unsignedRem, signedDiv, signedRem |
 | Comparison | eq, unsignedLT, unsignedLE, signedLT, signedLE |
@@ -120,9 +122,9 @@ in declaration order in `Job.lean`/`Plans.lean`. Tags are:
 | Label | entry, body, edge |
 | MIR scratch register | R0, R9, R10 |
 | Slot | value, stage |
-| MIR instruction | enterFrame, leaveFrame, readArg, constant, load, store, alu, compare, divide |
+| MIR instruction | enterFrame, leaveFrame, readArg, constant, load, store, alu, compare, divide, convert |
 | MIR terminator | jump, branch, return |
-| Assembly instruction | subSP, addSP, load, store, movz, movk, alu, cmp, cset, cbnz, jump, ret, divide, msub |
+| Assembly instruction | subSP, addSP, load, store, movz, movk, alu, cmp, cset, cbnz, jump, ret, divide, msub, convert |
 | Assembly condition | eq, lo, ls, lt, le |
 | Evidence request | none, kernelTypedAssembly, nativeBinary |
 | Evidence result | uncertified (the only implemented constructor) |
@@ -238,6 +240,10 @@ remainder; `divide_bits` shows the total target UDIV/SDIV(+MSUB) result equals
 the source bit-vector operation for every operand, so the source's undefined
 cases (zero divisor, signed MIN / -1) are exactly the steps without obligation. Whole-function
 preservation and derivation of the instruction-position premises remain open.
+`ConversionProofs.conversion_steps` covers zero/sign extension 32→64 and
+truncation 64→32 through the actual three-instruction load/convert/store MIR
+sequence. `Machine.convert_preserves` is the mixed-width counterpart of
+`alu_preserves`; conversion input/output widths are fixed by the operation.
 `SimulationProofs.simulate_instruction` unifies all body operations: successful
 source execution supplies operand availability and destination typing through
 an inversion proof of the actual source step and environment write. It still

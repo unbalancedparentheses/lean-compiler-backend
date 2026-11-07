@@ -143,7 +143,7 @@ Existing proofs cover restricted source/machine semantics, primitive ALU
 selection and parts of a separate typed first path. New focused proofs cover
 [generated-name collision avoidance](docs/proofs/FRESH_NAMES.md) and
 [13 local zero/one rewrite cases](docs/SEMANTICS.md#local-algebra-proof-checkpoint).
-The 174-statement proof audit records exact theorem dependencies. It does **not** prove the complete
+The 178-statement proof audit records exact theorem dependencies. It does **not** prove the complete
 compatibility pipeline, optimizer, allocator, ABI lowering, assembly rendering,
 assembler or linker correct. Execution tests and structural checkers do not
 replace those proofs.
@@ -158,6 +158,8 @@ nix run . -- --replay-job add32.job -o replay.s
 ```
 
 It retains its own restricted admission rules and Apple ARM64 output.
+The v3 profile includes word/long integer arithmetic and 32↔64-bit conversions
+(`extuw`, `extsw`, narrowing `copy`); v2 wire packets are rejected.
 **Artifacts remain uncertified**; `--require-proof` explicitly fails. The
 [foundations](docs/FOUNDATIONS.md) and [design](docs/DESIGN.md) describe its
 contracts and trusted boundaries. The interpreter is a bounded testing model,

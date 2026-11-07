@@ -1,9 +1,9 @@
 # Semantic decision ledger
 
 F01 established the first-path source contract `ssa-int-v1`. The current
-contract, `ssa-int-v2` (target `a64-leaf-v2`, wire version 2), keeps every v1
+contract, `ssa-int-v3` (target `a64-leaf-v3`, wire version 3), keeps every v1
 meaning and adds the integer operations requested by Concrete's adapter, listed
-below. Version-1 jobs are rejected rather than reinterpreted. The implementation
+below. Version-1 and version-2 jobs are rejected rather than reinterpreted. The implementation
 is in [Verified/Source.lean](../LeanCompilerBackend/Verified/Source.lean) and
 [Verified/Admission.lean](../LeanCompilerBackend/Verified/Admission.lean).
 The [F00 specification](research/first-verified-path.md) remains the design for
@@ -19,6 +19,7 @@ not a certification claim.
 | Integers | Separate `BitVec 32`/`BitVec 64` values; wrapping add/sub/mul and bitwise and/or/xor. No signed-overflow traps or poison. |
 | Shifts | `shl`, `shr` (logical) and `sar` (arithmetic) at either width. The count is a value of the instruction's width, and only its value modulo the width is used, so every count is defined. This is the compatibility interpreter's count mask and AArch64 LSLV/LSRV/ASRV behavior. Admission requires the count operand to have the instruction width: a QBE long shift with a word count is rejected, not widened. |
 | High multiply | `mulHighUnsigned`/`mulHighSigned`: the upper half of the exact double-width product of the unsigned or two's-complement operands (AArch64 UMULH/SMULH). The source model defines both widths; job validation admits them only at long width because AArch64 has no W-register form, and typed-assembly validation refuses a word form independently. QBE has no spelling, so they are reachable only through numbered-source jobs (`Source.Function`); canonical validation checks their numbering and widths through the same-shaped `mul`. |
+| Conversions | `extuw` zero-extends a word to a long; `extsw` sign-extends from bit 31; a word `copy` of a long truncates to bits 31:0. Numbered syntax uses `convert` with tags zeroExtend/signExtend/truncate and exact input/result widths. Literals carry the input width. Target lowering is UXTW/SXTW/a W-register MOV. `convert_preserves`, `conversion_expansion`, `conversion_instruction` and `conversion_steps` prove the bit-level and actual MIR simulation; the uniform instruction simulation includes conversions. Selection/rendering remain tested rather than proved. |
 | Division | `udiv`, `urem`, `div`, `rem` at either width: truncating quotient, remainder with the dividend's sign. A zero divisor, and signed minimum divided by -1 (for `div` and `rem`), are undefined: the source step faults with `undefinedDivision`, so the function has no behavior and no compiled-code obligation, as in the compatibility interpreter. This is the stated precondition; the producer must not emit such operands. The target is total like AArch64 (UDIV/SDIV give 0 for a zero divisor and wrap MIN / -1; a remainder is MSUB of the quotient, formed in the remainder's own destination register, which selection requires to differ from both operands). `divide_bits` proves the machine model of that sequence (`Machine.divide`) equals Lean's `BitVec` operation for all operands; as for every instruction, selection and rendering of the assembly are checked by tests, not proved. |
 | Comparisons | Equality, unsigned less-than/less-or-equal and signed (two's-complement) less-than/less-or-equal at either width produce a word 0/1. The target emits CMP and CSET EQ/LO/LS/LT/LE. |
 | Constants | Reduce modulo 2^width at import; negative literals are bit patterns. Text parsing admits decimal magnitudes through 2^64-1; negative values below -2^63 reduce modulo 2^64 before contextual checks. |

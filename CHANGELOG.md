@@ -1,3 +1,14 @@
+## Integer conversions (wire v3)
+
+- Add exact-width zero/sign extension 32→64 and truncation 64→32, including
+  QBE extuw/extsw and narrowing copy admission, MIR and UXTW/SXTW/W MOV selection.
+- Add conversion bit preservation and three-step MIR simulation, integrated into
+  instruction_correct/simulate_instruction, with the existing axiom allowlist.
+- Append source/MIR/assembly conversion tags and use ssa-int-v3/a64-leaf-v3.
+  Version-2 packets are rejected; compiler identity and complete replay bindings
+  prevent transparent reuse of old jobs.
+- Cover boundary values, malformed widths, codec replay and mixed-width fuzz chains.
+
 # Changelog
 
 ## Unreleased
