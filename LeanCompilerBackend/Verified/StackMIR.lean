@@ -29,6 +29,7 @@ inductive Instruction where
   | constant (reg : Register) (value : Source.Value)
   | load (width : Width) (reg : Register) (slot : Slot)
   | store (width : Width) (slot : Slot) (reg : Register)
+  | convert (op : Source.Conversion) (dst src : Register)
   | alu (width : Width) (op : Source.Binary) (dst lhs rhs : Register)
   | compare (width : Width) (op : Source.Comparison) (dst lhs rhs : Register)
   | divide (width : Width) (op : Source.Division) (dst lhs rhs : Register)
@@ -60,6 +61,7 @@ def loadOperand (width : Width) (reg : Register) : Source.Operand → Instructio
 
 def lowerInstruction (i : Source.Instruction) : Array Instruction := Id.run do
   let code := match i.operation with
+    | .convert op value => #[loadOperand op.inputWidth .r9 value, .convert op .r9 .r9]
     | .copy value => #[loadOperand i.width .r9 value]
     | .binary op lhs rhs => #[loadOperand i.width .r9 lhs, loadOperand i.width .r10 rhs,
         .alu i.width op .r9 .r9 .r10]

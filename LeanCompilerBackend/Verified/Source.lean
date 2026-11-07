@@ -60,7 +60,26 @@ inductive Operand where
   | literal (value : Value)
   deriving DecidableEq, Repr
 
+inductive Conversion where
+  | zeroExtend | signExtend | truncate
+  deriving DecidableEq, Repr
+
+def Conversion.inputWidth : Conversion → Width
+  | .zeroExtend | .signExtend => .word
+  | .truncate => .long
+
+def Conversion.outputWidth : Conversion → Width
+  | .zeroExtend | .signExtend => .long
+  | .truncate => .word
+
+def convertValue (op : Conversion) (value : Value) : Value :=
+  match op with
+  | .zeroExtend => .long (BitVec.ofNat 64 value.toNat)
+  | .signExtend => .long (BitVec.ofInt 64 value.toInt)
+  | .truncate => .word (BitVec.ofNat 32 value.toNat)
+
 inductive Operation where
+  | convert (op : Conversion) (value : Operand)
   | copy (value : Operand)
   | binary (op : Binary) (lhs rhs : Operand)
   | compare (op : Comparison) (operandWidth : Width) (lhs rhs : Operand)
@@ -180,6 +199,9 @@ def evaluateComparison (op : Comparison) (a b : Value) : Except Fault Value := d
 
 def evaluate (env : Environment) (i : Instruction) : Except Fault Value := do
   match i.operation with
+  | .convert op operand => do
+    if i.width != op.outputWidth then throw .widthMismatch
+    pure (convertValue op (← read env op.inputWidth operand))
   | .copy operand => read env i.width operand
   | .binary op lhs rhs =>
     evaluateBinary op (← read env i.width lhs) (← read env i.width rhs)

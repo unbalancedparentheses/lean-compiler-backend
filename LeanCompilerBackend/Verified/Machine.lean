@@ -181,6 +181,12 @@ def divide (width : Width) (op : Source.Division) (a b : UInt64) : UInt64 :=
   | .unsignedRem => multiplySubtract width (quotient width false a b) b a
   | .signedRem => multiplySubtract width (quotient width true a b) b a
 
+/-- UXTW, SXTW and W-register move, including W/X alias normalization. -/
+def convert (op : Source.Conversion) (a : UInt64) : UInt64 :=
+  match op with
+  | .zeroExtend | .truncate => a.toUInt32.toUInt64
+  | .signExtend => UInt64.ofInt (signedValue .word a)
+
 def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Except String Data
   | .enterFrame bytes => enter d bytes
   | .leaveFrame bytes => leave d bytes
@@ -188,6 +194,8 @@ def executeMIR (f : StackMIR.Function) (d : Data) : StackMIR.Instruction → Exc
   | .constant reg value => writeReg d value.width reg.index value.toNat.toUInt64
   | .load width reg slot => do writeReg d width reg.index (← load d width (← StackMIR.offset f slot))
   | .store width slot reg => do store d width (← StackMIR.offset f slot) (← readReg d width reg.index)
+  | .convert op dst src => do
+    writeReg d op.outputWidth dst.index (convert op (← readReg d op.inputWidth src.index))
   | .alu width op dst lhs rhs => do
     writeReg d width dst.index (alu width op (← readReg d width lhs.index) (← readReg d width rhs.index))
   | .compare width op dst lhs rhs => do
@@ -251,6 +259,8 @@ def stepAssembly (f : TypedA64.Function) (s : State) : Except String Transition 
     let old ← readReg d width reg
     let mask := (65535 : UInt64) <<< shift.toUInt64
     updated ← writeReg d width reg ((old &&& ~~~mask) ||| (chunk.toUInt64 <<< shift.toUInt64))
+  | .convert op dst src =>
+    updated ← writeReg d op.outputWidth dst (convert op (← readReg d op.inputWidth src))
   | .alu width op dst lhs rhs =>
     updated ← writeReg d width dst (alu width op (← readReg d width lhs) (← readReg d width rhs))
   | .divide width signed dst lhs rhs =>

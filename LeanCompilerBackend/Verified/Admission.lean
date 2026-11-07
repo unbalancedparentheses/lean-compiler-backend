@@ -59,14 +59,28 @@ private def instruction (locals : Array (String × Width)) (inst : Instruction)
   if inst.floating then throw (.unsupported "floating values")
   let destination ← valueId locals inst.destination
   let op ← match inst.operation with
-    | .copy value => Source.Operation.copy <$> operand locals inst.width value
+    | .copy value => do
+      if inst.width == .word then
+        if let .temporary name := value then
+          let id ← valueId locals name
+          if (locals[id]?).map (·.2) == some .long then
+            pure (.convert .truncate (← operand locals .long value))
+          else pure (.copy (← operand locals inst.width value))
+        else pure (.copy (← operand locals inst.width value))
+      else pure (.copy (← operand locals inst.width value))
+    | .unary op value => do
+      let conversion ← match op with
+        | .unsignedWord => pure Source.Conversion.zeroExtend
+        | .signedWord => pure Source.Conversion.signExtend
+        | _ => throw (.unsupported "unary operation other than extuw/extsw")
+      if inst.width != .long then throw (.unsupported "extension requires long result")
+      pure (.convert conversion (← operand locals .word value))
     | .binary op lhs rhs => do
       pure (.binary (← binary op) (← operand locals inst.width lhs) (← operand locals inst.width rhs))
     | .compare op width lhs rhs => do
       if inst.width != .word then throw (.unsupported "non-word comparison result")
       pure (.compare (← comparison op) width (← operand locals width lhs) (← operand locals width rhs))
     | .convert .. | .floatBinary .. | .floatNegate .. | .floatCompare .. | .cast .. => throw (.unsupported "floating operations/casts")
-    | .unary .. => throw (.unsupported "unary operations")
     | .divide op lhs rhs =>
       pure (.divide (division op) (← operand locals inst.width lhs) (← operand locals inst.width rhs))
     | .allocate .. => throw (.unsupported "source stack allocations")

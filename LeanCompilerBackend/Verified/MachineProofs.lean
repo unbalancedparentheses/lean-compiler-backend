@@ -119,6 +119,16 @@ theorem word_ofInt (x : Int) :
   simp only [BitVec.toNat_setWidth, BitVec.toNat_ofInt]
   omega
 
+theorem convert_preserves (op : Source.Conversion) (a : UInt64) :
+    Source.convertValue op (sourceView op.inputWidth a) =
+      sourceView op.outputWidth (convert op a) := by
+  cases op <;> simp [Source.convertValue, Source.Conversion.inputWidth,
+    Source.Conversion.outputWidth, sourceView, Source.Value.toNat, Source.Value.toInt,
+    convert, signedValue_word, ofInt_bits]
+  all_goals apply BitVec.eq_of_toNat_eq
+  all_goals simp
+  omega
+
 theorem alu_preserves (w : Width) (op : Source.Binary) (a b : UInt64) :
   Source.evaluateBinary op (sourceView w a) (sourceView w b) =
     .ok (sourceView w (alu w op a b)) := by

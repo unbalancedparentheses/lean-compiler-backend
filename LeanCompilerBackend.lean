@@ -25,6 +25,7 @@ import LeanCompilerBackend.Verified.PhiContextProofs
 import LeanCompilerBackend.Verified.ArithmeticProofs
 import LeanCompilerBackend.Verified.ComparisonProofs
 import LeanCompilerBackend.Verified.DivisionProofs
+import LeanCompilerBackend.Verified.ConversionProofs
 import LeanCompilerBackend.Verified.SimulationProofs
 
 import LeanCompilerBackend.Optimize

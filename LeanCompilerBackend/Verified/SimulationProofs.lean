@@ -1,5 +1,6 @@
 /- Uniform simulation of every source body instruction. -/
 import LeanCompilerBackend.Verified.DivisionProofs
+import LeanCompilerBackend.Verified.ConversionProofs
 
 namespace LeanCompilerBackend.Verified
 
@@ -32,6 +33,23 @@ theorem instruction_correct (f : StackMIR.Function) (source : Source.Function)
       Machine.FrameReady after ∧ after.frameBytes = (planFrame source).frameBytes ∧
       Machine.LocalsMatch f (env.set! inst.destination (some value)) after := by
   cases operation : inst.operation with
+  | convert op operand =>
+    have resultWidth : inst.width = op.outputWidth := by
+      cases width : inst.width <;> cases op <;>
+        simp_all [Source.evaluate, Source.Conversion.outputWidth, bind, Except.bind, throw,
+          show (Width.word != Width.long) = true from rfl,
+          show (Width.long != Width.word) = true from rfl]
+    have check : (op.outputWidth != op.outputWidth) = false := by cases op <;> rfl
+    cases read : Source.read env op.inputWidth operand with
+    | error fault =>
+      simp [Source.evaluate, operation, resultWidth, check, read, bind, Except.bind] at evaluated
+    | ok a =>
+      obtain ⟨result, after, computed, width, executed, afterReady, afterFrame, afterRelated⟩ :=
+        conversion_instruction f source env d inst op operand a operation resultWidth read
+          layout frame size inside ready related
+      rw [evaluated] at computed
+      cases computed
+      exact ⟨after, width, executed, afterReady, afterFrame, afterRelated⟩
   | copy operand =>
     have read : Source.read env inst.width operand = .ok value := by
       simpa [Source.evaluate, operation] using evaluated
@@ -89,7 +107,7 @@ theorem instruction_correct (f : StackMIR.Function) (source : Source.Function)
         exact ⟨after, width, executed, afterReady, afterFrame, afterRelated⟩
 
 def instructionSteps (inst : Source.Instruction) : Nat :=
-  match inst.operation with | .copy _ => 2 | .binary .. | .compare .. | .divide .. => 4
+  match inst.operation with | .convert .. => 3 | .copy _ => 2 | .binary .. | .compare .. | .divide .. => 4
 
 theorem instruction_length (inst : Source.Instruction) :
     (StackMIR.lowerInstruction inst).toList.length = instructionSteps inst := by

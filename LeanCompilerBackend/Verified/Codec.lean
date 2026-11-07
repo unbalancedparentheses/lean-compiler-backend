@@ -53,7 +53,15 @@ private def readDivision : Decoder Source.Division := do
   | 0 => pure .unsignedDiv | 1 => pure .unsignedRem | 2 => pure .signedDiv | 3 => pure .signedRem
   | _ => throw "unknown division opcode"
 
+private def conversion (op : Source.Conversion) : Encoder Unit :=
+  byte (match op with | .zeroExtend => 0 | .signExtend => 1 | .truncate => 2)
+private def readConversion : Decoder Source.Conversion := do
+  match ← readByte with
+  | 0 => pure .zeroExtend | 1 => pure .signExtend | 2 => pure .truncate
+  | _ => throw "unknown conversion"
+
 private def operation : Source.Operation → Encoder Unit
+  | .convert op v => do byte 4; conversion op; operand v
   | .copy v => do byte 0; operand v
   | .binary op lhs rhs => do byte 1; binary op; operand lhs; operand rhs
   | .compare op w lhs rhs => do byte 2; comparison op; width w; operand lhs; operand rhs
@@ -63,6 +71,7 @@ private def readOperation : Decoder Source.Operation := do
   | 0 => pure (.copy (← readOperand))
   | 1 => pure (.binary (← readBinary) (← readOperand) (← readOperand))
   | 2 => pure (.compare (← readComparison) (← readWidth) (← readOperand) (← readOperand))
+  | 4 => pure (.convert (← readConversion) (← readOperand))
   | 3 => pure (.divide (← readDivision) (← readOperand) (← readOperand))
   | _ => throw "unknown source operation"
 
@@ -206,10 +215,10 @@ private def readJob : Decoder FunctionJob := do
   let requested ← readRequest
   pure { code, debug, requested, proof := ← readProofProfile }
 
-private def header (kind : String) : Encoder Unit := do string kind; natural 2
+private def header (kind : String) : Encoder Unit := do string kind; natural 3
 private def readHeader (kind : String) : Decoder Unit := do
   if (← readString 32) != kind then throw "wrong packet kind"
-  if (← readNatural) != 2 then throw "unknown packet version"
+  if (← readNatural) != 3 then throw "unknown packet version"
 
 def encodeJob (j : FunctionJob) : Except String ByteArray := do
   (validateJob j).mapError (fun e => toString (repr e))
@@ -237,6 +246,7 @@ private def mirInstruction : StackMIR.Instruction → Encoder Unit
   | .constant r v => do byte 3; reg r; value v
   | .load w r s => do byte 4; width w; reg r; slot s
   | .store w s r => do byte 5; width w; slot s; reg r
+  | .convert op d a => do byte 9; conversion op; reg d; reg a
   | .alu w op d a b => do byte 6; width w; binary op; reg d; reg a; reg b
   | .compare w op d a b => do byte 7; width w; comparison op; reg d; reg a; reg b
   | .divide w op d a b => do byte 8; width w; division op; reg d; reg a; reg b
@@ -255,6 +265,7 @@ private def assemblyInstruction : TypedA64.Instruction → Encoder Unit
   | .store w r o => do byte 3; width w; natural r; natural o
   | .movz w r c s => do byte 4; width w; natural r; natural c; natural s
   | .movk w r c s => do byte 5; width w; natural r; natural c; natural s
+  | .convert op d a => do byte 14; conversion op; natural d; natural a
   | .alu w op d a b => do byte 6; width w; binary op; natural d; natural a; natural b
   | .cmp w a b => do byte 7; width w; natural a; natural b
   | .cset r c => do byte 8; natural r; byte (match c with | .eq => 0 | .lo => 1 | .ls => 2 | .lt => 3 | .le => 4)

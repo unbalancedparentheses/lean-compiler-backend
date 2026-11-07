@@ -19,6 +19,10 @@ private def reifyBinary : Source.Binary → Binary
   | .mulHighUnsigned | .mulHighSigned => .mul
 
 private def reifyOperation : Source.Operation → Operation
+  | .convert .zeroExtend value => .unary .unsignedWord (reifyOperand value)
+  | .convert .signExtend value => .unary .signedWord (reifyOperand value)
+  | .convert .truncate (.literal value) => .copy (.constant (value.toNat % 2^32))
+  | .convert .truncate value => .copy (reifyOperand value)
   | .copy value => .copy (reifyOperand value)
   | .binary op lhs rhs => .binary (reifyBinary op) (reifyOperand lhs) (reifyOperand rhs)
   | .compare op width lhs rhs =>
@@ -60,6 +64,8 @@ private def isHighMultiply : Source.Operation → Bool
 private def shape (f : Source.Function) : Source.Function :=
   { f with blocks := f.blocks.map fun block => { block with
       instructions := block.instructions.map fun inst => match inst.operation with
+        | .convert .truncate (.literal value) =>
+          { inst with operation := .copy (.literal (Source.convertValue .truncate value)) }
         | .binary .mulHighUnsigned lhs rhs | .binary .mulHighSigned lhs rhs =>
           { inst with operation := .binary .mul lhs rhs }
         | _ => inst } }
@@ -80,6 +86,10 @@ def validateSource (f : Source.Function) : Except AdmissionError Unit := do
         throw (.resourceLimit "phi predecessors" phi.incoming.size 64)
   for block in f.blocks do
     for inst in block.instructions do
+      if let .convert op operand := inst.operation then
+        if inst.width != op.outputWidth then throw (.invalidInput "conversion result width")
+        if let .literal value := operand then
+          if value.width != op.inputWidth then throw (.invalidInput "conversion input width")
       if isHighMultiply inst.operation && inst.width != .long then
         throw (.unsupported "word-width high multiply; AArch64 UMULH/SMULH are 64-bit only")
   let canonical ← admit (reify f "canonical" false)

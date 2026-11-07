@@ -20,6 +20,7 @@ inductive Instruction where
   | store (width : Width) (reg offset : Nat)
   | movz (width : Width) (reg chunk shift : Nat)
   | movk (width : Width) (reg chunk shift : Nat)
+  | convert (op : Source.Conversion) (dst src : Nat)
   | alu (width : Width) (op : Source.Binary) (dst lhs rhs : Nat)
   /-- UDIV/SDIV dst, lhs, rhs. -/
   | divide (width : Width) (signed : Bool) (dst lhs rhs : Nat)
@@ -60,6 +61,7 @@ private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction →
   | .constant reg value => pure (immediate reg.index value)
   | .load width reg slot => do pure #[.load width reg.index (← StackMIR.offset f slot)]
   | .store width slot reg => do pure #[.store width reg.index (← StackMIR.offset f slot)]
+  | .convert op dst src => pure #[.convert op dst.index src.index]
   | .alu width op dst lhs rhs => pure #[.alu width op dst.index lhs.index rhs.index]
   | .compare width op dst lhs rhs =>
     pure #[.cmp width lhs.index rhs.index, .cset dst.index (match op with
@@ -129,6 +131,8 @@ def validate (f : Function) : Except String Unit := do
       | .movz width reg chunk shift | .movk width reg chunk shift =>
         if !active || left || !writable reg || chunk >= 65536 || shift % 16 != 0 || shift >= width.bits then
           throw "illegal constant materialization"
+      | .convert _ dst src =>
+        if !active || left || !writable dst || !readable src then throw "illegal conversion operands"
       | .alu width op dst lhs rhs =>
         if !active || left || !writable dst || !readable lhs || !readable rhs then throw "illegal ALU operands"
         if width == .word && (op == .mulHighUnsigned || op == .mulHighSigned) then
@@ -178,6 +182,9 @@ private def renderInstruction (symbol : String) : Instruction → String
   | .store width reg offset => s!"\tstr {register width reg}, [sp, #{offset}]"
   | .movz width reg chunk shift => s!"\tmovz {register width reg}, #{chunk}, lsl #{shift}"
   | .movk width reg chunk shift => s!"\tmovk {register width reg}, #{chunk}, lsl #{shift}"
+  | .convert .zeroExtend dst src => s!"\tuxtw x{dst}, w{src}"
+  | .convert .signExtend dst src => s!"\tsxtw x{dst}, w{src}"
+  | .convert .truncate dst src => s!"\tmov w{dst}, w{src}"
   | .alu width op dst lhs rhs => s!"\t{mnemonic op} {register width dst}, {register width lhs}, {register width rhs}"
   | .divide width signed dst lhs rhs =>
     s!"\t{if signed then "sdiv" else "udiv"} {register width dst}, {register width lhs}, {register width rhs}"
