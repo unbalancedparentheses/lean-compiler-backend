@@ -167,9 +167,9 @@ def fixtures():
             functions.append(f'export function w ${op}_{width}({width} %a, {width} %b) {{\n'
                              f'@entry\n %r =w {op}{width} %a, %b\n ret %r\n}}')
     functions += [
-        'export function l $zext(w %a) { @entry %r =l extuw %a ret %r }',
-        'export function l $sext(w %a) { @entry %r =l extsw %a ret %r }',
-        'export function w $trunc(l %a) { @entry %r =w copy %a ret %r }',
+        'export function l $zext(w %a) {\n@entry\n %r =l extuw %a\n ret %r\n}',
+        'export function l $sext(w %a) {\n@entry\n %r =l extsw %a\n ret %r\n}',
+        'export function w $trunc(l %a) {\n@entry\n %r =w copy %a\n ret %r\n}',
         'export function w $identity(w %x) {\n@entry\n ret %x\n}',
         'export function l $constant() {\n@entry\n %r =l copy -81985529216486896\n ret %r\n}',
         'export function w $branch2() {\n@entry\n jnz 2, @yes, @no\n@yes\n ret 7\n@no\n ret 9\n}',
@@ -380,11 +380,20 @@ def main():
         for instruction in ['uxtw x9, w9', 'sxtw x9, w9', 'mov w9, w9']:
             assert instruction in text, instruction
         high = high_multiply_assembly(work)
+        # QBE can parse and emit Apple ARM64 assembly on Linux too. Keep this
+        # oracle check outside the native gate so shared fixtures cannot acquire
+        # syntax accepted only by LCB's more permissive parser.
+        compiler = os.environ.get('LCB_CC', os.environ.get('CC','clang'))
+        qbe=work/'qbe'
+        shutil.copytree(ROOT/'third_party/qbe',qbe)
+        run(['make','-j2',f'CC={compiler}'],cwd=qbe)
+        oracle=work/'qbe.s'
+        run([qbe/'qbe','-t','arm64_apple','-o',oracle,src])
+        print('first-path: shared fixtures compiled by QBE for Apple ARM64')
         if platform.system() != 'Darwin' or platform.machine() != 'arm64':
             assert not args.require_native, 'Apple ARM64 native execution required'
             print('first-path native execution: not measured on this host')
             return
-        compiler = os.environ.get('LCB_CC', os.environ.get('CC','clang'))
         driver, probe = work/'driver.c', work/'probes.s'
         driver.write_text(harness())
         probe.write_text(probes())
@@ -402,11 +411,6 @@ def main():
         baseline=work/'baseline.s'
         run([LCB, '--target', 'aarch64-macos',src,'-o',baseline])
         check(baseline,'baseline')
-        qbe=work/'qbe'
-        shutil.copytree(ROOT/'third_party/qbe',qbe)
-        run(['make','-j2',f'CC={compiler}'],cwd=qbe)
-        oracle=work/'qbe.s'
-        run([qbe/'qbe','-t','arm64_apple','-o',oracle,src])
         # The QBE integer return ABI only promises the low word. Its identity
         # function may preserve incoming high bits, unlike our stronger emitted
         # word-result-zeroing policy. Do not call that an upstream mismatch.
