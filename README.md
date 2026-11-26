@@ -50,6 +50,36 @@ native execution, proof auditing and independent C/QBE comparisons. Local
 qualification additionally uses QEMU for Linux RV64 and Rosetta for Apple x86-64.
 Reports identify native, emulated and emission-only results separately.
 
+## TRACKED
+
+The scaling gate prints timings and threshold verdicts for known-tracked rows.
+A threshold miss on those rows is informational. Validation or emission errors
+still fail the gate, as do threshold misses on the other production rows.
+
+- **Bidirectional chain dominance.** The numbered solver needs 2, 30 and 62
+  whole-graph sweeps at 4, 32 and 64 blocks. Round 3 measured job validation
+  at 32.1–34.0× and 285.9–296.6×, and typed AArch64 assembly at 24.0–25.1×
+  and 190.2–198.2×, for 8× and 16× block growth.
+- **64-block masks and repeated ordered-map rebuilds.** The restricted solver
+  rebuilds string-keyed tables and promotes masks with bit 63 set to heap
+  integers. From 63 to 64 blocks the isolated solver rose from 85,855 to
+  130,033 ns/call on the reverse ladder and from 918,934 to 1,972,894 ns/call
+  on the bidirectional chain. On the reverse ladder, round 3 measured
+  29.8–30.5× job validation and 29.2–30.0× typed AArch64 assembly at 16×
+  block growth. The fixture also grows from 4 to 124 edges. With the restored
+  compatibility solver, reverse-ladder x86-64 assembly grew 2.68× from
+  32 to 64 blocks, above the gate's 2.5× threshold.
+- **AArch64 debug locations with allocation enabled.** Lookahead scans the
+  entire location array for each ordinary instruction when all locations
+  point to the terminator. With 128, 1,024 and 2,048 instructions and the same
+  number of location records, emission took 0.479, 5.509 and 13.540 ms/call
+  (11.50× and 28.28× growth).
+
+Other round 3 follow-ups are whole-function equality coverage for the
+lowering and emission glue, reverse-ladder fixture size calibration, the
+long-width phi fixture's literal types, and scans in job debug-source lookup,
+compatibility symbol and slot lookup, and RV64 emission.
+
 ## Targets and command line
 
 | Target | QBE alias | Execution qualification |

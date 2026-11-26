@@ -128,17 +128,28 @@ private def ratio (large small : Nat) : String :=
   let fraction := hundredths % 100
   s!"{hundredths / 100}.{if fraction < 10 then "0" else ""}{fraction}"
 
+private inductive Expectation where
+  | scaling
+  | quadraticControl
+  | knownTracked
+  deriving BEq
+
 private def check (name : String) (fixture : Nat → Nat → Source.Function) (base : Nat)
-    (work : Source.Function → Except String Nat) (control : Bool) : IO Bool := do
-  for attempt in [:(if control then 1 else 3)] do
+    (work : Source.Function → Except String Nat) (expectation : Expectation := .scaling) : IO Bool := do
+  for attempt in [:(if expectation == .scaling then 3 else 1)] do
     let (small, medium, large) ← measurements fixture base work
     -- Allow logarithmic index growth and fixed per-call overhead. A quadratic
     -- scan should grow by roughly 64x and 256x over these same windows.
     let passed := medium * 2 <= small * 25 && large * 2 <= small * 53 &&
       large * 2 <= medium * 5
-    IO.println s!"{name}: {small / 32}, {medium / 32}, {large / 32} ns/call; ratios {ratio medium small}, {ratio large small}; {if passed then "accepted" else "rejected"} (attempt {attempt + 1})"
+    let verdict := if passed then "accepted" else "rejected"
+    let status := if expectation == .knownTracked then s!"known-tracked ({verdict})" else verdict
+    IO.println s!"{name}: {small / 32}, {medium / 32}, {large / 32} ns/call; ratios {ratio medium small}, {ratio large small}; {status} (attempt {attempt + 1})"
     (← IO.getStdout).flush
-    if passed != control then return true
+    match expectation with
+    | .knownTracked => return true
+    | .quadraticControl => return !passed
+    | .scaling => if passed then return true
   return false
 
 private def validation (f : Source.Function) : Except String Nat :=
@@ -147,12 +158,12 @@ private def validation (f : Source.Function) : Except String Nat :=
 private def arm (f : Source.Function) : Except String Nat :=
   ((compileFunction (job f)).mapError reprStr).map (·.code.fragment.utf8ByteSize)
 
-private def checkFixture (name : String) (fixture : Nat → Nat → Source.Function) (base : Nat) :
-    IO Bool := do
-  let validationOK ← check (name ++ " job validation") fixture base validation false
+private def checkFixture (name : String) (fixture : Nat → Nat → Source.Function) (base : Nat)
+    (numbered : Expectation := .scaling) (linuxExpectation : Expectation := .scaling) : IO Bool := do
+  let validationOK ← check (name ++ " job validation") fixture base validation numbered
   let x86OK ← check (name ++ " x86-64 Linux assembly") fixture base
-    (fun f => (linux f).map String.utf8ByteSize) false
-  let armOK ← check (name ++ " AArch64 macOS assembly") fixture base arm false
+    (fun f => (linux f).map String.utf8ByteSize) linuxExpectation
+  let armOK ← check (name ++ " AArch64 macOS assembly") fixture base arm numbered
   return validationOK && x86OK && armOK
 
 -- Measure the validated emitter boundary so compatibility CFG validation
@@ -165,14 +176,28 @@ private def checkCompatibility (name : String) (fixture : Nat → Nat → Source
     | .ok () => pure ()
     | .error e => throw (IO.userError e)
   let x86 ← check (name ++ " x86-64 compatibility") fixture base
-    (fun f => (AMD64.emitModuleValidated (moduleOf f)).map String.utf8ByteSize) false
+    (fun f => (AMD64.emitModuleValidated (moduleOf f)).map String.utf8ByteSize)
   let a64 ← check (name ++ " AArch64 compatibility") fixture base
-    (fun f => (AArch64.emitModuleValidated (moduleOf f)).map String.utf8ByteSize) false
+    (fun f => (AArch64.emitModuleValidated (moduleOf f)).map String.utf8ByteSize)
   return x86 && a64
 
+-- Terminator-only debug records force the allocated emitter's lookahead
+-- to scan the full location array for each ordinary instruction.
+private def allocatedDebug (f : Source.Function) : Except String Nat := do
+  let body := reify f "body" true
+  let block := body.blocks[0]!
+  let count := block.instructions.size
+  let instructions := (Array.range count).map fun i =>
+    Statement.assign { destination := s!"copy{i}", width := .word, operation := .copy (.constant 0) }
+  let debugLocations := (Array.range count).map fun i =>
+    { instruction := count, line := i + 1 : DebugLocation }
+  let body := { body with debugFile := some "scaling.ssa", blocks := #[{
+    block with instructions, debugLocations, terminator := .ret (some (.constant 0)) }] }
+  (AArch64.emitModule { functions := #[body] } (allocate := true)).map String.utf8ByteSize
+
 def main (args : List String) : IO UInt32 := do
-  let ladderOK ← checkFixture "reverse ladder" reverseLadder 4
-  let bidirectionalOK ← checkFixture "bidirectional chain" bidirectionalChain 4
+  let ladderOK ← checkFixture "reverse ladder" reverseLadder 4 .knownTracked .knownTracked
+  let bidirectionalOK ← checkFixture "bidirectional chain" bidirectionalChain 4 .knownTracked
   let chainOK ← checkFixture "chain" chain 30
   let cfgOK ← checkFixture "checked chain" (checkedChain false) 3
   let loopOK ← checkFixture "loop chain" (checkedChain true) 3
@@ -180,12 +205,13 @@ def main (args : List String) : IO UInt32 := do
   let edgesOK ← checkCompatibility "jump chain" jumpChain 256
   let publicArm := fun f =>
     (AArch64.emitModule { functions := #[reify f "body" true] }).map String.utf8ByteSize
-  let publicEdgesOK ← check "jump chain public AArch64 assembly" jumpChain 256 publicArm false
+  let publicEdgesOK ← check "jump chain public AArch64 assembly" jumpChain 256 publicArm
   let publicCycleOK ← check "bidirectional chain public AArch64 assembly"
-    bidirectionalChain 16 publicArm false
+    bidirectionalChain 16 publicArm
   let stagingOK ← checkCompatibility "two-way phi join" (fun n seed => phiJoin 2 n seed .long) 128
   let fanInOK ← checkCompatibility "phi fan-in" (fun n seed => phiJoin n 8 seed) 128
+  let debugOK ← check "allocated AArch64 debug locations" chain 128 allocatedDebug .knownTracked
   unless quadratic (chain 480 0) == 480 * 481 / 2 do
     throw (IO.userError "planted quadratic checksum mismatch")
-  let control ← check "planted quadratic" chain 30 (fun f => .ok (quadratic f)) true
-  return if (chainOK && cfgOK && loopOK && phiOK && ladderOK && bidirectionalOK && edgesOK && publicEdgesOK && publicCycleOK && stagingOK && fanInOK && control) || args == ["--report-only"] then 0 else 1
+  let control ← check "planted quadratic" chain 30 (fun f => .ok (quadratic f)) .quadraticControl
+  return if (chainOK && cfgOK && loopOK && phiOK && ladderOK && bidirectionalOK && edgesOK && publicEdgesOK && publicCycleOK && stagingOK && fanInOK && debugOK && control) || args == ["--report-only"] then 0 else 1

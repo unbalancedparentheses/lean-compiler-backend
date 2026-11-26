@@ -89,13 +89,12 @@ private def predecessorLookupIndexed (f : Function) : PredecessorLookup :=
   funext name
   exact (predecessors_fold f.blocks.toList name).symm
 
-private inductive Dominators where
-  | reference (contains : NameIndex.Membership (String × String))
-  | indexed (sets : CFG.DominatorTree)
+private def compatibilityDominance (graph : CFG.Graph) : Except String (String → String → Bool) :=
+  (CFG.dominators graph).map CFG.Dominators.contains
 
-private def Dominators.contains : Dominators → String → String → Bool
-  | .reference members, useBlock, definitionBlock => members.contains (useBlock, definitionBlock)
-  | .indexed sets, useBlock, definitionBlock => sets.contains useBlock definitionBlock
+-- This checks the entire fallible solver call, including its error result.
+private theorem compatibilityDominance_eq (graph : CFG.Graph) :
+    compatibilityDominance graph = (CFG.dominators graph).map CFG.Dominators.contains := rfl
 
 private structure Definition where
   name : String
@@ -241,7 +240,7 @@ private def collectCompatibility (f : Function) : Except String (NameIndex.Looku
       (fun entries entry => entries.insert entry.name entry)) {}
   pure ⟨fun name => definitions[name]?⟩
 
-private def checkOperand (definitions : NameIndex.Lookup String Definition) (doms : Dominators)
+private def checkOperand (definitions : NameIndex.Lookup String Definition) (dominates : String → String → Bool)
     (useBlock : String) (position : Nat) (width : Width) (operand : Operand) (floating : Bool := false)
     : Except String Unit := do
   match operand with
@@ -261,7 +260,7 @@ private def checkOperand (definitions : NameIndex.Lookup String Definition) (dom
     | some block =>
       if block == useBlock then
         if definition.position >= position then throw s!"%{name}: definition does not precede use"
-      else if !doms.contains useBlock block then
+      else if !dominates useBlock block then
         throw s!"%{name}: definition in @{block} does not dominate use in @{useBlock}"
 
 private def checkSubword (width : Width) (floating : Bool) (subword : Option Subword) : Except String Unit := do
@@ -348,8 +347,8 @@ private def validateFunctionGraphUsing
   let definitions ← if scalable then collectCompatibility f else collect f
   let predsByName := if scalable then ⟨fun _ => []⟩ else predecessorLookup f
   let doms ← match graph with
-    | some graph => pure (.indexed (CFG.dominatorTree graph))
-    | none => Dominators.reference <$> (BoundedDominance.oracle names f.blocks[0]!.label
+    | some graph => compatibilityDominance graph
+    | none => (fun members useBlock definitionBlock => members.contains (useBlock, definitionBlock)) <$> (BoundedDominance.oracle names f.blocks[0]!.label
         predsByName.get (f.blocks.size * f.blocks.size + 1))
   let blockByName := if f.blocks.all (·.phis.isEmpty) then ⟨fun _ => none⟩
     else validationBlockLookup f.blocks graph
