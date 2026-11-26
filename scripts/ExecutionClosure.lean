@@ -12,12 +12,17 @@ def moduleOf (env : Environment) (n : Name) : Name :=
 def runtimeModule (m : Name) : Bool :=
   m.getRoot == `Init || m.getRoot == `Std
 
+def partialImplementation? (env : Environment) (n : Name) (ci : ConstantInfo) :
+    Option Name := do
+  let .opaqueInfo _ := ci | none
+  let helper := Compiler.mkUnsafeRecName n
+  if (env.find? helper).any (·.isPartial) then some helper else none
+
 def restrictions (env : Environment) (n : Name) (ci : ConstantInfo) :
     Array (String × String) := Id.run do
   let mut keys := #[]
   if ci.isUnsafe then keys := keys.push ("unsafe", n.toString)
-  if ci.isPartial || ((ci matches .opaqueInfo _) &&
-      (env.find? (Compiler.mkUnsafeRecName n)).any (·.isPartial)) then
+  if ci.isPartial || (partialImplementation? env n ci).isSome then
     keys := keys.push ("partial", n.toString)
   if let some replacement := Compiler.getImplementedBy? env n then
     keys := keys.push ("implemented_by", s!"{n} → {replacement}")
@@ -135,10 +140,12 @@ def inspect (env : Environment) (rewrites : Rewrites) (native : NativeDecls)
     seen := seen.insert n
     let owner := moduleOf env n
     let ir := native[n]?
+    let info := env.find? n
+    let partialHelper := info.bind (partialImplementation? env n)
     if let some (m, decl) := ir then
       match decl with
       | .fdecl _ _ _ body _ =>
-        unless runtimeModule m do
+        unless runtimeModule m && partialHelper.isNone && !info.any (·.isPartial) do
           for dep in nativeCalls body do
             pending := pending.push (dep, n)
             if !runtimeModule (moduleOf env dep) then
@@ -146,10 +153,12 @@ def inspect (env : Environment) (rewrites : Rewrites) (native : NativeDecls)
       | .extern _ _ _ data =>
         if !runtimeModule m && !data.entries.all (· == .opaque) then
           failures := failures.push s!"native extern	{n}	from {caller}"
-    let some ci := env.find? n | do
+    let some ci := info | do
       if ir.isNone then failures := failures.push s!"missing declaration	{n}	from {caller}"
       continue
     if proofOnly ci then continue
+    if let some helper := partialHelper then
+      pending := pending.push (helper, n)
     if n == `Lean.Loop.forIn || n == `repeatM then
       failures := failures.push s!"while	{n}	from {caller}"
     for (m, rewrite) in rewrites[n]?.getD #[] do
@@ -196,6 +205,41 @@ def readExceptions : IO (Std.HashSet (String × String)) := do
     entries := entries.insert (kind, name)
   return entries
 
+private def decodeName (parts : Array Json) : Except String Name :=
+  parts.foldlM (init := .anonymous) fun parent part =>
+    match part with
+    | .str text => pure (.str parent text)
+    | value => return .num parent (← value.getNat?)
+
+private def parseRewrite (line : String) : Except String Compiler.CSimp.Entry := do
+  let #[fromParts, toParts, theoremParts] ← (← Json.parse line).getArr? |
+    throw "expected two constants and an equality theorem"
+  return ⟨← decodeName (← fromParts.getArr?), ← decodeName (← toParts.getArr?),
+    ← decodeName (← theoremParts.getArr?)⟩
+
+private def readJournal (artifact : System.FilePath) : IO (Array Compiler.CSimp.Entry) := do
+  let path := artifact.addExtension "csimp"
+  unless ← path.pathExists do
+    throw (IO.userError s!"missing compiler rewrite journal: {path}")
+  let lines ← IO.FS.lines path
+  let some digest := lines.back? | throw (IO.userError s!"incomplete compiler rewrite journal: {path}")
+  let hashed ← IO.Process.run {cmd := "sha256sum", args := #[artifact.toString]}
+  unless digest.length == 64 && hashed.startsWith (digest ++ " ") do
+    throw (IO.userError s!"compiler rewrite journal does not match artifact: {path}")
+  lines.pop.mapM fun line =>
+    match parseRewrite line with
+    | .ok rewrite => pure rewrite
+    | .error reason => throw (IO.userError s!"invalid compiler rewrite journal {path}: {reason}")
+
+private def addRewrite (rewrites : Rewrites) (m : Name)
+    (entry : Compiler.CSimp.Entry) : Rewrites :=
+  let known := rewrites[entry.fromDeclName]?.getD #[]
+  if known.any (fun (_, previous) =>
+      previous.toDeclName == entry.toDeclName && previous.thmName == entry.thmName) then
+    rewrites
+  else
+    rewrites.insert entry.fromDeclName (known.push (m, entry))
+
 def run (args : List String) : IO UInt32 := do
   let exceptions ← readExceptions
   let (imports, auditRoots) ← match args with
@@ -210,19 +254,49 @@ def run (args : List String) : IO UInt32 := do
       throw (IO.userError s!"invalid execution root {root}")
   let mut rewrites : Rewrites := {}
   let mut native : NativeDecls := {}
+  let mut journals := #[]
+  let mut invalid := false
   for (m, idx) in env.header.moduleNames.toList.zipIdx do
-    if runtimeModule m then
-      let artifact ← IO.FS.realPath (← findOLean m)
-      unless artifact.toString.startsWith (runtimeRoot.toString ++ "/") do
-        throw (IO.userError s!"{m} shadows the pinned Lean runtime: {artifact}")
+    let artifact ← IO.FS.realPath (← findOLean m)
+    if artifact.toString.startsWith (runtimeRoot.toString ++ "/") then
+      pure ()
+    else if runtimeModule m || m.getRoot == `Lean then
+      throw (IO.userError s!"{m} shadows the pinned Lean toolchain: {artifact}")
+    else
+      for (kind, initAttr) in #[("init", regularInitAttr), ("builtin_init", builtinInitAttr)] do
+        let entries := initAttr.ext.getModuleEntries env idx ++ initAttr.ext.getModuleIREntries env idx
+        for (decl, action) in (Std.HashSet.ofArray entries).toArray do
+          IO.eprintln s!"initializer	{kind}	{decl}	{action}	in {m}"
+          invalid := true
+      journals := journals.push (m, ← readJournal artifact)
     for d in IR.declMapExt.getModuleEntries env idx ++ IR.declMapExt.getModuleIREntries env idx do
       native := native.insert d.name (m, d)
     for entry in Compiler.CSimp.ext.ext.getModuleEntries env idx do
       let rewrite := match entry with
         | .global e | .scoped _ e => e
-      rewrites := rewrites.insert rewrite.fromDeclName
-        ((rewrites[rewrite.fromDeclName]?.getD #[]).push (m, rewrite))
-  let report ← inspect env rewrites native exceptions auditRoots
+      rewrites := addRewrite rewrites m rewrite
+  -- The compiler also introduces calls that have no corresponding kernel edge.
+  -- Seed any newly observed replacement and check its equality even if the
+  -- rewritten occurrence was subsequently inlined away.
+  let mut extraRoots := #[]
+  let mut observed : Std.HashSet (Name × Name × Name) := {}
+  for (m, journal) in journals do
+    for rewrite in journal do
+      let key := (rewrite.fromDeclName, rewrite.toDeclName, rewrite.thmName)
+      unless observed.contains key do
+        observed := observed.insert key
+        unless provesRewrite env rewrite do
+          IO.eprintln s!"csimp theorem	{rewrite.thmName}	missing or invalid in compiler journal for {m}"
+          invalid := true
+        for axiomName in ← rejectedAxioms env rewrite.thmName do
+          IO.eprintln s!"proof axiom	{axiomName}	from {rewrite.thmName}"
+          invalid := true
+        -- Check custom replacements even when optimization erased the call.
+        unless runtimeModule (moduleOf env rewrite.thmName) do
+          extraRoots := extraRoots.push rewrite.fromDeclName
+        rewrites := addRewrite rewrites m rewrite
+  if invalid then return 1
+  let report ← inspect env rewrites native exceptions (auditRoots ++ extraRoots)
   for msg in report.failures do IO.eprintln msg
   if args.isEmpty then
     for unused in exceptions.toList.filter (!report.used.contains ·) do
@@ -241,8 +315,7 @@ namespace ExecutionSource
 private def reservedAttr (stx : Syntax) : Option Name :=
   let attr := stx[1]
   let name := if attr.getKind == ``Parser.Attr.simple then attr[0].getId else .anonymous
-  let localAttr := stx[0][0][0].getKind == ``Parser.Term.local
-  if (name == `csimp && localAttr) || name == `implemented_by then some name else none
+  if [`implemented_by, `init, `builtin_init].contains name then some name else none
 
 private partial def reserved (stx : Syntax) : Option (Name × Syntax) :=
   if stx.getKind == ``Parser.Command.initialize then

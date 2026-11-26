@@ -97,6 +97,16 @@ def replay_checks(work, src, functions):
     print(f'first-path: {len(functions)} job/artifact roundtrips; all dependency hashes match independent hashlib; corrupt replay rejected')
 
 
+def high_multiply_compatibility_refusals(work):
+    source = work / 'unsupported-high.ssa'
+    for target in ('aarch64-linux', 'x86_64-linux', 'riscv64-linux', 'aarch64-macos', 'x86_64-macos'):
+        for op in ('mulHighUnsigned', 'mulHighSigned', 'umulh', 'smulh'):
+            source.write_text(f'function l $f(l %a, l %b) {{ @entry %r =l {op} %a, %b ret %r }}')
+            result = run([LCB, '--target', target, source], success=False)
+            assert f"unsupported operation '{op}'" in result.stderr, (target, op)
+            assert not result.stdout, (target, op)
+
+
 def high_multiply_assembly(work):
     """High multiplies have no QBE spelling; they are reachable only through
     numbered-source jobs. Build a `mul` job, change only its binary-operation tag
@@ -126,8 +136,10 @@ def high_multiply_assembly(work):
                bytes([0]) + (1).to_bytes(8, 'little'))
     assert data.count(pattern) == 1
     position = data.index(pattern) + 8 + 2
-    word_job.write_bytes(data[:position] + bytes([9]) + data[position+1:])
-    assert 'high multiply' in run([LCB, '--replay-job', word_job], success=False).stderr
+    for tag, op in [(9, "mulHighUnsigned"), (10, "mulHighSigned")]:
+        word_job.write_bytes(data[:position] + bytes([tag]) + data[position+1:])
+        error = run([LCB, "--replay-job", word_job], success=False).stderr
+        assert all(field in error for field in ("unsupportedHighMultiplyWidth", op, "word")), error
     assembly = work/'high.s'
     assembly.write_text(texts[0] + texts[1])
     print('first-path: API-only umulh/smulh jobs replay; word-width high multiply refused')
@@ -362,6 +374,7 @@ def main():
         run([LCB, '--target', 'aarch64-macos',bad])  # Existing compatibility support remains available.
         print('first-path: fresh-process/module-order stability, explicit proof refusal and compatibility isolation passed')
         replay_checks(work, src, functions)
+        high_multiply_compatibility_refusals(work)
         high = high_multiply_assembly(work)
         if platform.system() != 'Darwin' or platform.machine() != 'arm64':
             assert not args.require_native, 'Apple ARM64 native execution required'
@@ -382,6 +395,10 @@ def main():
         high_driver.write_text(high_multiply_harness())
         run([compiler,'-std=c11','-O2',high_driver,high,'-o',high_exe])
         assert run([high_exe]).stdout.strip() == 'first-path high multiply native checks passed'
+        low = work/'low-multiply.s'
+        low.write_text(high.read_text().replace('\tumulh ', '\tmul ').replace('\tsmulh ', '\tmul '))
+        run([compiler, '-std=c11', '-O2', high_driver, low, '-o', high_exe])
+        run([high_exe], success=False)
         baseline=work/'baseline.s'
         run([LCB, '--target', 'aarch64-macos',src,'-o',baseline])
         check(baseline,'baseline')

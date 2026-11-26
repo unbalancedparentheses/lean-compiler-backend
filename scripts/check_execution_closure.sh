@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Local compiler attributes can disappear from imported metadata after scope exit.
+# Check reserved source commands independently of the compiler rewrite journal.
 check_sources() {
   lake env lean --run scripts/ExecutionClosure.lean --sources "$@"
 }
@@ -37,23 +37,6 @@ def externRoot (n : Nat) : Nat := nativeStep n
 def ordinary (n : Nat) : Nat := n + 1
 @[csimp] theorem rewrite : ordinary = replacement := rfl
 def csimpRoot (n : Nat) : Nat := ordinary n
-
-def sorryBefore (n : Nat) : Nat := n
-@[csimp] theorem sorryRewrite : sorryBefore = replacement := by sorry
-def sorryCsimpRoot (n : Nat) : Nat := sorryBefore n
-
-def axiomBefore (n : Nat) : Nat := n
-axiom rewriteEquality : axiomBefore = replacement
-@[csimp] theorem axiomRewrite : axiomBefore = replacement := rewriteEquality
-def axiomCsimpRoot (n : Nat) : Nat := axiomBefore n
-
-def unprovedBefore (n : Nat) : Nat := n
-@[csimp] axiom unprovedRewrite : unprovedBefore = replacement
-def unprovedCsimpRoot (n : Nat) : Nat := unprovedBefore n
-
-def beforeExtern (n : Nat) : Nat := n + 1
-@[csimp] theorem externRewrite : beforeExtern = nativeStep := rfl
-def externCsimpRoot (n : Nat) : Nat := beforeExtern n
 
 def stringOrderRoot (a b : String) : Ordering := compare a b
 def hostRoot : Nat := USize.plantedHostWidth
@@ -95,14 +78,96 @@ def coreCsimpRoot (xs : List Nat) : List Nat := xs.map (· + 1)
 
 end ExecutionClosureControls
 LEAN
-cat > "$tmp/LocalRewrite.lean" <<'LEAN'
+cat > "$tmp/UnprovedRewriteControl.lean" <<'LEAN'
+import ExecutionClosureControls
+namespace ExecutionClosureControls
+def unprovedBefore (n : Nat) : Nat := n
+@[csimp] axiom unprovedRewrite : unprovedBefore = replacement
+def unprovedCsimpRoot (n : Nat) : Nat := unprovedBefore n
+end ExecutionClosureControls
+LEAN
+
+cat > "$tmp/AxiomRewriteControl.lean" <<'LEAN'
+import ExecutionClosureControls
+namespace ExecutionClosureControls
+def axiomBefore (n : Nat) : Nat := n
+axiom rewriteEquality : axiomBefore = replacement
+@[csimp] theorem axiomRewrite : axiomBefore = replacement := rewriteEquality
+def axiomCsimpRoot (n : Nat) : Nat := axiomBefore n
+end ExecutionClosureControls
+LEAN
+
+cat > "$tmp/SorryRewriteControl.lean" <<'LEAN'
+import ExecutionClosureControls
+namespace ExecutionClosureControls
+def sorryBefore (n : Nat) : Nat := n
+@[csimp] theorem sorryRewrite : sorryBefore = replacement := by sorry
+def sorryCsimpRoot (n : Nat) : Nat := sorryBefore n
+end ExecutionClosureControls
+LEAN
+
+cat > "$tmp/ExternRewriteControl.lean" <<'LEAN'
+import ExecutionClosureControls
+namespace ExecutionClosureControls
+def beforeExtern (n : Nat) : Nat := n + 1
+@[csimp] theorem externRewrite : beforeExtern = nativeStep := rfl
+def externCsimpRoot (n : Nat) : Nat := beforeExtern n
+end ExecutionClosureControls
+LEAN
+
+# This reproduces a local registration made by the elaborator, with no
+# attribute syntax for a source guard to see.
+cat > "$tmp/Probe.lean" <<'LEAN'
+import Lean
+open Lean
+namespace Probe
+def before (n : Nat) : Nat := n
+def after (n : Nat) : Nat := n + 1
+theorem bad : before = after := by sorry
+section
+run_cmd Elab.Command.liftCoreM (Compiler.CSimp.add `Probe.bad .local)
+def root (n : Nat) : Nat := before n
+end
+#eval root 10
+example : root 10 = 10 := rfl
+end Probe
+LEAN
+
+cat > "$tmp/ProvedLocalRewrite.lean" <<'LEAN'
+import Lean
+open Lean
+namespace ProvedLocalRewrite
 def before (n : Nat) : Nat := n + 1
 def after (n : Nat) : Nat := n + 1
-theorem eq : before = after := rfl
+theorem same : before = after := rfl
 section
-attribute [local «csimp»] eq
-def locallyRewritten (n : Nat) : Nat := before n
+run_cmd Elab.Command.liftCoreM (Compiler.CSimp.add `ProvedLocalRewrite.same .local)
+def root (n : Nat) : Nat := before n
 end
+end ProvedLocalRewrite
+LEAN
+
+cat > "$tmp/ImportedRewrite.lean" <<'LEAN'
+import Probe
+def importedRoot (n : Nat) : Nat := Probe.root n
+LEAN
+
+cat > "$tmp/ValueInit.lean" <<'LEAN'
+def setValue : IO Nat := do
+  IO.println "planted value initializer"
+  pure 42
+@[init setValue] def value : Nat := 0
+def root (n : Nat) : Nat := value + n
+example : root 0 = 0 := rfl
+LEAN
+
+cat > "$tmp/StandaloneInit.lean" <<'LEAN'
+@[builtin_init] def action : IO Unit := IO.println "planted standalone initializer"
+def root (n : Nat) : Nat := n
+LEAN
+
+cat > "$tmp/FormatControl.lean" <<'LEAN'
+def formatted (n : Nat) : String := reprStr n
 LEAN
 
 cat > "$tmp/SourceText.lean" <<'LEAN'
@@ -115,9 +180,29 @@ LEAN
 
 mapfile -d '' backend_sources < <(find LeanCompilerBackend -name '*.lean' -print0)
 check_sources LeanCompilerBackend.lean "${backend_sources[@]}" "$tmp/SourceText.lean"
-lake env lean --root="$tmp" -o "$tmp/ExecutionClosureControls.olean" "$tmp/ExecutionClosureControls.lean"
-lake env lean --root="$tmp" -o "$tmp/LocalRewrite.olean" "$tmp/LocalRewrite.lean"
-export LEAN_PATH="$tmp:$(lake env printenv LEAN_PATH)"
+provenance_sysroot=${LCB_PROVENANCE_SYSROOT:-"$tmp/toolchain"}
+if [[ ! -x "$provenance_sysroot/bin/lean" ]]; then
+  bash scripts/prepare_provenance_compiler.sh "$provenance_sysroot"
+fi
+official_path=$(lake env printenv LEAN_PATH)
+compile_control() (
+  cd "$tmp"
+  LEAN_SYSROOT="$provenance_sysroot" LEAN_PATH="$tmp:$official_path" \
+    "$provenance_sysroot/bin/lean" "$1.lean" -o "$1.olean"
+)
+compile_control ExecutionClosureControls
+compile_control SorryRewriteControl
+compile_control AxiomRewriteControl
+compile_control UnprovedRewriteControl
+compile_control ExternRewriteControl
+compile_control Probe >"$tmp/probe-build.log"
+grep -Fx 11 "$tmp/probe-build.log"
+compile_control ProvedLocalRewrite
+compile_control ImportedRewrite
+compile_control ValueInit
+compile_control StandaloneInit
+compile_control FormatControl
+export LEAN_PATH="$tmp:$official_path"
 control_module=ExecutionClosureControls
 lake env lean --run scripts/ExecutionClosure.lean "$control_module" "$control_module.total"
 lake env lean --run scripts/ExecutionClosure.lean "$control_module" \
@@ -147,8 +232,15 @@ for control in \
   $'axiomRoot\tproof axiom\tExecutionClosureControls.plantedFalse' \
   $'wordRoot\thost word size\tUSize.ofNat'; do
   IFS=$'\t' read -r root kind declaration origin <<< "$control"
+  case "$root" in
+    sorryCsimpRoot) module=SorryRewriteControl ;;
+    axiomCsimpRoot) module=AxiomRewriteControl ;;
+    unprovedCsimpRoot) module=UnprovedRewriteControl ;;
+    externCsimpRoot) module=ExternRewriteControl ;;
+    *) module=$control_module ;;
+  esac
   status=0
-  lake env lean --run scripts/ExecutionClosure.lean "$control_module" "$control_module.$root" \
+  lake env lean --run scripts/ExecutionClosure.lean "$module" "$control_module.$root" \
     >"$tmp/$root.log" 2>&1 || status=$?
   diagnostic="$kind"$'\t'"$declaration"$'\t'"$origin"
   if [[ "$status" != 1 ]] || ! grep -Fq "$diagnostic" "$tmp/$root.log"; then
@@ -158,12 +250,61 @@ for control in \
   fi
   echo "execution closure control rejected: $root"
 done
-if check_sources "$tmp/LocalRewrite.lean" >"$tmp/local.log" 2>&1 ||
-    ! grep -Fq 'reserved execution attribute or command csimp' "$tmp/local.log"; then
-  cat "$tmp/local.log" >&2
-  echo "execution closure control failed: local rewrite" >&2
+check_sources "$tmp/Probe.lean"
+for invocation in 'Probe Probe.root' 'ImportedRewrite importedRoot'; do
+  read -r module root <<< "$invocation"
+  status=0
+  lake env lean --run scripts/ExecutionClosure.lean "$module" "$root" \
+    >"$tmp/local.log" 2>&1 || status=$?
+  if [[ $status != 1 ]] ||
+      ! grep -Fq $'proof axiom\tsorryAx\tfrom Probe.bad' "$tmp/local.log"; then
+    cat "$tmp/local.log" >&2
+    echo "execution closure control failed: elaborator-registered local rewrite ($module)" >&2
+    exit 1
+  fi
+  echo "execution closure control rejected: elaborator-registered local rewrite ($module)"
+done
+lake env lean --run scripts/ExecutionClosure.lean ProvedLocalRewrite ProvedLocalRewrite.root \
+  >"$tmp/proved-local.log"
+grep -F 'ProvedLocalRewrite.before → ProvedLocalRewrite.after by ProvedLocalRewrite.same' "$tmp/proved-local.log"
+
+for control in $'ValueInit\tinit\tvalue\tsetValue' $'StandaloneInit\tbuiltin_init\taction'; do
+  IFS=$'\t' read -r module attr decl action <<< "$control"
+  if check_sources "$tmp/$module.lean" >"$tmp/$module-source.log" 2>&1 ||
+      ! grep -Fq "reserved execution attribute or command $attr" "$tmp/$module-source.log"; then
+    cat "$tmp/$module-source.log" >&2
+    exit 1
+  fi
+  status=0
+  lake env lean --run scripts/ExecutionClosure.lean "$module" root \
+    >"$tmp/$module-audit.log" 2>&1 || status=$?
+  diagnostic=$'initializer\t'"$attr"$'\t'"$decl"$'\t'"$action"
+  if [[ $status != 1 ]] || ! grep -Fq "$diagnostic" "$tmp/$module-audit.log"; then
+    cat "$tmp/$module-audit.log" >&2
+    exit 1
+  fi
+  echo "execution closure control rejected: $module initializer"
+done
+
+# Even a planted exemption for the outer partial formatter must not hide its
+# recursive implementation's callees.
+project=$PWD
+mkdir "$tmp/scripts"
+cp scripts/execution-primitives.tsv "$tmp/scripts/"
+printf '%s\n' \
+  $'opaque\t_private.Init.Data.Format.Basic.0.Std.Format.be\tplanted outer exemption' \
+  $'partial\t_private.Init.Data.Format.Basic.0.Std.Format.be\tplanted outer exemption' \
+  >>"$tmp/scripts/execution-primitives.tsv"
+status=0
+(cd "$tmp"; lean --run "$project/scripts/ExecutionClosure.lean" FormatControl formatted) \
+  >"$tmp/format.log" 2>&1 || status=$?
+if [[ $status != 1 ]] || ! grep -Fq $'partial\t'"_private.Init.Data.Format.Basic.0.Std.Format.spaceUptoLine'" "$tmp/format.log"; then
+  cat "$tmp/format.log" >&2
   exit 1
 fi
-echo "execution closure control rejected: local rewrite"
+for primitive in next posOf extract offsetOfPos; do
+  grep -Fq $'extern\t'"String.Internal.$primitive"$'\t' "$tmp/format.log"
+done
+echo "execution closure control rejected: partial formatter and four externs behind an exemption"
 
 lake env lean --run scripts/ExecutionClosure.lean

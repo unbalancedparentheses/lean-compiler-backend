@@ -85,8 +85,11 @@ private def job (f : Source.Function) : FunctionJob :=
   { code := { symbol := { namespaceName := "scaling", name := "body", exported := true }
               body := f, abi := planAbi f, layout := planFrame f } }
 
-private def moduleOf (f : Source.Function) : Module :=
-  { functions := #[reify f "body" true] }
+private def reifyFixture (f : Source.Function) : Except String Function :=
+  (reify f "body" true).mapError fun e => s!"scaling fixture reification: {repr e}"
+
+private def moduleOf (f : Source.Function) : Except String Module := do
+  pure { functions := #[← reifyFixture f] }
 
 @[noinline] private def quadratic (f : Source.Function) : Nat × Nat := Id.run do
   let some block := f.blocks[0]? | return (0, 0)
@@ -153,7 +156,7 @@ private def fixtureRows (name : String) (fixture : Nat → Nat → Source.Functi
     List Row := [
   ⟨name ++ " job validation", fixture, base, fun f => (validateJobWithWork (job f)).mapError reprStr⟩,
   ⟨name ++ " x86-64 Linux assembly", fixture, base,
-    fun f => (AMD64.emitModuleWithWork (moduleOf f)).map Prod.snd⟩,
+    fun f => do (AMD64.emitModuleWithWork (← moduleOf f)).map Prod.snd⟩,
   ⟨name ++ " AArch64 macOS assembly", fixture, base,
     fun f => ((compileFunctionWithWork (job f)).mapError reprStr).map Prod.snd⟩
 ]
@@ -162,15 +165,15 @@ private def fixtureRows (name : String) (fixture : Nat → Nat → Source.Functi
 private def compatibilityRows (name : String) (fixture : Nat → Nat → Source.Function)
     (base : Nat) : List Row := [
   ⟨name ++ " x86-64 compatibility", fixture, base,
-    fun f => (AMD64.emitModuleValidatedWithWork (moduleOf f)).map Prod.snd⟩,
+    fun f => do (AMD64.emitModuleValidatedWithWork (← moduleOf f)).map Prod.snd⟩,
   ⟨name ++ " AArch64 compatibility", fixture, base,
-    fun f => (AArch64.emitModuleValidatedWithWork (moduleOf f)).map Prod.snd⟩
+    fun f => do (AArch64.emitModuleValidatedWithWork (← moduleOf f)).map Prod.snd⟩
 ]
 
 -- Terminator-only debug records force the allocated emitter's lookahead
 -- to scan the full location array for each ordinary instruction.
 private def allocatedDebug (f : Source.Function) : Except String Nat := do
-  let body := reify f "body" true
+  let body ← reifyFixture f
   let block := body.blocks[0]!
   let count := block.instructions.size
   let instructions := (Array.range count).map fun i =>
@@ -204,7 +207,7 @@ private def checkLongNames (label : String)
   return passed
 
 def main : IO UInt32 := do
-  let publicArm := fun f => (AArch64.emitModuleWithWork (moduleOf f)).map Prod.snd
+  let publicArm := fun f => do (AArch64.emitModuleWithWork (← moduleOf f)).map Prod.snd
   let compatibility := [
     ("jump chain", jumpChain, 256),
     ("two-way phi join", (fun n seed => phiJoin 2 n seed .long), 128),
@@ -212,7 +215,7 @@ def main : IO UInt32 := do
   ]
   for (name, fixture, base) in compatibility do
     for n in #[base, 8 * base, 16 * base] do
-      match validateModule (moduleOf (fixture n 0)) with
+      match moduleOf (fixture n 0) >>= validateModule with
       | .ok () => pure ()
       | .error error => throw (IO.userError s!"{name}, size {n}: {error}")
   -- Reification erases literal widths. Check the long fixture at a size

@@ -102,24 +102,63 @@ example : (reachableFromEntry twoBlocks).isOk = true := by
 example : visit twoBlocks 1 [0] {} = .error "control-flow reachability budget exhausted" := by
   simp [twoBlocks, visit, ← List.append_eq_appendTR]
 
+/-- Rewrite a constant condition using QBE word semantics. -/
+def foldTerminator : Terminator → Terminator
+  | .branch (.constant n) yes no =>
+    .jump (if Semantics.constant .word n == 0 then no else yes)
+  | other => other
+
+private def foldBranches (f : Function) : Function :=
+  {f with blocks := f.blocks.map fun b => {b with terminator := foldTerminator b.terminator}}
+
+/-- Reachability is relative to the graph after folding constant branches. -/
+def RebuiltGraph (input : Function) (graph : CFG.Graph) : Prop :=
+  CFG.build (foldBranches input) = .ok graph
+
+private def prunePhis (graph : CFG.Graph) (reachable : Std.HashSet Nat)
+    (index : Nat) (b : Block) : Block :=
+  {b with phis := b.phis.map fun p => {p with incoming := p.incoming.filter fun (label, _) =>
+    match graph.indices[label]? with
+    | some source => reachable.contains source && graph.predecessors[index]!.contains source
+    | none => false}}
+
+private def keptBlock (f : Function) (graph : CFG.Graph) (reachable : Std.HashSet Nat)
+    (index : Nat) : Block :=
+  prunePhis graph reachable index f.blocks[index]!
+
 /-- Branch conditions use QBE word semantics. Rebuild the graph after rewriting
     edges, retain entry order, then remove obsolete phi incoming edges. -/
-def simplify (f : Function) : Except String Function := do
-  let f := {f with blocks := f.blocks.map fun b => {b with terminator :=
-    match b.terminator with
-    | .branch (.constant n) yes no =>
-      .jump (if Semantics.constant .word n == 0 then no else yes)
-    | other => other}}
+def simplify (input : Function) : Except String Function := do
+  let f := foldBranches input
   let graph ← CFG.build f
   let reachable ← reachableFromEntry graph
-  let mut blocks := #[]
-  for index in retained f reachable do
-    let b := f.blocks[index]!
-    let phis := b.phis.map fun p => {p with incoming := p.incoming.filter fun (label, _) =>
-      match graph.indices[label]? with
-      | some source => reachable.contains source && graph.predecessors[index]!.contains source
-      | none => false}
-    blocks := blocks.push {b with phis}
+  let blocks := (retained f reachable).toArray.map (keptBlock f graph reachable)
   pure {f with blocks}
+
+/-- Every reachable input block survives in a successful result, with its
+    original label, instructions, and debug locations, and its folded terminator. -/
+theorem simplify_retains_reachable (input output : Function) (graph : CFG.Graph)
+    (rebuilt : RebuiltGraph input graph) (ok : simplify input = .ok output)
+    (index : Nat) (bound : index < input.blocks.size) (path : Reachable graph index) :
+    ∃ block ∈ output.blocks.toList,
+      block.label = input.blocks[index].label ∧
+      block.instructions = input.blocks[index].instructions ∧
+      block.debugLocations = input.blocks[index].debugLocations ∧
+      block.terminator = foldTerminator input.blocks[index].terminator := by
+  unfold RebuiltGraph at rebuilt
+  simp only [simplify, rebuilt, bind, Except.bind] at ok
+  cases reach : reachableFromEntry graph with
+  | error error => simp [reach] at ok
+  | ok seen =>
+    simp only [reach, pure, Except.pure, Except.ok.injEq] at ok
+    subst output
+    have foldedBound : index < (foldBranches input).blocks.size := by
+      simpa [foldBranches] using bound
+    have member := retained_reachable (foldBranches input) graph _ seen reach foldedBound path
+    refine ⟨keptBlock (foldBranches input) graph seen index, ?_, ?_⟩
+    · simpa only [Array.toList_map, List.toList_toArray] using
+        List.mem_map_of_mem (f := keptBlock (foldBranches input) graph seen) member
+    · simp only [keptBlock, prunePhis, getElem!_pos (foldBranches input).blocks index foldedBound]
+      simp [foldBranches]
 
 end LeanCompilerBackend.Optimize.ControlFlow

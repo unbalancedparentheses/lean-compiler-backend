@@ -66,7 +66,10 @@
               export HOME="$TMPDIR/lcb-home"
               mkdir -p "$HOME"
               export LEAN_NUM_THREADS="''${NIX_BUILD_CORES:-2}"
-              lake build lcb lcb-tests lcb-scaling
+              export LCB_PROVENANCE_SYSROOT="$TMPDIR/lcb-provenance-lean"
+              bash scripts/prepare_provenance_compiler.sh "$LCB_PROVENANCE_SYSROOT"
+              LAKE_OVERRIDE_LEAN=true LEAN_SYSROOT="$LCB_PROVENANCE_SYSROOT" \
+                lake build lcb lcb-tests lcb-scaling
               runHook postBuild
             '';
             doCheck = true;

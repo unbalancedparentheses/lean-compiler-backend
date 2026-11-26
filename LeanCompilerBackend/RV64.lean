@@ -64,7 +64,8 @@ private def load (c : Context) (w : Width) (r : String) : Operand → Except Str
     return memory (if w == Width.word then "lwu" else "ld") r "s0" (← slot c name)
   | .symbol name => pure ([s!"\t{if c.locals.contains name then "lla" else "la"} {r}, {name}"] ++ norm w r)
   | .threadSymbol name => pure (threadAddress w r name)
-private def extend (w : Width) : Unary → List String
+private def extend (w : Width) (op : Unary) : List String :=
+  match op with
   | .negate => [s!"\tneg{if w == .word then "w" else ""} t0, t0"]
   | .signedByte => ["\tslli t0, t0, 56", "\tsrai t0, t0, 56"]
   | .unsignedByte => ["\tandi t0, t0, 255"]
@@ -171,7 +172,9 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
   pure lines
 
 private def signedComparison (op : Comparison) : Bool :=
-  match op with | .signedLE | .signedLT | .signedGE | .signedGT => true | _ => false
+  match op with
+  | .signedLE | .signedLT | .signedGE | .signedGT => true
+  | .eq | .ne | .unsignedLE | .unsignedLT | .unsignedGE | .unsignedGT => false
 
 private def comparisonOperands (c : Context) (op : Comparison) (w : Width) (x y : Operand)
     : Except String (List String) := do
@@ -202,19 +205,20 @@ private def binaryImmediate (w : Width) (op : Binary) (n : Int) : Option String 
   let ws := if w == .word then "w" else ""
   let value := Semantics.signedBits w.bits (Semantics.constant w n)
   let shift := (Semantics.constant (op.rhsWidth w) n).toNat % w.bits
-  let (mnemonic, immediate) ← match op with
-    | .add => some ("addi" ++ ws, value)
-    | .sub => some ("addi" ++ ws, -value)
-    | .andBits => some ("andi", value)
-    | .orBits => some ("ori", value)
-    | .xorBits => some ("xori", value)
-    | .shiftLeft => return s!"\tslli{ws} t0, t0, {shift}"
-    | .logicalRight => return s!"\tsrli{ws} t0, t0, {shift}"
-    | .arithmeticRight => return s!"\tsrai{ws} t0, t0, {shift}"
-    | .mul => none
-  if -2048 ≤ immediate && immediate ≤ 2047 then
-    some s!"\t{mnemonic} t0, t0, {immediate}"
-  else none
+  let emit (mnemonic : String) (immediate : Int) : Option String :=
+    if -2048 ≤ immediate && immediate ≤ 2047 then
+      some s!"\t{mnemonic} t0, t0, {immediate}"
+    else none
+  match op with
+  | .add => emit ("addi" ++ ws) value
+  | .sub => emit ("addi" ++ ws) (-value)
+  | .andBits => emit "andi" value
+  | .orBits => emit "ori" value
+  | .xorBits => emit "xori" value
+  | .shiftLeft => some s!"\tslli{ws} t0, t0, {shift}"
+  | .logicalRight => some s!"\tsrli{ws} t0, t0, {shift}"
+  | .arithmeticRight => some s!"\tsrai{ws} t0, t0, {shift}"
+  | .mul => none
 
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
   let w := inst.width
@@ -304,10 +308,13 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
   let normalization := match inst.operation with
     | .load kind _ => loadNorm w kind
     | .copy _ | .cast _ | .compare .. | .floatCompare .. | .vaArg _ => []
-    | .unary .unsignedByte _ | .unary .unsignedHalf _ | .unary .unsignedWord _ => []
+    | .unary op _ =>
+      match op with
+      | .unsignedByte | .unsignedHalf | .unsignedWord => []
+      | .negate | .signedByte | .signedHalf | .signedWord => norm w "t0"
     | .floatBinary .. | .floatNegate _ => []
     | .convert op _ => if op.resultFloating then [] else norm w "t0"
-    | _ => norm w "t0"
+    | .binary .. | .divide .. | .allocate .. | .call .. => norm w "t0"
   pure (lines ++ normalization ++ (← store c inst.destination))
 
 private def emitStatement (c : Context) : Statement → Except String (List String)
@@ -338,10 +345,7 @@ private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
     (first second : Statement) : Except String (Option (List String)) := do
   let .assign address := first | return none
   if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
-  let pair := match address.operation with
-    | .binary .add pointer (.constant n) | .binary .add (.constant n) pointer => some (pointer, n)
-    | .binary .sub pointer (.constant n) => some (pointer, -n)
-    | _ => none
+  let pair := Selection.addressOffset address.operation
   let some (pointer, rawOffset) := pair | return none
   let access := match second with
     | .assign {operation := .load _ (.temporary name), ..} => some name

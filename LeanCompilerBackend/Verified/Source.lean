@@ -41,6 +41,19 @@ inductive Binary where
   | mulHighUnsigned | mulHighSigned
   deriving DecidableEq, Repr
 
+/-- Stable names for typed binary operations in diagnostics. -/
+def Binary.constructorName : Binary → String
+  | .add => "add" | .sub => "sub" | .mul => "mul"
+  | .andBits => "andBits" | .orBits => "orBits" | .xorBits => "xorBits"
+  | .shiftLeft => "shiftLeft" | .logicalRight => "logicalRight" | .arithmeticRight => "arithmeticRight"
+  | .mulHighUnsigned => "mulHighUnsigned" | .mulHighSigned => "mulHighSigned"
+
+def Binary.isHighMultiply (op : Binary) : Bool :=
+  match op with
+  | .mulHighUnsigned | .mulHighSigned => true
+  | .add | .sub | .mul | .andBits | .orBits | .xorBits
+  | .shiftLeft | .logicalRight | .arithmeticRight => false
+
 /-- Division and remainder truncate toward zero (remainder has the dividend's
     sign). A zero divisor, and a signed minimum divided by -1, are outside the
     defined domain for all four, as in the compatibility interpreter. -/

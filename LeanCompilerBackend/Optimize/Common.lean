@@ -5,8 +5,7 @@ import LeanCompilerBackend.Optimize.Cleanup
 
 namespace LeanCompilerBackend.Optimize.Common
 
-deriving instance BEq, Hashable for Operand
-deriving instance Hashable for Width, Binary, Unary, Comparison
+deriving instance Hashable for Binary, Unary, Comparison
 
 /-- The pure expressions CSE may merge, compared structurally. -/
 private inductive Expression where

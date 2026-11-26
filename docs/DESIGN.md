@@ -100,10 +100,36 @@ or invalid theorem or any transitive axiom other than `propext`,
 `Classical.choice`, and `Quot.sound`. This excludes proofs that rely on
 `sorry` or native evaluation.
 
-Use an exported registration so the compiled audit can identify the theorem.
-A Lean command parser rejects local registrations because Lean drops them
-from compiled metadata. Runtime primitives are checked against the pinned
-Lean allowlist independently of the equality checks.
+CI builds with the pinned Lean compiler instrumented at its central compiler
+rewrite lookup. The recorder stores the source declaration, replacement, and
+theorem from the active environment before returning the replacement. It
+records local and elaborator-installed rewrites even when a scope later closes
+or optimization erases the rewritten call. The audit requires the resulting
+journal for each non-toolchain module it imports and verifies that the journal
+matches the module artifact. It checks every observed theorem and walks custom
+replacements in the execution closure. Pinned, precompiled Lean modules supply
+their persisted registrations and the runtime primitive allowlist. The
+closure also follows compiled bodies behind partial declarations. Backend
+diagnostics use total string renderers, and load forwarding indexes the
+address and load type structurally.
+
+The audit rejects initializer attributes from backend modules, including
+standalone startup actions and runtime replacements for kernel values. The
+arithmetic coverage linter is registered by the build frontend during
+elaboration. Its mutation controls use the same frontend.
+
+The Nix build links the recorder into the same compiler that emits the backend
+artifacts. To reproduce the checked build locally, start from a fresh Lake
+build directory and run:
+
+```sh
+export LEAN_NUM_THREADS=2
+export LCB_PROVENANCE_SYSROOT="$(mktemp -d)"
+bash scripts/prepare_provenance_compiler.sh "$LCB_PROVENANCE_SYSROOT"
+LAKE_OVERRIDE_LEAN=true LEAN_SYSROOT="$LCB_PROVENANCE_SYSROOT" \
+  lake build lcb lcb-tests lcb-scaling
+bash scripts/check.sh
+```
 
 The indexed validators and lowerers execute their ordinary Lean definitions.
 Their specification equalities cover results and errors of the reference
@@ -116,6 +142,9 @@ remaining adjacency rows to bound expansion. Every expansion removes one
 row. The compatibility traversals return an error when they still have
 pending work at exhaustion. Successful control-flow cleanup retains the
 entry and all its reachable successors in the rebuilt CFG.
+`ControlFlow.simplify_retains_reachable` proves the corresponding block occurs in
+the returned array, with its original label, instructions, and debug locations
+and its folded terminator. CI checks the theorem's transitive axioms.
 
 ## What is proved
 

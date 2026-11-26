@@ -148,7 +148,8 @@ private def entryChecks : IO Unit := do
       (EntryExamples.loop, #[Source.Value.word 10], 45),
       (EntryExamples.cyclicPhi, #[Source.Value.word 5], 22),
       (EntryExamples.maximumFrame, #[], 254)] do
-    let job ← success (prepareJob (reify f "entry_fixture" false) "entry-tests")
+    let named ← success (reify f "entry_fixture" false)
+    let job ← success (prepareJob named "entry-tests")
     require (decide (job.code.body = f)) "entry fixture changed during canonical admission"
     let artifact ← success (compileFunction job)
     let source := Source.evaluateFunction f args 10000

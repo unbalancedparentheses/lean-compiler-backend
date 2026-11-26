@@ -69,9 +69,21 @@ inductive CompileError where
   | admission (error : AdmissionError)
   | invalidJob (reason : String)
   | unsupported (feature : String)
+  | unsupportedTarget (target : String)
   | certificationUnavailable (request : EvidenceRequest)
   | verificationFailed (stage reason : String)
   deriving DecidableEq, Repr
+
+def CompileError.message : CompileError → String
+  | .admission error => error.message
+  | .invalidJob reason => s!"invalid job: {reason}"
+  | .unsupported feature => s!"unsupported: {feature}"
+  | .unsupportedTarget target => s!"unsupported target: {target}"
+  | .certificationUnavailable request =>
+    let profile := match request with
+      | .none => "none" | .kernelTypedAssembly => "kernelTypedAssembly" | .nativeBinary => "nativeBinary"
+    s!"certificationUnavailable: {profile}"
+  | .verificationFailed stage reason => s!"{stage}: {reason}"
 
 /-- No constructor for a certificate exists before the relevant proof exists. -/
 inductive VerificationResult where
@@ -142,10 +154,11 @@ private def validateDebug (f : Source.Function) (debug : DebugInput) : Except Co
 /-- Checking input is independent of module state and does not grant evidence. -/
 def validateJobWithWork (job : FunctionJob) : Except CompileError Nat := do
   let c := job.code
+  if c.target != "aarch64-apple-darwin-leaf-int-v1" then throw (.unsupportedTarget c.target)
   if c.version != 1 || c.sourceSemantics != "ssa-int-v2" || c.targetSemantics != "a64-leaf-v2" ||
-      c.target != "aarch64-apple-darwin-leaf-int-v1" || c.pipeline != "stack-baseline-v1" ||
+      c.pipeline != "stack-baseline-v1" ||
       c.compilerRevision != "lcb-foundations-dev1" || c.compilerBuild != compilerBuildIdentity then
-    throw (.unsupported "job version, target, semantics or compiler revision")
+    throw (.unsupported "job version, semantics or compiler revision")
   if !validSymbol c.symbol.name || c.symbol.namespaceName.isEmpty then
     throw (.invalidJob "invalid symbol identity")
   if !c.imports.isEmpty || !c.consumedFacts.isEmpty then
@@ -175,18 +188,25 @@ def prepareJob (f : Function) (namespaceName : String) (requested := EvidenceReq
   validateJob job
   pure job
 
+private def assemblyError (stage : String) : TypedA64.Error → CompileError
+  | .invalid reason => .verificationFailed stage reason
+  | .unsupportedHighMultiplyWidth op width => .admission (.unsupportedHighMultiplyWidth op width)
+
+private def loweringError : StackMIR.LoweringError → CompileError
+  | .admission e => .admission e
+  | .invalid reason => .verificationFailed "stack-lowering" reason
+
 /-- Pure compilation through checked structural boundaries. Successful output
     is still uncertified: these executable checks are not preservation proofs. -/
 def compileFunctionWithWork (job : FunctionJob) : Except CompileError (FunctionArtifact × Nat) := do
   let work ← validateJobWithWork job
   if job.requested != .none then throw (.certificationUnavailable job.requested)
-  let stackMIR ← (StackMIR.lower job.code.body job.code.layout).mapError
-    (CompileError.verificationFailed "stack-lowering")
+  let stackMIR ← (StackMIR.lower job.code.body job.code.layout).mapError loweringError
   (StackMIR.validate stackMIR).mapError (CompileError.verificationFailed "stack-legality")
-  let assembly ← (TypedA64.select stackMIR).mapError (CompileError.verificationFailed "selection")
-  (TypedA64.validate assembly).mapError (CompileError.verificationFailed "assembly-legality")
+  let assembly ← (TypedA64.select stackMIR).mapError (assemblyError "selection")
+  (TypedA64.validate assembly).mapError (assemblyError "assembly-legality")
   let (fragment, lines) ← (TypedA64.renderWithWork assembly job.code.symbol).mapError
-    (CompileError.verificationFailed "rendering")
+    (assemblyError "rendering")
   let code := { input := job.code, stackMIR, assembly, fragment : CodeArtifact }
   pure ({
     code, debug := { code, input := job.debug }, proofProfile := job.proof
@@ -195,6 +215,40 @@ def compileFunctionWithWork (job : FunctionJob) : Except CompileError (FunctionA
 
 def compileFunction (job : FunctionJob) : Except CompileError FunctionArtifact :=
   (compileFunctionWithWork job).map Prod.fst
+
+/-- The assembly and text stored in a successful job are precisely the
+    results of whole-function selection and checked rendering. -/
+theorem compileFunction_emission (job : FunctionJob) (artifact : FunctionArtifact)
+    (compiled : compileFunction job = .ok artifact) :
+    TypedA64.select artifact.code.stackMIR = .ok artifact.code.assembly ∧
+    TypedA64.render artifact.code.assembly job.code.symbol = .ok artifact.code.fragment := by
+  unfold compileFunction compileFunctionWithWork at compiled
+  cases valid : validateJobWithWork job <;> simp only [valid] at compiled
+  · contradiction
+  by_cases requested : job.requested = .none
+  · simp only [requested, bne_self_eq_false, Bool.false_eq_true, ↓reduceIte,
+      Bind.bind, Except.bind] at compiled
+    cases lowered : (StackMIR.lower job.code.body job.code.layout).mapError loweringError <;>
+      simp only [lowered] at compiled
+    · contradiction
+    rename_i work mir
+    cases legal : (StackMIR.validate mir).mapError
+        (CompileError.verificationFailed "stack-legality") <;> simp only [legal] at compiled
+    · contradiction
+    cases selected : TypedA64.select mir with
+    | error e => simp [selected, Except.mapError, Except.map] at compiled
+    | ok assembly =>
+      simp only [selected, Except.mapError] at compiled
+      cases legalAssembly : TypedA64.validate assembly <;> simp only [legalAssembly] at compiled
+      · contradiction
+      cases rendered : TypedA64.renderWithWork assembly job.code.symbol with
+      | error e => simp [rendered, Except.map] at compiled
+      | ok output =>
+        obtain ⟨fragment, lines⟩ := output
+        simp [rendered, Except.map, Pure.pure, Except.pure] at compiled
+        subst artifact
+        exact ⟨selected, by simp [TypedA64.render, rendered, Except.map]⟩
+  · simp [requested, Bind.bind, Except.bind, Except.map, throw] at compiled
 
 theorem compileFunctionWithWork_result (job : FunctionJob) :
     (compileFunctionWithWork job).map Prod.fst = compileFunction job := rfl

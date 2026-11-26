@@ -601,3 +601,11 @@ Design rationale: [architecture research](docs/research/backend-architecture.md)
 Debug-location checkpoint: `dbgfile`/`dbgloc` now survive SSA and emit native
 line tables. All 87 public opcode names accept some forms; remaining syntax,
 operation domains, optimizations and other targets still prevent full QBE support.
+
+
+## Execution-closure follow-ups
+
+- ISS-0111. Publish the indexed validation and lowering specification lemmas
+  with the reference computations consumers need to use them.
+- ISS-XXXX. Measure byte inspections through the production name-index lookup
+  in the long-name scaling gate. The existing gate exercises the counted comparator.

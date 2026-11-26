@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Optimize.ControlFlow
 import LeanCompilerBackend.Verified.FreshNameProofs
 import LeanCompilerBackend.Verified.AlgebraProofs
 import LeanCompilerBackend.Verified.SimulationProofs
@@ -286,3 +287,17 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.admit_eq_indexedIncoming_spec
 #print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_eq_countedPacked_spec
 #print axioms LeanCompilerBackend.Verified.admitWithWork_eq_indexed_spec
+#print axioms LeanCompilerBackend.Verified.TypedA64.select_highMultiply
+
+#print axioms LeanCompilerBackend.Verified.Machine.emitted_highMultiply
+
+#print axioms LeanCompilerBackend.Verified.compileFunction_emission
+#print axioms LeanCompilerBackend.Verified.TypedA64.select_render_highMultiply
+
+open LeanCompilerBackend.Verified in
+#check_failure (TypedA64.Instruction.alu .word .mulHighUnsigned 9 9 10 : TypedA64.Instruction)
+
+open LeanCompilerBackend.Verified in
+#check_failure (TypedA64.Instruction.alu .word .mulHighSigned 9 9 10 : TypedA64.Instruction)
+
+#print axioms LeanCompilerBackend.Optimize.ControlFlow.simplify_retains_reachable

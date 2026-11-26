@@ -64,10 +64,6 @@ extern	Nat.shiftRight	Pinned integer representation, arithmetic, bit operation, 
 extern	Nat.sub	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
 extern	Nat.xor	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
 extern	String.Internal.append	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
-extern	String.Internal.foldl	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
-extern	String.Internal.isEmpty	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
-extern	String.Internal.length	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
-extern	String.Internal.pushn	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
 extern	String.Pos.next	Pinned UTF-8 cursor increment used by the proved String.Slice.Pos.next rewrite; computes the next raw byte offset using the pinned UTF-8 cursor primitive.
 extern	String.Pos.Raw.extract	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
 extern	String.Slice.Pattern.Internal.memcmpStr	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
@@ -178,15 +174,9 @@ opaque	Array.get!InternalBorrowed	Compatibility paths use the pinned bounds-chec
 opaque	Array.getInternalBorrowed	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
 opaque	Array.ugetBorrowed	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
 opaque	String.Internal.append	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
-opaque	String.Internal.foldl	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
-opaque	String.Internal.isEmpty	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
-opaque	String.Internal.length	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
-opaque	String.Internal.pushn	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
 opaque	String.hash	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
 opaque	System.Platform.getNumBits	Used through USize representation for array indices and hash buckets. The audit restricts callers of the platform query.
-opaque	_private.Init.Data.Format.Basic.0.Std.Format.be	Pinned pretty-printer layout traversal consumes the finite format tree.
 opaque	mixHash	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
-partial	_private.Init.Data.Format.Basic.0.Std.Format.be	Pinned pretty-printer traverses a finite format tree for diagnostics.
 unsafe	Array.anyMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
 unsafe	Array.foldlMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
 unsafe	Array.foldrMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.

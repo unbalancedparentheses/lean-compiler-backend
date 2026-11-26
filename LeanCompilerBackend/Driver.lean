@@ -1,12 +1,13 @@
 /- Host-default selection for the compatibility command-line driver. -/
 import LeanCompilerBackend.IR
+import LeanCompilerBackend.Text
 
 namespace LeanCompilerBackend.Driver
 
 /-- Use the Lean runtime's LLVM triple, so a translated executable selects its
     own architecture. Unknown hosts require an explicit supported target. -/
 def hostTarget (triple : String) : Except String String := do
-  let parts := triple.splitOn "-"
+  let parts := Text.splitWhen (· == '-') triple
   let architecture := parts.head!
   let linux := parts.contains "linux"
   let darwin := parts.any fun p => p.startsWith "darwin" || p.startsWith "macos"
