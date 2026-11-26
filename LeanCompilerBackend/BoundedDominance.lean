@@ -564,20 +564,22 @@ private def reversePostorder (blocks : Blocks) (entry : String) : List String :=
 private structure WorkResult where
   values : Values
   changes : Nat
+  visits : Nat
 
 private def sweepRows (equations : BlockTable) (entry : String) (entryMask all : Nat) :
     List String → WorkResult → WorkResult
   | [], state => state
   | target :: pending, state =>
     match equations[target]? with
-    | none => sweepRows equations entry entryMask all pending state
+    | none => sweepRows equations entry entryMask all pending { state with visits := state.visits + 1 }
     | some block =>
       let previous := state.values[target]?.getD 0
       let allowed := transfer entry entryMask all (tableValues state.values) block
       let value := previous &&& allowed
-      if value == previous then sweepRows equations entry entryMask all pending state
+      let visits := state.visits + 1 + (if target == entry then 0 else block.2.2.length)
+      if value == previous then sweepRows equations entry entryMask all pending { state with visits }
       else sweepRows equations entry entryMask all pending
-        ⟨state.values.insert target value, state.changes + 1⟩
+        ⟨state.values.insert target value, state.changes + 1, visits⟩
 
 private theorem orbit_desc (blocks : Blocks) (entry : String) (entryMask all : Nat)
     (first : Rows Nat) (descending : (packedStep blocks entry entryMask all first).below
@@ -626,15 +628,20 @@ private theorem sweepRows_agrees (blocks : Blocks)
 -- Complete equations are evaluated in reverse postorder. In a DAG, each
 -- predecessor has its final value by the time its successor is evaluated.
 -- Cycles can require further sweeps.
-private def sweep (equations : BlockTable) (entry : String) (entryMask all : Nat)
+private def sweepWithVisits (equations : BlockTable) (entry : String) (entryMask all : Nat)
     (pending : List String) (settled : WorkResult → Bool) :
-    Nat → WorkResult → Option { result : WorkResult // settled result }
-  | 0, _ => none
+    Nat → WorkResult → Option { result : WorkResult // settled result } × Nat
+  | 0, state => (none, state.visits)
   | rounds + 1, state =>
     let next := sweepRows equations entry entryMask all pending state
-    if h : settled next then some ⟨next, h⟩
-    else if next.changes == state.changes then none
-    else sweep equations entry entryMask all pending settled rounds next
+    if h : settled next then (some ⟨next, h⟩, next.visits)
+    else if next.changes == state.changes then (none, next.visits)
+    else sweepWithVisits equations entry entryMask all pending settled rounds next
+
+private def sweep (equations : BlockTable) (entry : String) (entryMask all : Nat)
+    (pending : List String) (settled : WorkResult → Bool) (rounds : Nat) (state : WorkResult) :
+    Option { result : WorkResult // settled result } :=
+  (sweepWithVisits equations entry entryMask all pending settled rounds state).1
 
 private theorem sweep_agrees (blocks : Blocks) (entry : String) (entryMask all : Nat)
     (pending : List String) (settled : WorkResult → Bool) (rounds : Nat)
@@ -648,7 +655,7 @@ private theorem sweep_agrees (blocks : Blocks) (entry : String) (entryMask all :
   induction rounds generalizing state with
   | zero => cases success
   | succ rounds ih =>
-    simp only [sweep] at success
+    simp only [sweep, sweepWithVisits] at success
     have bound := sweepRows_agrees blocks entry entryMask all pending state first descending initial
     split at success
     · cases success
@@ -734,47 +741,88 @@ private def packedSolve (blocks : Blocks) (entry : String) (entryMask all : Nat)
     (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat) :=
   solve (packedStep blocks entry entryMask all) fuel first
 
+-- The fallback uses the same step and stopping test as the reference.
+private def solveWithRounds [BEq α] (step : α → α) : Nat → α → Nat → Except String (α × Nat)
+  | 0, _, _ => .error "dominance iteration resource limit exceeded"
+  | fuel + 1, old, rounds =>
+    let next := step old
+    if next == old then .ok (next, rounds + 1) else solveWithRounds step fuel next (rounds + 1)
+
+private theorem solveWithRounds_result [BEq α] (step : α → α) (fuel : Nat) (old : α)
+    (rounds : Nat) : (solveWithRounds step fuel old rounds).map Prod.fst = solve step fuel old := by
+  induction fuel generalizing old rounds with
+  | zero => rfl
+  | succ fuel ih =>
+    simp only [solveWithRounds, solve]
+    split
+    · rfl
+    · exact ih _ _
+
 -- Verify the fixed point and its position in the reference orbit before
 -- returning it. Preserve the reference result for every fuel and input.
-private def packedSolveWorklist (blocks : Blocks) (entry : String) (entryMask all : Nat)
-    (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat) := do
+private def packedSolveWithWork (blocks : Blocks) (entry : String) (entryMask all : Nat)
+    (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat × Nat) := do
   let step := packedStep blocks entry entryMask all
   let start := indexedRows first
-  if 2 < fuel && (step first).belowCheck start then
-    let initial : WorkResult := ⟨makeValues first, 0⟩
-    let pending := reversePostorder blocks entry
-    let settled := fun result =>
-      let final := materialize blocks result.values
-      result.changes + 2 < fuel && step final == final && final.belowCheck start
-    if let some result := sweep (buildEquations blocks) entry entryMask all pending settled fuel initial then
-      return materialize blocks result.val.values
-  packedSolve blocks entry entryMask all fuel first
+  let roundWork := blocks.foldl (fun n block => n + 1 + (if block.1 == entry then 0 else block.2.2.length)) 0
+  let fallback := fun work => do
+    let (final, rounds) ← solveWithRounds step fuel first 0
+    return (final, work + rounds * roundWork)
+  if 2 < fuel then
+    if (step first).belowCheck start then
+      let initial : WorkResult := ⟨makeValues first, 0, 0⟩
+      let pending := reversePostorder blocks entry
+      let settled := fun result =>
+        let final := materialize blocks result.values
+        result.changes + 2 < fuel && step final == final && final.belowCheck start
+      let (result, visits) := sweepWithVisits (buildEquations blocks) entry entryMask all
+        pending settled fuel initial
+      if let some result := result then
+        return (materialize blocks result.val.values, roundWork + visits)
+      fallback (roundWork + visits)
+    else fallback roundWork
+  else fallback 0
+
+private def packedSolveWorklist (blocks : Blocks) (entry : String) (entryMask all : Nat)
+    (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat) :=
+  (packedSolveWithWork blocks entry entryMask all fuel first).map Prod.fst
 
 @[csimp] theorem packedSolve_eq_worklist : packedSolve = packedSolveWorklist := by
   funext blocks entry entryMask all fuel first
-  unfold packedSolveWorklist
+  unfold packedSolveWorklist packedSolveWithWork
   dsimp only
-  split <;> rename_i start
-  · split <;> rename_i result h
-    · have checked : (result.val.changes + 2 < fuel ∧
-          packedStep blocks entry entryMask all (materialize blocks result.val.values) =
-            materialize blocks result.val.values) ∧
-          (materialize blocks result.val.values).belowCheck (indexedRows first) = true := by
-        simpa only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] using result.property
-      rcases checked with ⟨⟨enough, fixed⟩, upper⟩
-      have descending := Rows.belowCheck_sound _ _ (Bool.and_eq_true_iff.mp start).2
-      have initial : first.below (tableValues (makeValues first)) := by
-        intro key
-        change MaskLE ((first.lookup key).getD 0) ((makeValues first)[key]?.getD 0)
-        rw [makeValues_get]
-        exact maskLE_refl _
-      have bound := sweep_agrees blocks entry entryMask all _ _ _
-        ⟨makeValues first, 0⟩ result first descending initial h
-      have stable := worklist_converged blocks entry entryMask all first result.val descending bound
-        fixed (Rows.belowCheck_sound _ _ upper)
-      exact solve_of_converged _ _ _ _ _ fixed stable enough
-    · rfl
-  · rfl
+  have fallback (work roundWork : Nat) :
+      packedSolve blocks entry entryMask all fuel first =
+        (do
+          let result ← solveWithRounds (packedStep blocks entry entryMask all) fuel first 0
+          pure (result.1, work + result.2 * roundWork) : Except String (Rows Nat × Nat)).map Prod.fst := by
+    unfold packedSolve
+    rw [← solveWithRounds_result _ _ _ 0]
+    cases solveWithRounds (packedStep blocks entry entryMask all) fuel first 0 <;> rfl
+  split
+  · split
+    · split
+      · rename_i result h
+        have checked : (result.val.changes + 2 < fuel ∧
+            packedStep blocks entry entryMask all (materialize blocks result.val.values) =
+              materialize blocks result.val.values) ∧
+            (materialize blocks result.val.values).belowCheck (indexedRows first) = true := by
+          simpa only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] using result.property
+        rcases checked with ⟨⟨enough, fixed⟩, upper⟩
+        have descending := Rows.belowCheck_sound (packedStep blocks entry entryMask all first) (indexedRows first) (by assumption)
+        have initial : first.below (tableValues (makeValues first)) := by
+          intro key
+          change MaskLE ((first.lookup key).getD 0) ((makeValues first)[key]?.getD 0)
+          rw [makeValues_get]
+          exact maskLE_refl _
+        have bound := sweep_agrees blocks entry entryMask all _ _ _
+          ⟨makeValues first, 0, 0⟩ result first descending initial (by simpa only [sweep] using h)
+        have stable := worklist_converged blocks entry entryMask all first result.val descending bound
+          fixed (Rows.belowCheck_sound _ _ upper)
+        exact solve_of_converged _ _ _ _ _ fixed stable enough
+      · exact fallback _ _
+    · exact fallback _ _
+  · exact fallback _ _
 
 private def oraclePacked (names : List String) (entry : String) (preds : String → List String)
     (fuel : Nat) : Except String (NameIndex.Membership (String × String)) := do
@@ -794,5 +842,46 @@ private def oraclePacked (names : List String) (entry : String) (preds : String 
   | ok rows =>
     change Except.ok _ = Except.ok (readPacked names (encodeRows names rows))
     rw [readPacked_eq _ _ _ (solve_canonical _ _ _ _ _ _ h)]
+
+private def oracleCountedPacked (names : List String) (entry : String) (preds : String → List String)
+    (fuel : Nat) : Except String (NameIndex.Membership (String × String) × Nat) := do
+  let entryMask := encode names [entry]
+  let all := pack (fun _ => true) names
+  let (final, work) ← packedSolveWithWork (packedBlocks names preds) entry entryMask all fuel
+    (packedInitial names entry entryMask all)
+  pure (readPacked names final, work)
+
+private theorem oracleCountedPacked_result (names : List String) (entry : String)
+    (preds : String → List String) (fuel : Nat) :
+    (oracleCountedPacked names entry preds fuel).map Prod.fst = oracle names entry preds fuel := by
+  rw [oracle_eq_packed]
+  unfold oracleCountedPacked oraclePacked
+  rw [packedSolve_eq_worklist]
+  unfold packedSolveWorklist
+  dsimp only
+  cases packedSolveWithWork (packedBlocks names preds) entry (encode names [entry])
+    (pack (fun _ => true) names) fuel
+    (packedInitial names entry (encode names [entry]) (pack (fun _ => true) names)) <;> rfl
+
+/-- Count row visits and predecessor probes, including work before a fallback.
+    The result component reduces through the reference oracle in proofs. -/
+def oracleWithWork (names : List String) (entry : String) (preds : String → List String)
+    (fuel : Nat) : Except String (NameIndex.Membership (String × String) × Nat) :=
+  (oracle names entry preds fuel).map fun members =>
+    let work := ((oracleCountedPacked names entry preds fuel).toOption.map Prod.snd).getD 0
+    (members, work)
+
+@[csimp] theorem oracleWithWork_eq_countedPacked : oracleWithWork = oracleCountedPacked := by
+  funext names entry preds fuel
+  unfold oracleWithWork
+  rw [← oracleCountedPacked_result]
+  cases oracleCountedPacked names entry preds fuel with
+  | error => rfl
+  | ok result => cases result; rfl
+
+theorem oracleWithWork_result (names : List String) (entry : String)
+    (preds : String → List String) (fuel : Nat) :
+    (oracleWithWork names entry preds fuel).map Prod.fst = oracle names entry preds fuel := by
+  rw [oracleWithWork_eq_countedPacked, oracleCountedPacked_result]
 
 end LeanCompilerBackend.BoundedDominance

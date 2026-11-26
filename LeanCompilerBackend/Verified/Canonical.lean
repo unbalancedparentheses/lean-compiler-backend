@@ -67,7 +67,7 @@ private def shape (f : Source.Function) : Source.Function :=
 /-- Revalidate untrusted numbered input, including exact IDs, width table,
     literal widths, and canonical predecessor ordering. No proof is attached.
     Operations without a QBE spelling are reachable only through this API. -/
-def validateSource (f : Source.Function) : Except AdmissionError Unit := do
+def validateSourceWithWork (f : Source.Function) : Except AdmissionError Nat := do
   if f.parameters.size > 8 then throw (.resourceLimit "parameters" f.parameters.size 8)
   if f.blocks.size > 64 then throw (.resourceLimit "blocks" f.blocks.size 64)
   if f.valueWidths.size > 488 then throw (.resourceLimit "values" f.valueWidths.size 488)
@@ -82,7 +82,12 @@ def validateSource (f : Source.Function) : Except AdmissionError Unit := do
     for inst in block.instructions do
       if isHighMultiply inst.operation && inst.width != .long then
         throw (.unsupported "word-width high multiply; AArch64 UMULH/SMULH are 64-bit only")
-  let canonical ← admit (reify f "canonical" false)
+  let (canonical, work) ← admitWithWork (reify f "canonical" false)
   if canonical != shape f then throw (.invalidInput "noncanonical numbered source or inconsistent widths")
+
+  return work
+
+def validateSource (f : Source.Function) : Except AdmissionError Unit :=
+  (validateSourceWithWork f).map (fun _ => ())
 
 end LeanCompilerBackend.Verified

@@ -259,3 +259,6 @@ import LeanCompilerBackend.Verified.LayoutProofs
 
 #print axioms LeanCompilerBackend.validateFunctionGraph_eq_indexedDeclarations
 #print axioms LeanCompilerBackend.Verified.admit_eq_indexedIncoming
+#print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_eq_countedPacked
+#print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_result
+#print axioms LeanCompilerBackend.Verified.admitWithWork_eq_indexed

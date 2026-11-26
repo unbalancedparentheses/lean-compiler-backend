@@ -27,6 +27,9 @@ for theorem in \
   LeanCompilerBackend.Verified.TypedA64.renderLines_eq_linear \
   LeanCompilerBackend.Verified.incomingOrders_eq_indexed \
   LeanCompilerBackend.validateFunctionGraph_eq_indexedDeclarations \
+  LeanCompilerBackend.BoundedDominance.oracleWithWork_eq_countedPacked \
+  LeanCompilerBackend.BoundedDominance.oracleWithWork_result \
+  LeanCompilerBackend.Verified.admitWithWork_eq_indexed \
   LeanCompilerBackend.Verified.admit_eq_indexedIncoming; do
   grep -F "'$theorem' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$auditSingleLine" >/dev/null
 done

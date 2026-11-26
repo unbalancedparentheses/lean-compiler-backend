@@ -201,7 +201,7 @@ private def renderLinesLinear (symbol : String) (blocks : Array Block) (header :
   funext symbol blocks header
   simp [renderLines, renderLinesLinear, ← Array.foldl_toList, List.flatMap]
 
-def render (f : Function) (symbol : Symbol) : Except String String := do
+def renderWithWork (f : Function) (symbol : Symbol) : Except String (String × Nat) := do
   validate f
   let validName := !symbol.name.isEmpty && symbol.name.toList.all (fun c =>
     c.toNat < 128 && (c.isAlphanum || c == '_')) &&
@@ -210,6 +210,10 @@ def render (f : Function) (symbol : Symbol) : Except String String := do
   let mut lines := [s!"; function {symbol.name}; uncertified typed stack baseline"]
   if symbol.exported then lines := lines ++ [s!".globl _{symbol.name}"]
   lines := lines ++ [".p2align 2", s!"_{symbol.name}:"]
-  pure (String.intercalate "\n" (renderLines symbol.name f.blocks lines ++ [""]))
+  let rendered := renderLines symbol.name f.blocks lines
+  pure (String.intercalate "\n" (rendered ++ [""]), rendered.length)
+
+def render (f : Function) (symbol : Symbol) : Except String String :=
+  (renderWithWork f symbol).map Prod.fst
 
 end LeanCompilerBackend.Verified.TypedA64

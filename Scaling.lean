@@ -72,7 +72,11 @@ private def phiJoin (predecessors n seed : Nat) (width : Width := .word) : Sourc
     blocks := blocks.push { phis := #[], instructions := #[], terminator }
   let phis := (Array.range n).map fun i =>
     { destination := i, width, incoming := (Array.range predecessors).map fun j =>
-      (j + 1, .literal (.word (BitVec.ofNat 32 (seed + i + j)))) : Source.Phi }
+      let value := seed + i + j
+      let literal := match width with
+        | .word => Source.Value.word (BitVec.ofNat 32 value)
+        | .long => Source.Value.long (BitVec.ofNat 64 value)
+      (j + 1, .literal literal) : Source.Phi }
   let joinBlock : Source.Block := { phis, instructions := #[], terminator := .ret (.local (n - 1)) }
   return { resultWidth := width, parameters := #[], valueWidths := Array.replicate n width
            blocks := blocks.push joinBlock }
@@ -81,105 +85,87 @@ private def job (f : Source.Function) : FunctionJob :=
   { code := { symbol := { namespaceName := "scaling", name := "body", exported := true }
               body := f, abi := planAbi f, layout := planFrame f } }
 
-private def linux (f : Source.Function) : Except String String := do
-  let m : Module := { functions := #[reify f "body" true] }
-  validateModule m
-  AMD64.emitModuleValidated m false false
+private def moduleOf (f : Source.Function) : Module :=
+  { functions := #[reify f "body" true] }
 
-@[noinline] private def quadratic (f : Source.Function) : Nat := Id.run do
-  let some block := f.blocks[0]? | return 0
+@[noinline] private def quadratic (f : Source.Function) : Nat × Nat := Id.run do
+  let some block := f.blocks[0]? | return (0, 0)
   let code := block.instructions
   let mut total := 0
+  let mut probes := 0
   for i in code do
     for j in code do
+      probes := probes + 1
       if i.destination <= j.destination then total := total + 1
-  return total
-
-private def sample (work : Source.Function → Except String Nat)
-    (inputs : Array Source.Function) : IO Nat := do
-  let start ← IO.monoNanosNow
-  let mut checksum := 0
-  for f in inputs do
-    match work f with
-    | .ok size => checksum := checksum + size
-    | .error e => throw (IO.userError e)
-  let stop ← IO.monoNanosNow
-  if checksum == 0 || stop <= start then throw (IO.userError "invalid scaling sample")
-  return stop - start
-
-private def measurements (fixture : Nat → Nat → Source.Function) (base : Nat)
-    (work : Source.Function → Except String Nat) : IO (Nat × Nat × Nat) := do
-  let inputs := (#[base, 8 * base, 16 * base]).map fun n => (Array.range 32).map (fixture n)
-  let mut samples : Array (Array Nat) := #[#[], #[], #[]]
-  for input in inputs do discard (sample work input)
-  for trial in [:9] do
-    -- Rotate the order so all sizes encounter the same transient host load.
-    for offset in [:3] do
-      let i := (trial + offset) % 3
-      let elapsed ← sample work inputs[i]!
-      samples := samples.modify i (·.push elapsed)
-  -- Scheduling delays inflate wall times. Use the second-fastest of nine
-  -- samples so a single unusually fast sample cannot decide a row.
-  let times := samples.map fun ns => (ns.qsort (· < ·))[1]!
-  return (times[0]!, times[1]!, times[2]!)
+  return (total, probes)
 
 private def ratio (large small : Nat) : String :=
   let hundredths := 100 * large / small
   let fraction := hundredths % 100
   s!"{hundredths / 100}.{if fraction < 10 then "0" else ""}{fraction}"
 
-private inductive Expectation where
-  | scaling
-  | quadraticControl
-  | knownTracked
-  deriving BEq
+-- Use the size of the scaled dimension. A linear traversal is bounded by
+-- this envelope when combined with ordered-index operations at O(log n).
+private def budget (n : Nat) : Nat :=
+  n * (1 + n.log2)
 
-private def check (name : String) (fixture : Nat → Nat → Source.Function) (base : Nat)
-    (work : Source.Function → Except String Nat) (expectation : Expectation := .scaling) : IO Bool := do
-  for attempt in [:(if expectation == .scaling then 3 else 1)] do
-    let (small, medium, large) ← measurements fixture base work
-    -- Allow logarithmic index growth and fixed per-call overhead. A quadratic
-    -- scan should grow by roughly 64x and 256x over these same windows.
-    let passed := medium * 2 <= small * 25 && large * 2 <= small * 53 &&
-      large * 2 <= medium * 5
-    let verdict := if passed then "accepted" else "rejected"
-    let status := if expectation == .knownTracked then s!"known-tracked ({verdict})" else verdict
-    IO.println s!"{name}: {small / 32}, {medium / 32}, {large / 32} ns/call; ratios {ratio medium small}, {ratio large small}; {status} (attempt {attempt + 1})"
-    (← IO.getStdout).flush
-    match expectation with
-    | .knownTracked => return true
-    | .quadraticControl => return !passed
-    | .scaling => if passed then return true
-  return false
+private def withinBudget (smallN largeN smallWork largeWork : Nat) : Bool :=
+  largeWork * budget smallN <= smallWork * budget largeN
 
-private def validation (f : Source.Function) : Except String Nat :=
-  ((validateJob (job f)).mapError reprStr).map fun _ => f.valueWidths.size + f.blocks.size
+-- Names must match measured rows. The runner verifies that every entry is used.
+private def expectedFailures : List (String × String) := [
+  ("bidirectional chain job validation", "bidirectional chain dominance"),
+  ("bidirectional chain AArch64 macOS assembly", "bidirectional chain dominance"),
+  ("allocated AArch64 debug locations", "AArch64 debug-location lookahead")
+]
 
-private def arm (f : Source.Function) : Except String Nat :=
-  ((compileFunction (job f)).mapError reprStr).map (·.code.fragment.utf8ByteSize)
+private structure Row where
+  name : String
+  fixture : Nat → Nat → Source.Function
+  base : Nat
+  work : Source.Function → Except String Nat
 
-private def checkFixture (name : String) (fixture : Nat → Nat → Source.Function) (base : Nat)
-    (numbered : Expectation := .scaling) (linuxExpectation : Expectation := .scaling) : IO Bool := do
-  let validationOK ← check (name ++ " job validation") fixture base validation numbered
-  let x86OK ← check (name ++ " x86-64 Linux assembly") fixture base
-    (fun f => (linux f).map String.utf8ByteSize) linuxExpectation
-  let armOK ← check (name ++ " AArch64 macOS assembly") fixture base arm numbered
-  return validationOK && x86OK && armOK
+private def check (row : Row) (expectedFailure : Option String) : IO Bool := do
+  let measure := fun n => do
+    let mut total := 0
+    for seed in [:4] do
+      let visits ← match row.work (row.fixture n seed) with
+        | .ok visits => pure visits
+        | .error error => throw (IO.userError s!"{row.name}, size {n}, seed {seed}: {error}")
+      if visits == 0 then
+        throw (IO.userError s!"{row.name}: empty work sample at size {n}")
+      total := total + visits
+    return total
+  let n := row.base
+  let small ← measure n
+  let medium ← measure (8 * n)
+  let large ← measure (16 * n)
+  let passed := withinBudget n (8 * n) small medium &&
+    withinBudget n (16 * n) small large &&
+    withinBudget (8 * n) (16 * n) medium large
+  let verdict := match expectedFailure with
+    | none => if passed then "accepted" else "rejected"
+    | some issue => if passed then s!"unexpected pass ({issue})" else s!"expected rejection ({issue})"
+  IO.println s!"{row.name}: {small}, {medium}, {large} work; ratios {ratio medium small}, {ratio large small}, {ratio large medium}; {verdict}"
+  return passed == expectedFailure.isNone
 
--- Measure the validated emitter boundary so compatibility CFG validation
--- cannot hide the cost of an emitter's edge lookups.
-private def checkCompatibility (name : String) (fixture : Nat → Nat → Source.Function)
-    (base : Nat) : IO Bool := do
-  let moduleOf := fun f => ({ functions := #[reify f "body" true] } : Module)
-  for n in #[base, 8 * base, 16 * base] do
-    match validateModule (moduleOf (fixture n 0)) with
-    | .ok () => pure ()
-    | .error e => throw (IO.userError e)
-  let x86 ← check (name ++ " x86-64 compatibility") fixture base
-    (fun f => (AMD64.emitModuleValidated (moduleOf f)).map String.utf8ByteSize)
-  let a64 ← check (name ++ " AArch64 compatibility") fixture base
-    (fun f => (AArch64.emitModuleValidated (moduleOf f)).map String.utf8ByteSize)
-  return x86 && a64
+private def fixtureRows (name : String) (fixture : Nat → Nat → Source.Function) (base : Nat) :
+    List Row := [
+  ⟨name ++ " job validation", fixture, base, fun f => (validateJobWithWork (job f)).mapError reprStr⟩,
+  ⟨name ++ " x86-64 Linux assembly", fixture, base,
+    fun f => (AMD64.emitModuleWithWork (moduleOf f)).map Prod.snd⟩,
+  ⟨name ++ " AArch64 macOS assembly", fixture, base,
+    fun f => ((compileFunctionWithWork (job f)).mapError reprStr).map Prod.snd⟩
+]
+
+-- Measure the validated emitter boundary to isolate edge emission.
+private def compatibilityRows (name : String) (fixture : Nat → Nat → Source.Function)
+    (base : Nat) : List Row := [
+  ⟨name ++ " x86-64 compatibility", fixture, base,
+    fun f => (AMD64.emitModuleValidatedWithWork (moduleOf f)).map Prod.snd⟩,
+  ⟨name ++ " AArch64 compatibility", fixture, base,
+    fun f => (AArch64.emitModuleValidatedWithWork (moduleOf f)).map Prod.snd⟩
+]
 
 -- Terminator-only debug records force the allocated emitter's lookahead
 -- to scan the full location array for each ordinary instruction.
@@ -193,25 +179,47 @@ private def allocatedDebug (f : Source.Function) : Except String Nat := do
     { instruction := count, line := i + 1 : DebugLocation }
   let body := { body with debugFile := some "scaling.ssa", blocks := #[{
     block with instructions, debugLocations, terminator := .ret (some (.constant 0)) }] }
-  (AArch64.emitModule { functions := #[body] } (allocate := true)).map String.utf8ByteSize
+  (AArch64.emitModuleWithWork { functions := #[body] } (allocate := true)).map Prod.snd
 
-def main (args : List String) : IO UInt32 := do
-  let ladderOK ← checkFixture "reverse ladder" reverseLadder 4 .knownTracked .knownTracked
-  let bidirectionalOK ← checkFixture "bidirectional chain" bidirectionalChain 4 .knownTracked
-  let chainOK ← checkFixture "chain" chain 30
-  let cfgOK ← checkFixture "checked chain" (checkedChain false) 3
-  let loopOK ← checkFixture "loop chain" (checkedChain true) 3
-  let phiOK ← checkFixture "phi join" (fun n seed => phiJoin 8 n seed) 15
-  let edgesOK ← checkCompatibility "jump chain" jumpChain 256
-  let publicArm := fun f =>
-    (AArch64.emitModule { functions := #[reify f "body" true] }).map String.utf8ByteSize
-  let publicEdgesOK ← check "jump chain public AArch64 assembly" jumpChain 256 publicArm
-  let publicCycleOK ← check "bidirectional chain public AArch64 assembly"
-    bidirectionalChain 16 publicArm
-  let stagingOK ← checkCompatibility "two-way phi join" (fun n seed => phiJoin 2 n seed .long) 128
-  let fanInOK ← checkCompatibility "phi fan-in" (fun n seed => phiJoin n 8 seed) 128
-  let debugOK ← check "allocated AArch64 debug locations" chain 128 allocatedDebug .knownTracked
-  unless quadratic (chain 480 0) == 480 * 481 / 2 do
-    throw (IO.userError "planted quadratic checksum mismatch")
-  let control ← check "planted quadratic" chain 30 (fun f => .ok (quadratic f)) .quadraticControl
-  return if (chainOK && cfgOK && loopOK && phiOK && ladderOK && bidirectionalOK && edgesOK && publicEdgesOK && publicCycleOK && stagingOK && fanInOK && debugOK && control) || args == ["--report-only"] then 0 else 1
+def main : IO UInt32 := do
+  let publicArm := fun f => (AArch64.emitModuleWithWork (moduleOf f)).map Prod.snd
+  let compatibility := [
+    ("jump chain", jumpChain, 256),
+    ("two-way phi join", (fun n seed => phiJoin 2 n seed .long), 128),
+    ("phi fan-in", (fun n seed => phiJoin n 8 seed), 128)
+  ]
+  for (name, fixture, base) in compatibility do
+    for n in #[base, 8 * base, 16 * base] do
+      match validateModule (moduleOf (fixture n 0)) with
+      | .ok () => pure ()
+      | .error error => throw (IO.userError s!"{name}, size {n}: {error}")
+  -- Reification erases literal widths. Check the long fixture at a size
+  -- within the numbered profile before measuring the compatibility emitters.
+  match validateJob (job (phiJoin 2 128 0 .long)) with
+  | .ok () => pure ()
+  | .error error => throw (IO.userError s!"long phi fixture: {repr error}")
+  let rows :=
+    fixtureRows "reverse ladder" reverseLadder 4 ++
+    fixtureRows "bidirectional chain" bidirectionalChain 4 ++
+    fixtureRows "chain" chain 30 ++
+    fixtureRows "checked chain" (checkedChain false) 3 ++
+    fixtureRows "loop chain" (checkedChain true) 3 ++
+    fixtureRows "phi join" (fun n seed => phiJoin 8 n seed) 15 ++
+    compatibility.flatMap (fun (name, fixture, base) => compatibilityRows name fixture base) ++ [
+      ⟨"jump chain public AArch64 assembly", jumpChain, 256, publicArm⟩,
+      ⟨"bidirectional chain public AArch64 assembly", bidirectionalChain, 16, publicArm⟩,
+      ⟨"allocated AArch64 debug locations", chain, 128, allocatedDebug⟩
+    ]
+  for (name, _) in expectedFailures do
+    unless (rows.filter (·.name == name)).length == 1 &&
+        (expectedFailures.filter (·.1 == name)).length == 1 do
+      throw (IO.userError s!"invalid scaling expected-failure entry: {name}")
+  let mut passed := true
+  for row in rows do
+    let ok ← check row (expectedFailures.lookup row.name)
+    passed := passed && ok
+  unless quadratic (chain 480 0) == (480 * 481 / 2, 480 * 480) do
+    throw (IO.userError "planted quadratic checksum or work mismatch")
+  let control ← check ⟨"planted quadratic", chain, 30, fun f => .ok (quadratic f).2⟩
+    (some "planted control")
+  return if passed && control then 0 else 1

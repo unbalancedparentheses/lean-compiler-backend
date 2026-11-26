@@ -139,7 +139,7 @@ private def validateDebug (f : Source.Function) (debug : DebugInput) : Except Co
     lastOrigin := some (originKey origin)
 
 /-- Checking input is independent of module state and does not grant evidence. -/
-def validateJob (job : FunctionJob) : Except CompileError Unit := do
+def validateJobWithWork (job : FunctionJob) : Except CompileError Nat := do
   let c := job.code
   if c.version != 1 || c.sourceSemantics != "ssa-int-v2" || c.targetSemantics != "a64-leaf-v2" ||
       c.target != "aarch64-apple-darwin-leaf-int-v1" || c.pipeline != "stack-baseline-v1" ||
@@ -149,12 +149,17 @@ def validateJob (job : FunctionJob) : Except CompileError Unit := do
     throw (.invalidJob "invalid symbol identity")
   if !c.imports.isEmpty || !c.consumedFacts.isEmpty then
     throw (.unsupported "imports or optimization facts in a leaf job")
-  match validateSource c.body with
-  | .error e => throw (.admission e)
-  | .ok () => pure ()
+  let work ← (validateSourceWithWork c.body).mapError CompileError.admission
   if c.abi != planAbi c.body then throw (.invalidJob "ABI plan does not match source signature/profile")
   if c.layout != planFrame c.body then throw (.invalidJob "frame plan does not match source definitions")
   validateDebug c.body job.debug
+  return work
+
+def validateJob (job : FunctionJob) : Except CompileError Unit :=
+  (validateJobWithWork job).map (fun _ => ())
+
+theorem validateJobWithWork_result (job : FunctionJob) :
+    (validateJobWithWork job).map (fun _ => ()) = validateJob job := rfl
 
 /-- The driver freezes all inputs. Workers receive this record, never a module. -/
 def prepareJob (f : Function) (namespaceName : String) (requested := EvidenceRequest.none)
@@ -171,20 +176,27 @@ def prepareJob (f : Function) (namespaceName : String) (requested := EvidenceReq
 
 /-- Pure compilation through checked structural boundaries. Successful output
     is still uncertified: these executable checks are not preservation proofs. -/
-def compileFunction (job : FunctionJob) : Except CompileError FunctionArtifact := do
-  validateJob job
+def compileFunctionWithWork (job : FunctionJob) : Except CompileError (FunctionArtifact × Nat) := do
+  let work ← validateJobWithWork job
   if job.requested != .none then throw (.certificationUnavailable job.requested)
   let stackMIR ← (StackMIR.lower job.code.body job.code.layout).mapError
     (CompileError.verificationFailed "stack-lowering")
   (StackMIR.validate stackMIR).mapError (CompileError.verificationFailed "stack-legality")
   let assembly ← (TypedA64.select stackMIR).mapError (CompileError.verificationFailed "selection")
   (TypedA64.validate assembly).mapError (CompileError.verificationFailed "assembly-legality")
-  let fragment ← (TypedA64.render assembly job.code.symbol).mapError
+  let (fragment, lines) ← (TypedA64.renderWithWork assembly job.code.symbol).mapError
     (CompileError.verificationFailed "rendering")
   let code := { input := job.code, stackMIR, assembly, fragment : CodeArtifact }
-  pure {
+  pure ({
     code, debug := { code, input := job.debug }, proofProfile := job.proof
-    verification := .uncertified #["source-profile", "abi-plan", "frame-plan", "stack-legality", "assembly-legality"] }
+    verification := .uncertified #["source-profile", "abi-plan", "frame-plan", "stack-legality", "assembly-legality"]
+  }, work + lines)
+
+def compileFunction (job : FunctionJob) : Except CompileError FunctionArtifact :=
+  (compileFunctionWithWork job).map Prod.fst
+
+theorem compileFunctionWithWork_result (job : FunctionJob) :
+    (compileFunctionWithWork job).map Prod.fst = compileFunction job := rfl
 
 /-- Acceptance recomputes the pure baseline and compares the exact complete
     artifact. This binds input/output but is not a semantic-preservation checker. -/

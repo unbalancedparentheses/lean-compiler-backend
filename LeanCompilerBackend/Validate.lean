@@ -89,13 +89,6 @@ private def predecessorLookupIndexed (f : Function) : PredecessorLookup :=
   funext name
   exact (predecessors_fold f.blocks.toList name).symm
 
-private def compatibilityDominance (graph : CFG.Graph) : Except String (String → String → Bool) :=
-  (CFG.dominators graph).map CFG.Dominators.contains
-
--- This checks the entire fallible solver call, including its error result.
-private theorem compatibilityDominance_eq (graph : CFG.Graph) :
-    compatibilityDominance graph = (CFG.dominators graph).map CFG.Dominators.contains := rfl
-
 private structure Definition where
   name : String
   width : Width
@@ -298,14 +291,17 @@ private def checkSection := Section.checkAny
   | some graph => ⟨fun label => (graph.indices[label]?).bind (fun i => blocks[i]?)⟩
   | none => NameIndex.first Block.label blocks
 
-private def validateFunctionGraphUsing
+private def validateFunctionGraphWithWorkUsing
     (collect : Function → Except String (NameIndex.Lookup String Definition))
-    (f : Function) (scalable : Bool) : Except String (Option CFG.Graph) := do
+    (f : Function) (scalable : Bool) : Except String (Option CFG.Graph × Nat) := do
+  let mut work := 0
   checkSection f.customSection
   if f.debugFile.any (·.contains '\x00') then throw "debug filename must not contain NUL"
   for block in f.blocks do
+    work := work + 1
     let mut previous := 0
     for location in block.debugLocations do
+      work := work + 1
       if f.debugFile.isNone then throw "debug location requires a filename"
       if location.instruction < previous || location.instruction > block.instructions.size then
         throw "debug location instruction index is invalid"
@@ -341,18 +337,26 @@ private def validateFunctionGraphUsing
     let known := NameIndex.members names
     let entry := f.blocks[0]!.label
     for block in f.blocks do
+      work := work + 1
       for target in block.terminator.successors do
+        work := work + 1
         if !known.contains target then throw s!"unknown block @{target}"
         if target == entry then throw "QBE entry block must not be a jump target"
   let definitions ← if scalable then collectCompatibility f else collect f
   let predsByName := if scalable then ⟨fun _ => []⟩ else predecessorLookup f
-  let doms ← match graph with
-    | some graph => compatibilityDominance graph
-    | none => (fun members useBlock definitionBlock => members.contains (useBlock, definitionBlock)) <$> (BoundedDominance.oracle names f.blocks[0]!.label
-        predsByName.get (f.blocks.size * f.blocks.size + 1))
+  let (doms, dominanceWork) ← match graph with
+    | some graph => do
+      let (doms, visits) ← CFG.dominatorsWithWork graph
+      pure (doms.contains, visits)
+    | none => do
+      let (members, visits) ← BoundedDominance.oracleWithWork names f.blocks[0]!.label
+        predsByName.get (f.blocks.size * f.blocks.size + 1)
+      pure (fun useBlock definitionBlock => members.contains (useBlock, definitionBlock), visits)
+  work := work + dominanceWork
   let blockByName := if f.blocks.all (·.phis.isEmpty) then ⟨fun _ => none⟩
     else validationBlockLookup f.blocks graph
   for block in f.blocks do
+    work := work + 1
     if !block.phis.isEmpty then
       let preds := match graph with
         | some graph =>
@@ -361,15 +365,18 @@ private def validateFunctionGraphUsing
         | none => predsByName.get block.label
       let predSet := NameIndex.members preds
       for phi in block.phis do
+        work := work + 1
         let incoming := phi.incoming.toList.map (·.1)
         if incoming.isEmpty || (NameIndex.dedup incoming).length != incoming.length
             || incoming.length != preds.length || !incoming.all predSet.contains then
           throw s!"phi %{phi.destination}: incoming labels must match block predecessors exactly"
         for (label, value) in phi.incoming do
+          work := work + 1
           let some pred := blockByName.get label
             | throw s!"unknown phi predecessor @{label}"
           checkOperand definitions doms label (pred.instructions.size + 1) phi.width value phi.floating
     for i in [:block.instructions.size] do
+      work := work + 1
       let check := fun width value => checkOperand definitions doms block.label (i + 1) width value false
       let checkFloat := fun width value => checkOperand definitions doms block.label (i + 1) width value true
       match block.instructions[i]! with
@@ -456,7 +463,12 @@ private def validateFunctionGraphUsing
       | _, _ => throw "return value disagrees with function result type"
     | .branch value _ _ => check .word value
     | .jump _ | .halt => pure ()
-  pure graph
+  pure (graph, work)
+
+private def validateFunctionGraphUsing
+    (collect : Function → Except String (NameIndex.Lookup String Definition))
+    (f : Function) (scalable : Bool) : Except String (Option CFG.Graph) :=
+  (validateFunctionGraphWithWorkUsing collect f scalable).map Prod.fst
 
 /-- `validateFunction`, also returning the indexed CFG it builds on the scalable path. -/
 def validateFunctionGraph (f : Function) (scalable : Bool := false) :
@@ -467,6 +479,9 @@ def validateFunctionGraph (f : Function) (scalable : Bool := false) :
 theorem validateFunctionGraph_eq_indexedDeclarations (f : Function) (scalable : Bool) :
     validateFunctionGraph f scalable = validateFunctionGraphUsing collectIndexed f scalable :=
   congrArg (fun collect => validateFunctionGraphUsing collect f scalable) collectReference_eq_indexed
+
+def validateFunctionWithWork (f : Function) (scalable : Bool := false) : Except String Nat :=
+  (validateFunctionGraphWithWorkUsing collectReference f scalable).map Prod.snd
 
 def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
   discard (validateFunctionGraph f scalable)
@@ -514,15 +529,16 @@ def callResultMatches (callee : Function) (width : Option Width) (floating : Boo
       (width == callee.resultWidth ||
         (!floating && subword.isNone && aggregate.isNone && callee.resultWidth == some .word && width == some .long)))
 
-def validate (program : Program) (aliases : Array (String × String) := #[]) : Except String Unit := do
+private def validateWithWork (program : Program) (aliases : Array (String × String) := #[]) : Except String Nat := do
+  let mut work := 0
   if program.isEmpty then throw "program contains no functions"
   if program.size > maxCompatibilityFunctions then throw s!"program exceeds {maxCompatibilityFunctions}-function limit"
   let mut definitions : Std.HashMap String Function := {}
   for f in program do
     if definitions.contains f.name then throw ("duplicate function $" ++ f.name)
     definitions := definitions.insert f.name f
-    match validateFunction f true with
-    | .ok () => pure ()
+    match validateFunctionWithWork f true with
+    | .ok visits => work := work + visits
     | .error message => throw s!"function ${f.name}: {message}"
   -- External symbols have no declaration in QBE IL. Their ABI is an explicit
   -- link-time assumption; check exact signatures when the definition is present.
@@ -541,7 +557,12 @@ def validate (program : Program) (aliases : Array (String × String) := #[]) : E
               if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword || !Aggregate.signatureMatches aliases arguments[i]!.aggregate callee.parameters[i]!.aggregate then
                 throw s!"call ${target}: argument type disagrees with its definition"
 
-def validateModule (module : Module) : Except String Unit := do
+  return work
+
+def validate (program : Program) (aliases : Array (String × String) := #[]) : Except String Unit :=
+  (validateWithWork program aliases).map (fun _ => ())
+
+def validateModuleWithWork (module : Module) : Except String Nat := do
   discard (Aggregate.layouts module.types)
   let checkType := fun name => do
     if let some name := name then
@@ -556,7 +577,8 @@ def validateModule (module : Module) : Except String Unit := do
           for argument in arguments do checkType argument.aggregate
   if module.functions.isEmpty && module.data.isEmpty && module.types.isEmpty then
     throw "module contains no definitions"
-  if !module.functions.isEmpty then validate module.functions (Aggregate.signatureAliases module.types)
+  let work ← if module.functions.isEmpty then pure 0
+    else validateWithWork module.functions (Aggregate.signatureAliases module.types)
   if module.data.size > maxCompatibilityDataDefinitions then
     throw s!"module exceeds the {maxCompatibilityDataDefinitions}-data-definition resource limit"
   let mut names := module.functions.toList.map (·.name)
@@ -606,5 +628,13 @@ def validateModule (module : Module) : Except String Unit := do
         if let some (.direct target, _, _) := statement.callSite then
           if module.data.any (·.name == target) then
             throw s!"call ${target}: symbol is defined as data"
+
+  return work
+
+def validateModule (module : Module) : Except String Unit :=
+  (validateModuleWithWork module).map (fun _ => ())
+
+theorem validateModuleWithWork_result (module : Module) :
+    (validateModuleWithWork module).map (fun _ => ()) = validateModule module := rfl
 
 end LeanCompilerBackend

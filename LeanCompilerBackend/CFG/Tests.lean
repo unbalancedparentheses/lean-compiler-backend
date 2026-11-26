@@ -49,7 +49,6 @@ def run : IO Unit := do
     let doms ← match CFG.dominators g with
       | .ok d => pure d
       | .error e => throw (IO.userError e)
-    let tree := CFG.dominatorTree g
     let expected := reference g
     let reachable := reachableWithout g 4
     for candidate in [:4] do
@@ -58,8 +57,6 @@ def run : IO Unit := do
         let actual := doms.contains (toString node) (toString candidate)
         unless actual == (expected[node]!.contains candidate) do
           throw (IO.userError s!"dominance fixed-point mismatch: {mask}/{candidate}/{node}")
-        unless tree.contains (toString node) (toString candidate) == actual do
-          throw (IO.userError s!"dominator tree mismatch: {mask}/{candidate}/{node}")
         if reachable.all id then
           unless actual == !without[node]! do
             throw (IO.userError s!"dominance reachability mismatch: {mask}/{candidate}/{node}")

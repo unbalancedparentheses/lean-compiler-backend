@@ -52,33 +52,45 @@ Reports identify native, emulated and emission-only results separately.
 
 ## TRACKED
 
-The scaling gate prints timings and threshold verdicts for known-tracked rows.
-A threshold miss on those rows is informational. Validation or emission errors
-still fail the gate, as do threshold misses on the other production rows.
+The required scaling gate counts deterministic work in the compiler. It
+counts validation visits, dominance rows and predecessor/successor probes,
+indexed edge and phi-operand lookups, rendered function lines, and candidates
+inspected by AArch64 debug lookahead. Public entry points project their
+results from the counted implementation. The counted packed dominance solver
+also has a Lean equality to the reference oracle, including its error result.
 
-- **Bidirectional chain dominance.** The numbered solver needs 2, 30 and 62
-  whole-graph sweeps at 4, 32 and 64 blocks. Round 3 measured job validation
-  at 32.1–34.0× and 285.9–296.6×, and typed AArch64 assembly at 24.0–25.1×
-  and 190.2–198.2×, for 8× and 16× block growth.
-- **64-block masks and repeated ordered-map rebuilds.** The restricted solver
+For fixture sizes `n`, `8n`, and `16n`, the gate compares all three pairwise
+ratios against the growth of `n * (1 + floor(log2(n)))`. This allows linear
+traversals and logarithmic ordered-index work on these fixtures. Each lookup
+counts as one logical operation, and each rendered line has unit cost. The
+planted quadratic control must exceed the same limits.
+
+| Expected rejection | Tracked issue |
+| --- | --- |
+| Bidirectional chain job validation | Bidirectional chain dominance |
+| Bidirectional chain AArch64 macOS assembly | Bidirectional chain dominance |
+| Allocated AArch64 debug locations | AArch64 debug-location lookahead |
+
+Every expected rejection must still exceed the work limit. If the row meets
+the limit, CI fails until the expected-failure entry is removed. Compiler
+errors fail every row, including expected rejections.
+
+- **Bidirectional chain dominance.** The numbered solver needs 2, 30, and 62
+  whole-graph sweeps at 4, 32, and 64 blocks. The typed AArch64 path runs this
+  solver during job validation. Compatibility x86-64 uses the indexed CFG
+  worklist and passes the work gate.
+- **AArch64 debug-location lookahead.** In the allocated path, lookahead can
+  scan the full location array for each ordinary instruction when all records
+  point to the terminator.
+- **64-block masks and repeated ordered-map rebuilds.** The packed solver
   rebuilds string-keyed tables and promotes masks with bit 63 set to heap
-  integers. From 63 to 64 blocks the isolated solver rose from 85,855 to
-  130,033 ns/call on the reverse ladder and from 918,934 to 1,972,894 ns/call
-  on the bidirectional chain. On the reverse ladder, round 3 measured
-  29.8–30.5× job validation and 29.2–30.0× typed AArch64 assembly at 16×
-  block growth. The fixture also grows from 4 to 124 edges. With the restored
-  compatibility solver, reverse-ladder x86-64 assembly grew 2.68× from
-  32 to 64 blocks, above the gate's 2.5× threshold.
-- **AArch64 debug locations with allocation enabled.** Lookahead scans the
-  entire location array for each ordinary instruction when all locations
-  point to the terminator. With 128, 1,024 and 2,048 instructions and the same
-  number of location records, emission took 0.479, 5.509 and 13.540 ms/call
-  (11.50× and 28.28× growth).
+  integers. Earlier timing runs crossed the former wall-clock limit on the
+  reverse ladder, whose edge count also rises from 4 to 124 across the
+  fixture. Its measured work passes the deterministic gate on all three paths.
 
-Other round 3 follow-ups are whole-function equality coverage for the
-lowering and emission glue, reverse-ladder fixture size calibration, the
-long-width phi fixture's literal types, and scans in job debug-source lookup,
-compatibility symbol and slot lookup, and RV64 emission.
+Other follow-ups include whole-function equality coverage for lowering and
+emission glue, reverse-ladder fixture size calibration, and scans in job
+debug-source lookup, compatibility symbol and slot lookup, and RV64 emission.
 
 ## Targets and command line
 

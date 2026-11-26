@@ -267,7 +267,7 @@ private theorem readIncomingReference_eq :
   | some pair => cases pair; simp
 
 @[inline] private def admitUsing (prepareIncoming : Function → IncomingReaders) (f : Function) :
-    Except AdmissionError Source.Function := do
+    Except AdmissionError (Source.Function × Nat) := do
   if !validIdentifier f.name then throw (.unsupported "quoted global names")
   if f.customSection.isSome then throw (.unsupported "custom sections")
   if f.resultAggregate.isSome || f.parameters.any (·.aggregate.isSome) then throw (.unsupported "aggregate function signatures")
@@ -280,9 +280,7 @@ private theorem readIncomingReference_eq :
   let definitions := f.blocks.foldl (fun n b => n + b.phis.size + b.instructions.size) 0
   limit "definitions" definitions 480
   let some resultWidth := f.resultWidth | throw (.unsupported "void result")
-  match validateFunction f with
-  | .error error => throw (.invalidInput error)
-  | .ok () => pure ()
+  let work ← (validateFunctionWithWork f).mapError AdmissionError.invalidInput
   if !(f.blocks[0]!.phis.isEmpty) then throw (.invalidInput "entry phis")
   if reachableCount f != f.blocks.size then throw (.unsupported "unreachable blocks")
   let locals := f.locals
@@ -320,22 +318,33 @@ private theorem readIncomingReference_eq :
         pure (.branch (← operand locals ids .word condition) (← blockId blockIds yes) (← blockId blockIds no))
       | .halt => throw (.unsupported "halt/traps")
     blocks := blocks.push ({ phis, instructions, terminator } : Source.Block)
-  pure { resultWidth, parameters := f.parameters.map (·.width),
-         valueWidths := locals.map (·.2), blocks }
+  pure ({ resultWidth, parameters := f.parameters.map (·.width),
+          valueWidths := locals.map (·.2), blocks }, work)
 
 /-- Import only the current first-path profile into raw locally numbered syntax. The result is
     not proof-carrying and must not satisfy a certification request. -/
-def admit (f : Function) : Except AdmissionError Source.Function :=
+def admitWithWork (f : Function) : Except AdmissionError (Source.Function × Nat) :=
   admitUsing readIncomingReference f
 
-private def admitIndexed (f : Function) : Except AdmissionError Source.Function :=
+private def admitWithWorkIndexed (f : Function) : Except AdmissionError (Source.Function × Nat) :=
   admitUsing (readIncomingUsing incomingOrdersIndexed) f
+
+@[csimp] theorem admitWithWork_eq_indexed : admitWithWork = admitWithWorkIndexed := by
+  funext f
+  unfold admitWithWork admitWithWorkIndexed
+  rw [readIncomingReference_eq, incomingOrders_eq_indexed]
+
+def admit (f : Function) : Except AdmissionError Source.Function :=
+  (admitWithWork f).map Prod.fst
+
+private def admitIndexed (f : Function) : Except AdmissionError Source.Function :=
+  (admitWithWorkIndexed f).map Prod.fst
 
 /-- The effectful admission loop preserves the whole result, including the
     first error raised while resolving a predecessor or its operand. -/
 @[csimp] theorem admit_eq_indexedIncoming : admit = admitIndexed := by
   funext f
   unfold admit admitIndexed
-  rw [readIncomingReference_eq, incomingOrders_eq_indexed]
+  rw [admitWithWork_eq_indexed]
 
 end LeanCompilerBackend.Verified
