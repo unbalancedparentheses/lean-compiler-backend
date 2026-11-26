@@ -38,11 +38,18 @@ private def reachableWithout (g : Graph) (removed : Nat) : Array Bool := Id.run 
   return reached
 
 def run : IO Unit := do
+  let inconsistent : Graph := { successors := #[#[1, 2], #[], #[]]
+                                predecessors := #[#[], #[2], #[]] }
+  match CFG.dominators inconsistent with
+  | .ok result => unless result.sets == #[1, 7, 4] do
+      throw (IO.userError "public dominance changed on directly constructed graph")
+  | .error e => throw (IO.userError e)
   for mask in [:4096] do
     let g := graph mask
     let doms ← match CFG.dominators g with
       | .ok d => pure d
       | .error e => throw (IO.userError e)
+    let tree := CFG.dominatorTree g
     let expected := reference g
     let reachable := reachableWithout g 4
     for candidate in [:4] do
@@ -51,6 +58,8 @@ def run : IO Unit := do
         let actual := doms.contains (toString node) (toString candidate)
         unless actual == (expected[node]!.contains candidate) do
           throw (IO.userError s!"dominance fixed-point mismatch: {mask}/{candidate}/{node}")
+        unless tree.contains (toString node) (toString candidate) == actual do
+          throw (IO.userError s!"dominator tree mismatch: {mask}/{candidate}/{node}")
         if reachable.all id then
           unless actual == !without[node]! do
             throw (IO.userError s!"dominance reachability mismatch: {mask}/{candidate}/{node}")

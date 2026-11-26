@@ -46,6 +46,17 @@ private def reverseLadder (n seed : Nat) : Source.Function :=
         else .branch value (number (i + 1)) (number (i + 2))
       { phis := #[], instructions := #[], terminator } }
 
+-- Entry edges to both endpoints make the cycle irreducible.
+private def bidirectionalChain (n seed : Nat) : Source.Function :=
+  let condition := Source.Operand.literal (.word (BitVec.ofNat 32 (seed + 1)))
+  { resultWidth := .word, parameters := #[], valueWidths := #[]
+    blocks := (Array.range n).map fun i =>
+      { phis := #[], instructions := #[], terminator :=
+          if i == 0 then .branch condition 1 (n - 1)
+          else if i == 1 then .jump 2
+          else if i + 1 == n then .jump (i - 1)
+          else .branch condition (i - 1) (i + 1) } }
+
 private def jumpChain (n seed : Nat) : Source.Function :=
   { resultWidth := .word, parameters := #[], valueWidths := #[]
     blocks := (Array.range n).map fun i =>
@@ -160,22 +171,21 @@ private def checkCompatibility (name : String) (fixture : Nat → Nat → Source
   return x86 && a64
 
 def main (args : List String) : IO UInt32 := do
-  -- Use one machine representation for timed masks, then exercise the
-  -- arbitrary-precision boundary separately at the full profile ceiling.
-  let ladderOK ← checkFixture "reverse ladder" (fun n => reverseLadder (min n 62)) 4
-  let ceiling := reverseLadder 64 0
-  for run in [validation, (fun f => (linux f).map String.utf8ByteSize), arm] do
-    match run ceiling with
-    | .ok _ => pure ()
-    | .error e => throw (IO.userError e)
+  let ladderOK ← checkFixture "reverse ladder" reverseLadder 4
+  let bidirectionalOK ← checkFixture "bidirectional chain" bidirectionalChain 4
   let chainOK ← checkFixture "chain" chain 30
   let cfgOK ← checkFixture "checked chain" (checkedChain false) 3
   let loopOK ← checkFixture "loop chain" (checkedChain true) 3
   let phiOK ← checkFixture "phi join" (fun n seed => phiJoin 8 n seed) 15
   let edgesOK ← checkCompatibility "jump chain" jumpChain 256
+  let publicArm := fun f =>
+    (AArch64.emitModule { functions := #[reify f "body" true] }).map String.utf8ByteSize
+  let publicEdgesOK ← check "jump chain public AArch64 assembly" jumpChain 256 publicArm false
+  let publicCycleOK ← check "bidirectional chain public AArch64 assembly"
+    bidirectionalChain 16 publicArm false
   let stagingOK ← checkCompatibility "two-way phi join" (fun n seed => phiJoin 2 n seed .long) 128
   let fanInOK ← checkCompatibility "phi fan-in" (fun n seed => phiJoin n 8 seed) 128
   unless quadratic (chain 480 0) == 480 * 481 / 2 do
     throw (IO.userError "planted quadratic checksum mismatch")
   let control ← check "planted quadratic" chain 30 (fun f => .ok (quadratic f)) true
-  return if (chainOK && cfgOK && loopOK && phiOK && ladderOK && edgesOK && stagingOK && fanInOK && control) || args == ["--report-only"] then 0 else 1
+  return if (chainOK && cfgOK && loopOK && phiOK && ladderOK && bidirectionalOK && edgesOK && publicEdgesOK && publicCycleOK && stagingOK && fanInOK && control) || args == ["--report-only"] then 0 else 1

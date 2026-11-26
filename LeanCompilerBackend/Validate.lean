@@ -91,7 +91,7 @@ private def predecessorLookupIndexed (f : Function) : PredecessorLookup :=
 
 private inductive Dominators where
   | reference (contains : NameIndex.Membership (String × String))
-  | indexed (sets : CFG.Dominators)
+  | indexed (sets : CFG.DominatorTree)
 
 private def Dominators.contains : Dominators → String → String → Bool
   | .reference members, useBlock, definitionBlock => members.contains (useBlock, definitionBlock)
@@ -348,7 +348,7 @@ private def validateFunctionGraphUsing
   let definitions ← if scalable then collectCompatibility f else collect f
   let predsByName := if scalable then ⟨fun _ => []⟩ else predecessorLookup f
   let doms ← match graph with
-    | some graph => Dominators.indexed <$> CFG.dominators graph
+    | some graph => pure (.indexed (CFG.dominatorTree graph))
     | none => Dominators.reference <$> (BoundedDominance.oracle names f.blocks[0]!.label
         predsByName.get (f.blocks.size * f.blocks.size + 1))
   let blockByName := if f.blocks.all (·.phis.isEmpty) then ⟨fun _ => none⟩
