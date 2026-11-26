@@ -98,10 +98,7 @@ def validate (f : Function) : Except String Unit := do
   if f.frameBytes > 4080 || f.frameBytes % 16 != 0 || f.parameters.size > 8 then
     throw "invalid assembly frame/signature"
   if (f.blocks[0]?).map (·.label) != some .entry then throw "missing assembly entry"
-  let mut labels : Array Label := #[]
-  for block in f.blocks do
-    if labels.contains block.label then throw "duplicate assembly label"
-    labels := labels.push block.label
+  let labels ← StackMIR.labelSet (f.blocks.map (·.label)) "duplicate assembly label"
   for block in f.blocks do
     if block.instructions.isEmpty then throw "empty assembly block"
     let mut active := block.label != .entry || f.frameBytes == 0
@@ -189,6 +186,21 @@ private def renderInstruction (symbol : String) : Instruction → String
   | .jump target => s!"\tb {labelName symbol target}"
   | .ret => "\tret"
 
+private def blockLines (symbol : String) (block : Block) : List String :=
+  (labelName symbol block.label ++ ":") :: block.instructions.toList.map (renderInstruction symbol)
+
+private def renderLines (symbol : String) (blocks : Array Block) (header : List String) :
+    List String :=
+  blocks.foldl (fun lines block => lines ++ blockLines symbol block) header
+
+private def renderLinesLinear (symbol : String) (blocks : Array Block) (header : List String) :
+    List String :=
+  header ++ blocks.toList.flatMap (blockLines symbol)
+
+@[csimp] theorem renderLines_eq_linear : renderLines = renderLinesLinear := by
+  funext symbol blocks header
+  simp [renderLines, renderLinesLinear, ← Array.foldl_toList, List.flatMap]
+
 def render (f : Function) (symbol : Symbol) : Except String String := do
   validate f
   let validName := !symbol.name.isEmpty && symbol.name.toList.all (fun c =>
@@ -198,9 +210,6 @@ def render (f : Function) (symbol : Symbol) : Except String String := do
   let mut lines := [s!"; function {symbol.name}; uncertified typed stack baseline"]
   if symbol.exported then lines := lines ++ [s!".globl _{symbol.name}"]
   lines := lines ++ [".p2align 2", s!"_{symbol.name}:"]
-  for block in f.blocks do
-    lines := lines ++ [labelName symbol.name block.label ++ ":"]
-    lines := lines ++ block.instructions.toList.map (renderInstruction symbol.name)
-  pure (String.intercalate "\n" (lines ++ [""]))
+  pure (String.intercalate "\n" (renderLines symbol.name f.blocks lines ++ [""]))
 
 end LeanCompilerBackend.Verified.TypedA64

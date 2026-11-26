@@ -237,3 +237,22 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Algebra.mul_zero_left_preserves
 #print axioms LeanCompilerBackend.Verified.Algebra.andBits_zero_right_preserves
 #print axioms LeanCompilerBackend.Verified.Algebra.andBits_zero_left_preserves
+
+-- Exact compiler replacements used by numbered admission and assembly.
+#print axioms LeanCompilerBackend.NameIndex.first_eq_indexed
+#print axioms LeanCompilerBackend.NameIndex.position_eq_indexed
+#print axioms LeanCompilerBackend.NameIndex.members_eq_indexed
+#print axioms LeanCompilerBackend.NameIndex.dedup_eq_indexed
+#print axioms LeanCompilerBackend.BoundedDominance.oracle_eq_packed
+#print axioms LeanCompilerBackend.Verified.Reachability.count_eq_frontier
+#print axioms LeanCompilerBackend.Assembly.foldLines_eq_linear
+#print axioms LeanCompilerBackend.predecessorLookup_eq_indexed
+#print axioms LeanCompilerBackend.collectReference_eq_indexed
+#print axioms LeanCompilerBackend.BoundedDominance.packedSolve_eq_worklist
+#print axioms LeanCompilerBackend.BoundedDominance.packedBlocks_eq_indexed
+#print axioms LeanCompilerBackend.BoundedDominance.indexedRows_eq_fast
+#print axioms LeanCompilerBackend.Verified.StackMIR.labelSetUsing_eq_indexed
+#print axioms LeanCompilerBackend.Verified.StackMIR.edgeLowerers_eq_indexed
+#print axioms LeanCompilerBackend.Verified.StackMIR.stageReads_eq_indexed
+#print axioms LeanCompilerBackend.Verified.TypedA64.renderLines_eq_linear
+#print axioms LeanCompilerBackend.Verified.incomingOrders_eq_indexed

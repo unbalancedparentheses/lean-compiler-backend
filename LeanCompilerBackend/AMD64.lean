@@ -401,14 +401,13 @@ private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
 private def label (darwin : Bool) (f : Function) (name : String) : String := s!"{if darwin then "L" else ".L"}_lcb_{f.name.length}_{Assembly.localName f.name}_{name}"
 private def edge (c : Context) (f : Function) (source target : String) : Except String (List String) := do
   let some block := f.blocks.find? (·.label == target) | throw "missing edge target"
-  let mut lines := []
-  for i in [:block.phis.size] do
+  let indices := List.range block.phis.size
+  let staged ← Assembly.foldLines indices (fun i => do
     let phi := block.phis[i]!
     let some (_, value) := phi.incoming.find? (·.1 == source) | throw "missing phi incoming"
-    lines := lines ++ (← load c phi.width "rax" value) ++ [s!"\tmovq %rax, -{c.stage+i*8}(%rbp)"]
-  for i in [:block.phis.size] do
-    lines := lines ++ [s!"\tmovq -{c.stage+i*8}(%rbp), %rax"] ++ (← store c block.phis[i]!.destination)
-  pure lines
+    pure ((← load c phi.width "rax" value) ++ [s!"\tmovq %rax, -{c.stage+i*8}(%rbp)"])) []
+  Assembly.foldLines indices (fun i => do
+    pure ([s!"\tmovq -{c.stage+i*8}(%rbp), %rax"] ++ (← store c block.phis[i]!.destination))) staged
 
 private def leafGP : Array String := savedGP ++ #["r8", "r9"]
 

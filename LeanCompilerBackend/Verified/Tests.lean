@@ -250,6 +250,24 @@ jmp @loop
   let renamed ← admitted (swap.replace "%a" "%renamed")
   require (decide (f = renamed)) "temporary names must not affect numbered syntax"
 
+private def canonicalDiagnostics : IO Unit := do
+  let f ← admitted swap
+  let some loop := f.blocks[1]? | throw (IO.userError "missing loop block")
+  let some phi := loop.phis[0]? | throw (IO.userError "missing loop phi")
+  let check (bad : Source.Function) (expected : AdmissionError) : IO Unit :=
+    require (match validateSource bad with
+      | .error actual => decide (actual = expected)
+      | .ok _ => false) s!"canonical validation should report {repr expected}"
+  let reversed := { phi with incoming := phi.incoming.reverse }
+  check { f with blocks := f.blocks.set! 1 { loop with phis := loop.phis.set! 0 reversed } }
+    (.invalidInput "noncanonical numbered source or inconsistent widths")
+  let duplicate := { phi with destination := 0 }
+  let badDefs := f.blocks.set! 1 { loop with phis := loop.phis.set! 0 duplicate }
+  check { f with blocks := badDefs } (.invalidInput "duplicate SSA definition or duplicate parameter %v0")
+  let some entry := f.blocks[0]? | throw (IO.userError "missing entry block")
+  check { f with blocks := badDefs.set! 0 { entry with terminator := .jump 99 } }
+    (.invalidInput "unknown block @b99")
+
 private def admissionFailures : IO Unit := do
   for text in [
       "function $f() { @s ret }",
@@ -381,6 +399,7 @@ def run : IO Unit := do
   undefinedDivision
   control
   admissionFailures
+  canonicalDiagnostics
   faultControls
   IO.println "first-path source semantics/admission checks passed"
 

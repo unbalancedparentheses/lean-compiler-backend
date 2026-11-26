@@ -65,7 +65,8 @@
               runHook preBuild
               export HOME="$TMPDIR/lcb-home"
               mkdir -p "$HOME"
-              lake build lcb lcb-tests
+              export LEAN_NUM_THREADS="''${NIX_BUILD_CORES:-2}"
+              lake build lcb lcb-tests lcb-scaling
               runHook postBuild
             '';
             doCheck = true;
