@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# Assemble a frontend with the exact pinned Lean compiler and one instrumented
-# object. Static linking makes both LCNF lookup sites use the recorder.
+# Assemble a frontend with the exact pinned Lean compiler with its central rewrite
+# lookup instrumented. The pinned shell writes the journal after emitting C.
 set -euo pipefail
 out=$1
-pinned=$(lean --print-prefix)
-mkdir -p "$out/bin" "$out/source/Lean/Compiler" "$out/driverlib"
+pinned=${2:-$(lean --print-prefix)}
+mkdir -p "$out/bin" "$out/source/Lean/Compiler"
 out=$(realpath "$out")
 ln -sfn "$pinned/lib" "$out/lib"
 ln -sfn "$pinned/include" "$out/include"
@@ -34,21 +34,40 @@ for old, new in [
         sys.exit(f"pinned Lean CSimp lookup has changed: {old!r}")
     text = text.replace(old, new)
 (out / "source" / source).write_text(text)
+
+shell = Path("Lean/Shell.lean")
+text = (pinned / "src/lean" / shell).read_text()
+for old, new in [
+    ("@[export lean_shell_main]", """@[extern "lean_lcb_csimp_journal"]
+private opaque rewriteJournal (_ : Unit) : BaseIO String
+
+@[export lean_shell_main]"""),
+    ("        out.write data.toUTF8\n", """        out.write data.toUTF8
+      if let some artifact := opts.oleanFileName? then
+        let digest ← IO.Process.run {cmd := "sha256sum", args := #[artifact.toString]}
+        IO.FS.writeFile (artifact.addExtension "csimp") <|
+          (← rewriteJournal ()) ++ (digest.take 64).toString ++ "\\n"
+"""),
+]:
+    if text.count(old) != 1:
+        sys.exit(f"pinned Lean shell has changed: {old!r}")
+    text = text.replace(old, new)
+(out / "source" / shell).write_text(text)
 PY
 LEAN_PATH= "$pinned/bin/lean" --root="$out/source" \
   -c "$out/csimp.c" "$out/source/Lean/Compiler/CSimpAttr.lean"
-LEAN_PATH= "$pinned/bin/lean" --root=scripts -o "$out/driverlib/ArithmeticMatches.olean" \
-  -c "$out/arithmetic.c" scripts/ArithmeticMatches.lean
-LEAN_PATH="$out/driverlib" "$pinned/bin/lean" --root=scripts -c "$out/driver.c" scripts/ProvenanceCompiler.lean
+LEAN_PATH= "$pinned/bin/lean" --root="$out/source" \
+  -c "$out/shell.c" "$out/source/Lean/Shell.lean"
+LEAN_PATH= "$pinned/bin/lean" --root=scripts -c "$out/driver.c" scripts/ProvenanceCompiler.lean
 cp "$pinned/lib/lean/libLean.a" "$out/libLean.a"
 chmod u+w "$out/libLean.a"
-member=CSimpAttr.c.o.export
-mapfile -t matches < <(ar t "$out/libLean.a" | grep -Fx "$member")
-if [[ ${#matches[@]} != 1 ]]; then
-  echo "expected exactly one $member in pinned libLean.a" >&2
-  exit 1
-fi
-ar d "$out/libLean.a" "$member"
+for member in CSimpAttr.c.o.export Shell.c.o.export; do
+  if [[ $(ar t "$out/libLean.a" | grep -Fxc "$member") != 1 ]]; then
+    echo "expected exactly one $member in pinned libLean.a" >&2
+    exit 1
+  fi
+  ar d "$out/libLean.a" "$member"
+done
 archives=("$out/libLean.a" "$pinned/lib/lean/libStd.a" "$pinned/lib/lean/libInit.a")
 if [[ $(uname -s) == Darwin ]]; then
   link=(-Wl,-export_dynamic)
@@ -57,4 +76,4 @@ else
   link=(-rdynamic -Wl,--whole-archive "${archives[@]}" -Wl,--no-whole-archive)
 fi
 LEAN_CC="${LEAN_CC:-${CC:-cc}}" "$pinned/bin/leanc" -L"$pinned/lib" \
-  -DLEAN_EXPORTING -o "$out/bin/lean" "$out/driver.c" "$out/csimp.c" "$out/arithmetic.c" "${link[@]}"
+  -DLEAN_EXPORTING -o "$out/bin/lean" "$out/driver.c" "$out/csimp.c" "$out/shell.c" "${link[@]}"

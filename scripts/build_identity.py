@@ -20,9 +20,6 @@ EXCLUDED = {'BuildIdentity.lean','FreshNameProofs.lean','AlgebraProofs.lean','Ma
 def expected():
     sources = [p for p in (ROOT/'LeanCompilerBackend').rglob('*.lean') if p.name not in EXCLUDED]
     sources += [ROOT/p for p in ['Main.lean','LeanCompilerBackend.lean','lakefile.toml','lake-manifest.json','lean-toolchain','flake.nix','flake.lock']]
-    sources += [ROOT/'scripts'/name for name in (
-        'ArithmeticMatches.lean', 'ProvenanceCompiler.lean', 'csimp-recorder.inc', 'prepare_provenance_compiler.sh',
-    )]
     entries = {p.relative_to(ROOT).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                for p in sorted(sources)}
     # The field/encoding/version is part of the identity protocol.

@@ -100,9 +100,12 @@ or invalid theorem or any transitive axiom other than `propext`,
 `Classical.choice`, and `Quot.sound`. This excludes proofs that rely on
 `sorry` or native evaluation.
 
-CI builds with the pinned Lean compiler instrumented at its central compiler
-rewrite lookup. The recorder stores the source declaration, replacement, and
-theorem from the active environment before returning the replacement. It
+The release build uses stock pinned Lean for the executable and module
+artifacts. CI also builds the audited module closure in a temporary Lake
+workspace with the same sources and Lake configuration. Its compiler uses
+the pinned Lean frontend with instrumentation at the central rewrite lookup.
+The recorder stores the source declaration, replacement, and theorem from
+the active environment before returning the replacement. It
 records local and elaborator-installed rewrites even when a scope later closes
 or optimization erases the rewritten call. The audit requires the resulting
 journal for each non-toolchain module it imports and verifies that the journal
@@ -113,21 +116,33 @@ closure also follows compiled bodies behind partial declarations. Backend
 diagnostics use total string renderers, and load forwarding indexes the
 address and load type structurally.
 
-The audit rejects initializer attributes from backend modules, including
-standalone startup actions and runtime replacements for kernel values. The
-arithmetic coverage linter is registered by the build frontend during
-elaboration. Its mutation controls use the same frontend.
+For each project module imported by the audit, CI checks the actual audit
+artifact path and requires byte-identical generated C and compiled Lean module
+artifacts from the stock build. Missing artifacts and differences fail the
+gate. Precompiled toolchain modules come from the same pinned installation in
+both builds. A planted local rewrite conditional on the stock Lean executable
+path makes the C differ and fails the gate.
 
-The Nix build links the recorder into the same compiler that emits the backend
-artifacts. To reproduce the checked build locally, start from a fresh Lake
-build directory and run:
+The transitive import graph of the audited backend modules may contain only
+the pinned `Init` and `Std` modules and the backend's own modules. This keeps
+the compiler and elaborator APIs outside the graph, including APIs for
+registering compiler passes and changing implementation overrides during
+elaboration. The gate checks ordinary and meta imports in source headers
+before compilation and verifies the compiled import graph during the audit.
+The audit scripts and test drivers run outside this closure.
+
+The audit rejects initializer attributes from backend modules, including
+standalone startup actions and runtime replacements for kernel values. CI
+runs the arithmetic coverage linter and its mutation controls in separate
+elaboration runs.
+
+Run the checked build locally with stock Lake in the pinned Nix shell.
+Use a fresh Lake build directory when switching from an instrumented build.
 
 ```sh
 export LEAN_NUM_THREADS=2
-export LCB_PROVENANCE_SYSROOT="$(mktemp -d)"
-bash scripts/prepare_provenance_compiler.sh "$LCB_PROVENANCE_SYSROOT"
-LAKE_OVERRIDE_LEAN=true LEAN_SYSROOT="$LCB_PROVENANCE_SYSROOT" \
-  lake build lcb lcb-tests lcb-scaling
+lean --run scripts/ExecutionClosure.lean --imports .
+lake --no-cache build lcb lcb-tests lcb-scaling
 bash scripts/check.sh
 ```
 

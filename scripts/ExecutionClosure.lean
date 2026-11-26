@@ -12,6 +12,31 @@ def moduleOf (env : Environment) (n : Name) : Name :=
 def runtimeModule (m : Name) : Bool :=
   m.getRoot == `Init || m.getRoot == `Std
 
+private def backendImports : Array Import :=
+  #[{module := `LeanCompilerBackend}, {module := `LeanCompilerBackend.Verified.Codec}]
+
+def checkImports (sourceRoot : System.FilePath) (controls : List String) : IO UInt32 := do
+  let mut pending := if controls.isEmpty then backendImports.toList.map (·.module)
+    else controls.map String.toName
+  let mut visited : Std.HashSet Name := {}
+  while let m :: rest := pending do
+    pending := rest
+    if visited.contains m then continue
+    visited := visited.insert m
+    let file := modToFilePath sourceRoot m "lean"
+    let (imports, _, messages) ← Elab.parseImports (← IO.FS.readFile file) (some file.toString)
+    if messages.hasErrors then
+      for message in messages.toList do IO.eprintln (← message.toString)
+      return 1
+    for entry in imports do
+      let dep := entry.module
+      if runtimeModule dep then continue
+      if dep.getRoot == `Lean || (controls.isEmpty && dep.getRoot != `LeanCompilerBackend) then
+        IO.eprintln s!"execution audit forbidden import {dep} in {m}"
+        return 1
+      pending := dep :: pending
+  return 0
+
 def partialImplementation? (env : Environment) (n : Name) (ci : ConstantInfo) :
     Option Name := do
   let .opaqueInfo _ := ci | none
@@ -240,10 +265,37 @@ private def addRewrite (rewrites : Rewrites) (m : Name)
   else
     rewrites.insert entry.fromDeclName (known.push (m, entry))
 
-def run (args : List String) : IO UInt32 := do
+structure BuildPair where
+  stockLib : System.FilePath
+  stockIR : System.FilePath
+  auditLib : System.FilePath
+  auditIR : System.FilePath
+
+private def checkCorrespondence (build : BuildPair) (m : Name)
+    (artifact : System.FilePath) : IO Unit := do
+  let expected ← IO.FS.realPath (modToFilePath build.auditLib m "olean")
+  unless artifact == expected do
+    throw (IO.userError s!"execution audit imported {m} from outside the audit build: {artifact}")
+  let compare (stock recorded : System.FilePath) (kind : String) : IO Unit := do
+    unless (← IO.FS.readBinFile stock) == (← IO.FS.readBinFile recorded) do
+      throw (IO.userError s!"execution audit build mismatch for {m}: {kind} differs from stock Lean")
+  compare (modToFilePath build.stockIR m "c") (modToFilePath build.auditIR m "c") "generated C"
+  for ext in ["olean", "olean.private", "olean.server", "ir", "ir.sig"] do
+    let stock := modToFilePath build.stockLib m ext
+    let recorded := modToFilePath build.auditLib m ext
+    let hasStock ← stock.pathExists
+    let hasRecorded ← recorded.pathExists
+    unless hasStock == hasRecorded do
+      throw (IO.userError s!"execution audit build mismatch for {m}: unequal {ext} artifact sets")
+    if hasStock || ext == "olean" then
+      compare stock recorded ext
+
+def run (args : List String) (build : Option BuildPair := none) : IO UInt32 := do
+  if args.isEmpty && build.isNone then
+    throw (IO.userError "the backend closure audit requires a stock build for comparison")
   let exceptions ← readExceptions
   let (imports, auditRoots) ← match args with
-    | [] => pure (#[{module := `LeanCompilerBackend}, {module := `LeanCompilerBackend.Verified.Codec}], roots)
+    | [] => pure (backendImports, roots)
     | module :: root :: rest => pure (#[{module := module.toName}], (root :: rest).toArray.map String.toName)
     | _ => throw (IO.userError "expected a control module followed by one or more roots")
   initSearchPath (← findSysroot)
@@ -256,13 +308,21 @@ def run (args : List String) : IO UInt32 := do
   let mut native : NativeDecls := {}
   let mut journals := #[]
   let mut invalid := false
+  let mut forbiddenImport := none
   for (m, idx) in env.header.moduleNames.toList.zipIdx do
     let artifact ← IO.FS.realPath (← findOLean m)
     if artifact.toString.startsWith (runtimeRoot.toString ++ "/") then
-      pure ()
+      -- Only Init and Std are available to backend elaboration. In particular,
+      -- no module in the import graph can expose the compiler mutation API.
+      if build.isSome && !runtimeModule m && forbiddenImport.isNone then
+        forbiddenImport := some m
     else if runtimeModule m || m.getRoot == `Lean then
       throw (IO.userError s!"{m} shadows the pinned Lean toolchain: {artifact}")
     else
+      if let some build := build then
+        unless !args.isEmpty || m.getRoot == `LeanCompilerBackend do
+          throw (IO.userError s!"execution audit import outside LeanCompilerBackend: {m}")
+        checkCorrespondence build m artifact
       for (kind, initAttr) in #[("init", regularInitAttr), ("builtin_init", builtinInitAttr)] do
         let entries := initAttr.ext.getModuleEntries env idx ++ initAttr.ext.getModuleIREntries env idx
         for (decl, action) in (Std.HashSet.ofArray entries).toArray do
@@ -295,7 +355,12 @@ def run (args : List String) : IO UInt32 := do
         unless runtimeModule (moduleOf env rewrite.thmName) do
           extraRoots := extraRoots.push rewrite.fromDeclName
         rewrites := addRewrite rewrites m rewrite
+  if let some m := forbiddenImport then
+    IO.eprintln s!"toolchain import outside Init and Std	{m}"
+    invalid := true
   if invalid then return 1
+  if build.isSome then
+    IO.println s!"execution audit correspondence: {journals.size} modules match stock Lean byte-for-byte"
   let report ← inspect env rewrites native exceptions (auditRoots ++ extraRoots)
   for msg in report.failures do IO.eprintln msg
   if args.isEmpty then
@@ -315,7 +380,7 @@ namespace ExecutionSource
 private def reservedAttr (stx : Syntax) : Option Name :=
   let attr := stx[1]
   let name := if attr.getKind == ``Parser.Attr.simple then attr[0].getId else .anonymous
-  if [`implemented_by, `init, `builtin_init].contains name then some name else none
+  if [`implemented_by, `cpass, `init, `builtin_init].contains name then some name else none
 
 private partial def reserved (stx : Syntax) : Option (Name × Syntax) :=
   if stx.getKind == ``Parser.Command.initialize then
@@ -360,5 +425,8 @@ end ExecutionSource
 
 unsafe def main (args : List String) : IO UInt32 :=
   match args with
+  | "--imports" :: sourceRoot :: controls => ExecutionClosure.checkImports sourceRoot controls
   | "--sources" :: files => ExecutionSource.check files
+  | "--compare" :: stockLib :: stockIR :: auditLib :: auditIR :: roots =>
+    ExecutionClosure.run roots (some ⟨stockLib, stockIR, auditLib, auditIR⟩)
   | _ => ExecutionClosure.run args

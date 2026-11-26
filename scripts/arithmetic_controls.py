@@ -18,7 +18,7 @@ def rejects(lean, env, root, relative, old, new, diagnostic):
     candidate.parent.mkdir(parents=True, exist_ok=True)
     candidate.write_text(original.replace(old, new, 1))
     result = subprocess.run(
-        [lean, relative, "-o", str(root / "control.olean")],
+        [lean, "--run", str(ROOT / "scripts/ArithmeticMatches.lean"), relative],
         cwd=root, env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
     )
     if result.returncode != 1 or diagnostic not in result.stdout:
@@ -26,7 +26,8 @@ def rejects(lean, env, root, relative, old, new, diagnostic):
 
 
 def main():
-    lean = str(Path(os.environ["LCB_PROVENANCE_SYSROOT"]).resolve() / "bin/lean")
+    prefix = subprocess.check_output(["lake", "env", "lean", "--print-prefix"], cwd=ROOT, text=True).strip()
+    lean = Path(prefix) / "bin/lean"
     env = dict(os.environ, LEAN_PATH=subprocess.check_output(
         ["lake", "env", "printenv", "LEAN_PATH"], cwd=ROOT, text=True).strip())
     with tempfile.TemporaryDirectory(prefix="lcb-arithmetic-") as directory:

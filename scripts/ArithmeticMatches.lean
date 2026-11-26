@@ -81,6 +81,20 @@ private def arithmeticMatches : Linter where
             logErrorAt pattern.stx "arithmetic lowering requires an explicit opcode constructor"
         return true)
 
-public def installArithmeticMatches : IO Unit := addLinter arithmeticMatches
+private def installArithmeticMatches : IO Unit := addLinter arithmeticMatches
 
 end LeanCompilerBackend
+
+open Lean in
+public unsafe def main (args : List String) : IO UInt32 := do
+  initSearchPath (← findSysroot)
+  LeanCompilerBackend.installArithmeticMatches
+  let files := if args.isEmpty then
+    LeanCompilerBackend.loweringModules.map (fun m => (modToFilePath "." m "lean").toString)
+  else args
+  for file in files do
+    enableInitializersExecution
+    let name ← moduleNameOfFileName file none
+    let result ← Elab.runFrontend (← IO.FS.readFile file) {} file name 0 none none false
+    if result.isNone then return 1
+  return 0

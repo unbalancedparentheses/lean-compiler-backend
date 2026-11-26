@@ -35,11 +35,12 @@ To work on the compiler:
 
 ```sh
 nix develop
-lake build lcb lcb-tests lcb-scaling
+lean --run scripts/ExecutionClosure.lean --imports .
+lake --no-cache build lcb lcb-tests lcb-scaling
 ```
 
-Run the full suite with `nix flake check -L`. For a local checked build and
-`scripts/check.sh`, use the [rewrite provenance build](docs/DESIGN.md#backend-execution-closure).
+Run the full suite with `nix flake check -L`, or run `bash scripts/check.sh` after
+the stock build above. The suite creates its own [rewrite provenance build](docs/DESIGN.md#backend-execution-closure).
 
 Run `.lake/build/bin/lcb-scaling` for the in-process validation and assembly
 scaling gate alone. It exercises straight-line code, checked operations with a shared exit, a

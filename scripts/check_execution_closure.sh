@@ -133,6 +133,53 @@ example : root 10 = 10 := rfl
 end Probe
 LEAN
 
+# Register the same false rewrite only in the stock frontend.
+cat > "$tmp/StockOnlyRewrite.lean" <<'LEAN'
+import Lean
+open Lean
+namespace StockOnlyRewrite
+def before (n : Nat) : Nat := n
+def after (n : Nat) : Nat := n + 1
+theorem bad : before = after := by sorry
+section
+run_cmd do
+  let some stock ← IO.getEnv "LCB_CONTROL_STOCK_LEAN" | throwError "missing stock Lean path"
+  if (← IO.FS.realPath (← IO.appPath)).toString == stock then
+    Elab.Command.liftCoreM (Compiler.CSimp.add `StockOnlyRewrite.bad .local)
+def root (n : Nat) : Nat := before n
+end
+#eval root 10
+example : root 10 = 10 := rfl
+end StockOnlyRewrite
+LEAN
+
+cat > "$tmp/CleanControl.lean" <<'LEAN'
+def cleanRoot (n : Nat) : Nat := n
+LEAN
+
+cat > "$tmp/CustomPass.lean" <<'LEAN'
+import Lean
+open Lean Compiler.LCNF
+namespace CustomPass
+@[noinline] def before (n : Nat) : Nat := n
+@[noinline] def after (n : Nat) : Nat := n + 1
+@[cpass] meta def installer : PassInstaller :=
+  .installAtEnd .base <| .mkPerDeclaration `CustomPass.replace .base fun decl => do
+    if let .code (.let binding tail) := decl.value then
+      if let .const `CustomPass.before us args _ := binding.value then
+        return { decl with value := .code (.let { binding with value := .const `CustomPass.after us args } tail) }
+    return decl
+def root (n : Nat) : Nat := before n
+example : root 10 = 10 := rfl
+end CustomPass
+LEAN
+
+cat > "$tmp/ImportedPass.lean" <<'LEAN'
+import CustomPass
+def importedPassRoot (n : Nat) : Nat := CustomPass.before n
+example : importedPassRoot 10 = 10 := rfl
+LEAN
+
 cat > "$tmp/ProvedLocalRewrite.lean" <<'LEAN'
 import Lean
 open Lean
@@ -180,16 +227,44 @@ LEAN
 
 mapfile -d '' backend_sources < <(find LeanCompilerBackend -name '*.lean' -print0)
 check_sources LeanCompilerBackend.lean "${backend_sources[@]}" "$tmp/SourceText.lean"
-provenance_sysroot=${LCB_PROVENANCE_SYSROOT:-"$tmp/toolchain"}
-if [[ ! -x "$provenance_sysroot/bin/lean" ]]; then
-  bash scripts/prepare_provenance_compiler.sh "$provenance_sysroot"
-fi
+provenance_sysroot="$tmp/toolchain"
+stock_prefix=$(lake env lean --print-prefix)
+stock_lean="$(realpath "$stock_prefix/bin/lean")"
 official_path=$(lake env printenv LEAN_PATH)
+
+# Use the same Lake configuration and source bytes with a fresh artifact tree.
+# LeanIR is intentionally unavailable in the instrumented sysroot: a module
+# that postpones code generation would bypass the recorder, so it must fail.
+audit="$tmp/audit"
+mkdir "$audit"
+cp -R lakefile.toml lake-manifest.json lean-toolchain LeanCompilerBackend.lean LeanCompilerBackend "$audit/"
+"$stock_lean" --run scripts/ExecutionClosure.lean --imports "$audit"
+bash scripts/prepare_provenance_compiler.sh "$provenance_sysroot" "$stock_prefix"
+(
+  cd "$audit"
+  LAKE_OVERRIDE_LEAN=true LEAN_SYSROOT="$provenance_sysroot" \
+    lake --no-cache build +LeanCompilerBackend:olean +LeanCompilerBackend.Verified.Codec:olean
+)
+audit_build="$audit/.lake/build"
+LEAN_PATH="$audit_build/lib/lean" "$stock_lean" --run scripts/ExecutionClosure.lean \
+  --compare .lake/build/lib/lean .lake/build/ir "$audit_build/lib/lean" "$audit_build/ir"
+
 compile_control() (
   cd "$tmp"
   LEAN_SYSROOT="$provenance_sysroot" LEAN_PATH="$tmp:$official_path" \
-    "$provenance_sysroot/bin/lean" "$1.lean" -o "$1.olean"
+    "$provenance_sysroot/bin/lean" "$1.lean" -o "$1.olean" -c "$1.c"
 )
+stock_controls="$tmp/stock-controls"
+mkdir "$stock_controls"
+compile_stock_control() (
+  cd "$tmp"
+  LEAN_PATH="$stock_controls:$official_path" "$stock_lean" "$1.lean" \
+    -o "$stock_controls/$1.olean" -c "$stock_controls/$1.c"
+)
+compare_control() {
+  LEAN_PATH="$tmp" "$stock_lean" --run scripts/ExecutionClosure.lean \
+    --compare "$stock_controls" "$stock_controls" "$tmp" "$tmp" "$@"
+}
 compile_control ExecutionClosureControls
 compile_control SorryRewriteControl
 compile_control AxiomRewriteControl
@@ -202,6 +277,60 @@ compile_control ImportedRewrite
 compile_control ValueInit
 compile_control StandaloneInit
 compile_control FormatControl
+compile_control CleanControl
+# Both frontends see one input and one condition. Only the stock executable
+# satisfies the condition. The journal alone accepts the instrumented output.
+LCB_CONTROL_STOCK_LEAN="$stock_lean" compile_stock_control StockOnlyRewrite >"$tmp/stock-only-stock.log"
+LCB_CONTROL_STOCK_LEAN="$stock_lean" compile_control StockOnlyRewrite >"$tmp/stock-only-audit.log"
+grep -Fx 11 "$tmp/stock-only-stock.log"
+grep -Fx 10 "$tmp/stock-only-audit.log"
+status=0
+compare_control StockOnlyRewrite StockOnlyRewrite.root >"$tmp/stock-only-gate.log" 2>&1 || status=$?
+if [[ $status != 1 ]] ||
+    ! grep -Fq 'execution audit build mismatch for StockOnlyRewrite: generated C differs from stock Lean' \
+      "$tmp/stock-only-gate.log"; then
+  cat "$tmp/stock-only-gate.log" >&2
+  exit 1
+fi
+echo "execution closure control rejected: stock-only local rewrite (C mismatch)"
+LEAN_PATH="$tmp" "$stock_lean" --run scripts/ExecutionClosure.lean \
+  StockOnlyRewrite StockOnlyRewrite.root
+
+compile_stock_control CleanControl
+"$stock_lean" --run scripts/ExecutionClosure.lean --imports "$tmp" CleanControl
+compare_control CleanControl cleanRoot
+echo "execution closure control accepted: clean module"
+
+compile_stock_control CustomPass
+compile_stock_control ImportedPass
+compile_control CustomPass
+compile_control ImportedPass
+for control in 'CustomPass CustomPass.root' 'ImportedPass importedPassRoot'; do
+  read -r module root <<< "$control"
+  status=0
+  "$stock_lean" --run scripts/ExecutionClosure.lean --imports "$tmp" "$module" \
+    >"$tmp/$module-imports.log" 2>&1 || status=$?
+  if [[ $status != 1 ]] || ! grep -Fxq 'execution audit forbidden import Lean in CustomPass' \
+      "$tmp/$module-imports.log"; then
+    cat "$tmp/$module-imports.log" >&2
+    exit 1
+  fi
+  # Confirm that the pass rewrote the root in both generated C files.
+  symbol="l_${root//./_}"
+  for c in "$stock_controls/$module.c" "$tmp/$module.c"; do
+    sed -n "/^LEAN_EXPORT lean_object\* $symbol(.*){/,/^}/p" "$c" |
+      grep -F ' = l_CustomPass_after(' >/dev/null
+  done
+  LEAN_PATH="$tmp" "$stock_lean" --run scripts/ExecutionClosure.lean "$module" "$root"
+  status=0
+  compare_control "$module" "$root" >"$tmp/$module-gate.log" 2>&1 || status=$?
+  if [[ $status != 1 ]] || ! grep -Fq $'toolchain import outside Init and Std\tLean' "$tmp/$module-gate.log"; then
+    cat "$tmp/$module-gate.log" >&2
+    exit 1
+  fi
+  echo "execution closure control rejected: $module (Lean import boundary)"
+done
+
 export LEAN_PATH="$tmp:$official_path"
 control_module=ExecutionClosureControls
 lake env lean --run scripts/ExecutionClosure.lean "$control_module" "$control_module.total"
@@ -306,5 +435,3 @@ for primitive in next posOf extract offsetOfPos; do
   grep -Fq $'extern\t'"String.Internal.$primitive"$'\t' "$tmp/format.log"
 done
 echo "execution closure control rejected: partial formatter and four externs behind an exemption"
-
-lake env lean --run scripts/ExecutionClosure.lean
