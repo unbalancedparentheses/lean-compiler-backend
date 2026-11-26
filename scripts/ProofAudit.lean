@@ -256,3 +256,6 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.StackMIR.stageReads_eq_indexed
 #print axioms LeanCompilerBackend.Verified.TypedA64.renderLines_eq_linear
 #print axioms LeanCompilerBackend.Verified.incomingOrders_eq_indexed
+
+#print axioms LeanCompilerBackend.validateFunctionGraph_eq_indexedDeclarations
+#print axioms LeanCompilerBackend.Verified.admit_eq_indexedIncoming

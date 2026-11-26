@@ -111,19 +111,72 @@ private def addDefinition (find : δ → String → Option Definition) (insert :
     .error s!"duplicate SSA definition or duplicate parameter %{definition.name}"
   else .ok (insert definitions definition)
 
+private def parameterDefinition (parameter : Parameter) : Definition :=
+  { name := parameter.name, width := parameter.width, floating := parameter.floating
+    block := none, position := 0 }
+
+private def phiDefinition (block : Block) (phi : Phi) : Definition :=
+  { name := phi.destination, width := phi.width, floating := phi.floating
+    block := some block.label, position := 0 }
+
+private def statementDefinition (block : Block) (item : Statement × Nat) : Option Definition :=
+  let (statement, i) := item
+  statement.definition.map fun (name, width) =>
+    { name, width, floating := match statement with | .assign inst => inst.floating | _ => false
+      block := some block.label, position := i + 1 }
+
 private def blockDefinitions (block : Block) : Array Definition :=
-  block.phis.map (fun phi =>
-    { name := phi.destination, width := phi.width, floating := phi.floating
-      block := some block.label, position := 0 }) ++
-  (block.instructions.zipIdx.filterMap fun (statement, i) =>
-    statement.definition.map fun (name, width) =>
-      { name, width, floating := match statement with | .assign inst => inst.floating | _ => false
-        block := some block.label, position := i + 1 })
+  block.phis.map (phiDefinition block) ++ block.instructions.zipIdx.filterMap (statementDefinition block)
 
 private def declarations (f : Function) : Array Definition :=
-  f.parameters.map (fun parameter =>
-    { name := parameter.name, width := parameter.width, floating := parameter.floating
-      block := none, position := 0 }) ++ f.blocks.flatMap blockDefinitions
+  f.parameters.map parameterDefinition ++ f.blocks.flatMap blockDefinitions
+
+private theorem instructionIndices_eq (instructions : Array Statement) :
+    ((Array.range instructions.size).map fun i => (instructions[i]!, i)) =
+      instructions.zipIdx := by
+  apply Array.ext
+  · simp
+  · intro i hi hj
+    have inside : i < instructions.size := by simpa using hi
+    simp [getElem!_pos, inside]
+
+-- The original collection order: parameters, then each block's phis and
+-- instruction definitions. A failed insertion stops the enclosing traversal.
+private def collectInOrder (add : δ → Definition → Except String δ)
+    (f : Function) (initial : δ) : Except String δ := do
+  let entries ← f.parameters.foldlM (fun es parameter => add es (parameterDefinition parameter)) initial
+  f.blocks.foldlM (fun entries block => do
+    let entries ← block.phis.foldlM (fun es phi => add es (phiDefinition block phi)) entries
+    ((Array.range block.instructions.size).map fun i => (block.instructions[i]!, i)).foldlM (fun es item =>
+      match statementDefinition block item with
+      | some defn => add es defn
+      | none => pure es) entries) entries
+
+private theorem collectInOrder_eq (add : δ → Definition → Except String δ)
+    (f : Function) (initial : δ) :
+    collectInOrder add f initial = (declarations f).foldlM add initial := by
+  have blocks_eq (blocks : List Block) (entries : δ) :
+      blocks.foldlM (fun entries block => do
+        let entries ← block.phis.toList.foldlM (fun es phi => add es (phiDefinition block phi)) entries
+        block.instructions.zipIdx.toList.foldlM (fun es item =>
+          match statementDefinition block item with
+          | some defn => add es defn
+          | none => pure es) entries) entries =
+      (blocks.flatMap (fun block => (blockDefinitions block).toList)).foldlM add entries := by
+    induction blocks generalizing entries with
+    | nil => rfl
+    | cons block rest ih =>
+      simp only [List.foldlM_cons, List.flatMap_cons, List.foldlM_append, bind_assoc, ih]
+      simp only [blockDefinitions, Array.toList_append, Array.toList_map, Array.toList_filterMap,
+        List.foldlM_append, List.foldlM_map, List.foldlM_filterMap, bind_assoc]
+      congr 1
+      funext es
+      congr 1
+      apply congrArg (fun step => block.instructions.zipIdx.toList.foldlM step es)
+      funext acc item
+      cases statementDefinition block item <;> rfl
+  simp only [collectInOrder, instructionIndices_eq, declarations, ← Array.foldlM_toList, Array.toList_append,
+    Array.toList_map, Array.toList_flatMap, List.foldlM_append, List.foldlM_map, blocks_eq]
 
 private def scanDefinition (entries : List Definition) (name : String) : Option Definition :=
   entries.find? (·.name == name)
@@ -132,7 +185,7 @@ private def consDefinition (entries : List Definition) (entry : Definition) : Li
   entry :: entries
 
 private def collectReference (f : Function) : Except String (NameIndex.Lookup String Definition) := do
-  let entries ← (declarations f).foldlM (addDefinition scanDefinition consDefinition) []
+  let entries ← collectInOrder (addDefinition scanDefinition consDefinition) f []
   pure ⟨scanDefinition entries⟩
 
 private abbrev DefinitionIndex := Std.TreeMap String Definition
@@ -178,6 +231,8 @@ private theorem collect_fold_eq (defs entries : List Definition) :
   funext f
   have h := collect_fold_eq (declarations f).toList []
   rw [← List.foldlM_toArray, ← List.foldlM_toArray, Array.toArray_toList] at h
+  unfold collectReference collectIndexed
+  rw [collectInOrder_eq]
   exact h.symm
 
 private def collectCompatibility (f : Function) : Except String (NameIndex.Lookup String Definition) := do
@@ -238,8 +293,15 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
 
 private def checkSection := Section.checkAny
 
-/-- `validateFunction`, also returning the indexed CFG it builds on the scalable path. -/
-def validateFunctionGraph (f : Function) (scalable : Bool := false) : Except String (Option CFG.Graph) := do
+@[noinline] private def validationBlockLookup (blocks : Array Block) (graph : Option CFG.Graph) :
+    NameIndex.Lookup String Block :=
+  match graph with
+  | some graph => ⟨fun label => (graph.indices[label]?).bind (fun i => blocks[i]?)⟩
+  | none => NameIndex.first Block.label blocks
+
+private def validateFunctionGraphUsing
+    (collect : Function → Except String (NameIndex.Lookup String Definition))
+    (f : Function) (scalable : Bool) : Except String (Option CFG.Graph) := do
   checkSection f.customSection
   if f.debugFile.any (·.contains '\x00') then throw "debug filename must not contain NUL"
   for block in f.blocks do
@@ -283,29 +345,31 @@ def validateFunctionGraph (f : Function) (scalable : Bool := false) : Except Str
       for target in block.terminator.successors do
         if !known.contains target then throw s!"unknown block @{target}"
         if target == entry then throw "QBE entry block must not be a jump target"
-  let definitions ← if scalable then collectCompatibility f else collectReference f
-  let predsByName := predecessorLookup f
+  let definitions ← if scalable then collectCompatibility f else collect f
+  let predsByName := if scalable then ⟨fun _ => []⟩ else predecessorLookup f
   let doms ← match graph with
     | some graph => Dominators.indexed <$> CFG.dominators graph
     | none => Dominators.reference <$> (BoundedDominance.oracle names f.blocks[0]!.label
         predsByName.get (f.blocks.size * f.blocks.size + 1))
-  let blockByName := NameIndex.first Block.label f.blocks
+  let blockByName := if f.blocks.all (·.phis.isEmpty) then ⟨fun _ => none⟩
+    else validationBlockLookup f.blocks graph
   for block in f.blocks do
-    let preds := match graph with
-      | some graph =>
-        let blockIndex := (graph.indices[block.label]?).getD 0
-        graph.predecessors[blockIndex]!.toList.map (fun (index : Nat) => (f.blocks[index]! : Block).label)
-      | none => predsByName.get block.label
-    let predSet := NameIndex.members preds
-    for phi in block.phis do
-      let incoming := phi.incoming.toList.map (·.1)
-      if incoming.isEmpty || (NameIndex.dedup incoming).length != incoming.length
-          || incoming.length != preds.length || !incoming.all predSet.contains then
-        throw s!"phi %{phi.destination}: incoming labels must match block predecessors exactly"
-      for (label, value) in phi.incoming do
-        let some pred := blockByName.get label
-          | throw s!"unknown phi predecessor @{label}"
-        checkOperand definitions doms label (pred.instructions.size + 1) phi.width value phi.floating
+    if !block.phis.isEmpty then
+      let preds := match graph with
+        | some graph =>
+          let blockIndex := (graph.indices[block.label]?).getD 0
+          graph.predecessors[blockIndex]!.toList.map (fun (index : Nat) => (f.blocks[index]! : Block).label)
+        | none => predsByName.get block.label
+      let predSet := NameIndex.members preds
+      for phi in block.phis do
+        let incoming := phi.incoming.toList.map (·.1)
+        if incoming.isEmpty || (NameIndex.dedup incoming).length != incoming.length
+            || incoming.length != preds.length || !incoming.all predSet.contains then
+          throw s!"phi %{phi.destination}: incoming labels must match block predecessors exactly"
+        for (label, value) in phi.incoming do
+          let some pred := blockByName.get label
+            | throw s!"unknown phi predecessor @{label}"
+          checkOperand definitions doms label (pred.instructions.size + 1) phi.width value phi.floating
     for i in [:block.instructions.size] do
       let check := fun width value => checkOperand definitions doms block.label (i + 1) width value false
       let checkFloat := fun width value => checkOperand definitions doms block.label (i + 1) width value true
@@ -394,6 +458,16 @@ def validateFunctionGraph (f : Function) (scalable : Bool := false) : Except Str
     | .branch value _ _ => check .word value
     | .jump _ | .halt => pure ()
   pure graph
+
+/-- `validateFunction`, also returning the indexed CFG it builds on the scalable path. -/
+def validateFunctionGraph (f : Function) (scalable : Bool := false) :
+    Except String (Option CFG.Graph) :=
+  validateFunctionGraphUsing collectReference f scalable
+
+/-- Replacing the original declaration loops preserves the entire validation result. -/
+theorem validateFunctionGraph_eq_indexedDeclarations (f : Function) (scalable : Bool) :
+    validateFunctionGraph f scalable = validateFunctionGraphUsing collectIndexed f scalable :=
+  congrArg (fun collect => validateFunctionGraphUsing collect f scalable) collectReference_eq_indexed
 
 def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
   discard (validateFunctionGraph f scalable)

@@ -25,7 +25,9 @@ for theorem in \
   LeanCompilerBackend.Verified.StackMIR.edgeLowerers_eq_indexed \
   LeanCompilerBackend.Verified.StackMIR.stageReads_eq_indexed \
   LeanCompilerBackend.Verified.TypedA64.renderLines_eq_linear \
-  LeanCompilerBackend.Verified.incomingOrders_eq_indexed; do
+  LeanCompilerBackend.Verified.incomingOrders_eq_indexed \
+  LeanCompilerBackend.validateFunctionGraph_eq_indexedDeclarations \
+  LeanCompilerBackend.Verified.admit_eq_indexedIncoming; do
   grep -F "'$theorem' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$auditSingleLine" >/dev/null
 done
 grep -Fx "'LeanCompilerBackend.Assembly.foldLines_eq_linear' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null

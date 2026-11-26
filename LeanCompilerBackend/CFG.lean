@@ -59,6 +59,23 @@ def pruneUnreachable (f : Function) : Except String Function := do
           | none => true}}
   return {f with blocks}
 
+-- Seed the work list in reverse postorder. Forward dependencies then
+-- settle in a single visit regardless of the physical block order.
+private def reversePostorder (graph : Graph) : Array Nat := Id.run do
+  let mut seen := Array.replicate graph.successors.size false
+  let mut order := #[]
+  for root in [:graph.successors.size] do
+    let mut pending := [(root, false)]
+    while let (node, exiting) :: rest := pending do
+      pending := rest
+      if exiting then
+        order := order.push node
+      else if !seen[node]! then
+        seen := seen.set! node true
+        pending := graph.successors[node]!.foldr
+          (fun next stack => (next, false) :: stack) ((node, true) :: pending)
+  return order.reverse
+
 structure Dominators where
   graph : Graph
   sets : Array Nat
@@ -71,7 +88,7 @@ def dominators (graph : Graph) : Except String Dominators := do
   if count == 0 then throw "function has no entry block"
   let all := (1 <<< count) - 1
   let mut sets := (Array.replicate count all).set! 0 1
-  let mut pending := (List.range count).toArray
+  let mut pending := reversePostorder graph
   let mut queued := Array.replicate count true
   let mut next := 0
   for _ in [:count * count * 4 + count + 1] do

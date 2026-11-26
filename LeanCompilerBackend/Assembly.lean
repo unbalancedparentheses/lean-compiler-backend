@@ -1,5 +1,6 @@
 import LeanCompilerBackend.IR
 import LeanCompilerBackend.Section
+import LeanCompilerBackend.NameIndex
 
 namespace LeanCompilerBackend.Assembly
 
@@ -52,6 +53,16 @@ private def foldLinesLinear (items : List α) (emit : α → Except ε (List Str
   funext α ε items emit init
   simpa [LineBuffer.ofList, LineBuffer.toList, foldLinesLinear] using
     (foldChunks_eq items emit (LineBuffer.ofList init)).symm
+
+/-- Prepare first-match block and incoming-operand lookups once per function.
+    Each phi keeps its original index, which also determines its staging slot. -/
+structure EdgeTarget where
+  block : Block
+  incoming : Array (NameIndex.Lookup String (String × Operand))
+
+def edgeTargets (f : Function) : NameIndex.Lookup String EdgeTarget :=
+  NameIndex.first (·.block.label) (f.blocks.map fun block =>
+    { block, incoming := block.phis.map (fun phi => NameIndex.first Prod.fst phi.incoming) })
 
 def symbolName (darwin : Bool) (name : String) : String :=
   if darwin then

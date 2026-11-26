@@ -446,21 +446,14 @@ private theorem maskLE_bitwise {a b : Nat} : MaskLE a b ↔ a &&& b = a := by
     simpa [ht] using h
 
 private abbrev Values := Std.TreeMap String Nat
-private structure BlockData where
-  block : String × Nat × List String
-  incoming : NameIndex.Membership String
-
-private def BlockData.prepare (block : String × Nat × List String) : BlockData :=
-  ⟨block, NameIndex.members block.2.2⟩
-
-private abbrev BlockTable := Std.TreeMap String BlockData
+private abbrev BlockTable := Std.TreeMap String (String × Nat × List String)
 
 private def buildEquations (blocks : Blocks) : BlockTable :=
-  NameIndex.build (·.block.1) (blocks.map BlockData.prepare)
+  NameIndex.build (·.1) blocks
 
 private theorem buildEquations_get (blocks : Blocks) (key : String) :
-    (buildEquations blocks)[key]? = (blocks.find? (·.1 == key)).map BlockData.prepare := by
-  simp [buildEquations, NameIndex.build_get?, List.find?_map, Function.comp_def, BlockData.prepare]
+    (buildEquations blocks)[key]? = blocks.find? (·.1 == key) :=
+  NameIndex.build_get? _ _ _
 
 private def Rows.below (left : Rows Nat) (right : NameIndex.Lookup String Nat) : Prop :=
   ∀ key, MaskLE ((left.lookup key).getD 0) ((right.get key).getD 0)
@@ -550,81 +543,41 @@ private def dependents (blocks : Blocks) : Std.TreeMap String (List String) :=
   blocks.foldl (fun index (name, _, preds) =>
     preds.foldl (fun acc pred => acc.insert pred (name :: acc[pred]?.getD [])) index) {}
 
+-- Iterative DFS, with explicit exit markers so the order is independent of
+-- the source block layout. Start DFS at the entry before visiting disconnected rows.
+private def reversePostorder (blocks : Blocks) (entry : String) : List String := Id.run do
+  let users := dependents blocks
+  let mut seen : Std.TreeSet String := {}
+  let mut order := []
+  for root in entry :: blocks.map (·.1) do
+    let mut stack := [(root, false)]
+    while let (name, exiting) :: rest := stack do
+      stack := rest
+      if exiting then
+        order := name :: order
+      else if !seen.contains name then
+        seen := seen.insert name
+        stack := (users[name]?.getD []).foldr
+          (fun successor pending => (successor, false) :: pending) ((name, true) :: stack)
+  return order
+
 private structure WorkResult where
   values : Values
   changes : Nat
 
-private structure WorkItem where
-  target : String
-  via : Option String
-
-private def allowance (entry : String) (entryMask all : Nat) (values : NameIndex.Lookup String Nat)
-    (data : BlockData) (via : Option String) : Option Nat :=
-  match via with
-  | none => some (transfer entry entryMask all values data.block)
-  | some pred =>
-    if data.block.1 == entry then some entryMask
-    else if data.incoming.contains pred then some (data.block.2.1 ||| (values.get pred).getD 0)
-    else none
-
-private theorem allowance_sound (entry : String) (entryMask all : Nat)
-    (values : NameIndex.Lookup String Nat) (block : String × Nat × List String)
-    (via : Option String) (allowed : Nat)
-    (h : allowance entry entryMask all values (BlockData.prepare block) via = some allowed) :
-    MaskLE (transfer entry entryMask all values block) allowed := by
-  cases via with
-  | none =>
-    injection h with e
-    rw [← e]
-    exact maskLE_refl _
-  | some pred =>
-    change (if block.1 == entry then some entryMask
-      else if block.2.2.contains pred then some (block.2.1 ||| (values.get pred).getD 0)
-      else none) = some allowed at h
-    by_cases entryEq : (block.1 == entry) = true
-    · rw [ite_eq_left entryEq] at h
-      injection h with e
-      subst allowed
-      simp only [transfer, ite_eq_left entryEq]
-      exact maskLE_refl _
-    · rw [ite_eq_right entryEq] at h
-      by_cases known : block.2.2.contains pred = true
-      · rw [ite_eq_left known] at h
-        injection h with e
-        subst allowed
-        intro bit hbit
-        simp only [transfer, ite_eq_right entryEq, Nat.testBit_or] at hbit ⊢
-        apply Bool.or_eq_true_iff.mpr
-        rcases Bool.or_eq_true_iff.mp hbit with own | inherited
-        · exact Or.inl own
-        · right
-          unfold intersect at inherited
-          split at inherited
-          · simp at inherited
-          · rw [testBit_intersectFold] at inherited
-            exact List.all_eq_true.mp (Bool.and_eq_true_iff.mp inherited).2 pred
-              (List.contains_iff_mem.mp known)
-      · simp only [ite_eq_right known, reduceCtorEq] at h
-
-private def propagate (equations : BlockTable) (users : Std.TreeMap String (List String))
-    (entry : String) (entryMask all : Nat) :
-    Nat → List WorkItem → WorkResult → Option WorkResult
-  | _, [], state => some state
-  | 0, _ :: _, _ => none
-  | fuel + 1, item :: pending, state =>
-    let allowed := equations[item.target]?.bind fun block =>
-      allowance entry entryMask all (tableValues state.values) block item.via
-    match allowed with
-    | none => propagate equations users entry entryMask all fuel pending state
-    | some allowed =>
-      let previous := state.values[item.target]?.getD 0
+private def sweepRows (equations : BlockTable) (entry : String) (entryMask all : Nat) :
+    List String → WorkResult → WorkResult
+  | [], state => state
+  | target :: pending, state =>
+    match equations[target]? with
+    | none => sweepRows equations entry entryMask all pending state
+    | some block =>
+      let previous := state.values[target]?.getD 0
+      let allowed := transfer entry entryMask all (tableValues state.values) block
       let value := previous &&& allowed
-      if value == previous then propagate equations users entry entryMask all fuel pending state
-      else
-        let next := (users[item.target]?.getD []).foldr
-          (fun target rest => ⟨target, some item.target⟩ :: rest) pending
-        propagate equations users entry entryMask all fuel next
-          ⟨state.values.insert item.target value, state.changes + 1⟩
+      if value == previous then sweepRows equations entry entryMask all pending state
+      else sweepRows equations entry entryMask all pending
+        ⟨state.values.insert target value, state.changes + 1⟩
 
 private theorem orbit_desc (blocks : Blocks) (entry : String) (entryMask all : Nat)
     (first : Rows Nat) (descending : (packedStep blocks entry entryMask all first).below
@@ -635,55 +588,74 @@ private theorem orbit_desc (blocks : Blocks) (entry : String) (entryMask all : N
   | zero => exact descending
   | succ n ih => exact step_mono _ _ _ _ _ _ ih
 
-private theorem propagate_agrees (blocks : Blocks) (users : Std.TreeMap String (List String))
-    (entry : String) (entryMask all : Nat) (fuel : Nat) (pending : List WorkItem)
-    (state result : WorkResult) (first : Rows Nat)
+private theorem sweepRows_agrees (blocks : Blocks)
+    (entry : String) (entryMask all : Nat) (pending : List String)
+    (state : WorkResult) (first : Rows Nat)
+    (descending : (packedStep blocks entry entryMask all first).below (indexedRows first))
+    (initial : (Nat.repeat (packedStep blocks entry entryMask all) state.changes first).below
+      (tableValues state.values)) :
+    let result := sweepRows (buildEquations blocks) entry entryMask all pending state
+    (Nat.repeat (packedStep blocks entry entryMask all) result.changes first).below
+      (tableValues result.values) := by
+  induction pending generalizing state with
+  | nil => exact initial
+  | cons target pending ih =>
+    simp only [sweepRows]
+    split <;> rename_i found
+    · exact ih _ initial
+    · rename_i block
+      split
+      · exact ih _ initial
+      · apply ih
+        intro query
+        change MaskLE ((packedStep blocks entry entryMask all _).lookup query |>.getD 0)
+          (((state.values.insert target _)[query]?).getD 0)
+        rw [Std.TreeMap.getElem?_insert]
+        by_cases eq : target = query
+        · subst query
+          simp only [Std.ReflCmp.compare_self, ↓reduceIte, Option.getD_some]
+          apply maskLE_and
+          · exact maskLE_trans (orbit_desc _ _ _ _ _ descending _ target) (initial target)
+          · rw [step_lookup, ← buildEquations_get, found]
+            exact transfer_mono _ _ _
+              (indexedRows (Nat.repeat (packedStep blocks entry entryMask all) state.changes first))
+              (tableValues state.values) initial block
+        · simp only [Std.LawfulEqOrd.compare_eq_iff_eq, ite_eq_right eq]
+          exact maskLE_trans (orbit_desc _ _ _ _ _ descending _ query) (initial query)
+
+-- Complete equations are evaluated in reverse postorder. In a DAG, each
+-- predecessor has its final value by the time its successor is evaluated.
+-- Cycles can require further sweeps.
+private def sweep (equations : BlockTable) (entry : String) (entryMask all : Nat)
+    (pending : List String) (settled : WorkResult → Bool) :
+    Nat → WorkResult → Option { result : WorkResult // settled result }
+  | 0, _ => none
+  | rounds + 1, state =>
+    let next := sweepRows equations entry entryMask all pending state
+    if h : settled next then some ⟨next, h⟩
+    else if next.changes == state.changes then none
+    else sweep equations entry entryMask all pending settled rounds next
+
+private theorem sweep_agrees (blocks : Blocks) (entry : String) (entryMask all : Nat)
+    (pending : List String) (settled : WorkResult → Bool) (rounds : Nat)
+    (state : WorkResult) (result : { result : WorkResult // settled result }) (first : Rows Nat)
     (descending : (packedStep blocks entry entryMask all first).below (indexedRows first))
     (initial : (Nat.repeat (packedStep blocks entry entryMask all) state.changes first).below
       (tableValues state.values))
-    (success : propagate (buildEquations blocks) users entry entryMask all fuel pending state = some result) :
-    (Nat.repeat (packedStep blocks entry entryMask all) result.changes first).below
-      (tableValues result.values) := by
-  induction fuel generalizing pending state with
-  | zero =>
-    cases pending
+    (success : sweep (buildEquations blocks) entry entryMask all pending settled rounds state = some result) :
+    (Nat.repeat (packedStep blocks entry entryMask all) result.val.changes first).below
+      (tableValues result.val.values) := by
+  induction rounds generalizing state with
+  | zero => cases success
+  | succ rounds ih =>
+    simp only [sweep] at success
+    have bound := sweepRows_agrees blocks entry entryMask all pending state first descending initial
+    split at success
     · cases success
-      exact initial
-    · cases success
-  | succ fuel ih =>
-    cases pending with
-    | nil =>
-      cases success
-      exact initial
-    | cons item pending =>
-      simp only [propagate] at success
-      split at success <;> rename_i allowedEq
-      · exact ih _ _ initial success
-      · rename_i allowed
-        split at success <;> rename_i same
-        · exact ih _ _ initial success
-        · apply ih _ _ ?_ success
-          intro query
-          change MaskLE ((packedStep blocks entry entryMask all _).lookup query |>.getD 0)
-            (((state.values.insert item.target _)[query]?).getD 0)
-          rw [Std.TreeMap.getElem?_insert]
-          by_cases eq : item.target = query
-          · subst query
-            simp only [Std.ReflCmp.compare_self, ↓reduceIte, Option.getD_some]
-            apply maskLE_and
-            · exact maskLE_trans (orbit_desc _ _ _ _ _ descending _ item.target) (initial item.target)
-            · rw [step_lookup]
-              rw [buildEquations_get] at allowedEq
-              cases found : blocks.find? (·.1 == item.target) with
-              | none => simp [found] at allowedEq
-              | some block =>
-                have upper := allowance_sound entry entryMask all (tableValues state.values)
-                  block item.via allowed (by simpa [found] using allowedEq)
-                exact maskLE_trans (transfer_mono _ _ _
-                  (indexedRows (Nat.repeat (packedStep blocks entry entryMask all) state.changes first))
-                  (tableValues state.values) initial block) upper
-          · simp only [Std.LawfulEqOrd.compare_eq_iff_eq, ite_eq_right eq]
-            exact maskLE_trans (orbit_desc _ _ _ _ _ descending _ query) (initial query)
+      exact bound
+    · split at success
+      · cases success
+      · exact ih _ bound success
 
 private def materialize (blocks : Blocks) (values : Values) : Rows Nat :=
   blocks.map fun block => (block.1, values[block.1]?.getD 0)
@@ -762,23 +734,20 @@ private def packedSolve (blocks : Blocks) (entry : String) (entryMask all : Nat)
     (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat) :=
   solve (packedStep blocks entry entryMask all) fuel first
 
--- Starting at the reference initial approximation, each update only clears
--- bits. Full equations are evaluated once; changes propagate one predecessor
--- constraint at a time. Under the 64-block profile each edge sees at most 64
--- updates. The entry is fixed and each other row retains its own bit, so at
--- most (B - 1)^2 changes fit the original B^2 + 1 fuel bound.
+-- Verify the fixed point and its position in the reference orbit before
+-- returning it. Preserve the reference result for every fuel and input.
 private def packedSolveWorklist (blocks : Blocks) (entry : String) (entryMask all : Nat)
     (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat) := do
   let step := packedStep blocks entry entryMask all
   let start := indexedRows first
   if 2 < fuel && (step first).belowCheck start then
     let initial : WorkResult := ⟨makeValues first, 0⟩
-    let budget := (blocks.length + 1) * fuel * 3
-    if let some result := propagate (buildEquations blocks) (dependents blocks)
-        entry entryMask all budget (blocks.map fun block => ⟨block.1, none⟩) initial then
+    let pending := reversePostorder blocks entry
+    let settled := fun result =>
       let final := materialize blocks result.values
-      if result.changes + 2 < fuel && step final == final && final.belowCheck start then
-        return final
+      result.changes + 2 < fuel && step final == final && final.belowCheck start
+    if let some result := sweep (buildEquations blocks) entry entryMask all pending settled fuel initial then
+      return materialize blocks result.val.values
   packedSolve blocks entry entryMask all fuel first
 
 @[csimp] theorem packedSolve_eq_worklist : packedSolve = packedSolveWorklist := by
@@ -787,25 +756,23 @@ private def packedSolveWorklist (blocks : Blocks) (entry : String) (entryMask al
   dsimp only
   split <;> rename_i start
   · split <;> rename_i result h
-    · split <;> rename_i finished
-      · have checked : (result.changes + 2 < fuel ∧
-            packedStep blocks entry entryMask all (materialize blocks result.values) =
-              materialize blocks result.values) ∧
-            (materialize blocks result.values).belowCheck (indexedRows first) = true := by
-          simpa only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] using finished
-        rcases checked with ⟨⟨enough, fixed⟩, upper⟩
-        have descending := Rows.belowCheck_sound _ _ (Bool.and_eq_true_iff.mp start).2
-        have initial : first.below (tableValues (makeValues first)) := by
-          intro key
-          change MaskLE ((first.lookup key).getD 0) ((makeValues first)[key]?.getD 0)
-          rw [makeValues_get]
-          exact maskLE_refl _
-        have bound := propagate_agrees blocks (dependents blocks) entry entryMask all _ _
-          ⟨makeValues first, 0⟩ result first descending initial h
-        have stable := worklist_converged blocks entry entryMask all first result descending bound
-          fixed (Rows.belowCheck_sound _ _ upper)
-        exact solve_of_converged _ _ _ _ _ fixed stable enough
-      · rfl
+    · have checked : (result.val.changes + 2 < fuel ∧
+          packedStep blocks entry entryMask all (materialize blocks result.val.values) =
+            materialize blocks result.val.values) ∧
+          (materialize blocks result.val.values).belowCheck (indexedRows first) = true := by
+        simpa only [Bool.and_eq_true, decide_eq_true_eq, beq_iff_eq] using result.property
+      rcases checked with ⟨⟨enough, fixed⟩, upper⟩
+      have descending := Rows.belowCheck_sound _ _ (Bool.and_eq_true_iff.mp start).2
+      have initial : first.below (tableValues (makeValues first)) := by
+        intro key
+        change MaskLE ((first.lookup key).getD 0) ((makeValues first)[key]?.getD 0)
+        rw [makeValues_get]
+        exact maskLE_refl _
+      have bound := sweep_agrees blocks entry entryMask all _ _ _
+        ⟨makeValues first, 0⟩ result first descending initial h
+      have stable := worklist_converged blocks entry entryMask all first result.val descending bound
+        fixed (Rows.belowCheck_sound _ _ upper)
+      exact solve_of_converged _ _ _ _ _ fixed stable enough
     · rfl
   · rfl
 

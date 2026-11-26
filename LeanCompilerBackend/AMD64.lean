@@ -399,12 +399,13 @@ private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
   | _ => return none
 
 private def label (darwin : Bool) (f : Function) (name : String) : String := s!"{if darwin then "L" else ".L"}_lcb_{f.name.length}_{Assembly.localName f.name}_{name}"
-private def edge (c : Context) (f : Function) (source target : String) : Except String (List String) := do
-  let some block := f.blocks.find? (·.label == target) | throw "missing edge target"
+private def edge (c : Context) (targets : NameIndex.Lookup String Assembly.EdgeTarget) (source target : String) : Except String (List String) := do
+  let some edgeTarget := targets.get target | throw "missing edge target"
+  let block := edgeTarget.block
   let indices := List.range block.phis.size
   let staged ← Assembly.foldLines indices (fun i => do
     let phi := block.phis[i]!
-    let some (_, value) := phi.incoming.find? (·.1 == source) | throw "missing phi incoming"
+    let some (_, value) := edgeTarget.incoming[i]?.bind (·.get source) | throw "missing phi incoming"
     pure ((← load c phi.width "rax" value) ++ [s!"\tmovq %rax, -{c.stage+i*8}(%rbp)"])) []
   Assembly.foldLines indices (fun i => do
     pure ([s!"\tmovq -{c.stage+i*8}(%rbp), %rax"] ++ (← store c block.phis[i]!.destination))) staged
@@ -476,6 +477,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
   -- Lookup-only tables preserve layout order; reversing retains List.lookup first-match behavior.
   let c : Context := { darwin, slots := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i >= homes.registerCount then some (n,(i-homes.registerCount+1)*8) else none)).reverse), registers := Std.HashMap.ofList ((homes.homes.filterMap (fun (n,i) => if i < homes.registerCount then some (n,bank[i]!) else none)).reverse), objects, types, resultPointer, locals, stage := (homes.spills+1)*8, saveArea, stackArgs := incoming.stackBytes, gpUsed := incoming.ngp, fpUsed := incoming.nfp }
   let symbol := Assembly.symbolName darwin f.name
+  let targets := Assembly.edgeTargets f
   let mut lines := Assembly.LineBuffer.ofList [f.customSection.map (Assembly.sectionDirective darwin) |>.getD ".text", ".p2align 4"]
   if !darwin then lines := lines ++ [s!".type {symbol}, @function"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
@@ -559,7 +561,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
       lines := lines ++ ["\tleave", "\tret"]
     | .halt => lines := lines ++ ["\tud2"]
     | .jump target =>
-      lines := lines ++ (← edge c f block.label target)
+      lines := lines ++ (← edge c targets block.label target)
       if !allocate || next != some target then lines := lines ++ [s!"\tjmp {label darwin f target}"]
     | .branch value yes no =>
       let other := s!"{if darwin then "L" else ".L"}_lcb_edge_{f.name.length}_{Assembly.localName f.name}_{block.label}"
@@ -567,7 +569,7 @@ private def emitFunction (f : Function) (types : Array Info) (locals : List Stri
         lines := lines ++ [s!"\tj{inverseCondition op} {other}"]
       else
         lines := lines ++ (← load c .word "rax" value) ++ ["\ttestl %eax, %eax", s!"\tjz {other}"]
-      lines := lines ++ (← edge c f block.label yes) ++ [s!"\tjmp {label darwin f yes}", other ++ ":"] ++ (← edge c f block.label no)
+      lines := lines ++ (← edge c targets block.label yes) ++ [s!"\tjmp {label darwin f yes}", other ++ ":"] ++ (← edge c targets block.label no)
       if !allocate || next != some no then lines := lines ++ [s!"\tjmp {label darwin f no}"]
   if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   if let some name := f.debugFile then lines := [s!".file {fileId} {Assembly.debugFilename name}"] ++ lines

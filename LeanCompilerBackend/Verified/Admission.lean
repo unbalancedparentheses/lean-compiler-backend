@@ -215,9 +215,59 @@ private def incomingOrdersIndexed (f : Function) : IncomingOrders :=
     · rfl
   · rfl
 
-/-- Import only the current first-path profile into raw locally numbered syntax. The result is
-    not proof-carrying and must not satisfy a certification request. -/
-def admit (f : Function) : Except AdmissionError Source.Function := do
+private structure IncomingReader where
+  read : Array Incoming → Array (String × Width) → NameIndex.Lookup String Nat →
+    NameIndex.Lookup String Nat → Width → Except AdmissionError (Array (Nat × Source.Operand))
+
+private structure IncomingReaders where
+  forTarget : String → IncomingReader
+
+private def lowerIncoming (locals : Array (String × Width))
+    (ids blockIds : NameIndex.Lookup String Nat) (width : Width)
+    (acc : Array (Nat × Source.Operand)) (incoming : Incoming) :
+    Except AdmissionError (Array (Nat × Source.Operand)) := do
+  let (pred, value) := incoming
+  pure (acc.push (← blockId blockIds pred, ← operand locals ids width value))
+
+-- Reference admission visits function blocks in order, resolving a selected
+-- incoming operand immediately and stopping at the first error.
+private def readIncomingReference (f : Function) : IncomingReaders :=
+  ⟨fun _ => ⟨fun entries locals ids blockIds width =>
+    f.blocks.foldlM (fun acc pred =>
+      match entries.find? (·.1 == pred.label) with
+      | some (_, value) => lowerIncoming locals ids blockIds width acc (pred.label, value)
+      | none => pure acc) #[]⟩⟩
+
+-- Passing the prepared values to separate functions keeps indexing outside
+-- the per-phi call after compiler arity expansion and closure optimization.
+@[noinline] private def readerUsing (order : IncomingOrder) : IncomingReader :=
+  ⟨fun entries locals ids blockIds width =>
+    (order.select entries).foldlM (lowerIncoming locals ids blockIds width) #[]⟩
+
+@[noinline] private def readersUsing (orders : IncomingOrders) : IncomingReaders :=
+  ⟨fun target => readerUsing (orders.forTarget target)⟩
+
+private def readIncomingUsing (ordersFor : Function → IncomingOrders) (f : Function) :
+    IncomingReaders :=
+  readersUsing (ordersFor f)
+
+private theorem readIncomingReference_eq :
+    readIncomingReference = readIncomingUsing incomingOrders := by
+  funext f
+  apply congrArg IncomingReaders.mk
+  funext target
+  apply congrArg IncomingReader.mk
+  funext entries locals ids blockIds width
+  simp only [incomingOrders, selectIn,
+    NameIndex.first, List.foldlM_filterMap, List.foldlM_map, ← Array.foldlM_toList]
+  apply congrArg (fun step => f.blocks.toList.foldlM step #[])
+  funext acc pred
+  cases entries.find? (fun entry => entry.1 == pred.label) with
+  | none => simp
+  | some pair => cases pair; simp
+
+@[inline] private def admitUsing (prepareIncoming : Function → IncomingReaders) (f : Function) :
+    Except AdmissionError Source.Function := do
   if !validIdentifier f.name then throw (.unsupported "quoted global names")
   if f.customSection.isSome then throw (.unsupported "custom sections")
   if f.resultAggregate.isSome || f.parameters.any (·.aggregate.isSome) then throw (.unsupported "aggregate function signatures")
@@ -241,18 +291,16 @@ def admit (f : Function) : Except AdmissionError Source.Function := do
   limit "frame bytes" frame 4080
   let ids := NameIndex.position Prod.fst locals
   let blockIds := NameIndex.position Block.label f.blocks
-  let orders := incomingOrders f
+  let readIncoming := prepareIncoming f
   let mut blocks := #[]
   for block in f.blocks do
     let mut phis := #[]
     if !block.phis.isEmpty then
-      let order := orders.forTarget block.label
+      let reader := readIncoming.forTarget block.label
       for phi in block.phis do
         if phi.floating then throw (.unsupported "floating phi values")
         -- Resolve in block order, independent of textual incoming-list order.
-        let mut incoming := #[]
-        for (pred, value) in order.select phi.incoming do
-          incoming := incoming.push (← blockId blockIds pred, ← operand locals ids phi.width value)
+        let incoming ← reader.read phi.incoming locals ids blockIds phi.width
         let destination ← valueId ids phi.destination
         phis := phis.push ({ destination, width := phi.width, incoming } : Source.Phi)
     let mut instructions := #[]
@@ -274,5 +322,20 @@ def admit (f : Function) : Except AdmissionError Source.Function := do
     blocks := blocks.push ({ phis, instructions, terminator } : Source.Block)
   pure { resultWidth, parameters := f.parameters.map (·.width),
          valueWidths := locals.map (·.2), blocks }
+
+/-- Import only the current first-path profile into raw locally numbered syntax. The result is
+    not proof-carrying and must not satisfy a certification request. -/
+def admit (f : Function) : Except AdmissionError Source.Function :=
+  admitUsing readIncomingReference f
+
+private def admitIndexed (f : Function) : Except AdmissionError Source.Function :=
+  admitUsing (readIncomingUsing incomingOrdersIndexed) f
+
+/-- The effectful admission loop preserves the whole result, including the
+    first error raised while resolving a predecessor or its operand. -/
+@[csimp] theorem admit_eq_indexedIncoming : admit = admitIndexed := by
+  funext f
+  unfold admit admitIndexed
+  rw [readIncomingReference_eq, incomingOrders_eq_indexed]
 
 end LeanCompilerBackend.Verified

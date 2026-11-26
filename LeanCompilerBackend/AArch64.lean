@@ -707,10 +707,11 @@ private def edgeLabel (f : Function) (label : String) : String :=
     source of another pending copy. Stack/symbol transfers and remaining cycles
     retain simultaneous staging. Distinct destinations are checked by allocation.
     A narrowing self-copy waits for other users of its old long register bits. -/
-private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (f : Function) (slots : Homes) (stageBase : Nat)
+private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (targets : NameIndex.Lookup String Assembly.EdgeTarget) (slots : Homes) (stageBase : Nat)
     (predecessor target : String) : Except String (List String) := do
-  let some block := f.blocks.find? (·.label == target) | throw s!"unknown block @{target}"
-  let mut lines := []
+  let some edgeTarget := targets.get target | throw s!"unknown block @{target}"
+  let block := edgeTarget.block
+  let mut lines := Assembly.LineBuffer.ofList []
   let mut values : Array Operand := #[]
   let mut sources : Array (Option Nat) := #[]
   let mut destinations : Array (Option Nat) := #[]
@@ -718,7 +719,7 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
   let mut staged : Array Nat := #[]
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
-    let some (_, value) := phi.incoming.find? (·.1 == predecessor)
+    let some (_, value) := edgeTarget.incoming[i]?.bind (·.get predecessor)
       | throw s!"missing phi predecessor @{predecessor}"
     values := values.push value
     sources := sources.push (match value with
@@ -757,7 +758,7 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
     let phi := block.phis[i]!
     let r := register phi.width 9
     lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ (← storeHome base slots phi.width r phi.destination)
-  pure lines
+  pure lines.toList
 
 /-- Remove only empty conditional-edge trampolines whose true block is next.
     Every instruction emitted in a function is one four-byte A64 instruction;
@@ -924,6 +925,7 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
   let frame := alignUp frameEnd 16
   if frame > 1024 * 1024 then throw "stack frame exceeds the 1 MiB resource limit"
   let symbol := symbolName darwin f.name
+  let targets := Assembly.edgeTargets f
   let mut lines := Assembly.LineBuffer.ofList [s!"{if darwin then ";" else "//"} function {f.name}; AArch64 compatibility backend",
     f.customSection.map (sectionDirective darwin) |>.getD ".text"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
@@ -1061,7 +1063,7 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
       lines := lines ++ ["\tret"]
     | .halt => lines := lines ++ ["\tbrk #0"]
     | .jump target =>
-      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label target)
+      lines := lines ++ (← emitEdge darwin localSymbols base targets slots stageBase block.label target)
       if !allocate || next != some target then lines := lines ++ [s!"\tb {blockLabel f target}"]
     | .branch condition yes no =>
       let otherwise := edgeLabel f block.label
@@ -1071,9 +1073,9 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
         let conditionHome := operandRegister slots 9 condition
         if conditionHome == 9 then lines := lines ++ (← load darwin localSymbols base slots .word 9 condition)
         lines := lines ++ [s!"\tcbz w{conditionHome}, {otherwise}"]
-      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label yes)
+      lines := lines ++ (← emitEdge darwin localSymbols base targets slots stageBase block.label yes)
       lines := lines ++ [s!"\tb {blockLabel f yes}", otherwise ++ ":"]
-      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label no)
+      lines := lines ++ (← emitEdge darwin localSymbols base targets slots stageBase block.label no)
       if !allocate || next != some no then lines := lines ++ [s!"\tb {blockLabel f no}"]
   if allocate then lines := Assembly.LineBuffer.ofList (compactEmptyBranches lines.toList)
   if extra && !leafBranchesLocal lines.toList then return none

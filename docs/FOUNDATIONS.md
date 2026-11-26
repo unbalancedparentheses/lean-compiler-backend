@@ -186,19 +186,19 @@ the first matching entry and block-order phi inputs. Reachability expands each
 new label once and retains the original round bound.
 
 Restricted dominance represents each row as a bit set over the existing
-64-block profile. A worklist starts with the original approximation. It
-evaluates each full equation once, then propagates changes along individual
-successor edges. A successful update only clears bits, and each row retains
-its own bit. An edge therefore receives at most 64 updates. Each update uses
-ordered lookups and a bounded-width bit operation, including on cyclic CFGs.
-The final fixed-point check and a bound on the number of changes preserve the
-reference solver's result and fuel behavior. The synchronous solver covers
-inputs to the internal solver that fail those checks.
+64-block profile. It visits equations in reverse postorder, so forward
+dependencies in an acyclic CFG settle in one sweep independent of block
+layout. Cycles can require additional sweeps. Each update only clears bits.
+The solver checks a candidate against the original fixed-point equations,
+the initial approximation and the original fuel bound. The synchronous
+reference solver handles cases where those checks cannot certify a candidate.
 
-Ordered lookup costs `O(log n)` per query or update. The definition, phi-input
-and typed assembly passes make a bounded number of passes over their inputs
-and emitted instructions. The 64-bit dominance masks contribute a fixed
-factor to CFG processing under the profile's block limit.
+Ordered lookup costs `O(log n)` per query or update. A dominance sweep costs
+`O((blocks + edges) log blocks)` under the 64-block mask bound. The definition,
+phi-input and typed assembly passes make a bounded number of passes over their
+inputs and emitted instructions. Compatibility emitters build a first-match
+index for block labels and each phi's incoming operands once per function.
+They accumulate emitted lines in chunks in their original order.
 
 Lean's `@[csimp]` equalities connect these executable replacements to the
 reference operations, including their `Except` results. The audit checks the

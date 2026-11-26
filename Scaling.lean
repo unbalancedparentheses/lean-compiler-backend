@@ -1,6 +1,7 @@
 /- In-process scaling of the numbered-source entry points. -/
 import LeanCompilerBackend.Verified.Job
 import LeanCompilerBackend.AMD64
+import LeanCompilerBackend.AArch64
 
 open LeanCompilerBackend LeanCompilerBackend.Verified
 
@@ -32,19 +33,38 @@ private def checkedChain (cyclic : Bool) (n seed : Nat) : Source.Function :=
           else .branch value (block + 1) n
         { phis := #[], instructions, terminator } }
 
--- Eight reachable predecessors feed one join. The source frame has two slots per phi.
-private def widePhis (n seed : Nat) : Source.Function := Id.run do
+-- Repeatedly reconverging edges, with the non-entry blocks in reverse order.
+private def reverseLadder (n seed : Nat) : Source.Function :=
+  let number := fun i => if i == 0 then 0 else n - i
+  { resultWidth := .word, parameters := #[], valueWidths := #[]
+    blocks := (Array.range n).map fun slot =>
+      let i := number slot
+      let value := Source.Operand.literal (.word (BitVec.ofNat 32 (seed + i + 1)))
+      let terminator :=
+        if i + 1 == n then Source.Terminator.ret value
+        else if i == 0 || i + 2 == n then .jump (number (i + 1))
+        else .branch value (number (i + 1)) (number (i + 2))
+      { phis := #[], instructions := #[], terminator } }
+
+private def jumpChain (n seed : Nat) : Source.Function :=
+  { resultWidth := .word, parameters := #[], valueWidths := #[]
+    blocks := (Array.range n).map fun i =>
+      { phis := #[], instructions := #[], terminator :=
+          if i + 1 < n then .jump (i + 1) else .ret (.literal (.word (BitVec.ofNat 32 seed))) } }
+
+private def phiJoin (predecessors n seed : Nat) (width : Width := .word) : Source.Function := Id.run do
+  let join := predecessors + 1
   let mut blocks : Array Source.Block := #[{ phis := #[], instructions := #[], terminator := .jump 1 }]
-  for i in [1:9] do
-    let terminator := if i == 8 then Source.Terminator.jump 9
-      else .branch (.literal (.word 1)) 9 (i + 1)
+  for i in [1:join] do
+    let terminator := if i == predecessors then Source.Terminator.jump join
+      else .branch (.literal (.word 1)) join (i + 1)
     blocks := blocks.push { phis := #[], instructions := #[], terminator }
   let phis := (Array.range n).map fun i =>
-    { destination := i, width := .word, incoming := (Array.range 8).map fun j =>
+    { destination := i, width, incoming := (Array.range predecessors).map fun j =>
       (j + 1, .literal (.word (BitVec.ofNat 32 (seed + i + j)))) : Source.Phi }
-  let join : Source.Block := { phis, instructions := #[], terminator := .ret (.local (n - 1)) }
-  return { resultWidth := .word, parameters := #[], valueWidths := Array.replicate n .word
-           blocks := blocks.push join }
+  let joinBlock : Source.Block := { phis, instructions := #[], terminator := .ret (.local (n - 1)) }
+  return { resultWidth := width, parameters := #[], valueWidths := Array.replicate n width
+           blocks := blocks.push joinBlock }
 
 private def job (f : Source.Function) : FunctionJob :=
   { code := { symbol := { namespaceName := "scaling", name := "body", exported := true }
@@ -99,18 +119,19 @@ private def ratio (large small : Nat) : String :=
 
 private def check (name : String) (fixture : Nat → Nat → Source.Function) (base : Nat)
     (work : Source.Function → Except String Nat) (control : Bool) : IO Bool := do
-  for attempt in [:3] do
+  for attempt in [:(if control then 1 else 3)] do
     let (small, medium, large) ← measurements fixture base work
     -- Allow logarithmic index growth and fixed per-call overhead. A quadratic
     -- scan should grow by roughly 64x and 256x over these same windows.
     let passed := medium * 2 <= small * 25 && large * 2 <= small * 53 &&
       large * 2 <= medium * 5
     IO.println s!"{name}: {small / 32}, {medium / 32}, {large / 32} ns/call; ratios {ratio medium small}, {ratio large small}; {if passed then "accepted" else "rejected"} (attempt {attempt + 1})"
+    (← IO.getStdout).flush
     if passed != control then return true
   return false
 
 private def validation (f : Source.Function) : Except String Nat :=
-  ((validateJob (job f)).mapError reprStr).map fun _ => f.valueWidths.size
+  ((validateJob (job f)).mapError reprStr).map fun _ => f.valueWidths.size + f.blocks.size
 
 private def arm (f : Source.Function) : Except String Nat :=
   ((compileFunction (job f)).mapError reprStr).map (·.code.fragment.utf8ByteSize)
@@ -123,12 +144,38 @@ private def checkFixture (name : String) (fixture : Nat → Nat → Source.Funct
   let armOK ← check (name ++ " AArch64 macOS assembly") fixture base arm false
   return validationOK && x86OK && armOK
 
+-- Measure the validated emitter boundary so compatibility CFG validation
+-- cannot hide the cost of an emitter's edge lookups.
+private def checkCompatibility (name : String) (fixture : Nat → Nat → Source.Function)
+    (base : Nat) : IO Bool := do
+  let moduleOf := fun f => ({ functions := #[reify f "body" true] } : Module)
+  for n in #[base, 8 * base, 16 * base] do
+    match validateModule (moduleOf (fixture n 0)) with
+    | .ok () => pure ()
+    | .error e => throw (IO.userError e)
+  let x86 ← check (name ++ " x86-64 compatibility") fixture base
+    (fun f => (AMD64.emitModuleValidated (moduleOf f)).map String.utf8ByteSize) false
+  let a64 ← check (name ++ " AArch64 compatibility") fixture base
+    (fun f => (AArch64.emitModuleValidated (moduleOf f)).map String.utf8ByteSize) false
+  return x86 && a64
+
 def main (args : List String) : IO UInt32 := do
+  -- Use one machine representation for timed masks, then exercise the
+  -- arbitrary-precision boundary separately at the full profile ceiling.
+  let ladderOK ← checkFixture "reverse ladder" (fun n => reverseLadder (min n 62)) 4
+  let ceiling := reverseLadder 64 0
+  for run in [validation, (fun f => (linux f).map String.utf8ByteSize), arm] do
+    match run ceiling with
+    | .ok _ => pure ()
+    | .error e => throw (IO.userError e)
   let chainOK ← checkFixture "chain" chain 30
   let cfgOK ← checkFixture "checked chain" (checkedChain false) 3
   let loopOK ← checkFixture "loop chain" (checkedChain true) 3
-  let phiOK ← checkFixture "phi join" widePhis 15
+  let phiOK ← checkFixture "phi join" (fun n seed => phiJoin 8 n seed) 15
+  let edgesOK ← checkCompatibility "jump chain" jumpChain 256
+  let stagingOK ← checkCompatibility "two-way phi join" (fun n seed => phiJoin 2 n seed .long) 128
+  let fanInOK ← checkCompatibility "phi fan-in" (fun n seed => phiJoin n 8 seed) 128
   unless quadratic (chain 480 0) == 480 * 481 / 2 do
     throw (IO.userError "planted quadratic checksum mismatch")
   let control ← check "planted quadratic" chain 30 (fun f => .ok (quadratic f)) true
-  return if (chainOK && cfgOK && loopOK && phiOK && control) || args == ["--report-only"] then 0 else 1
+  return if (chainOK && cfgOK && loopOK && phiOK && ladderOK && edgesOK && stagingOK && fanInOK && control) || args == ["--report-only"] then 0 else 1

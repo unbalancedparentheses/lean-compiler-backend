@@ -40,10 +40,10 @@ bash scripts/check.sh
 ```
 
 Run `.lake/build/bin/lcb-scaling` for the in-process validation and assembly
-scaling gate alone. It exercises straight-line code, a checked-operation CFG
-with a shared exit, a cyclic CFG, and a wide phi join on the x86-64 Linux and
-AArch64 macOS
-emission paths.
+scaling gate alone. It exercises straight-line code, checked operations with a shared exit, a
+cyclic CFG, a reverse-ordered branching CFG, and a wide phi join through
+numbered validation and the x86-64 Linux and AArch64 macOS emitters. Separate
+compatibility emitter cases scale the block count, phi count, and phi fan-in.
 
 CI runs the pinned checks on Linux ARM64, Linux x86-64 and Apple ARM64, including
 native execution, proof auditing and independent C/QBE comparisons. Local
@@ -149,7 +149,7 @@ Existing proofs cover restricted source/machine semantics, primitive ALU
 selection and parts of a separate typed first path. New focused proofs cover
 [generated-name collision avoidance](docs/proofs/FRESH_NAMES.md) and
 [13 local zero/one rewrite cases](docs/SEMANTICS.md#local-algebra-proof-checkpoint).
-The 191-statement proof audit records exact theorem dependencies. It does **not** prove the complete
+The 193-statement proof audit records exact theorem dependencies. It does **not** prove the complete
 compatibility pipeline, optimizer, allocator, ABI lowering, assembly rendering,
 assembler or linker correct. Execution tests and structural checkers do not
 replace those proofs.
