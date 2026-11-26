@@ -35,14 +35,62 @@ To work on the compiler:
 
 ```sh
 nix develop
-lake build lcb lcb-tests
+lake build lcb lcb-tests lcb-scaling
 bash scripts/check.sh
 ```
+
+Run `.lake/build/bin/lcb-scaling` for the in-process validation and assembly
+scaling gate alone. It exercises straight-line code, checked operations with a shared exit, a
+cyclic CFG, a reverse-ordered branching CFG, and a wide phi join through
+numbered validation and the x86-64 Linux and AArch64 macOS emitters. Separate
+compatibility emitter cases scale the block count, phi count, and phi fan-in.
 
 CI runs the pinned checks on Linux ARM64, Linux x86-64 and Apple ARM64, including
 native execution, proof auditing and independent C/QBE comparisons. Local
 qualification additionally uses QEMU for Linux RV64 and Rosetta for Apple x86-64.
 Reports identify native, emulated and emission-only results separately.
+
+## TRACKED
+
+The required scaling gate counts deterministic work in the compiler. It
+counts validation visits, dominance rows and predecessor/successor probes,
+indexed edge and phi-operand lookups, rendered function lines, and candidates
+inspected by AArch64 debug lookahead. Public entry points project their
+results from the counted implementation. The counted packed dominance solver
+also has a Lean equality to the reference oracle, including its error result.
+
+For fixture sizes `n`, `8n`, and `16n`, the gate compares all three pairwise
+ratios against the growth of `n * (1 + floor(log2(n)))`. This allows linear
+traversals and logarithmic ordered-index work on these fixtures. Each lookup
+counts as one logical operation, and each rendered line has unit cost. The
+planted quadratic control must exceed the same limits.
+
+| Expected rejection | Tracked issue |
+| --- | --- |
+| Bidirectional chain job validation | Bidirectional chain dominance |
+| Bidirectional chain AArch64 macOS assembly | Bidirectional chain dominance |
+| Allocated AArch64 debug locations | AArch64 debug-location lookahead |
+
+Every expected rejection must still exceed the work limit. If the row meets
+the limit, CI fails until the expected-failure entry is removed. Compiler
+errors fail every row, including expected rejections.
+
+- **Bidirectional chain dominance.** The numbered solver needs 2, 30, and 62
+  whole-graph sweeps at 4, 32, and 64 blocks. The typed AArch64 path runs this
+  solver during job validation. Compatibility x86-64 uses the indexed CFG
+  worklist and passes the work gate.
+- **AArch64 debug-location lookahead.** In the allocated path, lookahead can
+  scan the full location array for each ordinary instruction when all records
+  point to the terminator.
+- **64-block masks and repeated ordered-map rebuilds.** The packed solver
+  rebuilds string-keyed tables and promotes masks with bit 63 set to heap
+  integers. Earlier timing runs crossed the former wall-clock limit on the
+  reverse ladder, whose edge count also rises from 4 to 124 across the
+  fixture. Its measured work passes the deterministic gate on all three paths.
+
+Other follow-ups include whole-function equality coverage for lowering and
+emission glue, reverse-ladder fixture size calibration, and scans in job
+debug-source lookup, compatibility symbol and slot lookup, and RV64 emission.
 
 ## Targets and command line
 
@@ -143,7 +191,7 @@ Existing proofs cover restricted source/machine semantics, primitive ALU
 selection and parts of a separate typed first path. New focused proofs cover
 [generated-name collision avoidance](docs/proofs/FRESH_NAMES.md) and
 [13 local zero/one rewrite cases](docs/SEMANTICS.md#local-algebra-proof-checkpoint).
-The 174-statement proof audit records exact theorem dependencies. It does **not** prove the complete
+The 193-statement proof audit records exact theorem dependencies. It does **not** prove the complete
 compatibility pipeline, optimizer, allocator, ABI lowering, assembly rendering,
 assembler or linker correct. Execution tests and structural checkers do not
 replace those proofs.

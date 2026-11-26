@@ -38,6 +38,12 @@ private def reachableWithout (g : Graph) (removed : Nat) : Array Bool := Id.run 
   return reached
 
 def run : IO Unit := do
+  let inconsistent : Graph := { successors := #[#[1, 2], #[], #[]]
+                                predecessors := #[#[], #[2], #[]] }
+  match CFG.dominators inconsistent with
+  | .ok result => unless result.sets == #[1, 7, 4] do
+      throw (IO.userError "public dominance changed on directly constructed graph")
+  | .error e => throw (IO.userError e)
   for mask in [:4096] do
     let g := graph mask
     let doms ← match CFG.dominators g with

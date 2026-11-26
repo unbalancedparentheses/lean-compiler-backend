@@ -2,10 +2,38 @@
 set -euo pipefail
 python3 scripts/build_identity.py --check-binary
 .lake/build/bin/lcb-tests
+.lake/build/bin/lcb-scaling
 python3 scripts/cli_protocol.py "$@"
 python3 scripts/port_inventory.py
 audit=$(lake env lean scripts/ProofAudit.lean)
 printf '%s\n' "$audit"
+# These equalities authorize compiler replacements of the reference computations.
+auditSingleLine=$(tr '\n' ' ' <<< "$audit" | tr -s ' ')
+for theorem in \
+  LeanCompilerBackend.NameIndex.first_eq_indexed \
+  LeanCompilerBackend.NameIndex.position_eq_indexed \
+  LeanCompilerBackend.NameIndex.members_eq_indexed \
+  LeanCompilerBackend.NameIndex.dedup_eq_indexed \
+  LeanCompilerBackend.BoundedDominance.oracle_eq_packed \
+  LeanCompilerBackend.Verified.Reachability.count_eq_frontier \
+  LeanCompilerBackend.predecessorLookup_eq_indexed \
+  LeanCompilerBackend.collectReference_eq_indexed \
+  LeanCompilerBackend.BoundedDominance.packedSolve_eq_worklist \
+  LeanCompilerBackend.BoundedDominance.packedBlocks_eq_indexed \
+  LeanCompilerBackend.BoundedDominance.indexedRows_eq_fast \
+  LeanCompilerBackend.Verified.StackMIR.labelSetUsing_eq_indexed \
+  LeanCompilerBackend.Verified.StackMIR.edgeLowerers_eq_indexed \
+  LeanCompilerBackend.Verified.StackMIR.stageReads_eq_indexed \
+  LeanCompilerBackend.Verified.TypedA64.renderLines_eq_linear \
+  LeanCompilerBackend.Verified.incomingOrders_eq_indexed \
+  LeanCompilerBackend.validateFunctionGraph_eq_indexedDeclarations \
+  LeanCompilerBackend.BoundedDominance.oracleWithWork_eq_countedPacked \
+  LeanCompilerBackend.BoundedDominance.oracleWithWork_result \
+  LeanCompilerBackend.Verified.admitWithWork_eq_indexed \
+  LeanCompilerBackend.Verified.admit_eq_indexedIncoming; do
+  grep -F "'$theorem' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$auditSingleLine" >/dev/null
+done
+grep -Fx "'LeanCompilerBackend.Assembly.foldLines_eq_linear' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_append_ne' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_not_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_counter_ne' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null

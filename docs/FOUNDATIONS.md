@@ -176,6 +176,35 @@ fail in admitted executions. Extending the frame to full memory, relating the
 instruction model to the ISA, rendering, assembly, relocation and native
 execution remain explicit boundaries.
 
+## Numbered validation and assembly scaling
+
+Canonical validation still reifies the numbered function, admits it, and
+compares the admitted value with the source shape. Reification and the final
+structural comparison traverse their arrays. Admission indexes names, incoming
+values and predecessors with ordered trees. It preserves declaration order,
+the first matching entry and block-order phi inputs. Reachability expands each
+new label once and retains the original round bound.
+
+Restricted dominance represents each row as a bit set over the existing
+64-block profile. It visits equations in reverse postorder, so forward
+dependencies in an acyclic CFG settle in one sweep independent of block
+layout. Cycles can require additional sweeps. Each update only clears bits.
+The solver checks a candidate against the original fixed-point equations,
+the initial approximation and the original fuel bound. The synchronous
+reference solver handles cases where those checks cannot certify a candidate.
+
+Ordered lookup costs `O(log n)` per query or update. A dominance sweep costs
+`O((blocks + edges) log blocks)` under the 64-block mask bound. The definition,
+phi-input and typed assembly passes make a bounded number of passes over their
+inputs and emitted instructions. Compatibility emitters build a first-match
+index for block labels and each phi's incoming operands once per function.
+They accumulate emitted lines in chunks in their original order.
+
+Lean's `@[csimp]` equalities connect these executable replacements to the
+reference operations, including their `Except` results. The audit checks the
+axioms of the replacements. This establishes agreement with the executable
+specifications and keeps the existing assurance boundary for checker soundness.
+
 ## Pass obligations (F05)
 
 | Pass/boundary | Invariant and semantic relation | Evidence now; failure behavior | Remaining composition obligation |

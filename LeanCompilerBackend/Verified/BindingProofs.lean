@@ -20,10 +20,7 @@ theorem verifyArtifact_binds (job : FunctionJob) (artifact : FunctionArtifact)
 theorem compile_refuses_unavailable (job : FunctionJob) (artifact : FunctionArtifact)
     (required : job.requested ≠ .none) :
     compileFunction job ≠ .ok artifact := by
-  cases hv : validateJob job with
-  | error error => simp [compileFunction, hv, bind, Except.bind]
-  | ok result =>
-    cases result
-    simp [compileFunction, hv, required, bind, Except.bind, throw]
+  cases hv : validateJobWithWork job <;>
+    simp [compileFunction, compileFunctionWithWork, hv, required, bind, Except.bind, throw, Except.map]
 
 end LeanCompilerBackend.Verified

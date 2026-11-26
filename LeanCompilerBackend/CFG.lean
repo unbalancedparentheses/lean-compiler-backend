@@ -66,7 +66,7 @@ structure Dominators where
 /-- Work-list fixed point over packed finite sets. Preserves the previous
     validator's treatment of disconnected regions: predecessor-free nodes have
     only themselves, while a closed unreachable SCC retains vacuous dominators. -/
-def dominators (graph : Graph) : Except String Dominators := do
+def dominatorsWithWork (graph : Graph) : Except String (Dominators × Nat) := do
   let count := graph.successors.size
   if count == 0 then throw "function has no entry block"
   let all := (1 <<< count) - 1
@@ -74,19 +74,24 @@ def dominators (graph : Graph) : Except String Dominators := do
   let mut pending := (List.range count).toArray
   let mut queued := Array.replicate count true
   let mut next := 0
+  let mut work := 0
   for _ in [:count * count * 4 + count + 1] do
-    if next == pending.size then return { graph, sets }
+    if next == pending.size then return ({ graph, sets }, work)
     let node := pending[next]!
     next := next + 1
+    work := work + 1
     queued := queued.set! node false
     if node != 0 then
       let preds := graph.predecessors[node]!
       let mut members := if preds.isEmpty then 0 else all
-      for pred in preds do members := members &&& sets[pred]!
+      for pred in preds do
+        work := work + 1
+        members := members &&& sets[pred]!
       members := members ||| (1 <<< node)
       if members != sets[node]! then
         sets := sets.set! node members
         for target in graph.successors[node]! do
+          work := work + 1
           if !queued[target]! then
             queued := queued.set! target true
             pending := pending.push target
@@ -95,9 +100,16 @@ def dominators (graph : Graph) : Except String Dominators := do
       next := 0
   throw "dominance iteration resource limit exceeded"
 
+def dominators (graph : Graph) : Except String Dominators :=
+  (dominatorsWithWork graph).map Prod.fst
+
+theorem dominatorsWithWork_result (graph : Graph) :
+    (dominatorsWithWork graph).map Prod.fst = dominators graph := rfl
+
 def Dominators.contains (doms : Dominators) (useBlock definitionBlock : String) : Bool :=
   match doms.graph.indices[useBlock]?, doms.graph.indices[definitionBlock]? with
   | some useIndex, some definitionIndex => ((doms.sets[useIndex]! >>> definitionIndex) &&& 1) == 1
   | _, _ => false
+
 
 end LeanCompilerBackend.CFG

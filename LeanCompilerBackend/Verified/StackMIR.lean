@@ -22,6 +22,68 @@ inductive Label where
   | edge (predecessor target : Nat)
   deriving DecidableEq, Repr
 
+private abbrev LabelKey := List Nat
+
+private def Label.key : Label → LabelKey
+  | .entry => [0]
+  | .body block => [1, block]
+  | .edge pred target => [2, pred, target]
+
+private theorem Label.key_eq_iff (left right : Label) : left.key = right.key ↔ left = right := by
+  cases left <;> cases right <;> simp [Label.key]
+
+private def labelSetUsing (labels : List Label) (duplicate : String) :
+    Except String (NameIndex.Membership Label) := do
+  let entries ← labels.foldlM (fun (seen : List Label) (label : Label) =>
+    if seen.contains label then Except.error duplicate else Except.ok (label :: seen)) []
+  pure ⟨entries.contains⟩
+
+-- A separate constructor keeps the complete index outside the query closure.
+@[noinline] private def keyedLabels (index : Std.TreeSet LabelKey) : NameIndex.Membership Label :=
+  ⟨fun label => index.contains label.key⟩
+
+private def labelSetIndexed (labels : List Label) (duplicate : String) :
+    Except String (NameIndex.Membership Label) :=
+  (labels.foldlM (fun (seen : Std.TreeSet LabelKey) (label : Label) =>
+    if seen.contains label.key then Except.error duplicate else Except.ok (seen.insert label.key)) {}).map keyedLabels
+
+private theorem labelFold_eq (labels seen : List Label) (index : Std.TreeSet LabelKey)
+    (duplicate : String) (agrees : ∀ label : Label, index.contains label.key = seen.contains label) :
+    (labels.foldlM (fun (seen : List Label) (label : Label) =>
+      if seen.contains label then Except.error duplicate else Except.ok (label :: seen)) seen).map
+        (fun entries => (⟨entries.contains⟩ : NameIndex.Membership Label)) =
+      (labels.foldlM (fun (seen : Std.TreeSet LabelKey) (label : Label) =>
+        if seen.contains label.key then Except.error duplicate else Except.ok (seen.insert label.key)) index).map
+          keyedLabels := by
+  induction labels generalizing seen index with
+  | nil =>
+    apply congrArg Except.ok
+    apply congrArg NameIndex.Membership.mk
+    funext label
+    exact (agrees label).symm
+  | cons label rest ih =>
+    simp only [List.foldlM_cons, agrees label]
+    split
+    · rfl
+    · apply ih
+      intro query
+      rw [Std.TreeSet.contains_insert, List.contains_cons, agrees query]
+      by_cases h : label = query
+      · subst query
+        simp
+      · have cmp : (compare label.key query.key == .eq) = false :=
+          beq_eq_false_iff_ne.mpr (fun hc => h ((Label.key_eq_iff _ _).mp
+            (Std.LawfulEqOrd.compare_eq_iff_eq.mp hc)))
+        rw [cmp, beq_eq_false_iff_ne.mpr (Ne.symm h)]
+
+@[csimp] theorem labelSetUsing_eq_indexed : labelSetUsing = labelSetIndexed := by
+  funext labels duplicate
+  exact labelFold_eq labels [] {} duplicate (by simp)
+
+/-- Check label uniqueness before any target or instruction checks. -/
+def labelSet (labels : Array Label) (duplicate : String) : Except String (NameIndex.Membership Label) :=
+  labelSetUsing labels.toList duplicate
+
 inductive Instruction where
   | enterFrame (bytes : Nat)
   | leaveFrame (bytes : Nat)
@@ -92,6 +154,62 @@ def lowerEdge (f : Source.Function) (pred target : Nat) : Except String Block :=
          instructions := (stages ++ commitPhis 0 block.phis.toList).toArray,
          terminator := .jump (.body target) }
 
+private structure IndexedPhi where
+  phi : Source.Phi
+  incoming : NameIndex.Lookup Nat (Nat × Source.Operand)
+
+private def indexPhi (phi : Source.Phi) : IndexedPhi :=
+  ⟨phi, NameIndex.first Prod.fst phi.incoming⟩
+
+private def stageIndexedPhis (pred index : Nat) : List IndexedPhi → Except String (List Instruction)
+  | [] => .ok []
+  | indexed :: rest => do
+    let some (_, operand) := indexed.incoming.get pred | throw "missing phi predecessor"
+    let tail ← stageIndexedPhis pred (index+1) rest
+    pure (loadOperand indexed.phi.width .r9 operand :: .store indexed.phi.width (.stage index) .r9 :: tail)
+
+private theorem stageIndexedPhis_eq (pred index : Nat) (phis : List Source.Phi) :
+    stageIndexedPhis pred index (phis.map indexPhi) = stagePhis pred index phis := by
+  induction phis generalizing index with
+  | nil => rfl
+  | cons phi rest ih =>
+    simp only [List.map_cons, stageIndexedPhis, stagePhis, indexPhi, NameIndex.first, ih, eq_comm]
+    rfl
+
+private structure EdgeLowerer where
+  lower : Nat → Nat → Except String Block
+
+private def edgeLowerers (source : Source.Function) : EdgeLowerer :=
+  ⟨lowerEdge source⟩
+
+private structure TargetPhis where
+  indexed : List IndexedPhi
+  commits : List Instruction
+
+private def prepareTarget (block : Source.Block) : TargetPhis :=
+  let phis := block.phis.toList
+  ⟨phis.map indexPhi, commitPhis 0 phis⟩
+
+private def lowerPreparedTarget (prepared : Array TargetPhis) (pred target : Nat) :
+    Except String Block := do
+  let some block := prepared[target]? | throw "edge target is missing"
+  let stages ← stageIndexedPhis pred 0 block.indexed
+  pure { label := .edge pred target, instructions := (stages ++ block.commits).toArray,
+         terminator := .jump (.body target) }
+
+private def edgeLowerersIndexed (source : Source.Function) : EdgeLowerer :=
+  ⟨lowerPreparedTarget (source.blocks.map prepareTarget)⟩
+
+@[csimp] theorem edgeLowerers_eq_indexed : edgeLowerers = edgeLowerersIndexed := by
+  funext source
+  apply congrArg EdgeLowerer.mk
+  funext pred target
+  unfold lowerEdge lowerPreparedTarget
+  rw [Array.getElem?_map]
+  cases source.blocks[target]? with
+  | none => rfl
+  | some block => simp [prepareTarget, stageIndexedPhis_eq]
+
 /-- Layout is supplied explicitly, then checked against the source contract. -/
 def lower (source : Source.Function) (layout : FrameLayout) : Except String Function := do
   match validateSource source with
@@ -102,6 +220,7 @@ def lower (source : Source.Function) (layout : FrameLayout) : Except String Func
   for i in [:source.parameters.size] do
     let some width := source.parameters[i]? | throw "missing parameter"
     entry := entry.push (.readArg width i (.value i))
+  let edges := edgeLowerers source
   let mut blocks := #[{ label := .entry, instructions := entry, terminator := .jump (.body 0) : Block }]
   for id in [:source.blocks.size] do
     let some block := source.blocks[id]? | throw "missing source block"
@@ -115,7 +234,7 @@ def lower (source : Source.Function) (layout : FrameLayout) : Except String Func
         instructions := instructions.push (loadOperand .word .r9 condition)
         pure (.branch .r9 (.edge id yes) (.edge id no), if yes == no then #[yes] else #[yes, no])
     blocks := blocks.push { label := .body id, instructions, terminator }
-    for target in successors do blocks := blocks.push (← lowerEdge source id target)
+    for target in successors do blocks := blocks.push (← edges.lower id target)
   pure { parameters := source.parameters, resultWidth := source.resultWidth,
          valueWidths := source.valueWidths, layout, blocks }
 
@@ -130,6 +249,72 @@ private def checkAccess (f : Function) (width : Width) (slot : Slot) : Except St
   if let .value id := slot then
     if f.valueWidths[id]? != some width then throw "value slot width mismatch"
 
+private def stageReadsUsing (initial : σ) (write : σ → Nat → Width → σ)
+    (read : σ → Nat → Width → Bool) (code : Array Instruction) : Array Bool :=
+  (code.foldl (fun (state, checks) inst =>
+    match inst with
+    | .store width (.stage id) _ => (write state id width, checks.push true)
+    | .load width _ (.stage id) => (state, checks.push (read state id width))
+    | _ => (state, checks.push true)) (initial, #[])).2
+
+private def writeStage (stages : Array (Nat × Width)) (id : Nat) (width : Width) :
+    Array (Nat × Width) :=
+  (stages.filter (·.1 != id)).push (id, width)
+
+private def readStage (stages : Array (Nat × Width)) (id : Nat) (width : Width) : Bool :=
+  stages.contains (id, width)
+
+private def stageReads : Array Instruction → Array Bool :=
+  stageReadsUsing #[] writeStage readStage
+
+private def writeStageIndexed (stages : Std.TreeMap Nat Width) (id : Nat) (width : Width) :
+    Std.TreeMap Nat Width :=
+  stages.insert id width
+
+private def readStageIndexed (stages : Std.TreeMap Nat Width) (id : Nat) (width : Width) : Bool :=
+  stages[id]? == some width
+
+private def stageReadsIndexed : Array Instruction → Array Bool :=
+  stageReadsUsing {} writeStageIndexed readStageIndexed
+
+private theorem readStage_write (stages : Array (Nat × Width)) (written id : Nat) (new width : Width) :
+    readStage (writeStage stages written new) id width =
+      if written = id then new == width else readStage stages id width := by
+  have hl : ∀ a b : Width, (a == b) = decide (a = b) := by intro a b; cases a <;> cases b <;> rfl
+  letI : LawfulBEq Width :=
+    { eq_of_beq := fun h => by simpa only [hl, decide_eq_true_eq] using h
+      rfl := by intro; simp [hl] }
+  apply Bool.eq_iff_iff.mpr
+  by_cases h : written = id
+  · subst written
+    simp [readStage, writeStage, Array.mem_push, hl, eq_comm]
+  · simp [readStage, writeStage, Array.mem_push, h, Ne.symm h]
+
+private theorem readStageIndexed_write (stages : Std.TreeMap Nat Width)
+    (written id : Nat) (new width : Width) :
+    readStageIndexed (writeStageIndexed stages written new) id width =
+      if written = id then new == width else readStageIndexed stages id width := by
+  by_cases h : written = id <;>
+    simp [readStageIndexed, writeStageIndexed, Std.TreeMap.getElem?_insert, h]
+
+@[csimp] theorem stageReads_eq_indexed : stageReads = stageReadsIndexed := by
+  funext code
+  let relation (old : Array (Nat × Width) × Array Bool)
+      (new : Std.TreeMap Nat Width × Array Bool) :=
+    old.2 = new.2 ∧ ∀ id width, readStage old.1 id width = readStageIndexed new.1 id width
+  unfold stageReads stageReadsIndexed stageReadsUsing
+  apply And.left (a := _)
+  apply Array.foldl_rel (r := relation)
+  · exact ⟨rfl, fun id width => by simp [readStage, readStageIndexed]⟩
+  · intro inst _ old new h
+    rcases h with ⟨checks, reads⟩
+    cases inst with
+    | store width slot reg =>
+      cases slot <;> simp [relation, checks, reads, readStage_write, readStageIndexed_write]
+    | load width reg slot =>
+      cases slot <;> simp [relation, checks, reads]
+    | _ => simp [relation, checks, reads]
+
 /-- Structural legality, including per-edge stage initialization and frame phase.
     It does not prove that a selected source value is the right value. -/
 def validate (f : Function) : Except String Unit := do
@@ -141,15 +326,12 @@ def validate (f : Function) : Except String Unit := do
       f.layout.frameBytes != ((8 * (n + f.layout.stageOffsets.size) + 15) / 16) * 16 then
     throw "MIR frame regions overlap or differ from canonical layout"
   if (f.blocks[0]?).map (·.label) != some .entry then throw "entry must be first"
-  let mut labels : Array Label := #[]
-  for block in f.blocks do
-    if labels.contains block.label then throw "duplicate MIR label"
-    labels := labels.push block.label
+  let labels ← labelSet (f.blocks.map (·.label)) "duplicate MIR label"
   for block in f.blocks do
     let mut active := block.label != .entry
     let mut entered := false
     let mut left := false
-    let mut stages : Array (Nat × Width) := #[]
+    let reads := stageReads block.instructions
     let mut arguments : Array Nat := #[]
     for index in [:block.instructions.size] do
       let some inst := block.instructions[index]? | throw "missing MIR instruction"
@@ -173,14 +355,12 @@ def validate (f : Function) : Except String Unit := do
       | .load width _ slot =>
         if !active then throw "load outside frame lifetime"
         checkAccess f width slot
-        if let .stage id := slot then
-          if !stages.contains (id, width) then throw "stage read before same-width write"
+        if !reads[index]! then throw "stage read before same-width write"
       | .store width slot _ =>
         if !active then throw "store outside frame lifetime"
         checkAccess f width slot
-        if let .stage id := slot then
+        if let .stage _ := slot then
           if !(match block.label with | .edge .. => true | _ => false) then throw "stage write outside edge"
-          stages := (stages.filter (·.1 != id)).push (id, width)
       | _ => if !active then throw "operation outside frame lifetime"
     if block.label == .entry && (!entered || arguments.size != f.parameters.size) then
       throw "incomplete MIR prologue"

@@ -707,10 +707,11 @@ private def edgeLabel (f : Function) (label : String) : String :=
     source of another pending copy. Stack/symbol transfers and remaining cycles
     retain simultaneous staging. Distinct destinations are checked by allocation.
     A narrowing self-copy waits for other users of its old long register bits. -/
-private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (f : Function) (slots : Homes) (stageBase : Nat)
-    (predecessor target : String) : Except String (List String) := do
-  let some block := f.blocks.find? (·.label == target) | throw s!"unknown block @{target}"
-  let mut lines := []
+private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String) (targets : NameIndex.Lookup String Assembly.EdgeTarget) (slots : Homes) (stageBase : Nat)
+    (predecessor target : String) : Except String (List String × Nat) := do
+  let some edgeTarget := targets.get target | throw s!"unknown block @{target}"
+  let block := edgeTarget.block
+  let mut lines := Assembly.LineBuffer.ofList []
   let mut values : Array Operand := #[]
   let mut sources : Array (Option Nat) := #[]
   let mut destinations : Array (Option Nat) := #[]
@@ -718,7 +719,7 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
   let mut staged : Array Nat := #[]
   for i in [:block.phis.size] do
     let phi := block.phis[i]!
-    let some (_, value) := phi.incoming.find? (·.1 == predecessor)
+    let some (_, value) := edgeTarget.incoming[i]?.bind (·.get predecessor)
       | throw s!"missing phi predecessor @{predecessor}"
     values := values.push value
     sources := sources.push (match value with
@@ -757,7 +758,7 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
     let phi := block.phis[i]!
     let r := register phi.width 9
     lines := lines ++ slotAccess "ldr" base r phi.width.bytes (stageBase + i * 8) ++ (← storeHome base slots phi.width r phi.destination)
-  pure lines
+  pure (lines.toList, 1 + block.phis.size)
 
 /-- Remove only empty conditional-edge trampolines whose true block is next.
     Every instruction emitted in a function is one four-byte A64 instruction;
@@ -854,7 +855,18 @@ def leafBranchesLocal (lines : List String) : Bool := Id.run do
       if !(labels.contains target || (numeric && labels.contains (target.dropEnd 1).toString)) then return false
   return true
 
-private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) (validated : Bool := false) : Except String (Option String) := do
+-- A first-match search inspects exactly the prefix ending at the match.
+private def debugLookahead (locations : Array DebugLocation) (index : Nat) : Bool × Nat :=
+  let found := locations.findIdx? (fun d => d.instruction == index + 1 || d.instruction == index + 2)
+  (found.isSome, found.map (· + 1) |>.getD locations.size)
+
+private theorem debugLookahead_result (locations : Array DebugLocation) (index : Nat) :
+    (debugLookahead locations index).1 =
+      locations.any (fun d => d.instruction == index + 1 || d.instruction == index + 2) := by
+  exact Array.findIdx?_isSome
+
+private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) (validated : Bool := false) : Except String (Option String × Nat) := do
+  let mut work := 0
   if !validated then validateFunction f true
   checkTargetSection darwin f.customSection
   let bank := if extra then leafBank else savedBank
@@ -924,6 +936,7 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
   let frame := alignUp frameEnd 16
   if frame > 1024 * 1024 then throw "stack frame exceeds the 1 MiB resource limit"
   let symbol := symbolName darwin f.name
+  let targets := Assembly.edgeTargets f
   let mut lines := Assembly.LineBuffer.ofList [s!"{if darwin then ";" else "//"} function {f.name}; AArch64 compatibility backend",
     f.customSection.map (sectionDirective darwin) |>.getD ".text"]
   if f.exported then lines := lines ++ [s!".globl {symbol}"]
@@ -1019,7 +1032,9 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
           if allocate then
             if let some next := block.instructions[instructionIndex+1]? then
               if let some third := block.instructions[instructionIndex+2]? then
-                if !block.debugLocations.any (fun d => d.instruction == instructionIndex+1 || d.instruction == instructionIndex+2) then
+                let (hasDebug, probes) := debugLookahead block.debugLocations instructionIndex
+                work := work + probes
+                if !hasDebug then
                   pendingMemory := (← adjacentScaledLoad darwin localSymbols base slots addressUses statement next third).map (1, ·)
               if pendingMemory.isNone then
                 pendingMemory := (← adjacentIndexedLoad darwin localSymbols base slots addressUses statement next).map (0, ·)
@@ -1061,7 +1076,9 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
       lines := lines ++ ["\tret"]
     | .halt => lines := lines ++ ["\tbrk #0"]
     | .jump target =>
-      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label target)
+      let (transfer, probes) ← emitEdge darwin localSymbols base targets slots stageBase block.label target
+      work := work + probes
+      lines := lines ++ transfer
       if !allocate || next != some target then lines := lines ++ [s!"\tb {blockLabel f target}"]
     | .branch condition yes no =>
       let otherwise := edgeLabel f block.label
@@ -1071,60 +1088,86 @@ private def emitFunctionUsingBank (extra : Bool) (f : Function) (types : Array A
         let conditionHome := operandRegister slots 9 condition
         if conditionHome == 9 then lines := lines ++ (← load darwin localSymbols base slots .word 9 condition)
         lines := lines ++ [s!"\tcbz w{conditionHome}, {otherwise}"]
-      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label yes)
+      let (yesLines, yesProbes) ← emitEdge darwin localSymbols base targets slots stageBase block.label yes
+      work := work + yesProbes
+      lines := lines ++ yesLines
       lines := lines ++ [s!"\tb {blockLabel f yes}", otherwise ++ ":"]
-      lines := lines ++ (← emitEdge darwin localSymbols base f slots stageBase block.label no)
+      let (noLines, noProbes) ← emitEdge darwin localSymbols base targets slots stageBase block.label no
+      work := work + noProbes
+      lines := lines ++ noLines
       if !allocate || next != some no then lines := lines ++ [s!"\tb {blockLabel f no}"]
   if allocate then lines := Assembly.LineBuffer.ofList (compactEmptyBranches lines.toList)
-  if extra && !leafBranchesLocal lines.toList then return none
+  if extra && !leafBranchesLocal lines.toList then return (none, work + lines.toList.length)
   if !darwin then lines := lines ++ [s!".size {symbol}, .-{symbol}"]
   let file := match f.debugFile with
     | some name => s!".file {debugFileId} {debugFilename name}\n"
     | none => ""
-  pure (some (file ++ String.intercalate "\n" (lines ++ [""]).toList))
+  let rendered := (lines ++ [""]).toList
+  pure (some (file ++ String.intercalate "\n" rendered), work + (rendered.length - 1))
 
 /-- `validated`: the caller has already run `validateFunction f true`. -/
-private def emitFunctionChecked (validated : Bool) (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String := do
+private def emitFunctionChecked (validated : Bool) (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String (String × Nat) := do
+  let mut work := 0
   if allocate && leafBankEligible f then
-    if let some text ← emitFunctionUsingBank true f types debugFileId darwin localSymbols allocate validated then
-      return text
-  let some text ← emitFunctionUsingBank false f types debugFileId darwin localSymbols allocate validated
-    | throw "ARM64 baseline bank unexpectedly declined emission"
-  return text
+    let (result, visits) ← emitFunctionUsingBank true f types debugFileId darwin localSymbols allocate validated
+    if let some text := result then return (text, visits)
+    work := visits
+  let (result, visits) ← emitFunctionUsingBank false f types debugFileId darwin localSymbols allocate validated
+  let some text := result | throw "ARM64 baseline bank unexpectedly declined emission"
+  return (text, work + visits)
 
 def emitFunction (f : Function) (types : Array AggregateABI.TypeInfo := #[]) (debugFileId : Nat := 1) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String String :=
-  emitFunctionChecked false f types debugFileId darwin localSymbols allocate
+  (emitFunctionChecked false f types debugFileId darwin localSymbols allocate).map Prod.fst
 
 /-- Callers (`emit`, `emitModule`) validate every function of `program` first. -/
-private def emitFunctions (program : Program) (types : Array AggregateABI.TypeInfo := #[]) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String (List String) := do
+private def emitFunctions (program : Program) (types : Array AggregateABI.TypeInfo := #[]) (darwin : Bool := true) (localSymbols : List String := []) (allocate : Bool := false) : Except String (List String × Nat) := do
+  let mut work := 0
   let mut fileId := 1
   let mut functions := []
   for f in program do
-    functions := (← emitFunctionChecked true f types fileId darwin localSymbols allocate) :: functions
+    let (text, visits) ← emitFunctionChecked true f types fileId darwin localSymbols allocate
+    work := work + visits
+    functions := text :: functions
     if f.debugFile.isSome then fileId := fileId + 1
-  pure functions.reverse
+  pure (functions.reverse, work)
 
 def emit (program : Program) : Except String String := do
   validate program
-  let functions ← emitFunctions program
+  let (functions, _) ← emitFunctions program
   return "; Generated by Lean Compiler Backend; no Lean runtime in emitted code\n.text\n"
     ++ String.intercalate "\n" functions
     ++ ".subsections_via_symbols\n"
 
 /-- `emitModule` for a module the caller has already validated (`validateModule`). -/
-def emitModuleValidated (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String := do
+def emitModuleValidatedWithWork (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String (String × Nat) := do
   for data in module.data do Section.checkDataTarget darwin data.threadLocal data.customSection
   let types ← AggregateABI.classify module.types
   let localSymbols := (module.functions.filter (!·.exported)).toList.map (·.name) ++
     (module.data.filter (fun data => !data.exported && !data.common)).toList.map (·.name)
-  let functions ← emitFunctions module.functions types darwin localSymbols allocate
-  return (if darwin then "; Generated by Lean Compiler Backend; no Lean runtime in emitted code\n.text\n" else "// Generated by Lean Compiler Backend\n.text\n")
+  let (functions, work) ← emitFunctions module.functions types darwin localSymbols allocate
+  let text := (if darwin then "; Generated by Lean Compiler Backend; no Lean runtime in emitted code\n.text\n" else "// Generated by Lean Compiler Backend\n.text\n")
     ++ String.intercalate "\n" functions
     ++ String.intercalate "\n" (module.data.toList.map (emitData darwin))
     ++ (if darwin then ".subsections_via_symbols\n" else ".section .note.GNU-stack,\"\",%progbits\n")
+  return (text, work)
 
-def emitModule (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String := do
-  validateModule module
-  emitModuleValidated module darwin allocate
+def emitModuleValidated (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String :=
+  (emitModuleValidatedWithWork module darwin allocate).map Prod.fst
+
+theorem emitModuleValidatedWithWork_result (module : Module) (darwin allocate : Bool) :
+    (emitModuleValidatedWithWork module darwin allocate).map Prod.fst =
+      emitModuleValidated module darwin allocate := rfl
+
+def emitModuleWithWork (module : Module) (darwin : Bool := true) (allocate : Bool := false) :
+    Except String (String × Nat) := do
+  let validation ← validateModuleWithWork module
+  let (text, emission) ← emitModuleValidatedWithWork module darwin allocate
+  pure (text, validation + emission)
+
+def emitModule (module : Module) (darwin : Bool := true) (allocate : Bool := false) : Except String String :=
+  (emitModuleWithWork module darwin allocate).map Prod.fst
+
+theorem emitModuleWithWork_result (module : Module) (darwin allocate : Bool) :
+    (emitModuleWithWork module darwin allocate).map Prod.fst = emitModule module darwin allocate := rfl
 
 end LeanCompilerBackend.AArch64

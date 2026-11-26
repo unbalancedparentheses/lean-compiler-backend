@@ -6,6 +6,7 @@
 -/
 import LeanCompilerBackend.Aggregate
 import LeanCompilerBackend.CFG
+import LeanCompilerBackend.BoundedDominance
 import LeanCompilerBackend.Section
 
 namespace LeanCompilerBackend
@@ -16,34 +17,77 @@ private def predecessors (f : Function) (label : String) : List String :=
   f.blocks.toList.filterMap fun block =>
     if block.terminator.successors.contains label then some block.label else none
 
-private abbrev ReferenceDominators := List (String × List String)
+structure PredecessorLookup where
+  get : String → List String
 
-/-- Finite-set iteration; unsupported/nonconverging cases fail closed. -/
-private def referenceDominators (f : Function) : Except String ReferenceDominators := do
-  let names := f.blocks.toList.map (·.label)
-  let entry := f.blocks[0]!.label
-  let initial := names.map fun name => (name, if name == entry then [entry] else names)
-  let rec iterate : Nat → ReferenceDominators → Except String ReferenceDominators
-    | 0, _ => .error "dominance iteration resource limit exceeded"
-    | fuel + 1, old => do
-      let updated := names.map fun name =>
-        if name == entry then (name, [entry])
-        else
-          let preds := predecessors f name
-          let members := names.filter fun candidate =>
-            candidate == name || (!preds.isEmpty &&
-              preds.all fun pred => ((old.lookup pred).getD []).contains candidate)
-          (name, members)
-      if updated == old then pure updated else iterate fuel updated
-  iterate (f.blocks.size * f.blocks.size + 1) initial
+def predecessorLookup (f : Function) : PredecessorLookup :=
+  ⟨predecessors f⟩
 
-private inductive Dominators where
-  | reference (sets : ReferenceDominators)
-  | indexed (sets : CFG.Dominators)
+private abbrev PredecessorIndex := Std.TreeMap String (List String)
 
-private def Dominators.contains : Dominators → String → String → Bool
-  | .reference sets, useBlock, definitionBlock => ((sets.lookup useBlock).getD []).contains definitionBlock
-  | .indexed sets, useBlock, definitionBlock => sets.contains useBlock definitionBlock
+private def addPredecessor (index : PredecessorIndex) (source target : String) :
+    PredecessorIndex :=
+  index.insert target (source :: index[target]?.getD [])
+
+private def addPredecessors (block : Block) (index : PredecessorIndex) :
+    PredecessorIndex :=
+  match block.terminator with
+  | .jump target => addPredecessor index block.label target
+  | .branch _ yes no =>
+    let next := addPredecessor index block.label yes
+    if yes == no then next else addPredecessor next block.label no
+  | _ => index
+
+private theorem addPredecessor_get (index : PredecessorIndex) (source target name : String) :
+    (addPredecessor index source target)[name]?.getD [] =
+      if target = name then source :: index[name]?.getD [] else index[name]?.getD [] := by
+  by_cases h : target = name <;> simp [addPredecessor, Std.TreeMap.getElem?_insert, h]
+
+private theorem addPredecessors_get (block : Block) (index : PredecessorIndex) (name : String) :
+    (addPredecessors block index)[name]?.getD [] =
+      if block.terminator.successors.contains name then block.label :: index[name]?.getD []
+      else index[name]?.getD [] := by
+  cases block with
+  | mk label phis instructions terminator locations =>
+    cases terminator with
+    | ret | halt => rfl
+    | jump target =>
+      by_cases h : target = name
+      · simp [addPredecessors, addPredecessor_get, Terminator.successors, h]
+      · simp [addPredecessors, addPredecessor_get, Terminator.successors, h, Ne.symm h]
+    | branch cond yes no =>
+      by_cases same : yes = no
+      · subst no
+        by_cases h : yes = name
+        · simp [addPredecessors, addPredecessor_get, Terminator.successors, h]
+        · simp [addPredecessors, addPredecessor_get, Terminator.successors, h, Ne.symm h]
+      · by_cases hy : yes = name <;> by_cases hn : no = name
+        · exact (same (hy.trans hn.symm)).elim
+        · simp [addPredecessors, addPredecessor_get, Terminator.successors, hy, hn, Ne.symm hn]
+        · simp [addPredecessors, addPredecessor_get, Terminator.successors, hy, hn]
+        · simp [addPredecessors, addPredecessor_get, Terminator.successors,
+            same, hy, hn, Ne.symm hy, Ne.symm hn]
+
+private theorem predecessors_fold (blocks : List Block) (name : String) :
+    (blocks.foldr addPredecessors {})[name]?.getD [] =
+      blocks.filterMap (fun block =>
+        if block.terminator.successors.contains name then some block.label else none) := by
+  induction blocks with
+  | nil => simp
+  | cons block rest ih =>
+    simp only [List.foldr_cons, addPredecessors_get, ih, List.filterMap_cons]
+    split <;> rfl
+
+private def predecessorLookupIndexed (f : Function) : PredecessorLookup :=
+  let index := f.blocks.toList.foldr addPredecessors {}
+  ⟨fun name => index[name]?.getD []⟩
+
+@[csimp] theorem predecessorLookup_eq_indexed :
+    predecessorLookup = predecessorLookupIndexed := by
+  funext f
+  apply congrArg PredecessorLookup.mk
+  funext name
+  exact (predecessors_fold f.blocks.toList name).symm
 
 private structure Definition where
   name : String
@@ -52,26 +96,144 @@ private structure Definition where
   position : Nat
   floating : Bool := false
 
-private inductive Definitions where
-  | reference (entries : List Definition)
-  | indexed (entries : Std.HashMap String Definition)
+private def addDefinition (find : δ → String → Option Definition) (insert : δ → Definition → δ)
+    (definitions : δ) (definition : Definition) : Except String δ :=
+  if !validName definition.name then .error "unsupported temporary/parameter name"
+  else if (find definitions definition.name).isSome then
+    .error s!"duplicate SSA definition or duplicate parameter %{definition.name}"
+  else .ok (insert definitions definition)
 
-private def Definitions.find? : Definitions → String → Option Definition
-  | .reference entries, name => entries.find? (·.name == name)
-  | .indexed entries, name => entries[name]?
+private def parameterDefinition (parameter : Parameter) : Definition :=
+  { name := parameter.name, width := parameter.width, floating := parameter.floating
+    block := none, position := 0 }
 
-private def Definitions.insert : Definitions → Definition → Definitions
-  | .reference entries, entry => .reference (entry :: entries)
-  | .indexed entries, entry => .indexed (entries.insert entry.name entry)
+private def phiDefinition (block : Block) (phi : Phi) : Definition :=
+  { name := phi.destination, width := phi.width, floating := phi.floating
+    block := some block.label, position := 0 }
 
-private def addDefinition (definitions : Definitions) (definition : Definition)
-    : Except String Definitions := do
-  if !validName definition.name then throw "unsupported temporary/parameter name"
-  if (definitions.find? definition.name).isSome then
-    throw s!"duplicate SSA definition or duplicate parameter %{definition.name}"
-  pure (definitions.insert definition)
+private def statementDefinition (block : Block) (item : Statement × Nat) : Option Definition :=
+  let (statement, i) := item
+  statement.definition.map fun (name, width) =>
+    { name, width, floating := match statement with | .assign inst => inst.floating | _ => false
+      block := some block.label, position := i + 1 }
 
-private def checkOperand (definitions : Definitions) (doms : Dominators)
+private def blockDefinitions (block : Block) : Array Definition :=
+  block.phis.map (phiDefinition block) ++ block.instructions.zipIdx.filterMap (statementDefinition block)
+
+private def declarations (f : Function) : Array Definition :=
+  f.parameters.map parameterDefinition ++ f.blocks.flatMap blockDefinitions
+
+private theorem instructionIndices_eq (instructions : Array Statement) :
+    ((Array.range instructions.size).map fun i => (instructions[i]!, i)) =
+      instructions.zipIdx := by
+  apply Array.ext
+  · simp
+  · intro i hi hj
+    have inside : i < instructions.size := by simpa using hi
+    simp [getElem!_pos, inside]
+
+-- The original collection order: parameters, then each block's phis and
+-- instruction definitions. A failed insertion stops the enclosing traversal.
+private def collectInOrder (add : δ → Definition → Except String δ)
+    (f : Function) (initial : δ) : Except String δ := do
+  let entries ← f.parameters.foldlM (fun es parameter => add es (parameterDefinition parameter)) initial
+  f.blocks.foldlM (fun entries block => do
+    let entries ← block.phis.foldlM (fun es phi => add es (phiDefinition block phi)) entries
+    ((Array.range block.instructions.size).map fun i => (block.instructions[i]!, i)).foldlM (fun es item =>
+      match statementDefinition block item with
+      | some defn => add es defn
+      | none => pure es) entries) entries
+
+private theorem collectInOrder_eq (add : δ → Definition → Except String δ)
+    (f : Function) (initial : δ) :
+    collectInOrder add f initial = (declarations f).foldlM add initial := by
+  have blocks_eq (blocks : List Block) (entries : δ) :
+      blocks.foldlM (fun entries block => do
+        let entries ← block.phis.toList.foldlM (fun es phi => add es (phiDefinition block phi)) entries
+        block.instructions.zipIdx.toList.foldlM (fun es item =>
+          match statementDefinition block item with
+          | some defn => add es defn
+          | none => pure es) entries) entries =
+      (blocks.flatMap (fun block => (blockDefinitions block).toList)).foldlM add entries := by
+    induction blocks generalizing entries with
+    | nil => rfl
+    | cons block rest ih =>
+      simp only [List.foldlM_cons, List.flatMap_cons, List.foldlM_append, bind_assoc, ih]
+      simp only [blockDefinitions, Array.toList_append, Array.toList_map, Array.toList_filterMap,
+        List.foldlM_append, List.foldlM_map, List.foldlM_filterMap, bind_assoc]
+      congr 1
+      funext es
+      congr 1
+      apply congrArg (fun step => block.instructions.zipIdx.toList.foldlM step es)
+      funext acc item
+      cases statementDefinition block item <;> rfl
+  simp only [collectInOrder, instructionIndices_eq, declarations, ← Array.foldlM_toList, Array.toList_append,
+    Array.toList_map, Array.toList_flatMap, List.foldlM_append, List.foldlM_map, blocks_eq]
+
+private def scanDefinition (entries : List Definition) (name : String) : Option Definition :=
+  entries.find? (·.name == name)
+
+private def consDefinition (entries : List Definition) (entry : Definition) : List Definition :=
+  entry :: entries
+
+private def collectReference (f : Function) : Except String (NameIndex.Lookup String Definition) := do
+  let entries ← collectInOrder (addDefinition scanDefinition consDefinition) f []
+  pure ⟨scanDefinition entries⟩
+
+private abbrev DefinitionIndex := Std.TreeMap String Definition
+
+private def indexDefinition (entries : DefinitionIndex) (name : String) : Option Definition :=
+  entries[name]?
+
+private def insertDefinition (entries : DefinitionIndex) (entry : Definition) : DefinitionIndex :=
+  entries.insert entry.name entry
+
+private def collectIndexed (f : Function) : Except String (NameIndex.Lookup String Definition) :=
+  ((declarations f).foldlM (addDefinition indexDefinition insertDefinition) {}).map
+    (fun index => ⟨indexDefinition index⟩)
+
+private theorem collect_fold_eq (defs entries : List Definition) :
+    (defs.foldlM (addDefinition indexDefinition insertDefinition)
+      (NameIndex.build Definition.name entries)).map
+        (fun index => (⟨indexDefinition index⟩ : NameIndex.Lookup String Definition)) =
+    (defs.foldlM (addDefinition scanDefinition consDefinition) entries).map
+        (fun entries => ⟨scanDefinition entries⟩) := by
+  induction defs generalizing entries with
+  | nil =>
+    apply congrArg Except.ok
+    apply congrArg NameIndex.Lookup.mk
+    funext name
+    exact NameIndex.build_get? Definition.name entries name
+  | cons defn rest ih =>
+    rw [List.foldlM_cons, List.foldlM_cons]
+    simp only [addDefinition]
+    rw [show indexDefinition (NameIndex.build Definition.name entries) defn.name =
+        scanDefinition entries defn.name from NameIndex.build_get? _ _ _]
+    by_cases invalid : (!validName defn.name) = true
+    · simp only [ite_eq_left invalid]
+      rfl
+    · simp only [ite_eq_right invalid]
+      by_cases duplicate : (scanDefinition entries defn.name).isSome = true
+      · simp only [ite_eq_left duplicate]
+        rfl
+      · simp only [ite_eq_right duplicate]
+        exact ih (defn :: entries)
+
+@[csimp] theorem collectReference_eq_indexed : collectReference = collectIndexed := by
+  funext f
+  have h := collect_fold_eq (declarations f).toList []
+  rw [← List.foldlM_toArray, ← List.foldlM_toArray, Array.toArray_toList] at h
+  unfold collectReference collectIndexed
+  rw [collectInOrder_eq]
+  exact h.symm
+
+private def collectCompatibility (f : Function) : Except String (NameIndex.Lookup String Definition) := do
+  let definitions ← (declarations f).foldlM
+    (addDefinition (fun (entries : Std.HashMap String Definition) name => entries[name]?)
+      (fun entries entry => entries.insert entry.name entry)) {}
+  pure ⟨fun name => definitions[name]?⟩
+
+private def checkOperand (definitions : NameIndex.Lookup String Definition) (dominates : String → String → Bool)
     (useBlock : String) (position : Nat) (width : Width) (operand : Operand) (floating : Bool := false)
     : Except String Unit := do
   match operand with
@@ -80,7 +242,7 @@ private def checkOperand (definitions : Definitions) (doms : Dominators)
     if floating then throw "symbol address cannot have floating type"
     if !validGlobalName name then throw "unsupported symbol name"
   | .temporary name =>
-    let some definition := definitions.find? name
+    let some definition := definitions.get name
       | throw s!"undefined temporary %{name}"
     if definition.floating != floating then throw s!"%{name}: integer/floating type mismatch; use cast"
     if floating && definition.width != width then throw s!"%{name}: floating precision mismatch"
@@ -91,7 +253,7 @@ private def checkOperand (definitions : Definitions) (doms : Dominators)
     | some block =>
       if block == useBlock then
         if definition.position >= position then throw s!"%{name}: definition does not precede use"
-      else if !doms.contains useBlock block then
+      else if !dominates useBlock block then
         throw s!"%{name}: definition in @{block} does not dominate use in @{useBlock}"
 
 private def checkSubword (width : Width) (floating : Bool) (subword : Option Subword) : Except String Unit := do
@@ -123,13 +285,23 @@ private def checkCallArguments (check : Width → Operand → Except String Unit
 
 private def checkSection := Section.checkAny
 
-/-- `validateFunction`, also returning the indexed CFG it builds on the scalable path. -/
-def validateFunctionGraph (f : Function) (scalable : Bool := false) : Except String (Option CFG.Graph) := do
+@[noinline] private def validationBlockLookup (blocks : Array Block) (graph : Option CFG.Graph) :
+    NameIndex.Lookup String Block :=
+  match graph with
+  | some graph => ⟨fun label => (graph.indices[label]?).bind (fun i => blocks[i]?)⟩
+  | none => NameIndex.first Block.label blocks
+
+private def validateFunctionGraphWithWorkUsing
+    (collect : Function → Except String (NameIndex.Lookup String Definition))
+    (f : Function) (scalable : Bool) : Except String (Option CFG.Graph × Nat) := do
+  let mut work := 0
   checkSection f.customSection
   if f.debugFile.any (·.contains '\x00') then throw "debug filename must not contain NUL"
   for block in f.blocks do
+    work := work + 1
     let mut previous := 0
     for location in block.debugLocations do
+      work := work + 1
       if f.debugFile.isNone then throw "debug location requires a filename"
       if location.instruction < previous || location.instruction > block.instructions.size then
         throw "debug location instruction index is invalid"
@@ -161,43 +333,50 @@ def validateFunctionGraph (f : Function) (scalable : Bool := false) : Except Str
   -- with the same messages, without the quadratic list scans below.
   let graph ← if scalable then some <$> CFG.build f else pure none
   if !scalable then
-    if names.eraseDups.length != names.length then throw "duplicate block label"
+    if (NameIndex.dedup names).length != names.length then throw "duplicate block label"
+    let known := NameIndex.members names
     let entry := f.blocks[0]!.label
     for block in f.blocks do
+      work := work + 1
       for target in block.terminator.successors do
-        if !names.contains target then throw s!"unknown block @{target}"
+        work := work + 1
+        if !known.contains target then throw s!"unknown block @{target}"
         if target == entry then throw "QBE entry block must not be a jump target"
-  let mut definitions := if scalable then Definitions.indexed {} else .reference []
-  for parameter in f.parameters do
-    definitions ← addDefinition definitions
-      { name := parameter.name, width := parameter.width, floating := parameter.floating, block := none, position := 0 }
+  let definitions ← if scalable then collectCompatibility f else collect f
+  let predsByName := if scalable then ⟨fun _ => []⟩ else predecessorLookup f
+  let (doms, dominanceWork) ← match graph with
+    | some graph => do
+      let (doms, visits) ← CFG.dominatorsWithWork graph
+      pure (doms.contains, visits)
+    | none => do
+      let (members, visits) ← BoundedDominance.oracleWithWork names f.blocks[0]!.label
+        predsByName.get (f.blocks.size * f.blocks.size + 1)
+      pure (fun useBlock definitionBlock => members.contains (useBlock, definitionBlock), visits)
+  work := work + dominanceWork
+  let blockByName := if f.blocks.all (·.phis.isEmpty) then ⟨fun _ => none⟩
+    else validationBlockLookup f.blocks graph
   for block in f.blocks do
-    for phi in block.phis do
-      definitions ← addDefinition definitions
-        { name := phi.destination, width := phi.width, floating := phi.floating, block := some block.label, position := 0 }
+    work := work + 1
+    if !block.phis.isEmpty then
+      let preds := match graph with
+        | some graph =>
+          let blockIndex := (graph.indices[block.label]?).getD 0
+          graph.predecessors[blockIndex]!.toList.map (fun (index : Nat) => (f.blocks[index]! : Block).label)
+        | none => predsByName.get block.label
+      let predSet := NameIndex.members preds
+      for phi in block.phis do
+        work := work + 1
+        let incoming := phi.incoming.toList.map (·.1)
+        if incoming.isEmpty || (NameIndex.dedup incoming).length != incoming.length
+            || incoming.length != preds.length || !incoming.all predSet.contains then
+          throw s!"phi %{phi.destination}: incoming labels must match block predecessors exactly"
+        for (label, value) in phi.incoming do
+          work := work + 1
+          let some pred := blockByName.get label
+            | throw s!"unknown phi predecessor @{label}"
+          checkOperand definitions doms label (pred.instructions.size + 1) phi.width value phi.floating
     for i in [:block.instructions.size] do
-      if let some (name, width) := block.instructions[i]!.definition then
-        definitions ← addDefinition definitions
-          { name, width, floating := match block.instructions[i]! with | .assign inst => inst.floating | _ => false, block := some block.label, position := i + 1 }
-  let doms ← match graph with
-    | some graph => Dominators.indexed <$> CFG.dominators graph
-    | none => Dominators.reference <$> referenceDominators f
-  for block in f.blocks do
-    let preds := match graph with
-      | some graph =>
-        let blockIndex := (graph.indices[block.label]?).getD 0
-        graph.predecessors[blockIndex]!.toList.map (fun (index : Nat) => (f.blocks[index]! : Block).label)
-      | none => predecessors f block.label
-    for phi in block.phis do
-      let incoming := phi.incoming.toList.map (·.1)
-      if incoming.isEmpty || incoming.eraseDups.length != incoming.length
-          || incoming.length != preds.length || !incoming.all preds.contains then
-        throw s!"phi %{phi.destination}: incoming labels must match block predecessors exactly"
-      for (label, value) in phi.incoming do
-        let some pred := f.blocks.find? (·.label == label)
-          | throw s!"unknown phi predecessor @{label}"
-        checkOperand definitions doms label (pred.instructions.size + 1) phi.width value phi.floating
-    for i in [:block.instructions.size] do
+      work := work + 1
       let check := fun width value => checkOperand definitions doms block.label (i + 1) width value false
       let checkFloat := fun width value => checkOperand definitions doms block.label (i + 1) width value true
       match block.instructions[i]! with
@@ -284,7 +463,25 @@ def validateFunctionGraph (f : Function) (scalable : Bool := false) : Except Str
       | _, _ => throw "return value disagrees with function result type"
     | .branch value _ _ => check .word value
     | .jump _ | .halt => pure ()
-  pure graph
+  pure (graph, work)
+
+private def validateFunctionGraphUsing
+    (collect : Function → Except String (NameIndex.Lookup String Definition))
+    (f : Function) (scalable : Bool) : Except String (Option CFG.Graph) :=
+  (validateFunctionGraphWithWorkUsing collect f scalable).map Prod.fst
+
+/-- `validateFunction`, also returning the indexed CFG it builds on the scalable path. -/
+def validateFunctionGraph (f : Function) (scalable : Bool := false) :
+    Except String (Option CFG.Graph) :=
+  validateFunctionGraphUsing collectReference f scalable
+
+/-- Replacing the original declaration loops preserves the entire validation result. -/
+theorem validateFunctionGraph_eq_indexedDeclarations (f : Function) (scalable : Bool) :
+    validateFunctionGraph f scalable = validateFunctionGraphUsing collectIndexed f scalable :=
+  congrArg (fun collect => validateFunctionGraphUsing collect f scalable) collectReference_eq_indexed
+
+def validateFunctionWithWork (f : Function) (scalable : Bool := false) : Except String Nat :=
+  (validateFunctionGraphWithWorkUsing collectReference f scalable).map Prod.snd
 
 def validateFunction (f : Function) (scalable : Bool := false) : Except String Unit := do
   discard (validateFunctionGraph f scalable)
@@ -332,15 +529,16 @@ def callResultMatches (callee : Function) (width : Option Width) (floating : Boo
       (width == callee.resultWidth ||
         (!floating && subword.isNone && aggregate.isNone && callee.resultWidth == some .word && width == some .long)))
 
-def validate (program : Program) (aliases : Array (String × String) := #[]) : Except String Unit := do
+private def validateWithWork (program : Program) (aliases : Array (String × String) := #[]) : Except String Nat := do
+  let mut work := 0
   if program.isEmpty then throw "program contains no functions"
   if program.size > maxCompatibilityFunctions then throw s!"program exceeds {maxCompatibilityFunctions}-function limit"
   let mut definitions : Std.HashMap String Function := {}
   for f in program do
     if definitions.contains f.name then throw ("duplicate function $" ++ f.name)
     definitions := definitions.insert f.name f
-    match validateFunction f true with
-    | .ok () => pure ()
+    match validateFunctionWithWork f true with
+    | .ok visits => work := work + visits
     | .error message => throw s!"function ${f.name}: {message}"
   -- External symbols have no declaration in QBE IL. Their ABI is an explicit
   -- link-time assumption; check exact signatures when the definition is present.
@@ -359,7 +557,12 @@ def validate (program : Program) (aliases : Array (String × String) := #[]) : E
               if arguments[i]!.width != callee.parameters[i]!.width || arguments[i]!.floating != callee.parameters[i]!.floating || arguments[i]!.subword != callee.parameters[i]!.subword || !Aggregate.signatureMatches aliases arguments[i]!.aggregate callee.parameters[i]!.aggregate then
                 throw s!"call ${target}: argument type disagrees with its definition"
 
-def validateModule (module : Module) : Except String Unit := do
+  return work
+
+def validate (program : Program) (aliases : Array (String × String) := #[]) : Except String Unit :=
+  (validateWithWork program aliases).map (fun _ => ())
+
+def validateModuleWithWork (module : Module) : Except String Nat := do
   discard (Aggregate.layouts module.types)
   let checkType := fun name => do
     if let some name := name then
@@ -374,7 +577,8 @@ def validateModule (module : Module) : Except String Unit := do
           for argument in arguments do checkType argument.aggregate
   if module.functions.isEmpty && module.data.isEmpty && module.types.isEmpty then
     throw "module contains no definitions"
-  if !module.functions.isEmpty then validate module.functions (Aggregate.signatureAliases module.types)
+  let work ← if module.functions.isEmpty then pure 0
+    else validateWithWork module.functions (Aggregate.signatureAliases module.types)
   if module.data.size > maxCompatibilityDataDefinitions then
     throw s!"module exceeds the {maxCompatibilityDataDefinitions}-data-definition resource limit"
   let mut names := module.functions.toList.map (·.name)
@@ -424,5 +628,13 @@ def validateModule (module : Module) : Except String Unit := do
         if let some (.direct target, _, _) := statement.callSite then
           if module.data.any (·.name == target) then
             throw s!"call ${target}: symbol is defined as data"
+
+  return work
+
+def validateModule (module : Module) : Except String Unit :=
+  (validateModuleWithWork module).map (fun _ => ())
+
+theorem validateModuleWithWork_result (module : Module) :
+    (validateModuleWithWork module).map (fun _ => ()) = validateModule module := rfl
 
 end LeanCompilerBackend
