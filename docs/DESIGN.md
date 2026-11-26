@@ -88,20 +88,26 @@ full QBE compatibility.
 
 ## Backend execution closure
 
-CI walks kernel dependencies and emitted backend IR from numbered validation,
-admission, job compilation, compatibility assembly, and the job and artifact
-codecs used for replay. The audit rejects executable substitutions in LCB and
-uses an exact, justified exception list for dependencies in the pinned Lean
-runtime, including its container primitives, tail-recursion rewrites, and
-bounded string iterators. The source check also catches local substitution
-attributes that can disappear from compiled metadata.
+CI walks kernel dependencies and emitted backend IR from parsing, SSA
+construction, optimization, numbered validation, admission, assembly, and the
+replay codecs. It also collects the transitive kernel axioms of every
+execution root, including theorems used in termination and bounds proofs.
+The execution check rejects compiler simplification rewrites and checks
+runtime primitives against the pinned Lean allowlist. A Lean command parser
+checks source for local substitution attributes that can disappear from
+compiled metadata.
 
 The indexed validators and lowerers execute their ordinary Lean definitions.
-Their specification equalities cover the result and error cases of the original
-scans. Name indexes use a scoped lexicographic order on Unicode scalar values,
-with transitivity and equality inherited from the Lean list order. The dominance
-DFS processes a stack of enter and exit markers with structural recursion on a
-budget of two markers per root plus one per edge.
+Their specification equalities cover results and errors of the reference
+scans. Name indexes compare UTF-8 bytes up to the first mismatch. The proof
+relates this comparison to lexicographic array order and transfers
+transitivity and lawful equality to strings.
+
+The dominance DFS scans pending markers structurally and uses the number of
+remaining adjacency rows to bound expansion. Every expansion removes one
+row. The compatibility traversals return an error when they still have
+pending work at exhaustion. Successful control-flow cleanup retains the
+entry and all its reachable successors in the rebuilt CFG.
 
 ## What is proved
 

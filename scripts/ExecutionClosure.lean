@@ -73,6 +73,11 @@ def roots : Array Name := #[
   `LeanCompilerBackend.Verified.compileFunction,
   `LeanCompilerBackend.Verified.verifyArtifact,
   `LeanCompilerBackend.validateModule,
+  `LeanCompilerBackend.Parser.parseModule,
+  `LeanCompilerBackend.SSA.constructModule,
+  `LeanCompilerBackend.Optimize.module,
+  `LeanCompilerBackend.Optimize.moduleValidated,
+  `LeanCompilerBackend.Verified.Codec.fingerprints,
   `LeanCompilerBackend.AArch64.emitModule,
   `LeanCompilerBackend.AArch64.emitModuleValidated,
   `LeanCompilerBackend.AMD64.emitModule,
@@ -120,10 +125,7 @@ def inspect (env : Environment) (rewrites : Rewrites) (native : NativeDecls)
       failures := failures.push s!"while	{n}	from {caller}"
     for (m, rewrite) in rewrites[n]?.getD #[] do
       let key := ("csimp", s!"{n} → {rewrite.toDeclName}")
-      if runtimeModule m && runtimeModule owner && exceptions.contains key then
-        used := used.insert key
-      else failures := failures.push s!"{key.1}	{key.2}	registered by {rewrite.thmName} in {m}"
-      pending := pending.push (rewrite.toDeclName, n)
+      failures := failures.push s!"{key.1}	{key.2}	registered by {rewrite.thmName} in {m} (from {caller})"
     if let some implementation := Compiler.getImplementedBy? env n then
       pending := pending.push (implementation, n)
     if let some parent := recursiveParent env n then
@@ -167,6 +169,13 @@ def run (args : List String) : IO UInt32 := do
   for root in auditRoots do
     unless (env.find? root).any (!proofOnly ·) do
       throw (IO.userError s!"invalid execution root {root}")
+  let mut proofFailure := false
+  for root in auditRoots do
+    let axioms ← (Lean.collectAxioms root : CoreM (Array Name)).toIO { fileName := "", fileMap := default } { env } |>.map Prod.fst
+    for axiomName in axioms do
+      unless #[`propext, `Classical.choice, `Quot.sound].contains axiomName do
+        IO.eprintln s!"proof axiom	{axiomName}	from {root}"
+        proofFailure := true
   let mut rewrites : Rewrites := {}
   let mut native : NativeDecls := {}
   for (m, idx) in env.header.moduleNames.toList.zipIdx do
@@ -183,14 +192,65 @@ def run (args : List String) : IO UInt32 := do
         ((rewrites[rewrite.fromDeclName]?.getD #[]).push (m, rewrite))
   let (visited, used, failures) ← inspect env rewrites native exceptions auditRoots
   for msg in failures do IO.eprintln msg
-  if !failures.isEmpty then return 1
   if args.isEmpty then
     for unused in exceptions.toList.filter (!used.contains ·) do
       IO.eprintln s!"unused execution primitive: {unused.1} {unused.2}"
     if used.size != exceptions.size then return 1
+  if proofFailure || !failures.isEmpty then return 1
   IO.println s!"execution closure: {auditRoots.size} roots, {visited} declarations, {used.size} pinned Lean exceptions"
   return 0
 
 end ExecutionClosure
 
-def main := ExecutionClosure.run
+namespace ExecutionSource
+
+private def reservedAttr (stx : Syntax) : Option Name :=
+  let attr := stx[1]
+  let name := if attr.getKind == ``Parser.Attr.simple then attr[0].getId else .anonymous
+  if name == `csimp || name == `implemented_by then some name else none
+
+private partial def reserved (stx : Syntax) : Option (Name × Syntax) :=
+  if stx.getKind == ``Parser.Command.initialize then
+    some (`initialize, stx)
+  else if stx.getKind == ``Parser.Term.attrInstance then
+    (reservedAttr stx).map (·, stx)
+  else
+    stx.getArgs.findSome? reserved
+
+private def checkFile (env : Environment) (path : System.FilePath) : IO Bool := do
+  let input := Parser.mkInputContext (← IO.FS.readFile path) path.toString
+  let (_, initial, headerMessages) ← Parser.parseHeader input
+  let mut state := initial
+  let mut messages := headerMessages
+  let mut rejected := false
+  repeat
+    let (command, next, log) := Parser.parseCommand input { env, options := {} } state messages
+    state := next
+    messages := log
+    if let some (name, location) := reserved command then
+      let pos := input.fileMap.toPosition (location.getPos?.getD 0)
+      IO.eprintln s!"{path}:{pos.line}: reserved execution attribute or command {name}"
+      rejected := true
+    if Parser.isTerminalCommand command then break
+  for message in messages.toList do
+    if message.severity == .error then
+      IO.eprintln (← message.toString)
+      rejected := true
+  return !rejected
+
+unsafe def check (files : List String) : IO UInt32 := do
+  initSearchPath (← findSysroot)
+  enableInitializersExecution
+  let env ← importModules #[{module := `Lean}] {} (loadExts := true)
+  let mut passed := true
+  for file in files do
+    let ok ← checkFile env file
+    passed := passed && ok
+  return if passed then 0 else 1
+
+end ExecutionSource
+
+unsafe def main (args : List String) : IO UInt32 :=
+  match args with
+  | "--sources" :: files => ExecutionSource.check files
+  | _ => ExecutionClosure.run args

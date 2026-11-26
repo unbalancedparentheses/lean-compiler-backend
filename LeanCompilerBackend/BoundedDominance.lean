@@ -557,31 +557,60 @@ private theorem makeValues_get (rows : Rows Nat) (key : String) :
     · have hn : (key == name) = false := beq_eq_false_iff_ne.mpr (Ne.symm h)
       simp [h, hn, List.lookup]
 
-private def dependents (blocks : Blocks) : Std.TreeMap String (List String) :=
+private abbrev Dependents := Std.TreeMap String (List String)
+
+private def dependents (blocks : Blocks) (entry : String) : Dependents :=
   blocks.foldl (fun index (name, _, preds) =>
-    preds.foldl (fun acc pred => acc.insert pred (name :: acc[pred]?.getD [])) index) {}
+    let index := index.insertIfNew name []
+    preds.foldl (fun acc pred => acc.insert pred (name :: acc[pred]?.getD [])) index)
+    (({} : Dependents).insert entry [])
 
--- Each root and outgoing edge contributes one enter marker. Only a first
--- visit schedules an exit marker and expands the outgoing edges.
-private def visit (users : Std.TreeMap String (List String)) :
-    Nat → List (String × Bool) → Std.TreeSet String → List String → List String
-  | 0, _, _, order | _, [], _, order => order
-  | fuel + 1, (name, exiting) :: pending, seen, order =>
-    if exiting then
-      visit users fuel pending seen (name :: order)
-    else if seen.contains name then
-      visit users fuel pending seen order
-    else
-      let pending := (users[name]?.getD []).foldr
-        (fun successor rest => (successor, false) :: rest) ((name, true) :: pending)
-      visit users fuel pending (seen.insert name) order
+private inductive VisitStep (users : Dependents) where
+  | done (order : List String)
+  | expand (name : String) (successors : List String) (found : users[name]? = some successors)
+      (pending : List (String × Bool)) (order : List String)
 
--- Visit the entry first, then the remaining roots in input order. All edge
--- destinations are block labels, so there is at most one exit per root.
+-- Scan existing markers structurally until a new node needs expansion.
+private def nextVisit (users : Dependents) :
+    List (String × Bool) → List String → VisitStep users
+  | [], order => .done order
+  | (name, true) :: pending, order => nextVisit users pending (name :: order)
+  | (name, false) :: pending, order =>
+    match h : users[name]? with
+    | none => nextVisit users pending order
+    | some successors => .expand name successors h pending order
+
+private theorem contains_of_found {users : Dependents} {name : String} {successors : List String}
+    (found : users[name]? = some successors) : users.contains name = true := by
+  rw [Std.TreeMap.contains_eq_isSome_getElem?, found]
+  rfl
+
+-- The outer recursion counts remaining rows, and each expansion consumes
+-- one row. At zero rows there can only be exit or redundant enter markers.
+private def visit :
+    (fuel : Nat) → (users : Dependents) → users.size = fuel →
+      List (String × Bool) → List String → List String
+  | fuel, users, size, pending, order =>
+    match nextVisit users pending order with
+    | .done result => result
+    | .expand name successors found rest order =>
+      have hit := contains_of_found found
+      match fuel with
+      | 0 => False.elim (by
+          have empty : users.isEmpty := by
+            rw [Std.TreeMap.isEmpty_eq_size_eq_zero, size]
+            rfl
+          simp [Std.TreeMap.contains_of_isEmpty empty] at hit)
+      | fuel + 1 =>
+        let pending := successors.foldrTR
+          (fun successor rest => (successor, false) :: rest) ((name, true) :: rest)
+        visit fuel (users.erase name) (by simp [Std.TreeMap.size_erase, hit, size]) pending order
+
+-- Visit the entry first, then the remaining roots in input order.
 private def reversePostorder (blocks : Blocks) (entry : String) : List String :=
-  let roots := entry :: blocks.map (·.1)
-  let edges := blocks.foldl (fun n block => n + block.2.2.length) 0
-  visit (dependents blocks) (2 * roots.length + edges) (roots.map (·, false)) {} []
+  let roots := entry :: blocks.mapTR (·.1)
+  let users := dependents blocks entry
+  visit users.size users rfl (roots.mapTR (·, false)) []
 
 private structure WorkResult where
   values : Values

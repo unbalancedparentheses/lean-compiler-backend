@@ -2,12 +2,13 @@
    Decimal/hexadecimal significands are rounded once, ties to even, using integers.
    This does not introduce floating-point operations or ABI support. -/
 import LeanCompilerBackend.IR
+import LeanCompilerBackend.Text
 
 namespace LeanCompilerBackend.Numeric
 
 private def signedExponent (text : String) : Except String Int := do
   let text := if text.startsWith "+" then String.ofList text.toList.tail else text
-  let some exponent := text.toInt? | throw "invalid floating exponent"
+  let some exponent := Text.decimalInt? text | throw "invalid floating exponent"
   if exponent.natAbs > 10000 then throw "floating exponent exceeds the 10000 resource limit"
   pure exponent
 
@@ -17,7 +18,7 @@ private def digit (base : Nat) (c : Char) : Option Nat :=
   if value < base then some value else none
 
 private def significand (base : Nat) (text : String) : Except String (Nat × Nat) := do
-  let pieces := text.splitOn "."
+  let pieces := Text.splitWhen (· == '.') text
   if pieces.length > 2 then throw "invalid floating significand"
   let digits := String.intercalate "" pieces
   if digits.isEmpty then throw "floating significand requires digits"
@@ -62,7 +63,7 @@ private def encode (fractionBits exponentBits numerator denominator : Nat) : Nat
 def floatBits (token : String) : Except String Int := do
   let single := token.startsWith "s_"
   if !single && !token.startsWith "d_" then throw "expected s_ or d_ floating constant"
-  let body := (String.ofList (token.toList.drop 2)).toLower
+  let body := String.ofList ((token.toList.drop 2).mapTR Char.toLower)
   let negative := body.startsWith "-"
   let magnitude := if negative || body.startsWith "+" then String.ofList body.toList.tail else body
   let fractionBits := if single then 23 else 52
@@ -73,7 +74,7 @@ def floatBits (token : String) : Except String Int := do
   if magnitude == "nan" then return sign + infinity + 2 ^ (fractionBits - 1)
   let hexadecimal := magnitude.startsWith "0x"
   let magnitude := if hexadecimal then String.ofList (magnitude.toList.drop 2) else magnitude
-  let pieces := magnitude.splitOn (if hexadecimal then "p" else "e")
+  let pieces := Text.splitWhen (· == (if hexadecimal then 'p' else 'e')) magnitude
   if pieces.length > 2 then throw "invalid floating exponent"
   let exponent ← if pieces.length == 2 then signedExponent pieces[1]! else pure 0
   let (coefficient, decimals) ← significand (if hexadecimal then 16 else 10) pieces[0]!

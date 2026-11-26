@@ -1,26 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Local attributes can disappear from imported metadata and their replacements
-# can be inlined away. Reserve their spellings throughout backend sources.
+# Local compiler attributes can disappear from imported metadata after scope exit.
 check_sources() {
-  python3 - "$@" <<'PY'
-import re
-import sys
-from pathlib import Path
-
-forbidden = re.compile(r"\b(csimp|implemented_by|builtin_initialize|initialize)\b")
-found = False
-for argument in sys.argv[1:]:
-    path = Path(argument)
-    files = sorted(path.rglob("*.lean")) if path.is_dir() else [path]
-    for file in files:
-        for number, line in enumerate(file.read_text().splitlines(), 1):
-            if match := forbidden.search(line):
-                print(f"{file}:{number}: reserved execution attribute or command {match[0]}", file=sys.stderr)
-                found = True
-sys.exit(int(found))
-PY
+  lake env lean --run scripts/ExecutionClosure.lean --sources "$@"
 }
 
 tmp=$(mktemp -d)
@@ -30,7 +13,7 @@ def USize.plantedHostWidth : Nat := System.Platform.numBits
 
 namespace ExecutionClosureControls
 
-def total (n : Nat) : Nat := n + 1
+def total (n : Nat) : Nat := n
 
 def whileRoot (n : Nat) : Nat := Id.run do
   let mut i := 0
@@ -59,6 +42,40 @@ def stringOrderRoot (a b : String) : Ordering := compare a b
 def hostRoot : Nat := USize.plantedHostWidth
 def wordRoot (n : Nat) : Nat := (USize.ofNat n).toNat
 
+def extrinsicRoot (n : Nat) : Nat :=
+  WellFounded.extrinsicFix (C := fun _ : Nat => Nat) (fun _ _ => True)
+    (fun i recurse => recurse (i + 1) trivial) n
+
+def opaqueRoot (n : Nat) : Nat :=
+  WellFounded.opaqueFix₃ (β := fun _ : Nat => Unit) (γ := fun _ _ => Unit)
+    (C₃ := fun _ _ _ => Nat) (fun _ _ => True)
+    (fun i _ _ recurse => recurse (i + 1) () () trivial) n () ()
+
+theorem sorryDecrease (n : Nat) : n + 1 < n := by sorry
+axiom plantedDecrease (n : Nat) : n + 1 < n
+theorem wrappedDecrease (n : Nat) : n + 1 < n := plantedDecrease n
+
+def sorryRecursion (n : Nat) : Nat := sorryRecursion (n + 1)
+termination_by n
+decreasing_by exact sorryDecrease n
+
+def axiomRecursion (n : Nat) : Nat := axiomRecursion (n + 1)
+termination_by n
+decreasing_by exact wrappedDecrease n
+
+theorem nativeBound : 0 < (#[9] : Array Nat).size := by native_decide
+def nativeProofRoot (n : Nat) : Nat :=
+  if n == 0 then 0 else (#[9] : Array Nat)[0]'nativeBound
+
+theorem sorryFalse : False := by sorry
+axiom plantedFalse : False
+theorem wrappedFalse : False := plantedFalse
+
+def sorryRoot (n : Nat) : Nat := if n == 0 then 0 else False.elim sorryFalse
+def axiomRoot (n : Nat) : Nat := if n == 0 then 0 else False.elim wrappedFalse
+
+def coreCsimpRoot (xs : List Nat) : List Nat := xs.map (· + 1)
+
 end ExecutionClosureControls
 LEAN
 cat > "$tmp/LocalRewrite.lean" <<'LEAN'
@@ -71,9 +88,13 @@ def locallyRewritten (n : Nat) : Nat := before n
 end
 LEAN
 
-check_sources LeanCompilerBackend.lean LeanCompilerBackend
-lake env lean --run scripts/ExecutionClosure.lean
+cat > "$tmp/SourceText.lean" <<'LEAN'
+/- initialize and @[implemented_by replacement] are mentioned in documentation. -/
+def message : String := "attribute [csimp] eq"
+LEAN
 
+mapfile -d '' backend_sources < <(find LeanCompilerBackend -name '*.lean' -print0)
+check_sources LeanCompilerBackend.lean "${backend_sources[@]}" "$tmp/SourceText.lean"
 lake env lean --root="$tmp" -o "$tmp/ExecutionClosureControls.olean" "$tmp/ExecutionClosureControls.lean"
 lake env lean --root="$tmp" -o "$tmp/LocalRewrite.olean" "$tmp/LocalRewrite.lean"
 export LEAN_PATH="$tmp:$(lake env printenv LEAN_PATH)"
@@ -90,6 +111,14 @@ for control in \
   $'csimpRoot\tcsimp\tExecutionClosureControls.ordinary → ExecutionClosureControls.replacement' \
   $'stringOrderRoot\textern\tString.compare' \
   $'hostRoot\tstage effect\tSystem.Platform.numBits' \
+  $'extrinsicRoot\timplemented_by\tWellFounded.extrinsicFix → _private.Init.WFExtrinsicFix.0.WellFounded.opaqueFix' \
+  $'opaqueRoot\tpartial\tWellFounded.opaqueFix₃' \
+  $'nativeProofRoot\tproof axiom\tExecutionClosureControls.nativeBound._native.native_decide.ax_1_1' \
+  $'sorryRecursion\tproof axiom\tsorryAx' \
+  $'axiomRecursion\tproof axiom\tExecutionClosureControls.plantedDecrease' \
+  $'sorryRoot\tproof axiom\tsorryAx' \
+  $'axiomRoot\tproof axiom\tExecutionClosureControls.plantedFalse' \
+  $'coreCsimpRoot\tcsimp\tList.map → List.mapTR' \
   $'wordRoot\thost word size\tUSize.ofNat'; do
   IFS=$'\t' read -r root kind declaration <<< "$control"
   status=0
@@ -109,3 +138,5 @@ if check_sources "$tmp/LocalRewrite.lean" >"$tmp/local.log" 2>&1 ||
   exit 1
 fi
 echo "execution closure control rejected: local rewrite"
+
+lake env lean --run scripts/ExecutionClosure.lean

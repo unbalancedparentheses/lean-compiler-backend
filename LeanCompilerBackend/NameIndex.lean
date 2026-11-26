@@ -6,28 +6,90 @@ namespace LeanCompilerBackend.NameIndex
 
 open Std
 
-/-- Compare names lexicographically by their Unicode scalar values. This order
-    is local to the compiler's ordered indexes. -/
-scoped instance (priority := 1100) nameOrd : Ord String where
-  compare := compareOn String.toList
+private def compareBytes (a b : String) :
+    (fuel i : Nat) → min a.utf8ByteSize b.utf8ByteSize = i + fuel → Ordering × Nat
+  | 0, i, _ => (compare a.utf8ByteSize b.utf8ByteSize, i)
+  | fuel + 1, i, endAt =>
+    have ha : i < a.utf8ByteSize := by omega
+    have hb : i < b.utf8ByteSize := by omega
+    match compare (a.getUTF8Byte ⟨i⟩ ha) (b.getUTF8Byte ⟨i⟩ hb) with
+    | .eq => compareBytes a b fuel (i + 1) (by omega)
+    | result => (result, i + 1)
 
-scoped instance : TransOrd String :=
-  inferInstanceAs (TransCmp (compareOn String.toList))
+private theorem compareBytes_order (a b : String) (fuel i : Nat)
+    (enough : min a.utf8ByteSize b.utf8ByteSize = i + fuel) :
+    (compareBytes a b fuel i enough).1 =
+      compare (a.toByteArray.data.toList.drop i) (b.toByteArray.data.toList.drop i) := by
+  have len (s : String) : s.toByteArray.data.toList.length = s.utf8ByteSize :=
+    Array.length_toList
+  have empty (s : String) (j : Nat) (h : s.utf8ByteSize ≤ j) :
+      s.toByteArray.data.toList.drop j = [] := List.drop_eq_nil_iff.mpr (by rwa [len])
+  have cons (s : String) (j : Nat) (h : j < s.utf8ByteSize) :
+      s.toByteArray.data.toList.drop j =
+        s.getUTF8Byte ⟨j⟩ h :: s.toByteArray.data.toList.drop (j + 1) := by
+    rw [List.drop_eq_getElem_cons (by rwa [len])]
+    rw [Array.getElem_toList]
+    rfl
+  induction fuel generalizing i with
+  | zero =>
+    rw [compareBytes]
+    by_cases ha : i < a.utf8ByteSize
+    · rw [cons _ _ ha, empty b i (by omega)]
+      exact Nat.compare_eq_gt.mpr (by omega)
+    · rw [empty a i (by omega)]
+      by_cases hb : i < b.utf8ByteSize
+      · rw [cons _ _ hb]
+        exact Nat.compare_eq_lt.mpr (by omega)
+      · rw [empty b i (by omega)]
+        exact Nat.compare_eq_eq.mpr (by omega)
+  | succ fuel ih =>
+    have ha : i < a.utf8ByteSize := by omega
+    have hb : i < b.utf8ByteSize := by omega
+    rw [compareBytes, cons _ _ ha, cons _ _ hb, List.compare_eq_compareLex,
+      List.compareLex_cons_cons]
+    cases compare (a.getUTF8Byte ⟨i⟩ ha) (b.getUTF8Byte ⟨i⟩ hb) <;> simp [Ordering.then]
+    exact ih _ (by omega)
+
+/-- Compare UTF-8 bytes and count the pairs inspected before the order is known. -/
+def compareWithWork (a b : String) : Ordering × Nat :=
+  compareBytes a b (min a.utf8ByteSize b.utf8ByteSize) 0 (by simp)
+
+private theorem compare_order (a b : String) :
+    (compareWithWork a b).1 = compare a.toByteArray.data b.toByteArray.data := by
+  rw [Array.compare_eq_compareLex, Array.compareLex_eq_compareLex_toList]
+  simpa [compareWithWork, List.compare_eq_compareLex] using
+    compareBytes_order a b (min a.utf8ByteSize b.utf8ByteSize) 0 (by simp)
+
+scoped instance (priority := 1100) nameOrd : Ord String where
+  compare a b := (compareWithWork a b).1
+
+scoped instance : TransOrd String := by
+  have eq : nameOrd.compare = compareOn (fun name : String => name.toByteArray.data) :=
+    funext fun a => funext (compare_order a)
+  change TransCmp nameOrd.compare
+  rw [eq]
+  infer_instance
 
 scoped instance : LawfulEqOrd String where
-  eq_of_compare h := String.toList_injective (LawfulEqOrd.eq_of_compare (α := List Char) h)
+  eq_of_compare h := String.toByteArray_inj.mp
+    (congrArg ByteArray.mk (LawfulEqOrd.eq_of_compare (α := Array UInt8)
+      ((compare_order _ _).symm ▸ h)))
 
 variable {κ : Type v}
 
 def build [Ord κ] (key : α → κ) (entries : List α) : Std.TreeMap κ α :=
-  entries.foldr (fun entry index => index.insert (key entry) entry) {}
+  entries.foldrTR (fun entry index => index.insert (key entry) entry) {}
+
+theorem build_cons [Ord κ] (key : α → κ) (entry : α) (rest : List α) :
+    build key (entry :: rest) = (build key rest).insert (key entry) entry := by
+  simp [build, ← List.foldr_eq_foldrTR]
 
 theorem build_get? [Ord κ] [BEq κ] [LawfulBEq κ] [TransOrd κ] [LawfulEqOrd κ] (key : α → κ) (entries : List α) (name : κ) :
     (build key entries)[name]? = entries.find? (fun entry => key entry == name) := by
   induction entries with
-  | nil => simp [build]
+  | nil => simp [build, ← List.foldr_eq_foldrTR]
   | cons entry rest ih =>
-    change ((build key rest).insert (key entry) entry)[name]? = _
+    rw [build_cons]
     rw [Std.TreeMap.getElem?_insert, List.find?_cons, ih]
     by_cases h : key entry = name
     · simp [h]

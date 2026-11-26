@@ -1,3 +1,4 @@
+import LeanCompilerBackend.Text
 import LeanCompilerBackend.IR
 
 /- Bounded custom-section grammars, checked independently for each object format. -/
@@ -20,7 +21,7 @@ def checkApple (customSection : SectionSpec) : Except String Unit := do
   -- validated segment,section[,type[,attributes]] directive without quotes.
   -- This deliberately differs from QBE's literal second-field quote bytes.
   let combined := customSection.name ++ (customSection.flags.map ("," ++ ·)).getD ""
-  let parts := combined.splitOn ","
+  let parts := Text.splitWhen (· == ',') combined
   if parts.length < 2 || parts.length > 4 then
     throw "Apple section requires segment,section[,type[,attributes]]"
   for name in parts.take 2 do
@@ -31,7 +32,7 @@ def checkApple (customSection : SectionSpec) : Except String Unit := do
         "literal_pointers", "mod_init_funcs", "mod_term_funcs", "coalesced"].contains kind then
       throw "unsupported Apple section type"
   if let some attributes := parts[3]? then
-    for attr in attributes.splitOn "+" do
+    for attr in (Text.splitWhen (· == '+') attributes) do
       if !["pure_instructions", "some_instructions", "no_dead_strip", "live_support"].contains attr then
         throw "unsupported Apple section attribute"
 
@@ -42,7 +43,7 @@ def checkAny (customSection : Option SectionSpec) : Except String Unit := do
   if (checkELF customSection).isOk || (checkApple customSection).isOk then return ()
   -- This choice affects only the diagnostic when neither grammar accepts.
   if customSection.name.startsWith "." ||
-      (!(customSection.name.contains ',') && customSection.flags.isNone) then checkELF customSection
+      (!(customSection.name.toList.contains ',') && customSection.flags.isNone) then checkELF customSection
   else checkApple customSection
 
 /-- Never infer the object format from a name prefix. Preserve both the target
@@ -64,8 +65,9 @@ def checkTLS (customSection : SectionSpec) : Except String Unit := do
   checkELF { customSection with flags := none }
   let some flags := customSection.flags
     | throw "custom TLS section requires explicit awT flags (optional R)"
-  if !flags.toList.all (fun c => c == 'a' || c == 'w' || c == 'T' || c == 'R') ||
-      !flags.contains 'a' || !flags.contains 'w' || !flags.contains 'T' then
+  let chars := flags.toList
+  if !chars.all (fun c => c == 'a' || c == 'w' || c == 'T' || c == 'R') ||
+      !chars.contains 'a' || !chars.contains 'w' || !chars.contains 'T' then
     throw "custom TLS section requires allocatable writable TLS flags (awT, optional R)"
 
 def checkDataAny (threadLocal : Bool) (customSection : Option SectionSpec) : Except String Unit := do

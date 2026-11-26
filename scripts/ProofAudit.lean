@@ -274,6 +274,7 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Assembly.foldLines_eq_linear_spec
 #print axioms LeanCompilerBackend.predecessorLookup_eq_indexed_spec
 #print axioms LeanCompilerBackend.collectReference_eq_indexed_spec
+#print axioms LeanCompilerBackend.validateFunctionGraph_eq_indexedDeclarations_spec
 #print axioms LeanCompilerBackend.BoundedDominance.packedSolve_eq_worklist_spec
 #print axioms LeanCompilerBackend.BoundedDominance.packedBlocks_eq_indexed_spec
 #print axioms LeanCompilerBackend.BoundedDominance.indexedRows_eq_fast_spec

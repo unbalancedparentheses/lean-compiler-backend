@@ -20,6 +20,11 @@ private def optimize (m : Module) : IO Module :=
   | .ok m => pure m
   | .error e => throw (IO.userError e)
 
+private def deadDefinitions (m : Module) : IO Module := do
+  match m.functions.mapM Cleanup.deadDefinitions with
+  | .ok functions => pure {m with functions}
+  | .error e => throw (IO.userError e)
+
 private def markerCounts (m : Module) : Nat × Nat × Nat := Id.run do
   let mut calls := 0
   let mut markers := 0
@@ -81,7 +86,7 @@ private def symbolPlacement : IO Unit := do
 
 private def discardedCallResults : IO Unit := do
   let source ← parse "dbgfile \"calls.c\" function l $effect(l %p,l %x,...) { @s %old =l loadl %p %next =l add %old,%x storel %next,%p ret 99 } function l $root(l %x) { @s %p =l alloc8 8 storel 0,%p %fn =l copy $effect %arg =l add %x,1 dbgloc 10 %unused =l call %fn(l %p,l %arg,...) dbgloc 11 %dead =l add %unused,3 dbgloc 12 %result =l loadl %p ret %result }"
-  let cleaned := {source with functions := source.functions.map Cleanup.deadDefinitions}
+  let cleaned ← deadDefinitions source
   require (markerCounts cleaned == (1,1,1)) "unused scalar call result was retained or variadic marker lost"
   let body := cleaned.functions[1]!.blocks[0]!
   require (body.instructions.size == 6 && body.debugLocations.map (·.instruction) == #[4,5,5])
@@ -95,10 +100,10 @@ private def discardedCallResults : IO Unit := do
         | throw (IO.userError "discarded-result effect interpreter failed")
       require (result == some (x+1)) "discarding a result changed a call's visible memory effect"
   let retained ← parse "function l $f(l %p,l %fn) { @s %a =l call %fn() %b =l call %fn(l %a) storel %b,%p %c =l call %fn() jnz %c,@yes,@no @yes %d =l call %fn() ret %d @no ret 0 }"
-  require (markerCounts {retained with functions := retained.functions.map Cleanup.deadDefinitions} == (4,0,0))
+  require (markerCounts (← deadDefinitions retained) == (4,0,0))
     "live call result feeding call/store/branch/return was discarded"
   let aggregate ← parse "type :big = { l 4 } function :big $make() { @s %p =l alloc8 32 ret %p } function $root() { @s %unused =:big call $make() ret }"
-  require (markerCounts {aggregate with functions := aggregate.functions.map Cleanup.deadDefinitions} == (1,0,0))
+  require (markerCounts (← deadDefinitions aggregate) == (1,0,0))
     "unused aggregate call lost required return storage"
 
 def run : IO Unit := do
@@ -109,7 +114,7 @@ def run : IO Unit := do
   require (markerCounts marked == (3,3,2)) "SSA lost empty marker or unused-result void conversion"
   let stages := #[marked,
     {marked with functions := marked.functions.map Cleanup.copies},
-    {marked with functions := marked.functions.map Cleanup.deadDefinitions}]
+    (← deadDefinitions marked)]
   for stage in stages do
     require (markerCounts stage == (3,3,2)) "cleanup lost empty call marker"
   for stage in [marked.functions.mapM ControlFlow.simplify, marked.functions.mapM Common.eliminate] do

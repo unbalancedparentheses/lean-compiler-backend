@@ -41,19 +41,24 @@ private def rewrite (aliases : Std.HashMap String String) : Operand → Operand
   | other => other
 
 private def visit (graph : CFG.Graph) :
-    Nat → List (Nat × Bool) → Std.HashSet Nat → List Nat → List Nat
-  | 0, _, _, order | _, [], _, order => order
+    Nat → List (Nat × Bool) → Std.HashSet Nat → List Nat → Except String (List Nat)
+  | _, [], _, order => .ok order
+  | 0, _ :: _, _, _ => .error "common-expression traversal budget exhausted"
   | fuel + 1, (node, expanded) :: pending, seen, order =>
     if expanded then
       visit graph fuel pending seen (node :: order)
     else if seen.contains node then
       visit graph fuel pending seen order
     else
-      let next := graph.successors[node]!.toList.foldr
+      let next := graph.successors[node]!.toList.foldrTR
         (fun successor rest => (successor, false) :: rest) ((node, true) :: pending)
       visit graph fuel next (seen.insert node) order
 
-private def reversePostorder (graph : CFG.Graph) : List Nat :=
+example : visit { successors := #[#[1], #[]] } 3 [(0, false)] {} [] =
+    .error "common-expression traversal budget exhausted" := by
+  simp [visit, ← List.foldr_eq_foldrTR]
+
+private def reversePostorder (graph : CFG.Graph) : Except String (List Nat) :=
   -- One enter marker per edge plus the root, and one exit per visited node.
   let edges := graph.successors.foldl (fun n row => n + row.size) 0
   visit graph (1 + edges + max 1 graph.successors.size) [(0, false)] {} []
@@ -72,7 +77,8 @@ def eliminate (f : Function) : Except String Function := do
   let mut ordinal := 0
   let mut aliases : Std.HashMap String String := {}
   let mut blocks := f.blocks
-  for index in reversePostorder doms.graph do
+  let order ← reversePostorder doms.graph
+  for index in order do
     let b := blocks[index]!
     let mut instructions := #[]
     for position in [:b.instructions.size] do
@@ -93,7 +99,7 @@ def eliminate (f : Function) : Except String Function := do
           else
             -- A dead, distant candidate cannot become live later in this same
             -- block. Drop it to avoid quadratic scans of repeated expressions.
-            let available := available.filter (fun candidate => candidate.1 != index || profitable candidate)
+            let available := available.filterTR (fun candidate => candidate.1 != index || profitable candidate)
             candidates := candidates.insert expression ((index, ordinal, i.destination) :: available)
         instructions := instructions.push (.assign {i with operation})
       | other => instructions := instructions.push other

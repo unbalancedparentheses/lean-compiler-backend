@@ -104,9 +104,10 @@ private def validSymbol (name : String) : Bool :=
     && (name.toList.head!.isAlpha || name.toList.head! == '_')
 
 private def validPath (path : String) : Bool :=
-  !path.isEmpty && !path.startsWith "/" && !path.contains '\\' &&
-    !path.contains ':' && !path.contains '\x00' &&
-    (path.splitOn "/").all (fun p => !p.isEmpty && p != "." && p != "..")
+  let chars := path.toList
+  !chars.contains '\\' && !chars.contains ':' && !chars.contains '\x00' &&
+    (List.splitOnPTR (· == '/') chars).all (fun part =>
+      !part.isEmpty && part != ['.'] && part != ['.', '.'])
 
 private def originKey (o : DebugOrigin) : Nat × Nat × Nat := (o.block, o.kind, o.index)
 

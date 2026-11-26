@@ -225,7 +225,9 @@ private theorem collect_fold_eq (defs entries : List Definition) :
       · simp only [ite_eq_left duplicate]
         rfl
       · simp only [ite_eq_right duplicate]
-        exact ih (defn :: entries)
+        have step := ih (defn :: entries)
+        rw [NameIndex.build_cons] at step
+        exact step
 
 private def collectReference (f : Function) : Except String (NameIndex.Lookup String Definition) :=
   collectIndexed f
@@ -309,7 +311,7 @@ private def validateFunctionGraphWithWorkUsing
     (f : Function) (scalable : Bool) : Except String (Option CFG.Graph × Nat) := do
   let mut work := 0
   checkSection f.customSection
-  if f.debugFile.any (·.contains '\x00') then throw "debug filename must not contain NUL"
+  if f.debugFile.any (·.toList.contains '\x00') then throw "debug filename must not contain NUL"
   for block in f.blocks do
     work := work + 1
     let mut previous := 0
@@ -492,6 +494,10 @@ def validateFunctionGraph (f : Function) (scalable : Bool := false) :
 theorem validateFunctionGraph_eq_indexedDeclarations (f : Function) (scalable : Bool) :
     validateFunctionGraph f scalable = validateFunctionGraphUsing collectIndexed f scalable :=
   congrArg (fun collect => validateFunctionGraphUsing collect f scalable) collectReference_eq_indexed
+
+theorem validateFunctionGraph_eq_indexedDeclarations_spec (f : Function) (scalable : Bool) :
+    validateFunctionGraphUsing collectReferenceSpec f scalable = validateFunctionGraph f scalable := by
+  rw [collectReference_eq_indexed_spec, validateFunctionGraph_eq_indexedDeclarations]
 
 def validateFunctionWithWork (f : Function) (scalable : Bool := false) : Except String Nat :=
   (validateFunctionGraphWithWorkUsing collectReference f scalable).map Prod.snd

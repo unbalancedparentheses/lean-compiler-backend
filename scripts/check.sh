@@ -34,7 +34,7 @@ for theorem in \
   LeanCompilerBackend.Verified.admit_eq_indexedIncoming; do
   grep -F "'$theorem' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$auditSingleLine" >/dev/null
   case "$theorem" in
-    *.validateFunctionGraph_eq_indexedDeclarations|*.oracleWithWork_result) ;;
+    *.oracleWithWork_result) ;;
     *)
       grep -F "'${theorem}_spec' depends on axioms: [propext, Classical.choice, Quot.sound]" \
         <<< "$auditSingleLine" >/dev/null ;;
