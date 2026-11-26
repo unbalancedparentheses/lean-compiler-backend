@@ -4,6 +4,8 @@ import LeanCompilerBackend.NameIndex
 
 namespace LeanCompilerBackend.Assembly
 
+open scoped LeanCompilerBackend.NameIndex
+
 /-- Accumulate instruction chunks without repeatedly copying the whole function.
     Flatten once, preserving the exact line and debug-directive order. -/
 structure LineBuffer where
@@ -17,15 +19,14 @@ instance : HAppend LineBuffer (List String) LineBuffer where
 instance : HAppend (List String) LineBuffer LineBuffer where
   hAppend lines buffer := ⟨#[lines] ++ buffer.chunks⟩
 
-def LineBuffer.toList (buffer : LineBuffer) : List String := buffer.chunks.toList.flatten
+def LineBuffer.toList (buffer : LineBuffer) : List String := buffer.chunks.toList.flattenTR
 
 private theorem LineBuffer.toList_append (buffer : LineBuffer) (lines : List String) :
     (buffer ++ lines).toList = buffer.toList ++ lines := by
-  change (buffer.chunks.push lines).toList.flatten = buffer.chunks.toList.flatten ++ lines
-  simp
+  change (buffer.chunks.push lines).toList.flattenTR = buffer.chunks.toList.flattenTR ++ lines
+  simp [← List.flatten_eq_flattenTR]
 
-/-- Emit chunks in input order, stopping at the first emission error. -/
-def foldLines (items : List α) (emit : α → Except ε (List String)) (init : List String) :
+private def foldLinesSpec (items : List α) (emit : α → Except ε (List String)) (init : List String) :
     Except ε (List String) :=
   items.foldlM (fun lines item => (lines ++ ·) <$> emit item) init
 
@@ -33,26 +34,39 @@ private def foldChunks (items : List α) (emit : α → Except ε (List String))
     Except ε LineBuffer :=
   items.foldlM (fun lines item => (lines ++ ·) <$> emit item) init
 
-private theorem foldChunks_eq (items : List α) (emit : α → Except ε (List String))
+private theorem foldChunks_eq_spec (items : List α) (emit : α → Except ε (List String))
     (buffer : LineBuffer) :
-    (foldChunks items emit buffer).map LineBuffer.toList = foldLines items emit buffer.toList := by
+    (foldChunks items emit buffer).map LineBuffer.toList = foldLinesSpec items emit buffer.toList := by
   induction items generalizing buffer with
   | nil => rfl
   | cons item rest ih =>
     cases h : emit item with
-    | error e => simp [foldChunks, foldLines, h]; rfl
+    | error e => simp [foldChunks, foldLinesSpec, h]; rfl
     | ok lines =>
-      simp [foldChunks, foldLines, h]
+      simp [foldChunks, foldLinesSpec, h]
       exact (ih (buffer ++ lines)).trans (by rw [LineBuffer.toList_append]; rfl)
 
 private def foldLinesLinear (items : List α) (emit : α → Except ε (List String))
     (init : List String) : Except ε (List String) :=
   (foldChunks items emit (LineBuffer.ofList init)).map LineBuffer.toList
 
-@[csimp] theorem foldLines_eq_linear : @foldLines = @foldLinesLinear := by
+/-- Emit chunks in input order, stopping at the first emission error. -/
+def foldLines (items : List α) (emit : α → Except ε (List String)) (init : List String) :
+    Except ε (List String) :=
+  foldLinesLinear items emit init
+
+theorem foldLines_eq_linear : @foldLines = @foldLinesLinear := rfl
+
+theorem foldLines_eq_linear_spec : @foldLinesSpec = @foldLinesLinear := by
   funext α ε items emit init
-  simpa [LineBuffer.ofList, LineBuffer.toList, foldLinesLinear] using
-    (foldChunks_eq items emit (LineBuffer.ofList init)).symm
+  simpa [LineBuffer.ofList, LineBuffer.toList, ← List.flatten_eq_flattenTR, foldLinesLinear] using
+    (foldChunks_eq_spec items emit (LineBuffer.ofList init)).symm
+
+private theorem foldChunks_eq (items : List α) (emit : α → Except ε (List String))
+    (buffer : LineBuffer) :
+    (foldChunks items emit buffer).map LineBuffer.toList = foldLines items emit buffer.toList := by
+  rw [foldLines_eq_linear, ← foldLines_eq_linear_spec]
+  exact foldChunks_eq_spec items emit buffer
 
 /-- Prepare first-match block and incoming-operand lookups once per function.
     Each phi keeps its original index, which also determines its staging slot. -/
@@ -71,16 +85,21 @@ def symbolName (darwin : Bool) (name : String) : String :=
 
 /-- Add target-private suffixes inside global-symbol quotes. -/
 def symbolSuffix (name suffix : String) : String :=
-  if name.startsWith "\"" then String.ofList (name.toList.take (name.length-1)) ++ suffix ++ "\""
+  if name.startsWith "\"" then String.ofList (name.toList.takeTR (name.length-1)) ++ suffix ++ "\""
   else name ++ suffix
 
 /-- Quoted function names must not become assembler syntax in internal labels.
     The function-name length in each label keeps this encoding distinct from
     ordinary identifiers with a coincidentally matching spelling. -/
 def localName (name : String) : String :=
-  if name.startsWith "\"" then "quoted_" ++ String.intercalate "_" (name.toUTF8.data.toList.map (fun b => toString b.toNat))
+  if name.startsWith "\"" then "quoted_" ++ String.intercalate "_" (name.toUTF8.data.toList.mapTR (fun b => toString b.toNat))
   else name
 
+
+private def escapeSectionName (name : String) : String :=
+  name.toList.foldl (fun buffer c =>
+    let buffer := if c == '\\' || c == '"' then buffer.push '\\' else buffer
+    buffer.push c) ""
 
 def sectionDirective (darwin : Bool) (customSection : SectionSpec) : String :=
   -- ELF names are decoded printable ASCII. Re-escape assembler string delimiters
@@ -88,14 +107,14 @@ def sectionDirective (darwin : Bool) (customSection : SectionSpec) : String :=
   if darwin then
     ".section " ++ customSection.name ++ (customSection.flags.map ("," ++ ·)).getD ""
   else
-    ".section \"" ++ (customSection.name.replace "\\" "\\\\").replace "\"" "\\\"" ++ "\"" ++
+    ".section \"" ++ escapeSectionName customSection.name ++ "\"" ++
       (customSection.flags.map (fun flags => ",\"" ++ flags ++ "\"")).getD ""
 
 def checkTargetSection := Section.checkTarget
 
 /-- Quote UTF-8 bytes using assembler octal escapes, including quotes and backslashes. -/
 def debugFilename (name : String) : String :=
-  "\"" ++ String.join (name.toUTF8.data.toList.map fun byte =>
+  "\"" ++ String.join (name.toUTF8.data.toList.mapTR fun byte =>
     let n := byte.toNat
     "\\" ++ toString (n / 64) ++ toString (n / 8 % 8) ++ toString (n % 8)) ++ "\""
 

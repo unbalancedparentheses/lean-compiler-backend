@@ -4,6 +4,7 @@
   Unsupported constructs are errors; no partial successful compilation.
 -/
 import LeanCompilerBackend.Numeric
+import LeanCompilerBackend.Text
 import LeanCompilerBackend.Aggregate
 
 namespace LeanCompilerBackend.Parser
@@ -166,7 +167,7 @@ private def checkedInteger (value : Int) : P Int := do
 
 private def parseInteger (description : String) : P Int := do
   let token ← take
-  let some value := token.toInt? | failAt description
+  let some value := Text.decimalInt? token | failAt description
   checkedInteger value
 
 private def parseNonnegativeInteger (description : String) : P Nat := do
@@ -196,7 +197,7 @@ private def parseOperand : P Operand := do
       match Numeric.floatBits s with
       | .ok bits => return .constant bits
       | .error reason => failAt reason
-    match s.toInt? with
+    match Text.decimalInt? s with
     | some n =>
       let n ← checkedInteger n
       discard take
@@ -621,7 +622,7 @@ private def parseAggregateFields : P (Array AggregateField) := do
         | "w" => pure (.scalar .word false) | "l" => pure (.scalar .long false)
         | "s" => pure (.scalar .word true) | "d" => pure (.scalar .long true)
         | _ => failAt "expected aggregate member b/h/w/l/s/d or named type"
-    let count ← if ((← peek).getD "").toInt?.isSome then
+    let count ← if (Text.decimalInt? ((← peek).getD "")).isSome then
         parseNonnegativeInteger "expected nonnegative aggregate repetition"
       else pure 1
     fields := fields.push { member, count }
@@ -641,7 +642,7 @@ private def parseAggregate : P AggregateType := do
   -- Inspect the first body token without consuming the record's opening brace.
   let saved ← get
   expect "{"
-  if ((← peek).getD "").toInt?.isSome then
+  if (Text.decimalInt? ((← peek).getD "")).isSome then
     let size ← parseNonnegativeInteger "expected nonnegative opaque size"
     expect "}"
     return { name, alignment, opaqueSize := some size }
@@ -666,7 +667,7 @@ private def parseDefinitions (fuel : Nat) : P Module := do
       discard take
       let bytes ← parseDataString
       let some file := String.fromUTF8? ⟨bytes⟩ | failAt "debug filename must be UTF-8"
-      if file.contains '\x00' then failAt "debug filename must not contain NUL"
+      if file.toList.contains '\x00' then failAt "debug filename must not contain NUL"
       modify fun state => { state with debugFile := some file }
       continue
     if (← peekIs "type") then

@@ -218,7 +218,7 @@ inductive Error where
 
 def Error.message : Error → String
   | .wire reason => reason
-  | .compile error => toString (repr error)
+  | .compile error => error.message
 
 private def jobBytes (j : FunctionJob) : Except Error ByteArray :=
   (encode (do header "LCB-job"; job j)).mapError Error.wire

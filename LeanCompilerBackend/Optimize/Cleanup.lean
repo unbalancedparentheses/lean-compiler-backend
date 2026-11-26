@@ -1,5 +1,7 @@
 /- Compatibility-only SSA copy propagation and conservative dead definitions. -/
 import LeanCompilerBackend.IR
+import Std.Data.HashMap.Lemmas
+import Std.Data.HashSet.Lemmas
 
 namespace LeanCompilerBackend.Optimize.Cleanup
 
@@ -103,35 +105,41 @@ private def terminatorUses : Terminator → List String
   | .ret (some v) | .branch v .. => temporary v
   | _ => []
 
+private def markLive (dependencies : Std.HashMap String (List String)) :
+    Nat → List String → Std.HashSet String → Except String (Std.HashSet String)
+  | _, [], live => .ok live
+  | 0, _ :: _, _ => .error "dead-definition traversal budget exhausted"
+  | fuel + 1, name :: pending, live =>
+    if live.contains name then markLive dependencies fuel pending live
+    else markLive dependencies fuel (((dependencies[name]?).getD []).appendTR pending) (live.insert name)
+
+example : (markLive (({} : Std.HashMap String (List String)).insert "a" ["b"]) 1 ["a"] {}).isOk = false := by
+  simp [markLive, ← List.append_eq_appendTR, Except.isOk, Except.toBool]
+
 /-- Mark from effects/returns, then sweep pure dead definitions. Potentially
     trapping division, loads, conversions, allocation, vaarg, calls, floating
     operations and symbol/TLS materialization are deliberately retained. Unused scalar
     call results are discarded while retaining the call and every operand. -/
-def deadDefinitions (f : Function) : Function := Id.run do
+def deadDefinitions (f : Function) : Except String Function := do
   let mut dependencies : Std.HashMap String (List String) := {}
   let mut pending : List String := []
   for b in f.blocks do
-    pending := terminatorUses b.terminator ++ pending
+    pending := (terminatorUses b.terminator).appendTR pending
     for p in b.phis do
-      dependencies := dependencies.insert p.destination (p.incoming.toList.flatMap fun (_,v) => temporary v)
+      dependencies := dependencies.insert p.destination (p.incoming.toList.flatMapTR fun (_,v) => temporary v)
       if p.incoming.any (fun (_,v) => match v with | .symbol _ | .threadSymbol _ => true | _ => false) then
         pending := p.destination :: pending
     for s in b.instructions do
       match s with
       | .assign i =>
-        dependencies := dependencies.insert i.destination (i.operation.operands.flatMap temporary)
+        dependencies := dependencies.insert i.destination (i.operation.operands.flatMapTR temporary)
         if (effectOnlyCall i).isSome then
-          pending := i.operation.operands.flatMap temporary ++ pending
+          pending := (i.operation.operands.flatMapTR temporary).appendTR pending
         else if !removable i then pending := i.destination :: pending
-      | _ => pending := s.operands.flatMap temporary ++ pending
-  let mut live : Std.HashSet String := {}
-  -- Each definition expands at most once. Parameters need no expansion.
-  while !pending.isEmpty do
-    let name := pending.head!
-    pending := pending.tail
-    if live.contains name then continue
-    live := live.insert name
-    pending := (dependencies[name]?).getD [] ++ pending
+      | _ => pending := (s.operands.flatMapTR temporary).appendTR pending
+  -- Each definition expands at most once. Parameters have no dependencies.
+  let edges := dependencies.fold (fun n _ uses => n + uses.lengthTR) 0
+  let live ← markLive dependencies (pending.lengthTR + edges) pending {}
   let blocks := f.blocks.map fun b => Id.run do
     let mut instructions := #[]
     let mut before : Array Nat := #[0]

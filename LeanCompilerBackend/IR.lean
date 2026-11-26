@@ -4,7 +4,7 @@
   See docs/UPSTREAM.md and third_party/qbe/LICENSE for provenance and copyright.
   Zig's AIR/target separation is an architectural reference, not an API dependency.
 -/
-import LeanCompilerBackend.ArithmeticMatches
+import Std
 
 namespace LeanCompilerBackend
 
@@ -43,7 +43,7 @@ def validGlobalName (name : String) : Bool := Id.run do
 
 inductive Width where
   | word | long
-  deriving BEq, DecidableEq, Repr, Inhabited
+  deriving BEq, DecidableEq, Hashable, Repr, Inhabited
 
 def Width.bits : Width → Nat
   | .word => 32
@@ -64,7 +64,7 @@ inductive Operand where
   | constant (value : Int)
   | symbol (name : String)
   | threadSymbol (name : String)
-  deriving Repr, Inhabited
+  deriving BEq, Hashable, Repr, Inhabited
 
 inductive Binary where
   | add | sub | mul | andBits | orBits | xorBits
@@ -108,7 +108,7 @@ def MemoryWidth.valueWidth : MemoryWidth → Width
 inductive LoadKind where
   | signedByte | unsignedByte | signedHalf | unsignedHalf
   | signedWord | unsignedWord | plain
-  deriving BEq, DecidableEq, Repr, Inhabited
+  deriving BEq, DecidableEq, Hashable, Repr, Inhabited
 
 def LoadKind.bytes (width : Width) : LoadKind → Nat
   | .signedByte | .unsignedByte => 1

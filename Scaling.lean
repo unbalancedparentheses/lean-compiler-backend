@@ -184,6 +184,28 @@ private def allocatedDebug (f : Source.Function) : Except String Nat := do
     block with instructions, debugLocations, terminator := .ret (some (.constant 0)) }] }
   (AArch64.emitModuleWithWork { functions := #[body] } (allocate := true)).map Prod.snd
 
+-- Vary the irrelevant suffix and the lookup count independently. Both names
+-- are long, so comparing only up to the shorter length cannot pass this gate
+-- if the implementation eagerly visits the full name.
+private def checkLongNames (label : String)
+    (compareNames : String → String → Ordering × Nat) : IO Bool := do
+  let mut passed := true
+  for bytes in [4096, 32768, 65536] do
+    let suffix := String.ofList (List.replicate bytes 'x')
+    let left := "a" ++ suffix
+    let right := "b" ++ suffix
+    for lookups in [64, 512] do
+      let mut work := 0
+      for i in [:lookups] do
+        let (order, visited) := if i % 2 == 0 then compareNames left right
+          else compareNames right left
+        unless order == (if i % 2 == 0 then .lt else .gt) do
+          throw (IO.userError "long identifier order changed")
+        work := work + visited
+      IO.println s!"{label}: {bytes} suffix bytes, {lookups} lookups, {work} byte pairs"
+      passed := passed && work == lookups
+  return passed
+
 def main : IO UInt32 := do
   let publicArm := fun f => do (AArch64.emitModuleWithWork (← moduleOf f)).map Prod.snd
   let compatibility := [
@@ -225,4 +247,9 @@ def main : IO UInt32 := do
     throw (IO.userError "planted quadratic checksum or work mismatch")
   let control ← check ⟨"planted quadratic", chain, 30, fun f => .ok (quadratic f).2⟩
     (some "planted control")
-  return if passed && control then 0 else 1
+  let names ← checkLongNames "long identifiers" NameIndex.compareWithWork
+  let eager ← checkLongNames "planted eager name comparator" fun left right =>
+    let left := left.toList
+    let right := right.toList
+    (compare left right, left.length + right.length)
+  return if passed && control && names && !eager then 0 else 1

@@ -35,9 +35,12 @@ To work on the compiler:
 
 ```sh
 nix develop
-lake build lcb lcb-tests lcb-scaling
-bash scripts/check.sh
+bash scripts/check_execution_closure.sh --imports
+lake --no-cache build lcb lcb-tests lcb-scaling
 ```
+
+Run the full suite with `nix flake check -L`, or run `bash scripts/check.sh` after
+the stock build above. The suite creates its own [rewrite provenance build](docs/DESIGN.md#backend-execution-closure).
 
 Run `.lake/build/bin/lcb-scaling` for the in-process validation and assembly
 scaling gate alone. It exercises straight-line code, checked operations with a shared exit, a
@@ -191,7 +194,10 @@ Existing proofs cover restricted source/machine semantics, primitive ALU
 selection and parts of a separate typed first path. New focused proofs cover
 [generated-name collision avoidance](docs/proofs/FRESH_NAMES.md) and
 [13 local zero/one rewrite cases](docs/SEMANTICS.md#local-algebra-proof-checkpoint).
-The 200-statement proof audit records exact theorem dependencies. It does **not** prove the complete
+The proof audit records exact theorem dependencies, including typed high-multiply
+selection and emission and reachable-block retention in control-flow cleanup.
+CI also checks the [backend execution closure](docs/DESIGN.md#backend-execution-closure).
+The audits do **not** prove the complete
 compatibility pipeline, optimizer, allocator, ABI lowering, assembly rendering,
 assembler or linker correct. Execution tests and structural checkers do not
 replace those proofs.

@@ -86,6 +86,84 @@ undefined arithmetic domains and independent test exclusions are recorded in
 reports. Neither accepting a public opcode name nor passing a fixture establishes
 full QBE compatibility.
 
+## Backend execution closure
+
+CI walks kernel dependencies and emitted backend IR from parsing, SSA
+construction, optimization, numbered validation, admission, assembly, and the
+replay codecs. It also collects the transitive kernel axioms of every
+execution root, including theorems used in termination and bounds proofs.
+A reachable `@[csimp]` substitution in Lean core or LCB requires a kernel
+theorem that equates the original declaration and its replacement. The audit
+follows the registration to both the equality theorem and the replacement's
+execution dependencies. It reports the theorem by name and rejects a missing
+or invalid theorem or any transitive axiom other than `propext`,
+`Classical.choice`, and `Quot.sound`. This excludes proofs that rely on
+`sorry` or native evaluation.
+
+The release build uses stock pinned Lean for the executable and module
+artifacts. CI also builds the audited module closure in a temporary Lake
+workspace with the same sources and Lake configuration. Its compiler uses
+the pinned Lean frontend with instrumentation at the central rewrite lookup.
+The recorder stores the source declaration, replacement, and theorem from
+the active environment before returning the replacement. It
+records local and elaborator-installed rewrites even when a scope later closes
+or optimization erases the rewritten call. The audit requires the resulting
+journal for each non-toolchain module it imports and verifies that the journal
+matches the module artifact. It checks every observed theorem and walks custom
+replacements in the execution closure. Pinned, precompiled Lean modules supply
+their persisted registrations and the runtime primitive allowlist. The
+closure also follows compiled bodies behind partial declarations. Backend
+diagnostics use total string renderers, and load forwarding indexes the
+address and load type structurally.
+
+The Lake default targets define the binaries installed by the flake. CI resolves
+each installed executable to its Lake module root and audits the full import
+graph from those roots. For each project module in that graph, CI checks the
+actual audit artifact path and requires byte-identical generated C and compiled
+Lean module artifacts from the stock build. Missing artifacts and differences fail the
+gate. Precompiled toolchain modules come from the same pinned installation in
+both builds. A planted local rewrite conditional on the stock Lean executable
+path makes the C differ and fails the gate. Changing the CLI-only liveness
+report in the isolated build also fails the C comparison.
+
+The transitive import graph of the shipped executables may contain only
+the pinned `Init` and `Std` modules and the backend's own modules. This keeps
+the compiler and elaborator APIs outside the graph, including APIs for
+registering compiler passes and changing implementation overrides during
+elaboration. The gate checks ordinary and meta imports in source headers
+before compilation and verifies the compiled import graph during the audit.
+The audit scripts and test drivers run outside this closure.
+
+The audit rejects initializer attributes from backend modules, including
+standalone startup actions and runtime replacements for kernel values. CI
+runs the arithmetic coverage linter and its mutation controls in separate
+elaboration runs.
+
+Run the checked build locally with stock Lake in the pinned Nix shell.
+Use a fresh Lake build directory when switching from an instrumented build.
+
+```sh
+export LEAN_NUM_THREADS=2
+bash scripts/check_execution_closure.sh --imports
+lake --no-cache build lcb lcb-tests lcb-scaling
+bash scripts/check.sh
+```
+
+The indexed validators and lowerers execute their ordinary Lean definitions.
+Their specification equalities cover results and errors of the reference
+scans. Name indexes compare UTF-8 bytes up to the first mismatch. The proof
+relates this comparison to lexicographic array order and transfers
+transitivity and lawful equality to strings.
+
+The dominance DFS scans pending markers structurally and uses the number of
+remaining adjacency rows to bound expansion. Every expansion removes one
+row. The compatibility traversals return an error when they still have
+pending work at exhaustion. Successful control-flow cleanup retains the
+entry and all its reachable successors in the rebuilt CFG.
+`ControlFlow.simplify_retains_reachable` proves the corresponding block occurs in
+the returned array, with its original label, instructions, and debug locations
+and its folded terminator. CI checks the theorem's transitive axioms.
+
 ## What is proved
 
 `AArch64.select_preserves` relates each supported source binary operation to an

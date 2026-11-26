@@ -8,12 +8,22 @@ import LeanCompilerBackend.Verified.Reachability
 
 namespace LeanCompilerBackend.Verified
 
+open scoped LeanCompilerBackend.NameIndex
+
 inductive AdmissionError where
   | invalidInput (reason : String)
   | unsupported (feature : String)
   | unsupportedHighMultiplyWidth (op : Source.Binary) (width : Width)
   | resourceLimit (resource : String) (measured limit : Nat)
   deriving DecidableEq, Repr
+
+def AdmissionError.message : AdmissionError → String
+  | .invalidInput reason => reason
+  | .unsupported feature => s!"unsupported: {feature}"
+  | .unsupportedHighMultiplyWidth op width =>
+    let widthName := match width with | .word => "word" | .long => "long"
+    s!"unsupportedHighMultiplyWidth: {op.constructorName} at {widthName} width (UMULH/SMULH require X registers)"
+  | .resourceLimit resource measured limit => s!"{resource}: {measured} exceeds limit {limit}"
 
 private def limit (resource : String) (measured maximum : Nat) : Except AdmissionError Unit :=
   if measured > maximum then .error (.resourceLimit resource measured maximum) else .ok ()
@@ -164,7 +174,7 @@ private theorem pred_filter (blocks : List Block) (target : String)
 private structure IncomingOrders where
   forTarget : String → IncomingOrder
 
-private def incomingOrders (f : Function) : IncomingOrders :=
+private def incomingOrdersSpec (f : Function) : IncomingOrders :=
   ⟨fun _ => ⟨selectIn (f.blocks.toList.map (·.label))⟩⟩
 
 @[noinline] private def selectKnown (all preds : List String) (known : NameIndex.Membership String) :
@@ -179,16 +189,22 @@ private def incomingOrders (f : Function) : IncomingOrders :=
     selectKnown all ordered (NameIndex.members ordered)⟩
 
 private def incomingOrdersIndexed (f : Function) : IncomingOrders :=
-  if f.blocks.all (·.phis.isEmpty) then incomingOrders f else
+  if f.blocks.all (·.phis.isEmpty) then incomingOrdersSpec f else
   let all := f.blocks.toList.map (·.label)
   if (NameIndex.dedup all).length = all.length then
     prepareOrders all (predecessorLookup f)
-  else incomingOrders f
+  else incomingOrdersSpec f
 
-@[csimp] theorem incomingOrders_eq_indexed : incomingOrders = incomingOrdersIndexed := by
+private def incomingOrders (f : Function) : IncomingOrders :=
+  incomingOrdersIndexed f
+
+theorem incomingOrders_eq_indexed : incomingOrders = incomingOrdersIndexed := rfl
+
+theorem incomingOrders_eq_indexed_spec : incomingOrdersSpec = incomingOrdersIndexed := by
   funext f
   unfold incomingOrdersIndexed
   dsimp only
+  simp only [NameIndex.dedup_eq_eraseDups]
   split
   · rfl
   split <;> rename_i same
@@ -201,6 +217,8 @@ private def incomingOrdersIndexed (f : Function) : IncomingOrders :=
     funext target
     apply congrArg IncomingOrder.mk
     funext entries
+    simp only [NameIndex.members_contains]
+    rw [predecessorLookup_eq_indexed, ← predecessorLookup_eq_indexed_spec]
     change selectIn (f.blocks.toList.map (·.label)) entries =
       selectIn (if entries.all (fun entry => (canonicalPreds f.blocks.toList target).contains entry.1)
         then canonicalPreds f.blocks.toList target else f.blocks.toList.map (·.label)) entries
@@ -213,7 +231,7 @@ private def incomingOrdersIndexed (f : Function) : IncomingOrders :=
         intro entry hm he
         have inPreds := (Array.all_eq_true_iff_forall_mem.mp known) entry hm
         exact absent (beq_iff_eq.mp he ▸ (List.contains_iff_mem.mp inPreds))
-      simp [NameIndex.first, no]
+      simp [NameIndex.first_get, no]
     · rfl
   · rfl
 
@@ -253,20 +271,25 @@ private def readIncomingUsing (ordersFor : Function → IncomingOrders) (f : Fun
     IncomingReaders :=
   readersUsing (ordersFor f)
 
-private theorem readIncomingReference_eq :
-    readIncomingReference = readIncomingUsing incomingOrders := by
+private theorem readIncomingReference_eq_spec :
+    readIncomingReference = readIncomingUsing incomingOrdersSpec := by
   funext f
   apply congrArg IncomingReaders.mk
   funext target
   apply congrArg IncomingReader.mk
   funext entries locals ids blockIds width
-  simp only [incomingOrders, selectIn,
-    NameIndex.first, List.foldlM_filterMap, List.foldlM_map, ← Array.foldlM_toList]
+  simp only [incomingOrdersSpec, selectIn,
+    NameIndex.first_get, List.foldlM_filterMap, List.foldlM_map, ← Array.foldlM_toList]
   apply congrArg (fun step => f.blocks.toList.foldlM step #[])
   funext acc pred
   cases entries.find? (fun entry => entry.1 == pred.label) with
   | none => simp
   | some pair => cases pair; simp
+
+private theorem readIncomingReference_eq :
+    readIncomingReference = readIncomingUsing incomingOrders := by
+  rw [incomingOrders_eq_indexed, ← incomingOrders_eq_indexed_spec]
+  exact readIncomingReference_eq_spec
 
 @[inline] private def admitUsing (prepareIncoming : Function → IncomingReaders) (f : Function) :
     Except AdmissionError (Source.Function × Nat) := do
@@ -323,18 +346,23 @@ private theorem readIncomingReference_eq :
   pure ({ resultWidth, parameters := f.parameters.map (·.width),
           valueWidths := locals.map (·.2), blocks }, work)
 
-/-- Import only the current first-path profile into raw locally numbered syntax. The result is
-    not proof-carrying and must not satisfy a certification request. -/
-def admitWithWork (f : Function) : Except AdmissionError (Source.Function × Nat) :=
+private def admitWithWorkSpec (f : Function) : Except AdmissionError (Source.Function × Nat) :=
   admitUsing readIncomingReference f
 
 private def admitWithWorkIndexed (f : Function) : Except AdmissionError (Source.Function × Nat) :=
   admitUsing (readIncomingUsing incomingOrdersIndexed) f
 
-@[csimp] theorem admitWithWork_eq_indexed : admitWithWork = admitWithWorkIndexed := by
+/-- Import only the current first-path profile into raw locally numbered syntax. The result is
+    not proof-carrying and must not satisfy a certification request. -/
+def admitWithWork (f : Function) : Except AdmissionError (Source.Function × Nat) :=
+  admitWithWorkIndexed f
+
+theorem admitWithWork_eq_indexed : admitWithWork = admitWithWorkIndexed := rfl
+
+theorem admitWithWork_eq_indexed_spec : admitWithWorkSpec = admitWithWorkIndexed := by
   funext f
-  unfold admitWithWork admitWithWorkIndexed
-  rw [readIncomingReference_eq, incomingOrders_eq_indexed]
+  unfold admitWithWorkSpec admitWithWorkIndexed
+  rw [readIncomingReference_eq_spec, incomingOrders_eq_indexed_spec]
 
 def admit (f : Function) : Except AdmissionError Source.Function :=
   (admitWithWork f).map Prod.fst
@@ -344,9 +372,12 @@ private def admitIndexed (f : Function) : Except AdmissionError Source.Function 
 
 /-- The effectful admission loop preserves the whole result, including the
     first error raised while resolving a predecessor or its operand. -/
-@[csimp] theorem admit_eq_indexedIncoming : admit = admitIndexed := by
+theorem admit_eq_indexedIncoming : admit = admitIndexed := rfl
+
+theorem admit_eq_indexedIncoming_spec :
+    (fun f => (admitWithWorkSpec f).map Prod.fst) = admitIndexed := by
   funext f
-  unfold admit admitIndexed
-  rw [admitWithWork_eq_indexed]
+  unfold admitIndexed
+  rw [admitWithWork_eq_indexed_spec]
 
 end LeanCompilerBackend.Verified

@@ -74,6 +74,17 @@ inductive CompileError where
   | verificationFailed (stage reason : String)
   deriving DecidableEq, Repr
 
+def CompileError.message : CompileError → String
+  | .admission error => error.message
+  | .invalidJob reason => s!"invalid job: {reason}"
+  | .unsupported feature => s!"unsupported: {feature}"
+  | .unsupportedTarget target => s!"unsupported target: {target}"
+  | .certificationUnavailable request =>
+    let profile := match request with
+      | .none => "none" | .kernelTypedAssembly => "kernelTypedAssembly" | .nativeBinary => "nativeBinary"
+    s!"certificationUnavailable: {profile}"
+  | .verificationFailed stage reason => s!"{stage}: {reason}"
+
 /-- No constructor for a certificate exists before the relevant proof exists. -/
 inductive VerificationResult where
   | uncertified (structuralChecks : Array String)
@@ -105,9 +116,10 @@ private def validSymbol (name : String) : Bool :=
     && (name.toList.head!.isAlpha || name.toList.head! == '_')
 
 private def validPath (path : String) : Bool :=
-  !path.isEmpty && !path.startsWith "/" && !path.contains '\\' &&
-    !path.contains ':' && !path.contains '\x00' &&
-    (path.splitOn "/").all (fun p => !p.isEmpty && p != "." && p != "..")
+  let chars := path.toList
+  !chars.contains '\\' && !chars.contains ':' && !chars.contains '\x00' &&
+    (List.splitOnPTR (· == '/') chars).all (fun part =>
+      !part.isEmpty && part != ['.'] && part != ['.', '.'])
 
 private def originKey (o : DebugOrigin) : Nat × Nat × Nat := (o.block, o.kind, o.index)
 

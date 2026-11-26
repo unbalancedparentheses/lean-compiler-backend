@@ -91,8 +91,8 @@ def validateSourceWithWork (f : Source.Function) : Except AdmissionError Nat := 
       if phi.incoming.size > 64 then
         throw (.resourceLimit "phi predecessors" phi.incoming.size 64)
   let projected ← shape f
-  let named ← (reify projected "canonical" false).mapError fun e =>
-    .unsupported s!"canonical admission projection: {repr e}"
+  let named ← (reify projected "canonical" false).mapError fun
+    | .unsupportedBinary op => .unsupported s!"canonical admission projection: {op.constructorName}"
   let (canonical, work) ← admitWithWork named
   if canonical != projected then throw (.invalidInput "noncanonical numbered source or inconsistent widths")
 

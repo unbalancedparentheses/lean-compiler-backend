@@ -190,7 +190,7 @@ private def storedOperation (stored : Stored) (i : Instruction) (kind : LoadKind
 def forward (f : Function) : Function := Id.run do
   let mut blocks := #[]
   for block in f.blocks do
-    let mut loads : Std.HashMap String String := {}
+    let mut loads : Std.HashMap (Operand × LoadKind × Width × Bool) String := {}
     let mut stored : Option Stored := none
     let mut instructions := #[]
     for statement in block.instructions do
@@ -199,7 +199,7 @@ def forward (f : Function) : Function := Id.run do
       | .assign i =>
         match i.operation with
         | .load kind address =>
-          let key := s!"{reprStr address}|{reprStr kind}|{reprStr i.width}|{i.floating}"
+          let key := (address, kind, i.width, i.floating)
           let forwarded := stored.bind (fun value => storedOperation value i kind address)
           let operation := forwarded.orElse (fun _ =>
             (loads[key]?).map (fun name => Operation.copy (.temporary name)))

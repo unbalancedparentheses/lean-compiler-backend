@@ -203,10 +203,10 @@ inputs and emitted instructions. Compatibility emitters build a first-match
 index for block labels and each phi's incoming operands once per function.
 They accumulate emitted lines in chunks in their original order.
 
-Lean's `@[csimp]` equalities connect these executable replacements to the
-reference operations, including their `Except` results. The audit checks the
-axioms of the replacements. This establishes agreement with the executable
-specifications and keeps the existing assurance boundary for checker soundness.
+Lean theorems equate the indexed implementations with the reference operations,
+including their `Except` results. The indexed implementations are the ordinary
+definitions used for execution. The proof audit checks the axioms of these
+equalities.
 
 ## Pass obligations (F05)
 

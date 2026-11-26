@@ -5,6 +5,7 @@
   and width-specific registers are additional references. See docs/UPSTREAM.md
   and the retained upstream licenses in third_party/.
 -/
+import LeanCompilerBackend.Text
 import LeanCompilerBackend.AArch64.ALU
 import LeanCompilerBackend.AArch64.ABI
 import LeanCompilerBackend.AggregateABI
@@ -229,14 +230,17 @@ private def slotOffset (slots : List (String × Nat)) (name : String) : Except S
   | some offset => .ok offset
   | none => .error s!"missing stack slot for %{name}"
 
-private def memoryLoad (width : Width) (destination : Nat) : LoadKind → String
-  | .signedByte => s!"ldrsb {register width destination}"
-  | .unsignedByte => s!"ldrb w{destination}"
-  | .signedHalf => s!"ldrsh {register width destination}"
-  | .unsignedHalf => s!"ldrh w{destination}"
-  | .signedWord => if width == .long then s!"ldrsw x{destination}" else s!"ldr w{destination}"
-  | .unsignedWord => s!"ldr w{destination}"
-  | .plain => s!"ldr {register width destination}"
+private def memoryLoad (width : Width) (destination : Nat) (kind : LoadKind)
+    (unscaled : Bool := false) : String :=
+  let mnemonic := if unscaled then "ldur" else "ldr"
+  match kind with
+  | .signedByte => s!"{mnemonic}sb {register width destination}"
+  | .unsignedByte => s!"{mnemonic}b w{destination}"
+  | .signedHalf => s!"{mnemonic}sh {register width destination}"
+  | .unsignedHalf => s!"{mnemonic}h w{destination}"
+  | .signedWord => if width == .long then s!"{mnemonic}sw x{destination}" else s!"{mnemonic} w{destination}"
+  | .unsignedWord => s!"{mnemonic} w{destination}"
+  | .plain => s!"{mnemonic} {register width destination}"
 
 /-- Split frame adjustments into the two legal AArch64 immediate scales. -/
 private def adjustStack (op : String) (bytes : Nat) : List String := Id.run do
@@ -679,28 +683,26 @@ private def adjacentMemory (darwin : Bool) (localSymbols : List String) (base : 
   if !scaled && !(offset >= -256 && offset <= 255) then return none
   let addressHome := operandRegister slots 9 pointer
   let mut lines ← if addressHome == 9 then load darwin localSymbols base slots .long 9 pointer else pure []
-  let memory := fun (instruction : String) =>
-    let instruction := if scaled then instruction else
-      (instruction.replace "ldr" "ldur").replace "str" "stur"
-    s!"\t{instruction}, [x{addressHome}, #{offset}]"
+  let memory := fun (instruction : String) => s!"\t{instruction}, [x{addressHome}, #{offset}]"
+  let store := if scaled then "str" else "stur"
   match second with
   | .assign inst =>
     let .load kind _ := inst.operation | return none
     let resultHome := (slots.registers[inst.destination]?).getD 9
-    lines := lines ++ [memory (memoryLoad inst.width resultHome kind)]
+    lines := lines ++ [memory (memoryLoad inst.width resultHome kind (!scaled))]
     if resultHome == 9 then
       lines := lines ++ (← storeHome base slots inst.width (register inst.width 9) inst.destination)
   | .store width value _ =>
     let valueHome := operandRegister slots 10 value
     if valueHome == 10 then lines := lines ++ (← load darwin localSymbols base slots width.valueWidth 10 value)
     let instruction := match width with
-      | .byte => s!"strb w{valueHome}" | .half => s!"strh w{valueHome}"
-      | .word => s!"str w{valueHome}" | .long => s!"str x{valueHome}"
+      | .byte => s!"{store}b w{valueHome}" | .half => s!"{store}h w{valueHome}"
+      | .word => s!"{store} w{valueHome}" | .long => s!"{store} x{valueHome}"
     lines := lines ++ [memory instruction]
   | .storeFloat width value _ =>
     let valueHome := operandRegister slots 10 value
     if valueHome == 10 then lines := lines ++ (← load darwin localSymbols base slots width 10 value)
-    lines := lines ++ [memory s!"str {register width valueHome}"]
+    lines := lines ++ [memory s!"{store} {register width valueHome}"]
   | _ => return none
   return some lines
 
@@ -775,7 +777,7 @@ private def emitEdge (darwin : Bool) (localSymbols : List String) (base : String
     expanded assembly, including TLS, calls and aggregate copies, not on IR.
     Unknown directives conservatively disable the fold for future extensions. -/
 def compactEmptyBranches (lines : List String) : List String := Id.run do
-  let physical := lines.flatMap (·.splitOn "\n")
+  let physical := lines.flatMap (Text.splitWhen (· == '\n'))
   if physical.length * 4 + 16 > 900 * 1024 then return lines
   for line in physical do
     let text := line.trimAscii.toString
@@ -836,7 +838,7 @@ def checkPhysicalBank (f : Function) (bank : Array Nat) : Except String Unit := 
     covers conditional B/CBZ reach; emitted TBZ/TBNZ instructions only skip their
     short, fixed local variadic-access sequences. -/
 def leafBranchesLocal (lines : List String) : Bool := Id.run do
-  let physical := lines.flatMap (·.splitOn "\n")
+  let physical := lines.flatMap (Text.splitWhen (· == '\n'))
   if physical.length * 4 + 16 > 900 * 1024 then return false
   let mut labels : Std.HashSet String := {}
   let mut sections := 0
@@ -851,7 +853,7 @@ def leafBranchesLocal (lines : List String) : Bool := Id.run do
     if text.endsWith ":" then labels := labels.insert (text.dropEnd 1).toString
   for line in physical do
     let text := line.trimAscii.toString
-    let words := ((text.replace "\t" " ").splitOn " ").filter (· != "")
+    let words := (Text.splitWhen (fun c => c == ' ' || c == '\t') text).filter (· != "")
     let op := words.headD ""
     if op == "bl" || op == "blr" || op == "br" then return false
     if op == "b" || op.startsWith "b." || op == "cbz" || op == "cbnz" ||

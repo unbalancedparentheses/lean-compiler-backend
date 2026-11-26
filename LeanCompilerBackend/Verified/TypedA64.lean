@@ -58,7 +58,7 @@ inductive Error where
 def Error.message : Error → String
   | .invalid reason => reason
   | .unsupportedHighMultiplyWidth op width =>
-    s!"unsupported high multiply {repr op} at {repr width} width (UMULH/SMULH require X registers)"
+    (AdmissionError.unsupportedHighMultiplyWidth op width).message
 
 /-- Construct an ALU instruction or report the unencodable width. -/
 def Instruction.checkedALU (width : Width) (op : Source.Binary) (dst lhs rhs : Nat) :
@@ -230,7 +230,7 @@ theorem select_highMultiply (f : StackMIR.Function) (dst lhs rhs : StackMIR.Regi
 private def blockLines (symbol : String) (block : Block) : List String :=
   (labelName symbol block.label ++ ":") :: block.instructions.toList.map (renderInstruction symbol)
 
-private def renderLines (symbol : String) (blocks : Array Block) (header : List String) :
+private def renderLinesSpec (symbol : String) (blocks : Array Block) (header : List String) :
     List String :=
   blocks.foldl (fun lines block => lines ++ blockLines symbol block) header
 
@@ -238,9 +238,15 @@ private def renderLinesLinear (symbol : String) (blocks : Array Block) (header :
     List String :=
   header ++ blocks.toList.flatMap (blockLines symbol)
 
-@[csimp] theorem renderLines_eq_linear : renderLines = renderLinesLinear := by
+private def renderLines (symbol : String) (blocks : Array Block) (header : List String) :
+    List String :=
+  renderLinesLinear symbol blocks header
+
+theorem renderLines_eq_linear : renderLines = renderLinesLinear := rfl
+
+theorem renderLines_eq_linear_spec : renderLinesSpec = renderLinesLinear := by
   funext symbol blocks header
-  simp [renderLines, renderLinesLinear, ← Array.foldl_toList, List.flatMap]
+  simp [renderLinesSpec, renderLinesLinear, ← Array.foldl_toList, List.flatMap]
 
 private def header (symbol : Symbol) : List String :=
   [s!"; function {symbol.name}; uncertified typed stack baseline"] ++

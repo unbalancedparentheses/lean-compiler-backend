@@ -41,6 +41,13 @@ inductive Binary where
   | mulHighUnsigned | mulHighSigned
   deriving DecidableEq, Repr
 
+/-- Stable names for typed binary operations in diagnostics. -/
+def Binary.constructorName : Binary → String
+  | .add => "add" | .sub => "sub" | .mul => "mul"
+  | .andBits => "andBits" | .orBits => "orBits" | .xorBits => "xorBits"
+  | .shiftLeft => "shiftLeft" | .logicalRight => "logicalRight" | .arithmeticRight => "arithmeticRight"
+  | .mulHighUnsigned => "mulHighUnsigned" | .mulHighSigned => "mulHighSigned"
+
 def Binary.isHighMultiply (op : Binary) : Bool :=
   match op with
   | .mulHighUnsigned | .mulHighSigned => true
