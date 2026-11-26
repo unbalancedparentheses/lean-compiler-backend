@@ -38,6 +38,23 @@ def ordinary (n : Nat) : Nat := n + 1
 @[csimp] theorem rewrite : ordinary = replacement := rfl
 def csimpRoot (n : Nat) : Nat := ordinary n
 
+def sorryBefore (n : Nat) : Nat := n
+@[csimp] theorem sorryRewrite : sorryBefore = replacement := by sorry
+def sorryCsimpRoot (n : Nat) : Nat := sorryBefore n
+
+def axiomBefore (n : Nat) : Nat := n
+axiom rewriteEquality : axiomBefore = replacement
+@[csimp] theorem axiomRewrite : axiomBefore = replacement := rewriteEquality
+def axiomCsimpRoot (n : Nat) : Nat := axiomBefore n
+
+def unprovedBefore (n : Nat) : Nat := n
+@[csimp] axiom unprovedRewrite : unprovedBefore = replacement
+def unprovedCsimpRoot (n : Nat) : Nat := unprovedBefore n
+
+def beforeExtern (n : Nat) : Nat := n + 1
+@[csimp] theorem externRewrite : beforeExtern = nativeStep := rfl
+def externCsimpRoot (n : Nat) : Nat := beforeExtern n
+
 def stringOrderRoot (a b : String) : Ordering := compare a b
 def hostRoot : Nat := USize.plantedHostWidth
 def wordRoot (n : Nat) : Nat := (USize.ofNat n).toNat
@@ -91,6 +108,9 @@ LEAN
 cat > "$tmp/SourceText.lean" <<'LEAN'
 /- initialize and @[implemented_by replacement] are mentioned in documentation. -/
 def message : String := "attribute [csimp] eq"
+def before (n : Nat) : Nat := n
+def after (n : Nat) : Nat := n
+@[csimp] theorem eq : before = after := rfl
 LEAN
 
 mapfile -d '' backend_sources < <(find LeanCompilerBackend -name '*.lean' -print0)
@@ -100,6 +120,10 @@ lake env lean --root="$tmp" -o "$tmp/LocalRewrite.olean" "$tmp/LocalRewrite.lean
 export LEAN_PATH="$tmp:$(lake env printenv LEAN_PATH)"
 control_module=ExecutionClosureControls
 lake env lean --run scripts/ExecutionClosure.lean "$control_module" "$control_module.total"
+lake env lean --run scripts/ExecutionClosure.lean "$control_module" \
+  "$control_module.csimpRoot" "$control_module.coreCsimpRoot" >"$tmp/proved.log"
+grep -F 'ExecutionClosureControls.ordinary → ExecutionClosureControls.replacement by ExecutionClosureControls.rewrite' "$tmp/proved.log"
+grep -F 'List.map → List.mapTR by List.map_eq_mapTR' "$tmp/proved.log"
 # Check the complete diagnostic for each planted root. A process crash,
 # missing declaration, or rejection of a different root cannot pass.
 for control in \
@@ -108,7 +132,10 @@ for control in \
   $'unsafeRoot\tunsafe\tExecutionClosureControls.unsafeStep' \
   $'implementedByRoot\timplemented_by\tExecutionClosureControls.replaced → ExecutionClosureControls.replacement' \
   $'externRoot\textern\tExecutionClosureControls.nativeStep' \
-  $'csimpRoot\tcsimp\tExecutionClosureControls.ordinary → ExecutionClosureControls.replacement' \
+  $'sorryCsimpRoot\tproof axiom\tsorryAx\tfrom ExecutionClosureControls.sorryRewrite' \
+  $'axiomCsimpRoot\tproof axiom\tExecutionClosureControls.rewriteEquality\tfrom ExecutionClosureControls.axiomRewrite' \
+  $'unprovedCsimpRoot\tcsimp theorem\tExecutionClosureControls.unprovedRewrite' \
+  $'externCsimpRoot\textern\tExecutionClosureControls.nativeStep' \
   $'stringOrderRoot\textern\tString.compare' \
   $'hostRoot\tstage effect\tSystem.Platform.numBits' \
   $'extrinsicRoot\timplemented_by\tWellFounded.extrinsicFix → _private.Init.WFExtrinsicFix.0.WellFounded.opaqueFix' \
@@ -118,13 +145,13 @@ for control in \
   $'axiomRecursion\tproof axiom\tExecutionClosureControls.plantedDecrease' \
   $'sorryRoot\tproof axiom\tsorryAx' \
   $'axiomRoot\tproof axiom\tExecutionClosureControls.plantedFalse' \
-  $'coreCsimpRoot\tcsimp\tList.map → List.mapTR' \
   $'wordRoot\thost word size\tUSize.ofNat'; do
-  IFS=$'\t' read -r root kind declaration <<< "$control"
+  IFS=$'\t' read -r root kind declaration origin <<< "$control"
   status=0
   lake env lean --run scripts/ExecutionClosure.lean "$control_module" "$control_module.$root" \
     >"$tmp/$root.log" 2>&1 || status=$?
-  if [[ "$status" != 1 ]] || ! grep -Fq "$kind"$'\t'"$declaration"$'\t' "$tmp/$root.log"; then
+  diagnostic="$kind"$'\t'"$declaration"$'\t'"$origin"
+  if [[ "$status" != 1 ]] || ! grep -Fq "$diagnostic" "$tmp/$root.log"; then
     cat "$tmp/$root.log" >&2
     echo "execution closure control failed: $root (exit $status)" >&2
     exit 1

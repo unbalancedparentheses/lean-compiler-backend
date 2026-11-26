@@ -91,13 +91,39 @@ def roots : Array Name := #[
   `LeanCompilerBackend.Verified.Codec.decodeArtifactFor
 ]
 
+def rejectedAxioms (env : Environment) (n : Name) : IO (Array Name) := do
+  let (axioms, _) ← (Lean.collectAxioms n : CoreM (Array Name)).toIO
+    { fileName := "", fileMap := default } { env }
+  return axioms.filter fun axiomName => !#[`propext, `Classical.choice, `Quot.sound].contains axiomName
+
+def provesRewrite (env : Environment) (rewrite : Compiler.CSimp.Entry) : Bool :=
+  match env.checked.get.find? rewrite.thmName with
+  | some (.thmInfo theoremInfo) =>
+    match theoremInfo.type.eq? with
+    | some (_, .const fromName us, .const toName vs) =>
+      let params := theoremInfo.levelParams.map Level.param
+      fromName == rewrite.fromDeclName && toName == rewrite.toDeclName &&
+        us == vs && us.length == params.length && params.all (us.contains ·)
+    | _ => false
+  | _ => false
+
+structure Report where
+  visited : Nat
+  used : Std.HashSet (String × String)
+  failures : Array String
+  substitutions : Array String
+
 def inspect (env : Environment) (rewrites : Rewrites) (native : NativeDecls)
     (exceptions : Std.HashSet (String × String)) (roots : Array Name) :
-    IO (Nat × Std.HashSet (String × String) × Array String) := do
+    IO Report := do
   let mut pending := roots.map fun n => (n, n)
   let mut seen : Std.HashSet Name := {}
   let mut used : Std.HashSet (String × String) := {}
   let mut failures := #[]
+  let mut substitutions := #[]
+  -- Each seed covers its entire kernel proof closure. Native-only backend
+  -- callees and compiler rewrites can add seeds absent from the root terms.
+  let mut proofRoots := Std.HashSet.ofArray roots
   let mut idx := 0
   while idx < pending.size do
     let (n, caller) := pending[idx]!
@@ -113,7 +139,10 @@ def inspect (env : Environment) (rewrites : Rewrites) (native : NativeDecls)
       match decl with
       | .fdecl _ _ _ body _ =>
         unless runtimeModule m do
-          for dep in nativeCalls body do pending := pending.push (dep, n)
+          for dep in nativeCalls body do
+            pending := pending.push (dep, n)
+            if !runtimeModule (moduleOf env dep) then
+              proofRoots := proofRoots.insert ((recursiveParent env dep).getD dep)
       | .extern _ _ _ data =>
         if !runtimeModule m && !data.entries.all (· == .opaque) then
           failures := failures.push s!"native extern	{n}	from {caller}"
@@ -124,8 +153,14 @@ def inspect (env : Environment) (rewrites : Rewrites) (native : NativeDecls)
     if n == `Lean.Loop.forIn || n == `repeatM then
       failures := failures.push s!"while	{n}	from {caller}"
     for (m, rewrite) in rewrites[n]?.getD #[] do
-      let key := ("csimp", s!"{n} → {rewrite.toDeclName}")
-      failures := failures.push s!"{key.1}	{key.2}	registered by {rewrite.thmName} in {m} (from {caller})"
+      let description := s!"{n} → {rewrite.toDeclName} by {rewrite.thmName} in {m}"
+      pending := pending.push (rewrite.thmName, n)
+      pending := pending.push (rewrite.toDeclName, n)
+      proofRoots := (proofRoots.insert rewrite.thmName).insert rewrite.toDeclName
+      if provesRewrite env rewrite then
+        substitutions := substitutions.push description
+      else
+        failures := failures.push s!"csimp theorem	{rewrite.thmName}	missing or invalid for {description}"
     if let some implementation := Compiler.getImplementedBy? env n then
       pending := pending.push (implementation, n)
     if let some parent := recursiveParent env n then
@@ -144,7 +179,11 @@ def inspect (env : Environment) (rewrites : Rewrites) (native : NativeDecls)
       if !runtimeModule owner && [`USize, `ISize].any (·.isPrefixOf dep) then
         failures := failures.push s!"host word size	{dep}	from {n}"
       pending := pending.push (dep, n)
-  return (seen.size, used, failures)
+  for n in proofRoots.toArray.qsort Name.quickLt do
+    if (env.find? n).isNone then continue
+    for axiomName in ← rejectedAxioms env n do
+      failures := failures.push s!"proof axiom	{axiomName}	from {n}"
+  return ⟨seen.size, used, failures, substitutions⟩
 
 def readExceptions : IO (Std.HashSet (String × String)) := do
   let mut entries := {}
@@ -169,13 +208,6 @@ def run (args : List String) : IO UInt32 := do
   for root in auditRoots do
     unless (env.find? root).any (!proofOnly ·) do
       throw (IO.userError s!"invalid execution root {root}")
-  let mut proofFailure := false
-  for root in auditRoots do
-    let axioms ← (Lean.collectAxioms root : CoreM (Array Name)).toIO { fileName := "", fileMap := default } { env } |>.map Prod.fst
-    for axiomName in axioms do
-      unless #[`propext, `Classical.choice, `Quot.sound].contains axiomName do
-        IO.eprintln s!"proof axiom	{axiomName}	from {root}"
-        proofFailure := true
   let mut rewrites : Rewrites := {}
   let mut native : NativeDecls := {}
   for (m, idx) in env.header.moduleNames.toList.zipIdx do
@@ -190,14 +222,16 @@ def run (args : List String) : IO UInt32 := do
         | .global e | .scoped _ e => e
       rewrites := rewrites.insert rewrite.fromDeclName
         ((rewrites[rewrite.fromDeclName]?.getD #[]).push (m, rewrite))
-  let (visited, used, failures) ← inspect env rewrites native exceptions auditRoots
-  for msg in failures do IO.eprintln msg
+  let report ← inspect env rewrites native exceptions auditRoots
+  for msg in report.failures do IO.eprintln msg
   if args.isEmpty then
-    for unused in exceptions.toList.filter (!used.contains ·) do
+    for unused in exceptions.toList.filter (!report.used.contains ·) do
       IO.eprintln s!"unused execution primitive: {unused.1} {unused.2}"
-    if used.size != exceptions.size then return 1
-  if proofFailure || !failures.isEmpty then return 1
-  IO.println s!"execution closure: {auditRoots.size} roots, {visited} declarations, {used.size} pinned Lean exceptions"
+    if report.used.size != exceptions.size then return 1
+  if !report.failures.isEmpty then return 1
+  for substitution in report.substitutions.qsort (· < ·) do
+    IO.println s!"audited csimp	{substitution}"
+  IO.println s!"execution closure: {auditRoots.size} roots, {report.visited} declarations, {report.used.size} pinned Lean exceptions, {report.substitutions.size} proved csimps"
   return 0
 
 end ExecutionClosure
@@ -207,7 +241,8 @@ namespace ExecutionSource
 private def reservedAttr (stx : Syntax) : Option Name :=
   let attr := stx[1]
   let name := if attr.getKind == ``Parser.Attr.simple then attr[0].getId else .anonymous
-  if name == `csimp || name == `implemented_by then some name else none
+  let localAttr := stx[0][0][0].getKind == ``Parser.Term.local
+  if (name == `csimp && localAttr) || name == `implemented_by then some name else none
 
 private partial def reserved (stx : Syntax) : Option (Name × Syntax) :=
   if stx.getKind == ``Parser.Command.initialize then

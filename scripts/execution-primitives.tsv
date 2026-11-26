@@ -68,6 +68,7 @@ extern	String.Internal.foldl	Pinned UTF-8 primitive for string rendering, quotin
 extern	String.Internal.isEmpty	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
 extern	String.Internal.length	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
 extern	String.Internal.pushn	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+extern	String.Pos.next	Pinned UTF-8 cursor increment used by the proved String.Slice.Pos.next rewrite; computes the next raw byte offset using the pinned UTF-8 cursor primitive.
 extern	String.Pos.Raw.extract	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
 extern	String.Slice.Pattern.Internal.memcmpStr	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
 extern	String.append	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
@@ -128,6 +129,7 @@ extern	UInt64.xor	Pinned integer representation, arithmetic, bit operation, conv
 extern	UInt8.decEq	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
 extern	UInt8.decLt	Pinned unsigned eight-bit scalar comparison used by the lexicographic name comparator.
 extern	UInt8.land	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.lor	Pinned unsigned eight-bit bitwise OR used in the proved fast UTF-8 character encoder.
 extern	UInt8.ofBitVec	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
 extern	UInt8.ofNat	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
 extern	UInt8.ofNatLT	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.

@@ -92,10 +92,18 @@ CI walks kernel dependencies and emitted backend IR from parsing, SSA
 construction, optimization, numbered validation, admission, assembly, and the
 replay codecs. It also collects the transitive kernel axioms of every
 execution root, including theorems used in termination and bounds proofs.
-The execution check rejects compiler simplification rewrites and checks
-runtime primitives against the pinned Lean allowlist. A Lean command parser
-checks source for local substitution attributes that can disappear from
-compiled metadata.
+A reachable `@[csimp]` substitution in Lean core or LCB requires a kernel
+theorem that equates the original declaration and its replacement. The audit
+follows the registration to both the equality theorem and the replacement's
+execution dependencies. It reports the theorem by name and rejects a missing
+or invalid theorem or any transitive axiom other than `propext`,
+`Classical.choice`, and `Quot.sound`. This excludes proofs that rely on
+`sorry` or native evaluation.
+
+Use an exported registration so the compiled audit can identify the theorem.
+A Lean command parser rejects local registrations because Lean drops them
+from compiled metadata. Runtime primitives are checked against the pinned
+Lean allowlist independently of the equality checks.
 
 The indexed validators and lowerers execute their ordinary Lean definitions.
 Their specification equalities cover results and errors of the reference
