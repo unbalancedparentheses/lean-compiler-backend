@@ -97,6 +97,33 @@ def replay_checks(work, src, functions):
     print(f'first-path: {len(functions)} job/artifact roundtrips; all dependency hashes match independent hashlib; corrupt replay rejected')
 
 
+def explicit_arithmetic_mappings():
+    """Require constructor patterns even where Lean would accept a catch-all."""
+    source = ROOT / 'LeanCompilerBackend'
+    for file, start, end in [
+        ('Verified/Canonical.lean', 'private def reifyBinary', '/-- Canonical local'),
+        ('Verified/TypedA64.lean', 'private def mnemonic', 'private def renderInstruction'),
+        ('AArch64/ALU.lean', 'def select', 'def evaluateALU'),
+        ('AArch64.lean', 'private def binaryImmediate', '/-- Resolve Darwin'),
+        ('AMD64.lean', 'private def binaryImmediate', 'private def emitInstruction'),
+        ('AMD64.lean', 'let mnemonic := match op with', '| .unary op x'),
+        ('RV64.lean', 'private def binaryImmediate', 'private def emitInstruction'),
+        ('RV64.lean', 'let mnemonic := match op with', '| .divide op x y'),
+    ]:
+        mapping = (source / file).read_text().split(start, 1)[1].split(end, 1)[0]
+        assert not re.search(r'(?<!\|)\|(?!\|)\s*(?!\s|\.[A-Za-z])', mapping), f'{file}: catch-all in {start}'
+
+
+def high_multiply_compatibility_refusals(work):
+    source = work / 'unsupported-high.ssa'
+    for target in ('aarch64-linux', 'x86_64-linux', 'riscv64-linux', 'aarch64-macos', 'x86_64-macos'):
+        for op in ('mulHighUnsigned', 'mulHighSigned', 'umulh', 'smulh'):
+            source.write_text(f'function l $f(l %a, l %b) {{ @entry %r =l {op} %a, %b ret %r }}')
+            result = run([LCB, '--target', target, source], success=False)
+            assert f"unsupported operation '{op}'" in result.stderr, (target, op)
+            assert not result.stdout, (target, op)
+
+
 def high_multiply_assembly(work):
     """High multiplies have no QBE spelling; they are reachable only through
     numbered-source jobs. Build a `mul` job, change only its binary-operation tag
@@ -127,7 +154,7 @@ def high_multiply_assembly(work):
     assert data.count(pattern) == 1
     position = data.index(pattern) + 8 + 2
     word_job.write_bytes(data[:position] + bytes([9]) + data[position+1:])
-    assert 'high multiply' in run([LCB, '--replay-job', word_job], success=False).stderr
+    assert 'unsupportedHighMultiplyWidth' in run([LCB, '--replay-job', word_job], success=False).stderr
     assembly = work/'high.s'
     assembly.write_text(texts[0] + texts[1])
     print('first-path: API-only umulh/smulh jobs replay; word-width high multiply refused')
@@ -333,6 +360,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--require-native', action='store_true')
     args = parser.parse_args()
+    explicit_arithmetic_mappings()
     with workspace() as work:
         src, assembly = work/'program.ssa', work/'program.s'
         functions = fixtures()
@@ -362,6 +390,7 @@ def main():
         run([LCB, '--target', 'aarch64-macos',bad])  # Existing compatibility support remains available.
         print('first-path: fresh-process/module-order stability, explicit proof refusal and compatibility isolation passed')
         replay_checks(work, src, functions)
+        high_multiply_compatibility_refusals(work)
         high = high_multiply_assembly(work)
         if platform.system() != 'Darwin' or platform.machine() != 'arm64':
             assert not args.require_native, 'Apple ARM64 native execution required'
@@ -382,6 +411,10 @@ def main():
         high_driver.write_text(high_multiply_harness())
         run([compiler,'-std=c11','-O2',high_driver,high,'-o',high_exe])
         assert run([high_exe]).stdout.strip() == 'first-path high multiply native checks passed'
+        low = work/'low-multiply.s'
+        low.write_text(high.read_text().replace('\tumulh ', '\tmul ').replace('\tsmulh ', '\tmul '))
+        run([compiler, '-std=c11', '-O2', high_driver, low, '-o', high_exe])
+        run([high_exe], success=False)
         baseline=work/'baseline.s'
         run([LCB, '--target', 'aarch64-macos',src,'-o',baseline])
         check(baseline,'baseline')

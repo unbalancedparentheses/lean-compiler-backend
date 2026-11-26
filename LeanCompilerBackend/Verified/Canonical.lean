@@ -11,58 +11,69 @@ private def reifyOperand : Source.Operand → Operand
   | .local id => .temporary (valueName id)
   | .literal value => .constant value.toNat
 
-private def reifyBinary : Source.Binary → Binary
-  | .add => .add | .sub => .sub | .mul => .mul
-  | .andBits => .andBits | .orBits => .orBits | .xorBits => .xorBits
-  | .shiftLeft => .shiftLeft | .logicalRight => .logicalRight | .arithmeticRight => .arithmeticRight
-  -- QBE has no high multiply. Reification keeps only its shape; see `shape`.
-  | .mulHighUnsigned | .mulHighSigned => .mul
+inductive ReifyError where
+  | unsupportedBinary (op : Source.Binary)
+  deriving DecidableEq, Repr
 
-private def reifyOperation : Source.Operation → Operation
-  | .copy value => .copy (reifyOperand value)
-  | .binary op lhs rhs => .binary (reifyBinary op) (reifyOperand lhs) (reifyOperand rhs)
+private def reifyBinary : Source.Binary → Except ReifyError Binary
+  | .add => pure .add | .sub => pure .sub | .mul => pure .mul
+  | .andBits => pure .andBits | .orBits => pure .orBits | .xorBits => pure .xorBits
+  | .shiftLeft => pure .shiftLeft
+  | .logicalRight => pure .logicalRight
+  | .arithmeticRight => pure .arithmeticRight
+  | .mulHighUnsigned => throw (.unsupportedBinary .mulHighUnsigned)
+  | .mulHighSigned => throw (.unsupportedBinary .mulHighSigned)
+
+private def reifyOperation : Source.Operation → Except ReifyError Operation
+  | .copy value => pure (.copy (reifyOperand value))
+  | .binary op lhs rhs => do
+    pure (.binary (← reifyBinary op) (reifyOperand lhs) (reifyOperand rhs))
   | .compare op width lhs rhs =>
-    .compare (match op with
+    pure (.compare (match op with
       | .eq => .eq | .unsignedLT => .unsignedLT | .unsignedLE => .unsignedLE
       | .signedLT => .signedLT | .signedLE => .signedLE)
-      width (reifyOperand lhs) (reifyOperand rhs)
+      width (reifyOperand lhs) (reifyOperand rhs))
   | .divide op lhs rhs =>
-    .divide (match op with
+    pure (.divide (match op with
       | .unsignedDiv => .unsignedDiv | .unsignedRem => .unsignedRem
-      | .signedDiv => .signedDiv | .signedRem => .signedRem) (reifyOperand lhs) (reifyOperand rhs)
+      | .signedDiv => .signedDiv | .signedRem => .signedRem) (reifyOperand lhs) (reifyOperand rhs))
 
 /-- Canonical local labels are function-local and independent of module order. -/
-def reify (f : Source.Function) (name : String) (exported : Bool) : Function := {
-  name, exported, resultWidth := some f.resultWidth
-  parameters := f.parameters.mapIdx fun i width => { name := valueName i, width }
-  blocks := f.blocks.mapIdx fun i block => {
-    label := blockName i
-    phis := block.phis.map fun phi => {
-      destination := valueName phi.destination, width := phi.width
-      incoming := phi.incoming.map fun (pred, value) => (blockName pred, reifyOperand value) }
-    instructions := block.instructions.map fun inst => .assign {
-      destination := valueName inst.destination, width := inst.width
-      operation := reifyOperation inst.operation }
-    terminator := match block.terminator with
-      | .ret value => .ret (some (reifyOperand value))
-      | .jump target => .jump (blockName target)
-      | .branch value yes no => .branch (reifyOperand value) (blockName yes) (blockName no) }
-}
+def reify (f : Source.Function) (name : String) (exported : Bool) :
+    Except ReifyError Function := do
+  let blocks ← f.blocks.mapIdxM fun i block => do
+    let instructions ← block.instructions.mapM fun inst => do
+      let operation ← reifyOperation inst.operation
+      pure (.assign { destination := valueName inst.destination, width := inst.width, operation })
+    pure {
+      label := blockName i
+      phis := block.phis.map fun phi => {
+        destination := valueName phi.destination, width := phi.width
+        incoming := phi.incoming.map fun (pred, value) => (blockName pred, reifyOperand value) }
+      instructions
+      terminator := match block.terminator with
+        | .ret value => .ret (some (reifyOperand value))
+        | .jump target => .jump (blockName target)
+        | .branch value yes no => .branch (reifyOperand value) (blockName yes) (blockName no) }
+  pure {
+    name, exported, resultWidth := some f.resultWidth, blocks
+    parameters := f.parameters.mapIdx fun i width => { name := valueName i, width } }
 
-private def isHighMultiply : Source.Operation → Bool
-  | .binary .mulHighUnsigned _ _ | .binary .mulHighSigned _ _ => true
-  | _ => false
-
-/-- Replace each operation that has no QBE spelling by a QBE operation with the
-    same operand/result widths and the same SSA uses. Admission's checks do not
-    depend on which of those operations appears, so comparing the shapes keeps
-    every structural check without inventing QBE syntax. -/
-private def shape (f : Source.Function) : Source.Function :=
-  { f with blocks := f.blocks.map fun block => { block with
-      instructions := block.instructions.map fun inst => match inst.operation with
-        | .binary .mulHighUnsigned lhs rhs | .binary .mulHighSigned lhs rhs =>
-          { inst with operation := .binary .mul lhs rhs }
-        | _ => inst } }
+/-- Admission-only projection. AND has the same operand/result widths and SSA
+    uses as high multiply. The projection is consumed by admission and structural
+    comparison; the job retains the original source for lowering. -/
+private def shape (f : Source.Function) : Except AdmissionError Source.Function := do
+  let blocks ← f.blocks.mapM fun block => do
+    let instructions ← block.instructions.mapM fun inst =>
+      match inst.operation with
+      | .binary op lhs rhs =>
+        if op.isHighMultiply then
+          if inst.width == .long then pure { inst with operation := .binary .andBits lhs rhs }
+          else throw (.unsupportedHighMultiplyWidth op inst.width)
+        else pure inst
+      | .copy .. | .compare .. | .divide .. => pure inst
+    pure { block with instructions }
+  pure { f with blocks }
 
 /-- Revalidate untrusted numbered input, including exact IDs, width table,
     literal widths, and canonical predecessor ordering. No proof is attached.
@@ -78,12 +89,11 @@ def validateSourceWithWork (f : Source.Function) : Except AdmissionError Nat := 
     for phi in block.phis do
       if phi.incoming.size > 64 then
         throw (.resourceLimit "phi predecessors" phi.incoming.size 64)
-  for block in f.blocks do
-    for inst in block.instructions do
-      if isHighMultiply inst.operation && inst.width != .long then
-        throw (.unsupported "word-width high multiply; AArch64 UMULH/SMULH are 64-bit only")
-  let (canonical, work) ← admitWithWork (reify f "canonical" false)
-  if canonical != shape f then throw (.invalidInput "noncanonical numbered source or inconsistent widths")
+  let projected ← shape f
+  let named ← (reify projected "canonical" false).mapError fun e =>
+    .unsupported s!"canonical admission projection: {repr e}"
+  let (canonical, work) ← admitWithWork named
+  if canonical != projected then throw (.invalidInput "noncanonical numbered source or inconsistent widths")
 
   return work
 

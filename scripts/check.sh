@@ -62,6 +62,7 @@ grep -Fx "'LeanCompilerBackend.Verified.Machine.enter_leave' depends on axioms: 
 grep -Fx "'LeanCompilerBackend.Verified.Machine.subtract_zero_iff_equal' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.subtract_borrow_iff_less' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.alu_preserves' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.TypedA64.select_highMultiply' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.verifyArtifact_binds' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.compile_refuses_unavailable' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.run_return_sound' depends on axioms: [propext]" <<< "$audit" >/dev/null

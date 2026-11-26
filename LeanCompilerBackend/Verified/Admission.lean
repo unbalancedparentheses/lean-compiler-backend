@@ -11,6 +11,7 @@ namespace LeanCompilerBackend.Verified
 inductive AdmissionError where
   | invalidInput (reason : String)
   | unsupported (feature : String)
+  | unsupportedHighMultiplyWidth (op : Source.Binary) (width : Width)
   | resourceLimit (resource : String) (measured limit : Nat)
   deriving DecidableEq, Repr
 

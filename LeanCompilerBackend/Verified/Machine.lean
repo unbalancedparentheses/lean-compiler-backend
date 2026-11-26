@@ -323,7 +323,7 @@ def evaluateMIR (f : StackMIR.Function) (args : Array Source.Value) (fuel : Nat)
   | .ok state => run (stepMIR f) fuel state
 
 def evaluateAssembly (f : TypedA64.Function) (args : Array Source.Value) (fuel : Nat) : Result :=
-  match TypedA64.validate f *> initial f.parameters args f.frameBytes with
+  match (TypedA64.validate f).mapError TypedA64.Error.message *> initial f.parameters args f.frameBytes with
   | .error error => .stuck error
   | .ok state =>
     run (stepAssembly f) fuel (assemblyEntry state)

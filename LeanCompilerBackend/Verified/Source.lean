@@ -41,6 +41,11 @@ inductive Binary where
   | mulHighUnsigned | mulHighSigned
   deriving DecidableEq, Repr
 
+def Binary.isHighMultiply : Binary → Bool
+  | .mulHighUnsigned | .mulHighSigned => true
+  | .add | .sub | .mul | .andBits | .orBits | .xorBits
+  | .shiftLeft | .logicalRight | .arithmeticRight => false
+
 /-- Division and remainder truncate toward zero (remainder has the dividend's
     sign). A zero divisor, and a signed minimum divided by -1, are outside the
     defined domain for all four, as in the compatibility interpreter. -/

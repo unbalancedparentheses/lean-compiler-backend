@@ -152,6 +152,11 @@ def directJob (body : Source.Function) : FunctionJob :=
   { code := { symbol := { namespaceName := "tests", name := "direct", exported := true },
               body, abi := planAbi body, layout := planFrame body : CodeInput } }
 
+private def refuses [DecidableEq ε] (result : Except ε α) (expected : ε) : Bool :=
+  match result with
+  | .error actual => decide (actual = expected)
+  | .ok _ => false
+
 /-- High multiplies are reachable only through the numbered-source API. Expected
     values are independent 128-bit products, not the implementation's formula. -/
 private def apiOnly : IO Unit := do
@@ -159,8 +164,8 @@ private def apiOnly : IO Unit := do
   let top : Int := 9223372036854775808
   for (op, a, b, expected) in [
       (Source.Binary.mulHighUnsigned, max, max, max - 1), (.mulHighUnsigned, 4294967296, 4294967296, 1),
-      (.mulHighUnsigned, 3, 5, 0), (.mulHighUnsigned, top, 2, 1), (.mulHighUnsigned, 0, max, 0),
-      (.mulHighSigned, -1, -1, 0), (.mulHighSigned, -1, 1, max), (.mulHighSigned, -top, -top, top / 2),
+      (.mulHighUnsigned, 1, max, 0), (.mulHighUnsigned, 3, 5, 0), (.mulHighUnsigned, top, 2, 1), (.mulHighUnsigned, 0, max, 0),
+      (.mulHighSigned, 0, -top, 0), (.mulHighSigned, -1, -1, 0), (.mulHighSigned, -1, 1, max), (.mulHighSigned, -top, -top, top / 2),
       (.mulHighSigned, -top, top - 1, max + 1 - top / 2), (.mulHighSigned, -3, 5, max),
       (.mulHighSigned, top - 1, top - 1, top / 2 - 1), (.mulHighSigned, 4294967296, -4294967296, max)] do
     let body := directBinary .long op
@@ -179,21 +184,52 @@ private def apiOnly : IO Unit := do
       | other => throw (IO.userError s!"{stage} execution failed: {repr other}")
     let mnemonic := if op == .mulHighUnsigned then "umulh x9, x9, x10" else "smulh x9, x9, x10"
     require ((artifact.code.fragment.splitOn mnemonic).length == 2) s!"missing {mnemonic}"
-  -- No W-register UMULH/SMULH exists: word high multiplies are refused at the job
-  -- boundary and, independently, by typed-assembly validation.
+    -- The all-ones inputs distinguish the upper half from ordinary MUL for
+    -- both signednesses. Inject the wrong opcode into the actual selected code.
+    if a == b && (a == max || a == -1) then
+      let assembly := artifact.code.assembly
+      let low := { assembly with blocks := assembly.blocks.map fun block =>
+        { block with instructions := block.instructions.map fun inst =>
+          match inst with
+          | .alu width actual dst lhs rhs =>
+            .alu width (if actual == op then .mul else actual) dst lhs rhs
+          | other => other } }
+      match Machine.evaluateAssembly low args 100 with
+      | .returned value _ => require (decide (value ≠ want)) "ordinary MUL passed high-multiply oracle"
+      | other => throw (IO.userError s!"ordinary MUL control failed to execute: {repr other}")
   for op in [Source.Binary.mulHighUnsigned, .mulHighSigned] do
-    require (match validateJob (directJob (directBinary .word op)) with
-      | .error (.admission (.unsupported _)) => true | _ => false) "word high multiply admitted"
+    for width in [Width.word, .long] do
+      let job := directJob (directBinary width op)
+      require (refuses (reify job.code.body "direct" true) (.unsupportedBinary op)) s!"compatibility reification must refuse {repr op}"
+      for target in ["aarch64-linux", "x86_64-linux", "riscv64-linux", "x86_64-macos"] do
+        let unsupported := { job with code := { job.code with target } }
+        require (refuses (compileFunction unsupported) (.unsupportedTarget target))
+          s!"expected typed refusal for {repr op} on {target}"
+    let job := directJob (directBinary .word op)
+    require (refuses (compileFunction job) (.admission (.unsupportedHighMultiplyWidth op .word)))
+      s!"expected typed job refusal for word {repr op}"
+    require (refuses (StackMIR.lower job.code.body job.code.layout)
+      (.admission (.unsupportedHighMultiplyWidth op .word))) s!"expected typed MIR refusal for word {repr op}"
+    let ordinary := directBinary .word .mul
+    let mir ← match StackMIR.lower ordinary (planFrame ordinary) with
+      | .ok mir => pure mir
+      | .error e => throw (IO.userError s!"{repr e}")
+    let wordHigh := { mir with blocks := mir.blocks.map fun block =>
+      { block with instructions := block.instructions.map fun inst =>
+        match inst with
+        | .alu .word .mul dst lhs rhs => .alu .word op dst lhs rhs
+        | other => other } }
+    require (refuses (TypedA64.select wordHigh) (.unsupportedHighMultiplyWidth op .word))
+      s!"expected typed selection refusal for word {repr op}"
     -- A frameless leaf that is valid except for the operation's width.
     let leaf (width : Width) : TypedA64.Function :=
       let entry : TypedA64.Block := { label := .entry, instructions := #[.jump (.body 0)] }
       let body : TypedA64.Block := { label := .body 0, instructions := #[.alu width op 9 9 10, .ret] }
       { parameters := #[], resultWidth := .long, frameBytes := 0, blocks := #[entry, body] }
-    require (match TypedA64.validate (leaf .long) with | .ok _ => true | .error _ => false)
+    require ((TypedA64.validate (leaf .long)).toOption.isSome)
       "typed assembly refused a valid X-form high multiply"
-    require (match TypedA64.validate (leaf .word) with
-      | .error message => (message.splitOn "UMULH/SMULH").length == 2 | .ok _ => false)
-      "typed assembly accepted a W-form high multiply"
+    require (refuses (TypedA64.render (leaf .word) job.code.symbol) (.unsupportedHighMultiplyWidth op .word))
+      s!"expected typed rendering refusal for word {repr op}"
   -- The structural check still binds numbering and widths around high multiplies.
   let body := directBinary .long .mulHighSigned
   let undefinedUse (i : Source.Instruction) : Source.Instruction :=
@@ -347,12 +383,12 @@ private def undefinedDivision : IO Unit := do
   for (op, dst, lhs, rhs) in [(Source.Division.signedRem, StackMIR.Register.r9, StackMIR.Register.r9, StackMIR.Register.r10),
       (.unsignedRem, .r10, .r0, .r10), (.signedRem, .r0, .r0, .r10)] do
     require (match TypedA64.select (retarget op dst lhs rhs) with
-      | .error "remainder destination must differ from its operands" => true | _ => false)
+      | .error (.invalid "remainder destination must differ from its operands") => true | _ => false)
       "remainder destination aliasing an operand must be refused"
   let aliased := retarget .signedDiv .r0 .r0 .r10
   let selected ← match TypedA64.select aliased with
     | .ok code => pure code
-    | .error e => throw (IO.userError s!"aliased quotient: {e}")
+    | .error e => throw (IO.userError s!"aliased quotient: {e.message}")
   let args := #[Source.Value.constant .long (-7), .constant .long 2]
   let quotient := Source.Value.constant .long (-3)
   for execution in [Machine.evaluateMIR aliased args 100, Machine.evaluateAssembly selected args 100] do

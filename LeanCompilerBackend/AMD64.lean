@@ -209,7 +209,7 @@ private def binaryImmediate (w : Width) (op : Binary) (n : Int) : Option String 
   | .shiftLeft => return s!"\tshl{s} ${shift}, {destination}"
   | .logicalRight => return s!"\tshr{s} ${shift}, {destination}"
   | .arithmeticRight => return s!"\tsar{s} ${shift}, {destination}"
-  | _ => pure ()
+  | .add | .sub | .mul | .andBits | .orBits | .xorBits => pure ()
   if value < -(2 ^ 31 : Int) || value >= 2 ^ 31 then none
   else
     match op with
@@ -219,7 +219,7 @@ private def binaryImmediate (w : Width) (op : Binary) (n : Int) : Option String 
     | .andBits => some s!"\tand{s} ${value}, {destination}"
     | .orBits => some s!"\tor{s} ${value}, {destination}"
     | .xorBits => some s!"\txor{s} ${value}, {destination}"
-    | _ => none
+    | .shiftLeft | .logicalRight | .arithmeticRight => none
 
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
   let w := inst.width
@@ -241,7 +241,9 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       let mnemonic := match op with
         | .add => "add" | .sub => "sub" | .mul => "imul" | .andBits => "and" | .orBits => "or" | .xorBits => "xor"
         | .shiftLeft => "shl" | .logicalRight => "shr" | .arithmeticRight => "sar"
-      let operand := match op with | .shiftLeft | .logicalRight | .arithmeticRight => "%cl" | _ => b
+      let operand := match op with
+        | .shiftLeft | .logicalRight | .arithmeticRight => "%cl"
+        | .add | .sub | .mul | .andBits | .orBits | .xorBits => b
       lines := lines ++ [s!"\t{mnemonic}{s} {operand}, {a}"]
   | .unary op x => lines := (← load c (op.inputWidth w) "rax" x) ++ extend w op
   | .divide op x y =>

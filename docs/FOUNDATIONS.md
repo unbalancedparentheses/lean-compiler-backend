@@ -50,8 +50,11 @@ A job contains:
 - Evidence request and proof profile. Only `none` can succeed. A theorem's name
   or an axiom allowlist does not itself create evidence.
 
-`Canonical.validateSource` reifies numbered source to canonical local names,
-reruns admission and compares the exact result. This rejects inconsistent IDs,
+`Canonical.validateSource` reifies a private structural projection to canonical
+local names, reruns admission and compares the exact projection. The projection
+uses AND to check the operand and result widths and SSA uses of long high
+multiplies. The compiler lowers the original numbered source. Public `reify`
+returns `ReifyError.unsupportedBinary` for both high-multiply operations. This rejects inconsistent IDs,
 width tables, literal widths, predecessor order and malformed SSA. It remains an
 unproved executable checker, so the stored source is raw `Source.Function`, not
 proof-carrying `CheckedSSA`.
@@ -178,8 +181,8 @@ execution remain explicit boundaries.
 
 ## Numbered validation and assembly scaling
 
-Canonical validation still reifies the numbered function, admits it, and
-compares the admitted value with the source shape. Reification and the final
+Canonical validation admits the reified structural projection and compares the
+admitted value with that projection. Reification and the final
 structural comparison traverse their arrays. Admission indexes names, incoming
 values and predecessors with ordered trees. It preserves declaration order,
 the first matching entry and block-order phi inputs. Reachability expands each
@@ -257,7 +260,8 @@ shift/high-multiply operations and their four emitted MIR steps, using the sourc
 bitvector result. `MachineProofs.alu_preserves` relates each target ALU result to
 the source operation at either width, including shift counts reduced modulo the
 width, the word-width sign bit of `asr`, and the exact natural/integer products
-behind UMULH/SMULH.
+behind UMULH/SMULH. `TypedA64.select_highMultiply` proves that selection and
+rendering use the corresponding X-register instructions.
 `ComparisonProofs.comparison_steps` proves the four-step comparison expansion
 (equality, unsigned less/less-or-equal, signed less/less-or-equal) for word or
 long operands and a word result; `signedValue_value` identifies the machine's

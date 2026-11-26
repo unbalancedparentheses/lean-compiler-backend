@@ -44,6 +44,20 @@ structure Function where
   blocks : Array Block
   deriving DecidableEq, Repr
 
+inductive Error where
+  | invalid (reason : String)
+  | unsupportedHighMultiplyWidth (op : Source.Binary) (width : Width)
+  deriving DecidableEq, Repr
+
+def Error.message : Error → String
+  | .invalid reason => reason
+  | .unsupportedHighMultiplyWidth op width =>
+    s!"unsupported high multiply {repr op} at {repr width} width (UMULH/SMULH require X registers)"
+
+private def checkALUWidth (op : Source.Binary) (width : Width) : Except Error Unit := do
+  if width == .word && op.isHighMultiply then
+    throw (.unsupportedHighMultiplyWidth op width)
+
 private def immediate (reg : Nat) (value : Source.Value) : Array Instruction := Id.run do
   let width := value.width
   let bits := value.toNat
@@ -53,14 +67,16 @@ private def immediate (reg : Nat) (value : Source.Value) : Array Instruction := 
     if chunk != 0 then code := code.push (.movk width reg chunk shift)
   return code
 
-private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction → Except String (Array Instruction)
+private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction → Except Error (Array Instruction)
   | .enterFrame bytes => pure (if bytes == 0 then #[] else #[.subSP bytes])
   | .leaveFrame bytes => pure (if bytes == 0 then #[] else #[.addSP bytes])
-  | .readArg width index slot => do pure #[.store width index (← StackMIR.offset f slot)]
+  | .readArg width index slot => do pure #[.store width index (← (StackMIR.offset f slot).mapError Error.invalid)]
   | .constant reg value => pure (immediate reg.index value)
-  | .load width reg slot => do pure #[.load width reg.index (← StackMIR.offset f slot)]
-  | .store width slot reg => do pure #[.store width reg.index (← StackMIR.offset f slot)]
-  | .alu width op dst lhs rhs => pure #[.alu width op dst.index lhs.index rhs.index]
+  | .load width reg slot => do pure #[.load width reg.index (← (StackMIR.offset f slot).mapError Error.invalid)]
+  | .store width slot reg => do pure #[.store width reg.index (← (StackMIR.offset f slot).mapError Error.invalid)]
+  | .alu width op dst lhs rhs => do
+    checkALUWidth op width
+    pure #[.alu width op dst.index lhs.index rhs.index]
   | .compare width op dst lhs rhs =>
     pure #[.cmp width lhs.index rhs.index, .cset dst.index (match op with
       | .eq => .eq | .unsignedLT => .lo | .unsignedLE => .ls | .signedLT => .lt | .signedLE => .le)]
@@ -69,12 +85,12 @@ private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction →
     -- A remainder forms its quotient in its own destination, then MSUB reads
     -- both operands again, so the destination must differ from them.
     if op == .unsignedDiv || op == .signedDiv then pure #[.divide width signed dst.index lhs.index rhs.index]
-    else if dst == lhs || dst == rhs then throw "remainder destination must differ from its operands"
+    else if dst == lhs || dst == rhs then throw (.invalid "remainder destination must differ from its operands")
     else pure #[.divide width signed dst.index lhs.index rhs.index,
       .msub width dst.index dst.index rhs.index lhs.index]
 
-def select (f : StackMIR.Function) : Except String Function := do
-  StackMIR.validate f
+def select (f : StackMIR.Function) : Except Error Function := do
+  (StackMIR.validate f).mapError Error.invalid
   let mut blocks := #[]
   for block in f.blocks do
     let mut instructions := #[]
@@ -89,70 +105,69 @@ def select (f : StackMIR.Function) : Except String Function := do
 private def writable (reg : Nat) : Bool := reg == 0 || reg == 9 || reg == 10
 private def readable (reg : Nat) : Bool := reg < 8 || reg == 9 || reg == 10
 
-private def checkAccess (f : Function) (width : Width) (offset : Nat) : Except String Unit := do
+private def checkAccess (f : Function) (width : Width) (offset : Nat) : Except Error Unit := do
   if offset % width.bytes != 0 || offset / width.bytes >= 4096 || offset + width.bytes > f.frameBytes then
-    throw "assembly frame access is out of bounds, misaligned or unencodable"
+    throw (.invalid "assembly frame access is out of bounds, misaligned or unencodable")
 
 /-- Validates legal forms and frame/control structure, not semantic value flow. -/
-def validate (f : Function) : Except String Unit := do
+def validate (f : Function) : Except Error Unit := do
   if f.frameBytes > 4080 || f.frameBytes % 16 != 0 || f.parameters.size > 8 then
-    throw "invalid assembly frame/signature"
-  if (f.blocks[0]?).map (·.label) != some .entry then throw "missing assembly entry"
-  let labels ← StackMIR.labelSet (f.blocks.map (·.label)) "duplicate assembly label"
+    throw (.invalid "invalid assembly frame/signature")
+  if (f.blocks[0]?).map (·.label) != some .entry then throw (.invalid "missing assembly entry")
+  let labels ← (StackMIR.labelSet (f.blocks.map (·.label)) "duplicate assembly label").mapError Error.invalid
   for block in f.blocks do
-    if block.instructions.isEmpty then throw "empty assembly block"
+    if block.instructions.isEmpty then throw (.invalid "empty assembly block")
     let mut active := block.label != .entry || f.frameBytes == 0
     let mut left := false
     let mut flagsReady := false
     for index in [:block.instructions.size] do
-      let some inst := block.instructions[index]? | throw "missing assembly instruction"
+      let some inst := block.instructions[index]? | throw (.invalid "missing assembly instruction")
       let last := index + 1 == block.instructions.size
       match inst with
       | .subSP bytes =>
         if block.label != .entry || index != 0 || active || bytes == 0 || bytes != f.frameBytes then
-          throw "invalid assembly prologue"
+          throw (.invalid "invalid assembly prologue")
         active := true
       | .addSP bytes =>
         if !active || block.label == .entry || left || bytes == 0 || bytes != f.frameBytes ||
-            index + 2 != block.instructions.size then throw "invalid assembly epilogue"
+            index + 2 != block.instructions.size then throw (.invalid "invalid assembly epilogue")
         active := false
         left := true
       | .load width reg offset =>
-        if !active || left || !writable reg then throw "illegal load destination/frame phase"
+        if !active || left || !writable reg then throw (.invalid "illegal load destination/frame phase")
         checkAccess f width offset
       | .store width reg offset =>
-        if !active || left || !readable reg then throw "illegal store source/frame phase"
+        if !active || left || !readable reg then throw (.invalid "illegal store source/frame phase")
         checkAccess f width offset
       | .movz width reg chunk shift | .movk width reg chunk shift =>
         if !active || left || !writable reg || chunk >= 65536 || shift % 16 != 0 || shift >= width.bits then
-          throw "illegal constant materialization"
+          throw (.invalid "illegal constant materialization")
       | .alu width op dst lhs rhs =>
-        if !active || left || !writable dst || !readable lhs || !readable rhs then throw "illegal ALU operands"
-        if width == .word && (op == .mulHighUnsigned || op == .mulHighSigned) then
-          throw "UMULH/SMULH have no W-register form"
+        if !active || left || !writable dst || !readable lhs || !readable rhs then throw (.invalid "illegal ALU operands")
+        checkALUWidth op width
       | .divide _ _ dst lhs rhs =>
-        if !active || left || !writable dst || !readable lhs || !readable rhs then throw "illegal division operands"
+        if !active || left || !writable dst || !readable lhs || !readable rhs then throw (.invalid "illegal division operands")
       | .msub _ dst lhs rhs addend =>
         if !active || left || !writable dst || !readable lhs || !readable rhs || !readable addend then
-          throw "illegal multiply-subtract operands"
+          throw (.invalid "illegal multiply-subtract operands")
       | .cmp _ lhs rhs =>
-        if !active || left || !readable lhs || !readable rhs then throw "illegal comparison operands"
+        if !active || left || !readable lhs || !readable rhs then throw (.invalid "illegal comparison operands")
         flagsReady := true
       | .cset reg _ =>
-        if !active || left || !writable reg || !flagsReady then throw "cset without local flags or illegal destination"
+        if !active || left || !writable reg || !flagsReady then throw (.invalid "cset without local flags or illegal destination")
       | .cbnz reg target =>
         if !active || left || !readable reg || index + 2 != block.instructions.size ||
-            target == .entry || !labels.contains target then throw "illegal conditional branch"
-        let some (.jump _) := block.instructions[index + 1]? | throw "conditional branch must precede a jump"
+            target == .entry || !labels.contains target then throw (.invalid "illegal conditional branch")
+        let some (.jump _) := block.instructions[index + 1]? | throw (.invalid "conditional branch must precede a jump")
       | .jump target =>
-        if !last || !active || left || target == .entry || !labels.contains target then throw "illegal jump"
+        if !last || !active || left || target == .entry || !labels.contains target then throw (.invalid "illegal jump")
       | .ret =>
         if !last || block.label == .entry || (f.frameBytes != 0 && (!left || active)) then
-          throw "return without frame restoration"
+          throw (.invalid "return without frame restoration")
       if last then
         match inst with
         | .jump _ | .ret => pure ()
-        | _ => throw "assembly block has no terminal branch/return"
+        | _ => throw (.invalid "assembly block has no terminal branch/return")
 
 def labelName (symbol : String) : Label → String
   | .entry => s!"L_lcb_{symbol.length}_{symbol}_entry"
@@ -186,6 +201,19 @@ private def renderInstruction (symbol : String) : Instruction → String
   | .jump target => s!"\tb {labelName symbol target}"
   | .ret => "\tret"
 
+/-- Selection and rendering agree on the X-register forms whose ALU values
+    are related to source evaluation by `Machine.alu_preserves`. -/
+theorem select_highMultiply (f : StackMIR.Function) (dst lhs rhs : StackMIR.Register) (symbol : String) :
+    let unsigned := Instruction.alu .long .mulHighUnsigned dst.index lhs.index rhs.index
+    let signed := Instruction.alu .long .mulHighSigned dst.index lhs.index rhs.index
+    selectInstruction f (.alu .long .mulHighUnsigned dst lhs rhs) = .ok #[unsigned] ∧
+    selectInstruction f (.alu .long .mulHighSigned dst lhs rhs) = .ok #[signed] ∧
+    renderInstruction symbol unsigned = s!"\tumulh x{dst.index}, x{lhs.index}, x{rhs.index}" ∧
+    renderInstruction symbol signed = s!"\tsmulh x{dst.index}, x{lhs.index}, x{rhs.index}" :=
+  by
+    refine ⟨rfl, rfl, ?_, ?_⟩ <;>
+      cases dst <;> cases lhs <;> cases rhs <;> rfl
+
 private def blockLines (symbol : String) (block : Block) : List String :=
   (labelName symbol block.label ++ ":") :: block.instructions.toList.map (renderInstruction symbol)
 
@@ -201,19 +229,19 @@ private def renderLinesLinear (symbol : String) (blocks : Array Block) (header :
   funext symbol blocks header
   simp [renderLines, renderLinesLinear, ← Array.foldl_toList, List.flatMap]
 
-def renderWithWork (f : Function) (symbol : Symbol) : Except String (String × Nat) := do
+def renderWithWork (f : Function) (symbol : Symbol) : Except Error (String × Nat) := do
   validate f
   let validName := !symbol.name.isEmpty && symbol.name.toList.all (fun c =>
     c.toNat < 128 && (c.isAlphanum || c == '_')) &&
     (symbol.name.toList.head!.isAlpha || symbol.name.toList.head! == '_')
-  if !validName then throw "invalid assembly symbol"
+  if !validName then throw (.invalid "invalid assembly symbol")
   let mut lines := [s!"; function {symbol.name}; uncertified typed stack baseline"]
   if symbol.exported then lines := lines ++ [s!".globl _{symbol.name}"]
   lines := lines ++ [".p2align 2", s!"_{symbol.name}:"]
   let rendered := renderLines symbol.name f.blocks lines
   pure (String.intercalate "\n" (rendered ++ [""]), rendered.length)
 
-def render (f : Function) (symbol : Symbol) : Except String String :=
+def render (f : Function) (symbol : Symbol) : Except Error String :=
   (renderWithWork f symbol).map Prod.fst
 
 end LeanCompilerBackend.Verified.TypedA64

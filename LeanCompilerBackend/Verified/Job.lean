@@ -69,6 +69,7 @@ inductive CompileError where
   | admission (error : AdmissionError)
   | invalidJob (reason : String)
   | unsupported (feature : String)
+  | unsupportedTarget (target : String)
   | certificationUnavailable (request : EvidenceRequest)
   | verificationFailed (stage reason : String)
   deriving DecidableEq, Repr
@@ -141,10 +142,11 @@ private def validateDebug (f : Source.Function) (debug : DebugInput) : Except Co
 /-- Checking input is independent of module state and does not grant evidence. -/
 def validateJobWithWork (job : FunctionJob) : Except CompileError Nat := do
   let c := job.code
+  if c.target != "aarch64-apple-darwin-leaf-int-v1" then throw (.unsupportedTarget c.target)
   if c.version != 1 || c.sourceSemantics != "ssa-int-v2" || c.targetSemantics != "a64-leaf-v2" ||
-      c.target != "aarch64-apple-darwin-leaf-int-v1" || c.pipeline != "stack-baseline-v1" ||
+      c.pipeline != "stack-baseline-v1" ||
       c.compilerRevision != "lcb-foundations-dev1" || c.compilerBuild != compilerBuildIdentity then
-    throw (.unsupported "job version, target, semantics or compiler revision")
+    throw (.unsupported "job version, semantics or compiler revision")
   if !validSymbol c.symbol.name || c.symbol.namespaceName.isEmpty then
     throw (.invalidJob "invalid symbol identity")
   if !c.imports.isEmpty || !c.consumedFacts.isEmpty then
@@ -180,12 +182,14 @@ def compileFunctionWithWork (job : FunctionJob) : Except CompileError (FunctionA
   let work ← validateJobWithWork job
   if job.requested != .none then throw (.certificationUnavailable job.requested)
   let stackMIR ← (StackMIR.lower job.code.body job.code.layout).mapError
-    (CompileError.verificationFailed "stack-lowering")
+    (fun
+      | .admission e => .admission e
+      | .invalid reason => .verificationFailed "stack-lowering" reason)
   (StackMIR.validate stackMIR).mapError (CompileError.verificationFailed "stack-legality")
-  let assembly ← (TypedA64.select stackMIR).mapError (CompileError.verificationFailed "selection")
-  (TypedA64.validate assembly).mapError (CompileError.verificationFailed "assembly-legality")
+  let assembly ← (TypedA64.select stackMIR).mapError (fun e => .verificationFailed "selection" e.message)
+  (TypedA64.validate assembly).mapError (fun e => .verificationFailed "assembly-legality" e.message)
   let (fragment, lines) ← (TypedA64.renderWithWork assembly job.code.symbol).mapError
-    (CompileError.verificationFailed "rendering")
+    (fun e => .verificationFailed "rendering" e.message)
   let code := { input := job.code, stackMIR, assembly, fragment : CodeArtifact }
   pure ({
     code, debug := { code, input := job.debug }, proofProfile := job.proof

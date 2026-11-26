@@ -92,7 +92,7 @@ private def binaryImmediate (width : Width) (op : Binary) (value : Int) : Option
   | .shiftLeft | .logicalRight | .arithmeticRight =>
     let amount := (Semantics.constant .word value).toNat % width.bits
     return (mnemonic (select op), s!"#{amount}")
-  | _ => none
+  | .mul => none
 
 /-- Resolve Darwin TLV or Linux TLSDESC while preserving live scalar argument/scratch
     registers. The baseline does not yet hoist/cache repeated TLS lookups. -/

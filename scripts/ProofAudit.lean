@@ -262,3 +262,4 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_eq_countedPacked
 #print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_result
 #print axioms LeanCompilerBackend.Verified.admitWithWork_eq_indexed
+#print axioms LeanCompilerBackend.Verified.TypedA64.select_highMultiply
