@@ -23,7 +23,8 @@ def select (op : Binary) : ALU :=
   | .logicalRight => .lsr
   | .arithmeticRight => .asr
 
-def mnemonic : ALU → String
+def mnemonic (op : ALU) : String :=
+  match op with
   | .add => "add"
   | .sub => "sub"
   | .mul => "mul"

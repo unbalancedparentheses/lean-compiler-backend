@@ -262,3 +262,15 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_eq_countedPacked
 #print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_result
 #print axioms LeanCompilerBackend.Verified.admitWithWork_eq_indexed
+#print axioms LeanCompilerBackend.Verified.TypedA64.select_highMultiply
+
+#print axioms LeanCompilerBackend.Verified.Machine.emitted_highMultiply
+
+#print axioms LeanCompilerBackend.Verified.compileFunction_emission
+#print axioms LeanCompilerBackend.Verified.TypedA64.select_render_highMultiply
+
+open LeanCompilerBackend.Verified in
+#check_failure (TypedA64.Instruction.alu .word .mulHighUnsigned 9 9 10 : TypedA64.Instruction)
+
+open LeanCompilerBackend.Verified in
+#check_failure (TypedA64.Instruction.alu .word .mulHighSigned 9 9 10 : TypedA64.Instruction)

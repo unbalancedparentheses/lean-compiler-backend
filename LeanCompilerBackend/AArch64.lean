@@ -22,7 +22,8 @@ private def register (width : Width) (n : Nat) : String :=
 private def floatRegister (width : Width) (n : Nat) : String :=
   (if width == .word then "s" else "d") ++ toString n
 
-private def floatCondition : FloatComparison → String
+private def floatCondition (op : FloatComparison) : String :=
+  match op with
   | .eq => "eq" | .ne => "ne" | .le => "ls" | .lt => "mi"
   | .ge => "ge" | .gt => "gt" | .ordered => "vc" | .unordered => "vs"
 
@@ -74,9 +75,9 @@ def logicalImmediate (width : Width) (value : Int) : Bool := Id.run do
 
 /-- Bounded immediate forms used only by the optional allocated path. The
     textual operand is independently assembled and exercised by target tests. -/
-private def binaryImmediate (width : Width) (op : Binary) (value : Int) : Option (String × String) := do
+private def binaryImmediate (width : Width) (op : Binary) (value : Int) : Option (String × String) :=
   match op with
-  | .add | .sub =>
+  | .add | .sub => do
     let signed := Semantics.signedBits width.bits (Semantics.constant width value)
     let magnitude := signed.natAbs
     let operand ← if magnitude ≤ 4095 then some s!"#{magnitude}"
@@ -87,12 +88,12 @@ private def binaryImmediate (width : Width) (op : Binary) (value : Int) : Option
     return (if subtract then "sub" else "add", operand)
   | .andBits | .orBits | .xorBits =>
     if logicalImmediate width value then
-      return (mnemonic (select op), s!"#{Semantics.constant width value}")
-    none
+      some (mnemonic (select op), s!"#{Semantics.constant width value}")
+    else none
   | .shiftLeft | .logicalRight | .arithmeticRight =>
     let amount := (Semantics.constant .word value).toNat % width.bits
-    return (mnemonic (select op), s!"#{amount}")
-  | _ => none
+    some (mnemonic (select op), s!"#{amount}")
+  | .mul => none
 
 /-- Resolve Darwin TLV or Linux TLSDESC while preserving live scalar argument/scratch
     registers. The baseline does not yet hoist/cache repeated TLS lookups. -/
@@ -171,12 +172,14 @@ private def load (darwin : Bool) (localSymbols : List String) (base : String) (s
     | some offset => return slotAccess "ldr" base (register width destination) width.bytes offset
     | none => throw s!"missing storage home for %{name}"
 
-private def condition : Comparison → String
+private def condition (op : Comparison) : String :=
+  match op with
   | .eq => "eq" | .ne => "ne"
   | .signedLE => "le" | .signedLT => "lt" | .signedGE => "ge" | .signedGT => "gt"
   | .unsignedLE => "ls" | .unsignedLT => "lo" | .unsignedGE => "hs" | .unsignedGT => "hi"
 
-private def inverseCondition : Comparison → String
+private def inverseCondition (op : Comparison) : String :=
+  match op with
   | .eq => "ne" | .ne => "eq"
   | .signedLE => "gt" | .signedLT => "ge" | .signedGE => "lt" | .signedGT => "le"
   | .unsignedLE => "hi" | .unsignedLT => "hs" | .unsignedGE => "lo" | .unsignedGT => "ls"
@@ -431,7 +434,10 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     -- Stable GP homes can be read/written directly. Scratch registers remain
     -- reserved for constants and spilled operands; allocation already checks
     -- that overwriting a destination cannot destroy another live SSA value.
-    let (a, b) := if !slots.registers.isEmpty && (op == .add || op == .andBits || op == .orBits || op == .xorBits) then
+    let swapForImmediate := match op with
+      | .add | .andBits | .orBits | .xorBits => true
+      | .sub | .mul | .shiftLeft | .logicalRight | .arithmeticRight => false
+    let (a, b) := if !slots.registers.isEmpty && swapForImmediate then
       match a with | .constant _ => (b, a) | _ => (a, b)
       else (a, b)
     let encoded := if slots.registers.isEmpty then none else
@@ -467,11 +473,15 @@ private def emitInstruction (darwin : Bool) (localSymbols : List String) (types 
     let resultHome := (slots.registers[inst.destination]?).getD 9
     if left == 9 then lines := lines ++ (← load darwin localSymbols base slots inst.width 9 a)
     if right == 10 then lines := lines ++ (← load darwin localSymbols base slots inst.width 10 b)
-    let instruction := if op == .signedDiv || op == .signedRem then "sdiv" else "udiv"
+    let (instruction, remainder) := match op with
+      | .signedDiv => ("sdiv", false)
+      | .unsignedDiv => ("udiv", false)
+      | .signedRem => ("sdiv", true)
+      | .unsignedRem => ("udiv", true)
     let rLeft := register inst.width left
     let rRight := register inst.width right
     let output := register inst.width resultHome
-    if op == .signedRem || op == .unsignedRem then
+    if remainder then
       let quotient := register inst.width 11
       lines := lines ++ [s!"\t{instruction} {quotient}, {rLeft}, {rRight}", s!"\tmsub {output}, {quotient}, {rRight}, {rLeft}"]
     else lines := lines ++ [s!"\t{instruction} {output}, {rLeft}, {rRight}"]
@@ -655,10 +665,7 @@ private def adjacentMemory (darwin : Bool) (localSymbols : List String) (base : 
     : Except String (Option (List String)) := do
   let .assign address := first | return none
   if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
-  let pair := match address.operation with
-    | .binary .add pointer (.constant n) | .binary .add (.constant n) pointer => some (pointer,n)
-    | .binary .sub pointer (.constant n) => some (pointer,-n)
-    | _ => none
+  let pair := Selection.addressOffset address.operation
   let some (pointer,rawOffset) := pair | return none
   let access := match second with
     | .assign {operation := .load kind (.temporary name), width, ..} => some (name,kind.bytes width)

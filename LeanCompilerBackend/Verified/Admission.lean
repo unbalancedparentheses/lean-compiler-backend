@@ -11,6 +11,7 @@ namespace LeanCompilerBackend.Verified
 inductive AdmissionError where
   | invalidInput (reason : String)
   | unsupported (feature : String)
+  | unsupportedHighMultiplyWidth (op : Source.Binary) (width : Width)
   | resourceLimit (resource : String) (measured limit : Nat)
   deriving DecidableEq, Repr
 
@@ -53,7 +54,8 @@ private def division : Division → Source.Division
 private def comparison : Comparison → Except AdmissionError Source.Comparison
   | .eq => .ok .eq | .unsignedLT => .ok .unsignedLT | .unsignedLE => .ok .unsignedLE
   | .signedLT => .ok .signedLT | .signedLE => .ok .signedLE
-  | _ => .error (.unsupported "comparison other than eq/unsignedLT/unsignedLE/signedLT/signedLE")
+  | .ne | .signedGE | .signedGT | .unsignedGE | .unsignedGT =>
+    .error (.unsupported "comparison other than eq/unsignedLT/unsignedLE/signedLT/signedLE")
 
 private def instruction (locals : Array (String × Width)) (ids : NameIndex.Lookup String Nat) (inst : Instruction)
     : Except AdmissionError Source.Instruction := do

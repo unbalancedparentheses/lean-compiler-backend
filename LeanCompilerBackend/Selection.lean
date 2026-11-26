@@ -27,7 +27,24 @@ def branchComparison (uses : Std.HashMap String Nat) (block : Block)
     | .compare op width a b =>
       if inst.destination == name && (uses[name]?).getD 0 == 1 then some (op, width, a, b)
       else none
-    | _ => none
+    | .convert .. | .floatBinary .. | .floatNegate .. | .floatCompare .. | .cast .. | .copy ..
+    | .binary .. | .unary .. | .divide .. | .allocate .. | .load .. | .vaArg .. | .call .. => none
   | _, _ => none
+
+/-- Decode the add/subtract forms eligible for adjacent memory fusion. -/
+def addressOffset : Operation → Option (Operand × Int)
+  | .binary op lhs rhs =>
+    match op with
+    | .add =>
+      match lhs, rhs with
+      | pointer, .constant n | .constant n, pointer => some (pointer, n)
+      | _, _ => none
+    | .sub =>
+      match rhs with
+      | .constant n => some (lhs, -n)
+      | _ => none
+    | .mul | .andBits | .orBits | .xorBits | .shiftLeft | .logicalRight | .arithmeticRight => none
+  | .convert .. | .floatBinary .. | .floatNegate .. | .floatCompare .. | .cast .. | .copy ..
+  | .unary .. | .divide .. | .compare .. | .allocate .. | .load .. | .vaArg .. | .call .. => none
 
 end LeanCompilerBackend.Selection

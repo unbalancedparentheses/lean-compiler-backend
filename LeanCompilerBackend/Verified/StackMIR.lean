@@ -210,20 +210,23 @@ private def edgeLowerersIndexed (source : Source.Function) : EdgeLowerer :=
   | none => rfl
   | some block => simp [prepareTarget, stageIndexedPhis_eq]
 
+inductive LoweringError where
+  | admission (error : AdmissionError)
+  | invalid (reason : String)
+  deriving DecidableEq, Repr
+
 /-- Layout is supplied explicitly, then checked against the source contract. -/
-def lower (source : Source.Function) (layout : FrameLayout) : Except String Function := do
-  match validateSource source with
-  | .error e => throw s!"source admission: {repr e}"
-  | .ok () => pure ()
-  if layout != planFrame source then throw "frame layout mismatch"
+def lower (source : Source.Function) (layout : FrameLayout) : Except LoweringError Function := do
+  (validateSource source).mapError LoweringError.admission
+  if layout != planFrame source then throw (.invalid "frame layout mismatch")
   let mut entry := #[Instruction.enterFrame layout.frameBytes]
   for i in [:source.parameters.size] do
-    let some width := source.parameters[i]? | throw "missing parameter"
+    let some width := source.parameters[i]? | throw (.invalid "missing parameter")
     entry := entry.push (.readArg width i (.value i))
   let edges := edgeLowerers source
   let mut blocks := #[{ label := .entry, instructions := entry, terminator := .jump (.body 0) : Block }]
   for id in [:source.blocks.size] do
-    let some block := source.blocks[id]? | throw "missing source block"
+    let some block := source.blocks[id]? | throw (.invalid "missing source block")
     let mut instructions := block.instructions.foldl (fun code i => code ++ lowerInstruction i) #[]
     let (terminator, successors) ← match block.terminator with
       | .ret value => do
@@ -234,7 +237,7 @@ def lower (source : Source.Function) (layout : FrameLayout) : Except String Func
         instructions := instructions.push (loadOperand .word .r9 condition)
         pure (.branch .r9 (.edge id yes) (.edge id no), if yes == no then #[yes] else #[yes, no])
     blocks := blocks.push { label := .body id, instructions, terminator }
-    for target in successors do blocks := blocks.push (← edges.lower id target)
+    for target in successors do blocks := blocks.push (← (edges.lower id target).mapError LoweringError.invalid)
   pure { parameters := source.parameters, resultWidth := source.resultWidth,
          valueWidths := source.valueWidths, layout, blocks }
 

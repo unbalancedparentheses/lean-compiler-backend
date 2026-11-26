@@ -5,6 +5,7 @@ python3 scripts/build_identity.py --check-binary
 .lake/build/bin/lcb-scaling
 python3 scripts/cli_protocol.py "$@"
 python3 scripts/port_inventory.py
+python3 scripts/arithmetic_controls.py
 audit=$(lake env lean scripts/ProofAudit.lean)
 printf '%s\n' "$audit"
 # These equalities authorize compiler replacements of the reference computations.
@@ -62,6 +63,10 @@ grep -Fx "'LeanCompilerBackend.Verified.Machine.enter_leave' depends on axioms: 
 grep -Fx "'LeanCompilerBackend.Verified.Machine.subtract_zero_iff_equal' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.subtract_borrow_iff_less' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.alu_preserves' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.TypedA64.select_highMultiply' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -F "'LeanCompilerBackend.Verified.TypedA64.select_render_highMultiply' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$auditSingleLine" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.compileFunction_emission' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Verified.Machine.emitted_highMultiply' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.verifyArtifact_binds' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.compile_refuses_unavailable' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.Verified.Machine.run_return_sound' depends on axioms: [propext]" <<< "$audit" >/dev/null

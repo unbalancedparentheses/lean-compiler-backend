@@ -99,9 +99,27 @@ private def codecTests : IO Unit := do
     let (_, replayed) ← success (Codec.decodeArtifact (← success (Codec.encodeArtifact direct directArtifact)))
     require (decide (replayed = directArtifact)) "high multiply artifact replay"
 
+private def highMultiplyReplayRefusals : IO Unit := do
+  let original := Tests.directJob (Tests.directBinary .word .mul)
+  let packet ← success (Codec.encodeJob original)
+  -- Destination 2, word width, binary tag, MUL tag, then locals 0 and 1.
+  let instruction ← success (Wire.encode (do
+    Wire.natural 2; Wire.byte 0; Wire.byte 1; Wire.byte 2
+    Wire.byte 0; Wire.natural 0; Wire.byte 0; Wire.natural 1))
+  let positions := (List.range packet.size).filter fun i =>
+    packet.extract i (i + instruction.size) == instruction
+  let [position] := positions | throw (IO.userError "word MUL packet must contain exactly one instruction signature")
+  for (tag, op) in [(9, Source.Binary.mulHighUnsigned), (10, .mulHighSigned)] do
+    let edited := packet.set! (position + 10) tag
+    match Codec.decodeJob edited with
+    | .error (.compile (.admission (.unsupportedHighMultiplyWidth rejected width))) =>
+      require (decide (rejected = op ∧ width = .word)) "wrong structured high multiply refusal"
+    | result => throw (IO.userError s!"expected structured high multiply refusal, got {repr result}")
+
 def run : IO Unit := do
   hashTests
   codecTests
+  highMultiplyReplayRefusals
   IO.println "canonical job/artifact replay, dependency identities and SHA-256 checks passed"
 
 end LeanCompilerBackend.Verified.CodecTests

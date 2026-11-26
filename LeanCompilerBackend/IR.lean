@@ -4,7 +4,7 @@
   See docs/UPSTREAM.md and third_party/qbe/LICENSE for provenance and copyright.
   Zig's AIR/target separation is an architectural reference, not an API dependency.
 -/
-import Std
+import LeanCompilerBackend.ArithmeticMatches
 
 namespace LeanCompilerBackend
 
@@ -71,17 +71,19 @@ inductive Binary where
   | shiftLeft | logicalRight | arithmeticRight
   deriving BEq, DecidableEq, Repr, Inhabited
 
-def Binary.rhsWidth (width : Width) : Binary → Width
+def Binary.rhsWidth (width : Width) (op : Binary) : Width :=
+  match op with
   | .shiftLeft | .logicalRight | .arithmeticRight => .word
-  | _ => width
+  | .add | .sub | .mul | .andBits | .orBits | .xorBits => width
 
 inductive Unary where
   | negate | signedByte | unsignedByte | signedHalf | unsignedHalf | signedWord | unsignedWord
   deriving BEq, DecidableEq, Repr, Inhabited
 
-def Unary.inputWidth (width : Width) : Unary → Width
+def Unary.inputWidth (width : Width) (op : Unary) : Width :=
+  match op with
   | .negate => width
-  | _ => .word
+  | .signedByte | .unsignedByte | .signedHalf | .unsignedHalf | .signedWord | .unsignedWord => .word
 
 inductive Division where
   | signedDiv | unsignedDiv | signedRem | unsignedRem
@@ -172,10 +174,12 @@ def FloatConversion.inputWidth : FloatConversion → Width
   | .toInteger width _ | .fromInteger width _ => width
 
 def FloatConversion.inputFloating : FloatConversion → Bool
-  | .fromInteger .. => false | _ => true
+  | .fromInteger .. => false
+  | .extendSingle | .truncateDouble | .toInteger .. => true
 
 def FloatConversion.resultFloating : FloatConversion → Bool
-  | .toInteger .. => false | _ => true
+  | .toInteger .. => false
+  | .extendSingle | .truncateDouble | .fromInteger .. => true
 
 inductive Operation where
   | convert (op : FloatConversion) (value : Operand)
