@@ -35,7 +35,7 @@ To work on the compiler:
 
 ```sh
 nix develop
-lean --run scripts/ExecutionClosure.lean --imports .
+bash scripts/check_execution_closure.sh --imports
 lake --no-cache build lcb lcb-tests lcb-scaling
 ```
 

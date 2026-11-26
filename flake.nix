@@ -5,6 +5,8 @@
   outputs = { self, nixpkgs }:
     let
       systems = [ "aarch64-darwin" "x86_64-darwin" "aarch64-linux" "x86_64-linux" ];
+      # The Lake default targets are the binaries installed by this package.
+      shippedExecutables = (builtins.fromTOML (builtins.readFile ./lakefile.toml)).defaultTargets;
       eachSystem = nixpkgs.lib.genAttrs systems;
       environment = system:
         let
@@ -66,8 +68,8 @@
               export HOME="$TMPDIR/lcb-home"
               mkdir -p "$HOME"
               export LEAN_NUM_THREADS=2
-              lean --run scripts/ExecutionClosure.lean --imports .
-              lake --no-cache build lcb lcb-tests lcb-scaling
+              bash scripts/check_execution_closure.sh --imports
+              lake --no-cache build ${e.pkgs.lib.escapeShellArgs shippedExecutables} lcb-tests lcb-scaling
               runHook postBuild
             '';
             doCheck = true;
@@ -79,7 +81,9 @@
             installPhase = ''
               runHook preInstall
               mkdir -p "$out/bin" "$out/share/lean-compiler-backend"
-              cp .lake/build/bin/lcb "$out/bin/"
+              for executable in ${e.pkgs.lib.escapeShellArgs shippedExecutables}; do
+                cp ".lake/build/bin/$executable" "$out/bin/"
+              done
               cp -R LICENSE LICENSES README.md ROADMAP.md CHANGELOG.md port-status.json compiler-build.json docs upstream-lock.json third_party tests "$out/share/lean-compiler-backend/"
               runHook postInstall
             '';

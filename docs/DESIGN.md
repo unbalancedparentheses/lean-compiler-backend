@@ -116,14 +116,17 @@ closure also follows compiled bodies behind partial declarations. Backend
 diagnostics use total string renderers, and load forwarding indexes the
 address and load type structurally.
 
-For each project module imported by the audit, CI checks the actual audit
-artifact path and requires byte-identical generated C and compiled Lean module
-artifacts from the stock build. Missing artifacts and differences fail the
+The Lake default targets define the binaries installed by the flake. CI resolves
+each installed executable to its Lake module root and audits the full import
+graph from those roots. For each project module in that graph, CI checks the
+actual audit artifact path and requires byte-identical generated C and compiled
+Lean module artifacts from the stock build. Missing artifacts and differences fail the
 gate. Precompiled toolchain modules come from the same pinned installation in
 both builds. A planted local rewrite conditional on the stock Lean executable
-path makes the C differ and fails the gate.
+path makes the C differ and fails the gate. Changing the CLI-only liveness
+report in the isolated build also fails the C comparison.
 
-The transitive import graph of the audited backend modules may contain only
+The transitive import graph of the shipped executables may contain only
 the pinned `Init` and `Std` modules and the backend's own modules. This keeps
 the compiler and elaborator APIs outside the graph, including APIs for
 registering compiler passes and changing implementation overrides during
@@ -141,7 +144,7 @@ Use a fresh Lake build directory when switching from an instrumented build.
 
 ```sh
 export LEAN_NUM_THREADS=2
-lean --run scripts/ExecutionClosure.lean --imports .
+bash scripts/check_execution_closure.sh --imports
 lake --no-cache build lcb lcb-tests lcb-scaling
 bash scripts/check.sh
 ```

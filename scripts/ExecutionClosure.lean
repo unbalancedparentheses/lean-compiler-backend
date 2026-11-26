@@ -12,30 +12,29 @@ def moduleOf (env : Environment) (n : Name) : Name :=
 def runtimeModule (m : Name) : Bool :=
   m.getRoot == `Init || m.getRoot == `Std
 
-private def backendImports : Array Import :=
-  #[{module := `LeanCompilerBackend}, {module := `LeanCompilerBackend.Verified.Codec}]
-
-def checkImports (sourceRoot : System.FilePath) (controls : List String) : IO UInt32 := do
-  let mut pending := if controls.isEmpty then backendImports.toList.map (·.module)
-    else controls.map String.toName
+def sourceGraph (sourceRoot : System.FilePath) (modules : List String) : IO (Option (List String)) := do
+  if modules.isEmpty then throw (IO.userError "expected at least one execution module")
+  let mut pending := modules.map String.toName
   let mut visited : Std.HashSet Name := {}
+  let mut files := []
   while let m :: rest := pending do
     pending := rest
     if visited.contains m then continue
     visited := visited.insert m
     let file := modToFilePath sourceRoot m "lean"
+    files := file.toString :: files
     let (imports, _, messages) ← Elab.parseImports (← IO.FS.readFile file) (some file.toString)
     if messages.hasErrors then
       for message in messages.toList do IO.eprintln (← message.toString)
-      return 1
+      return none
     for entry in imports do
       let dep := entry.module
       if runtimeModule dep then continue
-      if dep.getRoot == `Lean || (controls.isEmpty && dep.getRoot != `LeanCompilerBackend) then
+      if dep.getRoot == `Lean then
         IO.eprintln s!"execution audit forbidden import {dep} in {m}"
-        return 1
+        return none
       pending := dep :: pending
-  return 0
+  return some files
 
 def partialImplementation? (env : Environment) (n : Name) (ci : ConstantInfo) :
     Option Name := do
@@ -290,14 +289,17 @@ private def checkCorrespondence (build : BuildPair) (m : Name)
     if hasStock || ext == "olean" then
       compare stock recorded ext
 
-def run (args : List String) (build : Option BuildPair := none) : IO UInt32 := do
-  if args.isEmpty && build.isNone then
-    throw (IO.userError "the backend closure audit requires a stock build for comparison")
+def run (args : List String) (build : Option BuildPair := none)
+    (executables : List String := []) : IO UInt32 := do
   let exceptions ← readExceptions
-  let (imports, auditRoots) ← match args with
-    | [] => pure (backendImports, roots)
-    | module :: root :: rest => pure (#[{module := module.toName}], (root :: rest).toArray.map String.toName)
+  let (modules, auditRoots) ← match args with
+    | [] =>
+      if build.isNone || executables.isEmpty then
+        throw (IO.userError "the backend closure audit requires shipped executable roots and a stock build")
+      pure (executables, roots)
+    | module :: root :: rest => pure ([module], (root :: rest).toArray.map String.toName)
     | _ => throw (IO.userError "expected a control module followed by one or more roots")
+  let imports : Array Import := modules.toArray.map fun m => {module := m.toName}
   initSearchPath (← findSysroot)
   let runtimeRoot ← IO.FS.realPath ((← findSysroot) / "lib" / "lean")
   let env ← importModules imports {}
@@ -320,8 +322,6 @@ def run (args : List String) (build : Option BuildPair := none) : IO UInt32 := d
       throw (IO.userError s!"{m} shadows the pinned Lean toolchain: {artifact}")
     else
       if let some build := build then
-        unless !args.isEmpty || m.getRoot == `LeanCompilerBackend do
-          throw (IO.userError s!"execution audit import outside LeanCompilerBackend: {m}")
         checkCorrespondence build m artifact
       for (kind, initAttr) in #[("init", regularInitAttr), ("builtin_init", builtinInitAttr)] do
         let entries := initAttr.ext.getModuleEntries env idx ++ initAttr.ext.getModuleIREntries env idx
@@ -425,7 +425,16 @@ end ExecutionSource
 
 unsafe def main (args : List String) : IO UInt32 :=
   match args with
-  | "--imports" :: sourceRoot :: controls => ExecutionClosure.checkImports sourceRoot controls
+  | "--imports" :: sourceRoot :: modules => do
+    return if (← ExecutionClosure.sourceGraph sourceRoot modules).isSome then 0 else 1
+  | "--shipped-sources" :: sourceRoot :: modules => do
+    let some files ← ExecutionClosure.sourceGraph sourceRoot modules | return 1
+    let status ← ExecutionSource.check files
+    if status == 0 then
+      for file in files do IO.println file
+    return status
+  | "--compare-shipped" :: stockLib :: stockIR :: auditLib :: auditIR :: modules =>
+    ExecutionClosure.run [] (some ⟨stockLib, stockIR, auditLib, auditIR⟩) modules
   | "--sources" :: files => ExecutionSource.check files
   | "--compare" :: stockLib :: stockIR :: auditLib :: auditIR :: roots =>
     ExecutionClosure.run roots (some ⟨stockLib, stockIR, auditLib, auditIR⟩)

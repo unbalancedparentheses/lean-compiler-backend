@@ -161,10 +161,7 @@ private def run (args : List String) : IO UInt32 := do
       let live ← match Liveness.analyze f with
         | .ok live => pure live
         | .error reason => throw (IO.userError reason)
-      IO.println (Lean.Json.mkObj [
-        ("liveness", Liveness.report f live), ("colors", Lean.toJson result.colors),
-        ("colorCount", Lean.toJson result.colorCount),
-        ("parameters", Lean.toJson (f.parameters.map (·.name)))]).compress
+      IO.println (Liveness.allocationReport f live result)
     return 0
   | ["--liveness", path] =>
     let module ← loadModule path
@@ -172,7 +169,7 @@ private def run (args : List String) : IO UInt32 := do
       let result ← match Liveness.analyze f with
         | .ok result => pure result
         | .error reason => throw (IO.userError s!"function ${f.name}: {reason}")
-      IO.println (Liveness.report f result).compress
+      IO.println (Liveness.report f result)
     return 0
   | ["--check", path] =>
     let module ← loadModule path

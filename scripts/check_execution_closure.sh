@@ -1,6 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# flake.nix installs the Lake default targets. Resolve each to its Lake module root.
+shipped_roots=$(python3 - <<'PYROOT'
+import tomllib
+
+with open("lakefile.toml", "rb") as file:
+    config = tomllib.load(file)
+roots = {exe["name"]: exe.get("root", exe["name"]) for exe in config["lean_exe"]}
+for name in config["defaultTargets"]:
+    print(roots[name])
+PYROOT
+)
+mapfile -t shipped_roots <<< "$shipped_roots"
+if [[ -z ${shipped_roots[0]} ]]; then
+  echo "execution audit requires at least one shipped executable" >&2
+  exit 1
+fi
+
+if [[ ${1:-} == --imports ]]; then
+  exec lean --run scripts/ExecutionClosure.lean --shipped-sources . "${shipped_roots[@]}" >/dev/null
+fi
+
 # Check reserved source commands independently of the compiler rewrite journal.
 check_sources() {
   lake env lean --run scripts/ExecutionClosure.lean --sources "$@"
@@ -237,17 +258,57 @@ official_path=$(lake env printenv LEAN_PATH)
 # that postpones code generation would bypass the recorder, so it must fail.
 audit="$tmp/audit"
 mkdir "$audit"
-cp -R lakefile.toml lake-manifest.json lean-toolchain LeanCompilerBackend.lean LeanCompilerBackend "$audit/"
-"$stock_lean" --run scripts/ExecutionClosure.lean --imports "$audit"
+cp lakefile.toml lake-manifest.json lean-toolchain "$audit/"
+source_files=$("$stock_lean" --run scripts/ExecutionClosure.lean --shipped-sources . "${shipped_roots[@]}")
+while IFS= read -r source; do
+  mkdir -p "$audit/$(dirname "$source")"
+  cp "$source" "$audit/$source"
+done <<< "$source_files"
+audit_targets=()
+for root in "${shipped_roots[@]}"; do
+  audit_targets+=("+$root:olean")
+done
 bash scripts/prepare_provenance_compiler.sh "$provenance_sysroot" "$stock_prefix"
 (
   cd "$audit"
   LAKE_OVERRIDE_LEAN=true LEAN_SYSROOT="$provenance_sysroot" \
-    lake --no-cache build +LeanCompilerBackend:olean +LeanCompilerBackend.Verified.Codec:olean
+    lake --no-cache build "${audit_targets[@]}"
 )
 audit_build="$audit/.lake/build"
-LEAN_PATH="$audit_build/lib/lean" "$stock_lean" --run scripts/ExecutionClosure.lean \
-  --compare .lake/build/lib/lean .lake/build/ir "$audit_build/lib/lean" "$audit_build/ir"
+compare_shipped() {
+  LEAN_PATH="$audit_build/lib/lean" "$stock_lean" --run scripts/ExecutionClosure.lean \
+    --compare-shipped .lake/build/lib/lean .lake/build/ir \
+    "$audit_build/lib/lean" "$audit_build/ir" "${shipped_roots[@]}"
+}
+compare_shipped
+
+# This reporter is reachable from Main and was outside the library-root audit.
+# Change its CLI output in the isolated build and require a C mismatch.
+reporter=LeanCompilerBackend.Liveness.Report
+python3 - "$audit/LeanCompilerBackend/Liveness/Report.lean" <<'PYCONTROL'
+from pathlib import Path
+import sys
+
+path = Path(sys.argv[1])
+source = path.read_text()
+original = '("schema", "1")'
+assert source.count(original) == 1
+path.write_text(source.replace(original, '("schema", "2")'))
+PYCONTROL
+(
+  cd "$audit"
+  LAKE_OVERRIDE_LEAN=true LEAN_SYSROOT="$provenance_sysroot" \
+    lake --no-cache build "+$reporter:olean"
+)
+status=0
+compare_shipped >"$tmp/cli-output-gate.log" 2>&1 || status=$?
+if [[ $status != 1 ]] ||
+    ! grep -Fq "execution audit build mismatch for $reporter: generated C differs from stock Lean" \
+      "$tmp/cli-output-gate.log"; then
+  cat "$tmp/cli-output-gate.log" >&2
+  exit 1
+fi
+echo "execution closure control rejected: CLI-only liveness report (C mismatch)"
 
 compile_control() (
   cd "$tmp"
