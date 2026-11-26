@@ -75,7 +75,7 @@ private def load (c : Context) (w : Width) (r : String) : Operand → Except Str
   | .threadSymbol name => pure (threadAddress c.darwin w r name)
 
 private def extend (w : Width) (op : Unary) : List String :=
-  explicit_op% match op with
+  match op with
   | .negate => [s!"\tneg{suffix w} {reg w "rax"}"]
   | .signedByte => [s!"\tmovsb{suffix w} %al, {reg w "rax"}"]
   | .unsignedByte => ["\tmovzbl %al, %eax"]
@@ -186,12 +186,12 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
   pure lines
 
 private def condition (op : Comparison) : String :=
-  explicit_op% match op with
+  match op with
   | .eq => "e" | .ne => "ne" | .signedLE => "le" | .signedLT => "l" | .signedGE => "ge" | .signedGT => "g"
   | .unsignedLE => "be" | .unsignedLT => "b" | .unsignedGE => "ae" | .unsignedGT => "a"
 
 private def inverseCondition (op : Comparison) : String :=
-  explicit_op% match op with
+  match op with
   | .eq => "ne" | .ne => "e" | .signedLE => "g" | .signedLT => "ge" | .signedGE => "l" | .signedGT => "le"
   | .unsignedLE => "a" | .unsignedLT => "ae" | .unsignedGE => "b" | .unsignedGT => "be"
 
@@ -208,13 +208,13 @@ private def binaryImmediate (w : Width) (op : Binary) (n : Int) : Option String 
   let destination := reg w "rax"
   let value := Semantics.signedBits w.bits (Semantics.constant w n)
   let shift := (Semantics.constant (op.rhsWidth w) n).toNat % w.bits
-  explicit_op% match op with
+  match op with
   | .shiftLeft => some s!"\tshl{s} ${shift}, {destination}"
   | .logicalRight => some s!"\tshr{s} ${shift}, {destination}"
   | .arithmeticRight => some s!"\tsar{s} ${shift}, {destination}"
   | .add | .sub | .mul | .andBits | .orBits | .xorBits =>
     if value < -(2 ^ 31 : Int) || value >= 2 ^ 31 then none
-    else explicit_op% match op with
+    else match op with
       | .mul => some s!"\timul{s} ${value}, {destination}, {destination}"
       | .add => some s!"\tadd{s} ${value}, {destination}"
       | .sub => some s!"\tsub{s} ${value}, {destination}"
@@ -240,26 +240,30 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       lines := lines ++ [instruction]
     else
       lines := lines ++ (← load c (op.rhsWidth w) "rcx" y)
-      let mnemonic := explicit_op% match op with
+      let mnemonic := match op with
         | .add => "add" | .sub => "sub" | .mul => "imul" | .andBits => "and" | .orBits => "or" | .xorBits => "xor"
         | .shiftLeft => "shl" | .logicalRight => "shr" | .arithmeticRight => "sar"
-      let operand := explicit_op% match op with
+      let operand := match op with
         | .shiftLeft | .logicalRight | .arithmeticRight => "%cl"
         | .add | .sub | .mul | .andBits | .orBits | .xorBits => b
       lines := lines ++ [s!"\t{mnemonic}{s} {operand}, {a}"]
   | .unary op x => lines := (← load c (op.inputWidth w) "rax" x) ++ extend w op
   | .divide op x y =>
     lines := (← load c w "rax" x) ++ (← load c w "rcx" y)
-    let signed := op.isSigned
+    let (signed, remainder) := match op with
+      | .signedDiv => (true, false)
+      | .unsignedDiv => (false, false)
+      | .signedRem => (true, true)
+      | .unsignedRem => (false, true)
     lines := lines ++ (if signed then [if w == .long then "\tcqto" else "\tcltd"] else ["\txorl %edx, %edx"])
       ++ [s!"\t{if signed then "idiv" else "div"}{s} {b}"]
-    if op.isRemainder then lines := lines ++ [s!"\tmov{s} {reg w "rdx"}, {a}"]
+    if remainder then lines := lines ++ [s!"\tmov{s} {reg w "rdx"}, {a}"]
   | .compare op width x y =>
     lines := (← comparisonFlags c width x y) ++ [s!"\tset{condition op} %al", "\tmovzbl %al, %eax"]
   | .floatBinary op x y =>
     lines := (← load c w "rax" x) ++ (← load c w "rcx" y) ++
       [s!"\tmov{if w == .word then "d" else "q"} {a}, %xmm0", s!"\tmov{if w == .word then "d" else "q"} {b}, %xmm1"]
-    let mnemonic := explicit_op% match op with | .add => "add" | .sub => "sub" | .mul => "mul" | .div => "div"
+    let mnemonic := match op with | .add => "add" | .sub => "sub" | .mul => "mul" | .div => "div"
     lines := lines ++ [s!"\t{mnemonic}{fsuffix w} %xmm1, %xmm0", s!"\tmov{if w == .word then "d" else "q"} %xmm0, {a}"]
   | .floatNegate x =>
     lines := (← load c w "rax" x) ++ (← load c w "rcx" (.constant (2^(w.bits-1)))) ++ [s!"\txor{s} {b}, {a}"]
@@ -269,7 +273,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
     let m := if width == .word then "d" else "q"
     lines := (← load c width "rax" x) ++ (← load c width "rcx" y) ++
       [s!"\tmov{m} {r}, %xmm0", s!"\tmov{m} {t}, %xmm1", s!"\tucomi{fsuffix width} %xmm1, %xmm0"]
-    lines := lines ++ (explicit_op% match op with
+    lines := lines ++ (match op with
       | .eq => ["\tsete %al", "\tsetnp %cl", "\tandb %cl, %al"]
       | .ne => ["\tsetne %al", "\tsetp %cl", "\torb %cl, %al"]
       | .lt => ["\tsetb %al", "\tsetnp %cl", "\tandb %cl, %al"]
@@ -326,7 +330,8 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
   -- symbols/TLS. Keep call/allocation/conversion and other paths conservative.
   let normalized := match inst.operation with
     | .copy .. | .cast .. | .binary .. | .unary .. | .load .. => true
-    | _ => false
+    | .divide .. | .compare .. | .allocate .. | .call .. | .convert ..
+    | .floatBinary .. | .floatNegate .. | .floatCompare .. | .vaArg .. => false
   if w == .word && !normalized then lines := lines ++ ["\tmovl %eax, %eax"]
   pure (lines ++ (← store c inst.destination))
 
@@ -362,10 +367,7 @@ private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
     (first second : Statement) : Except String (Option (List String)) := do
   let .assign address := first | return none
   if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
-  let pair := match address.operation with
-    | .binary .add pointer (.constant n) | .binary .add (.constant n) pointer => some (pointer, n)
-    | .binary .sub pointer (.constant n) => some (pointer, -n)
-    | _ => none
+  let pair := Selection.addressOffset address.operation
   let some (pointer, rawOffset) := pair | return none
   let access := match second with
     | .assign {operation := .load _ (.temporary name), ..} => some name

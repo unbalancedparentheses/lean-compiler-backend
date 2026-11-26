@@ -4,27 +4,9 @@
   See docs/UPSTREAM.md and third_party/qbe/LICENSE for provenance and copyright.
   Zig's AIR/target separation is an architectural reference, not an API dependency.
 -/
-import Lean
+import LeanCompilerBackend.ArithmeticMatches
 
 namespace LeanCompilerBackend
-
-/-- Require a constructor in every opcode alternative, then let Lean check
-    coverage of the ordinary match. A wildcard or variable cannot cover a
-    newly added opcode. -/
-syntax "explicit_op% " term : term
-open Lean Lean.Parser.Term in
-macro_rules
-  | `(explicit_op% $body) => do
-    let `(match $_:matchDiscr with $alts:matchAlt*) := body
-      | Macro.throwErrorAt body "expected an opcode match"
-    for alt in alts do
-      let `(matchAltExpr| | $[$patterns,*]|* => $_) := alt
-        | Macro.throwErrorAt alt "expected explicit constructor alternatives"
-      for group in patterns do
-        for pattern in group.getElems do
-          unless (match pattern with | `(.$_:ident) => true | _ => false) do
-            Macro.throwErrorAt pattern "expected an explicit opcode constructor"
-    pure body
 
 /-- Preserve the two QBE section strings; ELF name commas are not flag separators. -/
 structure SectionSpec where
@@ -90,7 +72,7 @@ inductive Binary where
   deriving BEq, DecidableEq, Repr, Inhabited
 
 def Binary.rhsWidth (width : Width) (op : Binary) : Width :=
-  explicit_op% match op with
+  match op with
   | .shiftLeft | .logicalRight | .arithmeticRight => .word
   | .add | .sub | .mul | .andBits | .orBits | .xorBits => width
 
@@ -99,23 +81,13 @@ inductive Unary where
   deriving BEq, DecidableEq, Repr, Inhabited
 
 def Unary.inputWidth (width : Width) (op : Unary) : Width :=
-  explicit_op% match op with
+  match op with
   | .negate => width
   | .signedByte | .unsignedByte | .signedHalf | .unsignedHalf | .signedWord | .unsignedWord => .word
 
 inductive Division where
   | signedDiv | unsignedDiv | signedRem | unsignedRem
   deriving BEq, DecidableEq, Repr, Inhabited
-
-def Division.isSigned (op : Division) : Bool :=
-  explicit_op% match op with
-  | .signedDiv | .signedRem => true
-  | .unsignedDiv | .unsignedRem => false
-
-def Division.isRemainder (op : Division) : Bool :=
-  explicit_op% match op with
-  | .signedRem | .unsignedRem => true
-  | .signedDiv | .unsignedDiv => false
 
 inductive Comparison where
   | eq | ne | signedLE | signedLT | signedGE | signedGT
@@ -202,10 +174,12 @@ def FloatConversion.inputWidth : FloatConversion → Width
   | .toInteger width _ | .fromInteger width _ => width
 
 def FloatConversion.inputFloating : FloatConversion → Bool
-  | .fromInteger .. => false | _ => true
+  | .fromInteger .. => false
+  | .extendSingle | .truncateDouble | .toInteger .. => true
 
 def FloatConversion.resultFloating : FloatConversion → Bool
-  | .toInteger .. => false | _ => true
+  | .toInteger .. => false
+  | .extendSingle | .truncateDouble | .fromInteger .. => true
 
 inductive Operation where
   | convert (op : FloatConversion) (value : Operand)

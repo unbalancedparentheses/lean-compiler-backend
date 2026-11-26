@@ -251,7 +251,7 @@ def stepAssembly (f : TypedA64.Function) (s : State) : Except String Transition 
     let old ← readReg d width reg
     let mask := (65535 : UInt64) <<< shift.toUInt64
     updated ← writeReg d width reg ((old &&& ~~~mask) ||| (chunk.toUInt64 <<< shift.toUInt64))
-  | .alu width op dst lhs rhs =>
+  | .alu width op dst lhs rhs _ =>
     updated ← writeReg d width dst (alu width op (← readReg d width lhs) (← readReg d width rhs))
   | .divide width signed dst lhs rhs =>
     updated ← writeReg d width dst (quotient width signed (← readReg d width lhs) (← readReg d width rhs))

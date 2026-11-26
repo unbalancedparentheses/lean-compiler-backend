@@ -262,11 +262,13 @@ the source operation at either width, including shift counts reduced modulo the
 width, the word-width sign bit of `asr`, and the exact natural/integer products
 behind UMULH/SMULH. `TypedA64.select_highMultiply` proves that selection and
 rendering use the corresponding X-register instructions.
-`Machine.emitted_highMultiply` connects that selected instruction and its
-rendered block line to the actual typed assembly step, which writes the source
-upper half to the destination register. The theorem assumes the instruction
-position and input registers match and uses the typed assembly interpretation.
-Assembler and hardware conformance remain outside the model.
+`Machine.emitted_highMultiply` starts from a successful compilation job and a
+high multiply in its MIR. It derives the corresponding instruction's placement
+in the selected function and at the same block-relative line in the complete
+emitted fragment. A typed machine step at that position writes the source upper
+half to the destination register when the operands are available. The typed
+instruction constructor requires a proof that the width is encodable. Assembler
+and hardware conformance remain outside the model.
 `ComparisonProofs.comparison_steps` proves the four-step comparison expansion
 (equality, unsigned less/less-or-equal, signed less/less-or-equal) for word or
 long operands and a word result; `signedValue_value` identifies the machine's

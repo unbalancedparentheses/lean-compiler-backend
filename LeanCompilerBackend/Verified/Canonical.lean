@@ -16,7 +16,7 @@ inductive ReifyError where
   deriving DecidableEq, Repr
 
 private def reifyBinary (op : Source.Binary) : Except ReifyError Binary :=
-  explicit_op% match op with
+  match op with
   | .add => pure .add | .sub => pure .sub | .mul => pure .mul
   | .andBits => pure .andBits | .orBits => pure .orBits | .xorBits => pure .xorBits
   | .shiftLeft => pure .shiftLeft
@@ -30,12 +30,12 @@ private def reifyOperation : Source.Operation → Except ReifyError Operation
   | .binary op lhs rhs => do
     pure (.binary (← reifyBinary op) (reifyOperand lhs) (reifyOperand rhs))
   | .compare op width lhs rhs =>
-    pure (.compare (explicit_op% match op with
+    pure (.compare (match op with
       | .eq => .eq | .unsignedLT => .unsignedLT | .unsignedLE => .unsignedLE
       | .signedLT => .signedLT | .signedLE => .signedLE)
       width (reifyOperand lhs) (reifyOperand rhs))
   | .divide op lhs rhs =>
-    pure (.divide (explicit_op% match op with
+    pure (.divide (match op with
       | .unsignedDiv => .unsignedDiv | .unsignedRem => .unsignedRem
       | .signedDiv => .signedDiv | .signedRem => .signedRem) (reifyOperand lhs) (reifyOperand rhs))
 

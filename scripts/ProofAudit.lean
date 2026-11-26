@@ -266,19 +266,11 @@ import LeanCompilerBackend.Verified.LayoutProofs
 
 #print axioms LeanCompilerBackend.Verified.Machine.emitted_highMultiply
 
-open LeanCompilerBackend in
-/-- error: expected an explicit opcode constructor -/
-#guard_msgs in
-example (op : Division) : String :=
-  explicit_op% match op with
-  | .signedDiv => "div" | .unsignedDiv => "divu" | .signedRem => "rem" | _ => "remu"
+#print axioms LeanCompilerBackend.Verified.compileFunction_emission
+#print axioms LeanCompilerBackend.Verified.TypedA64.select_render_highMultiply
 
-open LeanCompilerBackend in
-/--
-error: Missing cases:
-Division.unsignedRem
--/
-#guard_msgs in
-example (op : Division) : String :=
-  explicit_op% match op with
-  | .signedDiv => "div" | .unsignedDiv => "divu" | .signedRem => "rem"
+open LeanCompilerBackend.Verified in
+#check_failure (TypedA64.Instruction.alu .word .mulHighUnsigned 9 9 10 : TypedA64.Instruction)
+
+open LeanCompilerBackend.Verified in
+#check_failure (TypedA64.Instruction.alu .word .mulHighSigned 9 9 10 : TypedA64.Instruction)

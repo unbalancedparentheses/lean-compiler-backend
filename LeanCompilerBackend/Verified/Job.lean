@@ -180,15 +180,16 @@ private def assemblyError (stage : String) : TypedA64.Error → CompileError
   | .invalid reason => .verificationFailed stage reason
   | .unsupportedHighMultiplyWidth op width => .admission (.unsupportedHighMultiplyWidth op width)
 
+private def loweringError : StackMIR.LoweringError → CompileError
+  | .admission e => .admission e
+  | .invalid reason => .verificationFailed "stack-lowering" reason
+
 /-- Pure compilation through checked structural boundaries. Successful output
     is still uncertified: these executable checks are not preservation proofs. -/
 def compileFunctionWithWork (job : FunctionJob) : Except CompileError (FunctionArtifact × Nat) := do
   let work ← validateJobWithWork job
   if job.requested != .none then throw (.certificationUnavailable job.requested)
-  let stackMIR ← (StackMIR.lower job.code.body job.code.layout).mapError
-    (fun
-      | .admission e => .admission e
-      | .invalid reason => .verificationFailed "stack-lowering" reason)
+  let stackMIR ← (StackMIR.lower job.code.body job.code.layout).mapError loweringError
   (StackMIR.validate stackMIR).mapError (CompileError.verificationFailed "stack-legality")
   let assembly ← (TypedA64.select stackMIR).mapError (assemblyError "selection")
   (TypedA64.validate assembly).mapError (assemblyError "assembly-legality")
@@ -202,6 +203,40 @@ def compileFunctionWithWork (job : FunctionJob) : Except CompileError (FunctionA
 
 def compileFunction (job : FunctionJob) : Except CompileError FunctionArtifact :=
   (compileFunctionWithWork job).map Prod.fst
+
+/-- The assembly and text stored in a successful job are precisely the
+    results of whole-function selection and checked rendering. -/
+theorem compileFunction_emission (job : FunctionJob) (artifact : FunctionArtifact)
+    (compiled : compileFunction job = .ok artifact) :
+    TypedA64.select artifact.code.stackMIR = .ok artifact.code.assembly ∧
+    TypedA64.render artifact.code.assembly job.code.symbol = .ok artifact.code.fragment := by
+  unfold compileFunction compileFunctionWithWork at compiled
+  cases valid : validateJobWithWork job <;> simp only [valid] at compiled
+  · contradiction
+  by_cases requested : job.requested = .none
+  · simp only [requested, bne_self_eq_false, Bool.false_eq_true, ↓reduceIte,
+      Bind.bind, Except.bind] at compiled
+    cases lowered : (StackMIR.lower job.code.body job.code.layout).mapError loweringError <;>
+      simp only [lowered] at compiled
+    · contradiction
+    rename_i work mir
+    cases legal : (StackMIR.validate mir).mapError
+        (CompileError.verificationFailed "stack-legality") <;> simp only [legal] at compiled
+    · contradiction
+    cases selected : TypedA64.select mir with
+    | error e => simp [selected, Except.mapError, Except.map] at compiled
+    | ok assembly =>
+      simp only [selected, Except.mapError] at compiled
+      cases legalAssembly : TypedA64.validate assembly <;> simp only [legalAssembly] at compiled
+      · contradiction
+      cases rendered : TypedA64.renderWithWork assembly job.code.symbol with
+      | error e => simp [rendered, Except.map] at compiled
+      | ok output =>
+        obtain ⟨fragment, lines⟩ := output
+        simp [rendered, Except.map, Pure.pure, Except.pure] at compiled
+        subst artifact
+        exact ⟨selected, by simp [TypedA64.render, rendered, Except.map]⟩
+  · simp [requested, Bind.bind, Except.bind, Except.map, throw] at compiled
 
 theorem compileFunctionWithWork_result (job : FunctionJob) :
     (compileFunctionWithWork job).map Prod.fst = compileFunction job := rfl

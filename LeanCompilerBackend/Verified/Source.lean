@@ -42,7 +42,7 @@ inductive Binary where
   deriving DecidableEq, Repr
 
 def Binary.isHighMultiply (op : Binary) : Bool :=
-  explicit_op% match op with
+  match op with
   | .mulHighUnsigned | .mulHighSigned => true
   | .add | .sub | .mul | .andBits | .orBits | .xorBits
   | .shiftLeft | .logicalRight | .arithmeticRight => false
@@ -53,16 +53,6 @@ def Binary.isHighMultiply (op : Binary) : Bool :=
 inductive Division where
   | unsignedDiv | unsignedRem | signedDiv | signedRem
   deriving DecidableEq, Repr
-
-def Division.isSigned (op : Division) : Bool :=
-  explicit_op% match op with
-  | .signedDiv | .signedRem => true
-  | .unsignedDiv | .unsignedRem => false
-
-def Division.isRemainder (op : Division) : Bool :=
-  explicit_op% match op with
-  | .signedRem | .unsignedRem => true
-  | .signedDiv | .unsignedDiv => false
 
 inductive Comparison where
   | eq | unsignedLT | unsignedLE | signedLT | signedLE

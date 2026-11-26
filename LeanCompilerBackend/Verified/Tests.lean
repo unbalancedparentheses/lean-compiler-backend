@@ -191,8 +191,8 @@ private def apiOnly : IO Unit := do
       let low := { assembly with blocks := assembly.blocks.map fun block =>
         { block with instructions := block.instructions.map fun inst =>
           match inst with
-          | .alu width actual dst lhs rhs =>
-            .alu width (if actual == op then .mul else actual) dst lhs rhs
+          | .alu width actual dst lhs rhs _ =>
+            if actual == op then .alu width .mul dst lhs rhs (Or.inr rfl) else inst
           | other => other } }
       match Machine.evaluateAssembly low args 100 with
       | .returned value _ => require (decide (value ≠ want)) "ordinary MUL passed high-multiply oracle"
@@ -221,15 +221,15 @@ private def apiOnly : IO Unit := do
         | other => other } }
     require (refuses (TypedA64.select wordHigh) (.unsupportedHighMultiplyWidth op .word))
       s!"expected typed selection refusal for word {repr op}"
-    -- A frameless leaf that is valid except for the operation's width.
-    let leaf (width : Width) : TypedA64.Function :=
-      let entry : TypedA64.Block := { label := .entry, instructions := #[.jump (.body 0)] }
-      let body : TypedA64.Block := { label := .body 0, instructions := #[.alu width op 9 9 10, .ret] }
+    require (refuses (TypedA64.Instruction.checkedALU .word op 9 9 10)
+      (.unsupportedHighMultiplyWidth op .word)) s!"expected typed construction refusal for word {repr op}"
+    let entry : TypedA64.Block := { label := .entry, instructions := #[.jump (.body 0)] }
+    let body : TypedA64.Block :=
+      { label := .body 0, instructions := #[.alu .long op 9 9 10 (Or.inl rfl), .ret] }
+    let leaf : TypedA64.Function :=
       { parameters := #[], resultWidth := .long, frameBytes := 0, blocks := #[entry, body] }
-    require ((TypedA64.validate (leaf .long)).toOption.isSome)
+    require ((TypedA64.render leaf job.code.symbol).toOption.isSome)
       "typed assembly refused a valid X-form high multiply"
-    require (refuses (TypedA64.render (leaf .word) job.code.symbol) (.unsupportedHighMultiplyWidth op .word))
-      s!"expected typed rendering refusal for word {repr op}"
   -- The structural check still binds numbering and widths around high multiplies.
   let body := directBinary .long .mulHighSigned
   let undefinedUse (i : Source.Instruction) : Source.Instruction :=

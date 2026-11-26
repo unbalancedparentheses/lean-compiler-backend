@@ -1,6 +1,7 @@
 /- Small kernel-checked facts about the actual executable target helpers.
    These do not yet compose into source-to-target preservation. -/
 import LeanCompilerBackend.Verified.Machine
+import LeanCompilerBackend.Verified.Job
 
 namespace LeanCompilerBackend.Verified.Machine
 
@@ -138,57 +139,65 @@ theorem alu_preserves (w : Width) (op : Source.Binary) (a b : UInt64) :
     exact word_logical_shift a.toBitVec (b.toNat % 32)
   all_goals rfl
 
-/-- The singleton selected for a long high multiply renders as UMULH or SMULH.
-    At its position in the emitted block, the typed assembly interpreter
-    advances one instruction and writes the exact source result. The text is
-    interpreted via its typed instruction; assembler and hardware semantics
-    are outside this model. -/
-theorem emitted_highMultiply (mir : StackMIR.Function) (assembly : TypedA64.Function)
-    (block : TypedA64.Block) (symbol : String) (s : State) (dst lhs rhs : StackMIR.Register)
-    (signed : Bool) (a b : UInt64)
-    (found : assembly.blocks.find? (·.label == s.label) = some block)
+/-- Successful whole-function selection and checked rendering preserve the
+    position and effect of a long high multiply. The machine state is at its
+    selected position, with initialized operand registers. -/
+theorem emitted_highMultiply (job : FunctionJob) (artifact : FunctionArtifact)
+    (block : StackMIR.Block)
+    (earlier later : List StackMIR.Block) (before after : List StackMIR.Instruction)
+    (chunks : List (Array TypedA64.Instruction)) (s : State)
+    (dst lhs rhs : StackMIR.Register) (signed : Bool) (a b : UInt64)
+    (blocks : artifact.code.stackMIR.blocks.toList = earlier ++ block :: later)
+    (first : earlier.find? (·.label == block.label) = none)
+    (instructions : block.instructions.toList = before ++
+      .alu .long (if signed then .mulHighSigned else .mulHighUnsigned) dst lhs rhs :: after)
+    (prefixSelected : before.mapM (TypedA64.selectInstruction artifact.code.stackMIR) = .ok chunks)
+    (compiled : compileFunction job = .ok artifact)
+    (label : s.label = block.label) (position : s.position = (chunks.flatMap Array.toList).length)
     (left : readReg s.data .long lhs.index = .ok a)
     (right : readReg s.data .long rhs.index = .ok b)
     (inside : dst.index < s.data.registers.size) :
     let op := if signed then Source.Binary.mulHighSigned else .mulHighUnsigned
-    ∃ inst,
-      TypedA64.selectInstruction mir (.alu .long op dst lhs rhs) = .ok #[inst] ∧
-      (block.instructions[s.position]? = some inst →
-        (TypedA64.blockLines symbol block)[s.position + 1]? =
-          some s!"\t{if signed then "smulh" else "umulh"} x{dst.index}, x{lhs.index}, x{rhs.index}" ∧
-        ∃ after value,
-          stepAssembly assembly s = .ok (.next { s with position := s.position + 1, data := after }) ∧
-          Source.evaluateBinary op (sourceView .long a) (sourceView .long b) = .ok value ∧
-          (readReg after .long dst.index).map (sourceView .long) = .ok value) := by
+    ∃ preceding localPrefix textAfter afterData value,
+      artifact.code.fragment = String.intercalate "\n" (preceding ++
+        [TypedA64.labelName job.code.symbol.name s.label ++ ":"] ++ localPrefix ++
+        s!"\t{if signed then "smulh" else "umulh"} x{dst.index}, x{lhs.index}, x{rhs.index}" :: textAfter) ∧
+      localPrefix.length = s.position ∧
+      stepAssembly artifact.code.assembly s = .ok (.next { s with position := s.position + 1, data := afterData }) ∧
+      Source.evaluateBinary op (sourceView .long a) (sourceView .long b) = .ok value ∧
+      (readReg afterData .long dst.index).map (sourceView .long) = .ok value := by
   dsimp only
-  let op := if signed then Source.Binary.mulHighSigned else .mulHighUnsigned
-  let inst := TypedA64.Instruction.alu .long op dst.index lhs.index rhs.index
-  obtain ⟨selectUnsigned, selectSigned, renderUnsigned, renderSigned⟩ :=
-    TypedA64.select_highMultiply mir dst lhs rhs symbol
-  have selected : TypedA64.selectInstruction mir (.alu .long op dst lhs rhs) = .ok #[inst] := by
-    cases signed <;> assumption
-  have rendered : TypedA64.renderInstruction symbol inst =
-      s!"\t{if signed then "smulh" else "umulh"} x{dst.index}, x{lhs.index}, x{rhs.index}" := by
-    cases signed <;> assumption
-  refine ⟨inst, selected, fun atPosition => ⟨?_, ?_⟩⟩
-  · simpa [TypedA64.blockLines, List.getElem?_map, atPosition] using rendered
-  · have legal : dst.index < 31 := by cases dst <;> decide
-    have written := read_write_same s.data .long dst.index (alu .long op a b) legal inside
-    cases store : writeReg s.data .long dst.index (alu .long op a b) with
-    | error reason =>
-      rw [store] at written
-      contradiction
-    | ok after =>
-      refine ⟨after, sourceView .long (alu .long op a b), ?_, alu_preserves .long op a b, ?_⟩
-      · simp only [stepAssembly, found, atPosition, inst, left, right]
-        change (writeReg s.data .long dst.index (alu .long op a b)).map
-          (fun data => Transition.next { s with position := s.position + 1, data }) = _
-        rw [store]
-        rfl
-      · rw [store] at written
-        change readReg after .long dst.index = .ok (alu .long op a b) at written
-        rw [written]
-        rfl
+  obtain ⟨selected, rendered⟩ := compileFunction_emission job artifact compiled
+  let op : Source.Binary := if signed then .mulHighSigned else .mulHighUnsigned
+  obtain ⟨target, preceding, localPrefix, textAfter, found, atPosition, text, length⟩ :=
+    TypedA64.select_render_highMultiply artifact.code.stackMIR artifact.code.assembly
+      job.code.symbol artifact.code.fragment block earlier later before after
+      chunks dst lhs rhs signed blocks first instructions prefixSelected selected rendered
+  have textAtLabel : artifact.code.fragment = _ := text
+  rw [← label] at textAtLabel
+  have legal : dst.index < 31 := by cases dst <;> decide
+  have written := read_write_same s.data .long dst.index (alu .long op a b) legal inside
+  cases store : writeReg s.data .long dst.index (alu .long op a b) with
+  | error reason =>
+    rw [store] at written
+    contradiction
+  | ok after =>
+    refine ⟨preceding, localPrefix, textAfter, after, sourceView .long (alu .long op a b),
+      textAtLabel, length.trans position.symm, ?_, alu_preserves .long op a b, ?_⟩
+    · have here : artifact.code.assembly.blocks.find? (·.label == s.label) = some target := by
+        simpa only [label] using found
+      have atPC : target.instructions[s.position]? = some
+          (.alu .long op dst.index lhs.index rhs.index (Or.inl rfl)) := by
+        simpa only [position] using atPosition
+      simp only [stepAssembly, here, atPC, left, right]
+      change (writeReg s.data .long dst.index (alu .long op a b)).map
+        (fun data => Transition.next { s with position := s.position + 1, data }) = _
+      rw [store]
+      rfl
+    · rw [store] at written
+      change readReg after .long dst.index = .ok (alu .long op a b) at written
+      rw [written]
+      rfl
 
 /-- Successful bounded target execution witnesses an unbounded target return. -/
 theorem run_return_sound (step : State → Except String Transition) (fuel : Nat)

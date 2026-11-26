@@ -267,7 +267,7 @@ private def assemblyInstruction : TypedA64.Instruction → Encoder Unit
   | .store w r o => do byte 3; width w; natural r; natural o
   | .movz w r c s => do byte 4; width w; natural r; natural c; natural s
   | .movk w r c s => do byte 5; width w; natural r; natural c; natural s
-  | .alu w op d a b => do byte 6; width w; binary op; natural d; natural a; natural b
+  | .alu w op d a b _ => do byte 6; width w; binary op; natural d; natural a; natural b
   | .cmp w a b => do byte 7; width w; natural a; natural b
   | .cset r c => do byte 8; natural r; byte (match c with | .eq => 0 | .lo => 1 | .ls => 2 | .lt => 3 | .le => 4)
   | .cbnz r t => do byte 9; natural r; label t

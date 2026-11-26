@@ -65,7 +65,7 @@ private def load (c : Context) (w : Width) (r : String) : Operand → Except Str
   | .symbol name => pure ([s!"\t{if c.locals.contains name then "lla" else "la"} {r}, {name}"] ++ norm w r)
   | .threadSymbol name => pure (threadAddress w r name)
 private def extend (w : Width) (op : Unary) : List String :=
-  explicit_op% match op with
+  match op with
   | .negate => [s!"\tneg{if w == .word then "w" else ""} t0, t0"]
   | .signedByte => ["\tslli t0, t0, 56", "\tsrai t0, t0, 56"]
   | .unsignedByte => ["\tandi t0, t0, 255"]
@@ -172,7 +172,7 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
   pure lines
 
 private def signedComparison (op : Comparison) : Bool :=
-  explicit_op% match op with
+  match op with
   | .signedLE | .signedLT | .signedGE | .signedGT => true
   | .eq | .ne | .unsignedLE | .unsignedLT | .unsignedGE | .unsignedGT => false
 
@@ -182,7 +182,7 @@ private def comparisonOperands (c : Context) (op : Comparison) (w : Width) (x y 
   pure (lines ++ if signedComparison op && w == .word then ["\tsext.w t0, t0", "\tsext.w t1, t1"] else [])
 
 private def inverseComparisonBranch (op : Comparison) (destination : String) : String :=
-  let (mnemonic, x, y) := explicit_op% match op with
+  let (mnemonic, x, y) := match op with
     | .eq => ("bne", "t0", "t1") | .ne => ("beq", "t0", "t1")
     | .signedLT => ("bge", "t0", "t1") | .signedGE => ("blt", "t0", "t1")
     | .signedLE => ("blt", "t1", "t0") | .signedGT => ("bge", "t1", "t0")
@@ -209,7 +209,7 @@ private def binaryImmediate (w : Width) (op : Binary) (n : Int) : Option String 
     if -2048 ≤ immediate && immediate ≤ 2047 then
       some s!"\t{mnemonic} t0, t0, {immediate}"
     else none
-  explicit_op% match op with
+  match op with
   | .add => emit ("addi" ++ ws) value
   | .sub => emit ("addi" ++ ws) (-value)
   | .andBits => emit "andi" value
@@ -236,19 +236,19 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       lines := lines ++ [instruction]
     else
       lines := lines ++ (← load c (op.rhsWidth w) "t1" y)
-      let mnemonic := explicit_op% match op with
+      let mnemonic := match op with
         | .add => "add"++ws | .sub => "sub"++ws | .mul => "mul"++ws
         | .andBits => "and" | .orBits => "or" | .xorBits => "xor"
         | .shiftLeft => "sll"++ws | .logicalRight => "srl"++ws | .arithmeticRight => "sra"++ws
       lines := lines ++ [s!"\t{mnemonic} t0, t0, t1"]
   | .divide op x y =>
     lines := (← load c w "t0" x) ++ (← load c w "t1" y)
-    let mnemonic := explicit_op% match op with | .signedDiv => "div" | .unsignedDiv => "divu" | .signedRem => "rem" | .unsignedRem => "remu"
+    let mnemonic := match op with | .signedDiv => "div" | .unsignedDiv => "divu" | .signedRem => "rem" | .unsignedRem => "remu"
     lines := lines ++ [s!"\t{mnemonic}{ws} t0, t0, t1"]
   | .compare op ow x y =>
     lines := ← comparisonOperands c op ow x y
     let cmp := if signedComparison op then "slt" else "sltu"
-    lines := lines ++ (explicit_op% match op with
+    lines := lines ++ (match op with
       | .eq => ["\txor t0, t0, t1", "\tseqz t0, t0"]
       | .ne => ["\txor t0, t0, t1", "\tsnez t0, t0"]
       | .signedLT | .unsignedLT => [s!"\t{cmp} t0, t0, t1"]
@@ -257,14 +257,14 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       | .signedGE | .unsignedGE => [s!"\t{cmp} t0, t0, t1", "\txori t0, t0, 1"])
   | .floatBinary op x y =>
     lines := (← load c w "t0" x) ++ toFloat w "ft0" "t0" ++ (← load c w "t0" y) ++ toFloat w "ft1" "t0"
-    let op := explicit_op% match op with | .add => "fadd" | .sub => "fsub" | .mul => "fmul" | .div => "fdiv"
+    let op := match op with | .add => "fadd" | .sub => "fsub" | .mul => "fmul" | .div => "fdiv"
     lines := lines ++ [s!"\t{op}.{fs w} ft0, ft0, ft1"] ++ fromFloat w "t0" "ft0"
   | .floatNegate x =>
     lines := (← load c w "t0" x) ++ toFloat w "ft0" "t0" ++ [s!"\tfneg.{fs w} ft0, ft0"] ++ fromFloat w "t0" "ft0"
   | .floatCompare op ow x y =>
     lines := (← load c ow "t0" x) ++ toFloat ow "ft0" "t0" ++ (← load c ow "t0" y) ++ toFloat ow "ft1" "t0"
     let s := fs ow
-    lines := lines ++ (explicit_op% match op with
+    lines := lines ++ (match op with
       | .eq => [s!"\tfeq.{s} t0, ft0, ft1"]
       | .ne => [s!"\tfeq.{s} t0, ft0, ft1", "\txori t0, t0, 1"]
       | .lt => [s!"\tflt.{s} t0, ft0, ft1"] | .le => [s!"\tfle.{s} t0, ft0, ft1"]
@@ -308,10 +308,13 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
   let normalization := match inst.operation with
     | .load kind _ => loadNorm w kind
     | .copy _ | .cast _ | .compare .. | .floatCompare .. | .vaArg _ => []
-    | .unary .unsignedByte _ | .unary .unsignedHalf _ | .unary .unsignedWord _ => []
+    | .unary op _ =>
+      match op with
+      | .unsignedByte | .unsignedHalf | .unsignedWord => []
+      | .negate | .signedByte | .signedHalf | .signedWord => norm w "t0"
     | .floatBinary .. | .floatNegate _ => []
     | .convert op _ => if op.resultFloating then [] else norm w "t0"
-    | _ => norm w "t0"
+    | .binary .. | .divide .. | .allocate .. | .call .. => norm w "t0"
   pure (lines ++ normalization ++ (← store c inst.destination))
 
 private def emitStatement (c : Context) : Statement → Except String (List String)
@@ -342,10 +345,7 @@ private def adjacentMemory (c : Context) (uses : Std.HashMap String Nat)
     (first second : Statement) : Except String (Option (List String)) := do
   let .assign address := first | return none
   if address.width != .long || address.floating || uses[address.destination]? != some 1 then return none
-  let pair := match address.operation with
-    | .binary .add pointer (.constant n) | .binary .add (.constant n) pointer => some (pointer, n)
-    | .binary .sub pointer (.constant n) => some (pointer, -n)
-    | _ => none
+  let pair := Selection.addressOffset address.operation
   let some (pointer, rawOffset) := pair | return none
   let access := match second with
     | .assign {operation := .load _ (.temporary name), ..} => some name
