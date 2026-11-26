@@ -11,6 +11,8 @@ import LeanCompilerBackend.Section
 
 namespace LeanCompilerBackend
 
+open scoped LeanCompilerBackend.NameIndex
+
 private def validName := validIdentifier
 
 private def predecessors (f : Function) (label : String) : List String :=
@@ -20,7 +22,7 @@ private def predecessors (f : Function) (label : String) : List String :=
 structure PredecessorLookup where
   get : String → List String
 
-def predecessorLookup (f : Function) : PredecessorLookup :=
+private def predecessorLookupSpec (f : Function) : PredecessorLookup :=
   ⟨predecessors f⟩
 
 private abbrev PredecessorIndex := Std.TreeMap String (List String)
@@ -82,8 +84,14 @@ private def predecessorLookupIndexed (f : Function) : PredecessorLookup :=
   let index := f.blocks.toList.foldr addPredecessors {}
   ⟨fun name => index[name]?.getD []⟩
 
-@[csimp] theorem predecessorLookup_eq_indexed :
-    predecessorLookup = predecessorLookupIndexed := by
+def predecessorLookup (f : Function) : PredecessorLookup :=
+  predecessorLookupIndexed f
+
+theorem predecessorLookup_eq_indexed :
+    predecessorLookup = predecessorLookupIndexed := rfl
+
+theorem predecessorLookup_eq_indexed_spec :
+    predecessorLookupSpec = predecessorLookupIndexed := by
   funext f
   apply congrArg PredecessorLookup.mk
   funext name
@@ -176,7 +184,7 @@ private def scanDefinition (entries : List Definition) (name : String) : Option 
 private def consDefinition (entries : List Definition) (entry : Definition) : List Definition :=
   entry :: entries
 
-private def collectReference (f : Function) : Except String (NameIndex.Lookup String Definition) := do
+private def collectReferenceSpec (f : Function) : Except String (NameIndex.Lookup String Definition) := do
   let entries ← collectInOrder (addDefinition scanDefinition consDefinition) f []
   pure ⟨scanDefinition entries⟩
 
@@ -219,11 +227,16 @@ private theorem collect_fold_eq (defs entries : List Definition) :
       · simp only [ite_eq_right duplicate]
         exact ih (defn :: entries)
 
-@[csimp] theorem collectReference_eq_indexed : collectReference = collectIndexed := by
+private def collectReference (f : Function) : Except String (NameIndex.Lookup String Definition) :=
+  collectIndexed f
+
+theorem collectReference_eq_indexed : collectReference = collectIndexed := rfl
+
+theorem collectReference_eq_indexed_spec : collectReferenceSpec = collectIndexed := by
   funext f
   have h := collect_fold_eq (declarations f).toList []
   rw [← List.foldlM_toArray, ← List.foldlM_toArray, Array.toArray_toList] at h
-  unfold collectReference collectIndexed
+  unfold collectReferenceSpec collectIndexed
   rw [collectInOrder_eq]
   exact h.symm
 

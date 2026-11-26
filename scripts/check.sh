@@ -3,11 +3,12 @@ set -euo pipefail
 python3 scripts/build_identity.py --check-binary
 .lake/build/bin/lcb-tests
 .lake/build/bin/lcb-scaling
+bash scripts/check_execution_closure.sh
 python3 scripts/cli_protocol.py "$@"
 python3 scripts/port_inventory.py
 audit=$(lake env lean scripts/ProofAudit.lean)
 printf '%s\n' "$audit"
-# These equalities authorize compiler replacements of the reference computations.
+# Check the existing statements and the proofs against the reference computations.
 auditSingleLine=$(tr '\n' ' ' <<< "$audit" | tr -s ' ')
 for theorem in \
   LeanCompilerBackend.NameIndex.first_eq_indexed \
@@ -32,8 +33,15 @@ for theorem in \
   LeanCompilerBackend.Verified.admitWithWork_eq_indexed \
   LeanCompilerBackend.Verified.admit_eq_indexedIncoming; do
   grep -F "'$theorem' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$auditSingleLine" >/dev/null
+  case "$theorem" in
+    *.validateFunctionGraph_eq_indexedDeclarations|*.oracleWithWork_result) ;;
+    *)
+      grep -F "'${theorem}_spec' depends on axioms: [propext, Classical.choice, Quot.sound]" \
+        <<< "$auditSingleLine" >/dev/null ;;
+  esac
 done
-grep -Fx "'LeanCompilerBackend.Assembly.foldLines_eq_linear' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Assembly.foldLines_eq_linear' does not depend on any axioms" <<< "$audit" >/dev/null
+grep -Fx "'LeanCompilerBackend.Assembly.foldLines_eq_linear_spec' depends on axioms: [propext, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_append_ne' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_not_prefix' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null
 grep -Fx "'LeanCompilerBackend.SSA.freshNamePrefix_counter_ne' depends on axioms: [propext, Classical.choice, Quot.sound]" <<< "$audit" >/dev/null

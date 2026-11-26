@@ -3,6 +3,8 @@ import LeanCompilerBackend.NameIndex
 
 namespace LeanCompilerBackend.Verified.Reachability
 
+open scoped LeanCompilerBackend.NameIndex
+
 open Std
 
 private abbrev Edges := List (String × List String)
@@ -18,7 +20,7 @@ private def closure (edges : Edges) (start : String) (rounds : Nat) : Array Stri
   Nat.repeat (round edges) rounds #[start]
 
 /-- The original synchronous successor closure counts each reached label once. -/
-def count (edges : Edges) (start : String) (rounds : Nat) : Nat :=
+private def countSpec (edges : Edges) (start : String) (rounds : Nat) : Nat :=
   (closure edges start rounds).size
 
 private def outgoing (edges : Edges) (source : String) : List String :=
@@ -230,7 +232,12 @@ private theorem repeat_nodup (edges : Edges) (rounds : Nat) (reached : Array Str
   | zero => exact h
   | succ rounds ih => exact round_nodup _ _ ih
 
-@[csimp] theorem count_eq_frontier : count = countFrontier := by
+def count (edges : Edges) (start : String) (rounds : Nat) : Nat :=
+  countFrontier edges start rounds
+
+theorem count_eq_frontier : count = countFrontier := rfl
+
+theorem count_eq_frontier_spec : countSpec = countFrontier := by
   funext edges start rounds
   let initial : Frontier := ⟨(∅ : TreeSet String).insert start, [start]⟩
   have init : Agrees edges initial #[start] := by
@@ -246,6 +253,6 @@ private theorem repeat_nodup (edges : Edges) (rounds : Nat) (reached : Array Str
   have perm : closed.toList.Perm final.seen.toList :=
     (List.perm_ext_iff_of_nodup hclosed hfinal).mpr (fun name => by
       simpa using (agrees.1 name).symm)
-  simpa [count, countFrontier, closed, final, initial] using perm.length_eq
+  simpa [countSpec, countFrontier, closed, final, initial] using perm.length_eq
 
 end LeanCompilerBackend.Verified.Reachability

@@ -86,6 +86,23 @@ undefined arithmetic domains and independent test exclusions are recorded in
 reports. Neither accepting a public opcode name nor passing a fixture establishes
 full QBE compatibility.
 
+## Backend execution closure
+
+CI walks kernel dependencies and emitted backend IR from numbered validation,
+admission, job compilation, compatibility assembly, and the job and artifact
+codecs used for replay. The audit rejects executable substitutions in LCB and
+uses an exact, justified exception list for dependencies in the pinned Lean
+runtime, including its container primitives, tail-recursion rewrites, and
+bounded string iterators. The source check also catches local substitution
+attributes that can disappear from compiled metadata.
+
+The indexed validators and lowerers execute their ordinary Lean definitions.
+Their specification equalities cover the result and error cases of the original
+scans. Name indexes use a scoped lexicographic order on Unicode scalar values,
+with transitivity and equality inherited from the Lean list order. The dominance
+DFS processes a stack of enter and exit markers with structural recursion on a
+budget of two markers per root plus one per edge.
+
 ## What is proved
 
 `AArch64.select_preserves` relates each supported source binary operation to an

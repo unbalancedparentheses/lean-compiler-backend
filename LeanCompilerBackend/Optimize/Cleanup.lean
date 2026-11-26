@@ -103,6 +103,13 @@ private def terminatorUses : Terminator → List String
   | .ret (some v) | .branch v .. => temporary v
   | _ => []
 
+private def markLive (dependencies : Std.HashMap String (List String)) :
+    Nat → List String → Std.HashSet String → Std.HashSet String
+  | 0, _, live | _, [], live => live
+  | fuel + 1, name :: pending, live =>
+    if live.contains name then markLive dependencies fuel pending live
+    else markLive dependencies fuel ((dependencies[name]?).getD [] ++ pending) (live.insert name)
+
 /-- Mark from effects/returns, then sweep pure dead definitions. Potentially
     trapping division, loads, conversions, allocation, vaarg, calls, floating
     operations and symbol/TLS materialization are deliberately retained. Unused scalar
@@ -124,14 +131,9 @@ def deadDefinitions (f : Function) : Function := Id.run do
           pending := i.operation.operands.flatMap temporary ++ pending
         else if !removable i then pending := i.destination :: pending
       | _ => pending := s.operands.flatMap temporary ++ pending
-  let mut live : Std.HashSet String := {}
-  -- Each definition expands at most once. Parameters need no expansion.
-  while !pending.isEmpty do
-    let name := pending.head!
-    pending := pending.tail
-    if live.contains name then continue
-    live := live.insert name
-    pending := (dependencies[name]?).getD [] ++ pending
+  -- Each definition expands at most once. Parameters have no dependencies.
+  let edges := dependencies.fold (fun n _ uses => n + uses.length) 0
+  let live := markLive dependencies (pending.length + edges) pending {}
   let blocks := f.blocks.map fun b => Id.run do
     let mut instructions := #[]
     let mut before : Array Nat := #[0]

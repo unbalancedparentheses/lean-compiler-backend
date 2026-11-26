@@ -4,6 +4,8 @@ import LeanCompilerBackend.NameIndex
 
 namespace LeanCompilerBackend.Assembly
 
+open scoped LeanCompilerBackend.NameIndex
+
 /-- Accumulate instruction chunks without repeatedly copying the whole function.
     Flatten once, preserving the exact line and debug-directive order. -/
 structure LineBuffer where
@@ -24,8 +26,7 @@ private theorem LineBuffer.toList_append (buffer : LineBuffer) (lines : List Str
   change (buffer.chunks.push lines).toList.flatten = buffer.chunks.toList.flatten ++ lines
   simp
 
-/-- Emit chunks in input order, stopping at the first emission error. -/
-def foldLines (items : List α) (emit : α → Except ε (List String)) (init : List String) :
+private def foldLinesSpec (items : List α) (emit : α → Except ε (List String)) (init : List String) :
     Except ε (List String) :=
   items.foldlM (fun lines item => (lines ++ ·) <$> emit item) init
 
@@ -33,26 +34,39 @@ private def foldChunks (items : List α) (emit : α → Except ε (List String))
     Except ε LineBuffer :=
   items.foldlM (fun lines item => (lines ++ ·) <$> emit item) init
 
-private theorem foldChunks_eq (items : List α) (emit : α → Except ε (List String))
+private theorem foldChunks_eq_spec (items : List α) (emit : α → Except ε (List String))
     (buffer : LineBuffer) :
-    (foldChunks items emit buffer).map LineBuffer.toList = foldLines items emit buffer.toList := by
+    (foldChunks items emit buffer).map LineBuffer.toList = foldLinesSpec items emit buffer.toList := by
   induction items generalizing buffer with
   | nil => rfl
   | cons item rest ih =>
     cases h : emit item with
-    | error e => simp [foldChunks, foldLines, h]; rfl
+    | error e => simp [foldChunks, foldLinesSpec, h]; rfl
     | ok lines =>
-      simp [foldChunks, foldLines, h]
+      simp [foldChunks, foldLinesSpec, h]
       exact (ih (buffer ++ lines)).trans (by rw [LineBuffer.toList_append]; rfl)
 
 private def foldLinesLinear (items : List α) (emit : α → Except ε (List String))
     (init : List String) : Except ε (List String) :=
   (foldChunks items emit (LineBuffer.ofList init)).map LineBuffer.toList
 
-@[csimp] theorem foldLines_eq_linear : @foldLines = @foldLinesLinear := by
+/-- Emit chunks in input order, stopping at the first emission error. -/
+def foldLines (items : List α) (emit : α → Except ε (List String)) (init : List String) :
+    Except ε (List String) :=
+  foldLinesLinear items emit init
+
+theorem foldLines_eq_linear : @foldLines = @foldLinesLinear := rfl
+
+theorem foldLines_eq_linear_spec : @foldLinesSpec = @foldLinesLinear := by
   funext α ε items emit init
   simpa [LineBuffer.ofList, LineBuffer.toList, foldLinesLinear] using
-    (foldChunks_eq items emit (LineBuffer.ofList init)).symm
+    (foldChunks_eq_spec items emit (LineBuffer.ofList init)).symm
+
+private theorem foldChunks_eq (items : List α) (emit : α → Except ε (List String))
+    (buffer : LineBuffer) :
+    (foldChunks items emit buffer).map LineBuffer.toList = foldLines items emit buffer.toList := by
+  rw [foldLines_eq_linear, ← foldLines_eq_linear_spec]
+  exact foldChunks_eq_spec items emit buffer
 
 /-- Prepare first-match block and incoming-operand lookups once per function.
     Each phi keeps its original index, which also determines its staging slot. -/

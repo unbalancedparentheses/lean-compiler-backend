@@ -1,0 +1,233 @@
+# Kind	Declaration or replacement pair	Justification
+# Only Init and Std declarations from the lean-toolchain sysroot can use this list.
+axiom	Classical.choice	Logical dependency of the pinned extrinsic iterator termination witness. Runtime slice scanning uses the separately listed implementation.
+axiom	lcProof	Pinned compiler proof erasure used by in-bounds array traversals and list attachment.
+csimp	Acc.rec → Acc.recC	The pinned Init compiler lowering implements the recursor with its proof arguments erased.
+csimp	Array.instDecidableEq → Array.instDecidableEqImpl	The Init equality proves the implementation decides array equality by comparing lengths and in-bounds elements.
+csimp	Bool.and → Bool.Internal.and	The Init.Prelude equality proves the strict internal operation implements the kernel Boolean truth table.
+csimp	Bool.not → Bool.Internal.not	The Init.Prelude equality proves the strict internal operation implements the kernel Boolean truth table.
+csimp	Bool.or → Bool.Internal.or	The Init.Prelude equality proves the strict internal operation implements the kernel Boolean truth table.
+csimp	ByteArray.append → ByteArray.fastAppend	The Init equality proves the byte-copy implementation agrees with concatenation.
+csimp	List.append → List.appendTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.filter → List.filterTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.filterMap → List.filterMapTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.flatMap → List.flatMapTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.flatten → List.flattenTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.foldr → List.foldrTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.length → List.lengthTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.map → List.mapTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.replicate → List.replicateTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.set → List.setTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.take → List.takeTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.zipIdx → List.zipIdxTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	List.zipWith → List.zipWithTR	Kernel equality in Init.Data.List proves the tail-recursive implementation preserves the list operation and element order.
+csimp	Nat.rec → Nat.recCompiled	The pinned Init compiler lowering implements the recursor with its proof arguments erased.
+csimp	Nat.repeat → Nat.repeatTR	The Init equality proves structural Nat iteration agrees with its tail-recursive accumulator.
+csimp	String.Slice.Pos.next → String.Slice.Pos.nextFast	The Init equality proves the bounded UTF-8 implementation agrees with the character or position specification.
+csimp	String.utf8EncodeChar → String.utf8EncodeCharFast	The Init equality proves the bounded UTF-8 implementation agrees with the character or position specification.
+csimp	WellFounded.fix → WellFounded.fixC	The pinned Init compiler lowering implements the recursor with its proof arguments erased.
+csimp	WellFounded.fixF → WellFounded.fixFC	The pinned Init compiler lowering implements the recursor with its proof arguments erased.
+extern	Array.emptyWithCapacity	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.get!Internal	Compatibility paths use the pinned bounds-checking fallback for indexed accesses. Panic reporting is part of the existing Lean fallback.
+extern	Array.get!InternalBorrowed	Compatibility paths use the pinned bounds-checking fallback for indexed accesses. Panic reporting is part of the existing Lean fallback.
+extern	Array.getInternal	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.getInternalBorrowed	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.mk	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.mkEmpty	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.push	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.replicate	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.set	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.set!	Compatibility paths use the pinned bounds-checking fallback for indexed accesses. Panic reporting is part of the existing Lean fallback.
+extern	Array.size	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.swap	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.toList	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.uget	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.ugetBorrowed	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.uset	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Array.usize	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.beq	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.copySlice	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.data	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.emptyWithCapacity	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.get	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.mk	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.push	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.size	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	ByteArray.validateUTF8	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+extern	Char.ofNatAux	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	Int.add	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.decLe	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.decLt	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.decNonneg	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.ediv	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.emod	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.mul	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.natAbs	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.neg	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.negSucc	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.ofNat	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Int.sub	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.add	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.beq	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.ble	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.decEq	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.decLe	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.decLt	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.div	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.land	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.log2	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.lor	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.mod	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.modCore	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.mul	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.pow	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.pred	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.shiftLeft	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.shiftRight	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.sub	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	Nat.xor	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	String.Internal.append	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+extern	String.Internal.foldl	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+extern	String.Internal.isEmpty	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+extern	String.Internal.length	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+extern	String.Internal.pushn	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+extern	String.Pos.Raw.atEnd	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.Pos.Raw.extract	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.Pos.Raw.get	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.Pos.Raw.next	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.Pos.next	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.Slice.Pattern.Internal.memcmpStr	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.append	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.decEq	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.decodeChar	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.extract	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.getUTF8Byte	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.hash	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.length	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.ofByteArray	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.ofList	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.push	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.toByteArray	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.toList	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.toUTF8	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	String.utf8ByteSize	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+extern	System.Platform.getNumBits	Used through USize representation for array indices and hash buckets. The audit restricts callers of the platform query.
+extern	UInt32.decEq	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.decLe	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.decLt	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.lor	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.mod	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.ofBitVec	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.ofNat	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.ofNatLT	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.shiftLeft	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.shiftRight	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.toBitVec	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.toNat	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt32.toUInt8	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.decEq	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.land	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.mod	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.ofBitVec	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.ofNat	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.ofNatLT	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.shiftRight	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.sub	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.toBitVec	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.toNat	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.toUSize	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt64.xor	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.decEq	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.land	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.lor	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.ofBitVec	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.ofNat	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.ofNatLT	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.toBitVec	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.toNat	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	UInt8.toUInt32	Pinned integer representation, arithmetic, bit operation, conversion, or comparison implementing the corresponding Lean scalar definition.
+extern	USize.add	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.decEq	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.decLt	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.land	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.ofBitVec	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.ofNat	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.ofNatLT	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.repr	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.sub	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.toBitVec	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	USize.toNat	Pinned machine-word representation used internally for bounded array indexes, hash buckets, and decimal rendering with a Nat fallback.
+extern	mixHash	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+extern	panicCore	Compatibility paths use the pinned bounds-checking fallback for indexed accesses. Panic reporting is part of the existing Lean fallback.
+implemented_by	Array.anyM → Array.anyMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+implemented_by	Array.foldlM → Array.foldlMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+implemented_by	Array.foldrM → Array.foldrMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+implemented_by	Array.forIn' → Array.forIn'Unsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+implemented_by	Array.mapFinIdxM → Array.mapFinIdxMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+implemented_by	Array.mapM → Array.mapMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+implemented_by	Array.modifyM → Array.modifyMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+implemented_by	Lean.Name.anonymous → Lean.Name.anonymous._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+implemented_by	Lean.Name.casesOn → Lean.Name.casesOn._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+implemented_by	Lean.Name.hash → Lean.Name.hash._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+implemented_by	Lean.Name.num → Lean.Name.num._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+implemented_by	Lean.Name.str → Lean.Name.str._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+implemented_by	Nat.repr → Nat.reprFast	Pinned decimal renderer uses word arithmetic for small inputs and falls back to Nat for large inputs.
+implemented_by	WellFounded.extrinsicFix → _private.Init.WFExtrinsicFix.0.WellFounded.opaqueFix	Pinned iterator implementation used by the backend’s bounded UTF-8 slice scans, whose positions advance toward an endpoint.
+implemented_by	WellFounded.extrinsicFix₃ → WellFounded.opaqueFix₃	Pinned iterator implementation used by the backend’s bounded UTF-8 slice scans, whose positions advance toward an endpoint.
+noncomputable	Bool.and	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	Bool.not	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	Bool.or	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	Classical.ofNonempty	Logical dependency of the pinned extrinsic iterator termination witness. Runtime slice scanning uses the separately listed implementation.
+noncomputable	Classical.propDecidable	Logical dependency of the pinned extrinsic iterator termination witness. Runtime slice scanning uses the separately listed implementation.
+noncomputable	Lean.Name.hash	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+noncomputable	List.filterMap	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	List.flatMap	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	List.flatten	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	List.utf8Encode	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	Nat.modCore	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	Nat.modCore.go	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	WellFounded.fix	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+noncomputable	WellFounded.fixF	Logical definition paired with a separately listed pinned compiler replacement or native primitive.
+opaque	Array.get!InternalBorrowed	Compatibility paths use the pinned bounds-checking fallback for indexed accesses. Panic reporting is part of the existing Lean fallback.
+opaque	Array.getInternalBorrowed	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+opaque	Array.ugetBorrowed	Pinned container representation or buffer operation. The primitive implements the length, element, update, or copy specification.
+opaque	String.Internal.append	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+opaque	String.Internal.foldl	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+opaque	String.Internal.isEmpty	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+opaque	String.Internal.length	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+opaque	String.Internal.pushn	Pinned UTF-8 primitive for string rendering, quoting or length. It operates on the provided string and consumes no host input.
+opaque	String.hash	Pinned UTF-8 scalar conversion, buffer operation, equality, position movement, or deterministic hash on the input bytes.
+opaque	System.Platform.getNumBits	Used through USize representation for array indices and hash buckets. The audit restricts callers of the platform query.
+opaque	WellFounded.opaqueFix₃	Pinned iterator implementation used by the backend’s bounded UTF-8 slice scans, whose positions advance toward an endpoint.
+opaque	_private.Init.Data.Format.Basic.0.Std.Format.be	Pinned pretty-printer layout traversal consumes the finite format tree.
+opaque	_private.Init.Data.Iterators.Basic.0.Std.Internal.idOpaque	Pinned iterator implementation used by the backend’s bounded UTF-8 slice scans, whose positions advance toward an endpoint.
+opaque	_private.Init.WFExtrinsicFix.0.WellFounded.opaqueFix	Pinned iterator implementation used by the backend’s bounded UTF-8 slice scans, whose positions advance toward an endpoint.
+opaque	mixHash	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+partial	WellFounded.opaqueFix₃	Pinned iterator loop for bounded UTF-8 string scans. The slice cursor advances on each step.
+partial	_private.Init.Data.Format.Basic.0.Std.Format.be	Pinned pretty-printer traverses a finite format tree for diagnostics.
+partial	_private.Init.WFExtrinsicFix.0.WellFounded.opaqueFix	Pinned iterator loop for bounded UTF-8 string scans. The slice cursor advances on each step.
+unsafe	Array.anyMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.foldlMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.foldrMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.forIn'Unsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.get!InternalBorrowed	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.getInternalBorrowed	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.mapFinIdxMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.mapMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.modifyMUnsafe	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Array.ugetBorrowed	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	Lean.Name.anonymous._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+unsafe	Lean.Name.casesOn._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+unsafe	Lean.Name.hash._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+unsafe	Lean.Name.num._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+unsafe	Lean.Name.str._override	Pinned Name representation preserves constructor fields and uses a deterministic cached hash.
+unsafe	_private.Init.Data.Array.Basic.0.Array.anyMUnsafe.any	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	_private.Init.Data.Array.Basic.0.Array.foldlMUnsafe.fold	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	_private.Init.Data.Array.Basic.0.Array.foldrMUnsafe.fold	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	_private.Init.Data.Array.Basic.0.Array.forIn'Unsafe.loop	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	_private.Init.Data.Array.Basic.0.Array.mapFinIdxMUnsafe.map	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	_private.Init.Data.Array.Basic.0.Array.mapMUnsafe.map	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	_private.Init.Data.Array.Basic.0.Array.modifyMUnsafe._proof_1	Pinned proof-erased traversal or access. Array traversal maintains the logical index bounds, and list attachment preserves the original elements.
+unsafe	lcProof	Pinned compiler proof erasure used by in-bounds array traversals and list attachment.
+unsafe	unsafeCast	Pinned compiler proof erasure used by in-bounds array traversals and list attachment.
+unsafe	unsafeCast._proof_1	Pinned compiler proof erasure used by in-bounds array traversals and list attachment.

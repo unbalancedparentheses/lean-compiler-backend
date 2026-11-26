@@ -4,6 +4,12 @@ import LeanCompilerBackend.Semantics
 
 namespace LeanCompilerBackend.Optimize.ControlFlow
 
+private def visit (graph : CFG.Graph) : Nat → List Nat → Std.HashSet Nat → Std.HashSet Nat
+  | 0, _, seen | _, [], seen => seen
+  | fuel + 1, node :: pending, seen =>
+    if seen.contains node then visit graph fuel pending seen
+    else visit graph fuel (graph.successors[node]!.toList ++ pending) (seen.insert node)
+
 /-- Branch conditions use QBE word semantics. Rebuild the graph after rewriting
     edges, retain entry order, then remove obsolete phi incoming edges. -/
 def simplify (f : Function) : Except String Function := do
@@ -13,14 +19,9 @@ def simplify (f : Function) : Except String Function := do
       .jump (if Semantics.constant .word n == 0 then no else yes)
     | other => other}}
   let graph ← CFG.build f
-  let mut reachable : Std.HashSet Nat := {}
-  let mut pending := [0]
-  while !pending.isEmpty do
-    let index := pending.head!
-    pending := pending.tail
-    if reachable.contains index then continue
-    reachable := reachable.insert index
-    pending := graph.successors[index]!.toList ++ pending
+  -- Each visited node contributes its outgoing edges at most once.
+  let edges := graph.successors.foldl (fun n row => n + row.size) 0
+  let reachable := visit graph (1 + edges) [0] {}
   let mut blocks := #[]
   for index in [:f.blocks.size] do
     if !reachable.contains index then continue

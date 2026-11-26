@@ -3,6 +3,8 @@ import LeanCompilerBackend.NameIndex
 
 namespace LeanCompilerBackend.BoundedDominance
 
+open scoped LeanCompilerBackend.NameIndex
+
 private abbrev Rows (α : Type) := List (String × α)
 
 private def solve [BEq α] (step : α → α) : Nat → α → Except String α
@@ -23,7 +25,7 @@ private def initial (names : List String) (entry : String) : Rows (List String) 
   names.map fun name => (name, if name == entry then [entry] else names)
 
 /-- The original finite-set recurrence, including its fuel and treatment of disconnected SCCs. -/
-def oracle (names : List String) (entry : String) (preds : String → List String)
+private def oracleSpec (names : List String) (entry : String) (preds : String → List String)
     (fuel : Nat) : Except String (NameIndex.Membership (String × String)) := do
   let final ← solve (listStep names entry preds) fuel (initial names entry)
   pure ⟨fun (useBlock, definitionBlock) => ((final.lookup useBlock).getD []).contains definitionBlock⟩
@@ -103,7 +105,7 @@ private theorem lookup_encodeRows_default (names : List String) (rows : Rows (Li
     simp [testBit_pack]
   | some members => rfl
 
-private def indexedRows (rows : Rows Nat) : NameIndex.Lookup String Nat :=
+private def indexedRowsSpec (rows : Rows Nat) : NameIndex.Lookup String Nat :=
   ⟨fun name => rows.lookup name⟩
 
 private def indexedRowsFast (rows : Rows Nat) : NameIndex.Lookup String Nat :=
@@ -122,11 +124,21 @@ private theorem lookup_find (rows : Rows α) (name : String) :
       have hn : (name == key) = false := beq_eq_false_iff_ne.mpr (Ne.symm h)
       simp [List.lookup, h', hn, ih]
 
-@[csimp] theorem indexedRows_eq_fast : indexedRows = indexedRowsFast := by
+private def indexedRows (rows : Rows Nat) : NameIndex.Lookup String Nat :=
+  indexedRowsFast rows
+
+theorem indexedRows_eq_fast : indexedRows = indexedRowsFast := rfl
+
+theorem indexedRows_eq_fast_spec : indexedRowsSpec = indexedRowsFast := by
   funext rows
   apply congrArg NameIndex.Lookup.mk
   funext name
   simp [NameIndex.build_get?, lookup_find]
+
+private theorem indexedRows_get (rows : Rows Nat) (name : String) :
+    (indexedRows rows).get name = rows.lookup name := by
+  change (indexedRowsFast rows).get name = (indexedRowsSpec rows).get name
+  rw [indexedRows_eq_fast_spec]
 
 private def intersect (values : NameIndex.Lookup String Nat) (all : Nat) (preds : List String) :
     Nat :=
@@ -147,7 +159,7 @@ private def packedStep (blocks : List (String × Nat × List String)) (entry : S
   blocks.map fun (name, own, preds) =>
     (name, if name == entry then entryMask else own ||| intersect indexed all preds)
 
-private def packedBlocks (names : List String) (preds : String → List String) :
+private def packedBlocksSpec (names : List String) (preds : String → List String) :
     List (String × Nat × List String) :=
   names.map fun name => (name, pack (· == name) names, preds name)
 
@@ -174,15 +186,22 @@ private def packedBlocksIndexed (names : List String) (preds : String → List S
   let masks := maskIndex names 0
   names.map fun name => (name, masks[name]?.getD 0, preds name)
 
-@[csimp] theorem packedBlocks_eq_indexed : packedBlocks = packedBlocksIndexed := by
+private def packedBlocks (names : List String) (preds : String → List String) :
+    List (String × Nat × List String) :=
+  packedBlocksIndexed names preds
+
+theorem packedBlocks_eq_indexed : packedBlocks = packedBlocksIndexed := rfl
+
+theorem packedBlocks_eq_indexed_spec : packedBlocksSpec = packedBlocksIndexed := by
   funext names preds
-  simp [packedBlocks, packedBlocksIndexed, maskIndex_get]
+  simp [packedBlocksSpec, packedBlocksIndexed, maskIndex_get]
 
 private theorem packedStep_eq (names : List String) (entry : String) (preds : String → List String)
     (old : Rows (List String)) :
     packedStep (packedBlocks names preds) entry (encode names [entry]) (pack (fun _ => true) names)
         (encodeRows names old) = encodeRows names (listStep names entry preds old) := by
-  unfold packedStep packedBlocks
+  rw [packedBlocks_eq_indexed, ← packedBlocks_eq_indexed_spec]
+  unfold packedStep packedBlocksSpec
   conv => rhs; unfold encodeRows listStep
   simp only [List.map_map, Function.comp_def]
   apply congrArg (fun f => names.map f)
@@ -200,7 +219,7 @@ private theorem packedStep_eq (names : List String) (entry : String) (preds : St
       by_cases he : (preds name).isEmpty = true
       · simp [he]
       · rw [ite_eq_right he, testBit_intersectFold]
-        simp only [indexedRows, lookup_encodeRows_default, encode, testBit_pack,
+        simp only [indexedRows_get, lookup_encodeRows_default, encode, testBit_pack,
           List.getElem?_eq_getElem hi, Option.any_some, Bool.true_and, he, Bool.not_false]
     · have hnone : names[i]? = none := List.getElem?_eq_none_iff.mpr (by omega)
       simp only [Nat.testBit_or, testBit_pack, hnone, Option.any_none, Bool.false_or]
@@ -353,7 +372,7 @@ private theorem readPacked_eq (names : List String) (entry : String)
   apply congrArg NameIndex.Membership.mk
   funext pair
   rcases pair with ⟨use, defn⟩
-  simp only [NameIndex.position, List.findIdx?_toArray, indexedRows, id_eq]
+  simp only [NameIndex.position_get, List.findIdx?_toArray, indexedRows_get, id_eq]
   change (match names.findIdx? (fun x => x == defn) with
     | none => false
     | some bit => (((encodeRows names rows).lookup use).getD 0).testBit bit) = _
@@ -513,12 +532,11 @@ private theorem step_mono (blocks : Blocks) (entry : String) (entryMask all : Na
     (packedStep blocks entry entryMask all left).below
       (indexedRows (packedStep blocks entry entryMask all right)) := by
   intro key
-  change MaskLE ((packedStep blocks entry entryMask all left).lookup key |>.getD 0)
-    ((packedStep blocks entry entryMask all right).lookup key |>.getD 0)
+  rw [indexedRows_get]
   rw [step_lookup, step_lookup]
   cases blocks.find? (·.1 == key) with
   | none => exact maskLE_refl _
-  | some block => exact transfer_mono _ _ _ (indexedRows left) (indexedRows right) h block
+  | some block => exact transfer_mono _ _ _ (indexedRows left) (indexedRows right) (fun k => by simpa only [indexedRows_get] using h k) block
 
 private def tableValues (index : Values) : NameIndex.Lookup String Nat :=
   ⟨fun key => index[key]?⟩
@@ -543,23 +561,27 @@ private def dependents (blocks : Blocks) : Std.TreeMap String (List String) :=
   blocks.foldl (fun index (name, _, preds) =>
     preds.foldl (fun acc pred => acc.insert pred (name :: acc[pred]?.getD [])) index) {}
 
--- Iterative DFS, with explicit exit markers so the order is independent of
--- the source block layout. Start DFS at the entry before visiting disconnected rows.
-private def reversePostorder (blocks : Blocks) (entry : String) : List String := Id.run do
-  let users := dependents blocks
-  let mut seen : Std.TreeSet String := {}
-  let mut order := []
-  for root in entry :: blocks.map (·.1) do
-    let mut stack := [(root, false)]
-    while let (name, exiting) :: rest := stack do
-      stack := rest
-      if exiting then
-        order := name :: order
-      else if !seen.contains name then
-        seen := seen.insert name
-        stack := (users[name]?.getD []).foldr
-          (fun successor pending => (successor, false) :: pending) ((name, true) :: stack)
-  return order
+-- Each root and outgoing edge contributes one enter marker. Only a first
+-- visit schedules an exit marker and expands the outgoing edges.
+private def visit (users : Std.TreeMap String (List String)) :
+    Nat → List (String × Bool) → Std.TreeSet String → List String → List String
+  | 0, _, _, order | _, [], _, order => order
+  | fuel + 1, (name, exiting) :: pending, seen, order =>
+    if exiting then
+      visit users fuel pending seen (name :: order)
+    else if seen.contains name then
+      visit users fuel pending seen order
+    else
+      let pending := (users[name]?.getD []).foldr
+        (fun successor rest => (successor, false) :: rest) ((name, true) :: pending)
+      visit users fuel pending (seen.insert name) order
+
+-- Visit the entry first, then the remaining roots in input order. All edge
+-- destinations are block labels, so there is at most one exit per root.
+private def reversePostorder (blocks : Blocks) (entry : String) : List String :=
+  let roots := entry :: blocks.map (·.1)
+  let edges := blocks.foldl (fun n block => n + block.2.2.length) 0
+  visit (dependents blocks) (2 * roots.length + edges) (roots.map (·, false)) {} []
 
 private structure WorkResult where
   values : Values
@@ -612,18 +634,20 @@ private theorem sweepRows_agrees (blocks : Blocks)
         intro query
         change MaskLE ((packedStep blocks entry entryMask all _).lookup query |>.getD 0)
           (((state.values.insert target _)[query]?).getD 0)
+        have indexedOrbitBound key := orbit_desc _ _ _ _ _ descending state.changes key
+        simp only [indexedRows_get] at indexedOrbitBound
         rw [Std.TreeMap.getElem?_insert]
         by_cases eq : target = query
         · subst query
           simp only [Std.ReflCmp.compare_self, ↓reduceIte, Option.getD_some]
           apply maskLE_and
-          · exact maskLE_trans (orbit_desc _ _ _ _ _ descending _ target) (initial target)
+          · exact maskLE_trans (indexedOrbitBound target) (initial target)
           · rw [step_lookup, ← buildEquations_get, found]
             exact transfer_mono _ _ _
               (indexedRows (Nat.repeat (packedStep blocks entry entryMask all) state.changes first))
-              (tableValues state.values) initial block
+              (tableValues state.values) (fun k => by simpa only [indexedRows_get] using initial k) block
         · simp only [Std.LawfulEqOrd.compare_eq_iff_eq, ite_eq_right eq]
-          exact maskLE_trans (orbit_desc _ _ _ _ _ descending _ query) (initial query)
+          exact maskLE_trans (indexedOrbitBound query) (initial query)
 
 -- Complete equations are evaluated in reverse postorder. In a DAG, each
 -- predecessor has its final value by the time its successor is evaluated.
@@ -686,12 +710,12 @@ private theorem same_step (blocks : Blocks) (entry : String) (entryMask all : Na
   apply maskLE_antisymm
   · apply transfer_mono
     intro key
-    change MaskLE ((left.lookup key).getD 0) ((right.lookup key).getD 0)
+    simp only [indexedRows_get]
     rw [agrees]
     exact maskLE_refl _
   · apply transfer_mono
     intro key
-    change MaskLE ((right.lookup key).getD 0) ((left.lookup key).getD 0)
+    simp only [indexedRows_get]
     rw [agrees]
     exact maskLE_refl _
 
@@ -728,16 +752,16 @@ private theorem worklist_converged (blocks : Blocks) (entry : String) (entryMask
           (indexedRows (Nat.repeat step result.changes first)) block)
           (result.values[block.1]?.getD 0)
         rw [keyEq]
-        have bound := maskLE_trans (orbit_desc _ _ _ _ _ descending result.changes key) (upper key)
+        have bound := maskLE_trans (by simpa only [indexedRows_get] using orbit_desc _ _ _ _ _ descending result.changes key) (upper key)
         change MaskLE ((step (Nat.repeat step result.changes first)).lookup key |>.getD 0)
           (result.values[key]?.getD 0) at bound
         dsimp only [step] at bound
         simpa only [step_lookup, found, Option.map_some, Option.getD_some] using bound
-    · exact lower _ key
+    · simpa only [indexedRows_get] using lower _ key
   change step (Nat.repeat step (result.changes + 1) first) = final
   exact (same_step _ _ _ _ _ _ sameValues).trans fixed
 
-private def packedSolve (blocks : Blocks) (entry : String) (entryMask all : Nat)
+private def packedSolveSpec (blocks : Blocks) (entry : String) (entryMask all : Nat)
     (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat) :=
   solve (packedStep blocks entry entryMask all) fuel first
 
@@ -787,16 +811,22 @@ private def packedSolveWorklist (blocks : Blocks) (entry : String) (entryMask al
     (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat) :=
   (packedSolveWithWork blocks entry entryMask all fuel first).map Prod.fst
 
-@[csimp] theorem packedSolve_eq_worklist : packedSolve = packedSolveWorklist := by
+private def packedSolve (blocks : Blocks) (entry : String) (entryMask all : Nat)
+    (fuel : Nat) (first : Rows Nat) : Except String (Rows Nat) :=
+  packedSolveWorklist blocks entry entryMask all fuel first
+
+theorem packedSolve_eq_worklist : packedSolve = packedSolveWorklist := rfl
+
+theorem packedSolve_eq_worklist_spec : packedSolveSpec = packedSolveWorklist := by
   funext blocks entry entryMask all fuel first
   unfold packedSolveWorklist packedSolveWithWork
   dsimp only
   have fallback (work roundWork : Nat) :
-      packedSolve blocks entry entryMask all fuel first =
+      packedSolveSpec blocks entry entryMask all fuel first =
         (do
           let result ← solveWithRounds (packedStep blocks entry entryMask all) fuel first 0
           pure (result.1, work + result.2 * roundWork) : Except String (Rows Nat × Nat)).map Prod.fst := by
-    unfold packedSolve
+    unfold packedSolveSpec
     rw [← solveWithRounds_result _ _ _ 0]
     cases solveWithRounds (packedStep blocks entry entryMask all) fuel first 0 <;> rfl
   split
@@ -832,9 +862,17 @@ private def oraclePacked (names : List String) (entry : String) (preds : String 
     (packedInitial names entry entryMask all)
   pure (readPacked names final)
 
-@[csimp] theorem oracle_eq_packed : oracle = oraclePacked := by
+def oracle (names : List String) (entry : String) (preds : String → List String)
+    (fuel : Nat) : Except String (NameIndex.Membership (String × String)) :=
+  oraclePacked names entry preds fuel
+
+theorem oracle_eq_packed : oracle = oraclePacked := rfl
+
+theorem oracle_eq_packed_spec : oracleSpec = oraclePacked := by
   funext names entry preds fuel
-  unfold oracle oraclePacked packedSolve
+  unfold oracleSpec oraclePacked packedSolve
+  rw [← packedSolve_eq_worklist_spec]
+  unfold packedSolveSpec
   dsimp only
   rw [packedInitial_eq, solve_packed_eq _ _ _ _ _ (initial_canonical _ _)]
   cases h : solve (listStep names entry preds) fuel (initial names entry) with
@@ -863,17 +901,23 @@ private theorem oracleCountedPacked_result (names : List String) (entry : String
     (pack (fun _ => true) names) fuel
     (packedInitial names entry (encode names [entry]) (pack (fun _ => true) names)) <;> rfl
 
-/-- Count row visits and predecessor probes, including work before a fallback.
-    The result component reduces through the reference oracle in proofs. -/
+/-- Count row visits and predecessor probes, including work before a fallback. -/
 def oracleWithWork (names : List String) (entry : String) (preds : String → List String)
     (fuel : Nat) : Except String (NameIndex.Membership (String × String) × Nat) :=
-  (oracle names entry preds fuel).map fun members =>
+  oracleCountedPacked names entry preds fuel
+
+theorem oracleWithWork_eq_countedPacked : oracleWithWork = oracleCountedPacked := rfl
+
+private def oracleWithWorkSpec (names : List String) (entry : String) (preds : String → List String)
+    (fuel : Nat) : Except String (NameIndex.Membership (String × String) × Nat) :=
+  (oracleSpec names entry preds fuel).map fun members =>
     let work := ((oracleCountedPacked names entry preds fuel).toOption.map Prod.snd).getD 0
     (members, work)
 
-@[csimp] theorem oracleWithWork_eq_countedPacked : oracleWithWork = oracleCountedPacked := by
+theorem oracleWithWork_eq_countedPacked_spec : oracleWithWorkSpec = oracleCountedPacked := by
   funext names entry preds fuel
-  unfold oracleWithWork
+  unfold oracleWithWorkSpec
+  rw [oracle_eq_packed_spec, ← oracle_eq_packed]
   rw [← oracleCountedPacked_result]
   cases oracleCountedPacked names entry preds fuel with
   | error => rfl

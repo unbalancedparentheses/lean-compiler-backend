@@ -40,19 +40,23 @@ private def rewrite (aliases : Std.HashMap String String) : Operand → Operand
   | .temporary name => (aliases[name]?).map Operand.temporary |>.getD (.temporary name)
   | other => other
 
-private def reversePostorder (graph : CFG.Graph) : List Nat := Id.run do
-  let mut seen : Std.HashSet Nat := {}
-  let mut pending := [(0, false)]
-  let mut order := []
-  while !pending.isEmpty do
-    let (node, expanded) := pending.head!
-    pending := pending.tail
+private def visit (graph : CFG.Graph) :
+    Nat → List (Nat × Bool) → Std.HashSet Nat → List Nat → List Nat
+  | 0, _, _, order | _, [], _, order => order
+  | fuel + 1, (node, expanded) :: pending, seen, order =>
     if expanded then
-      order := node :: order
-    else if !seen.contains node then
-      seen := seen.insert node
-      pending := (graph.successors[node]!.toList.map (·, false)) ++ (node, true) :: pending
-  return order
+      visit graph fuel pending seen (node :: order)
+    else if seen.contains node then
+      visit graph fuel pending seen order
+    else
+      let next := graph.successors[node]!.toList.foldr
+        (fun successor rest => (successor, false) :: rest) ((node, true) :: pending)
+      visit graph fuel next (seen.insert node) order
+
+private def reversePostorder (graph : CFG.Graph) : List Nat :=
+  -- One enter marker per edge plus the root, and one exit per visited node.
+  let edges := graph.successors.foldl (fun n row => n + row.size) 0
+  visit graph (1 + edges + max 1 graph.successors.size) [(0, false)] {} []
 
 /-- Reuse only an already encountered, dominating definition of an identical
     pure expression. No memory, floating arithmetic, division, TLS or call CSE.

@@ -32,7 +32,7 @@ private def Label.key : Label → LabelKey
 private theorem Label.key_eq_iff (left right : Label) : left.key = right.key ↔ left = right := by
   cases left <;> cases right <;> simp [Label.key]
 
-private def labelSetUsing (labels : List Label) (duplicate : String) :
+private def labelSetUsingSpec (labels : List Label) (duplicate : String) :
     Except String (NameIndex.Membership Label) := do
   let entries ← labels.foldlM (fun (seen : List Label) (label : Label) =>
     if seen.contains label then Except.error duplicate else Except.ok (label :: seen)) []
@@ -76,7 +76,13 @@ private theorem labelFold_eq (labels seen : List Label) (index : Std.TreeSet Lab
             (Std.LawfulEqOrd.compare_eq_iff_eq.mp hc)))
         rw [cmp, beq_eq_false_iff_ne.mpr (Ne.symm h)]
 
-@[csimp] theorem labelSetUsing_eq_indexed : labelSetUsing = labelSetIndexed := by
+private def labelSetUsing (labels : List Label) (duplicate : String) :
+    Except String (NameIndex.Membership Label) :=
+  labelSetIndexed labels duplicate
+
+theorem labelSetUsing_eq_indexed : labelSetUsing = labelSetIndexed := rfl
+
+theorem labelSetUsing_eq_indexed_spec : labelSetUsingSpec = labelSetIndexed := by
   funext labels duplicate
   exact labelFold_eq labels [] {} duplicate (by simp)
 
@@ -173,13 +179,13 @@ private theorem stageIndexedPhis_eq (pred index : Nat) (phis : List Source.Phi) 
   induction phis generalizing index with
   | nil => rfl
   | cons phi rest ih =>
-    simp only [List.map_cons, stageIndexedPhis, stagePhis, indexPhi, NameIndex.first, ih, eq_comm]
+    simp only [List.map_cons, stageIndexedPhis, stagePhis, indexPhi, NameIndex.first_get, ih, eq_comm]
     rfl
 
 private structure EdgeLowerer where
   lower : Nat → Nat → Except String Block
 
-private def edgeLowerers (source : Source.Function) : EdgeLowerer :=
+private def edgeLowerersSpec (source : Source.Function) : EdgeLowerer :=
   ⟨lowerEdge source⟩
 
 private structure TargetPhis where
@@ -200,7 +206,12 @@ private def lowerPreparedTarget (prepared : Array TargetPhis) (pred target : Nat
 private def edgeLowerersIndexed (source : Source.Function) : EdgeLowerer :=
   ⟨lowerPreparedTarget (source.blocks.map prepareTarget)⟩
 
-@[csimp] theorem edgeLowerers_eq_indexed : edgeLowerers = edgeLowerersIndexed := by
+private def edgeLowerers (source : Source.Function) : EdgeLowerer :=
+  edgeLowerersIndexed source
+
+theorem edgeLowerers_eq_indexed : edgeLowerers = edgeLowerersIndexed := rfl
+
+theorem edgeLowerers_eq_indexed_spec : edgeLowerersSpec = edgeLowerersIndexed := by
   funext source
   apply congrArg EdgeLowerer.mk
   funext pred target
@@ -264,7 +275,7 @@ private def writeStage (stages : Array (Nat × Width)) (id : Nat) (width : Width
 private def readStage (stages : Array (Nat × Width)) (id : Nat) (width : Width) : Bool :=
   stages.contains (id, width)
 
-private def stageReads : Array Instruction → Array Bool :=
+private def stageReadsSpec : Array Instruction → Array Bool :=
   stageReadsUsing #[] writeStage readStage
 
 private def writeStageIndexed (stages : Std.TreeMap Nat Width) (id : Nat) (width : Width) :
@@ -297,12 +308,17 @@ private theorem readStageIndexed_write (stages : Std.TreeMap Nat Width)
   by_cases h : written = id <;>
     simp [readStageIndexed, writeStageIndexed, Std.TreeMap.getElem?_insert, h]
 
-@[csimp] theorem stageReads_eq_indexed : stageReads = stageReadsIndexed := by
+private def stageReads : Array Instruction → Array Bool :=
+  stageReadsIndexed
+
+theorem stageReads_eq_indexed : stageReads = stageReadsIndexed := rfl
+
+theorem stageReads_eq_indexed_spec : stageReadsSpec = stageReadsIndexed := by
   funext code
   let relation (old : Array (Nat × Width) × Array Bool)
       (new : Std.TreeMap Nat Width × Array Bool) :=
     old.2 = new.2 ∧ ∀ id width, readStage old.1 id width = readStageIndexed new.1 id width
-  unfold stageReads stageReadsIndexed stageReadsUsing
+  unfold stageReadsSpec stageReadsIndexed stageReadsUsing
   apply And.left (a := _)
   apply Array.foldl_rel (r := relation)
   · exact ⟨rfl, fun id width => by simp [readStage, readStageIndexed]⟩

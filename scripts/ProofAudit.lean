@@ -238,7 +238,7 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.Verified.Algebra.andBits_zero_right_preserves
 #print axioms LeanCompilerBackend.Verified.Algebra.andBits_zero_left_preserves
 
--- Exact compiler replacements used by numbered admission and assembly.
+-- Equations for the indexed definitions and their logical specifications.
 #print axioms LeanCompilerBackend.NameIndex.first_eq_indexed
 #print axioms LeanCompilerBackend.NameIndex.position_eq_indexed
 #print axioms LeanCompilerBackend.NameIndex.members_eq_indexed
@@ -262,3 +262,26 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_eq_countedPacked
 #print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_result
 #print axioms LeanCompilerBackend.Verified.admitWithWork_eq_indexed
+
+-- The compatibility names above remain available. These proofs relate the
+-- executable algorithms to the reference computations.
+#print axioms LeanCompilerBackend.NameIndex.first_eq_indexed_spec
+#print axioms LeanCompilerBackend.NameIndex.position_eq_indexed_spec
+#print axioms LeanCompilerBackend.NameIndex.members_eq_indexed_spec
+#print axioms LeanCompilerBackend.NameIndex.dedup_eq_indexed_spec
+#print axioms LeanCompilerBackend.BoundedDominance.oracle_eq_packed_spec
+#print axioms LeanCompilerBackend.Verified.Reachability.count_eq_frontier_spec
+#print axioms LeanCompilerBackend.Assembly.foldLines_eq_linear_spec
+#print axioms LeanCompilerBackend.predecessorLookup_eq_indexed_spec
+#print axioms LeanCompilerBackend.collectReference_eq_indexed_spec
+#print axioms LeanCompilerBackend.BoundedDominance.packedSolve_eq_worklist_spec
+#print axioms LeanCompilerBackend.BoundedDominance.packedBlocks_eq_indexed_spec
+#print axioms LeanCompilerBackend.BoundedDominance.indexedRows_eq_fast_spec
+#print axioms LeanCompilerBackend.Verified.StackMIR.labelSetUsing_eq_indexed_spec
+#print axioms LeanCompilerBackend.Verified.StackMIR.edgeLowerers_eq_indexed_spec
+#print axioms LeanCompilerBackend.Verified.StackMIR.stageReads_eq_indexed_spec
+#print axioms LeanCompilerBackend.Verified.TypedA64.renderLines_eq_linear_spec
+#print axioms LeanCompilerBackend.Verified.incomingOrders_eq_indexed_spec
+#print axioms LeanCompilerBackend.Verified.admit_eq_indexedIncoming_spec
+#print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_eq_countedPacked_spec
+#print axioms LeanCompilerBackend.Verified.admitWithWork_eq_indexed_spec
