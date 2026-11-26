@@ -67,7 +67,7 @@ private def immediate (reg : Nat) (value : Source.Value) : Array Instruction := 
     if chunk != 0 then code := code.push (.movk width reg chunk shift)
   return code
 
-private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction → Except Error (Array Instruction)
+def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction → Except Error (Array Instruction)
   | .enterFrame bytes => pure (if bytes == 0 then #[] else #[.subSP bytes])
   | .leaveFrame bytes => pure (if bytes == 0 then #[] else #[.addSP bytes])
   | .readArg width index slot => do pure #[.store width index (← (StackMIR.offset f slot).mapError Error.invalid)]
@@ -78,13 +78,13 @@ private def selectInstruction (f : StackMIR.Function) : StackMIR.Instruction →
     checkALUWidth op width
     pure #[.alu width op dst.index lhs.index rhs.index]
   | .compare width op dst lhs rhs =>
-    pure #[.cmp width lhs.index rhs.index, .cset dst.index (match op with
+    pure #[.cmp width lhs.index rhs.index, .cset dst.index (explicit_op% match op with
       | .eq => .eq | .unsignedLT => .lo | .unsignedLE => .ls | .signedLT => .lt | .signedLE => .le)]
   | .divide width op dst lhs rhs =>
-    let signed := op == .signedDiv || op == .signedRem
+    let signed := op.isSigned
     -- A remainder forms its quotient in its own destination, then MSUB reads
     -- both operands again, so the destination must differ from them.
-    if op == .unsignedDiv || op == .signedDiv then pure #[.divide width signed dst.index lhs.index rhs.index]
+    if !op.isRemainder then pure #[.divide width signed dst.index lhs.index rhs.index]
     else if dst == lhs || dst == rhs then throw (.invalid "remainder destination must differ from its operands")
     else pure #[.divide width signed dst.index lhs.index rhs.index,
       .msub width dst.index dst.index rhs.index lhs.index]
@@ -177,13 +177,14 @@ def labelName (symbol : String) : Label → String
 private def register (width : Width) (index : Nat) : String :=
   (if width == .word then "w" else "x") ++ toString index
 
-private def mnemonic : Source.Binary → String
+private def mnemonic (op : Source.Binary) : String :=
+  explicit_op% match op with
   | .add => "add" | .sub => "sub" | .mul => "mul"
   | .andBits => "and" | .orBits => "orr" | .xorBits => "eor"
   | .shiftLeft => "lsl" | .logicalRight => "lsr" | .arithmeticRight => "asr"
   | .mulHighUnsigned => "umulh" | .mulHighSigned => "smulh"
 
-private def renderInstruction (symbol : String) : Instruction → String
+def renderInstruction (symbol : String) : Instruction → String
   | .subSP bytes => s!"\tsub sp, sp, #{bytes}"
   | .addSP bytes => s!"\tadd sp, sp, #{bytes}"
   | .load width reg offset => s!"\tldr {register width reg}, [sp, #{offset}]"
@@ -214,7 +215,7 @@ theorem select_highMultiply (f : StackMIR.Function) (dst lhs rhs : StackMIR.Regi
     refine ⟨rfl, rfl, ?_, ?_⟩ <;>
       cases dst <;> cases lhs <;> cases rhs <;> rfl
 
-private def blockLines (symbol : String) (block : Block) : List String :=
+def blockLines (symbol : String) (block : Block) : List String :=
   (labelName symbol block.label ++ ":") :: block.instructions.toList.map (renderInstruction symbol)
 
 private def renderLines (symbol : String) (blocks : Array Block) (header : List String) :

@@ -12,7 +12,7 @@ inductive ALU where
   deriving DecidableEq, Repr
 
 def select (op : Binary) : ALU :=
-  match op with
+  explicit_op% match op with
   | .add => .add
   | .sub => .sub
   | .mul => .mul
@@ -23,7 +23,8 @@ def select (op : Binary) : ALU :=
   | .logicalRight => .lsr
   | .arithmeticRight => .asr
 
-def mnemonic : ALU → String
+def mnemonic (op : ALU) : String :=
+  explicit_op% match op with
   | .add => "add"
   | .sub => "sub"
   | .mul => "mul"
@@ -36,7 +37,7 @@ def mnemonic : ALU → String
 
 /-- An abstract target ALU specification; not a decoder for emitted bytes. -/
 def evaluateALU (width : Width) (op : ALU) (a b : UInt64) : UInt64 :=
-  Semantics.normalize width <| match op with
+  Semantics.normalize width <| explicit_op% match op with
   | .add => a + b
   | .sub => a - b
   | .mul => a * b

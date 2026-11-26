@@ -97,23 +97,6 @@ def replay_checks(work, src, functions):
     print(f'first-path: {len(functions)} job/artifact roundtrips; all dependency hashes match independent hashlib; corrupt replay rejected')
 
 
-def explicit_arithmetic_mappings():
-    """Require constructor patterns even where Lean would accept a catch-all."""
-    source = ROOT / 'LeanCompilerBackend'
-    for file, start, end in [
-        ('Verified/Canonical.lean', 'private def reifyBinary', '/-- Canonical local'),
-        ('Verified/TypedA64.lean', 'private def mnemonic', 'private def renderInstruction'),
-        ('AArch64/ALU.lean', 'def select', 'def evaluateALU'),
-        ('AArch64.lean', 'private def binaryImmediate', '/-- Resolve Darwin'),
-        ('AMD64.lean', 'private def binaryImmediate', 'private def emitInstruction'),
-        ('AMD64.lean', 'let mnemonic := match op with', '| .unary op x'),
-        ('RV64.lean', 'private def binaryImmediate', 'private def emitInstruction'),
-        ('RV64.lean', 'let mnemonic := match op with', '| .divide op x y'),
-    ]:
-        mapping = (source / file).read_text().split(start, 1)[1].split(end, 1)[0]
-        assert not re.search(r'(?<!\|)\|(?!\|)\s*(?!\s|\.[A-Za-z])', mapping), f'{file}: catch-all in {start}'
-
-
 def high_multiply_compatibility_refusals(work):
     source = work / 'unsupported-high.ssa'
     for target in ('aarch64-linux', 'x86_64-linux', 'riscv64-linux', 'aarch64-macos', 'x86_64-macos'):
@@ -153,8 +136,10 @@ def high_multiply_assembly(work):
                bytes([0]) + (1).to_bytes(8, 'little'))
     assert data.count(pattern) == 1
     position = data.index(pattern) + 8 + 2
-    word_job.write_bytes(data[:position] + bytes([9]) + data[position+1:])
-    assert 'unsupportedHighMultiplyWidth' in run([LCB, '--replay-job', word_job], success=False).stderr
+    for tag, op in [(9, "mulHighUnsigned"), (10, "mulHighSigned")]:
+        word_job.write_bytes(data[:position] + bytes([tag]) + data[position+1:])
+        error = run([LCB, "--replay-job", word_job], success=False).stderr
+        assert all(field in error for field in ("unsupportedHighMultiplyWidth", op, "word")), error
     assembly = work/'high.s'
     assembly.write_text(texts[0] + texts[1])
     print('first-path: API-only umulh/smulh jobs replay; word-width high multiply refused')
@@ -360,7 +345,6 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--require-native', action='store_true')
     args = parser.parse_args()
-    explicit_arithmetic_mappings()
     with workspace() as work:
         src, assembly = work/'program.ssa', work/'program.s'
         functions = fixtures()

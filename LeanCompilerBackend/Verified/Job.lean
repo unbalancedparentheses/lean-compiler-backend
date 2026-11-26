@@ -176,6 +176,10 @@ def prepareJob (f : Function) (namespaceName : String) (requested := EvidenceReq
   validateJob job
   pure job
 
+private def assemblyError (stage : String) : TypedA64.Error → CompileError
+  | .invalid reason => .verificationFailed stage reason
+  | .unsupportedHighMultiplyWidth op width => .admission (.unsupportedHighMultiplyWidth op width)
+
 /-- Pure compilation through checked structural boundaries. Successful output
     is still uncertified: these executable checks are not preservation proofs. -/
 def compileFunctionWithWork (job : FunctionJob) : Except CompileError (FunctionArtifact × Nat) := do
@@ -186,10 +190,10 @@ def compileFunctionWithWork (job : FunctionJob) : Except CompileError (FunctionA
       | .admission e => .admission e
       | .invalid reason => .verificationFailed "stack-lowering" reason)
   (StackMIR.validate stackMIR).mapError (CompileError.verificationFailed "stack-legality")
-  let assembly ← (TypedA64.select stackMIR).mapError (fun e => .verificationFailed "selection" e.message)
-  (TypedA64.validate assembly).mapError (fun e => .verificationFailed "assembly-legality" e.message)
+  let assembly ← (TypedA64.select stackMIR).mapError (assemblyError "selection")
+  (TypedA64.validate assembly).mapError (assemblyError "assembly-legality")
   let (fragment, lines) ← (TypedA64.renderWithWork assembly job.code.symbol).mapError
-    (fun e => .verificationFailed "rendering" e.message)
+    (assemblyError "rendering")
   let code := { input := job.code, stackMIR, assembly, fragment : CodeArtifact }
   pure ({
     code, debug := { code, input := job.debug }, proofProfile := job.proof

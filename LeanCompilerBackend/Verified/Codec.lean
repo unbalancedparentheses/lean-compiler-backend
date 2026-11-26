@@ -211,15 +211,27 @@ private def readHeader (kind : String) : Decoder Unit := do
   if (← readString 32) != kind then throw "wrong packet kind"
   if (← readNatural) != 2 then throw "unknown packet version"
 
-def encodeJob (j : FunctionJob) : Except String ByteArray := do
-  (validateJob j).mapError (fun e => toString (repr e))
-  encode (do header "LCB-job"; job j)
+inductive Error where
+  | wire (reason : String)
+  | compile (error : CompileError)
+  deriving DecidableEq, Repr
 
-def decodeJob (input : ByteArray) : Except String FunctionJob := do
-  let j ← decode (do readHeader "LCB-job"; readJob) input
-  (validateJob j).mapError (fun e => toString (repr e))
-  let canonical ← encodeJob j
-  if canonical != input then throw "noncanonical job encoding"
+def Error.message : Error → String
+  | .wire reason => reason
+  | .compile error => toString (repr error)
+
+private def jobBytes (j : FunctionJob) : Except Error ByteArray :=
+  (encode (do header "LCB-job"; job j)).mapError Error.wire
+
+def encodeJob (j : FunctionJob) : Except Error ByteArray := do
+  (validateJob j).mapError Error.compile
+  jobBytes j
+
+def decodeJob (input : ByteArray) : Except Error FunctionJob := do
+  let j ← (decode (do readHeader "LCB-job"; readJob) input).mapError Error.wire
+  (validateJob j).mapError Error.compile
+  let canonical ← jobBytes j
+  if canonical != input then throw (.wire "noncanonical job encoding")
   pure j
 
 private def label : StackMIR.Label → Encoder Unit
@@ -304,29 +316,29 @@ def fingerprints (a : FunctionArtifact) : Except String Fingerprints := do
 /-- Replay envelope carries the job and every canonical output product. Decode
     reconstructs via the pure baseline then compares bytes; it does not execute
     or trust cached assembly, or claim a semantic certificate. -/
-def encodeArtifact (j : FunctionJob) (a : FunctionArtifact) : Except String ByteArray := do
-  (verifyArtifact j a).mapError (fun e => toString (repr e))
+def encodeArtifact (j : FunctionJob) (a : FunctionArtifact) : Except Error ByteArray := do
+  (verifyArtifact j a).mapError Error.compile
   let jobBytes ← encodeJob j
-  let ids ← identities a
-  encode (do header "LCB-artifact"; bytes jobBytes; bytes ids.code; bytes ids.debug; bytes ids.evidence)
+  let ids ← (identities a).mapError Error.wire
+  (encode (do header "LCB-artifact"; bytes jobBytes; bytes ids.code; bytes ids.debug; bytes ids.evidence)).mapError Error.wire
 
-def decodeArtifact (input : ByteArray) : Except String (FunctionJob × FunctionArtifact) := do
-  let (jobBytes, code, debug, evidence) ← decode (do
+def decodeArtifact (input : ByteArray) : Except Error (FunctionJob × FunctionArtifact) := do
+  let (jobBytes, code, debug, evidence) ← (decode (do
     readHeader "LCB-artifact"
-    pure (← readBytes 1048576, ← readBytes 1048576, ← readBytes 1048576, ← readBytes 1048576)) input
+    pure (← readBytes 1048576, ← readBytes 1048576, ← readBytes 1048576, ← readBytes 1048576)) input).mapError Error.wire
   let j ← decodeJob jobBytes
-  let artifact ← (compileFunction j).mapError (fun e => toString (repr e))
-  let expected ← identities artifact
+  let artifact ← (compileFunction j).mapError Error.compile
+  let expected ← (identities artifact).mapError Error.wire
   if code != expected.code || debug != expected.debug || evidence != expected.evidence then
-    throw "artifact product/input/evidence binding mismatch"
+    throw (.wire "artifact product/input/evidence binding mismatch")
   pure (j, artifact)
 
 /-- Cache consumers have an independently requested job. Decoding an envelope
     alone is replay, not proof that it is the requested cache entry. -/
-def decodeArtifactFor (expected : FunctionJob) (input : ByteArray) : Except String FunctionArtifact := do
+def decodeArtifactFor (expected : FunctionJob) (input : ByteArray) : Except Error FunctionArtifact := do
   let (job, artifact) ← decodeArtifact input
-  if job != expected then throw "cached artifact belongs to a different requested job"
-  (verifyArtifact expected artifact).mapError (fun e => toString (repr e))
+  if job != expected then throw (.wire "cached artifact belongs to a different requested job")
+  (verifyArtifact expected artifact).mapError Error.compile
   pure artifact
 
 end LeanCompilerBackend.Verified.Codec

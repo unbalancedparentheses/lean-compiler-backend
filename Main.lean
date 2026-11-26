@@ -109,7 +109,7 @@ private def firstPath (program : Program) (requested : Verified.EvidenceRequest)
 private def readJob (path : String) : IO Verified.FunctionJob := do
   match Verified.Codec.decodeJob (← IO.FS.readBinFile path) with
   | .ok job => pure job
-  | .error reason => throw (IO.userError reason)
+  | .error reason => throw (IO.userError reason.message)
 
 private def compileJob (job : Verified.FunctionJob) : IO Verified.FunctionArtifact := do
   match Verified.compileFunction job with
@@ -213,7 +213,7 @@ private def run (args : List String) : IO UInt32 := do
       | .error reason => throw (IO.userError (toString (repr reason)))
     let bytes ← match Verified.Codec.encodeJob job with
       | .ok bytes => pure bytes
-      | .error reason => throw (IO.userError reason)
+      | .error reason => throw (IO.userError reason.message)
     IO.FS.writeBinFile output bytes
     pure 0
   | "--replay-job" :: path :: rest =>
@@ -224,13 +224,13 @@ private def run (args : List String) : IO UInt32 := do
     let artifact ← compileJob job
     let bytes ← match Verified.Codec.encodeArtifact job artifact with
       | .ok bytes => pure bytes
-      | .error reason => throw (IO.userError reason)
+      | .error reason => throw (IO.userError reason.message)
     IO.FS.writeBinFile output bytes
     pure 0
   | "--replay-artifact" :: path :: rest =>
     let (_, artifact) ← match Verified.Codec.decodeArtifact (← IO.FS.readBinFile path) with
       | .ok result => pure result
-      | .error reason => throw (IO.userError reason)
+      | .error reason => throw (IO.userError reason.message)
     outputFragment artifact.code.fragment rest
   | ["--job-info", path] =>
     let artifact ← compileJob (← readJob path)

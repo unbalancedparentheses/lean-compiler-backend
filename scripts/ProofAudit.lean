@@ -263,3 +263,22 @@ import LeanCompilerBackend.Verified.LayoutProofs
 #print axioms LeanCompilerBackend.BoundedDominance.oracleWithWork_result
 #print axioms LeanCompilerBackend.Verified.admitWithWork_eq_indexed
 #print axioms LeanCompilerBackend.Verified.TypedA64.select_highMultiply
+
+#print axioms LeanCompilerBackend.Verified.Machine.emitted_highMultiply
+
+open LeanCompilerBackend in
+/-- error: expected an explicit opcode constructor -/
+#guard_msgs in
+example (op : Division) : String :=
+  explicit_op% match op with
+  | .signedDiv => "div" | .unsignedDiv => "divu" | .signedRem => "rem" | _ => "remu"
+
+open LeanCompilerBackend in
+/--
+error: Missing cases:
+Division.unsignedRem
+-/
+#guard_msgs in
+example (op : Division) : String :=
+  explicit_op% match op with
+  | .signedDiv => "div" | .unsignedDiv => "divu" | .signedRem => "rem"

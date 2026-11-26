@@ -74,7 +74,8 @@ private def load (c : Context) (w : Width) (r : String) : Operand → Except Str
     pure ([address] ++ if w == .word then [s!"\tmovl {reg .word r}, {reg .word r}"] else [])
   | .threadSymbol name => pure (threadAddress c.darwin w r name)
 
-private def extend (w : Width) : Unary → List String
+private def extend (w : Width) (op : Unary) : List String :=
+  explicit_op% match op with
   | .negate => [s!"\tneg{suffix w} {reg w "rax"}"]
   | .signedByte => [s!"\tmovsb{suffix w} %al, {reg w "rax"}"]
   | .unsignedByte => ["\tmovzbl %al, %eax"]
@@ -184,11 +185,13 @@ private def emitCall (c : Context) (target : CallTarget) (args : Array CallArgum
     lines := lines ++ ["\tmovq %r10, %rax"]
   pure lines
 
-private def condition : Comparison → String
+private def condition (op : Comparison) : String :=
+  explicit_op% match op with
   | .eq => "e" | .ne => "ne" | .signedLE => "le" | .signedLT => "l" | .signedGE => "ge" | .signedGT => "g"
   | .unsignedLE => "be" | .unsignedLT => "b" | .unsignedGE => "ae" | .unsignedGT => "a"
 
-private def inverseCondition : Comparison → String
+private def inverseCondition (op : Comparison) : String :=
+  explicit_op% match op with
   | .eq => "ne" | .ne => "e" | .signedLE => "g" | .signedLT => "ge" | .signedGE => "l" | .signedGT => "le"
   | .unsignedLE => "a" | .unsignedLT => "ae" | .unsignedGE => "b" | .unsignedGT => "be"
 
@@ -205,21 +208,20 @@ private def binaryImmediate (w : Width) (op : Binary) (n : Int) : Option String 
   let destination := reg w "rax"
   let value := Semantics.signedBits w.bits (Semantics.constant w n)
   let shift := (Semantics.constant (op.rhsWidth w) n).toNat % w.bits
-  match op with
-  | .shiftLeft => return s!"\tshl{s} ${shift}, {destination}"
-  | .logicalRight => return s!"\tshr{s} ${shift}, {destination}"
-  | .arithmeticRight => return s!"\tsar{s} ${shift}, {destination}"
-  | .add | .sub | .mul | .andBits | .orBits | .xorBits => pure ()
-  if value < -(2 ^ 31 : Int) || value >= 2 ^ 31 then none
-  else
-    match op with
-    | .mul => some s!"\timul{s} ${value}, {destination}, {destination}"
-    | .add => some s!"\tadd{s} ${value}, {destination}"
-    | .sub => some s!"\tsub{s} ${value}, {destination}"
-    | .andBits => some s!"\tand{s} ${value}, {destination}"
-    | .orBits => some s!"\tor{s} ${value}, {destination}"
-    | .xorBits => some s!"\txor{s} ${value}, {destination}"
-    | .shiftLeft | .logicalRight | .arithmeticRight => none
+  explicit_op% match op with
+  | .shiftLeft => some s!"\tshl{s} ${shift}, {destination}"
+  | .logicalRight => some s!"\tshr{s} ${shift}, {destination}"
+  | .arithmeticRight => some s!"\tsar{s} ${shift}, {destination}"
+  | .add | .sub | .mul | .andBits | .orBits | .xorBits =>
+    if value < -(2 ^ 31 : Int) || value >= 2 ^ 31 then none
+    else explicit_op% match op with
+      | .mul => some s!"\timul{s} ${value}, {destination}, {destination}"
+      | .add => some s!"\tadd{s} ${value}, {destination}"
+      | .sub => some s!"\tsub{s} ${value}, {destination}"
+      | .andBits => some s!"\tand{s} ${value}, {destination}"
+      | .orBits => some s!"\tor{s} ${value}, {destination}"
+      | .xorBits => some s!"\txor{s} ${value}, {destination}"
+      | .shiftLeft | .logicalRight | .arithmeticRight => none
 
 private def emitInstruction (c : Context) (inst : Instruction) : Except String (List String) := do
   let w := inst.width
@@ -238,26 +240,26 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
       lines := lines ++ [instruction]
     else
       lines := lines ++ (← load c (op.rhsWidth w) "rcx" y)
-      let mnemonic := match op with
+      let mnemonic := explicit_op% match op with
         | .add => "add" | .sub => "sub" | .mul => "imul" | .andBits => "and" | .orBits => "or" | .xorBits => "xor"
         | .shiftLeft => "shl" | .logicalRight => "shr" | .arithmeticRight => "sar"
-      let operand := match op with
+      let operand := explicit_op% match op with
         | .shiftLeft | .logicalRight | .arithmeticRight => "%cl"
         | .add | .sub | .mul | .andBits | .orBits | .xorBits => b
       lines := lines ++ [s!"\t{mnemonic}{s} {operand}, {a}"]
   | .unary op x => lines := (← load c (op.inputWidth w) "rax" x) ++ extend w op
   | .divide op x y =>
     lines := (← load c w "rax" x) ++ (← load c w "rcx" y)
-    let signed := op == .signedDiv || op == .signedRem
+    let signed := op.isSigned
     lines := lines ++ (if signed then [if w == .long then "\tcqto" else "\tcltd"] else ["\txorl %edx, %edx"])
       ++ [s!"\t{if signed then "idiv" else "div"}{s} {b}"]
-    if op == .signedRem || op == .unsignedRem then lines := lines ++ [s!"\tmov{s} {reg w "rdx"}, {a}"]
+    if op.isRemainder then lines := lines ++ [s!"\tmov{s} {reg w "rdx"}, {a}"]
   | .compare op width x y =>
     lines := (← comparisonFlags c width x y) ++ [s!"\tset{condition op} %al", "\tmovzbl %al, %eax"]
   | .floatBinary op x y =>
     lines := (← load c w "rax" x) ++ (← load c w "rcx" y) ++
       [s!"\tmov{if w == .word then "d" else "q"} {a}, %xmm0", s!"\tmov{if w == .word then "d" else "q"} {b}, %xmm1"]
-    let mnemonic := match op with | .add => "add" | .sub => "sub" | .mul => "mul" | .div => "div"
+    let mnemonic := explicit_op% match op with | .add => "add" | .sub => "sub" | .mul => "mul" | .div => "div"
     lines := lines ++ [s!"\t{mnemonic}{fsuffix w} %xmm1, %xmm0", s!"\tmov{if w == .word then "d" else "q"} %xmm0, {a}"]
   | .floatNegate x =>
     lines := (← load c w "rax" x) ++ (← load c w "rcx" (.constant (2^(w.bits-1)))) ++ [s!"\txor{s} {b}, {a}"]
@@ -267,7 +269,7 @@ private def emitInstruction (c : Context) (inst : Instruction) : Except String (
     let m := if width == .word then "d" else "q"
     lines := (← load c width "rax" x) ++ (← load c width "rcx" y) ++
       [s!"\tmov{m} {r}, %xmm0", s!"\tmov{m} {t}, %xmm1", s!"\tucomi{fsuffix width} %xmm1, %xmm0"]
-    lines := lines ++ (match op with
+    lines := lines ++ (explicit_op% match op with
       | .eq => ["\tsete %al", "\tsetnp %cl", "\tandb %cl, %al"]
       | .ne => ["\tsetne %al", "\tsetp %cl", "\torb %cl, %al"]
       | .lt => ["\tsetb %al", "\tsetnp %cl", "\tandb %cl, %al"]
